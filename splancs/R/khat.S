@@ -32,7 +32,8 @@ khat <- function(pts, poly, s, newstyle=FALSE)
 		as.double(hkhat),
 		as.integer(counts),
 		as.double(hkhats),
-		as.integer(npt*ns))
+		as.integer(npt*ns),
+		PACKAGE="splancs")
 	if (newstyle) {
 		res <- list(khat=as.numeric(klist[[9]]),
 			counts=matrix(klist[[10]], nrow=npt, ncol=ns),

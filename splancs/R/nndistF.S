@@ -17,7 +17,8 @@ nndistF <- function(pts1,pts2)
 	                         as.double(pts2[,1]),
 	                         as.double(pts2[,2]),
 	                         as.integer(npts2),
-	                         as.double(dists))
+	                         as.double(dists),
+				PACKAGE="splancs")
 	nnlist[[7]]
 }
 

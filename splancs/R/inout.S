@@ -20,7 +20,8 @@ inout <- function (pts, poly, bound = NULL, quiet=TRUE)
 	   bb <- as.vector(apply(sbox(as.points(xp, yp)), 2, range))
 	   za <- .C("ptinpoly1", as.integer(result), as.double(pts[, 1]),
 		as.double(pts[, 2]), as.double(xp), as.double(yp),
-		as.integer(np), as.double(bb), as.integer(nptsi))
+		as.integer(np), as.double(bb), as.integer(nptsi),
+		PACKAGE="splancs")
 
 	   z <- ind
 	   if (!quiet) {
@@ -36,7 +37,8 @@ inout <- function (pts, poly, bound = NULL, quiet=TRUE)
     } else {
         piplist <- .Fortran("inpip", as.double(pts[, 1]), as.double(pts[,2]), 
             as.integer(nptsi), as.double(xp), as.double(yp), 
-            as.integer(np), as.logical(ind))
+            as.integer(np), as.logical(ind),
+		PACKAGE="splancs")
         z <- piplist[[7]]
     }
     z

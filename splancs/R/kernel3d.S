@@ -26,7 +26,8 @@ function(pts,times, xgr, ygr, zgr, hxy, hz)
 		as.integer(length(zgr)),
 		as.double(hxy),
 		as.double(hz),
-		kernarr = mat3)
+		kernarr = mat3,
+		PACKAGE="splancs")
 	list(xgr = xgr, ygr = ygr, zgr = zgr, hxy = hxy, hz = hz, v = ans$
 		kernarr)
 }

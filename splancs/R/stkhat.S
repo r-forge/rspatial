@@ -39,7 +39,8 @@ stkhat <- function(pts, times, poly, tlimits, s, tm)
 		as.double(thigh),
 		hs = as.double(hs),
 		ht = as.double(ht),
-		hst = (hst))
+		hst = (hst),
+		PACKAGE="splancs")
 
 	list(s=s,t=tm,ks = ktlist$hs, kt = ktlist$ht, kst = ktlist$hst)
 }

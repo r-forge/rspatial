@@ -52,8 +52,8 @@ slist <- .Fortran("stsecal",
 		as.double(tmat),
 		as.double(tvec),
 		as.integer(long),
-		varmat=as.double(cmat)
-		)
+		varmat=as.double(cmat),
+		PACKAGE="splancs")
 
  ans <- matrix(slist$varmat,nrow=long,byrow=TRUE)
  ans <- array(ans,dim=c(nt,ns,nt,ns))

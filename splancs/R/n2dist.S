@@ -19,7 +19,8 @@ n2dist <- function(pts1,pts2)
 	                         as.double(pts2[,2]),
 	                         as.integer(npts2),
 	                         as.double(dists),
-				as.integer(neighs))
+				as.integer(neighs),
+				PACKAGE="splancs")
 	list(dists=nnlist[[7]],neighs=nnlist[[8]])
 }
 

@@ -41,8 +41,8 @@ slist <- .Fortran("khvc",
 		vark1=as.double(v11),
 		vark12=as.double(v12),
 		vark2=as.double(v22),
-		covmat=as.double(cmat)
-		)
+		covmat=as.double(cmat),
+		PACKAGE="splancs")
 
  ans <- matrix(slist$covmat,nrow=ns,byrow=TRUE)
 anslist$varmat <-  ans

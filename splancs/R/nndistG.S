@@ -11,7 +11,8 @@ nndistG <- function(pts)
 	nnlist <- .Fortran("nndisg",as.double(t(pts[,1:2])),
 	                         as.integer(nptsg),
 	                         as.double(dists),
-				 as.integer(neighs))
+				 as.integer(neighs),
+				PACKAGE="splancs")
 	list(dists=nnlist[[3]],neighs=nnlist[[4]])
 }
 

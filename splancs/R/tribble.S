@@ -82,7 +82,8 @@ tribble <- function(ccflag,vars=NULL,alphas=NULL,betas=NULL,rho
 		as.double(reqmin),
 		icode=as.integer(icount),
 		kcode=as.integer(1),
-		dlogl=as.double(1.00))
+		dlogl=as.double(1.00),
+		PACKAGE="splancs")
 	alphas <- betas <- thetas <- NULL
 	if(ndpars!=0){
 		alphas <- l$parfin[1:ndpars]

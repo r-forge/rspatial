@@ -29,8 +29,8 @@ mse2d <- function(pts,poly,nsmse,range)
 		as.integer(nsmse),
 		as.double(hsmse),
 		as.double(amse),
-		as.double(t)
-		)
+		as.double(t),
+		PACKAGE="splancs")
 		
 	list(mse=mselist[[10]],h=mselist[[11]])
 }

@@ -47,8 +47,8 @@ kernel2d <- function(pts,poly,h0,nx=20,ny=20,kernel='quartic')
 			as.integer(ny),
 			xgrid=as.double(xgrid),
 			ygrid=as.double(ygrid),
-			zgrid=(zgrid)
-			)
+			zgrid=(zgrid),
+			PACKAGE="splancs")
 		klist$zgrid[klist$zgrid<0] <- NA
 		res <- list(x=klist$xgrid,y=klist$ygrid,z=klist$zgrid,
 			 h0=h0,kernel=kernel)

@@ -56,7 +56,8 @@ triblik <- function(ccflag,vars=NULL,alphas=NULL,betas=NULL
 		as.integer(which),
 		as.integer(ndpars),
 		as.double(pars),
-		dlogl=as.double(1.00))
+		dlogl=as.double(1.00),
+		PACKAGE="splancs")
 	l$dlogl
 }
 	

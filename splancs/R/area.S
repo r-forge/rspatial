@@ -18,8 +18,8 @@ areapl <- function(poly)
 			as.double(polyx),
 			as.double(polyy),
 			as.integer(np),
-			as.double(answer)
-			)
+			as.double(answer),
+			PACKAGE="splancs")
 	alist[[4]]	
 	
 }

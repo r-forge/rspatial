@@ -34,8 +34,8 @@ slist <- .Fortran("khvmat",
                 as.integer(ns),
 		as.double(table),
 		as.double(bvec),
-		varmat=as.double(cmat)
-		)
+		varmat=as.double(cmat),
+		PACKAGE="splancs")
 
 ans <- matrix(slist$varmat,nrow=ns,byrow=TRUE)
 ans <- ans+t(ans)

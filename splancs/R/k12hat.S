@@ -35,6 +35,7 @@ k12hat <- function(pts1,pts2,poly, s)
 		as.double(s),
 		as.integer(ns),
 		as.double(h12),
-		as.double(h21))
+		as.double(h21),
+		PACKAGE="splancs")
 	klist[[12]]
 }
