@@ -6,6 +6,14 @@ Computers and Geosciences, 19, 627--655, (Barry Rowlingson
 <b.rowlingson@lancaster.ac.uk>); the original sources can be accessed at:
 http://www.maths.lancs.ac.uk/~rowlings/Splancs/
 
+The port is partial, with examples added for most of the 2d spatial
+functions, but not for 3d or raised incidence functions. Please let
+me know if you have useful suggestions.
+
+The original code also includes a uk() function and polygon data for a
+UK county map. This is also omitted here, and should be re-introduced
+to the map package, rather than this one.
+
 The copyright situation is as follows: the original code has restrictions
 regarding re-distribution, but these have been removed by Barry Rowlingson;
 I have taken up the matter with Martin Maechler:
