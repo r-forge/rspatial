@@ -9,7 +9,6 @@ x = meuse
 coordinates(x) = cbind(xcoord = rnorm(155), ycoord = rnorm(155))
 # should pass:
 names(x@data)
-formula(x)
 is.projected(x)
 proj4string(x)
 
@@ -19,16 +18,14 @@ x = meuse[, sample(ncol(meuse))] # 'randomly' shuffle columns
 coordinates(x) = c("x", "y") # no matter their position
 plot(x, cex=.05 * sqrt(x@data[,"zinc"]),xlab="x-coordinate", 
  ylab="y-coordinate", main = "Meuse: zinc bubble plot")
-summary(x)
+print(summary(x))
 
 # coordinates defined as formula:
 x = meuse[, 1:5]
 coordinates(x) = ~x+y
-formula(x)
-summary(x)
+print(summary(x))
 
-a = NULL
-cc = cbind(sample(1:10), sample(1:10), sample(1:10))
-coordinates(a) = cc
-summary(a)
-formula(a)
+# a = NULL
+# cc = cbind(sample(1:10), sample(1:10), sample(1:10))
+# coordinates(a) = cc
+# summary(a)

@@ -59,7 +59,7 @@ setAs("matrix", "SpatialPoints", function(from) {
 })
 
 setMethod("[", "SpatialPoints", function(x, i, j, ..., drop = T)
-	SpatialPoints(x@coords[i, ]))
+	SpatialPoints(x@coords[i, , drop = FALSE]))
 
 #setReplaceMethod("[", signature(x = "SpatialPoints"), 
 #	function(x, ..., value) {

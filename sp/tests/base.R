@@ -25,7 +25,7 @@ x
 
 x = meuse 
 coordinates(x) = c("x", "y") # coordinate column names
-summary(x)
+print(summary(x))
 
 x[1:10] # first 10 columns
 x[, 1:10] # first 10 columns
@@ -34,8 +34,8 @@ x["zinc"] # column zinc + coords
 x[, "zinc"] # idem
 x[1:10, "zinc"] # idem
 x[1:10, c("zinc", "cadmium")] # idem
-summary(x[1:10, "zinc"]) # check bbox
-summary(x["zinc"]) # compare bbox
+print(summary(x[1:10, "zinc"])) # check bbox
+print(summary(x["zinc"])) # compare bbox
 
 data(meuse.grid)
 coordinates(meuse.grid) = ~x+y

@@ -11,4 +11,4 @@ Description: Another package that provides classes and methods for spatial
   helping plotting data as maps, or spatial selection.
 License: GPL version 2 or later
 URL: http://www.sourceforge.net/r-spatial/
-Collate: AAA.R Class-CRS.R Class-Spatial.R projected.R Class-SpatialPoints.R Class-SpatialPointsDataFrame.R Class-SpatialGridded.R Class-SpatialRings.R SpatialRings-methods.R SpatialRings-internals.R point.in.polygon.R SpatialRings-displayMethods.R zerodist.R
+Collate: AAA.R Class-CRS.R Class-Spatial.R projected.R Class-SpatialPoints.R Class-SpatialPointsDataFrame.R Class-SpatialGridded.R Class-SpatialRings.R SpatialRings-methods.R SpatialRings-internals.R point.in.polygon.R SpatialRings-displayMethods.R zerodist.R image.R

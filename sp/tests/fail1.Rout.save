@@ -1,6 +1,6 @@
 
 R : Copyright 2004, The R Foundation for Statistical Computing
-Version 2.0.0 beta (2004-09-28), ISBN 3-900051-07-0
+Version 2.0.0  (2004-10-04), ISBN 3-900051-07-0
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
 You are welcome to redistribute it under certain conditions.
@@ -17,10 +17,6 @@ Type 'q()' to quit R.
 > library(sp)
 > data(meuse)
 > x = meuse
-> try(coordinates(x) <- cbind(x = 1:155, y = 1:155))
-Error in "coordinates<-"(`*tmp*`, value = c(1, 2, 3, 4, 5, 6, 7, 8, 9,  : 
-	the default coordinate names are already present in object
-> # should fail because "x" and "y" are already present
 > 
 > coordinates(x) <- c("x", "y")
 > try(proj4string(x) <- 1.5)
@@ -35,35 +31,28 @@ Error in try(coordinates(a) <- cbind(1:10, 10:1)) :
 > x = meuse
 > # invalid coordinate formulae:
 > try(coordinates(x) <- ~log(x)+sqrt(y)) # no expressions allowed
-Error in "coordinates<-"(`*tmp*`, value = ~log(x) + sqrt(y)) : 
-	names in formula do not match columns in data.frame
 > try(coordinates(x) <- ~x+y+z) # z is not present
 Error in eval(expr, envir, enclos) : Object "z" not found
 > x$x2 = x$x^2
 > x$y2 = x$y^2
 > try(coordinates(x) <- ~x+y+x2+y2) # 4D not allowed
-Error in "coordinates<-"(`*tmp*`, value = ~x + y + x2 + y2) : 
-	coordinates should have 2 or 3 columns
+Error in eval(expr, envir, enclos) : Object "x2" not found
 > try(coordinates(x) <- ~x) # 1D not allowed
-Error in "coordinates<-"(`*tmp*`, value = ~x) : 
-	coordinates should have 2 or 3 columns
+Error in validObject(.Object) : Invalid "SpatialPoints" object: spatial.dimension should be either 2 or 3
 > # is.na.sp.coords
 > a = data.frame(cbind(xx=c(1,NA,2,10),yy=c(2,NA,NA,20)))
 > try(coordinates(a) <- c("xx", "yy")) # should fail!
-Error in "coordinates<-"(`*tmp*`, value = c("xx", "yy")) : 
-	missing values in coordinates are not allowed
+Error in validObject(.Object) : Invalid "SpatialPoints" object: bbox x and y values should never be NA
 > 
 > x = meuse[1:4,]
-> x = SpatialDataFrame(x, coord.columns = c(1,2))
+> coordinates(x) = c(1,2)
 > # this should fail -- zinc is not a row:
-> try(q <- x["zinc",])
-Error in "coordinates<-"(`*tmp*`, value = c("x", "y")) : 
-	missing values in coordinates are not allowed
+> #try(q <- x["zinc",])
 > # this will issue a warning under S-Plus, or a silent rename under R
 > try(x[c("zinc", "x", "copper", "zinc")])
-       coordinates zinc copper zinc.1
-1 (181072, 333611) 1022     85   1022
-2 (181025, 333558) 1141     81   1141
-3 (181165, 333537)  640     68    640
-4 (181298, 333484)  257     81    257
+       coordinates zinc      x copper zinc.1
+1 (181072, 333611) 1022 181072     85   1022
+2 (181025, 333558) 1141 181025     81   1141
+3 (181165, 333537)  640 181165     68    640
+4 (181298, 333484)  257 181298     81    257
 > 

@@ -23,23 +23,21 @@ coordinates.SPDF = function(obj) {
 }
 setMethod("coordinates", "SpatialPointsDataFrame", coordinates.SPDF)
 
-#"coordinates<-" = coordinates.replacedf
 "coordinates<-" = function(object, value) {
-#coordinates.replacedf = function(object, value) {
 	if (inherits(value, "formula"))
 		value = model.frame(value, object) # retrieve
 	else if (is.character(value))
 		value = object[, value] # retrieve
-	else {
-		if (is.null(dim(value)) && length(value) > 1) { # coord.columns?
-			if (any(value != as.integer(value) || value < 1))
-				stop("coordinate columns should be positive integers")
-			value = object[, value] # retrieve
-		} else if (!is(value, "data.frame") && !is(value, "matrix"))
-			stop("coordinates are not of the right type")
-			
-	}
-	SpatialPointsDataFrame(data = object, coords = as.matrix(value))
+	else if (is.null(dim(value)) && length(value) > 1) { # coord.columns?
+		if (any(value != as.integer(value) || any(value < 1)))
+			stop("coordinate columns should be positive integers")
+		value = object[, value] # retrieve
+	} else 
+		value = coordinates(value)
+	if (is.null(object))
+		SpatialPoints(coords = value)
+	else
+		SpatialPointsDataFrame(data = object, coords = as.matrix(value))
 }
 
 #"coordinates<-" = coordinates.replacedf
@@ -75,7 +73,7 @@ summary.SpatialPointsDataFrame = function(object, ...) {
     obj = list()
 	obj[["data"]] = summary(object@data)
 	obj[["coords"]] = summary(object@coords)
-    class(obj) = "summary.SpatialPointsPointsDataFrame"
+    class(obj) = "summary.SpatialPointsDataFrame"
     obj
 }
 
@@ -135,7 +133,7 @@ setMethod("[", "SpatialPointsDataFrame", function(x, i, j, ..., drop = FALSE) {
 		if (is.matrix(i))
 			stop("matrix argument not supported in SpatialPointsDataFrame selection")
 
-		SpatialPointsDataFrame(coords = x@coords[i,],
+		SpatialPointsDataFrame(coords = x@coords[i, , drop=FALSE],
 			data = x@data[i, j, drop = FALSE])
 	}
 )

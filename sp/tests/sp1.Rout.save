@@ -1,13 +1,14 @@
 
-R : Copyright 2003, The R Development Core Team
-Version 1.8.0  (2003-10-08)
+R : Copyright 2004, The R Foundation for Statistical Computing
+Version 2.0.0  (2004-10-04), ISBN 3-900051-07-0
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
 You are welcome to redistribute it under certain conditions.
 Type 'license()' or 'licence()' for distribution details.
 
 R is a collaborative project with many contributors.
-Type 'contributors()' for more information.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
 
 Type 'demo()' for some demos, 'help()' for on-line help, or
 'help.start()' for a HTML browser interface to help.
@@ -60,18 +61,12 @@ Type 'q()' to quit R.
 9       Ab    240
 10       W    420
 > class(x)
-[1] "SpatialDataFrame"
+[1] "SpatialPointsDataFrame"
 attr(,"package")
 [1] "sp"
 > sum = summary(x)
-> sum
-Coordinates:
-          min    max
-xcoord 178605 181390
-ycoord 329714 333611
-Is projected: NA 
-proj4string : [NA]
-Data attributes:
+> print(sum)
+attribute table data:
     cadmium           copper            lead            zinc       
  Min.   : 0.200   Min.   : 14.00   Min.   : 37.0   Min.   : 113.0  
  1st Qu.: 0.800   1st Qu.: 23.00   1st Qu.: 72.5   1st Qu.: 198.0  
@@ -88,14 +83,23 @@ Data attributes:
  3rd Qu.: 8.955   3rd Qu.:0.36407   3rd Qu.: 9.000                        
  Max.   :10.520   Max.   :0.88039   Max.   :17.000                        
                                     NA's   : 2.000                        
-    landuse       dist.m      
- W      :50   Min.   :  10.0  
- Ah     :39   1st Qu.:  80.0  
- Am     :22   Median : 270.0  
- Fw     :10   Mean   : 290.3  
- Ab     : 8   3rd Qu.: 450.0  
- (Other):25   Max.   :1000.0  
- NA's   : 1                   
+    landuse       dist.m           ycoord           xcoord      
+ W      :50   Min.   :  10.0   Min.   :329714   Min.   :178605  
+ Ah     :39   1st Qu.:  80.0   1st Qu.:330762   1st Qu.:179371  
+ Am     :22   Median : 270.0   Median :331633   Median :179991  
+ Fw     :10   Mean   : 290.3   Mean   :331635   Mean   :180005  
+ Ab     : 8   3rd Qu.: 450.0   3rd Qu.:332463   3rd Qu.:180630  
+ (Other):25   Max.   :1000.0   Max.   :333611   Max.   :181390  
+ NA's   : 1                                                     
+Coordinates:
+     xcoord           ycoord      
+ Min.   :178605   Min.   :329714  
+ 1st Qu.:179371   1st Qu.:330762  
+ Median :179991   Median :331633  
+ Mean   :180005   Mean   :331635  
+ 3rd Qu.:180630   3rd Qu.:332463  
+ Max.   :181390   Max.   :333611  
+
 > coordinates(x)
     xcoord ycoord
 1   181072 333611
@@ -272,12 +276,15 @@ Data attributes:
 10 181232 333168
 > 
 > x = meuse[1:4,]
-> x = SpatialDataFrame(x, coord.columns = c(1,2))
+> coordinates(x) = c(1,2)
 > # row 1,2; cols 1:10
 > x[1:2,1:10]
-       coordinates cadmium copper lead zinc  elev       dist   om ffreq
-1 (181072, 333611)    11.7     85  299 1022 7.909 0.00135803 13.6     1
-2 (181025, 333558)     8.6     81  277 1141 6.983 0.01222430 14.0     1
+       coordinates      x      y cadmium copper lead zinc  elev       dist   om
+1 (181072, 333611) 181072 333611    11.7     85  299 1022 7.909 0.00135803 13.6
+2 (181025, 333558) 181025 333558     8.6     81  277 1141 6.983 0.01222430 14.0
+  ffreq
+1     1
+2     1
 > # row 2, coord+col 9,10
 > x[2,9:10]
        coordinates om ffreq
@@ -306,14 +313,14 @@ Data attributes:
 > # second row, coordinates + zinc
 > x[2,"zinc"]
        coordinates zinc
-1 (181025, 333558) 1141
+2 (181025, 333558) 1141
 > # select; re-orders:
 > x[c("zinc","copper","x")]
-       coordinates zinc copper
-1 (181072, 333611) 1022     85
-2 (181025, 333558) 1141     81
-3 (181165, 333537)  640     68
-4 (181298, 333484)  257     81
+       coordinates zinc copper      x
+1 (181072, 333611) 1022     85 181072
+2 (181025, 333558) 1141     81 181025
+3 (181165, 333537)  640     68 181165
+4 (181298, 333484)  257     81 181298
 > # back as data.frame
 > as.data.frame(x)
        x      y cadmium copper lead zinc  elev       dist   om ffreq soil lime

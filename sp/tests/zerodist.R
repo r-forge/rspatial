@@ -10,4 +10,6 @@ zd = zerodist(meusedup)
 sum(abs(zd[1:n,1] - sort(ran10))) # 0!
 # remove the duplicate rows:
 meusedup2 = meusedup[-zd[,2], ]
-summary(meusedup2)
+print(summary(meusedup2))
+dim(meuse)
+dim(remove.duplicates(meusedup))

@@ -13,7 +13,7 @@ coordinates(x)[1:10,]
 meuse[1:10,] 
 class(x)
 sum = summary(x)
-sum
+print(sum)
 coordinates(x)
 
 x <- as.data.frame(x)
@@ -22,7 +22,7 @@ class(x)
 x[1:10, c("xcoord", "ycoord")]
 
 x = meuse[1:4,]
-x = SpatialDataFrame(x, coord.columns = c(1,2))
+coordinates(x) = c(1,2)
 # row 1,2; cols 1:10
 x[1:2,1:10]
 # row 2, coord+col 9,10

@@ -23,6 +23,6 @@ try(coordinates(a) <- c("xx", "yy")) # should fail!
 x = meuse[1:4,]
 coordinates(x) = c(1,2)
 # this should fail -- zinc is not a row:
-try(q <- x["zinc",])
+#try(q <- x["zinc",])
 # this will issue a warning under S-Plus, or a silent rename under R
 try(x[c("zinc", "x", "copper", "zinc")])

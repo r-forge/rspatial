@@ -23,3 +23,8 @@ function(obj, zero = 0.0)
 	ret <- cbind(((z - 1)  %/% n) + 1, ifelse(z %% n == 0, n, z %% n))
 	matrix(ret[ret[,1] < ret[,2],], ncol = 2)
 }
+
+remove.duplicates <- function(obj, zero = 0.0) {
+	zd = zerodist(obj, zero)
+	obj[-zd[,2], ]
+}

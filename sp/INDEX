@@ -24,3 +24,5 @@ meuse.grid              Prediction Grid for Meuse Data Set
 point.in.polygon        do point(s) fall in a given polygon?
 rings-methods           ~~ Methods for Function rings in Package 'sp4'
                         ~~
+zerodist                find point pairs with equal spatial
+                        coordinates
