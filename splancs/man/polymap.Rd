@@ -49,9 +49,13 @@ character for points, \fClty} to change the line type for polygons, and
 \fCpar} (standard S function), \fCmpoint}
 }
 \examples{
-pointmap(rabbit1)      #display rabbit type 1 cells
-pointmap(rabbit2, add=T, pch="+")   # superimpose the type 2 cells
-polymap(lancs.poly)    #plot the boundary of lancaster
+\examples{
+data(bodmin)
+require(MASS)
+eqscplot(bodmin$poly, type="n")
+pointmap(as.points(bodmin), add=T)
+polymap(bodmin$poly, add=T)
+}
 }
 % Converted by Sd2Rd version 0.3-3.
 \name{pointmap}

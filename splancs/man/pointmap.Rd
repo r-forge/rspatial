@@ -49,8 +49,10 @@ character for points, \fClty} to change the line type for polygons, and
 \fCpar} (standard S function), \fCmpoint}
 }
 \examples{
-pointmap(pts1)      # display first pattern
-pointmap(pts2, add=T, pch="+")   # superimpose second pattern
-polymap(lancs.poly)    #plot the boundary of lancaster
+data(bodmin)
+require(MASS)
+eqscplot(bodmin$poly, type="n")
+pointmap(as.points(bodmin), add=T)
+polymap(bodmin$poly, add=T)
 }
 % Converted by Sd2Rd version 0.3-3.

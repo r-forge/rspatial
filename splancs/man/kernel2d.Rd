@@ -53,4 +53,12 @@ Berman M. and Diggle P.J. (1989) Estimating Weighted Integrals of the
 Second-Order Intensity of Spatial Point Patterns.
 \emph{J. R. Statist Soc} B51 81-92
 }
+\examples{
+data(bodmin)
+require(MASS)
+eqscplot(bodmin$poly, type="n")
+image(kernel2d(as.points(bodmin), bodmin$poly, h0=2, nx=100, ny=100), add=T, col=terrain.colors(20))
+pointmap(as.points(bodmin), add=T)
+polymap(bodmin$poly, add=T)
+}
 % Converted by Sd2Rd version 0.3-3.
