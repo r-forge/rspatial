@@ -18,7 +18,7 @@ C  GNU General Public License for more details.
       implicit real*8 (a-h,o-z)
 
       dimension x(n),y(n),t(nsmse),g(1000),hd(1000),amse(nsmse)
-      common /anu/ ncell,hcell,h(1000),aval(1000)
+      common /anu/ hcell,h(1000),aval(1000),ncell
       pi=3.141592654
 
       b=b2-b1
@@ -54,7 +54,7 @@ C  GNU General Public License for more details.
       subroutine khat(n,a,b,x,y)
       implicit real*8 (a-h,o-z)                              
       dimension x(n),y(n)                                          
-      common /anu/ ncell,hcell,h(1000),aval(1000)
+      common /anu/ hcell,h(1000),aval(1000),ncell
 c                                                                           
 c     reduced second moment measure, corresponding to empirical             
 c     distribution function of weighted inter-event distances.              
