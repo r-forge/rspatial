@@ -1,7 +1,7 @@
 setClass("SpatialPointsDataFrame",
-	representation("SpatialPoints", data = "data.frame", coords.stripped = "logical"),
+	representation("SpatialPoints", data = "data.frame", coords.nrs = "numeric"),
 	prototype = list(new("SpatialPoints"), data = data.frame(), 
-		coords.stripped = FALSE),
+		coords.nrs = numeric(0)),
 	validity = function(object) {
 		if (!inherits(object@data, "data.frame"))
 			stop("data should be of class data.frame")
@@ -17,9 +17,9 @@ setClass("SpatialPointsDataFrame",
 	}
 )
 
-"SpatialPointsDataFrame" = function(coords, data, coords.stripped = FALSE) {
+"SpatialPointsDataFrame" = function(coords, data, coords.nrs = numeric(0)) {
 	new("SpatialPointsDataFrame", SpatialPoints(coords), data = data,
-		coords.stripped = coords.stripped)
+		coords.nrs = coords.nrs)
 }
 
 coordinates.SPDF = function(obj) {
@@ -51,11 +51,11 @@ setMethod("coordinates", "SpatialPointsDataFrame", coordinates.SPDF)
 		cc = coordinates(value)
 	if (!is.null(coord.numbers)) {
 		object = object[ , -coord.numbers, drop = FALSE]
-		stripped = TRUE
-		# ... but as.data.frame(x) will merge them back, so nothing gets lost.
+		stripped = coord.numbers
+		# ... but as.data.frame(x) will merge them back in, so nothing gets lost.
 	} else
-		stripped = FALSE
-	SpatialPointsDataFrame(data = object, coords = cc, coords.stripped = stripped)
+		stripped = numeric(0)
+	SpatialPointsDataFrame(data = object, coords = cc, coords.nrs = stripped)
 }
 
 #"coordinates<-" = coordinates.replacedf
@@ -73,9 +73,21 @@ dim.SpatialPointsDataFrame = function(x) dim(x@data)
 
 #ifdef R
 setAs("SpatialPointsDataFrame", "data.frame", function(from) { 
-	if (from@coords.stripped)
-		data.frame(from@coords, from@data)
-	else
+	if (length(from@coords.nrs) > 0) {
+		nc = dim(from@coords)[2]
+		nd = dim(from@data)[2]
+		nm = character(nc+nd)
+		ret = list()
+		for (i in 1:nc)
+			ret[[from@coords.nrs[i]]] = from@coords[,i]
+		nm[from@coords.nrs] = dimnames(from@coords)[[2]]
+		idx.new = (1:(nc+nd))[-(from@coords.nrs)]
+		for (i in 1:nd)
+			ret[[idx.new[i]]] = from@data[,i]
+		nm[idx.new] = names(from@data)
+		names(ret) = nm
+		data.frame(ret)
+	} else
 		from@data 
 })
 #else
@@ -157,6 +169,6 @@ setMethod("[", "SpatialPointsDataFrame", function(x, i, j, ..., drop = FALSE) {
 			stop("matrix argument not supported in SpatialPointsDataFrame selection")
 
 		SpatialPointsDataFrame(coords = x@coords[i, , drop=FALSE],
-			data = x@data[i, j, drop = FALSE], coords.stripped = x@coords.stripped)
+			data = x@data[i, j, drop = FALSE], coords.nrs = x@coords.nrs)
 	}
 )
