@@ -33,6 +33,5 @@ No methods defined with class "Srings" in the signature.
 \seealso{
 }
 \examples{
-##---- Should be DIRECTLY executable !! ----
 }
 \keyword{classes}

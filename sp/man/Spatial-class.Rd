@@ -14,8 +14,8 @@ are never to be generated; only derived classes can be meaningful }
   \describe{
     \item{\code{bbox}:}{Object of class \code{"matrix"}; 2-column matrix
 	holding the minimum in first and maximum in second column for the
-	x-coordinate (first row), y-coordinate (second row) and optionally
-	z-coordinate (third row). }
+	x-coordinate (first row), y-coordinate (second row) and optionally,
+	for points and grids only, further coordinates. }
     \item{\code{proj4string}:}{Object of class \code{"CRS"};
 	holding a valid proj4 string, which can be used for unprojecting
 	or reprojecting coordinates; it is initialised to NA. Other strings
@@ -33,7 +33,7 @@ are never to be generated; only derived classes can be meaningful }
 }
 \references{  }
 \author{ r-spatial team; Edzer J. Pebesma, \email{e.pebesma@geog.uu.nl}
-Barry Rowlinson, Roger Bivand, Virgilio Gomez
+Roger Bivand, Barry Rowlinson, Virgilio G\'{o}mez-Rubio
 }
 \note{  }
 

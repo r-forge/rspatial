@@ -4,11 +4,11 @@
 % \alias{coordinates,SpatialLines-method}
 \alias{[,SpatialLines-method}
 
-\title{Class "SpatialLines" ~~~ }
-\description{  ~~ A concise (1-5 lines) description of what the class is.  ~~}
+\title{a class for spatial lines }
+\description{ a class that holds spatial lines }
 \section{Objects from the Class}{
-Objects can be created by calls of the form \code{new("SpatialLines", ...)}.
-    ~~ describe objects here ~~ 
+hold a list of Slines objects; each Slines object holds a list
+of Sline (line) objects.
 }
 \section{Slots}{
   \describe{
@@ -23,7 +23,7 @@ Class \code{"Spatial"}, directly.
 }
 \section{Methods}{
   \describe{
-    \item{coordinates}{\code{signature(obj = "SpatialLines")}: retrieve
+    \item{[}{\code{signature(obj = "SpatialLines")}: select subset of (sets of) lines}
 	coordinates; value is a list of lists with matrices }
 	\item{plot}{\code{\signature(x = "SpatialLines")}: 
 	plot lines in SpatialLines object}

@@ -17,7 +17,7 @@ layout.north.arrow()
 layout.scale.bar(height = 0.05)
 }
 \arguments{
-\item{obj}{ object of class extending \link{Spatial-class}; XXX not yet for lines } 
+\item{obj}{ object of class extending \link{Spatial-class}} 
 \item{zcol}{ character; attribute name(s) or column number(s) in attribute table }
 \item{names.attr}{ names to use in panel, if different from attribute names }
 \item{scales}{ scales argument to be passed to Lattice plots; use
@@ -32,7 +32,7 @@ suitable values if the data are e.g. in degrees latitude/longitude }
 \item{sp.layout}{NULL or list; see notes below}
 \item{plot.all}{logical; if TRUE and \code{zcol} is missing, plot all
 attributes; if FALSE and \code{zcol} is missing only plot first attribute }
-\item{identify}{ identify plotted objects (XXX currently only working
+\item{identify}{ identify plotted objects (currently only working
 for points plots); labels for identification are the row.names of the
 attribute table \code{row.names(as.data.frame(obj))}}
 \item{widths}{width of grob}
@@ -64,9 +64,9 @@ useful to pass:
 \describe{
 \item{key.space}{ character: "bottom", "right", "left" or "right" to denote
 key location, or list: see argument key in the help for \link{xyplot} what
-the options are.}
+the options are}
 \item{legendEntries}{ character; array with key legend (text) entries; 
-suitable defaults obtained from data. XXX still gives error }
+suitable defaults obtained from data }
 \item{cuts}{number of cuts or the actual cuts to use}
 \item{do.log}{logical; if TRUE use log-linear scale to divide range in equal cuts,
 else use a linear scale if \code{cuts} is only number of cuts }

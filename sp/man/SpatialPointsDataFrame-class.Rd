@@ -44,7 +44,7 @@ Class \code{"Spatial"}, by class \code{"SpatialPoints"}.
 }
 \section{Methods}{
   \describe{
-    \item{\\\[}{\code{signature(x = "SpatialPointsDataFrame")}: subset rows or
+    \item{[}{\code{signature(x = "SpatialPointsDataFrame")}: subset rows or
 	columns; in case of row subsetting, the coordinates are also subsetted }
     \item{coerce}{\code{signature(from = "SpatialPointsDataFrame", to = "data.frame")}:      extracts that data.frame part  }
     \item{coordinates}{\code{signature(obj = "SpatialPointsDataFrame")}: retrieves

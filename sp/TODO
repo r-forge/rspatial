@@ -1,3 +1,14 @@
+check (and document) what happens if duplicate points are converted to
+a grid.
+
+document methods for SpatialRings[DF] class
+
+check points and grids with more than three dimensions.
+
+check that projection can only be present if data is 2/3D (?)
+
+write dist() methods?
+
 convert SpatialRings to SpatialLines -- is it necessary?
 
 cut the relevant part from groteriv to get river section in meuse data set

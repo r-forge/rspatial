@@ -14,10 +14,7 @@ as.image.SpatialGridDataFrame(x, xcol = 1, ycol = 2)
 \item{x}{ object of class \link{SpatialGridDataFrame} }
 \item{attr}{ column number of attribute variable; this may be
 the column name in the data.frame of \code{data} (as.data.frame(data)), or
-a column number, counted when ignoring the coordinates in
-the data.frame part of data; e.g. attr = 1 will return the
-third column if coordinates are in colunns 1 and 2. 
-If no attribute is present, zeros are returned }
+a column number }
 \item{xcol}{ column number of x-coordinate, in the coordinate matrix }
 \item{ycol}{ column number of y-coordinate, in the coordinate matrix }
 \item{asp}{ aspect ratio of unit x and unit y axis }

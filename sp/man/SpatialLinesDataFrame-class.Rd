@@ -4,11 +4,11 @@
 \alias{coerce,SpatialLinesDataFrame,data.frame-method}
 \alias{[,SpatialLinesDataFrame-method}
 
-\title{Class "SpatialLinesDataFrame" ~~~ }
-\description{  ~~ A concise (1-5 lines) description of what the class is.  ~~}
+\title{a class for spatial lines with attributes }
+\description{ this class holds data consisting of (sets of lines), where each
+set of lines relates to an attribute row in a data.frame }
 \section{Objects from the Class}{
-Objects can be created by calls of the form \code{new("SpatialLinesDataFrame", ...)}.
-    ~~ describe objects here ~~ 
+can be created by the function \link{SpatialLinesDataFrame}
 }
 \section{Slots}{
   \describe{
@@ -23,7 +23,17 @@ Class \code{"SpatialLines"}, directly.
 Class \code{"Spatial"}, by class \code{"SpatialLines"}.
 }
 \section{Methods}{
-No methods defined with class "SpatialLinesDataFrame" in the signature.
+Methods defined with class "SpatialLinesDataFrame" in the signature:
+  \describe{
+    \item{[}{\code{signature(x = "SpatialLinesDataFrame")}: subset rows or
+	columns; in case of row subsetting, the line sets are also subsetted }
+    \item{coordinates}{\code{signature(obj = "SpatialLinesDataFrame")}: retrieves
+	a list with lists of coordinate matrices }
+    \item{show}{\code{signature(object = "SpatialLinesDataFrame")}: print method }
+    \item{plot}{\code{signature(x = "SpatialLinesDataFrame")}: plot points}
+    \item{lines}{\code{signature(object = "SpatialLinesDataFrame")}: add lines to plot}
+    \item{summary}{\code{signature(object = "SpatialLinesDataFrame")}: summarize object}
+  }
 }
 \references{ }
 \author{ Roger Bivand; Edzer Pebesma }

@@ -9,7 +9,7 @@ lines, polygons and grids }
 \description{
 This package provides S4 classes for importing, manipulating and exporting
 spatial data in R, and for methods including print/show, plot, subset,
-\code{[}, \code{[[}, and summary.
+\code{[}, \code{[[}, names, dim, and summary.
 
 }%description
 
@@ -27,8 +27,9 @@ we have a base class set with which any package can exchange. This way,
 many-to-many conversions can be replace with one-to-many conversions,
 provided either in this package or the spatial packages. Wherever possible
 conversion (coercion) functions are automatic, or provided by sp.
-In addition, importing and exporting from and to external GIS formats
-(e.g. through GDAL or OGR) will be provided by sp.
+
+External packages that depend on sp will provide importing and exporting
+from and to external GIS formats, e.g. through GDAL or OGR or shapelib.
 
 In addition, this package tries to provide convenient methods to print,
 summarize and plot such spatial data.
@@ -48,9 +49,16 @@ projections of higher dimensional data.
 Central to spatial data is that they have a coordinate reference system,
 which is coded in object of CRS class. Central to operations on different
 spatial data sets is that their coordinate reference system is compatible
-(i.e., identical). This CRS can be latitude/longitude, a character
-string describing a reference system in a way understood by the PROJ.4
-projection library, or a (character) missing value.
+(i.e., identical). 
+
+This CRS can be a character string describing a reference system in
+a way understood by the PROJ.4 projection library, or a (character)
+missing value. The package spproj needs to be available if one wants to
+work with (non-missing valued) coordinate reference systems; this
+packages needs, but does not contain the PROJ.4 external library, and
+is therefore not available for Windows R versions on CRAN\footnote{a
+binary is available from \url{http://www.sourceforge.net/projects/r-spatial/}}
+
 }
 
 \section{Class structure}{
@@ -63,17 +71,10 @@ SpatialPoints extends Spatial and has coordinates.  The method
 object of class SpatialPoints, or from other (possibly derived) classes
 that have points.
 
-SpatialCell are SpatialPoints that happen to lie on a regular grid.
-The grid does not have to be full (complete), and there is no required
-order on the points; also, there may be duplicates. The grid however has
-a number of parameters: offset, cell size, and number of rows/columns,
-that can be retrieved with the \link{gridparameters}. Objects of class
-SpatialCell (and derived) contain the coordinates of the points.
-
-Objects of class SpatialGridded (and derived) are full grids, padded
-with missing values where necessary; they do not contain coordinates
-explicitly; calling \link{coordinates} on them will calculate coordinates,
-not retrieve them. Each grid cell can have only one value.
+Objects of class SpatialGrid points on a regular grid. Either a full grid
+is stored or a partial grid (i.e., only the non-missing valued cells);
+calling \link{coordinates} on them will give the coordinates for the
+grid cells.
 
 SpatialPoints, SpatialCell and SpatialGridded can be of arbitray
 dimension, although most of the effort is in making them work for two
@@ -98,7 +99,7 @@ GDAL and OGR: \url{http://www.remotesensing.org/gdal/}.
 
 \section{Authors}{
 sp is a collaborative effort of Edzer Pebesma, Roger Bivand, Barry
-Rowlinson and Virgilo Gomez-Rubio.
+Rowlinson and Virgilo G\'{o}mez-Rubio.
 }
 
 \keyword{spatial}
