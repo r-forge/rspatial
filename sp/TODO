@@ -5,11 +5,11 @@ attribute data are the label points. Changed into
 SpatialDataFramePolygon, descending from
 SpatialDataFrame.
 
+plot.SpatialDataFrameGrid does not do much useful: use levelplot?
+
 Remove all PolygonX classes extending SpatialData; 
 however, does each polygon need a bounding box? On reflection, 
 no great overhead, and they do need bboxes.
-
-
 
 subsetting polygons;
 not replicate projection in polygons;
