@@ -4,6 +4,8 @@
 \alias{plot.SpatialDataFramePolygons}
 \alias{SpatialDataFramePolygons}
 \alias{summary.SpatialDataFramePolygons}
+\alias{coerce,SpatialDataFramePolygons,data.frame-method}
+\alias{as.data.frame.SpatialDataFramePolygons}
 
 \title{Class "SpatialDataFramePolygons"}
 \description{}
@@ -25,6 +27,14 @@ Objects can be created by calls of the form \code{SpatialDataFramePolygons}, but
 \section{Extends}{
 Class \code{"SpatialDataFrame"}, directly.
 }
+
+
+\section{Methods}{
+  \describe{
+    \item{coerce}{\code{signature(from = "SpatialDataFramePolygons", to = "data.frame")}: removes all information on coordinates, and returns slot data }
+}}
+
+
 \usage{
 SpatialDataFramePolygons(SDF, polygons)
 plot.SpatialDataFramePolygons(x, attr = NULL, breaks = NULL, col = NA, asp = 1, xlab = x@coord.names[1], ylab = x@coord.names[2], add = FALSE, xlim = NULL, ylim = NULL, border = par("fg"), xpd = NULL, density = NULL, angle = 45, ...)
