@@ -6,6 +6,9 @@
 \alias{plot.SpatialCellDataFrame}
 \alias{print.summary.SpatialCellDataFrame}
 \alias{summary.SpatialCellDataFrame}
+\alias{coerce,SpatialCellDataFrame,SpatialPointsDataFrame-method}
+\alias{coerce,SpatialCellDataFrame,data.frame-method}
+\alias{as.data.frame.SpatialCellDataFrame}
 
 \title{Class "SpatialCellDataFrame" ~~~ }
 \description{  Class for spatial attributes that have spatial locations
