@@ -484,8 +484,9 @@ plot.SpatialDataFrame = function(x, xlab = x@coord.names[1],
 
 plot.SpatialDataFrameGrid = function(x, xlab = x@coord.names[1], 
 		ylab = x@coord.names[2], asp = 1, ...) {
-	plot.SpatialDataFrame(as(x, "SpatialDataFrame"), xlab = xlab, 
+	x = plot.SpatialDataFrame(as(x, "SpatialDataFrame"), xlab = xlab, 
 		ylab = ylab, asp = asp, ...)
+	invisible(x)
 }
 
 formula.SpatialDataFrame = function(x, ...) {
