@@ -2,9 +2,10 @@
 \docType{class}
 \alias{SpatialPoints-class}
 \alias{[,SpatialPoints-method}
-\alias{coerce,SpatialPoints,data.frame-method}
-\alias{coerce,data.frame,SpatialPoints-method}
-\alias{coerce,matrix,SpatialPoints-method}
+\alias{coerce,SpatialPoints,matrix-method}
+%\alias{coerce,SpatialPoints,data.frame-method}
+%\alias{coerce,data.frame,SpatialPoints-method}
+%\alias{coerce,matrix,SpatialPoints-method}
 % \alias{coordinates,SpatialPoints-method}
 \alias{show,SpatialPoints-method}
 \alias{SpatialPoints}

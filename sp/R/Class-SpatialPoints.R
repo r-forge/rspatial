@@ -24,6 +24,7 @@ setClass("SpatialPoints",
 		proj4string = proj4string) # transpose bbox?
 }
 
+
 setMethod("coordinates", "list", function(obj) as.matrix(as.data.frame(obj)))
 setMethod("coordinates", "data.frame", function(obj) as.matrix(obj))
 setMethod("coordinates", "matrix", function(obj) obj)
