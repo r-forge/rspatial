@@ -74,9 +74,38 @@ else use a linear scale if \code{cuts} is only number of cuts }
 \item{cex}{numeric; character expansion, proportional to default value of 1}
 \item{fill}{ logical; use filled circles? }
 }
+
+\code{layout.north.arrow} and \code{layout.scale.bar} can be used
+to set a north arrow or scale bar.
+
+The \code{sp.layout} argument is either a single layout item, or a list
+with a layout items. A layout item is a list with its first argument the
+name of the layout function to be called: \code{sp.points} for points,
+\code{sp.polygon} for polygon object, \code{sp.lines} for a lines
+object, and \code{sp.text} to place text. The second argument contains
+the object (or text) to be plotted; remaining arguments are passed to
+the corresponding \code{panel.*} functions.
+
+A special layout list item is \code{which} (integer), to control to
+which panel a layout item should be added. \code{which} can go in main
+list and apply for all layout items, or go in specified layout lists to
+denote the (set of) panels in which the layout element should be drawn.
+Without a \code{which} item, layout items are drawn in each panel.
+
+The order of items in \code{sp.layout} matters; objects are drawn in
+the order they appear. Plot order and prevalence of sp.layout items:
+for points and lines, sp.layout is drawn before the points (to allow for
+grids and polygons); for grids and polygons sp.layout is drawn afterwards
+(so it is not shaded by the grid and/or polygon). Although a matter of
+taste, transparency may help when combining things.
+
+\code{sp.theme} returns a lattice theme; use \code{trellis.par.set(sp.theme())}
+after a device is opened or changed to make this work. Currently, this only
+sets the colors to \link{bpy.colors}.
 }
 
 \references{
+\url{http://r-spatial.sourceforge.net/gallery}
 }
 \seealso{
 }
