@@ -1,0 +1,34 @@
+"kernel3d"<-
+function(pts,times, xgr, ygr, zgr, hxy, hz)
+{
+
+        library.dynam('splancs','kernel3d.o')
+        pts3_cbind(pts,times)
+	nx <- length(xgr)
+	ny <- length(ygr)
+	nz <- length(zgr)
+	mat3 <- array(data = 0, dim = c(nx, ny, nz))
+	storage.mode(mat3) <- "double"
+	ans <- .Fortran("kern3d",
+		as.double(pts3[, 1]),
+		as.double(pts3[, 2]),
+		as.double(pts3[, 3]),
+		as.integer(length(pts3[, 3])),
+		as.double(xgr),
+		as.integer(length(xgr)),
+		as.double(ygr),
+		as.integer(length(ygr)),
+		as.double(zgr),
+		as.integer(length(zgr)),
+		as.double(hxy),
+		as.double(hz),
+		kernarr = mat3)
+	list(xgr = xgr, ygr = ygr, zgr = zgr, hxy = hxy, hz = hz, v = ans$
+		kernarr)
+}
+
+
+# Local Variables:
+# mode:S
+# S-temp-buffer-p:t
+# End:

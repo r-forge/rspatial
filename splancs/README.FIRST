@@ -1,0 +1,106 @@
+------------------
+Installing Splancs                                      BSR Dec '91
+------------------
+
+ Splancs takes the form of an S-Plus library. It might be useful to read
+the section of the S manual on libraries before continuing.
+
+ To correctly install Splancs it is neccessary that you are logged in
+under an account that can write to the S-Plus directories. 
+
+
+To install splancs, all that should be needed is to extract the files
+from the tar archive (which you have probably done already if you are
+reading this), edit the Makefile, and then run the shell script 
+'Splancs.install'.
+
+ 1. Edit the makefile.
+
+     It may be necessary to change the definition of F77 in the makefile
+to point to your compiler. 
+
+ 2. Run the script 'Splancs.install'
+
+
+ This shell script may take some time to do the installation of the S
+functions. Be patient.
+
+ If any part of the installation fails, try and correct the problem and
+rerun the script.
+
+ Possible danger areas are:
+
+1. Compilation: the fortran code uses certain Sun Fortran extensions,
+such as DO and END DO. Your compiler may not like this.
+
+2. Dynamic loading: Since this code has only been tested on a
+sparcstation, I cannot guarantee that the dynamic loading will work on
+your machine. I found that some functions needed to be loaded with the
+math library to find certain trig functions. The code for these
+functions is loaded using mathlib.dynam, a modified library.dynam that
+links with the libm.a. There may be problems with this on other
+machines.
+
+Solaris2 (Sunos 5) (and other machines) Problems:
+-------------------------------------------------
+
+ If you have problems with everything compiling with the Makefile, try
+this approach:
+ 
+ Join all the Fortran into one big Fortran file with:
+
+ cat *.f >splancs.f
+
+ Now compile this with the '-c' option:
+
+ f77 -c splancs.f
+
+ This should create a splancs.o file.
+
+ Now create a file First.lib.s in the splancs library directory  with
+ the following:
+--------
+ .First.lib <- function(library, section) {
+# dynamically load file library/section/section_l.o
+obj <- paste(library, "/", section, "/splancs.o", sep="")
+dyn.load(obj)
+cat("\nSpatial Point Pattern Analysis Code in S-Plus\n")
+cat("\n Version 2.5 - Spatial and Space-Time analysis\n")
+invisible(0)
+}
+--------
+
+ Run Splus in this directory, and do 'source("First.lib.s")' to read it into
+the .Data directory.
+
+ Edit the following files and comment out any calls to mathlib.dynam or 
+library.dynam
+
+area.S   inout.S   k12hat.S  kernel2d.S  kernel3d.S
+khat.S   khvc.S    khvmat.S  mse2d.S     n2dist.S
+nndistF.S          nndistG.S stkhat.S    stvmat.S
+tribble.S
+
+ Run Splus in the library directory again and do 'source("Splancs.install.S")'
+to read the modified functions.
+
+ Now quit and run Splus from another directory. Try 'library(splancs)'. If this
+produces errors with dyn.load then change First.lib.S to 'dyn.load2' and redo the
+source command. Try again.
+
+ When library(splancs) works, try the following:
+
+Splus>  pts_spoints(runif(1000))
+Splus>  pol_ sbox(pts)
+Splus>  s_seq(0,.3,len=100)
+Splus>  khat(pts,pol,s)
+
+ If that produces an error then there's something else wrong. Contact me for
+assistance!
+
+ Barry Rowlingson                   December 1991 - Revised Feb 96
+
+ B.Rowlingson@lancaster.ac.uk
+
+
+
