@@ -1,54 +1,73 @@
-Fhat                     Point Summary Statistics
-Fzero                    Point Summary Statistics
-Ghat                     Point Summary Statistics
-Kenv.csr                 Simulations
-Kenv.label               Simulations
-Kenv.tor                 Simulations
-addpoints                Point Operations
-area                     Polygon Operations
+Fhat                     F nearest neighbour distribution function
+Fzero                    Theoretical nearest neighbour distribution
+                         function
+Ghat                     G nearest neighbour distribution function
+Kenv.csr                 Envelope of Khat from simulations of complete
+                         spatial randomness
+Kenv.label               Envelope of K1hat-K2hat from random labelling of
+                         two point patterns
+Kenv.tor                 Envelope of K12hat from random toroidal shifts
+                         of two point patterns
+addpoints                Add points interactively to a point data set
+areapl                   Calculate area of polygon
+as.points                Creates data in spatial point format
+bbox                     Generate a bounding box round a point object
+bodmin                   Bodmin Moors granite tors
+cardiff                  Locations of homes of juvenile offenders
+csr                      Generate completely spatially random points on a
+                         polygon
+delpoints                Select points to delete from a points data set
+dsquare                  Distance-squared from a number of points to a
+                         number of sources
+getpoly                  Draw a polygon on the current graphics device
+gridpts                  Generate a grid of points
+inout                    Test points for inclusion in a polygon
+inpip                    Select points inside a polygon
 is.points                Point Objects
-bbox                     Polygon Operations
-csr                      Simulations
-delpoints                Point Operations
-dsquare                  Raised Incidence Modelling
-getpoly                  Polygon Operations
-gridpts                  Point Operations
-inout                    Point/Poly Operations
-inpip                    Point/Poly Operations
-is.points                Point Objects
-k12hat                   Point Summary Statistics
-kernel2d                 Point Operations
-kernel3d                 Space-time kernel functions
-kernrat                  Point Operations
-kerview                  Space-time kernel functions
-khat                     Point Summary Statistics
-khvc                     Point summary statistics
-khvmat                   Point Summary Statistics
-mpoint                   Graphics
-mse2d                    Point Operations.
-n2dist                   Point Summary Statistics
-nndistF                  Point Summary Statistics
-nndistG                  Point Summary Statistics
-npts                     Point Objects
-pdense                   Point/Poly Operations
-pip                      Point/Poly Operations
+k12hat                   Bivariate K-function
+kernel2d                 Kernel smoothing of a point pattern
+kernel3d                 Space-time kernel
+kernrat                  Ratio of two kernel smoothings
+kerview                  A linked-window system for browsing space-time
+                         data
+khat                     K-function
+khvc                     Covariance matrix for the difference between two
+                         K-functions
+khvmat                   Covariance matrix for the difference between two
+                         K-functions
+mpoint                   Overlay a number of point patterns
+mse2d                    Mean Square Error for a Kernel Smoothing
+n2dist                   Nearest neighbours for two point patterns
+nndistF                  Nearest neighbour distances as used by
+                         \code{Fhat()
+nndistG                  Nearest neighbour distances as used by
+                         \code{Ghat()
+npts                     Number of points in data set
+okblack                  Oklahoma black offenders
+okwhite                  Oklahoma white offenders
+pdense                   Overall density for a point pattern
+pip                      Points inside or outside a polygon
 pointmap                 Graphics
-pointmap                 Graphics
-print.ribfit             Raised Incidence Modelling
-rlabel                   Point Operations
-rtor.shift               Point Operations
-sbox                     Polygon Operations
-secal                    Point Summary Statistics
-shift                    Point Operations
-splancs                  Point pattern analysis
-is.points                Point Objects
-stdiagn                  Space-time Clustering Analysis
-stkhat                   Space-time Clustering Analysis
-stmctest                 Space-time Clustering
-stsecal                  Space-time Clustering Analysis
-stvmat                   Space-time Clustering Analysis
-thin                     Point Operations
-tor.shift                Point Operations
-tribble                  Raised Incidence Modelling
-triblik                  Raised Incidence Modelling
-zoom                     Graphics
+polymap                  Graphics
+print.ribfit             Display the fit from \code{tribble
+rlabel                   Randomly label two or more point sets
+rtor.shift               Random toroidal shift on a point data set
+sbox                     Generate a box surrounding a point object
+secal                    Standard errors for the difference between two
+                         K-functions
+shift                    Shift a point data set
+splancs                  Return version number and author information
+spoints                  Point Objects
+stdiagn                  Summary plots for clustering analysis
+stkhat                   Space-time K-functions
+stmctest                 Monte-Carlo test of space-time clustering
+stsecal                  Standard error for space-time clustering
+stvmat                   Variance matrix for space-time clustering
+thin                     Randomly thin a point data set
+tor.shift                Toroidal shift on a point data set
+tribble                  Diggle-Rowlingson Raised Incidence Model
+triblik                  Log-likelihood for the Diggle-Rowlingson raised
+                         incidence model
+uganda                   Craters in Uganda
+zoom                     Interactively specify a region of a plot for
+                         expansion
