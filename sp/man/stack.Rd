@@ -6,11 +6,11 @@
 \title{ rearrange data in SpatialPointsDataFrame or SpatialCellDataFrame 
 for plotting with levelplot }
 \description{ plotting grid and polygon maps with levelplot;
-rearrange SpatialDataFrame for plotting with levelplot }
+rearrange SpatialPointsDataFrame for plotting with levelplot }
 \usage{
 lplot(data, zcol, names.attr, col.regions = bpy.colors(), expand = 0.03, ...)
-map.to.lev(data, zcol = 1:n, n = 2, names.attr, df = TRUE)
-stack.SpatialDataFrame(x, select, ...)
+map.to.lev(data, zcol = 1:n, n = 2, names.attr)
+stack.SpatialPointsDataFrame(x, select, ...)
 }
 \arguments{
 \item{data}{ object of class (or extending) SpatialDataFrame }
@@ -23,7 +23,6 @@ will appear in the plot); if omitted, column names of \code{zcol} }
 \item{expand}{numeric; factor to expand the bounding box with when plotting
 concerns SpatialDataFramePolygons }
 \item{n}{ number of columns to be plotted }
-\item{df}{ logical; if TRUE, return data.frame, else return SpatialDataFrame }
 \item{x}{ see \code{data}}
 \item{select}{ see \code{zcol}}
 \item{...}{lplot passes these through to \link{levelplot}, otherwise ignored}
@@ -34,8 +33,7 @@ data. Gridded data uses levelplot directly, for polygons data a modified
 panel function is passed to levelplot, which calls \link{grid.polygon}
 for each of the polygons.
 
-\code{map.to.lev} returns a
-data frame with the following elements:
+\code{map.to.lev} returns a data frame with the following elements:
 \item{x}{ x-coordinate for each row}
 \item{y}{ y-coordinate for each row} 
 \item{z}{ column vector with each of the elements in columns \code{zcol}
