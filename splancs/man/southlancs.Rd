@@ -5,6 +5,7 @@
 \alias{southlancs.pts}
 \alias{southlancs.cc}
 \alias{old.incinerator}
+\alias{southlancs.bdy}
 \format{A data frame with 974 observations
   \tabular{rlll}{
     [,1]  \tab x  \tab numeric  \tab grid eastings (metres)\cr
@@ -19,7 +20,8 @@ Chorley-Ribble, Lancashire. The data set is split into a points object \code{sou
 case/control 0/1 vector \code{southlancs.cc}. There are 917 controls and 57
 cases in this data set - these numbers differ from 978 and 58 in Diggle (1990)
 and Diggle and Rowlingson (1994). The data set also includes the approximate
-location of an old incinerator \code{old.incinerator}.
+location of an old incinerator \code{old.incinerator}, as well as
+\code{southlancs.bdy}, the study area boundary.
 
 }
 \references{Bailey and Gatrell 1995, ch. 3; Diggle, P. (1990) A point process
@@ -40,5 +42,16 @@ pointmap(southlancs.pts[southlancs.cc == 1,])
 pointmap(old.incinerator, add=T, col="red", pch=19)
 title("Larynx cancer cases")
 par(op)
+pointmap(southlancs.pts, type="n")
+contour(kernel2d(southlancs.pts[southlancs.cc == 0,], 
+	southlancs.bdy, h=500, nx=100, ny=100), nlevels=20, 
+	add=T,drawlabels=F)
+pointmap(southlancs.pts[southlancs.cc == 1,], add=T, pch=19,
+	 col="green")
+pointmap(old.incinerator, add=T, pch=19, col="red")
+polymap(southlancs.bdy,add=T,border="grey")
+title(xlab="h=500, quartic kernel")
+title("Density map of control, green case points, red old incinerator")
+
 }
 \keyword{datasets}
