@@ -46,14 +46,12 @@ overall density of the points.
 In practice an edge-correction is required to avoid biasing the
 estimation due to non-recording of points outside the polygon.
 }
+\seealso{\code{\link{Kenv.csr}}}
 \examples{
 data(cardiff)
-UL.khat <- Kenv.csr(length(cardiff$x), cardiff$poly, nsim=99, seq(2,30,2))
 plot(seq(2,30,2), sqrt(khat(as.points(cardiff), cardiff$poly, 
 seq(2,30,2))/pi)-seq(2,30,2), type="l", xlab="Splancs - polygon boundary", 
 ylab="Estimated L", ylim=c(-1,1.5))
-lines(seq(2,30,2), sqrt(UL.khat$upper/pi)-seq(2,30,2), lty=2)
-lines(seq(2,30,2), sqrt(UL.khat$lower/pi)-seq(2,30,2), lty=2)
 }
 \references{
 Ripley, B.D. 1976 The second-order analysis of stationary point processes,

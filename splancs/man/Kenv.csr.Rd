@@ -50,7 +50,7 @@ and lower bound of the Khat envelope.
 }
 \examples{
 data(cardiff)
-UL.khat <- Kenv.csr(length(cardiff$x), cardiff$poly, nsim=99, seq(2,30,2))
+UL.khat <- Kenv.csr(length(cardiff$x), cardiff$poly, nsim=29, seq(2,30,2))
 plot(seq(2,30,2), sqrt(khat(as.points(cardiff), cardiff$poly, 
 seq(2,30,2))/pi)-seq(2,30,2), type="l", xlab="Splancs - polygon boundary", 
 ylab="Estimated L", ylim=c(-1,1.5))

@@ -66,7 +66,7 @@ bbox(as.points(okpoly)), seq(5,80,5))/pi) - seq(5,80,5), xlab="distance",
 ylab=expression(hat(L)[12]), ylim=c(-35,35), type="l",
 main="Simulation envelopes, random toroidal shifts")
 env.ok <- Kenv.tor(as.points(okwhite), as.points(okblack), 
-bbox(as.points(okpoly)), nsim=99, s=seq(5,80,5))
+bbox(as.points(okpoly)), nsim=29, s=seq(5,80,5))
 lines(seq(5,80,5), sqrt(env.ok$upper/pi)-seq(5,80,5), lty=2)
 lines(seq(5,80,5), sqrt(env.ok$lower/pi)-seq(5,80,5), lty=2)
 }

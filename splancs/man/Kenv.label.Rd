@@ -69,12 +69,12 @@ K.diff <- K1.hat-K2.hat
 plot(seq(5,80,5), K.diff, xlab="distance", ylab=expression(hat(K)[1]-hat(K)[2]), 
 ylim=c(-11000,7000), type="l", main="Simulation envelopes, random labelling")
 env.lab <- Kenv.label(as.points(okwhite), as.points(okblack), 
-bbox(as.points(okpoly)), nsim=99, s=seq(5,80,5))
+bbox(as.points(okpoly)), nsim=29, s=seq(5,80,5))
 lines(seq(5,80,5), env.lab$upper, lty=2)
 lines(seq(5,80,5), env.lab$lower, lty=2)
 }
 \seealso{
-\code{\link{rlabeli}},\code{i\link{khati}}
+\code{\link{rlabel}},\code{i\link{khat}}
 }
 
 \references{
