@@ -15,22 +15,21 @@ setClass("SpatialPoints",
 )
 
 "SpatialPoints" = function(coords, proj4string = CRS(as.character(NA))) {
-	coords = coordinates(coords)
-	if (mode(coords) != "numeric")
-		stop("coordinates should have mode numeric; try a cast with as.numeric")
+	coords = coordinates(coords) # checks numeric mode
 	bbox = t(apply(coords, 2, range))
 	dimnames(bbox)[[2]] = c("min", "max")
 	new("SpatialPoints", coords = coords, bbox = as.matrix(bbox),
 		proj4string = proj4string) # transpose bbox?
 }
 
-as.coordinates = function(obj) {
+check.numeric = function(obj) {
 	lapply(obj, function(x) { if(!is.numeric(x)) 
 		stop("cannot retrieve coordinates from non-numeric elements") })
+	obj
 }
 
-setMethod("coordinates", "list", function(obj) as.coordinates(as.data.frame(obj)))
-setMethod("coordinates", "data.frame", function(obj) as.coordinates(obj))
+setMethod("coordinates", "list", function(obj) as.matrix(check.numeric(as.data.frame(obj))))
+setMethod("coordinates", "data.frame", function(obj) as.matrix(check.numeric(obj)))
 setMethod("coordinates", "matrix", function(obj) if (is.numeric(obj)) { obj } else { 
 	stop("cannot derive coordinates from non-numeric matrix")})
 
