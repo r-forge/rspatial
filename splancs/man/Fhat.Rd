@@ -30,6 +30,12 @@ The function \code{Fhat(pts1,pts2,s)} is defined as the proportion of members of
 point set \code{pts2} for which the distance to the nearest member of
 another points set \code{pts1} is less than or equal to \code{s}.
 }
+\examples{
+data(uganda)
+plot(seq(20, 500, 20), Fhat(as.points(uganda), as.points(csr(uganda$poly, length(uganda$x))), seq(20, 500, 20)), type="l", xlab="distance", ylab="Estimated F")
+plot(Ghat(as.points(uganda), seq(20, 500, 20)), Fhat(as.points(uganda), as.points(csr(uganda$poly, length(uganda$x))), seq(20, 500, 20)), type="l", xlab="Estimated G", ylab="Estimated F")
+lines(c(0,1),c(0,1),lty=2)
+}
 \seealso{
 \code{nndistF},\code{Fzero}
 }

@@ -27,4 +27,8 @@ The function \code{Ghat(points,s)} is defined as the proportion of members of a
 point set for which the distance to the nearest other member of the set
 is less than or equal to \code{s}.
 }
+\examples{
+data(uganda)
+plot(seq(20, 500, 20), Ghat(as.points(uganda), seq(20, 500, 20)), type="l", xlab="distance", ylab="Estimated G")
+}
 % Converted by Sd2Rd version 0.3-3.

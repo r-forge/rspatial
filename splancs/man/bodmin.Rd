@@ -4,10 +4,10 @@
 \alias{bodmin}
 \format{A list corresponding to a Venables and Ripley point object with 35 observations
   \tabular{lll}{
-    \tab x  \tab numeric  \tab grid eastings\cr
-    \tab y   \tab numeric  \tab grid northings\cr
-    \tab area \tab	list	\tab bounding box with xl, xu, yl, yu\cr
-    \tab poly \tab array \tab polygon boundary with columns x and y\cr
+    x  \tab numeric  \tab grid eastings\cr
+    y   \tab numeric  \tab grid northings\cr
+    area \tab	list	\tab bounding box with xl, xu, yl, yu\cr
+    poly \tab array \tab polygon boundary with columns x and y\cr
   }
 }
 \source{Pinder and Witherick, 1977 - Bailey and Gatrell 1995, ch. 3.
