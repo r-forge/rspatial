@@ -1,0 +1,9 @@
+FROM=$1; shift
+TO=$1; shift
+for f
+do 
+ qname=`basename $f`
+ rname=`echo $qname | sed s/q$/R/`
+ echo $FROM/$qname "==>>" $TO/$rname
+ ./scripts/preproc.pl -ver=R $FROM/$qname > $TO/$rname
+done 
