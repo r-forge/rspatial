@@ -1,19 +1,18 @@
-\name{SpatialGridded-class}
+\name{GridTopology-class}
 \docType{class}
-\alias{SpatialGridded-class}
-\alias{[,SpatialGridded-method}
-\alias{print.summary.SpatialGridded}
-\alias{summary.SpatialGridded}
+\alias{GridTopology-class}
+\alias{print.summary.GridTopology}
+\alias{summary.GridTopology}
 
-\title{Class "SpatialGridded" ~~~ }
+\title{Class "GridTopology" ~~~ }
 \description{ class for defining a rectangular grid of
 arbitrary dimension }
 \section{Objects from the Class}{
 Objects are created by using e.g. 
 
-SpatialGridded(c(0,0), c(1,1), c(5,5))
+GridTopology(c(0,0), c(1,1), c(5,5))
 
-see \link{SpatialGridded}
+see \link{SpatialGrid}
 }
 \section{Slots}{
   \describe{
@@ -25,13 +24,15 @@ see \link{SpatialGridded}
     \item{\code{proj4string}:}{Object of class \code{"CRS"}; projection  }
   }
 }
+
 \section{Extends}{
-Class \code{"Spatial"}, by class \code{"SpatialPoints"}.
+% Class \code{"Spatial"}, by class \code{"SpatialPoints"}.
 }
 \section{Methods}{
  \describe{
-   \item{coordinates}{\code{signature(x = "SpatialGridded")}: calculates coordinates for
-   each point on the grid; coordinates are not stored in objects of class SpatialGridded}
+   \item{coordinates}{\code{signature(x = "SpatialGrid")}: calculates coordinates for
+   each point on the grid
+   }
  }
 }
 \references{ }
@@ -39,14 +40,16 @@ Class \code{"Spatial"}, by class \code{"SpatialPoints"}.
 \note{  }
 
 \seealso{
-  \code{\link{SpatialGriddedDataFrame-class}}, \code{\link{SpatialGridded}}
+  \code{\link{SpatialGridDataFrame-class}}, \code{\link{SpatialGrid-class}}
 }
 \examples{
-x = SpatialGridded(c(0,0), c(1,1), c(5,5))
+x = GridTopology(c(0,0), c(1,1), c(5,5))
 class(x)
 x
 summary(x)
 coordinates(x)
-x = SpatialGridded(c(0,0), c(1,1), c(5,5))
+y = SpatialGrid(grid = x)
+class(y)
+y
 }
 \keyword{classes}
