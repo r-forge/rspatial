@@ -1,8 +1,10 @@
 Package: splancs
-Version: 2.01-1
+Version: 2.01-2
+Date: 2000/11/06
+Title: Spatial and Space-Time Point Pattern Analysis
 Author: Barry Rowlingson <b.rowlingson@lancaster.ac.uk> and Peter Diggle,
 	adapted and packaged for R by Roger Bivand <Roger.Bivand@nhh.no>
+Depends: R (>= 1.0) MASS, spatial, stepfun
 Description: Spatial and Space-Time Point Pattern Analysis Functions
-Depends: MASS, spatial, stepfun
-License: This version of Splancs is not public domain and must not be
-	copied or redistributed without prior permission of the authors.
+License: GPL version 2 or newer (see README).
+URL: http://www.r-project.org, http://www.maths.lancs.ac.uk/~rowlings/Splancs/
