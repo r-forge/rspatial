@@ -8,8 +8,8 @@ spatial coordinates }
 \description{ sets spatial coordinates to create spatial data, or retrieves
 spatial coordinates }
 \usage{
-	coordinates(object) <- value
 	coordinates(obj)
+	coordinates(object) <- value
 }
 \arguments{
 \item{obj}{ object deriving from class "Spatial" }
