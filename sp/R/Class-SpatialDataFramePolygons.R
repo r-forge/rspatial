@@ -8,6 +8,8 @@ setClass("SpatialDataFramePolygons",
 	validity = function(object) {
 		if (nrow(object@data) != length(object@polygons@polygons))
 			return("number of rows in data should equal number of polygons")
+		if (!identical(object@proj4string, object@polygons@proj4string)) 
+			return("Projection arguments differ")
 		valid = as.logical(sapply(object@polygons@polygons, verifyPolygon))
 		if (any(!valid))
 			return(paste("invalid polygon(s):", paste(which(!valid), 
