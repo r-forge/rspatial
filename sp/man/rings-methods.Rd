@@ -1,13 +1,15 @@
 \name{rings-methods}
 \docType{methods}
 \alias{rings-methods}
-\title{ ~~ Methods for Function rings in Package `sp4' ~~}
+\alias{rings,Spatial-method}
+\title{ Retrieve rings from SpatialRingsDataFrame object }
 \description{
- ~~ Methods for function \code{rings} in package \pkg{sp4} ~~
+Retrieve rings from SpatialRingsDataFrame object
 }
 \section{Methods}{
 \describe{
-
+\item{obj = "Spatial"}{ returns SpatialRings part if object is of, or deriving from, 
+	class SpatialRingsDataFrame }
 %\item{}{ ~~describe this method here }
 }}
 \keyword{methods}

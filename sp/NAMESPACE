@@ -5,7 +5,7 @@ importFrom(grid, grid.polygon)
 
 export(CRS, print.CRS, proj4string, "proj4string<-", is.projected)
 
-export(bbox, getGridIndex, points2grid, bpy.colors, bubble, cplot, gridplot, ringplot, 
+export(bbox, getGridIndex, points2grid, bpy.colors, bubble, gridplot, ringplot, 
 	mapasp, point.in.polygon, map.to.lev, zerodist, remove.duplicates)
 
 export(coordinates, "coordinates<-", coordinatevalues)
@@ -41,9 +41,15 @@ export(gridparameters, "gridded<-", gridded, fullgrid, "fullgrid<-",
 #export(as.SpatialRings.Shapelist, as.SpatialRings.matrixList, 
 #	as.Ring4.matrix)
 
-export(getSringCoordsSlot, getSringLabptSlot, getSringAreaSlot, getSringHoleSlot, getSringsSringsSlot, getSringsplotOrderSlot, getSringsLabptSlot, getSringsIDSlot, getSRpolygonsSlot, getSRplotOrderSlot, getSRSringsLabptSlots, getSRSringsIDSlots, getSRnParts)
+export(getSringCoordsSlot, getSringLabptSlot, getSringAreaSlot,
+	getSringHoleSlot, getSringsSringsSlot, getSringsplotOrderSlot,
+	getSringsLabptSlot, getSringsIDSlot, getSRpolygonsSlot,
+	getSRplotOrderSlot, getSRSringsLabptSlots, getSRSringsIDSlots,
+	getSRnParts, "rings<-")
 
-export(as.SpatialRings.SringsList, Srings, Sring, SpatialRings, SpatialRingsDataFrame, as.SpatialRings.Shapes, as.SpatialRings.map, as.SpatialRings.pal, plotSpatialRings)
+export(as.SpatialRings.SringsList, Srings, Sring, SpatialRings,
+	SpatialRingsDataFrame, as.SpatialRings.Shapes, as.SpatialRings.map,
+	as.SpatialRings.pal, plotSpatialRings)
 
 export(ShowSpatialPointsDataFrame)
 
@@ -63,7 +69,9 @@ exportClasses(CRS, Spatial,
 
 exportClasses(Sring, Srings, SpatialRings, SpatialRingsDataFrame)
 
-exportMethods(show, bbox, coordinates, arcs, rings, gridded, dimensions, coerce, "[")
+exportMethods(show, bbox, coordinates, gridded, rings, dimensions, coerce, "[")
+
+#exportMethods(arcs)
 
 # S3method("[", SpatialPoints)
 

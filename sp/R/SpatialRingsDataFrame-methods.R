@@ -1,6 +1,15 @@
-SpatialRingsDataFrame <- function(Sr, data) {
+SpatialRingsDataFrame <- function(Sr, data)
 	new("SpatialRingsDataFrame", Sr, data = data)
+
+"rings<-" = function(object, value) {
+	if (!is(value, "SpatialRings"))
+		stop("right-hand side should be of class SpatialRings")
+	if (!is(object, "data.frame"))
+		stop("assigned value should be of class data.frmae")
+	SpatialRingsDataFrame(value, object)
 }
+
+#setMethod("rings", "SpatialRingsDataFrame", function(obj) as(obj, "SpatialRings"))
 
 names.SpatialRingsDataFrame = function(x) names(x@data)
 
@@ -33,12 +42,12 @@ setMethod("[", "SpatialRingsDataFrame", function(x, i, j, ... , drop = FALSE) {
     SpatialRingsDataFrame(as(x, "SpatialRings")[i, , drop=FALSE],
         data = x@data[i, j, drop = FALSE])
 ###
-### RSB: do something with labelpoints here? How can I chech they are present?
+### RSB: do something with labelpoints here? How can I check they are present?
 ###
 })
 
 "[[.SpatialRingsDataFrame" =  function(x, ...)
-#setMethod("[[", "SpatialPointsDataFrame", function(x, ...)
+#setMethod("[[", "SpatialRingsDataFrame", function(x, ...)
     x@data[[...]]
 #)
 

@@ -38,7 +38,7 @@ Class \code{"Spatial"}, by class \code{"SpatialPoints"}.
  }
 }
 \references{ }
-\author{ Edzer J. Pebesma, \url{mailto:e.pebesma@geog.uu.nl} }
+\author{ Edzer J. Pebesma, \email{e.pebesma@geog.uu.nl} }
 \note{  }
 
 \seealso{

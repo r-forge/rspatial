@@ -5,12 +5,10 @@ if (!isGeneric("coordinates"))
 	setGeneric("coordinates", function(obj)
 		standardGeneric("coordinates"))
 
-#if (!isGeneric("coordinates<-"))
-#	setGeneric("coordinates<-", function(obj, value)
-#		standardGeneric("coordinates<-"))
-if (!isGeneric("arcs")) 
-	setGeneric("arcs", function(obj)
-		standardGeneric("arcs"))
+#if (!isGeneric("arcs")) 
+#	setGeneric("arcs", function(obj)
+#		standardGeneric("arcs"))
+
 if (!isGeneric("rings"))
 	setGeneric("rings", function(obj)
 		standardGeneric("rings"))
@@ -24,6 +22,14 @@ if (!isGeneric("dimensions"))
 setMethod("bbox", "Spatial", function(obj) obj@bbox)
 
 setMethod("dimensions", "Spatial", function(obj) nrow(bbox(obj)))
+
+setMethod("rings", "Spatial", function(obj) {
+		if (is(obj, "SpatialRings"))
+			as(obj, "SpatialRings")
+		else
+			stop("rings method only available for objects of class or deriving from SpatialRings")
+	}
+)
 
 summary.Spatial = function(object, ...) {
     obj = list()

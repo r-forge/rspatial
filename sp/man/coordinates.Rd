@@ -1,7 +1,6 @@
 \name{coordinates}
 \alias{coordinates}
 \alias{coordinates<-}
-\alias{coordinates.SPDF}
 
 \title{ sets spatial coordinates to create spatial data, or retrieves
 spatial coordinates }

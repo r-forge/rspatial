@@ -46,16 +46,22 @@ a lattice plot of class "trellis"; if \code{identify} is TRUE, the row
 names of the selected points.
 }
 \note{
-Useful arguments that can be passed are: \code{layout} for the layout
-of panels, \code{col.regions} to specify fill colours, \code{pretty}
-for colour breaks at pretty numbers, \code{at} to specify at which values
-colours change, \code{as.table} to start drawing panels upper-left instead
-of lower-left, \code{page} to add marks to each plotted page; for values
-see the appropriate documentation of \link{xyplot} or \link{levelplot}.
+Useful arguments that can be passed are: 
+\describe{
+\code{layout}{for the layout of panels}
+\code{col.regions}{to specify fill colours}
+\code{pretty}{ for colour breaks at pretty numbers}
+\code{at}{to specify at which values colours change}
+\code{as.table}{to start drawing panels upper-left instead
+of lower-left}
+\code{page}{to add marks to each plotted page} for values
+}
+for useful values see the appropriate documentation of \link{xyplot}
+and \link{levelplot}.
 
 If \code{obj} is of SpatialPointsDataFrame, the following options are
 useful to pass:
-
+\describe{
 \item{key.space}{ character: "bottom", "right", "left" or "right" to denote
 key location, or list: see argument key in the help for \link{xyplot} what
 the options are.}
@@ -68,12 +74,14 @@ else use a linear scale if \code{cuts} is only number of cuts }
 \item{cex}{numeric; character expansion, proportional to default value of 1}
 \item{fill}{ logical; use filled circles? }
 }
+}
+
 \references{
 }
 \seealso{
 }
 \author{
-Edzer J. Pebesma, \url{mailto:e.pebesma@geog.uu.nl}
+Edzer J. Pebesma, \email{e.pebesma@geog.uu.nl}
 }
 \examples{
 library(lattice)
