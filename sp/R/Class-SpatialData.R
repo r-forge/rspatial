@@ -366,13 +366,14 @@ print.summary.SpatialData = function(x, ...) {
 }
 
 plot.SpatialDataFrame = function(x, xlab = x@coord.names[1], 
-		ylab = x@coord.names[2], asp = 1, max = 5, ...) {
+		ylab = x@coord.names[2], asp = 1, ...) {
 	df = x@data
 	col = x@coord.columns
 	if (is.R())
 		plot(df[, col[1]], df[, col[2]], asp = asp, xlab = xlab, ylab = ylab, ...)
 	else {
 		# asp not available
+		max = 5 # --- pass as argument?
 		xy = diff(t(x@bbox))
 		if (xy[1] > xy[2])
 			pin = c(max, max * xy[2]/xy[1])
