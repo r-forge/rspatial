@@ -20,8 +20,8 @@ ranpts <- function(pts,poly,nprq)
 
 gen <- function(poly,nptg)
 {
-	areap <- area(poly)
-	areab <- area(bbox(poly))
+	areap <- areapl(poly)
+	areab <- areapl(bbox(poly))
 
 	xmin <- min(poly[,1],na.rm=T)
 	xmax <- max(poly[,1],na.rm=T)

@@ -4,8 +4,8 @@ gridpts <- function(poly,npts,xs,ys)
 	
 	if(!missing(npts))
 	{
-		areap <- area(poly)
-		areab <- area(bb)
+		areap <- areapl(poly)
+		areab <- areapl(bb)
 		ratio <- areab/areap
 		ngen <- npts*ratio
 		nx <- sqrt(ngen)

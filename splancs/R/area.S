@@ -1,4 +1,5 @@
-area <- function(poly)
+#area <- function(poly)
+areapl <- function(poly)
 {
 #	library.dynam("splancs","areapl.o")
 
