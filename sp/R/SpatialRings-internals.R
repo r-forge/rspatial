@@ -1,4 +1,26 @@
-.shp2xy <- function(shp, nParts) {
+#.shp2xy <- function(shp, nParts) {
+#	Pstart <- shp$Pstart
+#	nVerts <- nrow(shp$verts)
+#	from <- integer(nParts)
+#	to <- integer(nParts)
+#	from[1] <- 1
+#	for (j in 1:nParts) {
+#		if (j == nParts) to[j] <- nVerts
+#		else {
+#			to[j] <- Pstart[j+1]
+#			from[j+1] <- to[j]+1
+#		}
+#	}
+#	res <- shp$verts[from[1]:to[1],]
+#	if (nParts > 1) {
+#	    for (j in 2:nParts) {
+#		res <- rbind(res, c(NA, NA))
+#		res <- rbind(res, shp$verts[from[j]:to[j],])
+#	     }
+#	}
+#	res
+#}
+.shp2srs <- function(shp, nParts, proj4string=CRS(as.character(NA)), ID) {
 	Pstart <- shp$Pstart
 	nVerts <- nrow(shp$verts)
 	from <- integer(nParts)
@@ -11,23 +33,22 @@
 			from[j+1] <- to[j]+1
 		}
 	}
-	res <- shp$verts[from[1]:to[1],]
-	if (nParts > 1) {
-	    for (j in 2:nParts) {
-		res <- rbind(res, c(NA, NA))
-		res <- rbind(res, shp$verts[from[j]:to[j],])
-	     }
+	srl <- vector(mode="list", length=nParts)
+	for (j in 1:nParts) {
+		srl[[j]] <- Sring(coords=shp$verts[from[j]:to[j],], 
+			proj4string=proj4string)
 	}
+	res <- Srings(srl, ID=ID)
 	res
 }
 
 nParts.shp <- function(shp) attr(shp, "nParts")
 
-nParts.matrix <- function(xy) {
-	NAs <- unclass(attr(na.omit(xy), "na.action"))
-	if ((length(NAs) == 1) && (NAs == nrow(xy))) NAs <- NULL
-	nParts <- length(NAs) + 1
-}
+#nParts.matrix <- function(xy) {
+#	NAs <- unclass(attr(na.omit(xy), "na.action"))
+#	if ((length(NAs) == 1) && (NAs == nrow(xy))) NAs <- NULL
+#	nParts <- length(NAs) + 1
+#}
 
 .NAmat2xyList <- function(xy) {
 	NAs <- unclass(attr(na.omit(xy), "na.action"))
@@ -51,17 +72,17 @@ nParts.matrix <- function(xy) {
 	res
 }
 
-.xyList2NAmat <- function(xyList) {
-	nParts <- length(xyList)
-	res <- xyList[[1]]
-	if (nParts > 1) {
-		for(i in 2:nParts) 
-			res <- rbind(res, c(NA,NA), xyList[[i]])
-	}
-	res
-}
+#.xyList2NAmat <- function(xyList) {
+#	nParts <- length(xyList)
+#	res <- xyList[[1]]
+#	if (nParts > 1) {
+#		for(i in 2:nParts) 
+#			res <- rbind(res, c(NA,NA), xyList[[i]])
+#	}
+#	res
+#}
 
-.ringDirxyList <- function(xy) {
+.ringDirxy <- function(xy) {
 	a <- xy[,1]
 	b <- xy[,2]
 	nvx <- length(b)
@@ -119,6 +140,17 @@ nParts.matrix <- function(xy) {
 
 }
 
+.bboxSrs <- function(R4s) {
+	x <- sapply(R4s, function(x) bbox.R4(x)[1,])
+	y <- sapply(R4s, function(x) bbox.R4(x)[2,])
+	r1 <- range(x, na.rm=TRUE)
+	r2 <- range(y, na.rm=TRUE)
+	res <- rbind(r1, r2)
+	colnames(res) <- c("min", "max")
+	res
+
+}
+
 bbox.R4 <- function(x) {
 	x@bbox
 }
@@ -138,11 +170,11 @@ bbox.R4 <- function(x) {
 }
 
 .insiders <- function(pl, rD) {
+	if (is(pl[[1]], "Sring")) pl <- lapply(pl, getSringCoordsSlot)
 
 # attempts to find which polygons among a set of polygons are inside which 
 # others, and should be painted by polygon() after the polygons within 
 # which they lie
-
 
 	n <- length(pl)
 	bbs <- matrix(0, nrow=n, ncol=4)
@@ -188,7 +220,7 @@ bbox.R4 <- function(x) {
 	res1
 }
 
-.insidersR4 <- function(pl, rD) {
+.insidersR4a <- function(pl, rD) {
 
 # attempts to find which polygons among a set of polygons are inside which 
 # others, and should be painted by polygon() after the polygons within 
@@ -197,7 +229,7 @@ bbox.R4 <- function(x) {
 
 	n <- length(pl)
 	bbs <- matrix(0, nrow=n, ncol=4)
-	for (i in 1:n) bbs[i,] <- .bbox2(pl[[i]])
+	for (i in 1:n) bbs[i,] <- c(pl[[i]]@bbox)
 
 # first stage: find polygons with all four corners in their bounding boxes
 # inside or equal to those of the other polygons
@@ -206,36 +238,42 @@ bbox.R4 <- function(x) {
 	res1 <- vector(mode="list", length=n)
 
 
-# second stage: if bboxes meet this condition, do point in polygon to see
-# which are fully enclosed, which are equal, and which are not themselves 
-# inside, even though the bbox is.
+# second stage: if bboxes meet this condition, do point in polygon on the 
+# first point only to see which are fully enclosed, which are equal, and 
+# which are not themselves inside, even though the bbox is.
 
 	for (i in 1:n) {
-		if (!is.null(res[[i]])) {
-			ri <- res[[i]]
-			ixc <- pl[[i]]@coords[1,1]
-			iyc <- pl[[i]]@coords[1,2]
-			int <- logical(length(ri))
-			for (j in 1:length(ri)) {
-				xj <- pl[[ri[j]]]
-				jxc <- na.omit(xj@coords[,1])
-				jyc <- na.omit(xj@coords[,2])
-				pip <- point.in.polygon(ixc, iyc, jxc, 
-					jyc)
-				int[j] <- ((pip == 1) | (pip > 1))
+	    if (!is.null(res[[i]])) {
+		ri <- res[[i]]
+		int <- logical(length(ri))
+		srli <- pl[[i]]@Srings
+		lsrli <- length(srli)
+		for (ii in 1:lsrli) {
+		    ixc <- srli[[ii]]@coords[1,1]
+		    iyc <- srli[[ii]]@coords[1,2]
+		    for (j in 1:length(ri)) {
+		    	srlj <- pl[[ri[j]]]@Srings
+			pip <- integer(length(srlj))
+			for (jj in 1:length(srlj)) {
+			    crds <- getSringCoordsSlot(srlj[[jj]])
+			    pip[jj] <- point.in.polygon(ixc, iyc, crds[,1], 
+				crds[,2])
+			} # jj
+			int[j] <- any((pip == 1) | (pip > 1))
 
-# when pip == 1, the first point is fully include in the polygon, for
+# when pip == 1, the first point is fully included in the polygon, for
 # pip > 1, the point lies on the polygon boundary, so the relative ring 
 # directions need to be checked too. This can still go wrong when the
 # ring directions are wrong (maybe not just then).
 
-			}
-			rj <- ri[int]
-			if (length(rj) > 0) {
-				res1[[i]] <- as.integer(rj)
-			}
-		}
-	}
+		    } # j
+		    rj <- ri[int]
+		    if (length(rj) > 0) {
+		        res1[[i]] <- as.integer(rj)
+		    }
+		} # ii
+	    } # !is.null
+	} # i
 	res1
 }
 
@@ -397,19 +435,36 @@ bbox.R4 <- function(x) {
 	lx
 }
 
-.checkRD1 <- function(pO, after, rD, xyList, verbose=TRUE) {
+#.checkRD1 <- function(pO, after, rD, xyList, verbose=TRUE) {
+#	top <- which(pO == 1)
+#	if (any((rD[-top] == -1) & is.na(after[-top]))) {
+#		oddCC <- which((rD == -1) & is.na(after))
+#		for (i in oddCC) {
+#			if (i != top) {
+#				xyList[[i]] <- xyList[[i]][nrow(xyList[[i]]):1,]
+#				if (verbose) 
+#					warning(paste("ring direction changed in subpolygon"))
+#			}
+#		}
+#	}
+#	xyList
+#}
+
+.checkRD2 <- function(pO, after, rD, srl) {
 	top <- which(pO == 1)
 	if (any((rD[-top] == -1) & is.na(after[-top]))) {
 		oddCC <- which((rD == -1) & is.na(after))
 		for (i in oddCC) {
 			if (i != top) {
-				xyList[[i]] <- xyList[[i]][nrow(xyList[[i]]):1,]
-				if (verbose) 
-					warning(paste("ring direction changed in subpolygon"))
+				crds <- getSringCoordsSlot(srl[[i]])
+				projargs <- proj4string(srl[[i]])
+				srl[[i]] <- Sring(coords=crds[nrow(crds):1,], 
+					proj4string=CRS(projargs))
+				warning(paste("ring direction changed in subpolygon in polygon", i))
 			}
 		}
 	}
-	xyList
+	srl
 }
 
 .saneRD <- function(rD) {
@@ -418,3 +473,51 @@ bbox.R4 <- function(x) {
 	if (any(abs(rD) != 1)) stop("Not a valid polygon: abs(rD) != 1")
 	invisible(NULL)
 }
+.RingCentrd_2d <- function(plmat) {
+	nVert <- nrow(plmat)
+	x_base <- plmat[1,1]
+	y_base <- plmat[1,2]
+	Cy_accum <- 0.0
+	Cx_accum <- 0.0
+	Area <- 0.0
+	ppx <- plmat[2,1] - x_base
+	ppy <- plmat[2,2] - y_base
+	for (iv in 2:(nVert-1)) {
+		x = plmat[iv,1] - x_base
+		y = plmat[iv,2] - y_base
+		dx_Area <-  ((x * ppy) - (y * ppx)) * 0.5
+		Area <- Area + dx_Area
+		Cx_accum <- Cx_accum + ( ppx + x ) * dx_Area      
+		Cy_accum <- Cy_accum + ( ppy + y ) * dx_Area
+		ppx <- x
+		ppy <- y
+	}
+	xc <- (Cx_accum / (Area * 3)) + x_base
+	yc <- (Cy_accum / (Area * 3)) + y_base
+	list(xc=xc, yc=yc, area=abs(Area))	
+}
+
+.RingCentrd_2d <- function(plmat) {
+	nVert <- nrow(plmat)
+	x_base <- plmat[1,1]
+	y_base <- plmat[1,2]
+	Cy_accum <- 0.0
+	Cx_accum <- 0.0
+	Area <- 0.0
+	ppx <- plmat[2,1] - x_base
+	ppy <- plmat[2,2] - y_base
+	for (iv in 2:(nVert-2)) {
+		x = plmat[iv,1] - x_base
+		y = plmat[iv,2] - y_base
+		dx_Area <-  ((x * ppy) - (y * ppx)) * 0.5
+		Area <- Area + dx_Area
+		Cx_accum <- Cx_accum + ( ppx + x ) * dx_Area      
+		Cy_accum <- Cy_accum + ( ppy + y ) * dx_Area
+		ppx <- x
+		ppy <- y
+	}
+	xc <- (Cx_accum / (Area * 3)) + x_base
+	yc <- (Cy_accum / (Area * 3)) + y_base
+	list(xc=xc, yc=yc, area=Area)	
+}
+

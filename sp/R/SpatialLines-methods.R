@@ -64,7 +64,7 @@ arcobj2SlineList <- function(arc, proj4string=CRS(as.character(NA))) {
 }
 
 arcobj2SpatialLines <- function(arc, proj4string=CRS(as.character(NA))) {
-	SlineList <- arcobj2SlineList(arc[[2]], proj4string=proj4string)
+	SlineList <- arcobj2SlineList(arc, proj4string=proj4string)
 	res <- SpatialLines(SlineList)
 	res
 }
@@ -81,13 +81,40 @@ arcobj2SLDF <- function(arc, proj4string=CRS(as.character(NA))) {
 	res
 }
 
+shapes2SlineList <- function(shapes, proj4string=CRS(as.character(NA))) {
+	if (attr(shapes, "shp.type") != "arc")
+		stop("Not arc shapes")
+	if (any(sapply(shapes, function(x) attr(x, "nParts"))) != 1)
+		stop("only simple line shapes permitted")
+	n <- length(shapes)
+	res <- vector(mode="list", length=n)
+	for (i in 1:n) {
+		crds <- shapes[[i]]$verts
+		res[[i]] <- Sline(coords=crds, proj4string=proj4string)
+	}
+	res
+}
+
+shapes2SpatialLines <- function(shapes, proj4string=CRS(as.character(NA))) {
+	SlineList <- shapes2SlineList(shapes, proj4string=proj4string)
+	res <- SpatialLines(SlineList)
+	res
+}
+
+shp2SLDF <- function(shp, proj4string=CRS(as.character(NA))) {
+	df <- shp$att.data
+	SL <- shp2SpatialLines(shp$Shapes, proj4string=proj4string)
+	res <- SLDF(SL, df=df)
+	res
+}
+
 plotSpatialLines <- function(SL) {
 	xr <- bbox(SL)[1,]
 	yr <- bbox(SL)[2,]
 	frame()
 	plot.window(xlim=xr, ylim=yr, asp=1)
 	lst <- getSLlinesSlot(SL)
-	for (i in 1:length(lst)) {
+	for (i in seq(along=lst)) {
 		crds <- getSlineCoordsSlot(lst[[i]])
 		lines(crds)
 	}

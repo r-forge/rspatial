@@ -13,11 +13,13 @@ export(dimensions)
  
 export(SpatialCell, SpatialPoints, SpatialPointsDataFrame, SpatialCellDataFrame)
 
-export(Sline, SpatialLines, SLDF)
+export(Sline, SpatialLines, SLDF, getSLlinesSlot, getSlineCoordsSlot)
 
 export(contourLines2SlineList, contourLines2df, contourLines2SpatialLines, contourLines2SLDF)
 
 export(arcobj2SlineList, arcobj2df, arcobj2SpatialLines, arcobj2SLDF)
+
+export(shapes2SlineList, shapes2SpatialLines, shp2SLDF)
 
 export(plotSpatialLines)
 
@@ -28,8 +30,12 @@ export(as.SpatialPoints.SpatialPointsDataFrame,
 
 export(gridparameters, "gridded<-", griddedfn, gridded, SpatialGridded)
 
-export(as.SpatialRings.Shapelist, as.SpatialRings.matrixList, 
-	as.Ring4.matrix, SpatialRings)
+#export(as.SpatialRings.Shapelist, as.SpatialRings.matrixList, 
+#	as.Ring4.matrix)
+
+export(getSringCoordsSlot, getSringLabptSlot, getSringAreaSlot, getSringsSringsSlot, getSringsplotOrderSlot, getSringsLabptSlot, getSringsIDSlot, getSRpolygonsSlot, getSRplotOrderSlot, getSRSringsLabptSlots, getSRSringsIDSlots, getSRnParts)
+
+export(as.SpatialRings.SringsList, Srings, Sring, SpatialRings, as.SpatialRings.Shapes, as.SpatialRings.map, as.SpatialRings.pal, plotSpatialRings)
 
 export(ShowSpatialPointsDataFrame)
 
@@ -39,9 +45,9 @@ exportClasses(CRS, Spatial,
 	SpatialPoints, SpatialPointsDataFrame, 
 	SpatialGridded, SpatialGriddedDataFrame,
 	SpatialCell, SpatialCellDataFrame,
-	Sline, SpatialLines, SpatialLinesDataFrame,
-	Ring4, SpatialRings, SpatialRingsDataFrame
-	)
+	Sline, SpatialLines, SpatialLinesDataFrame)
+
+exportClasses(Sring, Srings, SpatialRings, SpatialRingsDataFrame)
 
 exportMethods(show, bbox, coordinates, arcs, rings, gridded, dimensions, "[")
 

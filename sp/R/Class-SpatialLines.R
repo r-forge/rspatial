@@ -5,7 +5,7 @@ setClass("Sline",
 		proj4string = CRS(as.character(NA)),
 		coords = matrix(0)),
 	validity = function(object) {
-		if (any(is.na(object)))
+		if (any(is.na(object@coords)))
 			stop("coords cannot contain missing values")
 		if (ncol(object@coords) != 2)
 			return("coords should have 2 columns")
