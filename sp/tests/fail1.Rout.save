@@ -24,7 +24,7 @@ Error in "coordinates<-"(`*tmp*`, value = cbind(x = rnorm(155), y = rnorm(155)))
 > coordinates(x) <- c("x", "y")
 > try(proj4string(x) <- 1.5)
 Error in "proj4string<-"(`*tmp*`, value = 1.5) : 
-        assigned value must be CRS object
+	assigned value must be CRS object
 > 
 > try(coordinates(a) <- cbind(1:10, 10:1))
 Error in try(coordinates(a) <- cbind(1:10, 10:1)) : 
@@ -46,4 +46,23 @@ Error in "coordinates<-"(`*tmp*`, value = ~x + y + x2 + y2) :
 > try(coordinates(x) <- ~x) # 1D not allowed
 Error in "coordinates<-"(`*tmp*`, value = ~x) : 
 	coordinates should have 2 or 3 columns
+> # is.na.sp.coords
+> a = data.frame(cbind(xx=c(1,NA,2,10),yy=c(2,NA,NA,20)))
+> try(coordinates(a) <- c("xx", "yy")) # should fail!
+Error in "coordinates<-"(`*tmp*`, value = c("xx", "yy")) : 
+	missing values in coordinates are not allowed
+> 
+> x = meuse[1:4,]
+> x = SpatialDataFrame(x, coord.columns = c(1,2))
+> # this should fail -- zinc is not a row:
+> try(q <- x["zinc",])
+Error in "coordinates<-"(`*tmp*`, value = coord.names) : 
+	missing values in coordinates are not allowed
+> # this will issue a warning under S-Plus, or a silent rename under R
+> try(x[c("zinc", "x", "copper", "zinc")])
+       coordinates zinc copper zinc.1
+1 (181072, 333611) 1022     85   1022
+2 (181025, 333558) 1141     81   1141
+3 (181165, 333537)  640     68    640
+4 (181298, 333484)  257     81    257
 > 

@@ -1,16 +1,9 @@
-# npts(): return number points -> dim(x)[1]
-# rbind.sdf
-# is.na.sp.coords -> NA's not allowed in coordinates
-# summary()
-# delpoints,newpoints,selpoints,
-
-#require(methods)
-
 setClass("SpatialData", 
 	representation(bbox = "matrix",
 		proj4string = "CRS"),
-#	prototype = list(bbox = matrix(rep(NA, 6), 3, 2),
-#		proj4string = CRS(as.character(NA))),
+	prototype = list(
+		bbox = matrix(rep(NA, 6), 3, 2, dimnames = list(NULL, c("min","max"))),
+		proj4string = CRS(as.character(NA))),
 	validity = function(object) {
 		n = spatial.dimension(object)
 		if (n > 3 || n < 2)
@@ -33,8 +26,12 @@ setClass("SpatialDataFrame",
 		data = "data.frame", 
 		coord.names = "character",
   		coord.columns = "integer"),
-	prototype = list(new("SpatialData"), data = data.frame(), 
-		coord.names = as.character(NA), coord.columns = integer(0)),
+	prototype = list(
+		bbox = matrix(rep(NA, 6), 3, 2, dimnames = list(NULL, c("min","max"))),
+		proj4string = CRS(as.character(NA)), 
+		data = data.frame(), 
+		coord.names = as.character(NA), 
+		coord.columns = integer(0)),
 	validity = function(object) {
 		if (nrow(object@data) < 1)
 			stop("no valid data present: too few rows")
@@ -49,8 +46,15 @@ setClass("SpatialDataFrameGrid",
 		cellcentre.offset = "numeric",
 		cellsize = "numeric",
 		cells.dim = "integer"),
-	prototype = list(new("SpatialDataFrame"), cellcentre.offset = numeric(0),
-		cellsize = numeric(0), cells.dim = integer(0)),
+	prototype = list(
+		bbox = matrix(rep(NA, 6), 3, 2, dimnames = list(NULL, c("min","max"))),
+		proj4string = CRS(as.character(NA)), 
+		data = data.frame(), 
+		coord.names = as.character(NA), 
+		coord.columns = integer(0),
+		cellcentre.offset = numeric(0),
+		cellsize = numeric(0), 
+		cells.dim = integer(0)),
 	validity = function(object) {
 		n = spatial.dimension(object)
 		if (length(na.omit(object@cellcentre.offset)) > n)
@@ -73,8 +77,19 @@ setClass("Polygon4",
 		RingDir = "integer",
 		ringDir = "integer",
 		region.id = "character"),
+	prototype = list(
+		bbox = matrix(rep(NA, 6), 3, 2, dimnames = list(NULL, c("min","max"))),
+		proj4string = CRS(as.character(NA)),
+		coords = matrix(0),
+		nVerts = integer(0),
+		nParts = integer(0),
+		pStart.from = integer(0),
+		pStart.to = integer(0),
+		RingDir = integer(0),
+		ringDir = integer(0),
+		region.id = character(0)),
 	validity = function(object) {
-			if (ncol(object@coords) !=2) {
+			if (ncol(object@coords) != 2) {
 				print("polygon should have 2 columns")
 				return(FALSE)
 			}
@@ -87,6 +102,12 @@ setClass("Polylist4",
 		polygons = "list",
 		region.id = "character",
 		within = "integer"),
+	prototype = list(
+		bbox = matrix(rep(NA, 6), 3, 2, dimnames = list(NULL, c("min","max"))),
+		proj4string = CRS(as.character(NA)),
+		polygons = list(), 
+		region.id = character(0), 
+		within = integer(0)),
 	validity = function(object) {
 		if (length(object@polygons) != length(object@region.id)) {
 			print("length mismatch")
@@ -106,8 +127,12 @@ setClass("SpatialDataPolygons",
 		data = "data.frame",
 		polygons = "Polylist4",
 		has.holes = "logical"),
-#	prototype = list(data = data.frame(),
-#		polygons = as.list(NULL), has.holes = FALSE),
+	prototype = list(
+		bbox = matrix(rep(NA, 6), 3, 2, dimnames = list(NULL, c("min","max"))),
+		proj4string = CRS(as.character(NA)),
+		data = data.frame(),
+		polygons = new("Polylist4"), 
+		has.holes = FALSE),
 	validity = function(object) {
 		if (nrow(object@data) != length(object@polygons@polygons))
 			return("number of rows in data should equal number of polygons")
@@ -618,11 +643,11 @@ SpatialDataPolygons = function(data, polygons) {
 	rangePolygons = function(x) as.vector(apply(x@coords, 2, range))
 	r = t(sapply(value@polygons, rangePolygons))
 	bbox = matrix(NA, 2, 2)
+	dimnames(bbox)[[2]] = c("min", "max")
 	bbox[1,1] = min(r[,1], na.rm=TRUE)
 	bbox[1,2] = max(r[,2], na.rm=TRUE)
 	bbox[2,1] = min(r[,3], na.rm=TRUE)
 	bbox[2,2] = max(r[,4], na.rm=TRUE)
-	dimnames(bbox)[[2]] = c("min", "max")
 #	if (is.null(obj))
 #		obj = getMeanDF(value@polygons)
 	# verify has.holes thing, how do we provide this?
@@ -661,24 +686,58 @@ as.data.frame.SpatialDataPolygons = function(x, row.names, optional)
 # ... # set up conversion from/to pixmap <<-->> SpatialDataFrameGrid
 #}
 
-#map2polys = function(map) {
-#	get.poly = function(x, map) {
-#		r = x[1]:x[2]
-#		c(map$x[r], map$y[r])
-#	}
-#	fold.poly = function(x) {
-#		n = length(x)
-#		half = n/2
-#		cbind(xcoord = x[1:half], ycoord = x[(half+1):n])
-#	}
-#	if (!inherits(map, "map"))
-#		stop("argument map should be of class map")
-#	xc = map$x
-#	n = length(xc)
-#	breaks = which(is.na(xc))
-#	range.limits = cbind(start = c(1, breaks + 1), end = c(breaks - 1, n))
-#	lst = apply(range.limits, 1, get.poly, map = map)
-#	names(lst) = map$names
-#	lapply(lst, fold.poly)
-#}
+map2polys = function(map) {
+	get.polygon = function(x, map) {
+		range = x[1]:x[2]
+		c(map$x[range], map$y[range])
+	}
+	fold.polygon = function(x) {
+		n = length(x)
+		half = n/2
+		cbind(xcoord = x[1:half], ycoord = x[(half+1):n])
+	}
+	if (!inherits(map, "map"))
+		stop("map expected")
+	xc = map$x
+	n = length(xc)
+	breaks = which(is.na(xc))
+	range.limits = cbind(start = c(1, breaks + 1), end = c(breaks - 1, n))
+	lst = apply(range.limits, 1, get.polygon, map = map)
+	names(lst) = map$names
+	lapply(lst, fold.polygon)
+}
 
+map2Poly4 = function(map) {
+	poly2Poly4 = function(pol) {
+		bb = t(apply(pol, 2, range))
+		dimnames(bb) = list(c("x", "y"), c("min", "max"))
+		nverts = dim(pol)[1]
+		new("Polygon4",
+			bbox = bb,
+			proj4string = CRS(as.character(NA)),
+			coords = pol,
+			nVerts = nverts,
+			nParts = as.integer(1),
+			pStart.from = as.integer(1),
+			pStart.to = as.integer(nverts),
+			RingDir = as.integer(-1),
+			ringDir = as.integer(1), # still have to compute this one!
+			region.id = "xx")
+	}
+	polys = map2polys(map)
+	polygons = lapply(polys, poly2Poly4)
+	# set up bb
+	getBBx = function(x) range(x@bbox[1,])
+	getBBy = function(x) range(x@bbox[2,])
+	rx = sapply(polygons, getBBx)
+	ry = sapply(polygons, getBBy)
+	bb = t(cbind(c(min(rx[1,]), max(rx[2,])), c(min(ry[1,]), max(ry[2,]))))
+	# bb = matrix(x$range, 2, 2)
+	dimnames(bb) = list(c("x", "y"), c("min", "max"))
+	new("Polylist4",
+		bbox = bb,
+		proj4string = CRS(as.character(NA)),
+		polygons = polygons,
+		region.id = names(polys),
+		within = as.integer(NA))
+}

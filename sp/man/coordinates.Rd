@@ -1,6 +1,7 @@
 \name{coordinates}
 \alias{coordinates}
 \alias{coordinates<-}
+\alias{bbox}
 
 \title{Create a SpatialDataFrame, or extract coordinates }
 \description{ Creates a SpatialDataFrame, a data.frame that is aware in
@@ -9,6 +10,7 @@ coordinate values }
 \usage{
 coordinates(obj) <- value
 coordinates(sdf)
+bbox(sd)
 }
 \arguments{
   \item{obj}{ An object of class data.frame, or an object assigned NULL }
@@ -18,12 +20,17 @@ coordinates(sdf)
   coordinate values. }
   \item{sdf}{An object of class \code{SpatialDataFrame}, see
   \code{\link{SpatialDataFrame-class}} }
+  \item{sd}{An object of class, or inheriting from, \code{SpatialData}, see
+  \code{\link{SpatialData-class}}}
 }
 \value{
   The first function creates an object of class \code{SpatialDataFrame};
   slots of this S4 class are described in \link{SpatialDataFrame-class}.
   The second function retrieves the coordinates from a SpatialDataFrame
   and returns them as a data.frame
+
+  bbox returns a matrix with the bounding box (min/max of x and y)
+  of the coordinates
 }
 
 \details{ }
@@ -40,6 +47,7 @@ coordinates(meuse) <- c("x", "y") # promotes meuse to SpatialDataFrame
 data(meuse) # reset to data.frame
 coordinates(meuse) <- ~x+y # promotes meuse to SpatialDataFrame
 plot(meuse)
+bbox(meuse)
 data(meuse) # reset
 n = nrow(meuse)
 coordinates(meuse) <- cbind(runif(n),runif(n)) # add random coordinates

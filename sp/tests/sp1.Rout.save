@@ -15,15 +15,16 @@ Type 'q()' to quit R.
 
 > library(sp)
 > data(meuse)
+> x = meuse
 > nm <- names(meuse)
 > # rename to non-default names:
 > nm[1] <- "xcoord"
 > nm[2] <- "ycoord"
-> names(meuse) <- nm
+> names(x) <- nm
 > # change column order
-> meuse = meuse[ , c(3:14,2,1)] 
-> coordinates(meuse) <- c("xcoord", "ycoord") # columns named xcoord and ycoord
-> coordinates(meuse)[1:10,] 
+> x = x[ , c(3:14,2,1)] 
+> coordinates(x) <- c("xcoord", "ycoord") # columns named xcoord and ycoord
+> coordinates(x)[1:10,] 
    xcoord ycoord
 1  181072 333611
 2  181025 333558
@@ -36,33 +37,33 @@ Type 'q()' to quit R.
 9  181060 333231
 10 181232 333168
 > meuse[1:10,] 
-        coordinates cadmium copper lead zinc  elev       dist   om ffreq soil
-1  (181072, 333611)    11.7     85  299 1022 7.909 0.00135803 13.6     1    1
-2  (181025, 333558)     8.6     81  277 1141 6.983 0.01222430 14.0     1    1
-3  (181165, 333537)     6.5     68  199  640 7.800 0.10302900 13.0     1    1
-4  (181298, 333484)     2.6     81  116  257 7.655 0.19009400  8.0     1    2
-5  (181307, 333330)     2.8     48  117  269 7.480 0.27709000  8.7     1    2
-6  (181390, 333260)     3.0     61  137  281 7.791 0.36406700  7.8     1    2
-7  (181165, 333370)     3.2     31  132  346 8.217 0.19009400  9.2     1    2
-8  (181027, 333363)     2.8     29  150  406 8.490 0.09215160  9.5     1    1
-9  (181060, 333231)     2.4     37  133  347 8.668 0.18461400 10.6     1    1
-10 (181232, 333168)     1.6     24   80  183 9.049 0.30970200  6.3     1    2
-   lime landuse dist.m
-1     1      Ah     50
-2     1      Ah     30
-3     1      Ah    150
-4     0      Ga    270
-5     0      Ah    380
-6     0      Ga    470
-7     0      Ah    240
-8     0      Ab    120
-9     0      Ab    240
-10    0       W    420
-> class(meuse)
+        x      y cadmium copper lead zinc  elev       dist   om ffreq soil lime
+1  181072 333611    11.7     85  299 1022 7.909 0.00135803 13.6     1    1    1
+2  181025 333558     8.6     81  277 1141 6.983 0.01222430 14.0     1    1    1
+3  181165 333537     6.5     68  199  640 7.800 0.10302900 13.0     1    1    1
+4  181298 333484     2.6     81  116  257 7.655 0.19009400  8.0     1    2    0
+5  181307 333330     2.8     48  117  269 7.480 0.27709000  8.7     1    2    0
+6  181390 333260     3.0     61  137  281 7.791 0.36406700  7.8     1    2    0
+7  181165 333370     3.2     31  132  346 8.217 0.19009400  9.2     1    2    0
+8  181027 333363     2.8     29  150  406 8.490 0.09215160  9.5     1    1    0
+9  181060 333231     2.4     37  133  347 8.668 0.18461400 10.6     1    1    0
+10 181232 333168     1.6     24   80  183 9.049 0.30970200  6.3     1    2    0
+   landuse dist.m
+1       Ah     50
+2       Ah     30
+3       Ah    150
+4       Ga    270
+5       Ah    380
+6       Ga    470
+7       Ah    240
+8       Ab    120
+9       Ab    240
+10       W    420
+> class(x)
 [1] "SpatialDataFrame"
 attr(,"package")
 [1] "sp"
-> sum = summary(meuse)
+> sum = summary(x)
 > sum
 Coordinates:
           min    max
@@ -95,7 +96,7 @@ Data attributes:
  Ab     : 8   3rd Qu.: 450.0  
  (Other):25   Max.   :1000.0  
  NA's   : 1                   
-> coordinates(meuse)
+> coordinates(x)
     xcoord ycoord
 1   181072 333611
 2   181025 333558
@@ -253,11 +254,11 @@ Data attributes:
 159 179466 330381
 164 180627 330190
 > 
-> meuse<-as.data.frame(meuse)
-> class(meuse)
+> x <- as.data.frame(x)
+> class(x)
 [1] "data.frame"
 > 
-> meuse[1:10, c("xcoord", "ycoord")]
+> x[1:10, c("xcoord", "ycoord")]
    xcoord ycoord
 1  181072 333611
 2  181025 333558
@@ -270,15 +271,8 @@ Data attributes:
 9  181060 333231
 10 181232 333168
 > 
-> # is.na.sp.coords
-> a = data.frame(cbind(xx=c(1,NA,2,10),yy=c(2,NA,NA,20)))
-> try(coordinates(a) <- c("xx", "yy")) # should fail!
-Error in "coordinates<-"(`*tmp*`, value = c("xx", "yy")) : 
-	missing values in coordinates are not allowed
-> 
-> data(meuse) # reinit
-> meuse = meuse[1:4,]
-> x = SpatialDataFrame(meuse, coord.columns = c(1,2))
+> x = meuse[1:4,]
+> x = SpatialDataFrame(x, coord.columns = c(1,2))
 > # row 1,2; cols 1:10
 > x[1:2,1:10]
        coordinates cadmium copper lead zinc  elev       dist   om ffreq
@@ -309,22 +303,19 @@ Error in "coordinates<-"(`*tmp*`, value = c("xx", "yy")) :
 2 (181025, 333558) 1141
 3 (181165, 333537)  640
 4 (181298, 333484)  257
-> # this will fail -- zinc is not a row:
-> try(q <- x["zinc",])
-Error in "coordinates<-"(`*tmp*`, value = coord.names) : 
-	missing values in coordinates are not allowed
 > # second row, coordinates + zinc
 > x[2,"zinc"]
        coordinates zinc
 1 (181025, 333558) 1141
-> # ignore x, rename second zinc:
-> x[c("zinc","copper","x","zinc")]
-       coordinates zinc copper zinc.1
-1 (181072, 333611) 1022     85   1022
-2 (181025, 333558) 1141     81   1141
-3 (181165, 333537)  640     68    640
-4 (181298, 333484)  257     81    257
-> data.frame(x)
+> # select; re-orders:
+> x[c("zinc","copper","x")]
+       coordinates zinc copper
+1 (181072, 333611) 1022     85
+2 (181025, 333558) 1141     81
+3 (181165, 333537)  640     68
+4 (181298, 333484)  257     81
+> # back as data.frame
+> as.data.frame(x)
        x      y cadmium copper lead zinc  elev       dist   om ffreq soil lime
 1 181072 333611    11.7     85  299 1022 7.909 0.00135803 13.6     1    1    1
 2 181025 333558     8.6     81  277 1141 6.983 0.01222430 14.0     1    1    1

@@ -13,7 +13,8 @@ formula(x)
 is.projected(x)
 proj4string(x)
 
-x = meuse[, sample(ncol(meuse))] # randomly shuffle columns
+set.seed(13131) # make sample reproducable:
+x = meuse[, sample(ncol(meuse))] # 'randomly' shuffle columns
 # coordinates defined as variable names:
 coordinates(x) = c("x", "y") # no matter their position
 plot(x, cex=.05 * sqrt(x@data[,"zinc"]),xlab="x-coordinate", 
