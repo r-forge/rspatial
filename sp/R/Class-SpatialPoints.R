@@ -24,10 +24,15 @@ setClass("SpatialPoints",
 		proj4string = proj4string) # transpose bbox?
 }
 
+as.coordinates = function(obj) {
+	lapply(obj, function(x) { if(!is.numeric(x)) 
+		stop("cannot retrieve coordinates from non-numeric elements") })
+}
 
-setMethod("coordinates", "list", function(obj) as.matrix(as.data.frame(obj)))
-setMethod("coordinates", "data.frame", function(obj) as.matrix(obj))
-setMethod("coordinates", "matrix", function(obj) obj)
+setMethod("coordinates", "list", function(obj) as.coordinates(as.data.frame(obj)))
+setMethod("coordinates", "data.frame", function(obj) as.coordinates(obj))
+setMethod("coordinates", "matrix", function(obj) if (is.numeric(obj)) { obj } else { 
+	stop("cannot derive coordinates from non-numeric matrix")})
 
 "print.SpatialPoints" <- function(x, ...)
 {
