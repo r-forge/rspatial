@@ -6,7 +6,7 @@
 cplot(obj, zcol = 1, cuts = 5, ..., fill = TRUE, pch, col,
 	cex = 1, main = ifelse(is.numeric(zcol), names(data)[zcol], zcol),
     identify = FALSE, labels = row.names(data.frame(obj)), do.log =
-    FALSE, legend, space = "right")
+    FALSE, legend, key.space = "right")
 }
 \arguments{
 \item{obj}{ object of class (or extending) \link{SpatialPoints}, but mostly useful

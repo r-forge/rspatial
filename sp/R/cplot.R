@@ -2,7 +2,7 @@
 function (obj, zcol = 1, cuts = 5, ..., fill = TRUE, pch, col, cex = 1,
 	main = ifelse(is.numeric(zcol), names(data)[zcol], zcol), 
 	identify = FALSE, labels = row.names(data.frame(obj)), 
-    do.log = FALSE, legend, space = "right") 
+    do.log = FALSE, legend, key.space = "right") 
 {
     if (!is(obj, "SpatialPoints")) 
         stop("first object is not of (or does not extend) class SpatialPoints")
@@ -44,7 +44,7 @@ function (obj, zcol = 1, cuts = 5, ..., fill = TRUE, pch, col, cex = 1,
 	if (missing(legend))
 		legend = levels(groups)
 	n = length(levels(groups))
-	key = list(space = "right", points = list(pch = rep(pch, 
+	key = list(space = key.space, points = list(pch = rep(pch, 
 		n), col = col, cex = rep(cex, n)), text = list(legend))
 	plt = xyplot(y ~ x, groups = groups, col = col, cex = cex, 
 		pch = pch, asp = mapasp(obj), key = key, main = main, ...)

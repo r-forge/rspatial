@@ -8,4 +8,3 @@ setClass("SpatialLinesDataFrame",
 		return(TRUE)
 	}
 )
-

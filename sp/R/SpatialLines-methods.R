@@ -108,15 +108,20 @@ shp2SLDF <- function(shp, proj4string=CRS(as.character(NA))) {
 	res
 }
 
-plotSpatialLines <- function(SL) {
-	xr <- bbox(SL)[1,]
-	yr <- bbox(SL)[2,]
+plotSpatialLines <- function(SL, xlim = bbox(SL)[1,], ylim = bbox(SL)[2,], asp = 1, col = 1, ...) 
+{
 	frame()
-	plot.window(xlim=xr, ylim=yr, asp=1)
+	plot.window(xlim = xlim, ylim = ylim, asp = asp)
 	lst <- getSLlinesSlot(SL)
 	for (i in seq(along=lst)) {
 		crds <- getSlineCoordsSlot(lst[[i]])
-		lines(crds)
+		if (length(col) == length(lst))
+			lines(crds, col = col[i], ...)
+		else
+			lines(crds, ...)
 	}
 }
 
+summary.SpatialLines = summary.Spatial
+
+plot.SpatialLines = function(x, ...) plotSpatialLines(x, ...)

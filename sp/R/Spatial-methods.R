@@ -27,15 +27,17 @@ setMethod("dimensions", "Spatial", function(obj) nrow(bbox(obj)))
 
 summary.Spatial = function(object, ...) {
     obj = list()
+	obj[["class"]] = class(object)
     obj[["bbox"]] = bbox(object)
     obj[["is.projected"]] = is.projected(object)
     obj[["proj4string"]] = object@proj4string@projargs
     if (is(object, "SpatialPoints"))
         obj[["npoints"]] = nrow(object@coords)
-    if (is(object, "SpatialPointsDataFrame"))
-        obj[["data"]] = summary(object@data)
 	if (is(object, "SpatialGrid"))
 		obj[["grid"]] = gridparameters(as(object, "SpatialGrid"))
+    if (is(object, "SpatialPointsDataFrame") || is(object, "SpatialLinesDataFrame") 
+			|| is(object, "SpatialGridDataFrame") || is(object, "SpatialRingsDataFrame"))
+        obj[["data"]] = summary(object@data)
     class(obj) = "summary.Spatial"
     obj
 }
@@ -45,6 +47,7 @@ summary.Spatial = function(object, ...) {
 # setMethod("summary", "SpatialPointsDataFrame", summary.Spatial)
 
 print.summary.Spatial = function(x, ...) {
+	cat(paste("Object of class ", x[["class"]], "\n", sep = ""))
     cat("Coordinates:\n")
     print(x[["bbox"]])
     cat(paste("Is projected:", x[["is.projected"]], "\n"))

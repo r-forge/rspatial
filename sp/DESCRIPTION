@@ -19,11 +19,11 @@ Collate: AAA.R Class-CRS.R Class-Spatial.R Spatial-methods.R
 	Class-SpatialPointsDataFrame.R SpatialPointsDataFrame-methods.R
 	Class-GridTopology.R Class-SpatialGrid.R
 	Class-SpatialGridDataFrame.R Class-SpatialLines.R
-	Class-SpatialLinesDataFrame.R SpatialLines-methods.R
-	Class-SpatialRings.R Class-SpatialRingsDataFrame.R
-	SpatialRings-methods.R GridTopology-methods.R
-	SpatialGrid-methods.R SpatialGridDataFrame-methods.R
-	SpatialRings-internals.R point.in.polygon.R
-	SpatialRings-displayMethods.R zerodist.R image.R stack.R lplot.R
-	bpy.colors.R bubble.R mapasp.R select.spatial.R cplot.R gridded.R
-	asciigrid.R gdal.R
+	SpatialLines-methods.R Class-SpatialLinesDataFrame.R
+	SpatialLinesDataFrame-methods.R Class-SpatialRings.R
+	Class-SpatialRingsDataFrame.R SpatialRings-methods.R
+	GridTopology-methods.R SpatialGrid-methods.R
+	SpatialGridDataFrame-methods.R SpatialRings-internals.R
+	point.in.polygon.R SpatialRings-displayMethods.R zerodist.R
+	image.R stack.R lplot.R bpy.colors.R bubble.R mapasp.R
+	select.spatial.R cplot.R gridded.R asciigrid.R gdal.R

@@ -16,6 +16,7 @@ scripts/CVS/Repository
 scripts/CVS/Entries
 scripts/preproc.pl
 scripts/qtoR
+scripts/Sweave
 scripts/toSplus
 makefile
 CHANGES

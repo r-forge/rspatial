@@ -8,9 +8,9 @@ Create a bubble plot of spatial data, with options for bicolour
 residual plots (xyplot wrapper)
 }
 \usage{
-bubble(obj, zcol = 1, fill = TRUE, maxsize = 3, do.sqrt = TRUE, pch, 
+bubble(obj, zcol = 1, ..., fill = TRUE, maxsize = 3, do.sqrt = TRUE, pch, 
 	col = c(2,3), key.entries = quantile(data[,zcol]), main, 
-	identify = FALSE, labels = row.names(data.frame(obj)), ...)
+	identify = FALSE, labels = row.names(data.frame(obj)), key.space = "right")
 }
 \arguments{
 \item{obj}{ object of, or extending, class SpatialPointsDataFrame 
@@ -37,6 +37,7 @@ the five quantiles min, q.25, median q.75, max }
 is TRUE }
 \item{...}{ arguments, passed to \code{xyplot}, or \code{plot} if 
 identification is required. }
+\item{key.space}{location of the key}
 }
 \value{
 returns (or plots) the bubble plot; if \code{identify} is TRUE, returns

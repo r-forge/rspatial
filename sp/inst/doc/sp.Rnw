@@ -213,16 +213,16 @@ summary(df2)
 Plotting attribute data can be done by using either {\tt cplot} to
 colour symbols, or {\tt bubble} which uses symbol size:
 <<eval=FALSE,echo=TRUE,print=FALSE>>=
-bubble(df2, "z1")
-cplot(df2, "z1")
+bubble(df2, "z1", key.space = "bottom")
+cplot(df2, "z1", key.space = "bottom")
 @
 the resulting plots are shown in figure \ref{fig:spdf}.
 
 \begin{figure}
 \begin{center}
 <<echo=FALSE,print=FALSE,fig=TRUE>>= 
-print(bubble(df2, "z1"), split = c(1,1,1,2), more=TRUE)
-print(cplot(df2, "z1"), split =  c(1,2,1,2), more=FALSE)
+print(bubble(df2, "z1", key.space = "bottom"), split = c(1,1,2,1), more=TRUE)
+print(cplot(df2, "z1", key.space = "bottom"), split =  c(2,1,2,1), more=FALSE)
 @
 \end{center}
 \caption{plot of {\tt SpatialPointsDataFrame} object, using symbol 
@@ -296,26 +296,109 @@ fullgrid(grd.pts)
 fullgrid(grd.attr)
 @
 
+The advantage of having grids in cell form is that when a large part
+of the grid contains missing values, these cells do not have to be
+stored; also, no ordering of grid cells is required. For plotting by
+{\tt gridplot}, a front-end to {\tt levelplot}, this form is required; in
+contrast, {\tt image} requires a slightly altered version of the the full
+grid form.  A disadvantage of the cell form is that the coordinates for
+each point have to be stored, which may be prohibitive for large grids.
+Grids in cell form have an index stored which allows fast transformation
+to the full grid form.
+
 Besides {\tt print}, {\tt summary}, {\tt plot},
 objects of class {\tt SpatialGridDataFrame} have methods for
 \begin{itemize}
-\item[\[] select rows (points) or columns (variables)
-\item[\[\[] retrieve a column from the attribute table (data.frame part)
-\item[\[\[<-] assign or replace a column in the attribute table (data.frame part)
-\item[{\tt coordinates}] retrieve the coordinates of grid cells
-\item[{\tt as.matrix}] retrieve the data as a matrix. The first index (rows) is the
+\item \verb|[| select rows (points) or columns (variables)
+\item \verb|[[| retrieve a column from the attribute table (data.frame part)
+\item \verb|[[<-| assign or replace a column in the attribute table (data.frame part)
+\item {\tt coordinates} retrieve the coordinates of grid cells
+\item {\tt as.matrix} retrieve the data as a matrix. The first index (rows) is the
 x-column, the second index (columns) the y-coordinate. Row index 1 is the smallest
 x-coordinate; column index 1 is the larges y-coordinate (top-to-bottom).
-\item[{\tt as}] coercion methods for {\tt data.frame}, {\tt SpatialPointsDataFrame}
+\item {\tt as} coercion methods for {\tt data.frame}, {\tt SpatialPointsDataFrame}
+\item{\tt image} plot an image of the grid
 \end{itemize}
+Finally, {\tt gridplot}, a front-end to {\tt levelplot} allows the
+plotting of a single grid plot or a lattice of grid plots.
 
 \section{Lines}
 
+\subsection{Building line objects from scratch}
+In many instances, line coordinates will be retrieved from external
+sources.  The following example shows how to build an object of class
+{\tt SpatialLines} from scratch.
+
 % build line objects
-% plot line objects
+<<fig=TRUE>>=
+l1 = cbind(c(1,2,3),c(3,2,2))
+l2 = cbind(c(1,2,3),c(1,1.5,1))
+Sl1 = Sline(l1)
+Sl2 = Sline(l2)
+Sl = SpatialLines(list(Sl1,Sl2))
+summary(Sl)
+plot(Sl, col = c("red", "blue"))
+@
+
+\subsection{Building line objects with attributes}
+
+The class {\tt SpatialLinesDataFrame} is designed for holding
+lines data that have an attribute table (data.frame) attached
+to it:
+<<>>=
+df = data.frame(z = c(1,2))
+Sldf = SpatialLinesDataFrame(Sl, data = df)
+summary(Sldf)
+@
+Not many useful methods for it are available yet.  The {\tt plot} method
+only plots the lines, ignoring attribute table values. Suggestions for
+useful methods are welcome.
 
 \section{Polygons}
 
+\section{Building from scratch}
+The following example shows how a set of polygons are built from scratch.
+Note that {\tt Sr4} has the opposite direction (right) as the other three;
+it is meant to represent a hole in the {\tt Sr3} polygon.
+<<fig=TRUE>>=
+Sr1 = Sring(cbind(c(2,4,4,1,2),c(2,3,5,4,2)))
+Sr2 = Sring(cbind(c(5,4,2,5),c(2,3,2,2)))
+Sr3 = Sring(cbind(c(4,4,5,10,4),c(5,3,2,5,5)))
+Sr4 = Sring(cbind(c(5,6,6,5,5),c(4,4,3,3,4)))
+
+Srs1 = Srings(list(Sr1), "s1")
+Srs2 = Srings(list(Sr2), "s2")
+Srs3 = Srings(list(Sr3, Sr4), "s3/4")
+SR = SpatialRings(list(Srs1,Srs2,Srs3), 1:3)
+plotSpatialRings(SR)
+# plot(SR)
+@
+
 \section{Interfaces to GIS and external formats}
+
+\subsection{Reading grids through rgdal}
+<<fig=TRUE>>=
+if (require(rgdal)) {
+x <- read.gdal(system.file("external/test.ag", package="sp")[1])
+class(x)
+print(summary(x))
+x=x[x[["band1"]] < 1e30, ] 
+image(x)
+print(summary(x))
+y = read.gdal(system.file("pictures/Rlogo.jpg", package = "rgdal")[1])
+summary(y)
+gridplot(y, zcol=1:3, names.attr=c("red","green","blue"), col.regions=grey(0:100/100),
+    main="example of three-layer (RGB) raster image", as.table=TRUE)
+}
+@
+
+<<echo=FALSE,fig=TRUE>>=
+print(gridplot(y, zcol=1:3, names.attr=c("red","green","blue"), col.regions=grey(0:100/100),
+    main="example of three-layer (RGB) raster image", as.table=TRUE))
+@
+
+\subsection{Reading ESRI shapefiles}
+points, lines, polygons?
+\subsection{Reading ArcGIS coverages}
 
 \end{document}
