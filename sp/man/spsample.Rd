@@ -29,7 +29,7 @@ functions}
 \item{type}{ character; \code{"random"} for completely spatial random;
 \code{"regular"} for regular (systematically aligned) sampling;
 \code{"stratified"} for stratified random (one single random location in
-each "cell"); or \code{"unaligned"} for systematically unaligned sampling
+each "cell"); or \code{"nonaligned"} for nonaligned systematic sampling
 (nx random y coordinates, ny random x coordinates) }
 \item{bb}{ bounding box of the sampled domain; setting this to a smaller
 value leads to sub-region sampling }
@@ -37,7 +37,7 @@ value leads to sub-region sampling }
 grid; the default for \code{spsample} methods is a random location in
 the unit cell $[0,1] \times [0,1]$, leading to a different grid after
 each call; if this is set to \code{c(0.5,0.5)}, the returned grid is
-not random }
+not random (but, in Ripley's wording, "centric systematic") }
 \item{cellsize}{ if missing, a cell size is derived from the sample size
 \code{n}; otherwise, this cell size is used }
 \item{nsig}{ for "pretty" coordinates; \code{spsample} do not result in
@@ -53,14 +53,14 @@ no \link{spsample-methods} exists, sampling is done in the bounding box
 of the object, using \code{spsample.Spatial}. An \link{overlay} may be
 necessary to select afterwards. 
 
-Sampling type \code{"unaligned"} is not implemented for line objects. }
+Sampling type \code{"nonaligned"} is not implemented for line objects. }
 
 \note{If an \link{Sring-class} object has zero area (i.e. is a line),
 samples on this line element are returned. If the area is very close
 to zero, the algorithm taken here (generating points in a square area,
 selecting those inside the polygon) may be very resource intensive }
 
-\references{B.D. Ripley, 1980. Spatial Statistics, Wiley}
+\references{Chapter 3 in B.D. Ripley, 1981. Spatial Statistics, Wiley}
 \author{Edzer J. Pebesma, \email{e.pebesma@geo.uu.nl}}
 
 \seealso{\link{overlay-methods}, \link{point.in.polygon}, \link{sample}}
@@ -79,7 +79,7 @@ plot(meuse.sr)
 points(spsample(meuse.sr, n = 1000, "stratified"), pch = 3)
 
 plot(meuse.sr)
-points(spsample(meuse.sr, n = 1000, "unaligned"), pch = 3)
+points(spsample(meuse.sr, n = 1000, "nonaligned"), pch = 3)
 
 plot(meuse.sr)
 points(spsample(meuse.sr@polygons[[1]], n = 100, "stratified"), pch = 3, cex=.5)
@@ -93,7 +93,7 @@ points(spsample(meuse.grid,n=1000,type="stratified"), pch=3, cex=.5)
 image(meuse.grid)
 points(spsample(meuse.grid,n=1000,type="regular"), pch=3, cex=.5)
 image(meuse.grid)
-points(spsample(meuse.grid,n=1000,type="unaligned"), pch=3, cex=.5)
+points(spsample(meuse.grid,n=1000,type="nonaligned"), pch=3, cex=.5)
 
 fullgrid(meuse.grid) = TRUE
 image(meuse.grid)

@@ -15,14 +15,15 @@ makegrid = function(x, n = 10000, nsig = 2, cellsize, offset = c(0.5,0.5),
 		n = nrow(xy)
 		xy$x = xy$x + (runif(n) - 0.5) * cellsize
 		xy$y = xy$y + (runif(n) - 0.5) * cellsize
-	} else if (type == "unaligned") {
+	} else if (type == "nonaligned") {
 		nx = length(seqx)
 		ny = length(seqy)
 		x0 <- rep(runif(ny), rep(nx, ny))
 		y0 <- rep(runif(nx), ny)
 		xy$x = xy$x + (x0 - 0.5) * cellsize
 		xy$y = xy$y + (y0 - 0.5) * cellsize
-	}
+	} else if (type != "regular")
+		stop(paste("sampling type", type, "not recognized"))
 	return(xy)
 }
 
