@@ -61,6 +61,7 @@ library(sp)
 
 <<echo=FALSE,print=FALSE>>= 
 set.seed(13331)
+library(lattice)
 @
 
 \section{Spatial data classes}
@@ -206,7 +207,13 @@ df2[["z2"]][10] = 20
 df2[["z3"]] = 1:10
 summary(df2)
 @
-
+Plotting attribute data can be done by using either {\tt cplot} to
+colour symbols, or {\tt bubble} which uses symbol size:
+<<eval=FALSE,echo=TRUE,print=FALSE>>=
+bubble(df2, "z1")
+cplot(df2, "z1")
+@
+the resulting plots are shown in figure \ref{fig:spdf}.
 
 \begin{figure}
 \begin{center}
