@@ -13,8 +13,8 @@ kernel2d <- function(pts,poly,h0,nx=20,ny=20,kernel='quartic')
 	poly <- rbind(poly,c(poly[1,1],poly[1,2]))
 	
 	
-	xrang <- range(poly[,1],na.rm=T)
-	yrang <- range(poly[,2],na.rm=T)
+	xrang <- range(poly[,1],na.rm=TRUE)
+	yrang <- range(poly[,2],na.rm=TRUE)
 	
 	bb <- bbox(poly)
 	a1 <- xrang[1]

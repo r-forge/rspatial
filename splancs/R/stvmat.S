@@ -55,7 +55,7 @@ slist <- .Fortran("stsecal",
 		varmat=as.double(cmat)
 		)
 
- ans <- matrix(slist$varmat,nrow=long,byrow=T)
+ ans <- matrix(slist$varmat,nrow=long,byrow=TRUE)
  ans <- array(ans,dim=c(nt,ns,nt,ns))
 ans
 }

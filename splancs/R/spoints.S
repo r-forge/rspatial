@@ -22,7 +22,7 @@ spoints <- function(data,npoints)
 			data <- data[1:(npoints*2)]
 		}
 	}
-	matrix(data,ncol=2,byrow=T)	
+	matrix(data,ncol=2,byrow=TRUE)	
 }
 
 	

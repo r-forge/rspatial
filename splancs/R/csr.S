@@ -27,10 +27,10 @@ gen <- function(poly,npoints)
 	areap <- areapl(poly)
 	areab <- areapl(bbox(poly))
 
-	xmin <- min(poly[,1],na.rm=T)
-	xmax <- max(poly[,1],na.rm=T)
-	ymin <- min(poly[,2],na.rm=T)
-	ymax <- max(poly[,2],na.rm=T)
+	xmin <- min(poly[,1],na.rm=TRUE)
+	xmax <- max(poly[,1],na.rm=TRUE)
+	ymin <- min(poly[,2],na.rm=TRUE)
+	ymax <- max(poly[,2],na.rm=TRUE)
 
 	aratio <- areab/areap
 	ngen <- npoints*aratio

@@ -37,7 +37,7 @@ slist <- .Fortran("khvmat",
 		varmat=as.double(cmat)
 		)
 
-ans <- matrix(slist$varmat,nrow=ns,byrow=T)
+ans <- matrix(slist$varmat,nrow=ns,byrow=TRUE)
 ans <- ans+t(ans)
 diag(ans) <- diag(ans)/2
 

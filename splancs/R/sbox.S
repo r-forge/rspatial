@@ -6,8 +6,8 @@ sbox <- function(pts,xfrac=.1,yfrac=.1)
 {
 	if(!is.points(pts))stop('Points argument not valid point data')
 	
-	xr <- range(pts[,1],na.rm=T)
-	yr <- range(pts[,2],na.rm=T)
+	xr <- range(pts[,1],na.rm=TRUE)
+	yr <- range(pts[,2],na.rm=TRUE)
 	
 	xw <- xr[2]-xr[1]
 	xr[1] <- xr[1]-xfrac*xw

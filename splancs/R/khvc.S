@@ -44,7 +44,7 @@ slist <- .Fortran("khvc",
 		covmat=as.double(cmat)
 		)
 
- ans <- matrix(slist$covmat,nrow=ns,byrow=T)
+ ans <- matrix(slist$covmat,nrow=ns,byrow=TRUE)
 anslist$varmat <-  ans
 anslist$k11 <- slist$vark1
 anslist$k12 <- slist$vark12

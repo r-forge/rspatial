@@ -20,17 +20,17 @@ mpoint <- function(...,cpch,add=FALSE,type="p")
 			if(is.points(arglist[[ia]]))
 			{
 				ptsc <- arglist[[ia]]
-				ymax <- max(ymax,ptsc[,2],na.rm=T)
-				ymin <- min(ymin,ptsc[,2],na.rm=T)
-				xmax <- max(xmax,ptsc[,1],na.rm=T)
-				xmin <- min(xmin,ptsc[,1],na.rm=T)
+				ymax <- max(ymax,ptsc[,2],na.rm=TRUE)
+				ymin <- min(ymin,ptsc[,2],na.rm=TRUE)
+				xmax <- max(xmax,ptsc[,1],na.rm=TRUE)
+				xmin <- min(xmin,ptsc[,1],na.rm=TRUE)
 			}
 		}
 		pointmap(cbind(c(xmin,xmax,xmin,xmax),c(ymin,ymax,ymax,ymin)),type="n")
 	}	
 	for(ia in 1:nptsets){
 		ptsc <- arglist[[ia]]
-		pointmap(ptsc,add=T,pch=cpch[ipch],type=type)
+		pointmap(ptsc,add=TRUE,pch=cpch[ipch],type=type)
 		ipch <- ipch+1
 	}
 	invisible(0)

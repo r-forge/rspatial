@@ -3,7 +3,7 @@
 # R port: copyright 1998-2000 by Roger S. Bivand
 
 "kerview"<-
-function(pts,times, k3, map = T,addimg=T,ncol=1)
+function(pts,times, k3, map = TRUE, addimg=TRUE, ncol=1)
 {
         pts3 <- cbind(pts,times)
         zgr <- k3$zgr
@@ -63,7 +63,7 @@ function(pts,times, k3, map = T,addimg=T,ncol=1)
 		       ptsin <- pts3[abs(pts3[,3]-k3$zgr[bin]) < k3$hz,]
 			if(length(ptsin != 0)) {
 				pointmap(pbox, type = "n", asp=1)
-				pointmap(ptsin, add = T)
+				pointmap(ptsin, add = TRUE)
 				title(paste("time = ", format(k3$zgr[bin])))
 			}
 		}

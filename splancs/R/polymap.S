@@ -2,7 +2,7 @@
 # Peter Diggle (c) 1991-3; http://www.maths.lancs.ac.uk/~rowlings/Splancs/
 # R port: copyright 1998-2000 by Roger S. Bivand
 
-polymap <- function(poly,add=FALSE,xlab="",ylab="",axes=T,...)
+polymap <- function(poly,add=FALSE,xlab="",ylab="",axes=TRUE,...)
 {
 	if(!add){
 		plot(poly,type="n",axes=axes,xlab=xlab,

@@ -9,10 +9,10 @@ mse2d <- function(pts,poly,nsmse,range)
 	ptsy <- pts[,2]
 	nptsm <- npts(pts)
 	
-	a1 <- min(poly[,1],na.rm=T)
-	a2 <- max(poly[,1],na.rm=T)
-	b1 <- min(poly[,2],na.rm=T)
-	b2 <- max(poly[,2],na.rm=T)
+	a1 <- min(poly[,1],na.rm=TRUE)
+	a2 <- max(poly[,1],na.rm=TRUE)
+	b1 <- min(poly[,2],na.rm=TRUE)
+	b2 <- max(poly[,2],na.rm=TRUE)
 	
 	hsmse <- range/nsmse
 	amse <- rep(0,nsmse)

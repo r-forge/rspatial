@@ -33,7 +33,7 @@ tribble <- function(ccflag,vars=NULL,alphas=NULL,betas=NULL,rho
 		if(!any(wsu == 1:ndpars))stop('Invalid values in "which"')
 # scale distances
 		disscale <- apply(vars,2,max)
-		vars <- vars/matrix(disscale,ncol=ndvars,nrow=npt,byrow=T)
+		vars <- vars/matrix(disscale,ncol=ndvars,nrow=npt,byrow=TRUE)
 	}
 	if(is.null(covars) | is.null(thetas)){
 		ncovars <- 0
@@ -44,7 +44,7 @@ tribble <- function(ccflag,vars=NULL,alphas=NULL,betas=NULL,rho
 		if(dim(covars)[1] != npt)stop('Number of covariates inconsistent with number of cases/controls')
 # scale covariates
 		covscale <- abs(apply(covars,2,max))
-		covars <- covars/matrix(covscale,ncol=ncovars,nrow=npt,byrow=T)
+		covars <- covars/matrix(covscale,ncol=ncovars,nrow=npt,byrow=TRUE)
 		
 	}
 
