@@ -383,18 +383,16 @@ plotSpatialRings(SR)
 
 \subsection{Reading grids through rgdal}
 <<fig=TRUE>>=
-if (require(rgdal)) {
+library(rgdal)
 x <- read.gdal(system.file("external/test.ag", package="sp")[1])
 class(x)
+#x=x[x[["band1"]] < 1e30, ] 
 print(summary(x))
-x=x[x[["band1"]] < 1e30, ] 
 image(x)
-print(summary(x))
 y = read.gdal(system.file("pictures/Rlogo.jpg", package = "rgdal")[1])
 summary(y)
 gridplot(y, zcol=1:3, names.attr=c("red","green","blue"), col.regions=grey(0:100/100),
     main="example of three-layer (RGB) raster image", as.table=TRUE)
-}
 @
 
 <<echo=FALSE,fig=TRUE>>=

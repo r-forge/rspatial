@@ -122,3 +122,5 @@ plot.SpatialGridDataFrame = function(x, ...)
 summary.SpatialGridDataFrame = summary.Spatial
 
 print.summary.SpatialGridDataFrame = print.summary.Spatial
+
+names.SpatialGridDataFrame = function(x) names(x@data)

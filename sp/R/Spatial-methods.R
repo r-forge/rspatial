@@ -42,10 +42,6 @@ summary.Spatial = function(object, ...) {
     obj
 }
 
-# summary.SpatialRingsDataFrame = summary.Spatial
-
-# setMethod("summary", "SpatialPointsDataFrame", summary.Spatial)
-
 print.summary.Spatial = function(x, ...) {
 	cat(paste("Object of class ", x[["class"]], "\n", sep = ""))
     cat("Coordinates:\n")
@@ -71,4 +67,12 @@ print.summary.Spatial = function(x, ...) {
         print(x$data)
     }
     invisible(x)
+}
+
+plot.Spatial <- function(x, xlim=NULL, ylim=NULL, asp=1, ...) {
+	bbox <- x@bbox
+	if (is.null(xlim)) xlim <- c(bbox[1,1], bbox[1,2])
+	if (is.null(ylim)) ylim <- c(bbox[2,1], bbox[2,2])
+	plot.new()
+	plot.window(xlim=xlim, ylim=ylim, asp=asp, ...)
 }

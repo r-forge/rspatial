@@ -142,7 +142,9 @@ summary.SpatialLines = summary.Spatial
 plot.SpatialLines = function(x, ...) plotSpatialLines(x, ...)
 
 setMethod("coordinates", "Sline", function(obj) obj@coords)
-
 setMethod("coordinates", "Slines", function(obj) lapply(obj@Slines, coordinates))
-
 setMethod("coordinates", "SpatialLines", function(obj) lapply(obj@lines, coordinates))
+
+lines.Sline = function(x, y = NULL, ...) lines(coordinates(x), ...)
+lines.Slines = function(x, y = NULL, ...) lapply(x@Slines, lines, ...)
+lines.SpatialLines = function(x, y = NULL, ...) lapply(x@lines, lines, ...)

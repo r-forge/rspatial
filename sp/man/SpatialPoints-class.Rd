@@ -43,6 +43,8 @@ Class \code{"Spatial"}, directly.
 	coordinates, which may be in a matrix }
     \item{coordinates}{\code{signature(obj = "SpatialPoints")}: retrieves
 	the coordinates, as matrix }
+    \item{plot}{\code{signature(x = "SpatialPoints")}: plot point symbols}
+    \item{points}{\code{signature(x = "SpatialPoints")}: add point symbols to plot}
     \item{show}{\code{signature(object = "SpatialPoints")}: prints coordinates }
   }
 }

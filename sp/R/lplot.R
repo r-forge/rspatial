@@ -27,6 +27,9 @@ function (data, zcol, names.attr, col.regions = bpy.colors(), ...) {
 	if (!is(data, "SpatialRingsDataFrame"))
 		stop("data of class SpatialRingsDataFrame expected")
 
+	require(grid)
+	require(lattice)
+
 	# get "fake" x/y points to satisfy levelplot; use label points for this:
 	labpts = getSRSringsLabptSlots(data)
 	dimnames(labpts)[[2]] = c("x", "y")

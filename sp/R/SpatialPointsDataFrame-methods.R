@@ -81,6 +81,9 @@ plot.SpatialPointsDataFrame = function(x, ...) {
 	plot(as(x, "SpatialPoints"), ...)
 }
 
+points.SpatialPointsDataFrame = function(x, y = NULL, ...) 
+	points(as(x, "SpatialPoints"), ...)
+
 summary.SpatialPointsDataFrame = function(object, ...) {
     obj = list()
 	obj[["data"]] = summary(object@data)
@@ -113,7 +116,7 @@ subset.SpatialPointsDataFrame <- function(x, subset, select,
     		if (!is.logical(subset)) 
         		stop("'subset' must be logical")
     		x[subset & !is.na(subset), vars, drop = drop]
-	}
+		}
     }
 	xSP <- coordinates(x)
 	dfSP <- as.data.frame(x)

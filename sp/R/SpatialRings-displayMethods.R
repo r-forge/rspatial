@@ -1,14 +1,4 @@
 #
-
-plot.Spatial <- function(x, xlim=NULL, ylim=NULL, asp=1, ...) {
-	bbox <- x@bbox
-	if (is.null(xlim)) xlim <- c(bbox[1,1], bbox[1,2])
-	if (is.null(ylim)) ylim <- c(bbox[2,1], bbox[2,2])
-	plot.new()
-	plot.window(xlim=xlim, ylim=ylim, asp=asp, ...)
-}
-
-
 plot.SpatialRings <- function(x, col, border = par("fg"), add=FALSE, xlim=NULL, 
 	ylim=NULL, asp=1, xpd = NULL, density = NULL, angle = 45, pbg=NULL, ...) {
 

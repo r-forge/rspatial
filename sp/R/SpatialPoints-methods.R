@@ -38,6 +38,8 @@ plot.SpatialPoints = function(x, xlab, ylab, asp = 1, pch = 3, ...)
 	plot(cc[,1], cc[,2], xlab = xlab, ylab = ylab, asp = asp, pch = pch, ...)
 }
 
+points.SpatialPoints = function(x, y = NULL, ...) points(coordinates(x), ...)
+
 setMethod("show", "SpatialPoints", function(object) print.SpatialPoints(object))
 
 setMethod("coordinates", "SpatialPoints", function(obj) obj@coords)

@@ -24,6 +24,7 @@ Class \code{"Spatial"}, directly.
   \describe{
     \item{coordinates}{\code{signature(obj = "Sline")}: retrieve coordinates
 	from line }
+    \item{lines}{\code{signature(x = "Sline")}: add lines to a plot }
   }
 }
 % \references{  }

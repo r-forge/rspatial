@@ -4,3 +4,5 @@ SpatialRingsDataFrame <- function(Sr, data, labelPoints) {
 	else
 		new("SpatialRingsDataFrame", Sr, data = data, labelPoints = labelPoints)
 }
+
+names.SpatialRingsDataFrame = function(x) names(x@data)

@@ -1,47 +1,9 @@
-arcs-methods            ~~ Methods for Function arcs in Package 'sp4'
-                        ~~
-bbox,Spatial-method     retrieve bbox from spatial data
-bpy.colors              blue-pink-yellow color scheme that prints well
-                        on black/white printers
-bubble                  Create a bubble plot of spatial data
-coordinates             sets spatial coordinates to create spatial
-                        data, or retrieves spatial coordinates
-coordinates-methods     retrieves spatial coordinates
-cplot                   coloured points plot
 CRS-class               Class "CRS" of coordinate reference system
                         arguments
-dimensions,Spatial-method
-                        retrieve spatial dimensions from spatial data
-gridded-methods         specify spatial data as being gridded, or find
-                        out whether they are
-gridplot                plot grids and polygons using levelplot
 GridTopology-class      Class "GridTopology" ~~~
-image.SpatialGridDataFrame
-                        image gridded spatial data, or convert to
-                        format for image
-is.projected            Sets or retrieves projection attributes on
-                        classes extending SpatialData
-mapasp                  Calculate aspect ratio for plotting geographic
-                        maps
-map.to.lev              rearrange data in SpatialPointsDataFrame or
-                        SpatialCellDataFrame for plotting with
-                        levelplot
-meuse                   Meuse river data set
-meuse.grid              Prediction Grid for Meuse Data Set
-point.in.polygon        do point(s) fall in a given polygon?
-read.asciigrid          read/write to/from (ESRI) asciigrid format
-read.gdal               read GDAL supported grid maps through rgdal
-rings-methods           ~~ Methods for Function rings in Package 'sp4'
-                        ~~
-select.spatial          select points spatially
-shp2SLDF                Converter functions to build
-                        SpatialLinesDataFrame objects
 Sline                   create objects of class Sline or Slines
 Sline-class             Class "Sline"
 Slines-class            Class "Sline"
-sp                      A package providing classes and methods for
-                        spatial data: points, lines, polygons and
-                        grids
 Spatial-class           Class "Spatial" ~~~
 SpatialGrid             define spatial grid
 SpatialGrid-class       Class "SpatialGrid" ~~~
@@ -62,5 +24,43 @@ SpatialRingsDataFrame-class
                         Class "SpatialRingsDataFrame"
 Sring-class             Class "Sring"
 Srings-class            Class "Srings" ~~~
+arcs-methods            ~~ Methods for Function arcs in Package 'sp4'
+                        ~~
+bbox,Spatial-method     retrieve bbox from spatial data
+bpy.colors              blue-pink-yellow color scheme that prints well
+                        on black/white printers
+bubble                  Create a bubble plot of spatial data
+coordinates             sets spatial coordinates to create spatial
+                        data, or retrieves spatial coordinates
+coordinates-methods     retrieves spatial coordinates
+cplot                   coloured points plot
+dimensions,Spatial-method
+                        retrieve spatial dimensions from spatial data
+gridded-methods         specify spatial data as being gridded, or find
+                        out whether they are
+gridplot                plot grids and polygons using levelplot
+image.SpatialGridDataFrame
+                        image gridded spatial data, or convert to
+                        format for image
+is.projected            Sets or retrieves projection attributes on
+                        classes extending SpatialData
+map.to.lev              rearrange data in SpatialPointsDataFrame or
+                        SpatialCellDataFrame for plotting with
+                        levelplot
+mapasp                  Calculate aspect ratio for plotting geographic
+                        maps
+meuse                   Meuse river data set
+meuse.grid              Prediction Grid for Meuse Data Set
+point.in.polygon        do point(s) fall in a given polygon?
+read.asciigrid          read/write to/from (ESRI) asciigrid format
+read.gdal               read GDAL supported grid maps through rgdal
+rings-methods           ~~ Methods for Function rings in Package 'sp4'
+                        ~~
+select.spatial          select points spatially
+shp2SLDF                Converter functions to build
+                        SpatialLinesDataFrame objects
+sp                      A package providing classes and methods for
+                        spatial data: points, lines, polygons and
+                        grids
 zerodist                find point pairs with equal spatial
                         coordinates

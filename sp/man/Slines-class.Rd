@@ -23,6 +23,7 @@ Class \code{"Spatial"}, directly.
   \describe{
     \item{coordinates}{\code{signature(obj = "Sline")}: retrieve coordinates
 	from lines; returns list with matrices }
+    \item{lines}{\code{signature(x = "Sline")}: add lines to a plot}
   }
 }
 % \references{  }

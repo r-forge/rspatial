@@ -50,6 +50,8 @@ Class \code{"Spatial"}, by class \code{"SpatialPoints"}.
     \item{coordinates}{\code{signature(obj = "SpatialPointsDataFrame")}: retrieves
 	the coordinates only }
     \item{show}{\code{signature(object = "SpatialPointsDataFrame")}: print method }
+    \item{plot}{\code{signature(x = "SpatialPointsDataFrame")}: plot points}
+    \item{points}{\code{signature(x = "SpatialPointsDataFrame")}: add points to plot}
   }
 }
 \references{  }

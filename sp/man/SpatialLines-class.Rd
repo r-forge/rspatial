@@ -24,6 +24,10 @@ Class \code{"Spatial"}, directly.
   \describe{
     \item{coordinates}{\code{signature(obj = "SpatialLines")}: retrieve
 	coordinates; value is a list of lists with matrices }
+	\item{plot}{\code{\signature(x = "SpatialLines")}: 
+	plot lines in SpatialLines object}
+	\item{lines}{\code{\signature(x = "SpatialLines")}: 
+	add lines in SpatialLines object to a plot }
   }
 }
 \references{ }
