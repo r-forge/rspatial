@@ -23,7 +23,8 @@ polymap <- function(poly,add=F,xlab="",ylab="",axes=T,...)
 	plot(poly,xlim=xplot,ylim=yplot,type="n",axes=axes,xlab=xlab,ylab=ylab)
 	}
 
-	polygon(poly,density=0,...)
+#	polygon(poly,density=0,...)
+	polygon(poly,...)
 	par("pty"=pty.old)
 	invisible(0)
 }
