@@ -1,5 +1,4 @@
 \name{stack}
-\alias{lplot}
 \alias{map.to.lev}
 \alias{stack.SpatialPointsDataFrame}
 \alias{stack.SpatialCellDataFrame}
@@ -44,7 +43,8 @@ of \code{data} stacked }
 SpatialDataFrameGrid with a column \code{values} that has the stacked
 coordinates and attributes, and a column \code{ind} that indicates the 
 variable stacked.  }
-\seealso{ \link{levelplot} in package \code{lattice}, \link{stack}}
+\seealso{ \link{gridplot} and \link{ringplot}, and
+\link{levelplot} in package \code{lattice}; \link{stack}}
 \examples{
 require(lattice)
 data(meuse.grid) # data frame

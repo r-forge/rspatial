@@ -69,10 +69,12 @@ setAs("SpatialPointsDataFrame", "data.frame", function(from)
 	as.data.frame.SpatialPointsDataFrame(from))
 
 names.SpatialPointsDataFrame <- function(x) {
-	names(as(x, "data.frame"))
+	# names(as(x, "data.frame"))
+	names(x@data)
 }
 
 ShowSpatialPointsDataFrame = function(object) print.SpatialPointsDataFrame(object)
+
 setMethod("show", "SpatialPointsDataFrame", ShowSpatialPointsDataFrame)
 
 plot.SpatialPointsDataFrame = function(x, ...) {

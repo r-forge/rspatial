@@ -14,17 +14,18 @@ dimensions,Spatial-method
                         retrieve spatial dimensions from spatial data
 gridded-methods         specify spatial data as being gridded, or find
                         out whether they are
+gridplot                plot grids and polygons using levelplot
 GridTopology-class      Class "GridTopology" ~~~
 image.SpatialGridDataFrame
                         image gridded spatial data, or convert to
                         format for image
 is.projected            Sets or retrieves projection attributes on
                         classes extending SpatialData
-lplot                   rearrange data in SpatialPointsDataFrame or
-                        SpatialCellDataFrame for plotting with
-                        levelplot
 mapasp                  Calculate aspect ratio for plotting geographic
                         maps
+map.to.lev              rearrange data in SpatialPointsDataFrame or
+                        SpatialCellDataFrame for plotting with
+                        levelplot
 meuse                   Meuse river data set
 meuse.grid              Prediction Grid for Meuse Data Set
 point.in.polygon        do point(s) fall in a given polygon?
