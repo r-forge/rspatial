@@ -1,3 +1,11 @@
+SpatialDataPolygons doesn't known which columns in the
+attribute data are the label points. Change into
+SpatialDataFramePolygon, and make it descend from
+SpatialDataFrame?
+
+Remove all PolygonX classes extending SpatialData; 
+however, does each polygon need a bounding box?
+
 subsetting polygons;
 not replicate projection in polygons;
 (plotting) polygons with islands; crossing polygons?

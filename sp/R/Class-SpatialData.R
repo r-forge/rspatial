@@ -365,6 +365,11 @@ plot.SpatialDataFrame = function(x, xlab = x@coord.names[1],
 	col = x@coord.columns
 	plot(df[, col[1]], df[, col[2]], asp = asp, xlab = xlab, ylab = ylab, ...)
 }
+plot.SpatialDataFrameGrid = function(x, xlab = x@coord.names[1], 
+		ylab = x@coord.names[2], asp = 1, ...) {
+	plot.SpatialDataFrame(as(x, "SpatialDataFrame"), xlab = xlab, 
+		ylab = ylab, asp = asp, ...)
+}
 
 formula.SpatialDataFrame = function(x, ...) {
 	nam = x@coord.names
