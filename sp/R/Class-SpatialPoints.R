@@ -33,15 +33,19 @@ setMethod("coordinates", "matrix", function(obj) obj)
 	print(x@coords)
 }
 
-plot.SpatialPoints = function(x, ...) 
+plot.SpatialPoints = function(x, xlab, ylab, asp = 1, pch = 3, ...) 
 {
 	cc = coordinates(x)
 	if (is.null(dimnames(cc)[[2]]))
 		dimnames(cc)[[2]] = c("x", "y")
 	nm = dimnames(cc)[[2]]
+	if (missing(xlab))
+		xlab = nm[1]
+	if (missing(ylab))
+		ylab = nm[2]
 	# form = as.formula(paste(nm[2:1], collapse="~"))
 	# plot(form, cc, asp = 1, ...) # should get names overridable?
-	plot(cc[,1], cc[,2], xlab = nm[1], ylab = nm[2], asp = 1, ...)
+	plot(cc[,1], cc[,2], xlab = xlab, ylab = ylab, asp = asp, pch = pch, ...)
 }
 
 setMethod("show", "SpatialPoints", function(object) print.SpatialPoints(object))

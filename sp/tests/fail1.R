@@ -26,3 +26,6 @@ coordinates(x) = c(1,2)
 #try(q <- x["zinc",])
 # this will issue a warning under S-Plus, or a silent rename under R
 try(x[c("zinc", "x", "copper", "zinc")])
+
+xx = data.frame(x=1:10, y=1:10)
+try(coordinates(xx) <- c("x", "y")) # leaves data.frame empty: use SpatialPoints!

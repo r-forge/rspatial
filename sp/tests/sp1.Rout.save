@@ -83,14 +83,14 @@ attribute table data:
  3rd Qu.: 8.955   3rd Qu.:0.36407   3rd Qu.: 9.000                        
  Max.   :10.520   Max.   :0.88039   Max.   :17.000                        
                                     NA's   : 2.000                        
-    landuse       dist.m           ycoord           xcoord      
- W      :50   Min.   :  10.0   Min.   :329714   Min.   :178605  
- Ah     :39   1st Qu.:  80.0   1st Qu.:330762   1st Qu.:179371  
- Am     :22   Median : 270.0   Median :331633   Median :179991  
- Fw     :10   Mean   : 290.3   Mean   :331635   Mean   :180005  
- Ab     : 8   3rd Qu.: 450.0   3rd Qu.:332463   3rd Qu.:180630  
- (Other):25   Max.   :1000.0   Max.   :333611   Max.   :181390  
- NA's   : 1                                                     
+    landuse       dist.m      
+ W      :50   Min.   :  10.0  
+ Ah     :39   1st Qu.:  80.0  
+ Am     :22   Median : 270.0  
+ Fw     :10   Mean   : 290.3  
+ Ab     : 8   3rd Qu.: 450.0  
+ (Other):25   Max.   :1000.0  
+ NA's   : 1                   
 Coordinates:
      xcoord           ycoord      
  Min.   :178605   Min.   :329714  
@@ -279,30 +279,30 @@ Coordinates:
 > coordinates(x) = c(1,2)
 > # row 1,2; cols 1:10
 > x[1:2,1:10]
-       coordinates      x      y cadmium copper lead zinc  elev       dist   om
-1 (181072, 333611) 181072 333611    11.7     85  299 1022 7.909 0.00135803 13.6
-2 (181025, 333558) 181025 333558     8.6     81  277 1141 6.983 0.01222430 14.0
-  ffreq
-1     1
-2     1
+       coordinates cadmium copper lead zinc  elev       dist   om ffreq soil
+1 (181072, 333611)    11.7     85  299 1022 7.909 0.00135803 13.6     1    1
+2 (181025, 333558)     8.6     81  277 1141 6.983 0.01222430 14.0     1    1
+  lime
+1    1
+2    1
 > # row 2, coord+col 9,10
 > x[2,9:10]
-       coordinates om ffreq
-2 (181025, 333558) 14     1
+       coordinates soil lime
+2 (181025, 333558)    1    1
 > # coordinates, col 9+10
 > x[,9:10]
-       coordinates   om ffreq
-1 (181072, 333611) 13.6     1
-2 (181025, 333558) 14.0     1
-3 (181165, 333537) 13.0     1
-4 (181298, 333484)  8.0     1
+       coordinates soil lime
+1 (181072, 333611)    1    1
+2 (181025, 333558)    1    1
+3 (181165, 333537)    1    1
+4 (181298, 333484)    2    0
 > # coordinates + col 9:
 > x[,9]
-       coordinates   om
-1 (181072, 333611) 13.6
-2 (181025, 333558) 14.0
-3 (181165, 333537) 13.0
-4 (181298, 333484)  8.0
+       coordinates soil
+1 (181072, 333611)    1
+2 (181025, 333558)    1
+3 (181165, 333537)    1
+4 (181298, 333484)    2
 > # coordinates + zinc column:
 > x["zinc"]
        coordinates zinc
@@ -315,22 +315,16 @@ Coordinates:
        coordinates zinc
 2 (181025, 333558) 1141
 > # select; re-orders:
-> x[c("zinc","copper","x")]
-       coordinates zinc copper      x
-1 (181072, 333611) 1022     85 181072
-2 (181025, 333558) 1141     81 181025
-3 (181165, 333537)  640     68 181165
-4 (181298, 333484)  257     81 181298
+> x[c("zinc","copper")]
+       coordinates zinc copper
+1 (181072, 333611) 1022     85
+2 (181025, 333558) 1141     81
+3 (181165, 333537)  640     68
+4 (181298, 333484)  257     81
 > # back as data.frame
-> as.data.frame(x)
-       x      y cadmium copper lead zinc  elev       dist   om ffreq soil lime
-1 181072 333611    11.7     85  299 1022 7.909 0.00135803 13.6     1    1    1
-2 181025 333558     8.6     81  277 1141 6.983 0.01222430 14.0     1    1    1
-3 181165 333537     6.5     68  199  640 7.800 0.10302900 13.0     1    1    1
-4 181298 333484     2.6     81  116  257 7.655 0.19009400  8.0     1    2    0
-  landuse dist.m
-1      Ah     50
-2      Ah     30
-3      Ah    150
-4      Ga    270
+> as.data.frame(x)[1:3, c("zinc","copper","x", "y")]
+  zinc copper      x      y
+1 1022     85 181072 333611
+2 1141     81 181025 333558
+3  640     68 181165 333537
 > 

@@ -36,6 +36,6 @@ x["zinc"]
 # second row, coordinates + zinc
 x[2,"zinc"]
 # select; re-orders:
-x[c("zinc","copper","x")]
+x[c("zinc","copper")]
 # back as data.frame
-as.data.frame(x)
+as.data.frame(x)[1:3, c("zinc","copper","x", "y")]

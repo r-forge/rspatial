@@ -1,6 +1,7 @@
 setClass("SpatialPointsDataFrame",
-	representation("SpatialPoints", data = "data.frame"),
-	prototype = list(new("SpatialPoints"), data = data.frame()),
+	representation("SpatialPoints", data = "data.frame", coords.stripped = "logical"),
+	prototype = list(new("SpatialPoints"), data = data.frame(), 
+		coords.stripped = FALSE),
 	validity = function(object) {
 		if (!inherits(object@data, "data.frame"))
 			stop("data should be of class data.frame")
@@ -8,14 +9,17 @@ setClass("SpatialPointsDataFrame",
 			stop("no points set: too few rows")
 		if (ncol(object@coords) <= 1)
 			stop("no points set: too few columns")
+		if (ncol(object@data) == 0)
+			stop("data.frame is empty (possibly after stripping coordinate columns): use SpatialPoints() to create points-only object")
 		if (nrow(object@data) != nrow(object@coords))
 		  stop("number of rows in data.frame and SpatialPoints don't match")
 		return(TRUE)
 	}
 )
 
-"SpatialPointsDataFrame" = function(coords, data) {
-	new("SpatialPointsDataFrame", SpatialPoints(coords), data = data)
+"SpatialPointsDataFrame" = function(coords, data, coords.stripped = FALSE) {
+	new("SpatialPointsDataFrame", SpatialPoints(coords), data = data,
+		coords.stripped = coords.stripped)
 }
 
 coordinates.SPDF = function(obj) {
@@ -24,20 +28,34 @@ coordinates.SPDF = function(obj) {
 setMethod("coordinates", "SpatialPointsDataFrame", coordinates.SPDF)
 
 "coordinates<-" = function(object, value) {
-	if (inherits(value, "formula"))
-		value = model.frame(value, object) # retrieve
-	else if (is.character(value))
-		value = object[, value] # retrieve
-	else if (is.null(dim(value)) && length(value) > 1) { # coord.columns?
+	coord.numbers = NULL
+	if (inherits(value, "formula")) {
+		cc = model.frame(value, object) # retrieve coords
+		if (dim(cc)[2] == 2) {
+			nm = as.character(as.list(value)[[2]])[2:3]
+			coord.numbers = match(nm, names(object))
+		} else if (dim(cc)[2] == 3) {
+			nm = c(as.character(as.list((as.list(value)[[2]])[2])[[1]])[2:3],
+				as.character(as.list(value)[[2]])[3])
+			coord.numbers = match(nm, names(object))
+		} # else: give up.
+	} else if (is.character(value)) {
+		cc = object[, value] # retrieve coords
+		coord.numbers = match(value, names(object))
+	} else if (is.null(dim(value)) && length(value) > 1) { # coord.columns?
 		if (any(value != as.integer(value) || any(value < 1)))
 			stop("coordinate columns should be positive integers")
-		value = object[, value] # retrieve
-	} else 
-		value = coordinates(value)
-	if (is.null(object))
-		SpatialPoints(coords = value)
-	else
-		SpatialPointsDataFrame(data = object, coords = as.matrix(value))
+		cc = object[, value] # retrieve coords
+		coord.numbers = value
+	} else  # raw coordinates given; try transform them to matrix:
+		cc = coordinates(value)
+	if (!is.null(coord.numbers)) {
+		object = object[ , -coord.numbers, drop = FALSE]
+		stripped = TRUE
+		# ... but as.data.frame(x) will merge them back, so nothing gets lost.
+	} else
+		stripped = FALSE
+	SpatialPointsDataFrame(data = object, coords = cc, coords.stripped = stripped)
 }
 
 #"coordinates<-" = coordinates.replacedf
@@ -54,7 +72,12 @@ print.SpatialPointsDataFrame = function(x, ...) {
 dim.SpatialPointsDataFrame = function(x) dim(x@data)
 
 #ifdef R
-setAs("SpatialPointsDataFrame", "data.frame", function(from) { from@data })
+setAs("SpatialPointsDataFrame", "data.frame", function(from) { 
+	if (from@coords.stripped)
+		data.frame(from@coords, from@data)
+	else
+		from@data 
+})
 #else
 #%setAs("SpatialPointsDataFrame", "data.frame", function(object) { object@data })
 #endif
@@ -134,6 +157,6 @@ setMethod("[", "SpatialPointsDataFrame", function(x, i, j, ..., drop = FALSE) {
 			stop("matrix argument not supported in SpatialPointsDataFrame selection")
 
 		SpatialPointsDataFrame(coords = x@coords[i, , drop=FALSE],
-			data = x@data[i, j, drop = FALSE])
+			data = x@data[i, j, drop = FALSE], coords.stripped = x@coords.stripped)
 	}
 )

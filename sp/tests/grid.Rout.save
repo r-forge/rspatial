@@ -26,25 +26,25 @@ Type 'q()' to quit R.
 > coordinates(df) = ~xc+yc
 > gridded(df) = TRUE
 > df@data
-   z xc  yc
-1  1  1 0.0
-2  2  1 1.5
-3  3  1 3.0
-4  4  2 0.0
-5  5  2 1.5
-6  6  2 3.0
-7 NA  3 0.0
-8  8  3 1.5
-9  9  3 3.0
+   z
+1  1
+2  2
+3  3
+4  4
+5  5
+6  6
+7 NA
+8  8
+9  9
 > print(summary(df))
-       z              xc          yc     
- Min.   :1.00   Min.   :1   Min.   :0.0  
- 1st Qu.:2.75   1st Qu.:1   1st Qu.:0.0  
- Median :4.50   Median :2   Median :1.5  
- Mean   :4.75   Mean   :2   Mean   :1.5  
- 3rd Qu.:6.50   3rd Qu.:3   3rd Qu.:3.0  
- Max.   :9.00   Max.   :3   Max.   :3.0  
- NA's   :1.00                            
+       z       
+ Min.   :1.00  
+ 1st Qu.:2.75  
+ Median :4.50  
+ Mean   :4.75  
+ 3rd Qu.:6.50  
+ Max.   :9.00  
+ NA's   :1.00  
 Grid parameters
    cellcentre.offset cellsize cells.dim
 xc                 1      1.0         3

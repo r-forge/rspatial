@@ -27,6 +27,11 @@ or of the form \code{coordinates(x) = xy}; see \link{coordinates}.
 	which may or may not contain the coordinates in the columns }
     \item{\code{coords}:}{Object of class \code{"matrix"}; the coordinates matrix
 	(points are rows in the matrix) }
+	\item{\code{coords.stripped}}{Object of class logical; if TRUE, when
+	the object was created the coordinates were retrieved from the data.frame,
+	and hence stripped from it; after coercion to data.frame, e.g. by 
+	as.data.frame(x), coordinates will again be added (as first few columns) 
+	to the data.frame }
     \item{\code{bbox}:}{Object of class \code{"matrix"}; bounding box}
     \item{\code{proj4string}:}{Object of class \code{"CRS"}; projection string}
   }
@@ -60,16 +65,16 @@ data(meuse) # reload data.frame
 coordinates(meuse) = c("x", "y") # specify column names
 class(meuse)
 data(meuse) # reload data.frame
-coordinates(as(meuse, "data.frame")) = c(1, 2) # specify column names
+coordinates(meuse) = c(1, 2) # specify column names
 class(meuse)
 data(meuse) # reload data.frame
-coordinates(as(meuse, "data.frame")) = ~x+y # formula
+coordinates(meuse) = ~x+y # formula
 class(meuse)
 data(meuse) # reload data.frame
-coordinates(as(meuse, "data.frame")) = xy   # as data frame
+coordinates(meuse) = xy   # as data frame
 class(meuse)
 data(meuse) # reload data.frame
-coordinates(as(meuse, "data.frame")) = as.matrix(xy)   # as matrix
+coordinates(meuse) = as.matrix(xy)   # as matrix
 class(meuse)
 dim(meuse)
 }
