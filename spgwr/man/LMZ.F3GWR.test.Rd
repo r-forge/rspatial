@@ -1,0 +1,40 @@
+\name{LMZ.F3GWR.test}
+\alias{LMZ.F3GWR.test}
+\alias{LMZ.F2GWR.test}
+\alias{LMZ.F1GWR.test}
+\alias{BFC99.gwr.test}
+%- Also NEED an '\alias' for EACH other topic documented here.
+\title{Global tests of geographical weighted regressions}
+\description{
+ Four related test statistics for comparing OLS and GWR models based on bapers by Brunsdon, Fotheringham and Charlton (1999) and Leung et al (2000)
+}
+\usage{
+LMZ.F3GWR.test(go)
+LMZ.F2GWR.test(x)
+LMZ.F1GWR.test(x)
+BFC99.gwr.test(x)
+}
+%- maybe also 'usage' for other objects documented here.
+\arguments{
+  \item{go, x}{a \code{gwr} object returned by \code{gwr()}}
+}
+\details{
+  The papers in the references give the background for the analyses of variance presented.
+}
+\value{
+BFC99.GWR.test, LMZ.F1GWR.test and LMZ.F2GWR.test return "htest" objects, 
+LMZ.F3GWR.test a matrix of test results.
+}
+\references{Brunsdon, C., Fotheringham, A.S., and Charlton, M.E., 1999, Some notes on parametric signficance tests for geographically weighted regression, Journal of Regional Science, 39, 497-524; Leung, Y., Mei, C.-G., and Zhang, W.-X. 2000, Statistical tests for spatial non-stationarity based on the geographically weighted regression model, Environment and Planning A, 32, 9-32; \url{http://www.ncl.ac.uk/~ngeog/GWR/}}
+\author{Roger Bivand \email{Roger.Bivand@nhh.no} and Danlin Yu}
+
+\seealso{\code{\link{gwr}}}
+
+\examples{
+example(gwr)
+BFC99.gwr.test(col.gauss)
+BFC99.gwr.test(col.bisq)
+}
+
+\keyword{spatial}
+

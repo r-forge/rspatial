@@ -1,0 +1,170 @@
+# Copyright 2001-2004 Roger Bivand and Danlin Yu
+# 
+
+gwr.sel <- function(formula, data = list(), coords, adapt=FALSE, 
+	gweight=gwr.gauss, method="cv", verbose=TRUE) {
+	if (is(data, "SpatialDataFrame")) {
+		if (missing(coords)) coords <- coordinates(data)
+		data <- as(data, "data.frame")
+	}
+	if (missing(coords))
+		stop("Observation coordinates have to be given")
+	mt <- terms(formula, data = data)
+	mf <- lm(formula, data, method="model.frame")
+#	require(mva)
+#	dist2 <- (as.matrix(dist(coords)))^2
+	y <- model.response(mf, "numeric")
+	x <- model.matrix(mt, mf)
+#	if (NROW(x) != NROW(dist2))
+#		stop("Input data and coordinates have different dimensions")
+	if (!adapt) {
+		xdiff <- diff(range(coords[,1]))
+		ydiff <- diff(range(coords[,2]))
+		difmin <- min(xdiff, ydiff)
+		beta1 <- difmin/1000
+		beta2 <- difmin
+		if (method == "cv") {
+			opt <- optimize(gwr.cv.f, lower=beta1, upper=beta2, 
+				maximum=FALSE, y=y, x=x, coords=coords, 
+				gweight=gweight, verbose=verbose)
+		} else {
+			opt <- optimize(gwr.aic.f, lower=beta1, upper=beta2, 
+				maximum=FALSE, y=y, x=x, coords=coords, 
+				gweight=gweight, verbose=verbose)
+		}
+		bdwt <- opt$minimum
+		res <- bdwt
+	} else {
+		beta1 <- 0
+		beta2 <- 1
+		if (method == "cv") {
+			opt <- optimize(gwr.cv.adapt.f, lower=beta1, 
+				upper=beta2, maximum=FALSE, y=y, x=x, 
+				coords=coords, gweight=gweight, verbose=verbose)
+		} else {
+			opt <- optimize(gwr.aic.adapt.f, lower=beta1, 
+				upper=beta2, maximum=FALSE, y=y, x=x, 
+				coords=coords, gweight=gweight, verbose=verbose)
+		}
+		q <- opt$minimum
+		res <- q
+	}
+	res
+}
+
+gwr.aic.f <- function(bandwidth, y, x, coords, gweight, verbose=TRUE) {
+    n <- NROW(x)
+    m <- NCOL(x)
+    lhat <- matrix(nrow=n, ncol=n)
+    flag <- 0
+    options(show.error.messages = FALSE)
+    for (i in 1:n) {
+        xx <- x[i, ]
+	w.i <- gweight(gw.dists(coords, coords[i,])^2, bandwidth)
+        lm.i <- try(lm.wfit(y = y, x = x, w = w.i))
+        if(!inherits(lm.i, "try-error")) {
+            p <- lm.i$rank
+	    p1 <- 1:p
+	    inv.Z <- chol2inv(lm.i$qr$qr[p1, p1, drop=FALSE])
+	    lhat[i,] <- t(x[i,]) %*% inv.Z %*% t(x) %*% diag(w.i)
+        } else {
+	    flag <- 1
+	}
+    }
+    if (flag == 0) {
+    	v1 <- sum(diag(lhat))
+    	B1 <- t(diag(n)-lhat)%*%(diag(n)-lhat)
+    	rss <- c(t(y)%*%B1%*%y)
+    	sigma2.b <- rss / n
+# NOTE 2* and sqrt() inserted for legibility
+    	score <- 2*n*log(sqrt(sigma2.b)) + n*log(2*pi) + 
+	    (n * (n + v1) / (n - 2 - v1))
+    } else {
+	score <- as.numeric(NA)
+    }
+    options(show.error.messages = TRUE)
+    if (verbose) cat("Bandwidth:", bandwidth, "AIC:", score, "\n")
+    score
+}
+
+gwr.cv.f <- function(bandwidth, y, x, coords, gweight, verbose=TRUE)
+{
+    n <- NROW(x)
+    m <- NCOL(x)
+    cv <- numeric(n)
+    options(show.error.messages = FALSE)
+    for (i in 1:n) {
+        xx <- x[i, ]
+	w.i <- gweight(gw.dists(coords, coords[i,])^2, bandwidth)
+        w.i[i] <- 0
+        lm.i <- try(lm.wfit(y = y, x = x, w = w.i))
+        if(!inherits(lm.i, "try-error")) {
+            b <- coefficients(lm.i)
+            cv[i] <- y[i] - (t(b) %*% xx)
+        }
+    }
+    score <- sqrt(sum(t(cv) %*% cv)/n)
+    options(show.error.messages = TRUE)
+    if (verbose) cat("Bandwidth:", bandwidth, "CV score:", score, "\n")
+    score
+}
+
+gwr.aic.adapt.f <- function(q, y, x, coords, gweight, verbose=TRUE) {
+    n <- NROW(x)
+    m <- NCOL(x)
+    lhat <- matrix(nrow=n, ncol=n)
+    bw <- gw.adapt(dp=coords, fp=coords, quant=q)
+    flag <- 0
+    options(show.error.messages = FALSE)
+    for (i in 1:n) {
+        xx <- x[i, ]
+	w.i <- gweight(gw.dists(coords, coords[i,])^2, bw[i])
+        lm.i <- try(lm.wfit(y = y, x = x, w = w.i))
+        if(!inherits(lm.i, "try-error")) {
+            p <- lm.i$rank
+	    p1 <- 1:p
+	    inv.Z <- chol2inv(lm.i$qr$qr[p1, p1, drop=FALSE])
+	    lhat[i,] <- t(x[i,]) %*% inv.Z %*% t(x) %*% diag(w.i)
+        } else {
+	    flag <- 1
+	}
+    }
+    if (flag == 0) {
+    	v1 <- sum(diag(lhat))
+    	B1 <- t(diag(n)-lhat)%*%(diag(n)-lhat)
+    	rss <- c(t(y)%*%B1%*%y)
+    	sigma2.b <- rss / n
+# NOTE 2* and sqrt() inserted for legibility
+    	score <- 2*n*log(sqrt(sigma2.b)) + n*log(2*pi) + 
+	    (n * (n + v1) / (n - 2 - v1))
+    } else {
+	score <- as.numeric(NA)
+    }
+    options(show.error.messages = TRUE)
+    if (verbose) cat("Bandwidth:", q, "AIC:", score, "\n")
+    score
+}
+
+gwr.cv.adapt.f <- function(q, y, x, coords, gweight, verbose=TRUE)
+{
+    n <- NROW(x)
+    m <- NCOL(x)
+    cv <- real(n)
+    bw <- gw.adapt(dp=coords, fp=coords, quant=q)
+    options(show.error.messages = FALSE)
+    for (i in 1:n) {
+        xx <- x[i, ]
+	w.i <- gweight(gw.dists(coords, coords[i,])^2, bw[i])
+        w.i[i] <- 0
+        lm.i <- try(lm.wfit(y = y, x = x, w = w.i))
+        if(!inherits(lm.i, "try-error")) {
+            b <- coefficients(lm.i)
+            cv[i] <- y[i] - (t(b) %*% xx)
+        }
+    }
+    score <- sqrt(sum(t(cv) %*% cv)/n)
+    options(show.error.messages = TRUE)
+    if (verbose) cat("Adaptive q:", q, "CV score:", score, "\n")
+    score
+}
+
