@@ -341,10 +341,13 @@ Map2Poly4 <- function(Map, region.id=NULL, projargs=as.character(NA), raw=FALSE)
 
 # .polygon tries to catch the numerous R/S-Plus differences...
 .polygon = function(x, y = NULL, density = NULL, angle = 45,
-	border = NULL, col = NA, lty = NULL, xpd = NULL, ...) {
+	border = NULL, col = NA, lty = NULL, xpd = NULL, hatch=NA, ...) {
 #ifdef R
-	polygon(x = x, y = y, density = density, angle = angle,
-		border = border, col = col, lty = lty, xpd = xpd, ...)
+	if (is.na(hatch)) polygon(x = x, y = y, border = border, 
+		col = col, lty = lty, xpd = xpd, ...)
+	# col=NA overrides hatching
+	else polygon(x = x, y = y, density = density, angle = angle, 
+		border = border, lty = lty, xpd = xpd, ...)
 #else
 	# polygon(x, y, density=-1, angle=45, border=T, col=par("col"))
 	if (is.matrix(x))
@@ -429,7 +432,8 @@ plot.Polylist4 <- function(x, col, border = NULL, add=FALSE, xlim=NULL,
 			if (P4@ringDir[i] == 1)
 				.polygon(coords[pFrom[i]:pTo[i],], 
 					border = border, xpd = xpd, 
-					density = density, angle = angle)
+					density = density, angle = angle,
+					hatch=TRUE)
 			else .polygon(coords[pFrom[i]:pTo[i],], 
 					border = border, xpd = xpd, col=pbg, 
 					density = NULL)
