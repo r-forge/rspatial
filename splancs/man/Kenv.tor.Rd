@@ -30,7 +30,7 @@ Number of random toroidal shifts to do.
 Vector of distances at which to calculate the envelope.
 }
 \item{quiet}{
-If false, print a message after every simulation for progress monitoring. If
+If FALSE, print a message after every simulation for progress monitoring. If
 true, print no messages.
 }}
 \value{
