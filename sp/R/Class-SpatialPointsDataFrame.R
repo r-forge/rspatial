@@ -74,6 +74,7 @@ print.SpatialPointsDataFrame = function(x, ...) {
 }
 dim.SpatialPointsDataFrame = function(x) dim(x@data)
 
+
 #ifdef R
 setAs("SpatialPointsDataFrame", "data.frame", function(from) { 
 	if (length(from@coords.nrs) > 0) {
@@ -97,8 +98,20 @@ setAs("SpatialPointsDataFrame", "data.frame", function(from) {
 #%setAs("SpatialPointsDataFrame", "data.frame", function(object) { object@data })
 #endif
 
-as.data.frame.SpatialPointsDataFrame = function(x, row.names, optional) 
-	as(x, "data.frame")
+#as.data.frame.SpatialPointsDataFrame = function(x, row.names, optional) 
+#	as(x, "data.frame")
+
+as.data.frame.SpatialPointsDataFrame <- function(x, row.names = NULL, 
+	optional = FALSE) {
+	crds <- coordinates(x)
+	df <- data.frame(x@data, as.data.frame(crds))
+	df
+}
+
+#name.SpatialPointsDataFrame <- function(x) {
+#	names(as.data.frame(x))
+#}
+
 
 ShowSpatialPointsDataFrame = function(object) print.SpatialPointsDataFrame(object)
 setMethod("show", "SpatialPointsDataFrame", ShowSpatialPointsDataFrame)
@@ -121,6 +134,42 @@ print.summary.SpatialPointsDataFrame = function(x, ...) {
 	cat("Coordinates:\n")
 	print(x$coords)
 	cat("\n")
+}
+
+subset.SpatialPointsDataFrame <- function(x, subset, select, 
+		drop = FALSE, ...) {
+	xSP <- coordinates(x)
+	dfSP <- as.data.frame(x)
+	cselect <- colnames(xSP)
+	points <- subset(xSP, subset=subset, select=cselect, drop = drop, ...)
+	if (missing(select)) select <- names(dfSP)
+	data <- subset(dfSP, subset=subset, select=select, drop = drop, ...)
+	SPDF <- SpatialPointsDataFrame(points, data)
+	SPDF
+}
+
+"[.SpatialPointsDataFrame" <- function(x, i, j, ... , drop = FALSE) {
+	missing.i <- missing(i)
+	missing.j <- missing(j)
+	if (missing.i & missing.j) return(x)
+	nargs <- nargs()
+	if (drop)
+		stop("coerce to data.frame first for drop = TRUE")
+	if (missing.i) {
+		cres <- coordinates(x)
+		data <- as.data.frame(x)[, j, drop = FALSE]
+	} else {
+		if (missing.j) {
+			if (nargs == 2) {
+				j <- i
+				i <- TRUE
+			} else j <- TRUE
+		}
+		cres <- coordinates(x)[i, , drop=FALSE]
+		data <- as.data.frame(x)[i, j, drop = FALSE]
+	}
+	res <- SpatialPointsDataFrame(cres, data)
+	res
 }
 
 # try to get "[.data.frame" behaviour, but _always_ preserve columns,

@@ -50,6 +50,8 @@ plot.SpatialPoints = function(x, xlab, ylab, asp = 1, pch = 3, ...)
 
 setMethod("show", "SpatialPoints", function(object) print.SpatialPoints(object))
 setMethod("coordinates", "SpatialPoints", function(obj) obj@coords)
+setMethod("bbox", "SpatialPoints", function(obj) obj@bbox)
+setMethod("dimensions", "SpatialPoints", function(obj) nrow(bbox(obj)))
 
 # no, use plot.SpatialPoints
 # setMethod("plot", "SpatialPoints", 
@@ -67,6 +69,14 @@ setAs("data.frame", "SpatialPoints", function(from) {
 setAs("matrix", "SpatialPoints", function(from) {
 	SpatialPoints(coords = from)
 })
+
+subset.SpatialPoints <- function(x, subset, select, drop = FALSE, ...) {
+	if (!missing(select) && (length(select) < 2)) 
+		stop("selecting too few coordinate columns")
+	res <- SpatialPoints(subset(coordinates(x), subset, select, 
+		drop = drop))
+	res
+}
 
 setMethod("[", "SpatialPoints", function(x, i, j, ..., drop = T)
 	SpatialPoints(x@coords[i, , drop = FALSE]))

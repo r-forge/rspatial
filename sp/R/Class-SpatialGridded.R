@@ -88,9 +88,20 @@ SpatialCellDataFrame = function(points, data, coords.nrs = numeric(0)) {
 #	function(from) SpatialPointsDataFrame(from@coords, from@data, from@coords.nrs)
 #)
 
-as.data.frame.SpatialCellDataFrame = function(x, row.names, optional) {
-	as(x, "data.frame")
+as.data.frame.SpatialCellDataFrame <- function(x, row.names = NULL, 
+	optional = FALSE) {
+	crds <- coordinates(x)
+	df <- data.frame(x@data, as.data.frame(crds))
+	df
 }
+
+#names.SpatialCellDataFrame <- function(x) {
+#	names(as.data.frame(x))
+#}
+
+#as.data.frame.SpatialCellDataFrame = function(x, row.names, optional) {
+#	as(x, "data.frame")
+#}
 
 setAs("SpatialCellDataFrame", "data.frame", 
 	function(from) as(as(from, "SpatialPointsDataFrame"), "data.frame")
@@ -174,6 +185,14 @@ print.summary.SpatialCellDataFrame = function(x, ...) {
 	invisible(x)
 }
 
+subset.SpatialCell <- function(x, subset, select, drop = FALSE, ...) {
+	xSP <- as(x, "SpatialPoints")
+	if (missing(select)) select <- colnames(coordinates(xSP))
+	res <- subset(xSP, subset=subset, select=select, drop = drop, ...)
+	gridded(res) = TRUE
+	res
+}
+
 setMethod("[", "SpatialCell",
 #ifdef R
 	function(x, i, j, ..., drop = FALSE) {
@@ -206,6 +225,41 @@ setMethod("[", "SpatialCell",
 #%	}
 #endif
 )
+
+subset.SpatialCellDataFrame <- function(x, subset, select, drop = FALSE, ...) {
+	xSP <- coordinates(x)
+	dfSP <- as.data.frame(x)
+	cselect <- colnames(xSP)
+	points <- subset(xSP, subset=subset, select=cselect, drop = drop, ...)
+	if (missing(select)) select <- names(dfSP)
+	data <- subset(dfSP, subset=subset, select=select, drop = drop, ...)
+	SCDF <- SpatialCellDataFrame(points, data)
+	SCDF
+}
+
+"[.SpatialCellDataFrame" <- function(x, i, j, ... , drop = FALSE) {
+	missing.i <-  missing(i)
+	missing.j <- missing(j)
+	if (missing.i & missing.j) return(x)
+	if (drop)
+		stop("coerce to data.frame first for drop = TRUE")
+	if (missing.i) {
+		cres <- coordinates(x)
+		data <- as.data.frame(x)[, j, drop = FALSE]
+	} else {
+		if (missing.j) {
+			if (nargs == 2) {
+				j <- i
+				i <- TRUE
+			} else j <- TRUE
+		}
+		cres <- coordinates(x)[i, , drop=FALSE]
+		data <- as.data.frame(x)[i, j, drop = FALSE]
+	}
+	res <- SpatialCellDataFrame(cres, data)
+	res
+}
+
 
 setMethod("[", "SpatialCellDataFrame",
 #ifdef R

@@ -24,31 +24,7 @@
 # define Rprintf printf
 #endif
 
-#ifndef MIN
-# define MIN(a,b) ((a)>(b)?(b):(a))
-#endif
-#ifndef MAX
-# define MAX(a,b) ((a)>(b)?(a):(b))
-#endif
-
-/* polygon structs: */
-typedef struct {
-	double		x, y;
-} PLOT_POINT;
-
-typedef struct {
-	PLOT_POINT	min, max;
-} MBR;
-
-typedef struct polygon {
-	MBR mbr;
-	int lines;
-	PLOT_POINT	*p;
-    int close; /* 1 - is closed polygon */
-} POLYGON;
-
-void setup_poly_minmax(POLYGON *pl);
-static char InPoly(PLOT_POINT q, POLYGON *Poly);
+#include "sp.h"
 
 SEXP R_point_in_polygon_sp(SEXP px, SEXP py, SEXP polx, SEXP poly) {
 	int i, n;
@@ -136,7 +112,7 @@ not removed.
 InPoly returns a char in {i,o,v,e}.  See above for definitions.
 */
 
-static char InPoly(PLOT_POINT q, POLYGON *Poly)
+char InPoly(PLOT_POINT q, POLYGON *Poly)
 {
     int n = Poly->lines;
     PLOT_POINT *P=Poly->p;

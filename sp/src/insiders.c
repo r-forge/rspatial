@@ -5,6 +5,7 @@
 #ifdef USING_R
 # include <R.h>
 # include <Rdefines.h>
+# include <R_ext/Rdynload.h>
 #else /* some S-PLUS version; assuming >= 6 for now: */
 # if (!defined(SPLUS_VERSION) || SPLUS_VERSION < 6000)
 #  error("no SPLUS_VERSION >= 6.0")
@@ -15,6 +16,8 @@
 #endif
 
 #define ROFFSET 1
+
+#include "sp.h"
 
 int pipbb(double pt1, double pt2, double *bbs);
 

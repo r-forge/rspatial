@@ -7,6 +7,13 @@ export(bbox, getgridindex, points2grid, bpy.colors, bubble, cplot, lplot,
 
 export(coordinates, "coordinates<-", coordinates.SPDF)
 
+export(dimensions, "[.SpatialPointsDataFrame", "[.SpatialCellDataFrame")
+ 
+#export(names.SpatialPointsDataFrame, names.SpatialCellDataFrame)
+
+export(subset.SpatialCell, subset.SpatialCellDataFrame, subset.SpatialPoints, 
+	subset.SpatialPointsDataFrame)
+
 export(SpatialCell, SpatialPoints, SpatialPointsDataFrame, SpatialCellDataFrame)
 
 export(as.data.frame.SpatialCellDataFrame, as.data.frame.SpatialCellDataFrame, 
@@ -40,11 +47,15 @@ exportClasses(CRS, Spatial, SpatialGridded, SpatialCell,
 exportMethods(show, bbox, coordinates, arcs, rings, gridded, dimensions, 
 	"[", coerce)
 
+S3method("[", SpatialCellDataFrame)
+S3method("[", SpatialPointsDataFrame)
 S3method(as.data.frame, SpatialCellDataFrame)
 S3method(as.data.frame, SpatialPoints)
 S3method(as.data.frame, SpatialPointsDataFrame)
 S3method(dim, SpatialPointsDataFrame)
 S3method(image, SpatialCellDataFrame)
+#S3method(names, SpatialCellDataFrame)
+#S3method(names, SpatialPointsDataFrame)
 S3method(plot, Spatial)
 S3method(plot, SpatialCell)
 S3method(plot, SpatialCellDataFrame)
@@ -66,4 +77,7 @@ S3method(summary, SpatialCell)
 S3method(summary, SpatialGridded)
 S3method(summary, SpatialCellDataFrame)
 S3method(summary, SpatialPointsDataFrame)
+S3method(subset, SpatialCell)
+S3method(subset, SpatialPoints)
+S3method(subset, SpatialPointsDataFrame)
 

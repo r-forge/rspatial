@@ -26,5 +26,7 @@ function(obj, zero = 0.0)
 
 remove.duplicates <- function(obj, zero = 0.0) {
 	zd = zerodist(obj, zero)
-	obj[-zd[,2], ]
+	res <- subset(obj, !(1:nrow(obj) %in% zd[,2]))
+	res
+#	obj[-zd[,2], ]
 }

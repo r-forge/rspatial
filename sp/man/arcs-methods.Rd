@@ -8,7 +8,7 @@
 \section{Methods}{
 \describe{
 
-\item{}{ ~~describe this method here }
+%\item{}{ ~~describe this method here }
 }}
 \keyword{methods}
 \keyword{ }
