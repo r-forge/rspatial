@@ -274,9 +274,10 @@ Map2Poly4 <- function(Map, region.id=NULL, projargs=as.character(NA), raw=FALSE)
 				}
 				pip <- point.in.polygon(ixc, iyc, jxc, 
 					jyc)
-				int[j] <- ((pip == 1) | 
-					((pip > 1) & ((rD[i] == 1) & 
-					(rD[ri[j]] == -1))))
+				int[j] <- ((pip == 1) | (pip > 1))
+#				int[j] <- ((pip == 1) | 
+#					((pip > 1) & ((rD[i] == 1) & 
+#					(rD[ri[j]] == -1))))
 
 # when pip == 1, the first point is fully include in the polygon, for
 # pip > 1, the point lies on the polygon boundary, so the relative ring 
