@@ -8,6 +8,8 @@ reverse }
 auto-detecting grid topology, or reverses the operation }
 \usage{
 gridded(obj) <- value
+gridded(obj)
+gridparameters(obj)
 }
 \arguments{
   \item{obj}{ An object of class SpatialDataFrame or SpatialDataFrameGrid }
@@ -17,8 +19,14 @@ gridded(obj) <- value
   SpatialDataFrame is returned }
 }
 \value{
-  an object of class \code{SpatialDataFrameGrid}.
+  in the assignment, an object of class \code{SpatialDataFrameGrid}.
   slots of this S4 class are described in \link{SpatialDataFrameGrid-class}.
+
+  in the form \code{gridded(obj)}, it returns TRUE or FALSE, being
+  whether the object is a SpatialDataFrameGrid (TRUE) or not (FALSE).
+
+  \code{gridparameters} returns, if \code{obj} inherits from
+  SpatialDataFrameGrid its grid parameters, else it returns numeric(0).
 }
 
 \details{ Being on a regular grid means: no complete rows or columns are
@@ -35,9 +43,16 @@ coordinates must have a constant value. }
 data(meuse.grid)                 # data.frame
 coordinates(meuse.grid) <- ~x+y  # promotes meuse to SpatialDataFrame
 gridded(meuse.grid) <- TRUE      # promotes meuse to SpatialDataFrameGrid
-image(meuse.grid, "dist")
+gridded(meuse.grid)
+gridparameters(meuse.grid)
+oldpars <- par()
+par(mfrow=c(1,2))
+image(meuse.grid, "dist", main = "distance to river")
 gridded(meuse.grid) <- FALSE     # demotes meuse to SpatialDataFrameGrid
-plot(meuse.grid)
+plot(meuse.grid, pch = ".", main = "grid centers")
+gridded(meuse.grid)
+gridparameters(meuse.grid)
+par(oldpars)
 }
 
 \keyword{spatial}

@@ -326,11 +326,7 @@ summary.SpatialData = function(object, ...) {
 			(length(object@coord.columns) < NCOL(object@data)))
 		obj[["data"]] = summary(object@data[-object@coord.columns])
 	if (is(object, "SpatialDataFrameGrid"))
-		obj[["grid"]] = data.frame( 
-			cellcentre.offset= object@cellcentre.offset,
-			cellsize = object@cellsize,
-			cells.dim = object@cells.dim, 
-			row.names = object@coord.names)
+		obj[["grid"]] = gridparameters(object)
 	if (is(object, "SpatialDataPolygons")) {
 		obj[["n.polygons"]] = length(object@polygons@polygons)
 		obj[["data"]] = summary(object@data)
@@ -406,6 +402,19 @@ spatial.dimension = function(sd) {
 	}
 	# further deal with more complex forms of value
 	stop("more complex forms of value not yet implemented")
+}
+
+gridded = function(obj) { return(is(obj, "SpatialDataFrameGrid")) }
+
+gridparameters = function(obj) { 
+	if (inherits(obj, "SpatialDataFrameGrid"))
+		return(data.frame( 
+			cellcentre.offset= obj@cellcentre.offset,
+			cellsize = obj@cellsize,
+			cells.dim = obj@cells.dim, 
+			row.names = obj@coord.names))
+	else 
+		return(numeric(0))
 }
 
 as.SDFgrid = function(from) {

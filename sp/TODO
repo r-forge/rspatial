@@ -1,5 +1,9 @@
-0.4-1 splits proj out of sp and (hopefully) simplifies 20030318 RSB
+What exactly is the interface?
+  coordinates() gets/sets coordinates
+  polygons() gets/sets polygons
+  as.data.frame() gets the data as data.frame
 
+0.4-1 splits proj out of sp and (hopefully) simplifies 20030318 RSB
 
 make "[" work for SDFGrid and SDPolygons
 
