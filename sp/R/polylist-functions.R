@@ -141,8 +141,9 @@ Map2Poly4 <- function(Map, region.id=NULL, projargs=as.character(NA)) {
    	else return (-1)
 }
 
-plot.Polylist4 <- function(x, col=NA, border=par("fg"), add=FALSE, 
-	xlim=NULL, ylim=NULL, ...) {
+plot.Polylist4 <- function(x, col, border=par("fg"), add=FALSE, 
+	xlim=NULL, ylim=NULL, xlab="", ylab="", asp=1, xpd = NULL, 
+	density = NULL, angle = 45, ...) {
 	if (!is(x, "Polylist4")) stop("Not a Polygon4 object")
 	if (!add) {
 		maplim <- x@bbox
@@ -152,13 +153,30 @@ plot.Polylist4 <- function(x, col=NA, border=par("fg"), add=FALSE,
 		if (is.null(xlim)) xlim <- c(maplim["x",])
 		if (is.null(ylim)) ylim <- c(maplim["y",])
 		plot(x=xlim, y=ylim, xlim=xlim, ylim=ylim, type="n",
-		asp=1, xlab="", ylab="", ...)
+		asp=asp, xlab=xlab, ylab=ylab, ...)
 	}
+	if (missing(col)) return()
 	n <- length(x@polygons)
-	if (length(col) != n) {
-		col <- rep(col, n, n)
+        if (length(border) != n) {
+            	border <- rep(border, n, n)
+        }
+    	if (!is.null(density)) {
+        	if (length(density) != n) {
+            	density <- rep(density, n, n)
+        	}
+        	if (length(angle) != n) {
+            	angle <- rep(angle, n, n)
+        	}
+        	for (j in 1:n) polygon(x@polygons[[j]]@coords, 
+			border = border[j], xpd = xpd, density = density[j], 
+			angle = angle[j])
+    	} else {
+		if (length(col) != n) {
+			col <- rep(col, n, n)
+		}
+		for (j in 1:n) 
+			polygon(x@polygons[[j]]@coords, col=col[j], 
+				border=border[j], xpd = xpd)
 	}
-	for (j in 1:n) 
-		polygon(x@polygons[[j]]@coords, col=col[j], border=border, ...)
 }
 

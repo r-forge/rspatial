@@ -4,6 +4,7 @@
 \alias{summary.SpatialDataPolygons}
 \alias{coerce,SpatialDataPolygons,data.frame-method}
 \alias{as.data.frame.SpatialDataPolygons}
+\alias{SpatialDataPolygons}
 
 \title{Class "SpatialDataPolygons"; stores spatial polygons and attributes  }
 \description{ a class for storing a list of polygons and an attribute 

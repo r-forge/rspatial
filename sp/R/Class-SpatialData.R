@@ -498,21 +498,22 @@ verifyPolygon = function(x) {
 }
 
 SpatialDataPolygons = function(data, polygons) {
-	if (missing(data))
-		data = getMeanDF(polygons@polygons)
+#	if (missing(data))
+#		data = getMeanDF(polygons@polygons)
 	polygons(data) = polygons # promotes data frame to SpatialDataPolygons
 	data
 }
 
-getMeanDF = function(polygons) {
-	mean.x = function(x) mean(x[-1,1])
-	mean.y = function(x) mean(x[-1,2])
-	data.frame(x.mean = sapply(polygons, mean.x),
-			y.mean = sapply(polygons, mean.y))
-}
+#getMeanDF = function(polygons) {
+#	mean.x = function(x) mean(x[-1,1])
+#	mean.y = function(x) mean(x[-1,2])
+#	data.frame(x.mean = sapply(polygons, mean.x),
+#			y.mean = sapply(polygons, mean.y))
+#}
 
 "polygons<-" = function(obj, value) {
-	if (!is.null(obj) && !is.data.frame(obj))
+#	if (!is.null(obj) && !is.data.frame(obj))
+	if (!is.data.frame(obj))
 		stop("obj is not a data.frame")
 	if (any(x <- !as.logical(sapply(value@polygons, verifyPolygon))))
 		stop(paste("polygon(s)", paste(which(x), collapse = " "), "not valid"))
@@ -524,8 +525,8 @@ getMeanDF = function(polygons) {
 	bbox[2,1] = min(r[,3], na.rm=TRUE)
 	bbox[2,2] = max(r[,4], na.rm=TRUE)
 	dimnames(bbox)[[2]] = c("min", "max")
-	if (is.null(obj))
-		obj = getMeanDF(value@polygons)
+#	if (is.null(obj))
+#		obj = getMeanDF(value@polygons)
 	# verify has.holes thing, how do we provide this?
 	new("SpatialDataPolygons", 
 		bbox = bbox,
@@ -557,23 +558,24 @@ as.data.frame.SpatialDataPolygons = function(x, row.names, optional)
 # ... # set up conversion from/to pixmap <<-->> SpatialDataFrameGrid
 #}
 
-map2polys = function(map) {
-	get.poly = function(x, map) {
-		r = x[1]:x[2]
-		c(map$x[r], map$y[r])
-	}
-	fold.poly = function(x) {
-		n = length(x)
-		half = n/2
-		cbind(xcoord = x[1:half], ycoord = x[(half+1):n])
-	}
-	if (!inherits(map, "map"))
-		stop("argument map should be of class map")
-	xc = map$x
-	n = length(xc)
-	breaks = which(is.na(xc))
-	range.limits = cbind(start = c(1, breaks + 1), end = c(breaks - 1, n))
-	lst = apply(range.limits, 1, get.poly, map = map)
-	names(lst) = map$names
-	lapply(lst, fold.poly)
-}
+#map2polys = function(map) {
+#	get.poly = function(x, map) {
+#		r = x[1]:x[2]
+#		c(map$x[r], map$y[r])
+#	}
+#	fold.poly = function(x) {
+#		n = length(x)
+#		half = n/2
+#		cbind(xcoord = x[1:half], ycoord = x[(half+1):n])
+#	}
+#	if (!inherits(map, "map"))
+#		stop("argument map should be of class map")
+#	xc = map$x
+#	n = length(xc)
+#	breaks = which(is.na(xc))
+#	range.limits = cbind(start = c(1, breaks + 1), end = c(breaks - 1, n))
+#	lst = apply(range.limits, 1, get.poly, map = map)
+#	names(lst) = map$names
+#	lapply(lst, fold.poly)
+#}
+

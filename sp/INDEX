@@ -1,6 +1,8 @@
 bpy.colors              blue-pink-yellow color scheme that prints well
                         on black/white printers
 bubble                  Create a bubble plot of spatial data
+cbindSDFP               Combine "SpatialDataFramePolygons" with data
+                        frame
 coordinates             Create a SpatialDataFrame, or extract
                         coordinates
 CRS-class               Class "CRS" of coordinate reference system
@@ -25,6 +27,8 @@ point.in.polygon        do point(s) fall in a given polygon?
 Polygon4-class          Class "Polygon4" for map polygons
 polygons                Create a SpatialDataPolygons object, or
                         retrieve polygon values
+Polygons<-              Create a SpatialDataFramePolygons object, or
+                        retrieve polygon values
 Polylist4-class         Class "Polylist4" for map polygons
 select.spatial          select points spatially
 SpatialData-class       Class "SpatialData" ~~~
@@ -33,7 +37,8 @@ SpatialDataFrame-class
                         Class "SpatialDataFrame" ~~~
 SpatialDataFrameGrid-class
                         Class "SpatialDataFrameGrid" ~~~
-SpatialDataPolygons     Create a SpatialDataPolygons object
+SpatialDataFramePolygons-class
+                        Class "SpatialDataFramePolygons"
 SpatialDataPolygons-class
                         Class "SpatialDataPolygons"; stores spatial
                         polygons and attributes

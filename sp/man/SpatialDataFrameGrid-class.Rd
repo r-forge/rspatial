@@ -7,6 +7,8 @@
 \alias{coerce,SpatialDataFrameGrid,SpatialDataFrame-method}
 \alias{coerce,SpatialDataFrameGrid,data.frame-method}
 \alias{as.data.frame.SpatialDataFrameGrid}
+\alias{plot.SpatialDataFrameGrid}
+
 
 \title{Class "SpatialDataFrameGrid" ~~~ }
 \description{  ~~ A concise (1-5 lines) description of what the class is.  ~~}
@@ -45,6 +47,21 @@ Class \code{"SpatialData"}, by class \code{"SpatialDataFrame"}.
     \item{coerce}{\code{signature(from = "SpatialDataFrameGrid", to = "data.frame")}: removes all spatial topology attributes }
   }
 }
+
+\usage{
+plot.SpatialDataFrameGrid(x, xlab = x@coord.names[1], ylab = x@coord.names[2], 
+	asp = 1, ...)
+}
+
+\arguments{
+  \item{x}{object of class SpatialDataFrameGrid}
+  \item{xlab}{ x axis label}
+  \item{ylab}{ y axis label}
+  \item{asp}{ aspect ratio of unit on x and y axis; usually 1 for maps }
+  \item{...}{ ignored }
+}
+
+
 \references{ }
 \author{ Edzer J. Pebesma, \email{e.pebesma@geog.uu.nl} }
 \note{  }

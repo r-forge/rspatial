@@ -23,7 +23,7 @@ Class \code{"SpatialData"}, directly.
 }
 
 \usage{
-plot.Polylist4(x, col = NA, border = par("fg"), add = FALSE, xlim = NULL, ylim = NULL, ...)
+plot.Polylist4(x, col, border = par("fg"), add = FALSE, xlim = NULL, ylim = NULL, xlab = "", ylab = "", asp = 1, xpd = NULL, density = NULL, angle = 45, ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -31,7 +31,12 @@ plot.Polylist4(x, col = NA, border = par("fg"), add = FALSE, xlim = NULL, ylim =
   \item{col}{polygon fill colour}
   \item{border}{border colour}
   \item{add}{add to existing plot}
-  \item{xlim, ylim}{numeric of length 2, giving the x and y coordinates ranges}
+  \item{xlim,ylim}{numeric of length 2, giving the x and y coordinates ranges}
+  \item{xlab,ylab}{label for the x or y axis}
+  \item{asp}{aspect ratio of unit x and unit y axis}
+  \item{xpd}{(where) should clipping take place?}
+  \item{density}{the density of shading lines, in lines per inch}
+  \item{angle}{the slope of shading lines, given as an angle in degrees (counter-clockwise)}
   \item{\dots}{graphical parameters can be given as arguments to \code{plot}}
 }
 

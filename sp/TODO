@@ -1,10 +1,15 @@
+
+
 SpatialDataPolygons doesn't known which columns in the
-attribute data are the label points. Change into
-SpatialDataFramePolygon, and make it descend from
-SpatialDataFrame?
+attribute data are the label points. Changed into
+SpatialDataFramePolygon, descending from
+SpatialDataFrame.
 
 Remove all PolygonX classes extending SpatialData; 
-however, does each polygon need a bounding box?
+however, does each polygon need a bounding box? On reflection, 
+no great overhead, and they do need bboxes.
+
+
 
 subsetting polygons;
 not replicate projection in polygons;

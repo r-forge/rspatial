@@ -1,43 +1,41 @@
 \name{polygons}
 \alias{polygons}
 \alias{polygons<-}
+\alias{verifyPolygon}
 
 \title{Create a SpatialDataPolygons object, or retrieve polygon values }
 \description{
 Creates a SpatialDataPolygons, a data.frame
-with polygon information, or retrieves polygons
+with polygon information, or retrieves polygons. The polygons are held in a Polylist4 object.
 }
 \usage{
 polygons(obj) <- value
 polygons(obj) 
+verifyPolygon(x)
 }
 \arguments{
-  \item{obj}{ when setting polygons, a data.frame or an existing object
-  with the value NULL; when retrieving polygons, an object of class
-  SpatialDataPolygons. }
-  \item{value}{ a list with polygons; the length of the list should
-  equal the number of rows in obj (if not NULL), and each polygon should
-  be valid; See below. }
+  \item{obj}{ when setting polygons, a data.frame; when retrieving polygons, an object of class SpatialDataPolygons. }
+  \item{value}{ an object of class Polylist4 }
+  \item{x}{an object, preferably a two column numeric matrix of coordinates for a 2D polygon}
 }
 \value{
   An object of class \code{SpatialDataPolygons}; see
   \code{\link{SpatialDataPolygons-class}}.
 }
 
-\details{ Valid polygons are matrices with two columns and at least
-four rows; first column is taken as the x-coordinates, second column
-as the y-coordinate. Polygons shoud be closed, meaning that the first
-point should equal the last.
+\details{ 
 }
 \author{ Edzer J. Pebesma, \email{e.pebesma@geog.uu.nl} }
 
-\seealso{ }
+\seealso{\code{\link{Polylist4-class}}}
 
 \examples{
 data(ncMap)
 P4x <- Map2Poly4(nc.Map, region.id=nc.Map$att.data$FIPSNO)
 x <- nc.Map$att.data
+class(x)
 polygons(x) <- P4x
+class(x)
 summary(x)
 }
 
