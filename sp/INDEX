@@ -30,6 +30,7 @@ polygons                Create a SpatialDataPolygons object, or
 Polygons<-              Create a SpatialDataFramePolygons object, or
                         retrieve polygon values
 Polylist4-class         Class "Polylist4" for map polygons
+readAsciigrid           read/write to/from ESRI asciigrid format
 select.spatial          select points spatially
 SpatialData-class       Class "SpatialData" ~~~
 SpatialDataFrame        Create a SpatialDataFrame
