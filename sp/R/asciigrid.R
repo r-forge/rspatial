@@ -1,7 +1,10 @@
 read.asciigrid <- function(fname, as.image = FALSE, plot.image = FALSE) {
 	t = file(fname, "r")
 	l5 = readLines(t, n = 6)
-	l5s = strsplit(l5, " ")
+	# instead of:
+	# l5s = strsplit(l5, " ")
+	# Michael Summer, mdsumner@utas.edu.au suggested:
+	l5s = strsplit(l5, "\\s+", perl = T)
 	xllcenter = yllcenter = xllcorner = yllcorner = as.numeric(NA)
 	for (i in 1:6) {
 		fieldname = casefold(l5s[[i]][1])
