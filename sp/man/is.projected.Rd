@@ -24,7 +24,7 @@ returns the number of spatial dimensions (2 or 3).  }
 \details{ proj4 strings are not operative yet }
 
 \author{
-  Edzer J. Pebesma, \email{e.pebesma@geog.uu.nl}
+  Edzer J. Pebesma, \email{e.pebesma@geo.uu.nl}
 }
 
 \seealso{ \link{CRS} }

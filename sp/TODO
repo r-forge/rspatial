@@ -1,3 +1,5 @@
+gridded(x) = TRUE for x SpatialPoints should create SpatialGrid.
+
 spplot: pass spplot.panel generic function, or arg1 type-specific ones?
 
 Higher-dimensional grids: drop dimension after selection? (now fails)

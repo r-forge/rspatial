@@ -30,6 +30,16 @@ getGridTopology = function(obj) {
 	obj@grid
 }
 
+areaSpatialGrid = function(obj) {
+	cellarea = prod(obj@grid@cellsize[1:2])
+	if (is(obj, "SpatialGridDataFrame"))
+		nrow(na.omit(obj@data)) * cellarea
+	else if (fullgrid(obj))
+		prod(obj@grid@cells.dim) * cellarea
+	else
+		length(obj@grid.index) * cellarea
+}
+
 gridparameters = function(obj) { 
 	if (is(obj, "SpatialGrid"))
 		obj = obj@grid
@@ -49,31 +59,28 @@ boguspoints = function(grid) {
 	SpatialPoints(x)
 }
 
-getGridIndex = function(cc, grid) {
+getGridIndex = function(cc, grid, all.inside = TRUE) {
 	n = ncol(cc)
 	idx = rep(1, nrow(cc))
-	#idx = round((cc[,1] - grid@cellcentre.offset[1])/grid@cellsize[1]) + 1
-	#yi = grid@cells.dim[2] - 
-	#	(round((cc[,2] - grid@cellcentre.offset[2])/grid@cellsize[2]) + 1)
-	#idx = idx + grid@cells.dim[1] * yi
-	#if (n > 2) {
-	#	zi = round((cc[,3] - grid@cellcentre.offset[3])/grid@cellsize[3])
-	#	idx = idx + (grid@cells.dim[1] * grid@cells.dim[2]) * zi
-	#}
 	cumprod = 1
 	for (i in 1:n) {
 		this.idx = round((cc[,i] - grid@cellcentre.offset[i])/grid@cellsize[i])
 		if (i == 2)
 			this.idx = grid@cells.dim[2] - (this.idx + 1)
-		if (any(this.idx > grid@cells.dim[i] | this.idx < 0)) {
-			print(this.idx)
-			stop("this.idx out of range")
+		outside = this.idx >= grid@cells.dim[i] | this.idx < 0
+		if (any(outside)) {
+			if (all.inside) {
+				print(summary(this.idx))
+				stop("this.idx out of range")
+			} else
+				this.idx[outside] = NA
 		}
 		idx = idx + this.idx * cumprod
 		cumprod = cumprod * grid@cells.dim[i]
 	}
-	if (min(idx) < 1 || max(idx) > .NumberOfCells(grid)) {
-		print(idx)
+	outside = idx < 1 | idx > .NumberOfCells(grid)
+	if (any(na.omit(outside))) {
+		print(summary(idx))
 		stop("index outside boundaries")
 	}
 	as.integer(round(idx))

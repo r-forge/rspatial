@@ -16,7 +16,7 @@
 				#obj = as(obj, "SpatialGrid")
 				obj = SpatialGrid(obj)
 		} else
-			stop("gridded<- only works for SpatialPoints[X] or SpatialGrid[X]")
+			stop("gridded<- only works for SpatialPoints[DataFrame] or SpatialGrid[DataFrame]")
 	} else {
 		if (is(value, "formula") || is(value, "character")) {
 			if (!is(obj, "data.frame"))

@@ -49,7 +49,7 @@ Class \code{"Spatial"}, directly.
   }
 }
 \references{ ~put references to the literature/web site here ~ }
-\author{ Edzer J. Pebesma, \email{e.pebesma@geog.uu.nl} }
+\author{ Edzer J. Pebesma, \email{e.pebesma@geo.uu.nl} }
 \note{ }
 
 \seealso{

@@ -30,6 +30,11 @@ SpatialLines <- function(SlineList) {
 	res
 }
 
+SlineLength = function(cc) {
+	dxy = apply(cc, 2, diff)
+	sqrt(sum(apply(dxy, 1, function(x) sum(x ** 2))))
+}
+
 .bboxSls <- function(lst) {
 	x <- sapply(lst, function(x) bbox(x)[1,])
 	y <- sapply(lst, function(x) bbox(x)[2,])

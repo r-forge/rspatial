@@ -140,7 +140,7 @@ sets the colors to \link{bpy.colors}.
 \seealso{
 }
 \author{
-Edzer J. Pebesma, \email{e.pebesma@geog.uu.nl}
+Edzer J. Pebesma, \email{e.pebesma@geo.uu.nl}
 }
 \examples{
 library(lattice)

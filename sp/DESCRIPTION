@@ -2,8 +2,8 @@ Package: sp
 Version: 0.6-3
 Date: 2005-03-02
 Title: classes and methods for spatial data
-Author: Edzer J. Pebesma <e.pebesma@geog.uu.nl>, Roger Bivand <Roger.Bivand@nhh.no> and others
-Maintainer: Edzer J. Pebesma <e.pebesma@geog.uu.nl>
+Author: Edzer J. Pebesma <e.pebesma@geo.uu.nl>, Roger Bivand <Roger.Bivand@nhh.no> and others
+Maintainer: Edzer J. Pebesma <e.pebesma@geo.uu.nl>
 Depends: R (>= 2.0.0)
 Suggests: rgdal (>= 0.2-6), pixmap (>= 0.4-2), RColorBrewer
 Imports: lattice, grid

@@ -32,7 +32,7 @@ are never to be generated; only derived classes can be meaningful }
   }
 }
 \references{  }
-\author{ r-spatial team; Edzer J. Pebesma, \email{e.pebesma@geog.uu.nl}
+\author{ r-spatial team; Edzer J. Pebesma, \email{e.pebesma@geo.uu.nl}
 Roger Bivand, Barry Rowlinson, Virgilio G\'{o}mez-Rubio
 }
 \note{  }

@@ -1,6 +1,6 @@
 \name{overlay}
 \alias{overlay}
-\title{ overlay points (grids) with rings }
+\title{ spatial overlay for points, grids and rings }
 \description{
 }
 \usage{
@@ -12,8 +12,8 @@ overlay(x, y, ...)
 \item{...}{ optional arguments; see example below }
 }
 \value{ 
-a numerical array of indices of \code{x} on locations of \code{y},
-or a data.frame with (aggregate) properties of \code{x} in units
+a numerical array of indices of \code{x} on locations of \code{y}, or
+a data.frame with (possibly aggregate) properties of \code{x} in units
 of \code{y}.
 }
 \note{points on a ring boundary and points corresponding to a ring vertex are

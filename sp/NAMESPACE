@@ -37,7 +37,8 @@ export(spplot, layout.scale.bar, layout.north.arrow, sp.theme,
 export(as.image.SpatialGridDataFrame)
 
 export(gridparameters, "gridded<-", gridded, fullgrid, "fullgrid<-", 
-	SpatialGrid, SpatialGridDataFrame, GridTopology, getGridTopology)
+	SpatialGrid, SpatialGridDataFrame, GridTopology, getGridTopology,
+	areaSpatialGrid)
 
 #export(as.SpatialRings.Shapelist, as.SpatialRings.matrixList, 
 #	as.Ring4.matrix)
@@ -60,7 +61,8 @@ export(read.asciigrid, write.asciigrid, read.gdal)
 
 export(transform.Spatial)
 
-export(makegrid, sample.Spatial, sample.Sline, sample.Sring, sample.Srings)
+export(makegrid, sample.Spatial, sample.Sline, sample.Sring, sample.Srings,
+	sample.Sgrid)
 
 exportClasses(CRS, Spatial, 
 	SpatialPoints, 

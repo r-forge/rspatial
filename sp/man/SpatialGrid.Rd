@@ -6,7 +6,7 @@
 \alias{points2grid}
 \alias{getGridIndex}
 \alias{getGridTopology}
-
+\alias{areaSpatialGrid}
 \title{ define spatial grid }
 \description{
 defines spatial grid by offset, cell size and dimensions
@@ -17,8 +17,9 @@ SpatialGrid(points = NULL, grid = NULL, tolerance = 10 * .Machine$double.eps,
 	proj4string = CRS(as.character(NA)))
 coordinatevalues(obj)
 points2grid(points, tolerance)
-getGridIndex(cc, grid)
+getGridIndex(cc, grid, all.inside = TRUE)
 getGridTopology(obj)
+areaSpatialGrid(obj)
 }
 \arguments{
     \item{cellcentre.offset}{numeric; vector with the smallest coordinates for
@@ -33,6 +34,9 @@ getGridTopology(obj)
 	\item{proj4string}{ object of class \link{CRS-class}}
 	\item{obj}{object of class or deriving from \link{SpatialGrid-class}}
 	\item{cc}{ numeric matrix with coordinates }
+	\item{all.inside}{ logical; if TRUE and \code{cc} points fall outside
+	the grid area, an error message is generated; if FALSE, NA values
+	are generated for such points }
 }
 
 \value{ GridTopology returns a value of class \link{GridTopology-class};
@@ -47,10 +51,16 @@ SpatialGrid returns an object of class \link{SpatialGrid-class}.
 points2grid returns the \link{GridTopology-class} from a set of points.
 
 getGridIndex finds the index of a set of point coordinates in a given
-grid topology.
+grid topology, and depending on \code{all.inside} setting, generates NA
+or an error message if points are outside the grid domain.
 
 getGridTopology returns the slot of class \link{GridTopology-class} from
 obj.
+
+areaSpatialGrid returns the spatial area of (the non-missing valued cells
+of) the grid. For objects of class \link{SpatialGridDataFrame-class}
+the area refers to cells where any (one or more) of the attribute columns
+are non-missing valued.
 }
 
 \note{ 
@@ -61,7 +71,7 @@ out or change this, see \link{fullgrid}.
 
 \references{ }
 
-\author{ Edzer J. Pebesma }
+\author{ Edzer J. Pebesma, \email{e.pebesma@geo.uu.nl}}
 
 \seealso{ 
 \link{SpatialGrid-class},

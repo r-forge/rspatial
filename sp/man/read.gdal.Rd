@@ -33,7 +33,7 @@ later on by e.g. using \code{\link{gridded}(x)=TRUE}.
 \seealso{ \link{as.image.SpatialGridDataFrame}, \link{image},
 \link{read.asciigrid} }
 
-\author{Edzer J.\ Pebesma, e.pebesma@geog.uu.nl}
+\author{Edzer J.\ Pebesma, e.pebesma@geo.uu.nl}
 
 \examples{
 \dontrun{

@@ -5,6 +5,7 @@
 \alias{sample.Sline}
 \alias{sample.Sring}
 \alias{sample.Srings}
+\alias{sample.Sgrid}
 \title{ sample point locations within a spatial region }
 \description{ sample point locations within a square area,
 a ring, or on a spatial line, using regular or random sampling
@@ -15,6 +16,7 @@ sample.Spatial(x, n, type, bb = bbox(x), offset = runif(2), cellsize, ...)
 sample.Sline(x, n, type, offset = runif(1), ...)
 sample.Sring(x, n, type = "random", bb = bbox(x), offset = runif(2), ...)
 sample.Srings(x, n, type = "random", bb = bbox(x), offset = runif(2), ...)
+sample.Sgrid(x, n, type = "random", bb = bbox(x), offset = runif(2), ...)
 makegrid(x, n = 10000, nsig = 2, cellsize, offset = c(0.5,0.5), 
 	type = "regular", ...)
 }
@@ -59,6 +61,7 @@ to zero, the algorithm taken here (generating points in a square area,
 selecting those inside the polygon) may be very resource intensive }
 
 \references{B.D. Ripley, 1980. Spatial Statistics, Wiley}
+\author{Edzer J. Pebesma, \email{e.pebesma@geo.uu.nl}}
 
 \seealso{\link{overlay-methods}, \link{point.in.polygon}, \link{sample}}
 \examples{
@@ -80,5 +83,21 @@ points(spsample(meuse.sr, n = 1000, "unaligned"), pch = 3)
 
 plot(meuse.sr)
 points(spsample(meuse.sr@polygons[[1]], n = 100, "stratified"), pch = 3, cex=.5)
+
+data(meuse.grid)
+gridded(meuse.grid) = ~x+y
+image(meuse.grid)
+points(spsample(meuse.grid,n=1000,type="random"), pch=3, cex=.5)
+image(meuse.grid)
+points(spsample(meuse.grid,n=1000,type="stratified"), pch=3, cex=.5)
+image(meuse.grid)
+points(spsample(meuse.grid,n=1000,type="regular"), pch=3, cex=.5)
+image(meuse.grid)
+points(spsample(meuse.grid,n=1000,type="unaligned"), pch=3, cex=.5)
+
+fullgrid(meuse.grid) = TRUE
+image(meuse.grid)
+points(spsample(meuse.grid,n=1000,type="stratified"), pch=3,cex=.5)
+
 }
 \keyword{manip}
