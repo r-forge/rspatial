@@ -38,7 +38,8 @@ mapasp                  Calculate aspect ratio for plotting geographic
 meuse                   Meuse river data set
 meuse.grid              Prediction Grid for Meuse Data Set
 point.in.polygon        do point(s) fall in a given polygon?
-readAsciigrid           read/write to/from (ESRI) asciigrid format
+read.asciigrid          read/write to/from (ESRI) asciigrid format
+read.gdal               read GDAL supported grid maps through rgdal
 rings-methods           ~~ Methods for Function rings in Package 'sp4'
                         ~~
 select.spatial          select points spatially

@@ -1,4 +1,4 @@
-readAsciigrid <- function(fname, as.image = FALSE, plot.image = FALSE) {
+read.asciigrid <- function(fname, as.image = FALSE, plot.image = FALSE) {
 	t = file(fname, "r")
 	l5 = readLines(t, n = 6)
 	l5s = strsplit(l5, " ")
@@ -53,7 +53,7 @@ readAsciigrid <- function(fname, as.image = FALSE, plot.image = FALSE) {
 	}
 }
 
-writeAsciigrid <- function(x, fname, attr = 1, na.value = -9999, ...) { 
+write.asciigrid <- function(x, fname, attr = 1, na.value = -9999, ...) { 
 
 # R> gridparameters(meuse.grid)
 #   cellcentre.offset cellsize cells.dim

@@ -1,11 +1,11 @@
-\name{readAsciigrid}
-\alias{readAsciigrid}
-\alias{writeAsciigrid}
+\name{read.asciigrid}
+\alias{read.asciigrid}
+\alias{write.asciigrid}
 \title{ read/write to/from (ESRI) asciigrid format }
 \description{ read/write to/from ESRI asciigrid format }
 \usage{ 
-readAsciigrid(fname, as.image = FALSE, plot.image = FALSE)
-writeAsciigrid(x, fname, attr = 1, na.value = -9999, ...)
+read.asciigrid(fname, as.image = FALSE, plot.image = FALSE)
+write.asciigrid(x, fname, attr = 1, na.value = -9999, ...)
 }
 
 \arguments{
@@ -24,14 +24,14 @@ resulting map}
 to write the numeric data }
 }
 \value{
-	\code{readAsciigrid} returns the grid map read; either as
-	an object of class \link{SpatialGriddedDataFrame-class} or as list
-	with components \code{x}, \code{y} and {z}.
+	\code{read.asciigrid} returns the grid map read; either as
+	an object of class \link{SpatialGriddedDataFrame-class} or, if
+	as.image is TRUE, as list with components \code{x}, \code{y} and {z}.
 }
-\seealso{ \link{as.image.SpatialGriddedDataFrame}, \link{image} }
+\seealso{ \link{read.gdal}, \link{as.image.SpatialGriddedDataFrame}, \link{image} }
 \author{Edzer J.\ Pebesma, e.pebesma@geog.uu.nl}
 \examples{
-x <- readAsciigrid(system.file("external/test.ag", package="sp")[1])
+x <- read.asciigrid(system.file("external/test.ag", package="sp")[1])
 class(x)
 image(x)
 }
