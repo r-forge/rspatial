@@ -6,42 +6,13 @@ fullgrid(SpatialGrid) should work, as well as fullgrid(SpatialGrid)<-
 
 coordinates(spdf) = ~x+y # catch error; give useful message
 
-lplot does not work on SpatialGriddedDataFrame
-
-R> xx=as(xx,"SpatialCellDataFrame")
-Error in as(xx, "SpatialCellDataFrame") : No method or default for coercing "SpatialGriddedDataFrame" to "SpatialCellDataFrame"
-
-## Why does $ not work as shorthand for [[ ? Does $ only work for lists,
-and S3 derived things (e.g. data.frame)? A question for r-help?
-
 Documentation: write an sp introductory rweave vignette: (i) for users,
 (ii) for package developers, or one for both? Yes, I think one for both.
 
 Run through all examples and tests.
 
-SpatialCell:
-	no print method;
-	[ does not work
-	document GetGridIndex, points2grid & tolerance?
-	write docs a la SpatialGridded.Rd
-
-summary.SpatialCell does not work.
-
-check gridded; GriddedDF <-> CellDF; [.Gridded; [[.Gridded (drop coords).
-
-last line in tests/grid.R
-
-meuse$xx = meuse$zinc - mean(meuse$zinc) # does not do what you want
---->>> $ can't be done, acc to manual <<<---
-
 For plotting functions (plot, bubble) use a reasonable x/y ratio for
 unprojected data (look in maps?), or bail out with an error
-
-First cut at getting holes and polygon order right, Polygon4 and Polylist4
-classes for trial.
-
-build simple SpatialDataFramePolygons example, e.g. using two triangles
-add subscripting [] to SpatialDataFramePolygon objects (with much care!)
 
 find out why does, in S-Plus, 
   for(i in 1:100) { polygon(P4x@polygons[[i]]@coords) }
@@ -51,18 +22,7 @@ Do we need to set a method here?
 
 clean up this file
 
-SpatialDataPolygons doesn't known which columns in the
-attribute data are the label points. Changed into
-SpatialDataFramePolygon, descending from
-SpatialDataFrame.
-
-plot.SpatialDataFrameGrid does not do much useful: use levelplot?
-
-Remove all PolygonX classes extending SpatialData; 
-however, does each polygon need a bounding box? On reflection, 
-no great overhead, and they do need bboxes.
-
-subsetting polygons;
+subsetting SpatialLines[Xx] and SpatialRings[Xx];
 not replicate projection in polygons;
 (plotting) polygons with islands; crossing polygons?
 SpatialDataPolygons -> SpatialDataFramePolygons

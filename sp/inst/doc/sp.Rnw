@@ -402,3 +402,5 @@ points, lines, polygons?
 \subsection{Reading ArcGIS coverages}
 
 \end{document}
+
+% vim:syntax=tex
