@@ -332,10 +332,14 @@ sources.  The following example shows how to build an object of class
 % build line objects
 <<fig=TRUE>>=
 l1 = cbind(c(1,2,3),c(3,2,2))
+l1a = cbind(l1[,1]+.05,l1[,2]+.05)
 l2 = cbind(c(1,2,3),c(1,1.5,1))
 Sl1 = Sline(l1)
+Sl1a = Sline(l1a)
 Sl2 = Sline(l2)
-Sl = SpatialLines(list(Sl1,Sl2))
+S1 = Slines(list(Sl1, Sl1a))
+S2 = Slines(list(Sl2))
+Sl = SpatialLines(list(S1,S2))
 summary(Sl)
 plot(Sl, col = c("red", "blue"))
 @

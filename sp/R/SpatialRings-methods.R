@@ -176,8 +176,8 @@ SpatialRings <- function(Srl, pO) {
 
 Sring <- function(coords, proj4string=CRS(as.character(NA))) {
 	sl <- Sline(coords, proj4string=proj4string)
-	rD <- .ringDirxy(getSlineCoordsSlot(sl))
-	cents <- .RingCentrd_2d(getSlineCoordsSlot(sl))
+	rD <- .ringDirxy(coordinates(sl))
+	cents <- .RingCentrd_2d(coordinates(sl))
 	.saneRD(rD)
 	res <- new("Sring", sl, ringDir=as.integer(rD),
 		labpt=as.numeric(c(cents$xc, cents$yc)), 
@@ -186,7 +186,8 @@ Sring <- function(coords, proj4string=CRS(as.character(NA))) {
 }
 
 Srings <- function(srl, ID) {
-	if (any(sapply(srl, function(x) !is(x, "Sring"))))					stop("srl not a list of Sring objects")
+	if (any(sapply(srl, function(x) !is(x, "Sring"))))
+		stop("srl not a list of Sring objects")
 	projargs <- unique(sapply(srl, proj4string))
 	if (length(projargs) > 1) 
 		stop("differing projections among Sring objects")

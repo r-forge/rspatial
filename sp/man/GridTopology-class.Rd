@@ -3,6 +3,7 @@
 \alias{GridTopology-class}
 \alias{print.summary.GridTopology}
 \alias{summary.GridTopology}
+\alias{show,GridTopology-method}
 
 \title{Class "GridTopology" ~~~ }
 \description{ class for defining a rectangular grid of

@@ -157,6 +157,7 @@ y 333168 333611
 > x = meuse[1:20,]
 > coordinates(x) = c("x", "y") # coordinate column names
 > print(summary(x))
+Object of class SpatialPointsDataFrame
 Coordinates:
      min    max
 x 180555 181390
@@ -416,6 +417,7 @@ Data attributes:
 20    1    <NA>     10 6.958448
 > 
 > print(summary(x[1:10, "zinc"])) # check bbox
+Object of class SpatialPointsDataFrame
 Coordinates:
      min    max
 x 181025 181390
@@ -432,6 +434,7 @@ Data attributes:
  3rd Qu.: 581.5  
  Max.   :1141.0  
 > print(summary(x["zinc"])) # compare bbox
+Object of class SpatialPointsDataFrame
 Coordinates:
      min    max
 x 180555 181390

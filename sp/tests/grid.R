@@ -32,6 +32,12 @@ grd = points2grid(as(df, "SpatialPoints"), 1e-31)
 grd
 getGridIndex(coordinates(df), grd)
 
+g = SpatialGrid(grid = grd)
+fullgrid(g)
+fullgrid(g) = TRUE
+# the next one has to fail:
+try(fullgrid(g) <- FALSE)
+
 print(summary(df))
 image(df["z"])
 as.image.SpatialGridDataFrame(df)

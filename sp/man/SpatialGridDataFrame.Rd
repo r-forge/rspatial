@@ -10,6 +10,7 @@
 \alias{summary.SpatialGridDataFrame}
 \alias{coerce,SpatialGridDataFrame,SpatialPointsDataFrame-method}
 \alias{coerce,SpatialGridDataFrame,data.frame-method}
+\alias{coerce,SpatialGridDataFrame,matrix-method}
 \alias{as.data.frame.SpatialGridDataFrame}
 
 \title{Class "SpatialGridDataFrame" ~~~ }
@@ -44,6 +45,7 @@ Class \code{"Spatial"}, by class \code{"SpatialGrid"}.
     \item{[[}{\code{signature(x = "SpatialGridDataFrame")}: retrieves an attribute, dropping everything 
 	else (topology) }
     \item{[[<-}{\code{signature(x = "SpatialGridDataFrame")}: assigns or replaces an attribute }
+	\item{as.matrix}{\code{signature(x = "SpatialGridDataFrame")}: coerce to matrix }
   }
 }
 

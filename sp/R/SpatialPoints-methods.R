@@ -42,10 +42,6 @@ setMethod("show", "SpatialPoints", function(object) print.SpatialPoints(object))
 
 setMethod("coordinates", "SpatialPoints", function(obj) obj@coords)
 
-setMethod("bbox", "SpatialPoints", function(obj) obj@bbox)
-
-setMethod("dimensions", "SpatialPoints", function(obj) nrow(bbox(obj)))
-
 as.data.frame.SpatialPoints = function(x, row.names, optional) data.frame(x@coords)
 
 setAs("SpatialPoints", "data.frame", function(from) as.data.frame(from))

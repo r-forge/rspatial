@@ -28,6 +28,7 @@ Type 'q()' to quit R.
 > # remove the duplicate rows:
 > meusedup2 = meusedup[-zd[,2], ]
 > print(summary(meusedup2))
+Object of class SpatialPointsDataFrame
 Coordinates:
      min    max
 x 178605 181390
@@ -62,6 +63,7 @@ Data attributes:
  NA's   : 1                   
 > meusedup3 <- subset(meusedup, !(1:nrow(meusedup) %in% zd[,2]))
 > print(summary(meusedup3))
+Object of class SpatialPointsDataFrame
 Coordinates:
      min    max
 x 178605 181390

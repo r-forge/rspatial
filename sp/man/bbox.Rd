@@ -2,7 +2,6 @@
 \docType{methods}
 \alias{bbox,Spatial-method}
 \alias{bbox}
-
 \title{ retrieve bbox from spatial data}
 \description{
 retrieves spatial bounding box from spatial data

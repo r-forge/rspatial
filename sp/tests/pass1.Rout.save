@@ -53,6 +53,7 @@ Type 'q()' to quit R.
 +  	xlab="x-coordinate (RDM)", ylab="y-coordinate (RDM)", 
 + 	main = "Meuse: zinc bubble plot")
 > print(summary(x))
+Object of class SpatialPointsDataFrame
 Coordinates:
      min    max
 x 178605 181390
@@ -90,6 +91,7 @@ Data attributes:
 > x = meuse[, 1:5]
 > coordinates(x) = ~x+y
 > print(summary(x))
+Object of class SpatialPointsDataFrame
 Coordinates:
      min    max
 x 178605 181390

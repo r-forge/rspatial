@@ -24,7 +24,7 @@ when extending \link{SpatialPointsDataFrame} }
 them linear on the working scale. }
 \item{legend}{ character; array with legend (text) entries; suitable defaults are
 sought. }
-\item{space}{ locations where the legend is placed: "right", "left", "top", 
+\item{key.space}{ locations where the legend is placed: "right", "left", "top", 
 or "bottom"}
 \item{...}{ arguments passed to \link{xyplot}}
 }

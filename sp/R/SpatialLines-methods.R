@@ -7,20 +7,36 @@ Sline <- function(coords, proj4string=CRS(as.character(NA))) {
 		proj4string = proj4string)
 }
 
+Slines <- function(slinelist) {
+	if (is(slinelist, "Sline"))
+		slinelist = list(slinelist)
+	if (any(sapply(slinelist, function(x) !is(x, "Sline"))))
+		stop("slinelist not a list of Sline objects")
+	projargs <- unique(sapply(slinelist, proj4string))
+	if (length(projargs) > 1) 
+		stop("differing projections among Sline objects")
+	Sp <- new("Spatial", bbox= .bboxSls(slinelist), proj4string=CRS(projargs))
+	new("Slines", Sp, Slines = slinelist)
+}
+
 SpatialLines <- function(SlineList) {
-	if (any(sapply(SlineList, function(x) !is(x, "Sline")))) 
-		stop("polygons not Sline objects")
+	if (any(sapply(SlineList, function(x) !is(x, "Slines")))) 
+		stop("polygons not Slines objects")
 	if (length(unique(sapply(SlineList, function(x) proj4string(x)))) != 1) 
 		stop("Different projections in list of Sline objects")
-	projargs <- proj4string(SlineList[[1]])
-	bbox <- .bboxR4s(SlineList)
-	Sp <- new("Spatial", bbox=bbox, proj4string=CRS(projargs))
+	Sp <- new("Spatial", bbox = .bboxSls(SlineList), 
+		proj4string=CRS(proj4string(SlineList[[1]])))
 	res <- new("SpatialLines", Sp, lines=SlineList)
 	res
 }
 
-SLDF <- function(SL, df) {
-	res <- new("SpatialLinesDataFrame", SL, data=df)
+.bboxSls <- function(lst) {
+	x <- sapply(lst, function(x) bbox(x)[1,])
+	y <- sapply(lst, function(x) bbox(x)[2,])
+	r1 <- range(x)
+	r2 <- range(y)
+	res <- rbind(r1, r2)
+	colnames(res) <- c("min", "max")
 	res
 }
 
@@ -112,16 +128,25 @@ plotSpatialLines <- function(SL, xlim = bbox(SL)[1,], ylim = bbox(SL)[2,], asp =
 {
 	frame()
 	plot.window(xlim = xlim, ylim = ylim, asp = asp)
-	lst <- getSLlinesSlot(SL)
+	lst <- SL@lines
 	for (i in seq(along=lst)) {
-		crds <- getSlineCoordsSlot(lst[[i]])
-		if (length(col) == length(lst))
-			lines(crds, col = col[i], ...)
-		else
-			lines(crds, ...)
+		sllst = lst[[i]]@Slines
+		for (j in seq(along=sllst)) {
+			crds <- coordinates(sllst[[j]])
+			if (length(col) == length(lst))
+				lines(crds, col = col[i], ...)
+			else
+				lines(crds, col = col[1], ...)
+		}
 	}
 }
 
 summary.SpatialLines = summary.Spatial
 
 plot.SpatialLines = function(x, ...) plotSpatialLines(x, ...)
+
+setMethod("coordinates", "Sline", function(obj) obj@coords)
+
+setMethod("coordinates", "Slines", function(obj) lapply(obj@Slines, coordinates))
+
+setMethod("coordinates", "SpatialLines", function(obj) lapply(obj@lines, coordinates))

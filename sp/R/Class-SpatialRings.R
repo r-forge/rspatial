@@ -52,7 +52,7 @@ setClass("Sring",
 		labpt = as.numeric(NA),
 		area = as.numeric(NA)),
 	validity = function(object) {
-		coords <- getSlineCoordsSlot(object)
+		coords <- coordinates(object)
 		start <- coords[1,]
 		final <- coords[nrow(coords),]
 		if (!identical(start, final)) stop("ring not closed")

@@ -66,6 +66,7 @@ attr(,"package")
 [1] "sp"
 > sum = summary(x)
 > print(sum)
+Object of class SpatialPointsDataFrame
 Coordinates:
           min    max
 xcoord 178605 181390

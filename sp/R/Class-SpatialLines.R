@@ -13,6 +13,18 @@ setClass("Sline",
 	}
 )
 
+setClass("Slines",
+	representation("Spatial", Slines = "list"),
+	prototype = list(bbox = matrix(rep(NA, 6), 3, 2, 
+			dimnames = list(NULL, c("min","max"))),
+		proj4string = CRS(as.character(NA)),
+		Slines = list()),
+	validity = function(object) {
+		if (any(sapply(object@Slines, function(x) !is(x, "Sline"))))
+			stop("not a list of Sring objects")
+		return(TRUE)
+})
+
 setClass("SpatialLines",
 	representation("Spatial", lines = "list"),
 	prototype = list(bbox = matrix(rep(NA, 6), 3, 2, 
@@ -21,17 +33,10 @@ setClass("SpatialLines",
 		lines = list()),
 	validity = function(object) {
 		if (any(unlist(lapply(object@lines, function(x) 
-			!is(x, "Sline"))))) stop("polygons not Sline objects")
+			!is(x, "Slines"))))) stop("lines not Slines objects")
 		if (any(sapply(object@lines, function(x) 
 			!identical(proj4string(object), proj4string(x))))) 
 			stop("Different projections")
 		return(TRUE)
 	}
 )
-
-getSLlinesSlot <- function(SL) SL@lines
-
-getSlineCoordsSlot <- function(Sline) Sline@coords
-
-setMethod("coordinates", "Sline", function(obj) obj@coords)
-setMethod("coordinates", "SpatialLines", function(obj) lapply(obj@lines, coordinates))
