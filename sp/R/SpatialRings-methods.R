@@ -178,9 +178,11 @@ Sring <- function(coords, proj4string=CRS(as.character(NA))) {
 	rD <- .ringDirxy(coordinates(sl))
 	cents <- .RingCentrd_2d(coordinates(sl))
 	.saneRD(rD)
-	res <- new("Sring", sl, ringDir=as.integer(rD),
-		labpt=as.numeric(c(cents$xc, cents$yc)), 
-		area=as.numeric(cents$area))
+	hole <- FALSE
+	if (rD < 0) hole <- TRUE
+	res <- new("Sring", sl, labpt=as.numeric(c(cents$xc, cents$yc)), 
+		area=as.numeric(cents$area), hole=as.logical(hole), 
+		ringDir=as.integer(rD))
 	res
 }
 
@@ -212,19 +214,26 @@ Srings <- function(srl, ID) {
 #		after <- as.integer(NA)
 #	}
 # check their ring directions and change if improbable
-	srl <- .checkRD2(pO, after, rD, srl)
+	rD <- sapply(srl, function(x) x@ringDir)
+	holes <- sapply(srl, function(x) x@hole)
+	areas <- sapply(srl, getSringAreaSlot)
+	marea <- which.max(areas)
+	which_list <- ifelse(length(srl) == 1, 1, marea)
+	if (holes[which_list]) {
+		crds <- srl[[which_list]]@coords
+		srl[[which_list]] <- Sring(coords=crds[nrow(crds):1,],
+			proj4string=CRS(projargs))
+	}
+	holes <- sapply(srl, function(x) x@hole)
+	Sarea <- abs(sum(area * holes) - sum(area * !holes))
+#	srl <- .checkRD2(pO, after, rD, srl)
 # assign label point to the largest member ring
 	lpt <- t(sapply(srl, getSringLabptSlot))
-	if (length(srl) == 1) {
-		labpt <- lpt
-	} else {
-		marea <- which.max(sapply(srl, getSringAreaSlot))
-		labpt <- lpt[ifelse(length(marea) == 1, marea, 1),]
-	}
+	labpt <- lpt[which_list,]
 		
 	Sp <- new("Spatial", bbox=.bboxSrs(srl), proj4string=CRS(projargs))
 	res <- new("Srings", Sp, Srings=srl, plotOrder=as.integer(pO),
-		labpt=as.numeric(labpt), ID=as.character(ID))
+		labpt=as.numeric(labpt), ID=as.character(ID), area=Sarea)
 	res
 
 }
@@ -240,33 +249,36 @@ as.SpatialRings.SringsList <- function(Srl) {
 	n <- length(Srl)
 
 # check their plot order
-	pO <- 1:n
-	after <- as.integer(rep(NA, n))
-	rD <- sapply(Srl, function(x) {
-		pO1 <- which(x@plotOrder == 1);
-		x@Srings[[pO1]]@ringDir
-		})
-	.saneRD(rD)
-	r1 <- .insidersR4a(Srl, rD)
-	if (!all(sapply(r1, is.null))) {
-		lres <- .lbuild(.afters(r1), rD)
-		pO <- lres$pO
-		after <- lres$after
-	}
+#	pO <- 1:n
+#	after <- as.integer(rep(NA, n))
+	area <- sapply(Srl, function(x) x@area)
+	pO <- as.integer(order(area, decreasing=TRUE))
+
+#	rD <- sapply(Srl, function(x) {
+#		pO1 <- which(x@plotOrder == 1);
+#		x@Srings[[pO1]]@ringDir
+#		})
+#	.saneRD(rD)
+#	r1 <- .insidersR4a(Srl, rD)
+#	if (!all(sapply(r1, is.null))) {
+#		lres <- .lbuild(.afters(r1), rD)
+#		pO <- lres$pO
+#		after <- lres$after
+#	}
 # check their ring directions and change if improbable
-	if (any((rD == -1) & is.na(after))) {
-		oddCC <- which((rD == -1) & is.na(after))
-		for (i in oddCC) {
-			Srs <- Srl[[i]]
-			tgt <- which(Srs@plotOrder == 1)
-			crds <- getSringCoordsSlot(Srs@Srings[[tgt]])
-			projargs <- proj4string(Srs)
-			Srs[[tgt]] <- Sring(coords=crds[nrow(crds):1,], 
-				proj4string=CRS(projargs))
-			Srl[[i]] <- Srs
-			warning(paste("ring direction changed in polygon", i))
-		}
-	}
+#	if (any((rD == -1) & is.na(after))) {
+#		oddCC <- which((rD == -1) & is.na(after))
+#		for (i in oddCC) {
+#			Srs <- Srl[[i]]
+#			tgt <- which(Srs@plotOrder == 1)
+#			crds <- getSringCoordsSlot(Srs@Srings[[tgt]])
+#			projargs <- proj4string(Srs)
+#			Srs[[tgt]] <- Sring(coords=crds[nrow(crds):1,], 
+#				proj4string=CRS(projargs))
+#			Srl[[i]] <- Srs
+#			warning(paste("ring direction changed in polygon", i))
+#		}
+#	}
 
 	res <- SpatialRings(Srl, pO)
 	res

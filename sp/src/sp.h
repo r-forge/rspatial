@@ -3,11 +3,11 @@
 
 #include <R.h>
 
-/* from insiders.c */
+/* from insiders.c 
 
 int pipbb(double pt1, double pt2, double *bbs);
 int between(double x, double low, double up); 
-SEXP insiders(SEXP n1, SEXP bbs);
+SEXP insiders(SEXP n1, SEXP bbs); */
 
 /* from pip.c */
 

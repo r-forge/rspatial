@@ -15,6 +15,7 @@ Objects can be created by calls to the function \code{Srings}
 	the Sring objects should be plotted; RSB }
     \item{\code{labpt}:}{Object of class \code{"numeric"}; RSB  }
     \item{\code{ID}:}{Object of class \code{"character"}; RSB  }
+    \item{\code{area}:}{Object of class \code{"numeric"}; RSB  }
     \item{\code{bbox}:}{Object of class \code{"matrix"}; see \link{Spatial-class} }
     \item{\code{proj4string}:}{Object of class \code{"CRS"}; see \link{CRS-class} }
   }
