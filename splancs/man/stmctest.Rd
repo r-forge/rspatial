@@ -64,4 +64,14 @@ See Diggle, Chetwynd, Haggkvist and Morris (1993) for details.
 \seealso{
 stkhat, stsecal, stvmat, stdiagn
 }
+
+\references{
+Rowlingson, B. and Diggle, P. 1993 Splancs: spatial point pattern analysis
+code in S-Plus.  Computers and Geosciences, 19, 627-655, (Barry Rowlingson
+<b.rowlingson@lancaster.ac.uk>); the original sources can be accessed at:
+http://www.maths.lancs.ac.uk/~rowlings/Splancs/. See also Bivand, R. and
+Gebhardt, A. 2000 Implementing functions for spatial statistical analysis
+using the R language. Journal of Geographical Systems, 2, 307-317.
+}
+
 % Converted by Sd2Rd version 0.3-3.

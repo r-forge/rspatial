@@ -45,10 +45,10 @@ A vector of times for the analysis
 }}
 \value{
 A list with the following components is returned:
-\(bu \code{$s  $t} The spatial and temporal scales
-\(bu \code{$ks} The spatial K-function
-\(bu \code{$kt} The temporal K-function
-\(bu \code{$kst} The space-time K-function
+\item \code{$s  $t} The spatial and temporal scales
+\item \code{$ks} The spatial K-function
+\item \code{$kt} The temporal K-function
+\item \code{$kst} The space-time K-function
 For details see Diggle, Chetwynd, Haggkvist, and Morris (1993)
 }
 \seealso{
@@ -56,4 +56,14 @@ stsecal, stvmat, stmctest, stdiagn
 
 
 }
+
+\references{
+Rowlingson, B. and Diggle, P. 1993 Splancs: spatial point pattern analysis
+code in S-Plus.  Computers and Geosciences, 19, 627-655, (Barry Rowlingson
+<b.rowlingson@lancaster.ac.uk>); the original sources can be accessed at:
+http://www.maths.lancs.ac.uk/~rowlings/Splancs/. See also Bivand, R. and
+Gebhardt, A. 2000 Implementing functions for spatial statistical analysis
+using the R language. Journal of Geographical Systems, 2, 307-317.
+}
+
 % Converted by Sd2Rd version 0.3-3.

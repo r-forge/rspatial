@@ -56,4 +56,12 @@ plot(seq(5,80,5), sqrt(k12hat(as.points(okwhite), as.points(okblack), bbox(as.po
 \references{
 Lotwick, H.W. and Silverman B.W. (1982) Methods for Analysing Spatial
 Processes of Several types of Points.
-\emph{J. R. Statist Soc} B44 406-13
+\emph{J. R. Statist Soc} B44 406-13;
+Rowlingson, B. and Diggle, P. 1993 Splancs: spatial point pattern analysis
+code in S-Plus.  Computers and Geosciences, 19, 627-655, (Barry Rowlingson
+<b.rowlingson@lancaster.ac.uk>); the original sources can be accessed at:
+http://www.maths.lancs.ac.uk/~rowlings/Splancs/. See also Bivand, R. and
+Gebhardt, A. 2000 Implementing functions for spatial statistical analysis
+using the R language. Journal of Geographical Systems, 2, 307-317.
+}
+

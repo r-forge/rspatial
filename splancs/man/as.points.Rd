@@ -26,16 +26,26 @@ as.points(p)
 }
 \arguments{
 \item{p}{
-any S-PLUS object(s).
+any object(s), such as x and y vectors of the same length, or a list or data
+frame containing x and y vectors. Valid options for \code{p} are:
+\itemize{
+\item{a points object ; returns it unaltered.}
+\item{a list with x and y elements of the same length ; returns a
+points object with the x and y elements as the coordinates of the points.}
+\item{two vectors of equal length ; returns a points object with the 
+first vector as the x coordinates, the second vector as the y-coordinates.}
+}
 }
 }
 \value{
-\code{as.points} tries to return \code{p} as a points object. Valid options for 
-\code{p} are:
-\(bu a points object ; returns it unaltered.
-\(bu a list with x and y elements of the same length ; returns a
-points object with the x and y elements as the coordinates of the points.
-\(bu two vectors of equal length ; returns a points object with the 
-first vector as the x coordinates, the second vector as the y-coordinates.
+\code{as.points} tries to return \code{p} as a points object. }
+
+\references{
+Rowlingson, B. and Diggle, P. 1993 Splancs: spatial point pattern analysis
+code in S-Plus.  Computers and Geosciences, 19, 627-655, (Barry Rowlingson
+<b.rowlingson@lancaster.ac.uk>); the original sources can be accessed at:
+http://www.maths.lancs.ac.uk/~rowlings/Splancs/. See also Bivand, R. and
+Gebhardt, A. 2000 Implementing functions for spatial statistical analysis
+using the R language. Journal of Geographical Systems, 2, 307-317.
 }
 % Converted by Sd2Rd version 0.3-3.

@@ -64,15 +64,25 @@ Iteration count for simplex algorithm
 }}
 \value{
 The return value is a list with many components, and class \code{ribfit}. 
-\(bu \code{$alphas} A vector of the alpha parameters at the maximum
-\(bu \code{$betas} A vector of the beta values at the maximum
-\(bu \code{$rho} The value of rho at the maximum
-\(bu \code{$logl} The maximised log-likelihood
-\(bu \code{$null.logl} The null log-likelihood
-\(bu \code{$call} The function call to \code{tribble}
+\item \code{$alphas} A vector of the alpha parameters at the maximum
+\item \code{$betas} A vector of the beta values at the maximum
+\item \code{$rho} The value of rho at the maximum
+\item \code{$logl} The maximised log-likelihood
+\item \code{$null.logl} The null log-likelihood
+\item \code{$call} The function call to \code{tribble}
 For further information see Diggle and Rowlingson (1993).
 }
 \seealso{
 triblik, dsquare
 }
+
+\references{
+Rowlingson, B. and Diggle, P. 1993 Splancs: spatial point pattern analysis
+code in S-Plus.  Computers and Geosciences, 19, 627-655, (Barry Rowlingson
+<b.rowlingson@lancaster.ac.uk>); the original sources can be accessed at:
+http://www.maths.lancs.ac.uk/~rowlings/Splancs/. See also Bivand, R. and
+Gebhardt, A. 2000 Implementing functions for spatial statistical analysis
+using the R language. Journal of Geographical Systems, 2, 307-317.
+}
+
 % Converted by Sd2Rd version 0.3-3.

@@ -45,11 +45,11 @@ Type of kernel function to use. Currently only the quartic kernel is implemented
 }}
 \value{
 A list with the following components:
-\(bu \code{$x} List of x-coordinates at which the kernel function has been evaluated.
-\(bu \code{$y} List of y-coordinates at which the kernel function has been evaluated.
-\(bu \code{$z} A matrix of dimension \code{nx} by \code{ny} containing the value of
+\item \code{$x} List of x-coordinates at which the kernel function has been evaluated.
+\item \code{$y} List of y-coordinates at which the kernel function has been evaluated.
+\item \code{$z} A matrix of dimension \code{nx} by \code{ny} containing the value of
 the kernel function.
-\(bu \code{$h0},\code{$kernel}, containing the values input to \code{kernel2d}
+\item \code{$h0},\code{$kernel}, containing the values input to \code{kernel2d}
 
 
 
@@ -63,11 +63,7 @@ as NA's.
 The output list is in a format that can be read into \code{image()} directly,
 for display and superposition onto other plots.
 }
-\references{
-Berman M. and Diggle P.J. (1989) Estimating Weighted Integrals of the
-Second-Order Intensity of Spatial Point Patterns.
-\emph{J. R. Statist Soc} B51 81-92
-}
+
 \examples{
 data(bodmin)
 require(MASS)
@@ -76,4 +72,17 @@ image(kernel2d(as.points(bodmin), bodmin$poly, h0=2, nx=100, ny=100), add=T, col
 pointmap(as.points(bodmin), add=T)
 polymap(bodmin$poly, add=T)
 }
+
+\references{
+Berman M. and Diggle P.J. (1989) Estimating Weighted Integrals of the
+Second-Order Intensity of Spatial Point Patterns.  \emph{J. R. Statist
+Soc} B51 81-92; Rowlingson, B. and Diggle, P. 1993 Splancs: spatial point
+pattern analysis code in S-Plus.  Computers and Geosciences, 19, 627-655,
+(Barry Rowlingson <b.rowlingson@lancaster.ac.uk>); the original sources
+can be accessed at: http://www.maths.lancs.ac.uk/~rowlings/Splancs/. See
+also Bivand, R. and Gebhardt, A. 2000 Implementing functions for spatial
+statistical analysis using the R language. Journal of Geographical
+Systems, 2, 307-317.
+}
+
 % Converted by Sd2Rd version 0.3-3.

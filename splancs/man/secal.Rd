@@ -49,8 +49,15 @@ errors for the estimated differences, under the random labelling hypothesis.
 \references{
 Diggle P.J. and Chetwynd A.G. (1991) Second-order analysis of spatial 
 clustering
-\emph{Biometrics 47} 1155--63 
+\emph{Biometrics 47} 1155--63; 
+Rowlingson, B. and Diggle, P. 1993 Splancs: spatial point pattern analysis
+code in S-Plus.  Computers and Geosciences, 19, 627-655, (Barry Rowlingson
+<b.rowlingson@lancaster.ac.uk>); the original sources can be accessed at:
+http://www.maths.lancs.ac.uk/~rowlings/Splancs/. See also Bivand, R. and
+Gebhardt, A. 2000 Implementing functions for spatial statistical analysis
+using the R language. Journal of Geographical Systems, 2, 307-317.
 }
+
 \seealso{
 \code{khat}
 }

@@ -45,11 +45,11 @@ Type of kernel function to use. Currently only the quartic kernel is implemented
 }}
 \value{
 A list with the following components:
-\(bu \code{$x} List of x-coordinates at which the kernel function has been evaluated.
-\(bu \code{$y} List of y-coordinates at which the kernel function has been evaluated.
-\(bu \code{$z} A matrix of dimension \code{nx} by \code{ny} containing the ratio of the kernel functions.
-\(bu \code{$h} A vector of length 2 containing \code{h1} and \code{h2}
-\(bu \code{$kernel} a character string containing the kernel name.
+\item \code{$x} List of x-coordinates at which the kernel function has been evaluated.
+\item \code{$y} List of y-coordinates at which the kernel function has been evaluated.
+\item \code{$z} A matrix of dimension \code{nx} by \code{ny} containing the ratio of the kernel functions.
+\item \code{$h} A vector of length 2 containing \code{h1} and \code{h2}
+\item \code{$kernel} a character string containing the kernel name.
 
 
 }
@@ -59,6 +59,13 @@ kernel2d, mse2d
 \references{
 Berman M. and Diggle P.J. (1989) Estimating Weighted Integrals of the
 Second-Order Intensity of Spatial Point Patterns.
-\emph{J. R. Statist Soc} B51 81-92
+\emph{J. R. Statist Soc} B51 81-92;
+Rowlingson, B. and Diggle, P. 1993 Splancs: spatial point pattern analysis
+code in S-Plus.  Computers and Geosciences, 19, 627-655, (Barry Rowlingson
+<b.rowlingson@lancaster.ac.uk>); the original sources can be accessed at:
+http://www.maths.lancs.ac.uk/~rowlings/Splancs/. See also Bivand, R. and
+Gebhardt, A. 2000 Implementing functions for spatial statistical analysis
+using the R language. Journal of Geographical Systems, 2, 307-317.
 }
+
 % Converted by Sd2Rd version 0.3-3.
