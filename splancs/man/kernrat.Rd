@@ -17,7 +17,7 @@ Point data sets
 A polygon data set
 }
 \item{h1,h2}{
-The kernel width parameters, \fCh1} for \fCpts1}, and \fCh2} for \fCpts2}
+The kernel width parameters, \code{h1} for \code{pts1}, and \code{h2} for \code{pts2}
 }
 \item{nx}{
 Number of points along the x-axis of the returned grid.
@@ -30,11 +30,11 @@ Type of kernel function to use. Currently only the quartic kernel is implemented
 }}
 \value{
 A list with the following components:
-\(bu \fC$x} List of x-coordinates at which the kernel function has been evaluated.
-\(bu \fC$y} List of y-coordinates at which the kernel function has been evaluated.
-\(bu \fC$z} A matrix of dimension \fCnx} by \fCny} containing the ratio of the kernel functions.
-\(bu \fC$h} A vector of length 2 containing \fCh1} and \fCh2}
-\(bu \fC$kernel} a character string containing the kernel name.
+\(bu \code{$x} List of x-coordinates at which the kernel function has been evaluated.
+\(bu \code{$y} List of y-coordinates at which the kernel function has been evaluated.
+\(bu \code{$z} A matrix of dimension \code{nx} by \code{ny} containing the ratio of the kernel functions.
+\(bu \code{$h} A vector of length 2 containing \code{h1} and \code{h2}
+\(bu \code{$kernel} a character string containing the kernel name.
 
 
 }

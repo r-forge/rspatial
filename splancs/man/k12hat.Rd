@@ -20,7 +20,7 @@ A polygon containing the points
 A vector of distances at which to estimate the K12 function
 }}
 \value{
-A vector like \fCs} containing the value of K12hat at the points in \fCs}.
+A vector like \code{s} containing the value of K12hat at the points in \code{s}.
 
 
 }

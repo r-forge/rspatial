@@ -27,6 +27,6 @@ A points data set of four points giving the coordinates of the surrounding box
 
 }
 \seealso{
-\fCbbox}
+\code{bbox}
 }
 % Converted by Sd2Rd version 0.3-3.

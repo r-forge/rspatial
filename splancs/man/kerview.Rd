@@ -17,7 +17,7 @@ A matrix of event x,y coordinates.
 A vector of event times.
 }
 \item{k3}{
-An object returned from \fCkernel3d}, the space-time kernel smoothing
+An object returned from \code{kernel3d}, the space-time kernel smoothing
 function
 }
 \item{map}{

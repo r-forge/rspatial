@@ -31,7 +31,7 @@ Diggle P.J and Chetwynd A.C (1991) Second order analysis of
 spatial clustering Biometrics 47 1155-63
 }
 \seealso{
-\fCsecal}
+\code{secal}
 }
 % Converted by Sd2Rd version 0.3-3.
 

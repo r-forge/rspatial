@@ -4,22 +4,22 @@
 Raised Incidence Modelling
 }
 \description{
-Display the fit from \fCtribble}
+Display the fit from \code{tribble}
 }
 \usage{
 print.ribfit(fitobj)
 }
 \arguments{
 \item{fitobj}{
-An object returned from \fCtribble}
+An object returned from \code{tribble}
 }}
 \section{Side Effects}{
  The parameter estimates and log-likelihood for the raised incidence 
 model are displayed. The likelihood ratio, D = 2*(L-Lo), is also given.
 }
 \details{
- This function is called whenever \fCprint} operates on an object
-with class \fCribfit}.
+ This function is called whenever \code{print} operates on an object
+with class \code{ribfit}.
 }
 \seealso{
 tribble

@@ -27,26 +27,26 @@ Label strings for x and y axes.
 }
 \item{...}{
 Graphical arguments may be entered, and these are passed to the
-standard S \fCpoints} and \fCpolygon} routines.
+standard S \code{points} and \code{polygon} routines.
 
 
 }}
 \section{Side Effects}{
 The specified data set is plotted on the current graphics device, either
-as points or polygons. For \fCpolymap}, the last point in the data set
+as points or polygons. For \code{polymap}, the last point in the data set
 is drawn connected to the first point.
 }
 \section{NOTES}{
-When starting a new plot, \fCpointmap} and \fCpolymap} set the axes to preserve
-the aspect ratio in the data, and the graphics parameter \fCpty} is set
-to \fC"s"} to produce square plots.
+When starting a new plot, \code{pointmap} and \code{polymap} set the axes to preserve
+the aspect ratio in the data, and the graphics parameter \code{pty} is set
+to \code{"s"} to produce square plots.
 Graphical parameters can also be supplied to these routines, and are passed 
-through to \fCplot}. Some useful parameters include \fCpch} to change the plotting
-character for points, \fClty} to change the line type for polygons, and 
-\fCtype="n"} to just set up axes for the plot without plotting anything.
+through to \code{plot}. Some useful parameters include \code{pch} to change the plotting
+character for points, \code{lty} to change the line type for polygons, and 
+\code{type="n"} to just set up axes for the plot without plotting anything.
 }
 \seealso{
-\fCpar} (standard S function), \fCmpoint}
+\code{par} (standard S function), \code{mpoint}
 }
 \examples{
 data(bodmin)

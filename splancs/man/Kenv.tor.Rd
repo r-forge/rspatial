@@ -30,19 +30,19 @@ If false, print a message after every simulation for progress monitoring. If
 true, print no messages.
 }}
 \value{
-A list with two components, called \fC$upper} and \fC$lower}. Each
-component is a vector like \fCs}.
+A list with two components, called \code{$upper} and \code{$lower}. Each
+component is a vector like \code{s}.
 }
 \section{METHOD}{
-The second point data set is randomly shifted using \fCrtor.shift}
-in the rectangle defined by \fCpoly}. Then \fCk12hat} is called 
+The second point data set is randomly shifted using \code{rtor.shift}
+in the rectangle defined by \code{poly}. Then \code{k12hat} is called 
 to compute K12hat for the two patterns. 
-The upper and lower values of K12hat over the \fCntor}
+The upper and lower values of K12hat over the \code{ntor}
 toroidal shifts are returned.
 
 
 }
 \seealso{
-\fCrtor.shift},\fCk12hat}
+\code{rtor.shift},\code{k12hat}
 }
 % Converted by Sd2Rd version 0.3-3.

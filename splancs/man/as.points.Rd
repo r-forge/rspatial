@@ -27,18 +27,18 @@ any S-PLUS object(s).
 number of points to generate.
 }}
 \value{
-\fCspoints} returns an object suitable for use as a point data
-object. If \fCnpoints} is given, the vector data is either truncated
+\code{spoints} returns an object suitable for use as a point data
+object. If \code{npoints} is given, the vector data is either truncated
 or repeated until sufficient data values are generated.
 The returned object is a two-column matrix, where the first column stores the 
 x-coordinate, and the second column stores the y-coordinate.
 
 
-\fCis.points} returns TRUE if \fCp} is a points object, FALSE otherwise.
+\code{is.points} returns TRUE if \code{p} is a points object, FALSE otherwise.
 
 
-\fCas.points} tries to return \fCp} as a points object. Valid options for 
-\fCp} are:
+\code{as.points} tries to return \code{p} as a points object. Valid options for 
+\code{p} are:
 \(bu a points object ; returns it unaltered.
 \(bu a list with x and y elements of the same length ; returns a
 points object with the x and y elements as the coordinates of the points.
@@ -46,7 +46,7 @@ points object with the x and y elements as the coordinates of the points.
 first vector as the x coordinates, the second vector as the y-coordinates.
 }
 \seealso{
-\fCnpts}
+\code{npts}
 }
 \examples{
 mypoints <- spoints(scan("xydata"))
@@ -62,4 +62,4 @@ mypoints <- spoints(scan("xydata"))
 \alias{as.points}
 }
 \title{
-See \fCis.points}
+See \code{is.points}

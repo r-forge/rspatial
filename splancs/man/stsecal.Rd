@@ -14,7 +14,7 @@ stsecal(pts, times, poly, tlim, s, tm)
 A set of points, as defined in Splancs.
 }
 \item{times}{
-A vector of times, the same length as the number of points in \fCpts}
+A vector of times, the same length as the number of points in \code{pts}
 }
 \item{poly}{
 A polygon enclosing the points
@@ -29,8 +29,8 @@ A vector of spatial distances for the analysis
 A vector of times for the analysis
 }}
 \value{
-A matrix of dimension \fC[length(s),length(t)]} is returned. Element 
-\fC[i,j]} is the standard error at \fCs[i],t[j]}.
+A matrix of dimension \code{[length(s),length(t)]} is returned. Element 
+\code{[i,j]} is the standard error at \code{s[i],t[j]}.
 See Diggle Chetwynd Haggkvist and Morris (1993)for details.
 }
 \seealso{

@@ -20,8 +20,8 @@ A number of points representing source locations
 A prefix given to the name of the results.
 }}
 \value{
-A data frame with the same number of  columns as \fCsrcs}. The column names will 
-be the value of \fCnamepref} prefixing the numbers from 1 to the number
+A data frame with the same number of  columns as \code{srcs}. The column names will 
+be the value of \code{namepref} prefixing the numbers from 1 to the number
 of sources.
 }
 \seealso{

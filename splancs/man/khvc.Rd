@@ -19,21 +19,21 @@ An object containing the case locations.
 An object containing the control locations.
 }
 \item{poly}{
-A polygon enclosing the locations in \fCpts1} and \fCpts2}
+A polygon enclosing the locations in \code{pts1} and \code{pts2}
 }
 \item{s}{
 A vector of distances at which the calculation is to be made.
 }}
 \value{
 A list with four components:
-\(bu \fC$varmat} The upper triangle of the covariance matrix.
-\(bu \fC$k11} The variance of Khat for the cases
-\(bu \fC$k22} The variance of Khat for the controls
-\(bu \fC$k12} The covariance of Khat for the cases and Khat for controls.
+\(bu \code{$varmat} The upper triangle of the covariance matrix.
+\(bu \code{$k11} The variance of Khat for the cases
+\(bu \code{$k22} The variance of Khat for the controls
+\(bu \code{$k12} The covariance of Khat for the cases and Khat for controls.
 }
 \section{Note}{
 Note that the diagonal of the covariance matrix is
- \fC$k11 - 2 * $k12 + $k22
+ \code{$k11 - 2 * $k12 + $k22
 }
 \seealso{
 khat, khvmat, secal

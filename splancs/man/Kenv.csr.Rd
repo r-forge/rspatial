@@ -27,13 +27,13 @@ If false, print a message after every simulation for progress monitoring. If
 true, print no messages.
 }}
 \value{
-A list with two components, called \fC$upper} and \fC$lower}. Each
-component is a vector like \fCs}. The two components contain the upper 
+A list with two components, called \code{$upper} and \code{$lower}. Each
+component is a vector like \code{s}. The two components contain the upper 
 and lower bound of the Khat envelope. 
 
 
 }
 \seealso{
-\fCcsr},\fCkhat}
+\code{csr},\code{khat}
 }
 % Converted by Sd2Rd version 0.3-3.

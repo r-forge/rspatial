@@ -20,12 +20,12 @@ Amount to shift along the x-axis
 Amount to shift along the y-axis
 }}
 \value{
-A point data set like \fCpts}, but with \fCxsh} added to its
-x-coordinates, and \fCysh} added to its y-coordinates.
+A point data set like \code{pts}, but with \code{xsh} added to its
+x-coordinates, and \code{ysh} added to its y-coordinates.
 
 
 }
 \seealso{
-\fCtor.shift}
+\code{tor.shift}
 }
 % Converted by Sd2Rd version 0.3-3.

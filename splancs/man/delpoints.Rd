@@ -14,7 +14,7 @@ delpoints(pts,add=F,\dots)
 a points data set
 }
 \item{add}{
-if false, plot the points using \fCpointmap}.
+if false, plot the points using \code{pointmap}.
 }}
 \section{METHOD}{
 Using the mouse, the user selects points on the current graphics device.
@@ -27,6 +27,6 @@ A points object containing the undeleted points.
 
 }
 \section{Side Effects}{
-If \fCadd} is false the points are plotted on the current plot device.
+If \code{add} is false the points are plotted on the current plot device.
 }
 % Converted by Sd2Rd version 0.3-3.

@@ -17,12 +17,12 @@ A points data set
 A polygon data set
 }}
 \value{
-\fCinpip} returns a vector of indices of the points in \fCpts} that are located
+\code{inpip} returns a vector of indices of the points in \code{pts} that are located
 in the polygon.
 
 
 }
 \seealso{
-\fCpip}
+\code{pip}
 }
 % Converted by Sd2Rd version 0.3-3.

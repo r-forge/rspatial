@@ -14,15 +14,15 @@ addpoints(pts=NULL,plot=F,quiet=F)
 A points data set.
 }
 \item{plot}{
-if true, plot the \fCpts} data, using \fCpointmap}. If false,
- or if \fCpts} is missing,
+if true, plot the \code{pts} data, using \code{pointmap}. If false,
+ or if \code{pts} is missing,
 don't plot the data. 
 }
 \item{quiet}{
 if true, don't print a prompt to enter points.
 }}
 \value{
-A points data set consisting of \fCpts} and the points entered on the current 
+A points data set consisting of \code{pts} and the points entered on the current 
 graphics device.
 
 
@@ -31,7 +31,7 @@ graphics device.
 The points entered are displayed on the current graphics device.
 }
 \seealso{
-\fCdelpoints}
+\code{delpoints}
 }
 \examples{
 uk()	# display united kingdom map

@@ -30,11 +30,11 @@ Type of kernel function to use. Currently only the quartic kernel is implemented
 }}
 \value{
 A list with the following components:
-\(bu \fC$x} List of x-coordinates at which the kernel function has been evaluated.
-\(bu \fC$y} List of y-coordinates at which the kernel function has been evaluated.
-\(bu \fC$z} A matrix of dimension \fCnx} by \fCny} containing the value of
+\(bu \code{$x} List of x-coordinates at which the kernel function has been evaluated.
+\(bu \code{$y} List of y-coordinates at which the kernel function has been evaluated.
+\(bu \code{$z} A matrix of dimension \code{nx} by \code{ny} containing the value of
 the kernel function.
-\(bu \fC$h0},\fC$kernel}, containing the values input to \fCkernel2d}
+\(bu \code{$h0},\code{$kernel}, containing the values input to \code{kernel2d}
 
 
 
@@ -45,7 +45,7 @@ The kernel estimate, with a correction for edge effects, is computed for
 a grid of points that span the
 input polygon. The kernel function for points in the grid that are outside the polygon are returned
 as NA's.
-The output list is in a format that can be read into \fCimage()} directly,
+The output list is in a format that can be read into \code{image()} directly,
 for display and superposition onto other plots.
 }
 \references{

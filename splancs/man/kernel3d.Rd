@@ -33,10 +33,10 @@ The quartic kernel width in the temporal direction.
 }}
 \value{
 A list is returned. Most of the components are just copies of the 
-input parameters, except for the \fC$v} parameter.
+input parameters, except for the \code{$v} parameter.
 This is a three dimensional array containing the kernel-smoothed
 values. Its dimension is
-\fC[length(xgr),length(ygr),length(tgr)]}. 
+\code{[length(xgr),length(ygr),length(tgr)]}. 
 }
 \seealso{
 kerview

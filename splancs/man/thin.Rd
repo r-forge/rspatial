@@ -17,8 +17,8 @@ a points data set.
 the number of points to return
 }}
 \value{
-Returns a point data set consisting of \fCn} points selected randomly
-from the set \fCpts}.
+Returns a point data set consisting of \code{n} points selected randomly
+from the set \code{pts}.
 }
 \examples{
 half <- thin(all,npts(all)/2)      # get half the points in `all'

@@ -15,20 +15,20 @@ secal(pts1,pts2,poly,s)
 Two point data sets
 }
 \item{poly}{
-Polygon enclosing the points in \fCpts1} and \fCpts2}
+Polygon enclosing the points in \code{pts1} and \code{pts2}
 }
 \item{s}{
 A vector of distances at which to calculate the standard error.
 }}
 \value{
-A vector like \fCs} containing the value of the standard error at each of the
-distances in \fCs}
+A vector like \code{s} containing the value of the standard error at each of the
+distances in \code{s}
 
 
 }
 \section{METHOD}{
 To compare two point patterns, one can calculate the difference between
-their K-functions. The function \fCsecal} gives the pointwise standard 
+their K-functions. The function \code{secal} gives the pointwise standard 
 errors for the estimated differences, under the random labelling hypothesis.
 }
 \references{
@@ -37,6 +37,6 @@ clustering
 \emph{Biometrics 47} 1155--63 
 }
 \seealso{
-\fCkhat}
+\code{khat}
 }
 % Converted by Sd2Rd version 0.3-3.

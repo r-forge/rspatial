@@ -20,13 +20,13 @@ approximate number of points to generate
 grid spacing in x and y 
 
 
-Either \fCnpts} or \fCxs} and \fCys} must be specified. If all three
-are given then \fCxs} and \fCys} are ignored. 
+Either \code{npts} or \code{xs} and \code{ys} must be specified. If all three
+are given then \code{xs} and \code{ys} are ignored. 
 }}
 \value{
-A points object containing a grid of points inside the polygon. If \fCnpts}
-is specified, then a grid spacing \fCxs} and \fCys} will be calculated to give
-approximately \fCnpts} in the polygon. If \fCxs} and \fCys} are given then these
+A points object containing a grid of points inside the polygon. If \code{npts}
+is specified, then a grid spacing \code{xs} and \code{ys} will be calculated to give
+approximately \code{npts} in the polygon. If \code{xs} and \code{ys} are given then these
 will be used to generate a number of points in the polygon.
 
 

@@ -19,6 +19,6 @@ A points data set of four points giving the coordinates of the bounding box
 
 }
 \seealso{
-\fCsbox}
+\code{sbox}
 }
 % Converted by Sd2Rd version 0.3-3.

@@ -14,13 +14,13 @@ stdiagn(pts, stkh, stse, stmc=0)
 A set of points, as used in Splancs
 }
 \item{stkh}{
-An object returned from \fCstkhat}
+An object returned from \code{stkhat}
 }
 \item{stse}{
-An object returned from \fCstsecal}
+An object returned from \code{stsecal}
 }
 \item{stmc}{
-An object returned from \fCstmctest}
+An object returned from \code{stmctest}
 }}
 \details{
 Four plots are produced on the current graphics device.

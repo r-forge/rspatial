@@ -17,23 +17,23 @@ A points data set
 A polygon data set
 }
 \item{out}{
-If \fCout=T}, return the points outside the polygon, else the points inside.
+If \code{out=T}, return the points outside the polygon, else the points inside.
 }}
 \value{
-\fCpip} returns the points of \fCpts} that lie inside (or outside with
-\fCout=T})
-the polygon \fCpoly}. Compare this with \fCinpip}, which returns
+\code{pip} returns the points of \code{pts} that lie inside (or outside with
+\code{out=T})
+the polygon \code{poly}. Compare this with \code{inpip}, which returns
 the indices of
-the points in the polygon, and \fCinout} which returns a logical vector
+the points in the polygon, and \code{inout} which returns a logical vector
 indicating whether points are inside or outside.
 
 
 }
 \section{METHOD}{
-\fCpip} calls \fCinout}, then selects the appropriate sub-set of points.
+\code{pip} calls \code{inout}, then selects the appropriate sub-set of points.
 }
 \seealso{
-\fCinpip},\fCinout}
+\code{inpip},\code{inout}
 }
 \examples{
 ptsin <- pip(pts,poly)   # gets the points in the poly

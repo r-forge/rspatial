@@ -29,7 +29,7 @@ None
 A prompt is optionally displayed, and the user selects two points
 forming the diagonal of a rectangle. A new, empty plot is created that has its
 axis limits set to the bounding square of the selected rectangle. 
-If \fCout=T}, no prompt is displayed, and a new blank plot is created with
+If \code{out=T}, no prompt is displayed, and a new blank plot is created with
 its limits in x and y set to span an area three times the height and width
 centred on the current centre.
 }

@@ -14,7 +14,7 @@ stkhat(pts, times, poly, tlimits, s, tm)
 A set of points as defined in Splancs
 }
 \item{times}{
-A vector of times, the same length as the number of points in \fCpts}
+A vector of times, the same length as the number of points in \code{pts}
 }
 \item{poly}{
 A polygon enclosing the points
@@ -30,10 +30,10 @@ A vector of times for the analysis
 }}
 \value{
 A list with the following components is returned:
-\(bu \fC$s  $t} The spatial and temporal scales
-\(bu \fC$ks} The spatial K-function
-\(bu \fC$kt} The temporal K-function
-\(bu \fC$kst} The space-time K-function
+\(bu \code{$s  $t} The spatial and temporal scales
+\(bu \code{$ks} The spatial K-function
+\(bu \code{$kt} The temporal K-function
+\(bu \code{$kst} The space-time K-function
 For details see Diggle, Chetwynd, Haggkvist, and Morris (1993)
 }
 \seealso{

@@ -14,7 +14,7 @@ stvmat(pts, times, poly, tlim, s, tm)
 A set of points.
 }
 \item{times}{
-A vector of times, the same length as the number of points in \fCpts}
+A vector of times, the same length as the number of points in \code{pts}
 }
 \item{poly}{
 A polygon that encloses the points
@@ -30,7 +30,7 @@ A vector of times for the analysis
 }}
 \value{
 A four-dimensional matrix is returned. The covariance between space-time
-\fCt1,s1} and \fCt2,s2} is given by the corresponding element \fC[t1,s1,t2,s2]}
+\code{t1,s1} and \code{t2,s2} is given by the corresponding element \code{[t1,s1,t2,s2]}
 For full details, see Diggle, Chetwynd, Haggkvist and Morris (1993)
 }
 \seealso{

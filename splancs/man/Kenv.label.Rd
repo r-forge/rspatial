@@ -30,21 +30,21 @@ If false, print a message after every simulation for progress monitoring. If
 true, print no messages.
 }}
 \value{
-A list with two components, called \fC$upper} and \fC$lower}. Each
-component is a vector like \fCs}.
+A list with two components, called \code{$upper} and \code{$lower}. Each
+component is a vector like \code{s}.
 }
 \section{METHOD}{
-The two point data sets are randomly labelled using \fCrlabel}, then
-\fCKhat} is called to estimate the K-function for each resulting set
-at the distances in \fCs}. The difference between these two estimates
+The two point data sets are randomly labelled using \code{rlabel}, then
+\code{Khat} is called to estimate the K-function for each resulting set
+at the distances in \code{s}. The difference between these two estimates
 is then calculated. 
 The maximum and minimum values of this difference at each distance,over
-the \fCnlab}
+the \code{nlab}
 labellings is returned.
 
 
 }
 \seealso{
-\fCrlabel},\fCkhat}
+\code{rlabel},\code{khat}
 }
 % Converted by Sd2Rd version 0.3-3.

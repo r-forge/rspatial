@@ -21,21 +21,21 @@ Amount to shift along the y-axis
 }
 \item{rect}{
 A rectangle defining the region for the toroidal map. If not given, 
-the bounding box of \fCpts} is used.
+the bounding box of \code{pts} is used.
 }}
 \value{
-A point data set like \fCpts}, but after application of a toroidal 
+A point data set like \code{pts}, but after application of a toroidal 
 shift along the x and y axes. 
 }
 \section{METHOD}{
-The planar region defined by \fCrect}
+The planar region defined by \code{rect}
 is assumed connected at its top and bottom edges, and at its left and
-right sides. A shift of \fCxsh} and \fCysh} is applied to the 
+right sides. A shift of \code{xsh} and \code{ysh} is applied to the 
 points and the resulting set of points returned. 
 
 
 }
 \seealso{
-\fCshift}
+\code{shift}
 }
 % Converted by Sd2Rd version 0.3-3.

@@ -16,24 +16,24 @@ tribble(ccflag, vars=NULL, alphas=NULL, betas=NULL, rho,
 Case-control flag : a vector of ones and zeroes.
 }
 \item{vars}{
-A matrix where \fCvars[i,j]} is the distance squared from point \fCi} 
-to source \fCj}.
+A matrix where \code{vars[i,j]} is the distance squared from point \code{i} 
+to source \code{j}.
 }
 \item{alphas}{
-Initial value of the \fCalpha} parameters.
+Initial value of the \code{alpha} parameters.
 }
 \item{betas}{
-Initial value of the \fCbeta} parameters.
+Initial value of the \code{beta} parameters.
 }
 \item{rho}{
-Initial value of the \fCrho} parameter.
+Initial value of the \code{rho} parameter.
 }
 \item{which}{
 Defines the mapping from sources to parameters.
 }
 \item{covars}{
 A matrix of covariates to be modelled as log-linear terms. The element 
-\fCcovars[i,j]} is the value of covariate \fCj} for case/control \fCi}.
+\code{covars[i,j]} is the value of covariate \code{j} for case/control \code{i}.
 }
 \item{thetas}{
 Initial values of covariate parameters.
@@ -48,13 +48,13 @@ Tolerance for simplex algorithm
 Iteration count for simplex algorithm
 }}
 \value{
-The return value is a list with many components, and class \fCribfit}. 
-\(bu \fC$alphas} A vector of the alpha parameters at the maximum
-\(bu \fC$betas} A vector of the beta values at the maximum
-\(bu \fC$rho} The value of rho at the maximum
-\(bu \fC$logl} The maximised log-likelihood
-\(bu \fC$null.logl} The null log-likelihood
-\(bu \fC$call} The function call to \fCtribble}
+The return value is a list with many components, and class \code{ribfit}. 
+\(bu \code{$alphas} A vector of the alpha parameters at the maximum
+\(bu \code{$betas} A vector of the beta values at the maximum
+\(bu \code{$rho} The value of rho at the maximum
+\(bu \code{$logl} The maximised log-likelihood
+\(bu \code{$null.logl} The null log-likelihood
+\(bu \code{$call} The function call to \code{tribble}
 For further information see Diggle and Rowlingson (1993).
 }
 \seealso{

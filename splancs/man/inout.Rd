@@ -17,13 +17,13 @@ A points data set
 A polygon data set
 }}
 \value{
-A vector of logical values. \fCTrue} means the point was inside the
-polygon, \fCFalse} means the point was outside.
+A vector of logical values. \code{True} means the point was inside the
+polygon, \code{False} means the point was outside.
 
 
 }
 \seealso{
-\fCinpip},\fCpip}
+\code{inpip},\code{pip}
 }
 % Converted by Sd2Rd version 0.3-3.
 

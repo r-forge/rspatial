@@ -15,24 +15,24 @@ triblik(ccflag, vars=NULL, alphas=NULL, betas=NULL, rho,
 Case-control flag : a vector of ones and zeroes.
 }
 \item{vars}{
-A matrix where \fCvars[i,j]} is the distance squared from point \fCi} 
-to source \fCj}.
+A matrix where \code{vars[i,j]} is the distance squared from point \code{i} 
+to source \code{j}.
 }
 \item{alphas}{
-The \fCalpha} parameters.
+The \code{alpha} parameters.
 }
 \item{betas}{
-The \fCbeta} parameters.
+The \code{beta} parameters.
 }
 \item{rho}{
-The \fCrho} parameter.
+The \code{rho} parameter.
 }
 \item{which}{
 Defines the mapping from sources to parameters.
 }
 \item{covars}{
 A matrix of covariates to be modelled as log-linear terms. The element 
-\fCcovars[i,j]} is the value of covariate \fCj} for case/control \fCi}.
+\code{covars[i,j]} is the value of covariate \code{j} for case/control \code{i}.
 }
 \item{thetas}{
 The covariate parameters.

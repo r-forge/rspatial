@@ -14,7 +14,7 @@ stmctest(pts, times, poly, tlimits, s, tt, nsim, quiet=F)
 A set of points as used by Splancs.
 }
 \item{times}{
-A vector of times, the same length as the number of points in \fCpts}.
+A vector of times, the same length as the number of points in \code{pts}.
 }
 \item{poly}{
 A polygon enclosing the points.
@@ -32,12 +32,12 @@ A vector of times for the analysis.
 The number of simulations to do.
 }
 \item{quiet}{
-If \fCquiet=T} then no output is produced, otherwise the function
+If \code{quiet=T} then no output is produced, otherwise the function
 prints the number of simulations completed so far, and also how the
 test statistic for the data ranks with the simulations.
 }}
 \value{
-A vector of length \fCnsim+1}. The first element is the test statistic
+A vector of length \code{nsim+1}. The first element is the test statistic
 for the data, and the remaining elements are those for the simulations.
 }
 \details{
