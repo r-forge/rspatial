@@ -32,7 +32,7 @@ See the \link{meuse} documentation
 }
 \examples{
 data(meuse.grid)
-library(MASS)
-eqscplot(meuse.grid,pch="+")
+coordinates(meuse.grid) <- ~x+y
+plot(meuse.grid)
 }
 \keyword{datasets}

@@ -35,7 +35,13 @@ setMethod("coordinates", "matrix", function(obj) obj)
 
 plot.SpatialPoints = function(x, ...) 
 {
-	plot(x@coords[,1], x@coords[,2], ...)
+	cc = coordinates(x)
+	if (is.null(dimnames(cc)[[2]]))
+		dimnames(cc)[[2]] = c("x", "y")
+	nm = dimnames(cc)[[2]]
+	# form = as.formula(paste(nm[2:1], collapse="~"))
+	# plot(form, cc, asp = 1, ...) # should get names overridable?
+	plot(cc[,1], cc[,2], xlab = nm[1], ylab = nm[2], asp = 1, ...)
 }
 
 setMethod("show", "SpatialPoints", function(object) print.SpatialPoints(object))

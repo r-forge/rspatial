@@ -17,6 +17,9 @@ dimensions,Spatial-method
                         retrieve spatial dimensions from spatial data
 gridded-methods         specify spatial data as being gridded, or find
                         out whether they are
+image.SpatialCellDataFrame
+                        image gridded data in SpatialCellDataFrame to
+                        image format
 is.projected            Sets or retrieves projection attributes on
                         classes extending SpatialData
 meuse                   Meuse river data set

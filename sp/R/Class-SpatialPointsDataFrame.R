@@ -66,7 +66,7 @@ ShowSpatialPointsDataFrame = function(object) print.SpatialPointsDataFrame(objec
 setMethod("show", "SpatialPointsDataFrame", ShowSpatialPointsDataFrame)
 
 plot.SpatialPointsDataFrame = function(x, ...) {
-	plot(x@coords[,1], x@coords[,2], ...)
+	plot(as(x, "SpatialPoints"), ...)
 }
 
 summary.SpatialPointsDataFrame = function(object, ...) {

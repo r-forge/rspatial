@@ -110,11 +110,11 @@ griddedfn = function(obj) {
 setMethod("gridded", "Spatial", function(obj) griddedfn(obj))
 
 plot.SpatialCell = function(x, ...) {
-	plot(x@coords[,1], x@coords[,2], ...)
+	plot(as(x, "SpatialPoints"), ...)
 }
 
 plot.SpatialCellDataFrame = function(x, ...) {
-	plot(x@coords[,1], x@coords[,2], ...)
+	plot(as(x, "SpatialPoints"), ...)
 }
 
 summary.SpatialGridded = function(object, ...) {
