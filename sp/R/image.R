@@ -12,6 +12,6 @@ image.SpatialGridDataFrame = function(x, attr = 1, xcol = 1, ycol = 2,
 
 as.image.SpatialGridDataFrame = function(x, xcol = 1, ycol = 2) {
 	cv = coordinatevalues(getGridTopology(x))
-	m = as.matrix(x)
+	m = as(x, "matrix")
 	list(x = cv[[xcol]], y = sort(cv[[ycol]]), z = m[,ncol(m):1])
 }

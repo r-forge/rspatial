@@ -30,12 +30,16 @@ as.matrix.SpatialGridDataFrame = function(x) {
 	matrix(x@data[[1]], x@grid@cells.dim[1], x@grid@cells.dim[2], byrow=FALSE)
 }
 
+setAs("SpatialGridDataFrame", "matrix", function(from) as.matrix.SpatialGridDataFrame(from))
+
 names.SpatialGridDataFrame = function(x) {
 	names(as.data.frame(x))
 }
 
 as.data.frame.SpatialGridDataFrame = function(x, row.names, optional)
 	as.data.frame(as(x, "SpatialPointsDataFrame"))
+
+setAs("SpatialGridDataFrame", "data.frame", function(from) as.data.frame.SpatialGridDataFrame(from))
 
 subset.SpatialGridDataFrame <- function(x, subset, select, drop = FALSE, ...) {
     if (version$major == 2 & version$minor < 1 ) {
@@ -62,7 +66,7 @@ subset.SpatialGridDataFrame <- function(x, subset, select, drop = FALSE, ...) {
 	SCDF
 }
 
-"[.SpatialGridDataFrame" <- function(x, i, j, ... , drop = FALSE) {
+subs.SpatialGridDataFrame <- function(x, i, j, ... , drop = FALSE) {
 	n.args = nargs()
 	if (!missing(drop))
 		stop("don't supply drop: it needs to be FALSE anyway")
@@ -83,24 +87,21 @@ subset.SpatialGridDataFrame <- function(x, subset, select, drop = FALSE, ...) {
 	gridded(res) = TRUE
 	res
 }
+setMethod("[", "SpatialGridDataFrame", subs.SpatialGridDataFrame)
+#"[.SpatialGridDataFrame" <- subs.SpatialGridDataFrame
 
-"[[.SpatialGridDataFrame" =  function(x, ...) {
-	x@data[[...]]
-}
+dsubs.SpatialGridDataFrame =  function(x, ...) x@data[[...]]
+#setMethod("[[", "SpatialGridDataFrame", dsubs.SpatialGridDataFrame)
+"[[.SpatialGridDataFrame" =  dsubs.SpatialGridDataFrame
 
-"[[<-.SpatialGridDataFrame" =  function(x, i, j, value) {
+dsubsass.SpatialGridDataFrame =  function(x, i, j, value) {
 	if (!missing(j))
 		stop("only valid calls are x[[i]] <- value")
 	x@data[[i]] <- value
 	x
 }
-
-print.SpatialGridDataFrame = function(x, ...) {
-	cat("Object of class SpatialCellDataFrame\n")
-	print(as(x, "SpatialGrid"))
-	print(as(x, "SpatialPointsDataFrame"))
-	invisible(x)
-}
+"[[<-.SpatialGridDataFrame" =  dsubsass.SpatialGridDataFrame
+#setMethod("[[<-", "SpatialGridDataFrame", dsubsass.SpatialGridDataFrame)
 
 names.SpatialGridDataFrame = function(x) names(as(x, "SpatialPointsDataFrame"))
 
@@ -115,6 +116,7 @@ print.SpatialGridDataFrame = function(x, ...) {
 	print(summary(x@data))
 	invisible(x)
 }
+#setMethod("show", "SpatialGridDataFrame", print.SpatialGridDataFrame)
 
 plot.SpatialGridDataFrame = function(x, ...)
 	plot(as(x, "SpatialPoints"), ...)

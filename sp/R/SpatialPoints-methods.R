@@ -48,6 +48,8 @@ setMethod("dimensions", "SpatialPoints", function(obj) nrow(bbox(obj)))
 
 as.data.frame.SpatialPoints = function(x, row.names, optional) data.frame(x@coords)
 
+setAs("SpatialPoints", "data.frame", function(from) as.data.frame(from))
+
 subset.SpatialPoints <- function(x, subset, select, drop = FALSE, ...) {
     if (version$major == 2 & version$minor < 1 ) {
 	subset.matrix <- function (x, subset, select, drop = FALSE, ...) {
@@ -70,10 +72,11 @@ subset.SpatialPoints <- function(x, subset, select, drop = FALSE, ...) {
 	res
 }
 
-"[.SpatialPoints" =  function(x, i, j, ..., drop = T) {
+#"[.SpatialPoints" =  function(x, i, j, ..., drop = T) {
+setMethod("[", "SpatialPoints", function(x, i, j, ..., drop = T) {
 	SpatialPoints(coords=x@coords[i, , drop = FALSE], 
 	proj4string = CRS(proj4string(x)))
-}
+})
 
 summary.SpatialPoints = summary.Spatial
 

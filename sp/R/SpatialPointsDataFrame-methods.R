@@ -65,6 +65,9 @@ as.data.frame.SpatialPointsDataFrame = function(x, row.names, optional)  {
 		data.frame(x@data, x@coords)
 }
 
+setAs("SpatialPointsDataFrame", "data.frame", function(from)
+	as.data.frame.SpatialPointsDataFrame(from))
+
 names.SpatialPointsDataFrame <- function(x) {
 	names(as(x, "data.frame"))
 }
@@ -121,7 +124,8 @@ subset.SpatialPointsDataFrame <- function(x, subset, select,
 	SPDF
 }
 
-"[.SpatialPointsDataFrame" <- function(x, i, j, ... , drop = FALSE) {
+#"[.SpatialPointsDataFrame" <- function(x, i, j, ... , drop = FALSE) {
+setMethod("[", "SpatialPointsDataFrame", function(x, i, j, ... , drop = FALSE) {
 	missing.i = missing(i)
 	missing.j = missing(j)
 	if (drop == TRUE)
@@ -145,11 +149,12 @@ subset.SpatialPointsDataFrame <- function(x, subset, select,
 		data = x@data[i, j, drop = FALSE], 
 		coords.nrs = x@coords.nrs, 
 		proj4string = CRS(proj4string(x)))
-}
+})
 
-"[[.SpatialPointsDataFrame" =  function(x, ...) {
+"[[.SpatialPointsDataFrame" =  function(x, ...)
+#setMethod("[[", "SpatialPointsDataFrame", function(x, ...)
 	x@data[[...]]
-}
+#)
 
 "[[<-.SpatialPointsDataFrame" =  function(x, i, j, value) {
 	if (!missing(j))
