@@ -23,8 +23,8 @@ Fits the Diggle-Rowlingson Raised Incidence Model.
 }
 \usage{
 tribble(ccflag, vars=NULL, alphas=NULL, betas=NULL, rho, 
-+ which=1:length(alphas), covars=NULL, thetas=NULL, 
-+ steps=NULL, reqmin=0.001, icount=50, hessian=NULL)
+ which=1:length(alphas), covars=NULL, thetas=NULL, 
+ steps=NULL, reqmin=0.001, icount=50, hessian=NULL)
 }
 \arguments{
 \item{ccflag}{

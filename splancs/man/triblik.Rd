@@ -23,7 +23,7 @@ Calculates the log-likelihood for the Diggle-Rowlingson raised incidence model.
 }
 \usage{
 triblik(ccflag, vars=NULL, alphas=NULL, betas=NULL, rho, 
-+ which=1:length(alphas), covars=NULL, thetas=NULL)
+ which=1:length(alphas), covars=NULL, thetas=NULL)
 }
 \arguments{
 \item{ccflag}{

@@ -1,6 +1,6 @@
 # Copyright Barry Rowlingson <b.rowlingson@lancaster.ac.uk> and 
 # Peter Diggle (c) 1991-3; http://www.maths.lancs.ac.uk/~rowlings/Splancs/
-# R port: copyright 1998-2000 by Roger S. Bivand
+# R port: copyright 1998-2001 by Roger S. Bivand
 #
 #  This program is free software; you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -13,7 +13,7 @@
 #  GNU General Public License for more details.
 #
 
-inpip <- function (pts,poly)
+inpip <- function (pts, poly, bound=NULL)
 {
-	seq(1:npts(pts))[inout(pts,poly)]
+	seq(1:npts(pts))[inout(pts, poly, bound)]
 }

@@ -1,6 +1,6 @@
 % Copyright Barry Rowlingson  and 
 % Peter Diggle (c) 1991-3; http://www.maths.lancs.ac.uk/~rowlings/Splancs/
-% R port: copyright 1998-2000 by Roger S. Bivand
+% R port: copyright 1998-2001 by Roger S. Bivand
 %
 %  This program is free software; you can redistribute it and/or modify
 %  it under the terms of the GNU General Public License as published by
@@ -30,10 +30,12 @@ A points data set
 }
 \item{poly}{
 A polygon data set
-}}
+}
+\item{bound}{If points fall exactly on polygon vertices, the default NULL gives arbitrary assignments. If TRUE, then all points identical in machine numerical representation terms are set as within the polygon, if FALSE, outside.}
+}
 \value{
 \code{inpip} returns a vector of indices of the points in \code{pts} that are located
-in the polygon.
+in the polygon. Note that "in" is an arbitrary concept for points precisely on the polygon boundary.
 
 
 }
