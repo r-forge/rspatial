@@ -32,7 +32,7 @@ summary.SpatialDataFramePolygons = summary.SpatialData
 	bbox[1,2] = max(r[,2], na.rm=TRUE)
 	bbox[2,1] = min(r[,3], na.rm=TRUE)
 	bbox[2,2] = max(r[,4], na.rm=TRUE)
-	colnames(bbox) = c("min", "max")
+	dimnames(bbox)[[2]] = c("min", "max")
 	# if (is.null(obj))
 	#	obj = getMeanDF(value@polygons)
 	# verify has.holes thing, how do we provide this?
@@ -68,7 +68,11 @@ SpatialDataFramePolygons = function(SDF, polygons) {
 	SDF
 }
 
+#ifdef R
 setAs("SpatialDataFramePolygons", "data.frame", function(from) { from@data })
+#else
+setAs("SpatialDataFramePolygons", "data.frame", function(object) { object@data})
+#endif
 
 as.data.frame.SpatialDataFramePolygons = function(x, row.names, optional) 
 	as(x, "data.frame")

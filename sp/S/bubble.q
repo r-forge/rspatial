@@ -35,7 +35,9 @@
 		plot(x, y, asp = 1, cex = cex, main = main, ...)
 		return(identify(x, y, labels))
 	} else {
+#ifdef R
 		require(lattice)
+#endif
     	key = list(space = "right", points = list(pch = q.pch, col = q.col, 
     		cex = q.cex), text = list(q.text))
 		xyplot(y ~ x, col = z.col, cex = cex, pch = pch, asp = mapasp(obj), 

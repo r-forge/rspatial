@@ -190,7 +190,7 @@ coordinates = function(sdf) {
 		mf.locs = model.frame(terms.l, obj, na.action = na.pass) 
 			# will check for missing values later
 		cc = model.matrix(terms.l, mf.locs)
-		value = colnames(cc)
+		value = dimnames(cc)[[2]]
 		if (length(value) > 3 || length(value) < 2)
 			stop("coordinates should have 2 or 3 columns")
   		coord.columns = match(value, names(obj))
@@ -200,7 +200,7 @@ coordinates = function(sdf) {
 		cc = data.frame(value)
 		if (NCOL(cc) > 3 || NCOL(cc) < 2)
 			stop("coordinates should have 2 or 3 columns")
-		value = colnames(value)
+		value = dimnames(value)[[2]]
 		if (is.null(value)) { # set up default names
 			if (dim(cc)[2] == 2)
 				value = c("x.coordinate", "y.coordinate")
@@ -234,7 +234,11 @@ coordinates = function(sdf) {
 		coord.columns = coord.columns)
 }
 
+#ifdef R
 setAs("SpatialDataFrame", "data.frame", function(from) { from@data })
+#else
+setAs("SpatialDataFrame", "data.frame", function(object) { object@data })
+#endif
 
 as.data.frame.SpatialDataFrame = function(x, row.names, optional) 
 	as(x, "data.frame")
@@ -243,9 +247,34 @@ as.data.frame.SpatialDataFrame = function(x, row.names, optional)
 
 # try to get "[.data.frame" behaviour, but _always_ preserve columns,
 # if needed add them
+#ifdef R
 setMethod("[", "SpatialDataFrame", function(x, i, j, ..., drop = FALSE) {
 		missing.i = missing(i)
 		missing.j = missing(j)
+#else
+setMethod("[", "SpatialDataFrame", function(x, ..., drop = T) {
+		missing.i = missing.j = F
+		ndots = nDotArgs(...)
+		if (ndots < 1)
+			return(x)
+		if (missing(drop))
+			drop = F
+		else
+			stop("do not specify drop, it is assumed FALSE anyway")
+		args = match.call(function(x, i, j, drop){})
+		if (!is.null(args$i)) {
+			i = eval(args$i, sys.parent(1))
+			if (is.null(i))
+				missing.i = T
+		} else 
+			missing.i = TRUE
+		if (!is.null(args$j)) {
+			j = eval(args$j, sys.parent(1))
+			if (is.null(j))
+				missing.j = T
+		} else 
+			missing.j = T
+#endif
 		if (drop == TRUE)
 			stop("coerce to data.frame first for drop = TRUE")
 		nargs = nargs() # e.g., a[3,] gives 2 for nargs, a[3] gives 1.
@@ -284,11 +313,23 @@ setMethod("[", "SpatialDataFrame", function(x, i, j, ..., drop = FALSE) {
 )
 
 setMethod("[", "SpatialDataFrameGrid",
+#ifdef R
 	function(x, i, j, ..., drop = FALSE) {
 		res = as(x, "SpatialDataFrame")[i, j, drop]
 		gridded(res) = TRUE
 		res
 	}
+#else
+	function(x, ..., drop = TRUE) {
+		res = as(x, "SpatialDataFrame")
+		if (missing(drop))
+			res = "["(res, ...)
+		else
+			res = "["(res, ..., drop = drop)
+		gridded(res) = TRUE
+		res
+	}
+#endif
 )
 
 proj4string = function(sd) { 
@@ -366,7 +407,21 @@ plot.SpatialDataFrame = function(x, xlab = x@coord.names[1],
 		ylab = x@coord.names[2], asp = 1, ...) {
 	df = x@data
 	col = x@coord.columns
+#ifdef R
 	plot(df[, col[1]], df[, col[2]], asp = asp, xlab = xlab, ylab = ylab, ...)
+#else
+	# asp not available
+	max = 5 # --- pass as argument?
+	xy = diff(t(x@bbox))
+	if (xy[1] > xy[2])
+		pin = c(max, max * xy[2]/xy[1])
+	else
+		pin = c(max * xy[1]/xy[2], max)
+	oldpar = par()
+	par(pin = pin)
+	plot(df[, col[1]], df[, col[2]], xlab = xlab, ylab = ylab, ...)
+	invisible(par(oldpar))
+#endif
 }
 
 plot.SpatialDataFrameGrid = function(x, xlab = x@coord.names[1], 
@@ -470,7 +525,11 @@ as.SD = function(from) { # strip all grid & data.frame attributes
 #setAs("SpatialDataFrame", "SpatialData", as.SD)
 
 # as(x, "data.frame"):
+#ifdef R
 setAs("SpatialDataFrameGrid", "data.frame", function(from) { from@data })
+#else
+setAs("SpatialDataFrameGrid", "data.frame", function(object) { object@data })
+#endif
 
 # as.data.frame(x); 
 
@@ -530,7 +589,7 @@ SpatialDataPolygons = function(data, polygons) {
 	bbox[1,2] = max(r[,2], na.rm=TRUE)
 	bbox[2,1] = min(r[,3], na.rm=TRUE)
 	bbox[2,2] = max(r[,4], na.rm=TRUE)
-	colnames(bbox) = c("min", "max")
+	dimnames(bbox)[[2]] = c("min", "max")
 #	if (is.null(obj))
 #		obj = getMeanDF(value@polygons)
 	# verify has.holes thing, how do we provide this?
@@ -548,7 +607,11 @@ polygons = function(obj) {
 	obj@polygons
 }
 
+#ifdef R
 setAs("SpatialDataPolygons", "data.frame", function(from) { from@data })
+#else
+setAs("SpatialDataPolygons", "data.frame", function(object) { object@data })
+#endif
 
 as.data.frame.SpatialDataPolygons = function(x, row.names, optional)
 	as(x, "data.frame")

@@ -1,4 +1,3 @@
-#define USING_R 1
 #include <stdlib.h> /* malloc(), free() */
 #include "S.h" 
 
