@@ -7,7 +7,7 @@ Point Operations.
 Estimate the Mean Square Error for a Kernel Smoothing.
 }
 \usage{
-mse2d(pts,poly,nsteps,hrange)
+mse2d(pts,poly,nsmse, range)
 }
 \arguments{
 \item{pts}{
@@ -16,10 +16,10 @@ A set of points.
 \item{poly}{
 A polygon containng the points.
 }
-\item{nsteps}{
+\item{nsmse}{
 Number of steps of \fCh} at which to calculate the mean square error.
 }
-\item{hrange}{
+\item{range}{
 Maximum value of \fCh} for calculating the mean square error.
 }}
 \value{
@@ -35,6 +35,11 @@ can be passed to \fCkernel2d} as the optimum smoothing parameter.
 Berman M. \& Diggle P.J. (1989) Estimating Weighted Integrals of the
 Second-Order Intensity of a Spatial Point Pattern. 
 \emph{ J. R. Statist Soc} B 51 81--92
+}
+\examples{
+data(bodmin)
+Mse2d <- mse2d(as.points(bodmin), bodmin$poly, nsmse=50, range=8)
+plot(Mse2d$h[5:50],Mse2d$mse[5:50], type="l")
 }
 \seealso{
 \fCkernel2d}
