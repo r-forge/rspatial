@@ -1,4 +1,4 @@
-print.ribfit_function(x,...){
+print.ribfit <- function(x,...){
 	if(!is.null(cl <- x$call)) {
 		cat("Call:\n")
 		dput(cl)
@@ -7,8 +7,8 @@ print.ribfit_function(x,...){
 
 	if(!is.null(x$alpha)){
 	  cat("\nDistance decay parameters:\n")
-	  pmat_cbind(x$alpha,x$beta)
-	  dimnames(pmat)_list(NULL,c('Alpha','Beta'))
+	  pmat <- cbind(x$alpha,x$beta)
+	  dimnames(pmat) <- list(NULL,c('Alpha','Beta'))
 	  print(pmat,...)
 	}
 	if(!is.null(x$theta)){

@@ -1,15 +1,15 @@
 thin <- function(pts,n)
 {
-	pts_as.points(pts)
-	nptsi_npts(pts)
+	pts <- as.points(pts)
+	nptsi <- npts(pts)
 	if(nptsi<n)
 	{
 		warning(paste("Requested ",n," points from data with ",nptsi,".\n"))
-		n_nptsi
+		n <- nptsi
 	}
 	if(nptsi==0 | n==0)
 	{
-		pts_NULL
+		pts <- NULL
 	}
 	else
 	{

@@ -1,12 +1,12 @@
 "kerview"<-
 function(pts,times, k3, map = T,addimg=T,ncol=1)
 {
-        pts3_cbind(pts,times)
-        zgr_k3$zgr
+        pts3 <- cbind(pts,times)
+        zgr <- k3$zgr
 	old.par <- par()
 	im.dev <- dev.cur()
 	par(mfrow=c(ncol,ncol))
-	if(ncol!=1)addimg_F
+	if(ncol!=1)addimg <- F
 	image(k3$xgr, k3$ygr, k3$v[,  , 1])
 	map.dev <- -999
 	if(map) {
@@ -24,8 +24,8 @@ function(pts,times, k3, map = T,addimg=T,ncol=1)
 		tmin <- min(pts3[, 3])
 		tmax <- max(pts3[, 3])
 		tbins <- (zgr[1:(length(zgr) - 1)] + zgr[2:length(zgr)])/2
-	#  if(tbins[1] < tmin)tbins_c(tmin,tbins)
-#  if(tbins[length(tbins)] > tmax)tbins_c(tbins,tmax)
+	#  if(tbins[1] < tmin)tbins <- c(tmin,tbins)
+#  if(tbins[length(tbins)] > tmax)tbins <- c(tbins,tmax)
 		pbins <- cut(pts3[, 3], tbins)
 	}
 #dev.copy(eval(parse(text=names(dev.cur()))),'-geometry=500x250')
@@ -53,7 +53,7 @@ function(pts,times, k3, map = T,addimg=T,ncol=1)
 		if(map) {
 			dev.set(map.dev)
 #			ptsin <- pts3[pbins == bin,]
-		       ptsin_pts3[abs(pts3[,3]-k3$zgr[bin]) < k3$hz,]
+		       ptsin <- pts3[abs(pts3[,3]-k3$zgr[bin]) < k3$hz,]
 			if(length(ptsin != 0)) {
 				pointmap(pbox, type = "n")
 				pointmap(ptsin, add = T)

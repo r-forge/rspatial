@@ -1,33 +1,33 @@
-stvmat_function(pts,times,poly,tlim,s,tm)
+stvmat <- function(pts,times,poly,tlim,s,tm)
 {
-	mathlib.dynam('splancs','stsecal.o')
+#	mathlib.dynam('splancs','stsecal.o')
 # full spacetime variance/covariance matrix
-	tlow_min(tlim)
-        tupp_max(tlim)
+	tlow <- min(tlim)
+        tupp <- max(tlim)
 
-	ns_length(s)
-        nt_length(tm)
-        tm_sort(tm)
+	ns <- length(s)
+        nt <- length(tm)
+        tm <- sort(tm)
 
-	np_npts(poly)
+	np <- npts(poly)
         xp <- c(poly[, 1],poly[1,1])
         yp <- c(poly[, 2],poly[1,2])
 
-	n_npts(pts)
+	n <- npts(pts)
 	
 
-	x_pts[, 1]
-	y_pts[, 2]
-        z_times
+	x <- pts[, 1]
+	y <- pts[, 2]
+        z <- times
 
-        svec_vector(mode="numeric", length=ns)
-        tvec_vector(mode="numeric", length=nt)
+        svec <- vector(mode="numeric", length=ns)
+        tvec <- vector(mode="numeric", length=nt)
 
-	smat_matrix(0,ncol=ns,nrow=n)
-        tmat_matrix(0,ncol=nt,nrow=n)
+	smat <- matrix(0,ncol=ns,nrow=n)
+        tmat <- matrix(0,ncol=nt,nrow=n)
 
-        long_ns*nt
-        cmat_matrix(0,ncol=long,nrow=long)
+        long <- ns*nt
+        cmat <- matrix(0,ncol=long,nrow=long)
 
 slist <- .Fortran("stsecal",
                 as.double(x),
@@ -51,8 +51,8 @@ slist <- .Fortran("stsecal",
 		varmat=as.double(cmat)
 		)
 
- ans_matrix(slist$varmat,nrow=long,byrow=T)
- ans_array(ans,dim=c(nt,ns,nt,ns))
+ ans <- matrix(slist$varmat,nrow=long,byrow=T)
+ ans <- array(ans,dim=c(nt,ns,nt,ns))
 ans
 }
 

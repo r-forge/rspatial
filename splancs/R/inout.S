@@ -1,6 +1,6 @@
 inout <- function(pts, poly)
 {
-	library.dynam("splancs", "inpip.o")
+#	library.dynam("splancs", "inpip.o")
 	np <- length(poly[, 1])
 	xp <- c(poly[, 1], poly[1, 1])
 	yp <- c(poly[, 2], poly[1, 2])

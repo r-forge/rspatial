@@ -16,18 +16,18 @@ pointmap <- function(pts ,add=F,axes=T,xlab="",ylab="",...)
 		{
 		if(xd > yd) {
 			xplot <- xrnge
-			yplot_NULL
+			yplot <- NULL
 			yplot[1] <- ((yrnge[2] + yrnge[1])/2) - xd/2
 			yplot[2] <- ((yrnge[2] + yrnge[1])/2) + xd/2
 		}
 		else {
-			yplot_yrnge
-			xplot_NULL
+			yplot <- yrnge
+			xplot <- NULL
 			xplot[1] <- ((xrnge[2] + xrnge[1])/2) - yd/2
 			xplot[2] <- ((xrnge[2] + xrnge[1])/2) + yd/2
 		}
 
-		pty.old_par("pty")
+		pty.old <- par("pty")
 		par(pty="s")
 		plot(pts[,1:2,drop=F],xlim=xplot,ylim=yplot,axes=axes,
 		xlab=xlab,ylab=ylab,...)

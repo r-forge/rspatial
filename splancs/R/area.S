@@ -1,15 +1,15 @@
 area <- function(poly)
 {
-	library.dynam("splancs","areapl.o")
+#	library.dynam("splancs","areapl.o")
 
-	np_length(poly[,1])
+	np <- length(poly[,1])
 
-	polyx_c(poly[,1],poly[1,1])
-	polyy_c(poly[,2],poly[1,2])
+	polyx <- c(poly[,1],poly[1,1])
+	polyy <- c(poly[,2],poly[1,2])
 	
-	answer_0
+	answer <- 0
 
-	alist_.Fortran(	"areapl",
+	alist <- .Fortran(	"areapl",
 			as.double(polyx),
 			as.double(polyy),
 			as.integer(np),

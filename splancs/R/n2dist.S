@@ -1,14 +1,14 @@
 n2dist <- function(pts1,pts2)
 {
-	library.dynam("splancs","nndist.o")
-	npts1_npts(pts1)
-	npts2_npts(pts2)
+#	library.dynam("splancs","nndist.o")
+	npts1 <- npts(pts1)
+	npts2 <- npts(pts2)
 
 # reserve arrays for the result
-	dists_rep(0,npts2)
-	neighs_rep(0,npts2)
+	dists <- rep(0,npts2)
+	neighs <- rep(0,npts2)
 
-	nnlist_.Fortran("n2dist",as.double(pts1[,1]),
+	nnlist <- .Fortran("n2dist",as.double(pts1[,1]),
 				 as.double(pts1[,2]),
 	                         as.integer(npts1),
 	                         as.double(pts2[,1]),

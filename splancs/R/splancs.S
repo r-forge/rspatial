@@ -1,4 +1,4 @@
-splancs_function()
+splancs <- function()
 {
 	cat('Splancs version 2.00     Date 23/11/93\n')
 	cat('\n(c) BSR and PJD 1991      Lancaster University\n')

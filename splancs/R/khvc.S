@@ -1,25 +1,25 @@
-khvc_function(pts1,pts2,poly,s)
+khvc <- function(pts1,pts2,poly,s)
 {
-	mathlib.dynam('splancs','khvc.o')
-	anslist_list(0,0,0,0)
+#	mathlib.dynam('splancs','khvc.o')
+	anslist <- list(0,0,0,0)
         names(anslist) <- c('varmat','k11','k12','k22')
-	ns_length(s)
+	ns <- length(s)
 
-	np_npts(poly)
+	np <- npts(poly)
         xp <- c(poly[, 1],poly[1,1])
         yp <- c(poly[, 2],poly[1,2])
 
-	n1_npts(pts1);n2_npts(pts2);n_n1+n2
+	n1 <- npts(pts1);n2 <- npts(pts2);n <- n1+n2
 	
-	x_c(pts1[, 1], pts2[, 1])
-	y_c(pts1[, 2], pts2[, 2])
+	x <- c(pts1[, 1], pts2[, 1])
+	y <- c(pts1[, 2], pts2[, 2])
 
-        bvec_vector(mode="numeric", length=ns)
-	table_matrix(0,ncol=ns,nrow=n)
-        cmat_matrix(0,ncol=ns,nrow=ns)
-        v11_vector(mode='numeric',length=ns)
-        v12_vector(mode='numeric',length=ns)
-	v22_vector(mode='numeric',length=ns)
+        bvec <- vector(mode="numeric", length=ns)
+	table <- matrix(0,ncol=ns,nrow=n)
+        cmat <- matrix(0,ncol=ns,nrow=ns)
+        v11 <- vector(mode='numeric',length=ns)
+        v12 <- vector(mode='numeric',length=ns)
+	v22 <- vector(mode='numeric',length=ns)
 
 slist <- .Fortran("khvc",
                 as.double(x),
@@ -40,11 +40,11 @@ slist <- .Fortran("khvc",
 		covmat=as.double(cmat)
 		)
 
- ans_matrix(slist$covmat,nrow=ns,byrow=T)
-anslist$varmat_ ans
-anslist$k11_slist$vark1
-anslist$k12_slist$vark12
-anslist$k22_slist$vark2
+ ans <- matrix(slist$covmat,nrow=ns,byrow=T)
+anslist$varmat <-  ans
+anslist$k11 <- slist$vark1
+anslist$k12 <- slist$vark12
+anslist$k22 <- slist$vark2
 anslist
 }
 

@@ -2,8 +2,8 @@
 function(pts,times, xgr, ygr, zgr, hxy, hz)
 {
 
-        library.dynam('splancs','kernel3d.o')
-        pts3_cbind(pts,times)
+#        library.dynam('splancs','kernel3d.o')
+        pts3 <- cbind(pts,times)
 	nx <- length(xgr)
 	ny <- length(ygr)
 	nz <- length(zgr)

@@ -1,6 +1,6 @@
-stkhat_function(pts, times, poly, tlimits, s, tm)
+stkhat <- function(pts, times, poly, tlimits, s, tm)
 {
-	mathlib.dynam('splancs','stkhat.o')
+#	mathlib.dynam('splancs','stkhat.o')
 # space-time khat function
 	tlow <- min(tlimits)
 	thigh <- max(tlimits)

@@ -1,6 +1,6 @@
 Ghat <- function(pts,s)
 {
-	Gdists_nndistG(pts)$dists
+	Gdists <- nndistG(pts)$dists
 	plt(Gdists,s)
 }
 

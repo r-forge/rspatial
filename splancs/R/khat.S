@@ -1,20 +1,20 @@
 khat <- function(pts,poly, s)
 {
-	mathlib.dynam("splancs","dokhat.o")
-	ptsx_pts[,1]
-	ptsy_pts[,2]
-	npt_npts(pts)
+#	mathlib.dynam("splancs","dokhat.o")
+	ptsx <- pts[,1]
+	ptsy <- pts[,2]
+	npt <- npts(pts)
 
-	ns_length(s)
-	s_sort(s)
+	ns <- length(s)
+	s <- sort(s)
 
-	np_length(poly[,1])
-	polyx_c(poly[,1],poly[1,1])
-	polyy_c(poly[,2],poly[1,2])
+	np <- length(poly[,1])
+	polyx <- c(poly[,1],poly[1,1])
+	polyy <- c(poly[,2],poly[1,2])
 
-	hkhat_rep(0,times=ns)
+	hkhat <- rep(0,times=ns)
 
-	klist_.Fortran("dokhat",
+	klist <- .Fortran("dokhat",
 		as.double(ptsx),
 		as.double(ptsy),
 		as.integer(npt),
