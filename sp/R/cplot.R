@@ -8,7 +8,7 @@ function (obj, zcol = 1, cuts = 5, ..., fill = TRUE, pch, col, cex = 1,
         stop("first object is not of (or does not extend) class SpatialPoints")
     cc = coordinates(obj)
     if (is(obj, "SpatialPointsDataFrame")) 
-        data = as(data, "data.frame")
+        data = as(obj, "data.frame")
     else data = data.frame(Var1 = rep(1, nrow(cc)))
     x = cc[, 1]
     y = cc[, 2]

@@ -46,7 +46,7 @@ image(x)
 summary(x)
 y = read.gdal(system.file("pictures/Rlogo.jpg", package = "rgdal")[1])
 summary(y)
-lplot(y, zcol=1:3, names.attr=c("red","green","blue"), col.regions=grey(0:100/100),
+gridplot(y, zcol=1:3, names.attr=c("red","green","blue"), col.regions=grey(0:100/100),
 	main="example of three-layer (RGB) raster image", as.table=TRUE)
 }
 \keyword{programming}
