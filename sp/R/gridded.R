@@ -58,8 +58,8 @@ fullgrid = function(obj) return(is(obj, "SpatialGridDataFrame") && length(obj@gr
     	names(data) = names(fd)
     	for (i in seq(along=fd))
         	data[obj@grid.index, i] = fd[[i]]
-    	obj = SpatialGridDataFrame(grid = obj@grid, data = data, 
-			coords.nrs = obj@coords.nrs, proj4string = CRS(proj4string(obj)))
+    	return(SpatialGridDataFrame(grid = obj@grid, data = data, 
+			coords.nrs = obj@coords.nrs, proj4string = CRS(proj4string(obj))))
 	} else {
 		if (length(value) == 2 && value[2] == TRUE)
 			sel = apply(obj@data, 1, function(x) !all(is.na(x)))
@@ -69,10 +69,9 @@ fullgrid = function(obj) return(is(obj, "SpatialGridDataFrame") && length(obj@gr
 			warning("complete map seems to be NA's -- no selection was made")
 			sel = rep(TRUE, length(sel))
 		}
-    	obj = SpatialGridDataFrame(coordinates(obj)[sel,,drop=FALSE], 
+    	return(SpatialGridDataFrame(coordinates(obj)[sel,,drop=FALSE], 
 			data = obj@data[sel,,drop=FALSE], coords.nrs = obj@coords.nrs, 
-			proj4string = CRS(proj4string(obj)))
+			proj4string = CRS(proj4string(obj))))
 		#warning("in fullgrid(obj)<-FALSE, empty (NA) grid cells were not removed")
 	}
-	obj
 }
