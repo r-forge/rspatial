@@ -3,6 +3,6 @@ Version: 2.01-1
 Author: Barry Rowlingson <b.rowlingson@lancaster.ac.uk> and Peter Diggle,
 	adapted and packaged for R by Roger Bivand <Roger.Bivand@nhh.no>
 Description: Spatial and Space-Time Point Pattern Analysis Functions
-Depends:
+Depends: MASS, spatial
 License: This version of Splancs is not public domain and must not be
 	copied or redistributed without prior permission of the authors.
