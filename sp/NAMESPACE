@@ -57,6 +57,8 @@ export(select.spatial)
 
 export(read.asciigrid, write.asciigrid, read.gdal)
 
+#export(transform.Spatial)
+
 exportClasses(CRS, Spatial, 
 	SpatialPoints, 
  	SpatialPointsDataFrame, 
@@ -69,8 +71,9 @@ exportClasses(CRS, Spatial,
 
 exportClasses(Sring, Srings, SpatialRings, SpatialRingsDataFrame)
 
-exportMethods(show, bbox, coordinates, gridded, rings, dimensions, coerce, "[",
-	transform) # not arcs
+exportMethods(show, bbox, coordinates, gridded, rings, dimensions, coerce, "["
+#, transform
+) # not arcs
 
 S3method("[[", SpatialPointsDataFrame)
 S3method("[[<-", SpatialPointsDataFrame)
@@ -145,6 +148,7 @@ S3method(summary, SpatialGridDataFrame)
 S3method(summary, SpatialLines)
 S3method(summary, SpatialLinesDataFrame)
 S3method(summary, SpatialRingsDataFrame)
+#S3method(transform, Spatial)
 
 export(".__C__CRS")
 export(".__C__SpatialPoints")
