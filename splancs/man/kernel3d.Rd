@@ -22,7 +22,7 @@ Space-time kernel
 Compute the space-time kernel
 }
 \usage{
-kernel3d(pts, times, xgr, ygr, tgr, hxy, ht)
+kernel3d(pts, times, xgr, ygr, zgr, hxy, hz)
 }
 \arguments{
 \item{pts}{
@@ -37,13 +37,13 @@ The values of x at which to compute the kernel function.
 \item{ygr}{
 The values of y at which to compute the kernel function.
 }
-\item{tgr}{
-The values of t at which to compute the kernel function.
+\item{zgr}{
+The values of time at which to compute the kernel function.
 }
 \item{hxy}{
 The quartic kernel width in the x and y direction.
 }
-\item{ht}{
+\item{hz}{
 The quartic kernel width in the temporal direction.
 }}
 \value{

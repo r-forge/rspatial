@@ -13,12 +13,12 @@
 #  GNU General Public License for more details.
 #
 
-is.points <- function(thing)
+is.points <- function(p)
 {
 	is <- F
-	if(is.array(thing))
-		if(length(dim(thing))==2)
-			if(dim(thing)[2]>=2) is <- T
+	if(is.array(p))
+		if(length(dim(p))==2)
+			if(dim(p)[2]>=2) is <- T
 	is
 }
 

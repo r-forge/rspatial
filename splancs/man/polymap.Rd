@@ -22,7 +22,7 @@ Graphics
 Plots point and polygon data sets on the current graphics device.
 }
 \usage{
-polymap(poly,add=F,axes=T,xlab="",ylab="",\dots)
+polymap(poly,add=F,xlab="",ylab="",axes=T,...)
 }
 \arguments{
 \item{pts}{
@@ -31,12 +31,12 @@ a points data set.
 \item{add}{
 if false, start a new plot. If true, superimpose on current plot.
 }
+\item{xlab,ylab}{
+Label strings for x and y axes.
+}
 \item{axes}{
 if true, display axes with labelling. If false, do not display any 
 axes on the plot.
-}
-\item{xlab,ylab}{
-Label strings for x and y axes.
 }
 \item{...}{
 Graphical arguments may be entered, and these are passed to the

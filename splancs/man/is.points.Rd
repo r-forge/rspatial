@@ -26,7 +26,7 @@ is.points(p)
 }
 \arguments{
 \item{p}{
-any S-PLUS object(s).
+any object.
 }
 }
 \value{

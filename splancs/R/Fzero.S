@@ -13,8 +13,8 @@
 #  GNU General Public License for more details.
 #
 
-Fzero <- function(lambda.dat,s)
+Fzero <- function(density,s)
 {
-	1-exp(-pi*lambda.dat*s^2)
+	1-exp(-pi*density*s^2)
 }
 

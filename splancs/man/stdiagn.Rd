@@ -22,7 +22,7 @@ Summary plots for clustering analysis
 Produces some summary plots for clustering analysis
 }
 \usage{
-stdiagn(pts, stkh, stse, stmc=0)
+stdiagn(pts, stkh, stse, stmc=0,Dzero=F)
 }
 \arguments{
 \item{pts}{
@@ -36,7 +36,9 @@ An object returned from \code{stsecal}
 }
 \item{stmc}{
 An object returned from \code{stmctest}
-}}
+}
+\item{Dzero}{FALSE - default D plot, TRUE Dzero plot}
+}
 \details{
 Four plots are produced on the current graphics device.
 The first plot is simply a map of the data. The second is a perspective plot

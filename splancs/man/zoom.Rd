@@ -22,15 +22,15 @@ Interactively specify a region of a plot for expansion
 Interactively specify a region of a plot for expansion
 }
 \usage{
-zoom(out=F,quiet=F,\dots)
+zoom(quiet=F,out=F,...)
 }
 \arguments{
+\item{quiet}{
+If false, prompt the user to enter two coordinates. If true, say nothing.
+}
 \item{out}{
 If true, expand the limits of the current plot by a factor of three, centred
 on the current plot.
-}
-\item{quiet}{
-If false, prompt the user to enter two coordinates. If true, say nothing.
 }
 \item{...}{
 Other arguments are passed through to pointmap.

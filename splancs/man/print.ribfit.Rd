@@ -22,12 +22,14 @@ Display the fit from tribble()
 Display the fit from \code{tribble}
 }
 \usage{
-print.ribfit(fitobj)
+print.ribfit(x, ...)
 }
 \arguments{
-\item{fitobj}{
+\item{x}{
 An object returned from \code{tribble}
-}}
+}
+\item{...}{optional arguments to pass through to \code{print()}}
+}
 \section{Side Effects}{
  The parameter estimates and log-likelihood for the raised incidence 
 model are displayed. The likelihood ratio, D = 2*(L-Lo), is also given.

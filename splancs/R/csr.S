@@ -13,9 +13,9 @@
 #  GNU General Public License for more details.
 #
 
-csr <- function(poly,nptg)
+csr <- function(poly,npoints)
 {
-	ranpts(NULL,poly,nptg)[1:nptg,]
+	ranpts(NULL,poly,npoints)[1:npoints,]
 }
 
 ranpts <- function(pts,poly,nprq)
@@ -33,7 +33,7 @@ ranpts <- function(pts,poly,nprq)
 	pts
 }
 
-gen <- function(poly,nptg)
+gen <- function(poly,npoints)
 {
 	areap <- areapl(poly)
 	areab <- areapl(bbox(poly))
@@ -44,7 +44,7 @@ gen <- function(poly,nptg)
 	ymax <- max(poly[,2],na.rm=T)
 
 	aratio <- areab/areap
-	ngen <- nptg*aratio
+	ngen <- npoints*aratio
 	
 	xc <- xmin+runif(ngen)*(xmax-xmin)
 	yc <- ymin+runif(ngen)*(ymax-ymin)

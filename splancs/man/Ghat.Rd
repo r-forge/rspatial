@@ -22,10 +22,10 @@ G nearest neighbour distribution function
 Calculates an estimate of the G nearest neighbour distribution function.
 }
 \usage{
-Ghat(points,s)
+Ghat(pts,s)
 }
 \arguments{
-\item{points}{
+\item{pts}{
 A points data set
 }
 \item{s}{

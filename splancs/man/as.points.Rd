@@ -22,10 +22,10 @@ Creates data in spatial point format
 Creates data in spatial point format.
 }
 \usage{
-as.points(p)
+as.points(...)
 }
 \arguments{
-\item{p}{
+\item{...}{
 any object(s), such as x and y vectors of the same length, or a list or data
 frame containing x and y vectors. Valid options for \code{p} are:
 \itemize{
