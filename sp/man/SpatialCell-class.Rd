@@ -6,6 +6,9 @@
 \alias{plot.SpatialCell}
 \alias{print.summary.SpatialCell}
 \alias{summary.SpatialCell}
+\alias{griddedfn}
+\alias{points2grid}
+\alias{GetGridIndex}
 
 \title{Class "SpatialCell" ~~~ }
 \description{  extends SpatialPoints for the case when the points are

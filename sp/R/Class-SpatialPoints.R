@@ -70,10 +70,6 @@ as.data.frame.SpatialPoints = function(x, row.names, optional) as(x, "data.frame
 #	SpatialPoints(coords = as.matrix(from))
 #})
 
-setAs("SpatialPoints", "matrix", function(from) from@coords)
-#as.matrix.SpatialPoints = function(x) as(x, "matrix")
-as.matrix.SpatialPoints = function(x) x@coords
-
 #setAs("matrix", "SpatialPoints", function(from) {
 #	SpatialPoints(coords = from)
 #})
@@ -100,10 +96,15 @@ subset.SpatialPoints <- function(x, subset, select, drop = FALSE, ...) {
 	res
 }
 
-setMethod("[", "SpatialPoints", function(x, i, j, ..., drop = T) {
+"[.SpatialPoints" =  function(x, i, j, ..., drop = T) {
 	SpatialPoints(coords=x@coords[i, , drop = FALSE], 
 	proj4string = CRS(proj4string(x)))
-})
+}
+
+#setMethod("[", "SpatialPoints", function(x, i, j, ..., drop = T) {
+#	SpatialPoints(coords=x@coords[i, , drop = FALSE], 
+#	proj4string = CRS(proj4string(x)))
+#})
 
 #setReplaceMethod("[", signature(x = "SpatialPoints"), 
 #	function(x, ..., value) {
@@ -111,3 +112,6 @@ setMethod("[", "SpatialPoints", function(x, i, j, ..., drop = T) {
 #		SpatialPoints(x@coords)
 #	}
 #)
+
+summary.SpatialPoints = summary.Spatial
+print.summary.SpatialPoints = print.summary.Spatial

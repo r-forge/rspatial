@@ -23,11 +23,16 @@ try(coordinates(a) <- c("xx", "yy")) # should fail!
 x = meuse[1:4,]
 coordinates(x) = c(1,2)
 # this should fail -- zinc is not a row:
+#(and will break automatic testing, so outcommented!)
 #try(q <- x["zinc",])
-# this will issue a warning under S-Plus, or a silent rename under R
+# this will issue warning under S-Plus, or a silent rename under R
+try(x[c("zinc", "copper", "zinc")])
+
+# this will fail, as "x" is not in the data part:
 try(x[c("zinc", "x", "copper", "zinc")])
 
 xx = data.frame(x=1:10, y=1:10)
+
+# fails; use SpatialPoints() to create points without attribute 
 try(coordinates(xx) <- c("x", "y")) 
-  #leaves data.frame empty: use SpatialPoints
 

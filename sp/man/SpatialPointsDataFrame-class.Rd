@@ -15,6 +15,7 @@
 \alias{summary.SpatialPointsDataFrame}
 \alias{print.summary.SpatialPointsDataFrame}
 \alias{ShowSpatialPointsDataFrame}
+\alias{as.SpatialPoints.SpatialPointsDataFrame}
 
 \title{Class "SpatialPointsDataFrame" ~~~ }
 \description{ Class for spatial attributes that have spatial point locations }

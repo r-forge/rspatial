@@ -9,6 +9,7 @@
 \alias{coerce,SpatialCellDataFrame,SpatialPointsDataFrame-method}
 \alias{coerce,SpatialCellDataFrame,data.frame-method}
 \alias{as.data.frame.SpatialCellDataFrame}
+\alias{as.SpatialCellDataFrame.SpatialGriddedDataFrame}
 
 \title{Class "SpatialCellDataFrame" ~~~ }
 \description{  Class for spatial attributes that have spatial locations

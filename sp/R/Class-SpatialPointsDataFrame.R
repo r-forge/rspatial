@@ -236,3 +236,16 @@ subset.SpatialPointsDataFrame <- function(x, subset, select,
 #%			missing.j = T
 #    })
 #endif
+
+"[[.SpatialPointsDataFrame" =  function(x, ...) {
+	x@data[[...]]
+}
+
+"[[<-.SpatialPointsDataFrame" =  function(x, i, j, value) {
+	if (!missing(j))
+		stop("only valid calls are x[[i]] <- value")
+	x@data[[i]] <- value
+	x
+}
+
+summary.SpatialPointsDataFrame = summary.Spatial

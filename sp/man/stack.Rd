@@ -48,8 +48,8 @@ variable stacked.  }
 \examples{
 require(lattice)
 data(meuse.grid) # data frame
-meuse.grid$idist = 1 - meuse.grid$dist
 coordinates(meuse.grid) = c("x", "y") # promotes to SpatialDataFrame
+meuse.grid[["idist"]] = 1 - meuse.grid[["dist"]] # add variable
 levelplot(z~x+y|name, map.to.lev(meuse.grid, z=c("dist","idist"), names.attr =
 	c("distance", "inverse of distance")), aspect = "iso")
 levelplot(values~x+y|ind, as.data.frame(stack(meuse.grid)),aspect = "iso")

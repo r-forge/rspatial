@@ -1,54 +1,52 @@
 \name{SpatialGridded-class}
 \docType{class}
 \alias{SpatialGridded-class}
-\alias{show,SpatialGridded-method}
+\alias{[,SpatialGridded-method}
 \alias{print.summary.SpatialGridded}
 \alias{summary.SpatialGridded}
-\alias{getgridindex}
-\alias{griddedfn}
-\alias{points2grid}
 
 \title{Class "SpatialGridded" ~~~ }
-\description{ Spatial class for gridded data; not meant for actual data
-but to hold grid coefficients to be used by \link{SpatialCell-class} and
-(later on) SpatialRaster-class. }
+\description{ class for defining a rectangular grid of
+arbitrary dimension }
 \section{Objects from the Class}{
-Objects can be created by calls of the form \code{gridded(x) = TRUE},
-see \link{gridded-methods}. Slots are not meant to be modified directly.
+Objects are created by using e.g. 
+
+SpatialGridded(c(0,0), c(1,1), c(5,5))
+
+see \link{SpatialGridded}
 }
 \section{Slots}{
   \describe{
-    \item{\code{cellcentre.offset}:}{Object of class \code{"numeric"}, length
-	dimensions(x); holds the offset coordinate (minimum value) of the grid
-	cell centre in each direction }
-    \item{\code{cellsize}:}{Object of class \code{"numeric"}, length
-	dimensions(x); holds the cell size in each of the directions }
-    \item{\code{cells.dim}:}{Object of class \code{"integer"}, length
-	(dimensions(x); holds the number of cells in each direction }
-    \item{\code{bbox}:}{Object of class \code{"matrix"}, bounding box }
-    \item{\code{proj4string}:}{Object of class \code{"CRS"}; projection }
+    \item{\code{cellcentre.offset}:}{numeric; vector with the smallest coordinates for
+	each dimension}
+    \item{\code{cellsize}:}{numeric; vector with the cell size in each dimension}
+    \item{\code{cells.dim}:}{integer; vector with number of cells in each dimension}
+    \item{\code{bbox}:}{Object of class \code{"matrix"}; bounding box }
+    \item{\code{proj4string}:}{Object of class \code{"CRS"}; projection  }
   }
 }
 \section{Extends}{
-Class \code{"Spatial"}, directly.
+Class \code{"Spatial"}, by class \code{"SpatialPoints"}.
 }
 \section{Methods}{
-
-The method \link{gridded-methods} tells for any class deriving from
-Spatial whether it is gridded or not; the assignment function
-\link{"gridded<-"} promotes a SpatialPoints to a SpatialCell,
-or a SpatialPointsDataFrame to a SpatialCellDataFrame.
+ \describe{
+   \item{coordinates}{\code{signature(x = "SpatialGridded")}: calculates coordinates for
+   each point on the grid; coordinates are not stored in objects of class SpatialGridded}
+ }
 }
-\references{  }
+\references{ }
 \author{ Edzer J. Pebesma, \url{mailto:e.pebesma@geog.uu.nl} }
-\note{  
-}
-
+\note{  }
 
 \seealso{
-  \code{\link{SpatialCell-class}} 
-  \code{\link{SpatialCellDataFrame-class}} 
+  \code{\link{SpatialGriddedDataFrame-class}}, \code{\link{SpatialGridded}}
 }
 \examples{
+x = SpatialGridded(c(0,0), c(1,1), c(5,5))
+class(x)
+x
+summary(x)
+coordinates(x)
+x = SpatialGridded(c(0,0), c(1,1), c(5,5))
 }
 \keyword{classes}

@@ -58,6 +58,8 @@ summary.Spatial = function(object, ...) {
     obj[["bbox"]] = bbox(object)
     obj[["is.projected"]] = is.projected(object)
     obj[["proj4string"]] = object@proj4string@projargs
+    if (is(object, "SpatialPoints"))
+        obj[["npoints"]] = nrow(object@coords)
     if (is(object, "SpatialPointsDataFrame"))
         obj[["data"]] = summary(object@data)
 	if (is(object, "SpatialGridded"))
@@ -66,11 +68,7 @@ summary.Spatial = function(object, ...) {
     obj
 }
 
-summary.SpatialPoints = summary.Spatial
-summary.SpatialPointsDataFrame = summary.Spatial
 # summary.SpatialRingsDataFrame = summary.Spatial
-summary.SpatialGriddedDataFrame = summary.Spatial
-summary.SpatialCellDataFrame = summary.Spatial
 
 # setMethod("summary", "SpatialPointsDataFrame", summary.Spatial)
 
@@ -79,9 +77,17 @@ print.summary.Spatial = function(x, ...) {
     print(x[["bbox"]])
     cat(paste("Is projected:", x[["is.projected"]], "\n"))
     cat(paste("proj4string : [", x[["proj4string"]], "]\n", sep=""))
-    if (!is.null(x$n.polygons))
-        print(paste("Number of polygons:", x$n.polygons))
-    if (!is.null(x$grid)) {
+    if (!is.null(x$npoints)) {
+        cat("Number of points: ")
+		cat(x$npoints)
+		cat("\n")
+	}
+    if (!is.null(x$n.polygons)) {
+        cat("Number of polygons: ")
+		cat(x$n.polygons)
+        cat("\n")
+    }
+	if (!is.null(x$grid)) {
         cat("Grid attributes:\n")
         print(x$grid)
     }
@@ -91,3 +97,4 @@ print.summary.Spatial = function(x, ...) {
     }
     invisible(x)
 }
+

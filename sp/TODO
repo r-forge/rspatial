@@ -1,3 +1,11 @@
+SpatialCell:
+	no print method;
+	[ does not work
+	document GetGridIndex, points2grid & tolerance?
+	write docs a la SpatialGridded.Rd
+
+summary.SpatialCell does not work.
+
 check gridded; GriddedDF <-> CellDF; [.Gridded; [[.Gridded (drop coords).
 
 last line in tests/grid.R

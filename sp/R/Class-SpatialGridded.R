@@ -22,9 +22,9 @@ setClass("SpatialGridded",
 )
 
 SpatialGridded = function(cellcentre.offset, cellsize, cells.dim,
-		crs = CRS(as.character(NA))) {
-	min = cellcentre.offset - 0.5 * cellsize
-	max = cellcentre.offset + (cells.dim + 0.5) * cellsize
+		crs = CRS(as.character(NA)), cell.extent = 0.5) {
+	min = cellcentre.offset - cell.extent * cellsize
+	max = cellcentre.offset + (cells.dim + cell.extent) * cellsize
 	bbox = cbind(min, max)
 	dimnames(bbox) = list(NULL, c("min","max"))
 	new("SpatialGridded",
@@ -35,17 +35,23 @@ SpatialGridded = function(cellcentre.offset, cellsize, cells.dim,
 		cells.dim = as.integer(cells.dim))
 }
 
+coordinatevalues = function(obj) {
+	if (!is(obj, "SpatialGridded"))
+		stop("function only works for objects of class or extending SpatialGridded")
+	args = list()
+	for (i in seq(along=obj@cells.dim)) {
+		if (i == 2) # y-axis is the exception--index  starting at top of map, and decreasing:
+			args[[i]] = obj@cellcentre.offset[i] + obj@cellsize[i] * ((obj@cells.dim[i] - 1):0)
+		else
+			args[[i]] = obj@cellcentre.offset[i] + obj@cellsize[i] * (0:(obj@cells.dim[i] - 1))
+	}
+	names(args) = dimnames(obj@bbox)[[1]]
+	args
+}
+
 setMethod("coordinates", "SpatialGridded", function(obj) {
-	x = (0:(obj@cells.dim[1] - 1)) * obj@cellsize[1] + obj@cellcentre.offset[1]
-	y = ((obj@cells.dim[2] - 1):0) * obj@cellsize[2] + obj@cellcentre.offset[2]
-	n1 = obj@cells.dim[1]
-	n2 = obj@cells.dim[2]
-	n3 = obj@cells.dim[3]
-	if (length(obj@cells.dim) > 2) {
-		z = (0:(obj@cells.dim[3] - 1)) * obj@cellsize[3] + obj@cellcentre.offset[3]
-		cbind(rep(x, n2 * n3), rep(rep(y, each = n1), n3), rep(z, each = n1*n2))
-	} else
-		cbind(rep(x, n2),rep(y, each=n1))
+	cc = do.call("expand.grid", coordinatevalues(obj))
+	as.matrix(sapply(cc, as.numeric))
 })
 
 setClass("SpatialCell", 
@@ -92,6 +98,8 @@ points2grid = function(points, tolerance) {
 	ret
 }
 
+setMethod("coordinates", "SpatialCell", function(obj) obj@coords)
+
 GetGridIndex = function(points, grid) {
 	n = ncol(points)
 	idx = numeric(nrow(points))
@@ -123,6 +131,9 @@ SpatialCellDataFrame = function(points, data, coords.nrs = numeric(0)) {
 		data = data, coords.nrs = coords.nrs)
 }
 
+setMethod("coordinates", "SpatialCellDataFrame", 
+	function(obj) coordinates(as(obj, "SpatialCell")))
+
 .NumberOfCells = function(x) {
 	if (!is(x, "SpatialGridded"))
 		stop(".NumberOfCells only works on objects of class SpatialGridded")
@@ -146,48 +157,96 @@ SpatialGriddedDataFrame = function(grid, data) {
 	new("SpatialGriddedDataFrame", grid, data = data)
 }
 
-#setAs("SpatialCellDataFrame", "SpatialPointsDataFrame", 
-#	function(from) SpatialPointsDataFrame(from@coords, from@data, from@coords.nrs)
-#)
+setMethod("coordinates", "SpatialGriddedDataFrame", 
+	function(obj) coordinates(as(obj, "SpatialGridded")))
+
+as.SpatialGriddedDataFrame.SpatialCellDataFrame = function(from)  {
+	fd = from@data
+	data = list()
+	n = .NumberOfCells(from@grid)
+	for (i in seq(along=fd)) {
+		if (is.factor(fd[[i]]))
+			stop("cannot (yet) coerce factor variables")
+		else if (is.integer(fd[[i]]))
+			data[[i]] = rep(as.integer(NA), n)
+		else if (is.numeric(fd[[i]]))
+			data[[i]] = rep(as.numeric(NA), n)
+	}
+	data = data.frame(data)
+	names(data) = names(fd)
+	for (i in seq(along=fd))
+		data[from@grid.index, i] = fd[[i]]
+	#print(n)
+	#print(dim(data))
+	#print(from@grid)
+	#print(data)
+	SpatialGriddedDataFrame(from@grid, data)
+}
+
+setIs("SpatialCellDataFrame", "SpatialGriddedDataFrame", 
+	coerce = as.SpatialGriddedDataFrame.SpatialCellDataFrame)
+
+as.matrix.SpatialCellDataFrame = function(x) {
+	as.matrix(as(x, "SpatialGriddedDataFrame"))
+}
+
+as.matrix.SpatialGriddedDataFrame = function(x) {
+	if (ncol(x@data) > 1)
+		warning("as.matrix.SpatialCellDataFrame uses first column;\n pass subset or [] for other columns")
+	matrix(x@data[[1]], x@cells.dim[1], x@cells.dim[2], byrow=FALSE)
+}
+
 
 as.data.frame.SpatialCellDataFrame <- function(x, row.names = NULL, 
-	optional = FALSE) {
-	crds <- coordinates(x)
-	df <- data.frame(x@data, as.data.frame(crds))
-	df
-}
+	optional = FALSE)
+	as.data.frame(as(x, "SpatialPointsDataFrame"), row.names = row.names, optional = optional)
 
 as.data.frame.SpatialGriddedDataFrame <- function(x, row.names = NULL, 
 	optional = FALSE) {
-	crds <- coordinates(x)
-	df <- data.frame(x@data, as.data.frame(crds))
-	df
+	as.data.frame(as(x, "SpatialCellDataFrame"), row.names = row.names, optional = optional)
+	#crds <- coordinates(x)
+	#df <- data.frame(x@data, as.data.frame(crds))
+	#df
 }
 
-#names.SpatialCellDataFrame <- function(x) {
-#	names(as.data.frame(x))
-#}
+names.SpatialCellDataFrame <- function(x) {
+	names(as.data.frame(x))
+}
 
-#as.data.frame.SpatialCellDataFrame = function(x, row.names, optional) {
-#	as(x, "data.frame")
-#}
+as.data.frame.SpatialCellDataFrame = function(x, row.names, optional) {
+	as(x, "data.frame")
+}
 
-setIs("SpatialCellDataFrame", "data.frame", 
-	coerce = function(from) as(as(from, "SpatialPointsDataFrame"), "data.frame")
+setAs("SpatialCellDataFrame", "data.frame", 
+	function(from) as(as(from, "SpatialPointsDataFrame"), "data.frame")
 )
 
-setIs("SpatialCellDataFrame", "SpatialPointsDataFrame")
+setIs("SpatialCellDataFrame", "SpatialPointsDataFrame", 
+	coerce = function(from) SpatialPointsDataFrame(from@coords, from@data, from@coords.nrs)
+)
 
 setIs("SpatialCellDataFrame", "SpatialGridded", coerce = function(from) from@grid)
 
-setIs("SpatialGriddedDataFrame", "SpatialCellDataFrame",
-	coerce = function(from) 
-		new("SpatialCellDataFrame", 
-			new("SpatialCell", SpatialPoints(coordinates(from)),
-				grid = as(from, "SpatialGridded"), 
-				grid.index = 1:.NumberOfCells(from)),
-			data = from@data, coords.nrs = numeric(0))
-)
+setIs("SpatialCell", "SpatialGridded", coerce = function(from) from@grid)
+
+as.SpatialCellDataFrame.SpatialGriddedDataFrame = function(from) {
+	new("SpatialCellDataFrame", 
+		new("SpatialCell", SpatialPoints(coordinates(from)),
+			grid = as(from, "SpatialGridded"), 
+			grid.index = 1:.NumberOfCells(from)),
+		data = from@data, coords.nrs = numeric(0)
+	)
+}
+
+setAs("SpatialGriddedDataFrame", "SpatialCellDataFrame", 
+	as.SpatialCellDataFrame.SpatialGriddedDataFrame)
+
+print.SpatialCell = function(x, ...) {
+	cat("Object of class SpatialCell\n")
+	print(as(x, "SpatialGridded"))
+	print(as(x, "SpatialPoints"))
+	invisible(x)
+}
 
 print.SpatialCellDataFrame = function(x, ...) {
 	cat("Object of class SpatialCellDataFrame\n")
@@ -200,7 +259,9 @@ names.SpatialCellDataFrame = function(x) names(as(x, "SpatialPointsDataFrame"))
 print.SpatialGriddedDataFrame = function(x, ...) {
 	cat("Object of class SpatialGriddedDataFrame\n")
 	print(as(x, "SpatialGridded"))
-	print(as(x, "SpatialPointsDataFrame"))
+	# print(as(as(x, "SpatialCellDataFrame"), "SpatialPointsDataFrame"))
+	cat("Data:\n")
+	print(summary(x@data))
 	invisible(x)
 }
 
@@ -271,30 +332,33 @@ print.summary.SpatialGridded = function(x, ...) {
 }
 
 setMethod("show", "SpatialGridded", function(object) summary(obj))
-summary.SpatialCell = function(object, ...) {
-	ret = list()
-	# ret[["points"]] = summary(object@coords)
-	ret[["grid"]] = summary(object@grid)
-	class(ret) = "summary.SpatialCell"
-	ret
-}
-print.summary.SpatialCell = function(x, ...) {
-	# print(x$points)
-	print(x$grid)
-	invisible(x)
-}
-summary.SpatialCellDataFrame = function(object, ...) {
-	ret = list()
-	ret[["data"]] = summary(object@data)
-	ret[["cell"]] = summary(as(object, "SpatialCell"))
-	class(ret) = "summary.SpatialCellDataFrame"
-	ret
-}
-print.summary.SpatialCellDataFrame = function(x, ...) {
-	print(x$data)
-	print(x$cell)
-	invisible(x)
-}
+
+#summary.SpatialCell = function(object, ...) {
+#	ret = summary(as(object, "Spatial"))
+#	# ret[["points"]] = summary(object@coords)
+#	ret[["grid"]] = summary(object@grid)
+#	class(ret) = "summary.SpatialCell"
+#	ret
+#}
+
+#print.summary.SpatialCell = function(x, ...) {
+#	# print(x$points)
+#	print(x$grid)
+#	invisible(x)
+#}
+
+#summary.SpatialCellDataFrame = function(object, ...) {
+#	ret = list()
+#	ret[["data"]] = summary(object@data)
+#	ret[["cell"]] = summary(as(object, "SpatialCell"))
+#	class(ret) = "summary.SpatialCellDataFrame"
+#	ret
+#}
+#print.summary.SpatialCellDataFrame = function(x, ...) {
+#	print(x$data)
+#	print(x$cell)
+#	invisible(x)
+#}
 
 subset.SpatialCell <- function(x, subset, select, drop = FALSE, ...) {
 	xSP <- as(x, "SpatialPoints")
@@ -401,6 +465,46 @@ subset.SpatialCellDataFrame <- function(x, subset, select, drop = FALSE, ...) {
 	res
 }
 
+"[[.SpatialCellDataFrame" =  function(x, ...) {
+	x@data[[...]]
+}
+
+"[[<-.SpatialCellDataFrame" =  function(x, i, j, value) {
+	if (!missing(j))
+		stop("only valid calls are x[[i]] <- value")
+	x@data[[i]] <- value
+	x
+}
+
+"[.SpatialGriddedDataFrame" =  function(x, i, j, ..., drop = F) {
+	if (!missing(drop))
+		stop("don't supply drop: it needs to be FALSE anyway")
+	n.args = nargs()
+	if (missing(i) && missing(j))
+		return(x)
+	if (missing(j)) {
+		if (n.args == 3) # with a , : x[i,]
+			stop("row selection not implemented for this class")
+		else # withouth a , : x[i]
+			x@data = x@data[TRUE, j = i, ..., drop = FALSE]
+	} else if (missing(i))
+		x@data = x@data[TRUE, j = j, ...]
+	else
+		stop("row selection not implemented for this class")
+	x
+}
+
+"[[.SpatialGriddedDataFrame" =  function(x, ...) {
+	x@data[[...]]
+}
+
+"[[<-.SpatialGriddedDataFrame" =  function(x, i, j, value) {
+	if (!missing(j))
+		stop("only valid calls are x[[i]] <- value")
+	x@data[[i]] <- value
+	x
+}
+
 #setMethod("[", "SpatialCellDataFrame",
 #ifdef R
 #	function(x, i, j, ..., drop = FALSE) {
@@ -444,3 +548,11 @@ gridparameters = function(obj) {
 		return(gridparameters(obj@grid))
 	return(numeric(0))
 }
+
+summary.SpatialCell = summary.Spatial
+summary.SpatialCellDataFrame = summary.Spatial
+summary.SpatialGriddedDataFrame = summary.Spatial
+
+print.summary.SpatialCell = print.summary.Spatial
+print.summary.SpatialCellDataFrame = print.summary.Spatial
+print.summary.SpatialGriddedDataFrame = print.summary.Spatial

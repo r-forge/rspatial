@@ -5,7 +5,7 @@ export(CRS, print.CRS, proj4string, "proj4string<-", is.projected)
 export(bbox, GetGridIndex, points2grid, bpy.colors, bubble, cplot, lplot, 
 	mapasp, point.in.polygon, map.to.lev, zerodist, remove.duplicates)
 
-export(coordinates, "coordinates<-", coordinates.SPDF)
+export(coordinates, "coordinates<-", coordinates.SPDF, coordinatevalues)
 
 export(Coordinates)
 
@@ -21,7 +21,10 @@ export(arcobj2SlineList, arcobj2df, arcobj2SpatialLines, arcobj2SLDF)
 
 export(plotSpatialLines)
 
-export(as.SpatialPoints.SpatialPointsDataFrame)
+export(as.SpatialPoints.SpatialPointsDataFrame,
+	as.SpatialGriddedDataFrame.SpatialCellDataFrame,
+	as.SpatialCellDataFrame.SpatialGriddedDataFrame,
+	as.image.SpatialGriddedDataFrame)
 
 export(gridparameters, "gridded<-", griddedfn, gridded, SpatialGridded)
 
@@ -30,66 +33,90 @@ export(as.SpatialRings.Shapelist, as.SpatialRings.matrixList,
 
 export(ShowSpatialPointsDataFrame)
 
-export(image.SpatialCellDataFrame, as.image.SpatialCellDataFrame, 
-	select.spatial)
+export(select.spatial)
 
-exportClasses(CRS, Spatial, SpatialPointsDataFrame, SpatialPoints)
-
-exportClasses(SpatialGridded, SpatialCell, SpatialCellDataFrame)
-
-exportClasses(Sline, SpatialLines, SpatialLinesDataFrame)
-
-exportClasses(Ring4, SpatialRings, SpatialRingsDataFrame)
+exportClasses(CRS, Spatial, 
+	SpatialPoints, SpatialPointsDataFrame, 
+	SpatialGridded, SpatialGriddedDataFrame,
+	SpatialCell, SpatialCellDataFrame,
+	Sline, SpatialLines, SpatialLinesDataFrame,
+	Ring4, SpatialRings, SpatialRingsDataFrame
+	)
 
 exportMethods(show, bbox, coordinates, arcs, rings, gridded, dimensions, "[")
 
 # is this necessary? --
-exportMethods(coerce)
+#exportMethods(coerce)
 
 exportMethods(Coordinates)
 
-S3method("[", SpatialCellDataFrame)
+S3method("[", SpatialPoints)
+
 S3method("[", SpatialPointsDataFrame)
-S3method(as.matrix, SpatialPoints)
+S3method("[[", SpatialPointsDataFrame)
+S3method("[[<-", SpatialPointsDataFrame)
+
+S3method("[", SpatialCellDataFrame)
+S3method("[[", SpatialCellDataFrame)
+S3method("[[<-", SpatialCellDataFrame)
+
+S3method("[", SpatialGriddedDataFrame)
+S3method("[[", SpatialGriddedDataFrame)
+S3method("[[<-", SpatialGriddedDataFrame)
+
+S3method(as.matrix, SpatialCellDataFrame)
+S3method(as.matrix, SpatialGriddedDataFrame)
+
 S3method(as.data.frame, SpatialPoints)
 S3method(as.data.frame, SpatialPointsDataFrame)
 S3method(as.data.frame, SpatialCellDataFrame)
 S3method(as.data.frame, SpatialGriddedDataFrame)
+
 S3method(dim, SpatialPointsDataFrame)
+
 S3method(image, SpatialCellDataFrame)
+S3method(image, SpatialGriddedDataFrame)
+
 S3method(names, SpatialPointsDataFrame)
 S3method(names, SpatialCellDataFrame)
+
 S3method(plot, Spatial)
 S3method(plot, SpatialCell)
 S3method(plot, SpatialCellDataFrame)
 S3method(plot, SpatialPoints)
 S3method(plot, SpatialPointsDataFrame)
 S3method(plot, SpatialRings)
+
 S3method(print, CRS)
 S3method(print, SpatialPoints)
+S3method(print, SpatialCell)
 S3method(print, SpatialGridded)
 S3method(print, SpatialPointsDataFrame)
 S3method(print, SpatialCellDataFrame)
 S3method(print, SpatialGriddedDataFrame)
 S3method(print, summary.Spatial)
+S3method(print, summary.SpatialPoints)
 S3method(print, summary.SpatialCell)
-S3method(print, summary.SpatialCellDataFrame)
 S3method(print, summary.SpatialGridded)
 S3method(print, summary.SpatialPointsDataFrame)
-S3method(stack, SpatialCellDataFrame)
+S3method(print, summary.SpatialCellDataFrame)
+S3method(print, summary.SpatialGriddedDataFrame)
+
 S3method(stack, SpatialPointsDataFrame)
-S3method(summary, Spatial)
-S3method(summary, SpatialCell)
-S3method(summary, SpatialPointsDataFrame)
-S3method(summary, SpatialGridded)
-S3method(summary, SpatialCellDataFrame)
-S3method(summary, SpatialGriddedDataFrame)
+S3method(stack, SpatialCellDataFrame)
+
 S3method(subset, SpatialCell)
 S3method(subset, SpatialCellDataFrame)
 S3method(subset, SpatialPoints)
 S3method(subset, SpatialPointsDataFrame)
-S3method(stack, SpatialPointsDataFrame)
-S3method(stack, SpatialCellDataFrame)
+
+S3method(summary, Spatial)
+S3method(summary, SpatialPoints)
+S3method(summary, SpatialPointsDataFrame)
+S3method(summary, SpatialCell)
+S3method(summary, SpatialCellDataFrame)
+S3method(summary, SpatialGridded)
+S3method(summary, SpatialGriddedDataFrame)
 
 export(".__C__CRS")
 export(".__C__SpatialPoints")

@@ -23,7 +23,7 @@ x = meuse[1:10, ]
 coordinates(x) = as.matrix(meuse[1:10, c("x", "y")]) # coords, as matrix
 x
 
-x = meuse 
+x = meuse[1:20,]
 coordinates(x) = c("x", "y") # coordinate column names
 print(summary(x))
 
@@ -34,6 +34,10 @@ x["zinc"] # column zinc + coords
 x[, "zinc"] # idem
 x[1:10, "zinc"] # idem
 x[1:10, c("zinc", "cadmium")] # idem
+x[["zinc"]]
+x[["lnzinc"]] <- log(x[["zinc"]])
+x
+
 print(summary(x[1:10, "zinc"])) # check bbox
 print(summary(x["zinc"])) # compare bbox
 

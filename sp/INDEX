@@ -1,13 +1,3 @@
-CRS-class               Class "CRS" of coordinate reference system
-                        arguments
-Spatial-class           Class "Spatial" ~~~
-SpatialCell-class       Class "SpatialCell" ~~~
-SpatialCellDataFrame-class
-                        Class "SpatialCellDataFrame" ~~~
-SpatialGridded-class    Class "SpatialGridded" ~~~
-SpatialPoints-class     Class "SpatialPoints" ~~~
-SpatialPointsDataFrame-class
-                        Class "SpatialPointsDataFrame" ~~~
 arcs-methods            ~~ Methods for Function arcs in Package 'sp4'
                         ~~
 bbox,Spatial-method     retrieve bbox from spatial data
@@ -18,13 +8,15 @@ coordinates             sets spatial coordinates to create spatial
                         data, or retrieves spatial coordinates
 coordinates-methods     retrieves spatial coordinates
 cplot                   coloured points plot
+CRS-class               Class "CRS" of coordinate reference system
+                        arguments
 dimensions,Spatial-method
                         retrieve spatial dimensions from spatial data
 gridded-methods         specify spatial data as being gridded, or find
                         out whether they are
 image.SpatialCellDataFrame
-                        image gridded data in SpatialCellDataFrame to
-                        image format
+                        image gridded spatial data, or convert to
+                        format for image
 is.projected            Sets or retrieves projection attributes on
                         classes extending SpatialData
 lplot                   rearrange data in SpatialPointsDataFrame or
@@ -38,5 +30,15 @@ point.in.polygon        do point(s) fall in a given polygon?
 rings-methods           ~~ Methods for Function rings in Package 'sp4'
                         ~~
 select.spatial          select points spatially
+SpatialCell-class       Class "SpatialCell" ~~~
+SpatialCellDataFrame-class
+                        Class "SpatialCellDataFrame" ~~~
+Spatial-class           Class "Spatial" ~~~
+SpatialGridded-class    Class "SpatialGridded" ~~~
+SpatialGriddedDataFrame-class
+                        Class "SpatialGriddedDataFrame" ~~~
+SpatialPoints-class     Class "SpatialPoints" ~~~
+SpatialPointsDataFrame-class
+                        Class "SpatialPointsDataFrame" ~~~
 zerodist                find point pairs with equal spatial
                         coordinates
