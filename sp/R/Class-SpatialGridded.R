@@ -95,13 +95,13 @@ points2grid = function(points, tolerance) {
 GetGridIndex = function(points, grid) {
 	n = ncol(points)
 	idx = numeric(nrow(points))
-	idx = round((points[,1] - grid@cellcentre.offset[1])/grid@cellsize[1])
+	idx = round((points[,1] - grid@cellcentre.offset[1])/grid@cellsize[1]) + 1
 	yi = grid@cells.dim[2] - 
-		round((points[,2] - grid@cellcentre.offset[2])/grid@cellsize[2])
-	idx = idx + (grid@cells.dim[1] - 1) * yi
+		(round((points[,2] - grid@cellcentre.offset[2])/grid@cellsize[2]) + 1)
+	idx = idx + grid@cells.dim[1] * yi
 	if (n > 2) {
 		zi = round((points[,3] - grid@cellcentre.offset[3])/grid@cellsize[3])
-		idx = idx + (grid@cells.dim[1] * grid@cells.dim[2] * zi)
+		idx = idx + (grid@cells.dim[1] * grid@cells.dim[2]) * zi
 	}
 	if (min(idx) < 1 || max(idx) > .NumberOfCells(grid))
 		stop("index outside boundaries")
@@ -363,48 +363,64 @@ subset.SpatialCellDataFrame <- function(x, subset, select, drop = FALSE, ...) {
 }
 
 "[.SpatialCellDataFrame" <- function(x, i, j, ... , drop = FALSE) {
-	missing.i <-  missing(i)
-	missing.j <- missing(j)
-	if (missing.i & missing.j) return(x)
-	if (drop)
-		stop("coerce to data.frame first for drop = TRUE")
-	if (missing.i) {
-		cres <- coordinates(x)
-		data <- as.data.frame(x)[, j, drop = FALSE]
-	} else {
-		if (missing.j) {
-			if (nargs == 2) {
-				j <- i
-				i <- TRUE
-			} else j <- TRUE
-		}
-		cres <- coordinates(x)[i, , drop=FALSE]
-		data <- as.data.frame(x)[i, j, drop = FALSE]
-	}
-	res <- SpatialCellDataFrame(cres, data)
+#	missing.i <-  missing(i)
+#	missing.j <- missing(j)
+#	if (missing.i & missing.j) return(x)
+#	if (drop)
+#		stop("coerce to data.frame first for drop = TRUE")
+#	if (missing.i) {
+#		cres <- coordinates(x)
+#		data <- as.data.frame(x)[, j, drop = FALSE]
+#	} else {
+#		if (missing.j) {
+#			if (nargs == 2) {
+#				j <- i
+#				i <- TRUE
+#			} else j <- TRUE
+#		}
+#		cres <- coordinates(x)[i, , drop=FALSE]
+#		data <- as.data.frame(x)[i, j, drop = FALSE]
+#	}
+#	res <- SpatialCellDataFrame(cres, data)
+#	res
+	n.args = nargs()
+	if (!missing(drop))
+		stop("don't supply drop: it needs to be FALSE anyway")
+	if (missing(i) && missing(j))
+		return(x)
+	if (missing(j)) {
+		if (n.args == 3) # with a , : x[i,]
+			res = as(x, "SpatialPointsDataFrame")[i = i, TRUE, ...]
+		else # withouth a , : x[i]
+			res = as(x, "SpatialPointsDataFrame")[TRUE, j = i, ...]
+	} else if (missing(i))
+		res = as(x, "SpatialPointsDataFrame")[TRUE, j = j, ...]
+	else
+		res = as(x, "SpatialPointsDataFrame")[i = i, j = j, ...]
+	gridded(res) = TRUE
 	res
 }
 
-setMethod("[", "SpatialCellDataFrame",
+#setMethod("[", "SpatialCellDataFrame",
 #ifdef R
-	function(x, i, j, ..., drop = FALSE) {
-		n.args = nargs()
-		if (!missing(drop))
-			stop("don't supply drop: it needs to be FALSE anyway")
-		if (missing(i) && missing(j))
-			return(x)
-		if (missing(j)) {
-			if (n.args == 3) # with a , : x[i,]
-				res = as(x, "SpatialPointsDataFrame")[i = i, TRUE, ...]
-			else # withouth a , : x[i]
-				res = as(x, "SpatialPointsDataFrame")[TRUE, j = i, ...]
-		} else if (missing(i))
-			res = as(x, "SpatialPointsDataFrame")[TRUE, j = j, ...]
-		else
-			res = as(x, "SpatialPointsDataFrame")[i = i, j = j, ...]
-		gridded(res) = TRUE
-		res
-	}
+#	function(x, i, j, ..., drop = FALSE) {
+#		n.args = nargs()
+#		if (!missing(drop))
+#			stop("don't supply drop: it needs to be FALSE anyway")
+#		if (missing(i) && missing(j))
+#			return(x)
+#		if (missing(j)) {
+#			if (n.args == 3) # with a , : x[i,]
+#				res = as(x, "SpatialPointsDataFrame")[i = i, TRUE, ...]
+#			else # withouth a , : x[i]
+#				res = as(x, "SpatialPointsDataFrame")[TRUE, j = i, ...]
+#		} else if (missing(i))
+#			res = as(x, "SpatialPointsDataFrame")[TRUE, j = j, ...]
+#		else
+#			res = as(x, "SpatialPointsDataFrame")[i = i, j = j, ...]
+#		gridded(res) = TRUE
+#		res
+#	}
 #else
 #%	function(x, ..., drop = TRUE) {
 #%		res = as(x, "SpatialPointsDataFrame")
@@ -416,7 +432,7 @@ setMethod("[", "SpatialCellDataFrame",
 #%		res
 #%	}
 #endif
-)
+#)
 
 gridparameters = function(obj) { 
 	if (is(obj, "SpatialGridded"))

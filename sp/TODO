@@ -1,4 +1,9 @@
+check gridded; GriddedDF <-> CellDF; [.Gridded; [[.Gridded (drop coords).
+
+last line in tests/grid.R
+
 meuse$xx = meuse$zinc - mean(meuse$zinc) # does not do what you want
+define [[ and [[<-
 
 add methods:
 mean.SpatialDataFrame
