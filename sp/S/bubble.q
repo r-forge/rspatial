@@ -36,6 +36,7 @@
 		return(identify(x, y, labels))
 	} else {
 #ifdef R
+		require(grid)
 		require(lattice)
 #endif
     	key = list(space = "right", points = list(pch = q.pch, col = q.col, 

@@ -34,6 +34,7 @@ coordinates and attributes, and a column \code{ind} that indicates the
 variable stacked.  }
 \seealso{ \link{levelplot} in package \code{lattice}, \link{stack}}
 \examples{
+require(grid)
 require(lattice)
 data(meuse.grid) # data frame
 meuse.grid$idist = 1 - meuse.grid$dist

@@ -2,13 +2,17 @@
 \alias{holepolys}
 \alias{holepoly1}
 \alias{holepoly2}
+\alias{holepoly8}
 
 \docType{data}
 \title{Hisaji Ono's hole problem}
 \description{
   How to plot polygons with holes - holes are encoded by coordinates going anticlockwise, and overplotting is avoided by re-ordering the order in which polygons are plotted.
 }
-\usage{data(holepolys)}
+\usage{
+data(holepolys)
+data(holepoly8)
+}
 \format{
   The format is class \code{"gpc.poly"} from package "gpclib".
 }
@@ -30,7 +34,7 @@ example script.
 
  Does anyone know how to solve this situation?"
 
-*(holepoly1 has reversed the y component of polygon 1, to make its ring direction clockwise, holepoly2 reverses the order of the two polygons in holepoly1@pts)*
+*(holepoly1 has reversed the y component of polygon 1, to make its ring direction clockwise, holepoly2 reverses the order of the two polygons in holepoly1@pts, holepoly8 is much more complicated)*
 
 }
 
@@ -42,6 +46,8 @@ example script.
 data(holepolys)
 plot(gpcPoly2P4(holepoly1), col="red", pbg="white", border="blue")
 plot(gpcPoly2P4(holepoly2), col="red", pbg="white", border="blue")
+data(holepoly8)
+plot(gpcPoly2P4(holepoly8), col="red", pbg="white", border="blue")
 }
 
 \keyword{datasets}
