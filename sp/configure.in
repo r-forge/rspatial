@@ -1,0 +1,18 @@
+AC_INIT(src/projectit.c)
+AC_CHECK_LIB(proj,pj_init_plus,PROJ_SETTING="external",PROJ_SETTING="none",$LIBS)
+AC_CHECK_HEADERS(proj_api.h)
+#echo "PROJ_SETTING: $PROJ_SETTING"
+if test "$PROJ_SETTING" = "none" ; then
+    STOP="stop"
+fi
+if test "$ac_cv_header_proj_api_h" = "no" ; then
+    STOP="stop"
+fi
+if test "$STOP" = "stop" ; then
+    echo "libproj.a and proj_api.h not found in standard search locations,"
+    echo "edit src/Makevars manually, adding -I<directory with proj_api.h>"
+    echo "to PKG_CPPFLAGS = , and -L<directory with libproj.a> to PKG_LIBS ="
+    exit 1
+fi
+AC_OUTPUT(src/Makevars)
+

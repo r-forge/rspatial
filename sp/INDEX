@@ -1,0 +1,42 @@
+bpy.colors              blue-pink-yellow color scheme that prints well
+                        on black/white printers
+bubble                  Create a bubble plot of spatial data
+coordinates             Create a SpatialDataFrame, or extract
+                        coordinates
+CoRS-class              Class "CoRS" of PROJ.4 projection arguments
+gridded                 Create a SpatialDataFrameGrid from a
+                        SpatialDataFrame, or the reverse
+image.SpatialDataFrameGrid
+                        image gridded data in SpatialDataFrameGrid to
+                        image format
+is.projected            Sets or retrieves projection attributes on
+                        classes extending SpatialData
+Map2Poly4               Convert a Map object of polygons to S4
+                        Polylist4 object
+mapasp                  Calculate aspect ratio for plotting geographic
+                        maps
+map.to.lev              rearrange SpatialDataFrame for plotting with
+                        levelplot
+meuse                   Meuse river data set
+meuse.grid              Prediction Grid for Meuse Data Set
+point.in.polygon        do point(s) fall in a given polygon?
+Polygon4-class          Class "Polygon4" ~~~
+polygons                Create a SpatialDataPolygons object, or
+                        retrieve polygon values
+Polylist4-class         Class "Polylist4"
+project                 Projection of coordinate matrices
+select.spatial          select points spatially
+SpatialData-class       Class "SpatialData" ~~~
+SpatialDataFrame        Create a SpatialDataFrame
+SpatialDataFrame-class
+                        Class "SpatialDataFrame" ~~~
+SpatialDataFrameGrid-class
+                        Class "SpatialDataFrameGrid" ~~~
+SpatialDataPolygons     Create a SpatialDataPolygons object
+SpatialDataPolygons-class
+                        Class "SpatialDataPolygons"; stores spatial
+                        polygons and attributes
+transform-methods       Methods for Function transform in package
+                        "sp"
+zerodist                find point pairs with equal spatial
+                        coordinates

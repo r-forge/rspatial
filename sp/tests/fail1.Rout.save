@@ -1,0 +1,49 @@
+
+R : Copyright 2003, The R Development Core Team
+Version 1.8.0  (2003-10-08)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for a HTML browser interface to help.
+Type 'q()' to quit R.
+
+> library(sp)
+> data(meuse)
+> x = meuse
+> try(coordinates(x) <- cbind(x = rnorm(155), y = rnorm(155)))
+Error in "coordinates<-"(`*tmp*`, value = cbind(x = rnorm(155), y = rnorm(155))) : 
+	the default coordinate names are already present in object
+> # should fail because "x" and "y" are already present
+> 
+> coordinates(x) <- c("x", "y")
+> try(proj4string(x) <- 1.5)
+Error in "proj4string<-"(`*tmp*`, value = 1.5) : 
+        assigned value must be CoRS object
+> 
+> try(coordinates(a) <- cbind(1:10, 10:1))
+Error in try(coordinates(a) <- cbind(1:10, 10:1)) : 
+	Object "a" not found
+> # fails because a is not found; passes if a assigned NULL, see pass1.R
+> 
+> x = meuse
+> # invalid coordinate formulae:
+> try(coordinates(x) <- ~log(x)+sqrt(y)) # no expressions allowed
+Error in "coordinates<-"(`*tmp*`, value = ~log(x) + sqrt(y)) : 
+	names in formula do not match columns in data.frame
+> try(coordinates(x) <- ~x+y+z) # z is not present
+Error in eval(expr, envir, enclos) : Object "z" not found
+> x$x2 = x$x^2
+> x$y2 = x$y^2
+> try(coordinates(x) <- ~x+y+x2+y2) # 4D not allowed
+Error in "coordinates<-"(`*tmp*`, value = ~x + y + x2 + y2) : 
+	coordinates should have 2 or 3 columns
+> try(coordinates(x) <- ~x) # 1D not allowed
+Error in "coordinates<-"(`*tmp*`, value = ~x) : 
+	coordinates should have 2 or 3 columns
+> 

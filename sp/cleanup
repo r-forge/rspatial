@@ -1,0 +1,12 @@
+#!/bin/bash
+for f in ./config.*; do
+    rm -f $f
+done
+if [ -e src/Makevars ]; then
+    rm -f src/Makevars
+fi
+
+rm -f src/*.o src/*.so src/*.ldd
+
+exit 0
+

@@ -1,0 +1,55 @@
+make "[" work for SDFGrid and SDPolygons
+
+do we need "[<-" ?
+
+SpatialData-class.Rd contains merge conflict in header -- grep "=====" 
+
+look at stack() to improve map.to.lev
+
+write article for R-NEWS
+
+draft specification of interfaces:
+
+bbox
+coordinates
+coordinates<- # 2/3D matrix, char vector, int vector, formula; allow NULL object
+polygons
+polygons<-
+
+methods:
+	print/show
+	plot
+	summary
+	as.data.frame
+
+manuals:
+	SpatialData generic functions
+	SpatialDataFrame functions
+	SpatialDataFrameGrid functions
+	SpatialDataPolygons functions
+
+done: maps -> SpatialDataPolygons; do reverse?
+	as(x, "maps") # for SpatialDataPolygons
+	look at difference in range between maps() and those of polygon vertexes
+
+do:
+	summary(SpatialDataPolygon)
+
+test:
+	3D data frames
+	3D regulalr grids
+	3D: test as.images.SDFG for (x,y), (x,z) and (y,z) slices
+
+remove spatial.data.frame.R
+add :
+
+image.SpatialDataFrameGrid = function(data, col = 1, ...) {
+	image.default(as.image.SDFG(data, attr = col), ...)
+}
+
+sp.coords(x) <- sp.coords(y) ??
+sp.coords(x) <- c("x", "y")
+
+S-PLUS portability:
+	PACKAGE = ...
+	plot(..., asp = 1)

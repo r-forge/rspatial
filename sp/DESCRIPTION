@@ -1,0 +1,13 @@
+Package: sp
+Version: 0.3-3
+Date: 2004-01-29
+Title: generic functions for spatial data
+Author: Edzer J. Pebesma <e.pebesma@geog.uu.nl>, Roger Bivand <Roger.Bivand@nhh.no> and others
+Maintainer: Edzer J. Pebesma <e.pebesma@geog.uu.nl>
+Depends: R (>= 1.8.0), maptools (>= 0.3)
+Description: A package that provides classes and methods for spatial
+  data. The classes document where the spatial location information
+  resides, for 2D or 3D data. Utility functions are provided, e.g. for
+  helping plotting data as maps, or spatial selection.
+License: GPL version 2 or later
+URL: http://www.sourceforge.net/r-spatial/

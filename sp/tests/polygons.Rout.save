@@ -1,0 +1,125 @@
+
+R : Copyright 2003, The R Development Core Team
+Version 1.8.0  (2003-10-08)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for a HTML browser interface to help.
+Type 'q()' to quit R.
+
+> # should pass:
+> library(sp)
+> x = data.frame(x = c(1,2,3), y = c(4,5,6))
+> pol1 = cbind(x=c(1,1,2,1),y=c(1,2,1,1)) # closed
+> polygon.valid = list(pol1, pol1, pol1)
+> polygons(x) = polygon.valid
+> 
+> as.data.frame(x)
+  x y
+1 1 4
+2 2 5
+3 3 6
+> 
+> polygons(x)
+[[1]]
+     x y
+[1,] 1 1
+[2,] 1 2
+[3,] 2 1
+[4,] 1 1
+
+[[2]]
+     x y
+[1,] 1 1
+[2,] 1 2
+[3,] 2 1
+[4,] 1 1
+
+[[3]]
+     x y
+[1,] 1 1
+[2,] 1 2
+[3,] 2 1
+[4,] 1 1
+
+> 
+> pol1 = cbind(c(1,1,2,2),c(1,2,3,4)) # open
+> polygon.invalid = list(pol1, pol1, pol1)
+> x = data.frame(x = c(1,2,3), y = c(4,5,6))
+> 
+> # should fail:
+> try(polygons(x) <- polygon.invalid)
+[1] "polygon should be closed (first point == last point)"
+[1] "polygon should be closed (first point == last point)"
+[1] "polygon should be closed (first point == last point)"
+Error in "polygons<-"(`*tmp*`, value = polygon.invalid) : 
+	polygon(s) 1 2 3 not valid
+> 
+> # polygon data without attributes:
+> x = NULL
+> polygons(x) = polygon.valid
+> x
+An object of class "SpatialDataPolygons"
+Slot "data":
+    x.mean   y.mean
+1 1.333333 1.333333
+2 1.333333 1.333333
+3 1.333333 1.333333
+
+Slot "polygons":
+[[1]]
+     x y
+[1,] 1 1
+[2,] 1 2
+[3,] 2 1
+[4,] 1 1
+
+[[2]]
+     x y
+[1,] 1 1
+[2,] 1 2
+[3,] 2 1
+[4,] 1 1
+
+[[3]]
+     x y
+[1,] 1 1
+[2,] 1 2
+[3,] 2 1
+[4,] 1 1
+
+
+Slot "has.holes":
+[1] FALSE
+
+Slot "bbox":
+     min max
+[1,]   1   2
+[2,]   1   2
+
+Slot "proj4string":
+CoRS arguments: NA
+
+> summary(x)
+Coordinates:
+     min max
+[1,]   1   2
+[2,]   1   2
+Is projected: NA 
+proj4string : [NA]
+[1] "Number of polygons: 3"
+Data attributes:
+     x.mean          y.mean     
+ Min.   :1.333   Min.   :1.333  
+ 1st Qu.:1.333   1st Qu.:1.333  
+ Median :1.333   Median :1.333  
+ Mean   :1.333   Mean   :1.333  
+ 3rd Qu.:1.333   3rd Qu.:1.333  
+ Max.   :1.333   Max.   :1.333  
+> 

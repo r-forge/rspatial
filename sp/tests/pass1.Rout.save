@@ -1,0 +1,128 @@
+
+R : Copyright 2003, The R Development Core Team
+Version 1.8.0  (2003-10-08)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for a HTML browser interface to help.
+Type 'q()' to quit R.
+
+> library(sp)
+> data(meuse)
+> x = meuse
+> coordinates(x) = cbind(rnorm(155), rnorm(155))
+> # should pass:
+> names(x@data)
+ [1] "x.coordinate" "y.coordinate" "x"            "y"            "cadmium"     
+ [6] "copper"       "lead"         "zinc"         "elev"         "dist"        
+[11] "om"           "ffreq"        "soil"         "lime"         "landuse"     
+[16] "dist.m"      
+> x = meuse
+> # coordinates defined as data:
+> coordinates(x) = cbind(xcoord = rnorm(155), ycoord = rnorm(155))
+> # should pass:
+> names(x@data)
+ [1] "xcoord"  "ycoord"  "x"       "y"       "cadmium" "copper"  "lead"   
+ [8] "zinc"    "elev"    "dist"    "om"      "ffreq"   "soil"    "lime"   
+[15] "landuse" "dist.m" 
+> formula(x)
+~xcoord + ycoord
+> is.projected(x)
+[1] NA
+> proj4string(x)
+[1] NA
+> proj4string(x)<-CoRS("+proj=stere +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.999908 +x_0=155000 +y_0=463000 +ellps=bessel +units=m")
+> proj4string(x)
+[1] " +proj=stere +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.999908 +x_0=155000 +y_0=463000 +ellps=bessel +units=m +ellps=WGS84"
+> is.projected(x)
+[1] TRUE
+> 
+> x = meuse[, sample(NCOL(meuse))] # randomly shuffle columns
+> # coordinates defined as variable names:
+> coordinates(x) = c("x", "y") # no matter their position
+> plot(x, cex=.05*sqrt(x@data[,"zinc"]),xlab="x-coordinate", 
++ 	ylab="y-coordinate", main = "Meuse: zinc bubble plot")
+> summary(meuse)
+       x                y             cadmium           copper      
+ Min.   :178605   Min.   :329714   Min.   : 0.200   Min.   : 14.00  
+ 1st Qu.:179371   1st Qu.:330762   1st Qu.: 0.800   1st Qu.: 23.00  
+ Median :179991   Median :331633   Median : 2.100   Median : 31.00  
+ Mean   :180005   Mean   :331635   Mean   : 3.246   Mean   : 40.32  
+ 3rd Qu.:180630   3rd Qu.:332463   3rd Qu.: 3.850   3rd Qu.: 49.50  
+ Max.   :181390   Max.   :333611   Max.   :18.100   Max.   :128.00  
+                                                                    
+      lead            zinc             elev             dist        
+ Min.   : 37.0   Min.   : 113.0   Min.   : 5.180   Min.   :0.00000  
+ 1st Qu.: 72.5   1st Qu.: 198.0   1st Qu.: 7.546   1st Qu.:0.07569  
+ Median :123.0   Median : 326.0   Median : 8.180   Median :0.21184  
+ Mean   :153.4   Mean   : 469.7   Mean   : 8.165   Mean   :0.24002  
+ 3rd Qu.:207.0   3rd Qu.: 674.5   3rd Qu.: 8.955   3rd Qu.:0.36407  
+ Max.   :654.0   Max.   :1839.0   Max.   :10.520   Max.   :0.88039  
+                                                                    
+       om         ffreq  soil   lime       landuse       dist.m      
+ Min.   : 1.000   1:84   1:97   0:111   W      :50   Min.   :  10.0  
+ 1st Qu.: 5.300   2:48   2:46   1: 44   Ah     :39   1st Qu.:  80.0  
+ Median : 6.900   3:23   3:12           Am     :22   Median : 270.0  
+ Mean   : 7.478                         Fw     :10   Mean   : 290.3  
+ 3rd Qu.: 9.000                         Ab     : 8   3rd Qu.: 450.0  
+ Max.   :17.000                         (Other):25   Max.   :1000.0  
+ NA's   : 2.000                         NA's   : 1                   
+> 
+> # coordinates defined as formula:
+> x = meuse[, 1:5]
+> coordinates(meuse) = ~x+y
+> formula(meuse)
+~x + y
+> summary(meuse)
+Coordinates:
+     min    max
+x 178605 181390
+y 329714 333611
+Is projected: NA 
+proj4string : [NA]
+Data attributes:
+    cadmium           copper            lead            zinc       
+ Min.   : 0.200   Min.   : 14.00   Min.   : 37.0   Min.   : 113.0  
+ 1st Qu.: 0.800   1st Qu.: 23.00   1st Qu.: 72.5   1st Qu.: 198.0  
+ Median : 2.100   Median : 31.00   Median :123.0   Median : 326.0  
+ Mean   : 3.246   Mean   : 40.32   Mean   :153.4   Mean   : 469.7  
+ 3rd Qu.: 3.850   3rd Qu.: 49.50   3rd Qu.:207.0   3rd Qu.: 674.5  
+ Max.   :18.100   Max.   :128.00   Max.   :654.0   Max.   :1839.0  
+                                                                   
+      elev             dist               om         ffreq  soil   lime   
+ Min.   : 5.180   Min.   :0.00000   Min.   : 1.000   1:84   1:97   0:111  
+ 1st Qu.: 7.546   1st Qu.:0.07569   1st Qu.: 5.300   2:48   2:46   1: 44  
+ Median : 8.180   Median :0.21184   Median : 6.900   3:23   3:12          
+ Mean   : 8.165   Mean   :0.24002   Mean   : 7.478                        
+ 3rd Qu.: 8.955   3rd Qu.:0.36407   3rd Qu.: 9.000                        
+ Max.   :10.520   Max.   :0.88039   Max.   :17.000                        
+                                    NA's   : 2.000                        
+    landuse       dist.m      
+ W      :50   Min.   :  10.0  
+ Ah     :39   1st Qu.:  80.0  
+ Am     :22   Median : 270.0  
+ Fw     :10   Mean   : 290.3  
+ Ab     : 8   3rd Qu.: 450.0  
+ (Other):25   Max.   :1000.0  
+ NA's   : 1                   
+> 
+> a = NULL
+> cc = cbind(sample(1:10), sample(1:10), sample(1:10))
+> coordinates(a) = cc
+> summary(a)
+Coordinates:
+             min max
+x.coordinate   1  10
+y.coordinate   1  10
+z.coordinate   1  10
+Is projected: NA 
+proj4string : [NA]
+> formula(a)
+~x.coordinate + y.coordinate + z.coordinate
+> 
