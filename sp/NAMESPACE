@@ -1,5 +1,8 @@
 useDynLib(sp)
 
+importFrom(lattice, levelplot, xyplot)
+importFrom(grid, grid.polygon)
+
 export(CRS, print.CRS, proj4string, "proj4string<-", is.projected)
 
 export(bbox, getGridIndex, points2grid, bpy.colors, bubble, cplot, gridplot, ringplot, 

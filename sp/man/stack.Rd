@@ -38,7 +38,7 @@ variable stacked.  }
 \seealso{ \link{gridplot} and \link{ringplot}, and
 \link{levelplot} in package \code{lattice}; \link{stack}}
 \examples{
-require(lattice)
+library(lattice)
 data(meuse.grid) # data frame
 coordinates(meuse.grid) = c("x", "y") # promotes to SpatialDataFrame
 meuse.grid[["idist"]] = 1 - meuse.grid[["dist"]] # add variable

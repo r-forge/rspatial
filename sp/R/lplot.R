@@ -17,9 +17,6 @@ function (data, zcol, names.attr, col.regions = bpy.colors(), ...)  {
 		formula = as.formula(paste(zcol, "~", paste(dimnames(coordinates(data))[[2]],
 			collapse = "+")))
 	}
-#ifdef R
-	require(lattice)
-#endif
 	levelplot(formula, as.data.frame(data), aspect = asp,
 		col.regions = col.regions, ...)
 }
@@ -53,10 +50,6 @@ function (data, zcol, names.attr, col.regions = bpy.colors(), ...) {
 		formula = as.formula(paste(zcol, "~", paste(dimnames(coordinates(sdf))[[2]],
 			collapse = "+")))
 	}
-#ifdef R
-	require(lattice)
-	require(grid)
-#endif
 	"panel.lplot" <-
 	function (x, y, z, subscripts, at = pretty(z), shrink, labels = NULL, 
    		label.style = c("mixed", "flat", "align"), contour = FALSE, 

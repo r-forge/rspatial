@@ -43,7 +43,6 @@ function (obj, zcol = 1, cuts = 5, ..., fill = TRUE, pch, col, cex = 1,
 	}
 	if (missing(legend))
 		legend = levels(groups)
-	require(lattice)
 	n = length(levels(groups))
 	key = list(space = "right", points = list(pch = rep(pch, 
 		n), col = col, cex = rep(cex, n)), text = list(legend))
