@@ -8,3 +8,6 @@ setClass("SpatialLinesDataFrame",
 		return(TRUE)
 	}
 )
+
+as.SpatialLines.SLDF <- function(SLDF) SpatialLines(SLDF@lines)
+

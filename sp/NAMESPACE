@@ -14,7 +14,7 @@ export(dimensions)
  
 export(SpatialPoints, SpatialPointsDataFrame)
 
-export(Sline, Slines, SpatialLines, SpatialLinesDataFrame)
+export(Sline, Slines, SpatialLines, SpatialLinesDataFrame, as.SpatialLines.SLDF)
 
 export(
 #contourLines2SlineList, contourLines2df, contourLines2SpatialLines, 

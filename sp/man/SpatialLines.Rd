@@ -1,6 +1,7 @@
 \name{SpatialLines}
 \alias{SpatialLines}
 \alias{SpatialLinesDataFrame}
+\alias{as.SpatialLines.SLDF}
 \title{ create objects of class SpatialLines or SpatialLinesDataFrame}
 \description{ create objects of class \code{SpatialLines} or 
 \code{SpatialLinesDataFrame} from
@@ -8,6 +9,7 @@ lists of \code{Slines} objects and data.frame's}
 \usage{ 
 SpatialLines(SlineList)
 SpatialLinesDataFrame(sl, data)
+as.SpatialLines.SLDF(SLDF)
 }
 \arguments{
 \item{SlineList}{ list with objects of class \link{Slines-class}}
