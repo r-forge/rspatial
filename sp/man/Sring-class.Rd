@@ -12,6 +12,7 @@ Objects can be created by calls to the function \code{Sring}
     \item{\code{ringDir}:}{Object of class \code{"integer"}; RSB }
     \item{\code{labpt}:}{Object of class \code{"numeric"}; RSB }
     \item{\code{area}:}{Object of class \code{"numeric"}; RSB }
+    \item{\code{hole}:}{Object of class \code{"logical"}; RSB }
     \item{\code{coords}:}{Object of class \code{"matrix"}; coordinates of the polygon;
 	first point should equal the last point }
     \item{\code{bbox}:}{Object of class \code{"matrix"}; see \link{Spatial-class} }

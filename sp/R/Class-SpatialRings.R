@@ -43,14 +43,15 @@ setClass("Spatialrings",
 
 setClass("Sring",
 	representation("Sline", ringDir = "integer", labpt = "numeric", 
-	area = "numeric"),
+	area = "numeric", hole = "logical"),
 	prototype = list(bbox = matrix(rep(NA, 6), 3, 2, 
 			dimnames = list(NULL, c("min","max"))),
 		proj4string = CRS(as.character(NA)),
 		coords = matrix(0),
 		ringDir = as.integer(NA),
 		labpt = as.numeric(NA),
-		area = as.numeric(NA)),
+		area = as.numeric(NA),
+		hole = as.logical(NA)),
 	validity = function(object) {
 		coords <- coordinates(object)
 		start <- coords[1,]

@@ -473,6 +473,7 @@ bbox.R4 <- function(x) {
 	if (any(abs(rD) != 1)) stop("Not a valid polygon: abs(rD) != 1")
 	invisible(NULL)
 }
+
 .RingCentrd_2d <- function(plmat) {
 	nVert <- nrow(plmat)
 	x_base <- plmat[1,1]
@@ -497,27 +498,27 @@ bbox.R4 <- function(x) {
 	list(xc=xc, yc=yc, area=abs(Area))	
 }
 
-.RingCentrd_2d <- function(plmat) {
-	nVert <- nrow(plmat)
-	x_base <- plmat[1,1]
-	y_base <- plmat[1,2]
-	Cy_accum <- 0.0
-	Cx_accum <- 0.0
-	Area <- 0.0
-	ppx <- plmat[2,1] - x_base
-	ppy <- plmat[2,2] - y_base
-	for (iv in 2:(nVert-2)) {
-		x = plmat[iv,1] - x_base
-		y = plmat[iv,2] - y_base
-		dx_Area <-  ((x * ppy) - (y * ppx)) * 0.5
-		Area <- Area + dx_Area
-		Cx_accum <- Cx_accum + ( ppx + x ) * dx_Area      
-		Cy_accum <- Cy_accum + ( ppy + y ) * dx_Area
-		ppx <- x
-		ppy <- y
-	}
-	xc <- (Cx_accum / (Area * 3)) + x_base
-	yc <- (Cy_accum / (Area * 3)) + y_base
-	list(xc=xc, yc=yc, area=Area)	
-}
+#.RingCentrd_2d <- function(plmat) {
+#	nVert <- nrow(plmat)
+#	x_base <- plmat[1,1]
+#	y_base <- plmat[1,2]
+#	Cy_accum <- 0.0
+#	Cx_accum <- 0.0
+#	Area <- 0.0
+#	ppx <- plmat[2,1] - x_base
+#	ppy <- plmat[2,2] - y_base
+#	for (iv in 2:(nVert-2)) {
+#		x = plmat[iv,1] - x_base
+#		y = plmat[iv,2] - y_base
+#		dx_Area <-  ((x * ppy) - (y * ppx)) * 0.5
+#		Area <- Area + dx_Area
+#		Cx_accum <- Cx_accum + ( ppx + x ) * dx_Area      
+#		Cy_accum <- Cy_accum + ( ppy + y ) * dx_Area
+#		ppx <- x
+#		ppy <- y
+#	}
+#	xc <- (Cx_accum / (Area * 3)) + x_base
+#	yc <- (Cy_accum / (Area * 3)) + y_base
+#	list(xc=xc, yc=yc, area=Area)	
+#}
 

@@ -195,21 +195,22 @@ Srings <- function(srl, ID) {
 
 	nParts <- length(srl)
 # check their plot order
-	pO <- 1:nParts
 	after <- as.integer(rep(NA, nParts))
-	rD <- sapply(srl, function(x) x@ringDir)
-	.saneRD(rD)
-	if (nParts > 1) {
-		r1 <- .insiders(srl, rD)
-		if (!all(sapply(r1, is.null))) {
-			lres <- .lbuild(.afters(r1), rD)
-			pO <- lres$pO
-			after <- lres$after
-		}
-	} else {
-		pO <- 1
-		after <- as.integer(NA)
-	}
+	area <- sapply(srl, function(x) x@area)
+	pO <- order(area, decreasing=TRUE)
+#	rD <- sapply(srl, function(x) x@ringDir)
+#	.saneRD(rD)
+#	if (nParts > 1) {
+#		r1 <- .insiders(srl, rD)
+#		if (!all(sapply(r1, is.null))) {
+#			lres <- .lbuild(.afters(r1), rD)
+#			pO <- lres$pO
+#			after <- lres$after
+#		}
+#	} else {
+#		pO <- 1
+#		after <- as.integer(NA)
+#	}
 # check their ring directions and change if improbable
 	srl <- .checkRD2(pO, after, rD, srl)
 # assign label point to the largest member ring
