@@ -20,10 +20,12 @@ setClass("SpatialPointsDataFrame",
 	}
 )
 
-setIs("SpatialPointsDataFrame", "data.frame")
+setIs("SpatialPointsDataFrame", "data.frame",
+	coerce = function(from) as.data.frame.SpatialPointsDataFrame(from)
+)
 
 "SpatialPointsDataFrame" = function(coords, data, coords.nrs = numeric(0), 
-	proj4string = CRS(as.character(NA))) {
+		proj4string = CRS(as.character(NA))) {
 	new("SpatialPointsDataFrame", SpatialPoints(coords, 
 		proj4string = proj4string), data = data,
 		coords.nrs = coords.nrs)
@@ -93,30 +95,31 @@ dim.SpatialPointsDataFrame = function(x) dim(x@data)
 
 
 #ifdef R
-setAs("SpatialPointsDataFrame", "data.frame", function(from) { 
-	if (length(from@coords.nrs) > 0) {
-		nc = ncol(from@coords)
-		nd = ncol(from@data)
-		nm = character(nc+nd)
-		ret = list()
-		for (i in 1:nc)
-			ret[[from@coords.nrs[i]]] = from@coords[,i]
-		nm[from@coords.nrs] = dimnames(from@coords)[[2]]
-		idx.new = (1:(nc+nd))[-(from@coords.nrs)]
-		for (i in 1:nd)
-			ret[[idx.new[i]]] = from@data[,i]
-		nm[idx.new] = names(from@data)
-		names(ret) = nm
-		data.frame(ret)
-	} else
-		from@data 
-})
+#setAs("SpatialPointsDataFrame", "data.frame", function(from) 
+#	as.data.frame.SpatialPointsDataFrame(from)
+#)
 #else
 #%setAs("SpatialPointsDataFrame", "data.frame", function(object) { object@data }#)
 #endif
 
-as.data.frame.SpatialPointsDataFrame = function(x, row.names, optional) 
-	as(x, "data.frame")
+as.data.frame.SpatialPointsDataFrame = function(x, row.names, optional)  {
+	if (length(x@coords.nrs) > 0) {
+		nc = ncol(x@coords)
+		nd = ncol(x@data)
+		nm = character(nc+nd)
+		ret = list()
+		for (i in 1:nc)
+			ret[[x@coords.nrs[i]]] = x@coords[,i]
+		nm[x@coords.nrs] = dimnames(x@coords)[[2]]
+		idx.new = (1:(nc+nd))[-(x@coords.nrs)]
+		for (i in 1:nd)
+			ret[[idx.new[i]]] = x@data[,i]
+		nm[idx.new] = names(x@data)
+		names(ret) = nm
+		data.frame(ret)
+	} else
+		data.frame(x@data, x@coords)
+}
 
 #as.data.frame.SpatialPointsDataFrame <- function(x, row.names = NULL, 
 #	optional = FALSE) {

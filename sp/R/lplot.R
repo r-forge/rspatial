@@ -1,9 +1,11 @@
 "lplot" <-
 function (data, zcol, names.attr, col.regions = bpy.colors(), expand = 0.03,...) 
 {
-	# data = as(data, "SpatialPointsDataFrame")
+	if (inherits(data, "SpatialGriddedDataFrame"))
+		data = as.SpatialCellDataFrame.SpatialGriddedDataFrame(data)
 	if (!extends(class(data), "SpatialPointsDataFrame")) 
 		stop("data is not of a class that extends SpatialPointsDataFrame")
+	data = as(data, "SpatialPointsDataFrame")
 	if (extends(class(data), "SpatialRingsDataFrame")) {
 		pol = rings(data)
 		data = as(data, "SpatialPointsDataFrame")
