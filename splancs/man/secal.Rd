@@ -62,3 +62,5 @@ using the R language. Journal of Geographical Systems, 2, 307-317.
 \code{khat}
 }
 % Converted by Sd2Rd version 0.3-3.
+\keyword{spatial}
+

@@ -57,11 +57,8 @@ plot(Kfn(cardiff, fs=30, k=60)$x[4:60], Kfn(cardiff, fs=30, k=60)$y[4:60] - Kfn(
 par(mfrow=c(1,1))
 }
 \references{
-Ripley, B.D. The second-order analysis of stationary point processes,
-\emph{ J. Appl. Prob, 13} 255-266
-}
-
-\references{
+Ripley, B.D. 1976 The second-order analysis of stationary point processes,
+\emph{ J. Appl. Prob, 13} 255-266;
 Rowlingson, B. and Diggle, P. 1993 Splancs: spatial point pattern analysis
 code in S-Plus.  Computers and Geosciences, 19, 627-655, (Barry Rowlingson
 <b.rowlingson@lancaster.ac.uk>); the original sources can be accessed at:
@@ -71,3 +68,5 @@ using the R language. Journal of Geographical Systems, 2, 307-317.
 }
 
 % Converted by Sd2Rd version 0.3-3.
+\keyword{spatial}
+

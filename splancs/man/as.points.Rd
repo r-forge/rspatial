@@ -49,3 +49,5 @@ Gebhardt, A. 2000 Implementing functions for spatial statistical analysis
 using the R language. Journal of Geographical Systems, 2, 307-317.
 }
 % Converted by Sd2Rd version 0.3-3.
+\keyword{spatial}
+
