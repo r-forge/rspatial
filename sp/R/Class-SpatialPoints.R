@@ -71,6 +71,20 @@ setAs("matrix", "SpatialPoints", function(from) {
 })
 
 subset.SpatialPoints <- function(x, subset, select, drop = FALSE, ...) {
+    if (version$major == 2 & version$minor < 1 ) {
+	subset.matrix <- function (x, subset, select, drop = FALSE, ...) {
+    		if (missing(select)) 
+        		vars <- TRUE
+    		else {
+        		nl <- as.list(1:ncol(x))
+        		names(nl) <- colnames(x)
+        		vars <- eval(substitute(select), nl, parent.frame())
+    		}
+    		if (!is.logical(subset)) 
+        		stop("'subset' must be logical")
+    		x[subset & !is.na(subset), vars, drop = drop]
+	}
+    }
 	if (!missing(select) && (length(select) < 2)) 
 		stop("selecting too few coordinate columns")
 	res <- SpatialPoints(subset(coordinates(x), subset, select, 
