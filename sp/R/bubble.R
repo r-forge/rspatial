@@ -4,7 +4,7 @@
     identify = FALSE, labels = row.names(data.frame(obj)), ...) 
 {
 	obj = as(obj, "SpatialPointsDataFrame")
-	data = obj@data
+	data = as.data.frame(obj)
 	cc = coordinates(obj)
     x = cc[, 1]
     y = cc[, 2]
