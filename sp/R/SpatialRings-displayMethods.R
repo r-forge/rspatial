@@ -1,58 +1,106 @@
-plot.SpatialRings<-function(object, col, border=NULL, ...)
-{
-        #Spatial dimension of the object
-#        n = dimensions(object)
-#        if(n!=2)
-#                stop("This function can only plot spatial objects of dimension 2")
+#
 
-        #Take the length of the polylist
-        npoly<-length(object@polygons)
-
-        #Set up filling and border colours
-        col<-rep(col,length.out=npoly)  
-        
-        if(is.null(border))
-                border<-rep("black", length(col))
-        else
-                border<-rep(border, length.out=npoly)
-
-
-#Set aspect ratio and display plotting window
-
-#        par.in <- par(no.readonly = TRUE)
-#       on.exit(par(par.in))
-
-        bbox<-object@bbox
-        
-#        plot.dim<-c(bbox[1,"max"]-bbox[1,"min"], bbox[2,"max"]-bbox[2,"min"])
-
-#        rdib<-min(par.in$pin[1]/plot.dim[1],par.in$pin[2]/plot.dim[2])
-#        plotreg<-c(bbox[1,"min"],bbox[1,"min"]+plot.dim[[1]]*rdib,
-#                        bbox[2,"min"],bbox[2,"min"]+plot.dim[[2]]*rdib)
-#        par(pin=c(xratio,yratio)*plot.dim*rdib, usr=plotreg)
-
-#Set up plotting window
-
-#        plot(0,0,xlim=c(bbox[1,"min"],bbox[1,"max"]), 
-#                ylim=c(bbox[2,"min"],bbox[2,"max"]), type="n", asp=1, ...)     
+plot.Spatial <- function(x, xlim=NULL, ylim=NULL, asp=1, ...) {
+	bbox <- x@bbox
+	if (is.null(xlim)) xlim <- c(bbox[1,1], bbox[1,2])
+	if (is.null(ylim)) ylim <- c(bbox[2,1], bbox[2,2])
 	plot.new()
-	plot.window(xlim=c(bbox[1,1], bbox[1,2]), ylim=c(bbox[2,1], bbox[2,2]), asp=1)
+	plot.window(xlim=xlim, ylim=ylim, asp=asp, ...)
+}
 
-#Plot the polygons
-        for(p in 1:npoly)
-        {
 
-                coords<-object@polygons[[p]]@coords
-                polyidx<-c(0, which(is.na(coords[,1])==TRUE), nrow(coords)+1)
+plot.SpatialRings <- function(x, col, border = par("fg"), add=FALSE, xlim=NULL, 
+	ylim=NULL, asp=1, xpd = NULL, density = NULL, angle = 45, pbg=NULL, ...) {
 
-                #Plot polygons (allowing for multiple islands)
-                for(pp in 1:(length(polyidx)-1))
-                {
-                        idx<-(polyidx[pp]+1):(polyidx[pp+1]-1)
-                        polygon(coords[idx,1], coords[idx,2], col=col[p], 
-                                border=border[p])
-                }
-        }
+	if (is.null(pbg))
+#ifdef R
+		pbg = par("bg") # transparent!
+#else
+#		pbg = 0
+#endif
+	if (!is(x, "SpatialRings")) 
+		stop("Not a SpatialRings object")
+
+	if (!add) plot.Spatial(x, xlim=xlim, ylim=ylim, asp=asp, ...)
+
+	if (missing(col)) col <- NA
+	n <- length(x@polygons)
+	if (length(border) != n)
+		border <- rep(border, n, n)
+	pO <- x@plotOrder
+	if (!is.null(density)) {
+		if (length(density) != n)
+			density <- rep(density, n, n)
+		if (length(angle) != n)
+			angle <- rep(angle, n, n)
+		for (j in pO) 
+				.polygonRingHoles(x@polygons[[j]], border = border[j], 
+				xpd = xpd, density = density[j], angle = angle[j], pbg = pbg) 
+	} else {
+		if (length(col) != n)
+			col <- rep(col, n, n)
+		for (j in pO) 
+			.polygonRingHoles(x@polygons[[j]], col=col[j], 
+				border=border[j], xpd = xpd, pbg = pbg)
+	}
+}
+
+.polygonRingHoles <- function(R4, col=NA, border=NULL, xpd=NULL, density=NULL,
+	angle=45, pbg) {
+	if (!is(R4, "Ring4")) 
+		stop("Not a Ring4 object")
+	coords <- R4@coords
+	nParts <- nParts.matrix(coords)
+	xyList <- .NAmat2xyList(coords)
+	if (is.na(col)) hatch <- TRUE
+	else hatch <- FALSE
+	pO <- R4@plotOrder
+	
+	for (i in pO) {
+		if (hatch) {
+			if (R4@ringDir[i] == 1)
+				.polygon(xyList[[i]], 
+					border = border, xpd = xpd, 
+					density = density, angle = angle,
+					hatch=TRUE)
+			else .polygon(xyList[[i]], 
+					border = border, xpd = xpd, col=pbg, 
+					density = NULL)
+		} else {
+			if (R4@ringDir[i] == 1)
+				.polygon(xyList[[i]], 
+					border = border, xpd = xpd, col=col)
+			else .polygon(xyList[[i]], 
+				border = border, xpd = xpd, col=pbg)
+		}
+	}
+}
+
+
+# .polygon tries to catch the numerous R/S-Plus differences...
+.polygon = function(x, y = NULL, density = NULL, angle = 45,
+	border = NULL, col = NA, lty = NULL, xpd = NULL, hatch=NA, ...) {
+#ifdef R
+	if (is.na(hatch)) polygon(x = x, y = y, border = border, 
+		col = col, lty = lty, xpd = xpd, ...)
+	# col=NA overrides hatching
+	else polygon(x = x, y = y, density = density, angle = angle, 
+		border = border, lty = lty, xpd = xpd, ...)
+#else
+	# polygon(x, y, density=-1, angle=45, border=T, col=par("col"))
+#	if (is.matrix(x))
+#		dimnames(x) = list(NULL, c("x", "y")) # may not be necessary
+#	if (is.null(density))
+#		density = -1
+#	if (!(is.logical(border) && !is.na(border)))
+#		border = is.null(border)
+#	else if (is.na(border))
+#		border = F
+#	if (is.na(col))
+#		col = par("col")
+#	polygon(x = x, density = density, angle = angle,
+#		border = border, col = col, ...)
+#endif
 }
 
 
