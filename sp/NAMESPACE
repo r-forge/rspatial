@@ -16,11 +16,17 @@ export(SpatialPoints, SpatialPointsDataFrame)
 
 export(Sline, Slines, SpatialLines, SpatialLinesDataFrame)
 
-export(contourLines2SlineList, contourLines2df, contourLines2SpatialLines, contourLines2SLDF)
+export(
+#contourLines2SlineList, contourLines2df, contourLines2SpatialLines, 
+contourLines2SLDF)
 
-export(arcobj2SlineList, arcobj2df, arcobj2SpatialLines, arcobj2SLDF)
+export(
+#arcobj2SlineList, arcobj2df, arcobj2SpatialLines, 
+arcobj2SLDF)
 
-export(shapes2SlineList, shapes2SpatialLines, shp2SLDF)
+export(
+#shapes2SlineList, shapes2SpatialLines, 
+shp2SLDF)
 
 export(plotSpatialLines)
 
@@ -48,7 +54,7 @@ exportClasses(CRS, Spatial,
 	GridTopology,
 	SpatialGrid, 
 	SpatialGridDataFrame,
-	Sline, 
+	Sline, Slines,
 	SpatialLines, 
 	SpatialLinesDataFrame)
 
@@ -120,6 +126,7 @@ export(".__C__SpatialPoints")
 export(".__C__SpatialPointsDataFrame")
 export(".__C__SpatialGridDataFrame")
 export(".__C__Sline")
+export(".__C__Slines")
 export(".__C__SpatialLines")
 export(".__C__Sring")
 export(".__C__Srings")

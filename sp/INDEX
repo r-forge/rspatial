@@ -34,6 +34,8 @@ read.gdal               read GDAL supported grid maps through rgdal
 rings-methods           ~~ Methods for Function rings in Package 'sp4'
                         ~~
 select.spatial          select points spatially
+shp2SLDF                Converter functions to build
+                        SpatialLinesDataFrame objects
 Sline                   create objects of class Sline or Slines
 Sline-class             Class "Sline"
 Slines-class            Class "Sline"

@@ -21,7 +21,7 @@ setClass("Slines",
 		Slines = list()),
 	validity = function(object) {
 		if (any(sapply(object@Slines, function(x) !is(x, "Sline"))))
-			stop("not a list of Sring objects")
+			stop("not a list of Sline objects")
 		return(TRUE)
 })
 
