@@ -1,6 +1,6 @@
 # Polygon functions
 
-Map2Poly4 <- function(Map, region.id=NULL, projargs=as.character(NA)) {
+Map2Poly4 <- function(Map, region.id=NULL, projargs=as.character(NA), raw=FALSE) {
 	if (class(Map) != "Map") stop("not a Map")
 	if (attr(Map$Shapes,'shp.type') != 'poly')
 		stop("maptype not poly")
@@ -22,17 +22,48 @@ Map2Poly4 <- function(Map, region.id=NULL, projargs=as.character(NA)) {
 	} else {
 		region.id <- as.character(region.id)
 	}
-	res <- .get.Polylist4(Map=Map, region.id=region.id, projargs=projargs)
+	res <- .get.Polylist4(Map=Map, region.id=region.id, projargs=projargs, raw=raw)
 
 	pO <- as.integer(1:attr(Map$Shapes,'nshps'))
 	after <- as.integer(rep(NA, attr(Map$Shapes,'nshps')))
 	r1 <- .insiders(res)
 	if (!all(sapply(r1, is.null))) {
-		after <- as.integer(sapply(r1, 
-			function(x) ifelse(is.null(x), NA, max(x))))
+		after <- as.integer(sapply(r1, function(x) ifelse(is.null(x), NA, max(x))))
 		pO <- order(after, na.last=FALSE)
 	}
-	
+	if (!raw) {
+		rD <- sapply(res, function(x) x@ringDir[which(x@plotOrder == 1)])
+		if (any((rD == -1) & is.na(after))) {
+			oddCC <- which((rD == -1) & is.na(after))
+			for (i in oddCC) {
+				tgt <- which(res[[i]]@plotOrder == 1)
+				nParts <- res[[i]]@nParts
+				tmp <- as.matrix(res[[i]]@coords)
+				from <- res[[i]]@pStart.from[tgt]
+				to <- res[[i]]@pStart.to[tgt]
+				tmp[from:to,] <- res[[i]]@coords[to:from, ]
+# 				attributes(tmp) <- attributes(res[[i]])
+				tmp1 <- new("Polygon4", bbox=res[[i]]@bbox,
+				proj4string=res[[i]]@proj4string,
+				coords=tmp, nVerts=res[[i]]@nVerts,
+				nParts=res[[i]]@nParts,
+				pStart.from=res[[i]]@pStart.from,
+				pStart.to=res[[i]]@pStart.to,
+				RingDir=res[[i]]@RingDir,
+				ringDir=as.integer(NA),
+				region.id=res[[i]]@region.id,
+				plotOrder=res[[i]]@plotOrder,
+				after = res[[i]]@after)
+
+				rD <- vector(length=nParts, mode="integer")
+				for (j in 1:nParts) rD[j] <- .ringDir4(tmp1, j)
+				tmp1@ringDir <- as.integer(rD)
+				res[[i]] <- tmp1
+				warning(paste("ring direction changed in polygon", i))
+			}
+		}
+	}
+	if (raw) warning("holes handled as in original data - check not performed")	
 	SD <- new("SpatialData", bbox=Map2maplim(Map), 
 		proj4string=CRS(projargs))
 	PL4 <- new("Polylist4", SD, polygons=res, region.id=region.id, 
@@ -40,7 +71,7 @@ Map2Poly4 <- function(Map, region.id=NULL, projargs=as.character(NA)) {
 	PL4
 }
 
-.get.Polylist4 <- function(Map, region.id=NULL, projargs=NA) {
+.get.Polylist4 <- function(Map, region.id=NULL, projargs=NA, raw=FALSE) {
 	n <- attr(Map$Shapes,'nshps')
 	CRSobj <- CRS(projargs)
 	res <- vector(mode="list", length=n)
@@ -57,7 +88,7 @@ Map2Poly4 <- function(Map, region.id=NULL, projargs=as.character(NA)) {
 		SD <- new("SpatialData", bbox=bbox, proj4string=CRSobj)
 		if (nParts[i] > 1)
 			res[[i]] <- .getMultiShp4(Map$Shapes[[i]], 
-			nParts[i], SD, region.id[i])
+			nParts[i], SD, region.id[i], raw=raw)
 		else {	
 			res[[i]] <- new("Polygon4", SD,
 				coords=Map$Shapes[[i]]$verts,
@@ -73,15 +104,13 @@ Map2Poly4 <- function(Map, region.id=NULL, projargs=as.character(NA)) {
 				region.id=region.id[i],
 				plotOrder=as.integer(1),
 				after = as.integer(1))
+			res[[i]]@ringDir <- as.integer(.ringDir4(res[[i]], 1))
 		}
-		rD <- integer(nParts[i])
-		for (j in 1:nParts[i]) rD[j] <- .ringDir4(res[[i]], j)
-		res[[i]]@ringDir <- as.integer(rD)
 	}
 	invisible(res)
 }
 
-.getMultiShp4 <- function(shp, nParts, SD, reg.id) {
+.getMultiShp4 <- function(shp, nParts, SD, reg.id, raw=FALSE) {
 	Pstart <- shp$Pstart
 	nVerts <- attr(shp, "nVerts")
 	from <- integer(nParts)
@@ -126,6 +155,27 @@ Map2Poly4 <- function(Map, region.id=NULL, projargs=as.character(NA)) {
 		region.id=reg.id,
 		plotOrder=as.integer(pO),
 		after = as.integer(after))
+	rD <- vector(length=nParts, mode="integer")
+	for (j in 1:nParts) rD[j] <- .ringDir4(P4, j)
+	P4@ringDir <- as.integer(rD)
+	if (!raw) {
+		top <- which(pO == 1)
+		if (any((rD[-top] == -1) & is.na(after[-top]))) {
+			oddCC <- which((rD == -1) & is.na(after))
+			for (i in oddCC) {
+				if (i != top) {
+					from1 <- from[i]
+					to1 <- to[i]
+					P4@coords[from[i]:to[i],] <- 
+						P4@coords[to[i]:from[i],]
+					P4@ringDir[i] <- .ringDir4(P4, i)
+					warning(paste("ring direction changed in subpolygon"))
+				}
+			}
+		}
+
+
+	}
 	invisible(P4)
 }
 
@@ -180,6 +230,11 @@ Map2Poly4 <- function(Map, region.id=NULL, projargs=as.character(NA)) {
       		dx1 = a[ti+1] - a[ti]
       		dy0 = b[ti-1] - b[ti]
       		dy1 = b[ti+1] - b[ti]
+   	} else if (ti == nvx) {
+		dx0 = a[ti-1] - a[ti]
+      		dx1 = a[1] - a[ti]
+      		dy0 = b[ti-1] - b[ti]
+      		dy1 = b[1] - b[ti]
    	} else {
 #   /* if the tested vertex is at the origin then continue from 0 (1) */ 
      		dx1 = a[2] - a[1]
@@ -188,8 +243,8 @@ Map2Poly4 <- function(Map, region.id=NULL, projargs=as.character(NA)) {
       		dy0 = b[nvx] - b[1]
    	}
 	v3 = ( (dx0 * dy1) - (dx1 * dy0) )
-	if ( v3 > 0 ) return (1)
-   	else return (-1)
+	if ( v3 > 0 ) return(as.integer(1))
+   	else return(as.integer(-1))
 }
 
 # .polygon tries to catch the numerous R/S-Plus differences...

@@ -24,7 +24,7 @@ Class \code{"SpatialData"}, directly.
 }
 
 \usage{
-plot.Polylist4(x, col, border = par("fg"), add = FALSE, xlim = NULL, ylim = NULL, xlab = "", ylab = "", asp = 1, xpd = NULL, density = NULL, angle = 45, pbg = par("bg"), ...)
+plot.Polylist4(x, col, border = NULL, add = FALSE, xlim = NULL, ylim = NULL, xlab = "", ylab = "", asp = 1, xpd = NULL, density = NULL, angle = 45, pbg, ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -38,7 +38,7 @@ plot.Polylist4(x, col, border = par("fg"), add = FALSE, xlim = NULL, ylim = NULL
   \item{xpd}{(where) should clipping take place?}
   \item{density}{the density of shading lines, in lines per inch}
   \item{angle}{the slope of shading lines, given as an angle in degrees (counter-clockwise)}
-  \item{pbg}{colour to be used for hole and background fill (note that default par("bg") may be "transparent")}
+  \item{pbg}{colour to be used for hole and background fill (note that par("bg") may be "transparent")}
   \item{\dots}{graphical parameters can be given as arguments to \code{plot}}
 }
 
