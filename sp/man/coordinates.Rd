@@ -1,10 +1,6 @@
-\name{coordinates-methods}
-%\name{coordinates}
-\docType{methods}
-\alias{coordinates-methods}
-\alias{coordinates,Spatial-method}
-\alias{"coordinates<-"}
+\name{coordinates}
 \alias{coordinates}
+\alias{coordinates<-}
 \alias{coordinates.SPDF}
 
 \title{ sets spatial coordinates to create spatial data, or retrieves
@@ -27,16 +23,7 @@ are part of object, giving the reference does not duplicate them, giving
 their value does duplicate them in the resulting structure.
 }
 }
-\section{Methods}{
-\describe{
-\item{\code{signature(obj = "Spatial")}}{object deriving from class "Spatial" }
-\item{\code{signature(obj = "list")}}{tries to retrieve coordinates from a list, having
-e.g. x and y components (numeric vectors with coord in each dimension) }
-\item{\code{signature(obj = "data.frame")}}{retrieve coordinates from data.frame }
-\item{\code{signature(obj = "matrix")}}{does nothing }
-}}
 \value{ an object of class SpatialPointsDataFrame }
-\keyword{methods}
 \examples{
 # data.frame
 data(meuse.grid)
@@ -45,4 +32,4 @@ gridded(meuse.grid) <- TRUE
 bbox(meuse.grid)
 
 }
-\keyword{ }
+\keyword{manip}

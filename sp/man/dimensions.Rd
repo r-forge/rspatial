@@ -36,4 +36,4 @@ gridded(meuse.grid) <- TRUE
 dimensions(meuse.grid)
 
 }
-\keyword{ }
+\keyword{methods}

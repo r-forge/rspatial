@@ -31,7 +31,8 @@ setClass("SpatialCell",
 )
 
 SpatialCell = function(points) {
-	if (!extends(class(points), "SpatialPoints"))
+	# if (!extends(class(points), "SpatialPoints"))
+	if (!inherits(points, "SpatialPoints"))
 		stop("points should be or extend SpatialPoints")
 	else
 		points = as(points, "SpatialPoints")
@@ -83,9 +84,9 @@ SpatialCellDataFrame = function(points, data, coords.nrs = numeric(0)) {
 		data = data, coords.nrs = coords.nrs)
 }
 
-setAs("SpatialCellDataFrame", "SpatialPointsDataFrame", 
-	function(from) SpatialPointsDataFrame(from@coords, from@data, from@coords.nrs)
-)
+#setAs("SpatialCellDataFrame", "SpatialPointsDataFrame", 
+#	function(from) SpatialPointsDataFrame(from@coords, from@data, from@coords.nrs)
+#)
 
 as.data.frame.SpatialCellDataFrame = function(x, row.names, optional) {
 	as(x, "data.frame")
