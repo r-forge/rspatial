@@ -1,4 +1,4 @@
-% Copyright Barry Rowlingson <b.rowlingson@lancaster.ac.uk> and 
+% Copyright Barry Rowlingson  and 
 % Peter Diggle (c) 1991-3; http://www.maths.lancs.ac.uk/~rowlings/Splancs/
 % R port: copyright 1998-2000 by Roger S. Bivand
 %
@@ -48,16 +48,20 @@ estimation due to non-recording of points outside the polygon.
 }
 \examples{
 data(cardiff)
-plot(Kfn(cardiff, fs=30, k=60)$x[4:60], Kfn(cardiff, fs=30, k=60)$y[4:60] - Kfn(cardiff, fs=30, k=60)$x[4:60], type="l", xlab="spatial - bounding box boundary", ylab="Estimated L")
-par(mfrow=c(1,1))
+UL.khat <- Kenv.csr(length(cardiff$x), cardiff$poly, nsim=99, seq(2,30,2))
+plot(seq(2,30,2), sqrt(khat(as.points(cardiff), cardiff$poly, 
+seq(2,30,2))/pi)-seq(2,30,2), type="l", xlab="Splancs - polygon boundary", 
+ylab="Estimated L", ylim=c(-1,1.5))
+lines(seq(2,30,2), sqrt(UL.khat$upper/pi)-seq(2,30,2), lty=2)
+lines(seq(2,30,2), sqrt(UL.khat$lower/pi)-seq(2,30,2), lty=2)
 }
 \references{
 Ripley, B.D. 1976 The second-order analysis of stationary point processes,
 \emph{ J. Appl. Prob, 13} 255-266;
 Rowlingson, B. and Diggle, P. 1993 Splancs: spatial point pattern analysis
-code in S-Plus.  Computers and Geosciences, 19, 627-655, (Barry Rowlingson
-<b.rowlingson@lancaster.ac.uk>); the original sources can be accessed at:
-http://www.maths.lancs.ac.uk/~rowlings/Splancs/. See also Bivand, R. and
+code in S-Plus.  Computers and Geosciences, 19, 627-655;
+the original sources can be accessed at:
+\url{http://www.maths.lancs.ac.uk/~rowlings/Splancs/}. See also Bivand, R. and
 Gebhardt, A. 2000 Implementing functions for spatial statistical analysis
 using the R language. Journal of Geographical Systems, 2, 307-317.
 }

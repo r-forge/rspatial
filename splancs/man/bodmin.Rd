@@ -1,4 +1,4 @@
-% Copyright Barry Rowlingson <b.rowlingson@lancaster.ac.uk> and 
+% Copyright Barry Rowlingson  and 
 % Peter Diggle (c) 1991-3; http://www.maths.lancs.ac.uk/~rowlings/Splancs/
 % R port: copyright 1998-2000 by Roger S. Bivand
 %
@@ -29,7 +29,7 @@
 }
 \description{Locations of 35 granite tors on Bodmin Moor, taken from Infomap data set (northings multiplied by -1 to correspond to Figure 3.2, p. 82, Bailey and Gatrell.
 }
-\references{Bailey and Gatrell 1995, ch. 3.
+\references{Bailey, T. C. and Gatrell, A. C. 1995, Interactive spatial data analysis. Longman, Harlow.
 
 }
 \keyword{datasets}

@@ -1,4 +1,4 @@
-% Copyright Barry Rowlingson <b.rowlingson@lancaster.ac.uk> and 
+% Copyright Barry Rowlingson  and 
 % Peter Diggle (c) 1991-3; http://www.maths.lancs.ac.uk/~rowlings/Splancs/
 % R port: copyright 1998-2000 by Roger S. Bivand
 %
@@ -30,7 +30,7 @@
 \description{Locations of homes of 168 juvenile offenders on a Cardiff housing estate
 
 }
-\references{Bailey and Gatrell 1995, ch. 3.
+\references{Bailey, T. C. and Gatrell, A. C. 1995, Interactive spatial data analysis. Longman, Harlow.
 
 }
 \keyword{datasets}

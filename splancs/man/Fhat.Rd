@@ -1,4 +1,4 @@
-% Copyright Barry Rowlingson <b.rowlingson@lancaster.ac.uk> and 
+% Copyright Barry Rowlingson  and 
 % Peter Diggle (c) 1991-3; http://www.maths.lancs.ac.uk/~rowlings/Splancs/
 % R port: copyright 1998-2000 by Roger S. Bivand
 %
@@ -47,19 +47,23 @@ another points set \code{pts1} is less than or equal to \code{s}.
 }
 \examples{
 data(uganda)
-plot(seq(20, 500, 20), Fhat(as.points(uganda), as.points(csr(uganda$poly, length(uganda$x))), seq(20, 500, 20)), type="l", xlab="distance", ylab="Estimated F")
-plot(Ghat(as.points(uganda), seq(20, 500, 20)), Fhat(as.points(uganda), as.points(csr(uganda$poly, length(uganda$x))), seq(20, 500, 20)), type="l", xlab="Estimated G", ylab="Estimated F")
+plot(seq(20, 500, 20), Fhat(as.points(uganda), 
+as.points(csr(uganda$poly, length(uganda$x))), seq(20, 500, 20)), 
+type="l", xlab="distance", ylab="Estimated F")
+plot(Ghat(as.points(uganda), seq(20, 500, 20)), Fhat(as.points(uganda), 
+as.points(csr(uganda$poly, length(uganda$x))), seq(20, 500, 20)), 
+type="l", xlab="Estimated G", ylab="Estimated F")
 lines(c(0,1),c(0,1),lty=2)
 }
 \seealso{
-\code{nndistF},\code{Fzero}
+\code{\link{nndistF}},\code{\link{Fzero}}
 }
 
 \references{
 Rowlingson, B. and Diggle, P. 1993 Splancs: spatial point pattern analysis
-code in S-Plus.  Computers and Geosciences, 19, 627-655, (Barry Rowlingson
-<b.rowlingson@lancaster.ac.uk>); the original sources can be accessed at:
-http://www.maths.lancs.ac.uk/~rowlings/Splancs/. See also Bivand, R. and
+code in S-Plus.  Computers and Geosciences, 19, 627-655;
+the original sources can be accessed at:
+\url{http://www.maths.lancs.ac.uk/~rowlings/Splancs/}. See also Bivand, R. and
 Gebhardt, A. 2000 Implementing functions for spatial statistical analysis
 using the R language. Journal of Geographical Systems, 2, 307-317.
 }

@@ -1,4 +1,4 @@
-% Copyright Barry Rowlingson <b.rowlingson@lancaster.ac.uk> and 
+% Copyright Barry Rowlingson  and 
 % Peter Diggle (c) 1991-3; http://www.maths.lancs.ac.uk/~rowlings/Splancs/
 % R port: copyright 1998-2000 by Roger S. Bivand
 %
@@ -51,16 +51,18 @@ the approximately unbiased estimator given by Lotwick and Silverman
 data(okwhite)
 data(okblack)
 okpoly <- list(x=c(okwhite$x, okblack$x), y=c(okwhite$y, okblack$y))
-plot(seq(5,80,5), sqrt(k12hat(as.points(okwhite), as.points(okblack), bbox(as.points(okpoly)), seq(5,80,5))/pi) - seq(5,80,5), xlab="distance", ylab=expression(hat(L)[12]), ylim=c(-20,20), type="l")
+plot(seq(5,80,5), sqrt(k12hat(as.points(okwhite), as.points(okblack), 
+bbox(as.points(okpoly)), seq(5,80,5))/pi) - seq(5,80,5), xlab="distance", 
+ylab=expression(hat(L)[12]), ylim=c(-20,20), type="l")
 }
 \references{
 Lotwick, H.W. and Silverman B.W. (1982) Methods for Analysing Spatial
 Processes of Several types of Points.
 \emph{J. R. Statist Soc} B44 406-13;
 Rowlingson, B. and Diggle, P. 1993 Splancs: spatial point pattern analysis
-code in S-Plus.  Computers and Geosciences, 19, 627-655, (Barry Rowlingson
-<b.rowlingson@lancaster.ac.uk>); the original sources can be accessed at:
-http://www.maths.lancs.ac.uk/~rowlings/Splancs/. See also Bivand, R. and
+code in S-Plus.  Computers and Geosciences, 19, 627-655;
+the original sources can be accessed at:
+\url{http://www.maths.lancs.ac.uk/~rowlings/Splancs/}. See also Bivand, R. and
 Gebhardt, A. 2000 Implementing functions for spatial statistical analysis
 using the R language. Journal of Geographical Systems, 2, 307-317.
 }

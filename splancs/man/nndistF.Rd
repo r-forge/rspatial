@@ -1,4 +1,4 @@
-% Copyright Barry Rowlingson <b.rowlingson@lancaster.ac.uk> and 
+% Copyright Barry Rowlingson  and 
 % Peter Diggle (c) 1991-3; http://www.maths.lancs.ac.uk/~rowlings/Splancs/
 % R port: copyright 1998-2000 by Roger S. Bivand
 %
@@ -38,20 +38,22 @@ point in \code{pts1} is returned as a vector.
 
 }
 \seealso{
-\code{nndistG},\code{Fhat},\code{Ghat},\code{Fzero}
+\code{\link{nndistG}}, \code{\link{Fhat}}, \code{\link{Ghat}}, \code{\link{Fzero}}
 }
 \examples{
 data(uganda)
 boxplot(nndistF(as.points(uganda), as.points(csr(uganda$poly, length(uganda$x)))))
 require(stepfun)
-plot(ecdf(nndistF(as.points(uganda), as.points(csr(uganda$poly, length(uganda$x))))),main="Fhat ecdf Uganda volcano data")
+plot(ecdf(nndistF(as.points(uganda), 
+as.points(csr(uganda$poly, length(uganda$x))))),
+main="Fhat ecdf Uganda volcano data")
 }
 
 \references{
 Rowlingson, B. and Diggle, P. 1993 Splancs: spatial point pattern analysis
-code in S-Plus.  Computers and Geosciences, 19, 627-655, (Barry Rowlingson
-<b.rowlingson@lancaster.ac.uk>); the original sources can be accessed at:
-http://www.maths.lancs.ac.uk/~rowlings/Splancs/. See also Bivand, R. and
+code in S-Plus.  Computers and Geosciences, 19, 627-655;
+the original sources can be accessed at:
+\url{http://www.maths.lancs.ac.uk/~rowlings/Splancs/}. See also Bivand, R. and
 Gebhardt, A. 2000 Implementing functions for spatial statistical analysis
 using the R language. Journal of Geographical Systems, 2, 307-317.
 }

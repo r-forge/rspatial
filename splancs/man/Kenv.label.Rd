@@ -1,4 +1,4 @@
-% Copyright Barry Rowlingson <b.rowlingson@lancaster.ac.uk> and 
+% Copyright Barry Rowlingson  and 
 % Peter Diggle (c) 1991-3; http://www.maths.lancs.ac.uk/~rowlings/Splancs/
 % R port: copyright 1998-2000 by Roger S. Bivand
 %
@@ -66,20 +66,22 @@ okpoly <- list(x=c(okwhite$x, okblack$x), y=c(okwhite$y, okblack$y))
 K1.hat <- khat(as.points(okwhite), bbox(as.points(okpoly)), seq(5,80,5))
 K2.hat <- khat(as.points(okblack), bbox(as.points(okpoly)), seq(5,80,5))
 K.diff <- K1.hat-K2.hat
-plot(seq(5,80,5), K.diff, xlab="distance", ylab=expression(hat(K)[1]-hat(K)[2]), ylim=c(-11000,7000), type="l", main="Simulation envelopes, random labelling")
-env.lab <- Kenv.label(as.points(okwhite), as.points(okblack), bbox(as.points(okpoly)), nsim=99, s=seq(5,80,5))
+plot(seq(5,80,5), K.diff, xlab="distance", ylab=expression(hat(K)[1]-hat(K)[2]), 
+ylim=c(-11000,7000), type="l", main="Simulation envelopes, random labelling")
+env.lab <- Kenv.label(as.points(okwhite), as.points(okblack), 
+bbox(as.points(okpoly)), nsim=99, s=seq(5,80,5))
 lines(seq(5,80,5), env.lab$upper, lty=2)
 lines(seq(5,80,5), env.lab$lower, lty=2)
 }
 \seealso{
-\code{rlabel},\code{khat}
+\code{\link{rlabeli}},\code{i\link{khati}}
 }
 
 \references{
 Rowlingson, B. and Diggle, P. 1993 Splancs: spatial point pattern analysis
-code in S-Plus.  Computers and Geosciences, 19, 627-655, (Barry Rowlingson
-<b.rowlingson@lancaster.ac.uk>); the original sources can be accessed at:
-http://www.maths.lancs.ac.uk/~rowlings/Splancs/. See also Bivand, R. and
+code in S-Plus.  Computers and Geosciences, 19, 627-655;
+the original sources can be accessed at:
+\url{http://www.maths.lancs.ac.uk/~rowlings/Splancs/}. See also Bivand, R. and
 Gebhardt, A. 2000 Implementing functions for spatial statistical analysis
 using the R language. Journal of Geographical Systems, 2, 307-317.
 }

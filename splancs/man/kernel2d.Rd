@@ -1,4 +1,4 @@
-% Copyright Barry Rowlingson <b.rowlingson@lancaster.ac.uk> and 
+% Copyright Barry Rowlingson  and 
 % Peter Diggle (c) 1991-3; http://www.maths.lancs.ac.uk/~rowlings/Splancs/
 % R port: copyright 1998-2000 by Roger S. Bivand
 %
@@ -63,7 +63,8 @@ for display and superposition onto other plots.
 \examples{
 data(bodmin)
 plot(bodmin$poly, asp=1, type="n")
-image(kernel2d(as.points(bodmin), bodmin$poly, h0=2, nx=100, ny=100), add=T, col=terrain.colors(20))
+image(kernel2d(as.points(bodmin), bodmin$poly, h0=2, nx=100, ny=100), 
+add=T, col=terrain.colors(20))
 pointmap(as.points(bodmin), add=T)
 polymap(bodmin$poly, add=T)
 }
@@ -73,8 +74,8 @@ Berman M. and Diggle P.J. (1989) Estimating Weighted Integrals of the
 Second-Order Intensity of Spatial Point Patterns.  \emph{J. R. Statist
 Soc} B51 81-92; Rowlingson, B. and Diggle, P. 1993 Splancs: spatial point
 pattern analysis code in S-Plus.  Computers and Geosciences, 19, 627-655,
-(Barry Rowlingson <b.rowlingson@lancaster.ac.uk>); the original sources
-can be accessed at: http://www.maths.lancs.ac.uk/~rowlings/Splancs/. See
+(Barry Rowlingson ); the original sources
+can be accessed at: \url{http://www.maths.lancs.ac.uk/~rowlings/Splancs/}. See
 also Bivand, R. and Gebhardt, A. 2000 Implementing functions for spatial
 statistical analysis using the R language. Journal of Geographical
 Systems, 2, 307-317.
