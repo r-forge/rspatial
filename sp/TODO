@@ -1,11 +1,17 @@
-check levelplot/lplot incompatabilities; retain current? levelplot
-examples now do not work!
+meuse$xx = meuse$zinc - mean(meuse$zinc) # does not do what you want
+
+add methods:
+mean.SpatialDataFrame
+mean.SpatialDataFrameGrid
+mean.SpatialDataFramePolygon ...
+
+add "[[" and "[[<-" to Spatial methods ( meuse$xx == meuse[["xx"]] )
 
 For plotting functions (plot, bubble) use a reasonable x/y ratio for
 unprojected data (look in maps?), or bail out with an error
 
-First cut at getting holes and polygon order right, Polygon4 and 
-Polylist4 classes for trial. 
+First cut at getting holes and polygon order right, Polygon4 and Polylist4
+classes for trial.
 
 build simple SpatialDataFramePolygons example, e.g. using two triangles
 add subscripting [] to SpatialDataFramePolygon objects (with much care!)

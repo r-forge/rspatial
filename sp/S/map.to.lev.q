@@ -80,7 +80,11 @@ function (data, zcol, names.attr, col.regions = bpy.colors(), expand = 0.03,...)
 	}
 #ifdef R
 	require(lattice)
+	if (version$major >= 2)
+		asp = "iso"
+	else
 #endif
+		asp = mapasp(data)
 	if (!is.null(pol)) {
 #ifdef R
 		require(grid)
@@ -125,7 +129,6 @@ function (data, zcol, names.attr, col.regions = bpy.colors(), expand = 0.03,...)
 					for (i in 1:length(grid.polygons@polygons))
 						plotPol(grid.polygons@polygons[[i]], i)
 			}
-			asp = "iso"
 		} else {
 		"panel.lplot" <-
 			function (x, y, z, zcol, subscripts, at = mean(z), shrink, labels = NULL, 
@@ -154,7 +157,6 @@ function (data, zcol, names.attr, col.regions = bpy.colors(), expand = 0.03,...)
 					for (i in 1:length(grid.polygons@polygons))
 						plotPol(grid.polygons@polygons[[i]], i)
 			}
-			asp = mapasp(data)
 		}
 		expand.bbox = function(range, value) {
 			r = diff(range)
@@ -162,11 +164,11 @@ function (data, zcol, names.attr, col.regions = bpy.colors(), expand = 0.03,...)
 			range[2] = range[2] + value * r 
 			range
 		}
-		levelplot(formula, as.data.frame(data), asp = asp,
+		levelplot(formula, as.data.frame(data), aspect = asp,
 			col.regions = col.regions, grid.polygons = pol, 
 			panel = panel.lplot, xlim = expand.bbox(bbox(data)[1,], expand), 
 			ylim = expand.bbox(bbox(data)[2,], expand), ...)
 	} else 
-		levelplot(formula, as.data.frame(data), asp = asp,
+		levelplot(formula, as.data.frame(data), aspect = asp,
 			col.regions = col.regions, ...)
 }
