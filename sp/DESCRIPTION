@@ -1,14 +1,14 @@
 Package: sp
-Version: 0.5-6
-Date: 2004-06-18
+Version: 0.6-1
+Date: 2004-11-05
 Title: generic functions for spatial data
 Author: Edzer J. Pebesma <e.pebesma@geog.uu.nl>, Roger Bivand <Roger.Bivand@nhh.no> and others
 Maintainer: Edzer J. Pebesma <e.pebesma@geog.uu.nl>
-Depends: R (>= 1.8)
-Description: A package that provides classes and methods for spatial
+Depends: R (>= 2.0.0)
+Description: Another package that provides classes and methods for spatial
   data. The classes document where the spatial location information
   resides, for 2D or 3D data. Utility functions are provided, e.g. for
   helping plotting data as maps, or spatial selection.
 License: GPL version 2 or later
 URL: http://www.sourceforge.net/r-spatial/
-
+Collate: AAA.R Class-CRS.R Class-Spatial.R projected.R Class-SpatialPoints.R Class-SpatialPointsDataFrame.R Class-SpatialGridded.R Class-SpatialRings.R SpatialRings-methods.R SpatialRings-internals.R point.in.polygon.R SpatialRings-displayMethods.R

@@ -151,7 +151,7 @@ bbox.R4 <- function(x) {
 # first stage: find polygons with all four corners in their bounding boxes
 # inside or equal to those of the other polygons
 
-	res <- .Call("insiders", as.integer(n), as.double(bbs), PACKAGE="sp4")
+	res <- .Call("insiders", as.integer(n), as.double(bbs), PACKAGE="sp")
 	res1 <- vector(mode="list", length=n)
 
 
@@ -202,7 +202,7 @@ bbox.R4 <- function(x) {
 # first stage: find polygons with all four corners in their bounding boxes
 # inside or equal to those of the other polygons
 
-	res <- .Call("insiders", as.integer(n), as.double(bbs), PACKAGE="sp4")
+	res <- .Call("insiders", as.integer(n), as.double(bbs), PACKAGE="sp")
 	res1 <- vector(mode="list", length=n)
 
 

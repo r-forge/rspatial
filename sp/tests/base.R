@@ -1,4 +1,4 @@
-library(sp4)
+library(sp)
 data(meuse)
 x = meuse[1:10, ] # limit the output
 coordinates(x) = c("x", "y") # names

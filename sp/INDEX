@@ -1,48 +1,26 @@
 CRS-class               Class "CRS" of coordinate reference system
                         arguments
-Map2Poly4               Convert a Map object of polygons to S4
-                        Polylist4 object
-Polygon4-class          Class "Polygon4" for map polygons
-Polygons<-              Create a SpatialDataFramePolygons object, or
-                        retrieve polygon values
-Polylist4-class         Class "Polylist4" for map polygons
-SpatialData-class       Class "SpatialData" ~~~
-SpatialDataFrame        Create a SpatialDataFrame
-SpatialDataFrame-class
-                        Class "SpatialDataFrame" ~~~
-SpatialDataFrameGrid-class
-                        Class "SpatialDataFrameGrid" ~~~
-SpatialDataFramePolygons-class
-                        Class "SpatialDataFramePolygons"
-SpatialDataPolygons-class
-                        Class "SpatialDataPolygons"; stores spatial
-                        polygons and attributes
-bpy.colors              blue-pink-yellow color scheme that prints well
-                        on black/white printers
-bubble                  Create a bubble plot of spatial data
-cbindSDFP               Combine "SpatialDataFramePolygons" with data
-                        frame
-coordinates             Create a SpatialDataFrame, or extract
-                        coordinates
-gridded                 Create a SpatialDataFrameGrid from a
-                        SpatialDataFrame, or the reverse
-holepolys               Hisaji Ono's hole problem
-image.SpatialDataFrameGrid
-                        image gridded data in SpatialDataFrameGrid to
-                        image format
+Spatial-class           Class "Spatial" ~~~
+SpatialCell-class       Class "SpatialCell" ~~~
+SpatialCellDataFrame-class
+                        Class "SpatialCellDataFrame" ~~~
+SpatialGridded-class    Class "SpatialGridded" ~~~
+SpatialPoints-class     Class "SpatialPoints" ~~~
+SpatialPointsDataFrame-class
+                        Class "SpatialPointsDataFrame" ~~~
+arcs-methods            ~~ Methods for Function arcs in Package 'sp4'
+                        ~~
+bbox,Spatial-method     retrieve bbox from spatial data
+coordinates-methods     sets spatial coordinates to create spatial
+                        data, or retrieves spatial coordinates
+dimensions,Spatial-method
+                        retrieve spatial dimensions from spatial data
+gridded-methods         specify spatial data as being gridded, or find
+                        out whether they are
 is.projected            Sets or retrieves projection attributes on
                         classes extending SpatialData
-map.to.lev              rearrange SpatialDataFrame for plotting with
-                        levelplot
-mapasp                  Calculate aspect ratio for plotting geographic
-                        maps
 meuse                   Meuse river data set
 meuse.grid              Prediction Grid for Meuse Data Set
-nc.Map                  North Carolina Map object
 point.in.polygon        do point(s) fall in a given polygon?
-polygons                Create a SpatialDataPolygons object, or
-                        retrieve polygon values
-readAsciigrid           read/write to/from ESRI asciigrid format
-select.spatial          select points spatially
-zerodist                find point pairs with equal spatial
-                        coordinates
+rings-methods           ~~ Methods for Function rings in Package 'sp4'
+                        ~~
