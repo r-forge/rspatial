@@ -18,6 +18,7 @@ C  GNU General Public License for more details.
      &      vark12,vark2,Covmat)
 
       implicit real*8 (a-h,o-z)
+      integer count
 
       include 'bounds.cmn'
 
