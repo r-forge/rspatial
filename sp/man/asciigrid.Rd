@@ -12,10 +12,9 @@ write.asciigrid(x, fname, attr = 1, na.value = -9999, ...)
 \item{fname}{ fname }
 \item{as.image}{logical; if FALSE, a list is returned, ready to be
 shown with the \code{image} command; if FALSE an object of
-class \link{SpatialGriddedDataFrame-class} is returned }
+class \link{SpatialGridDataFrame-class} is returned }
 \item{plot.image}{logical; if TRUE, an image of the map is plotted}
-\item{x}{ object of class \link{SpatialGriddedDataFrame} or 
-\link{SpatialCellDataFrame}}
+\item{x}{ object of class \link{SpatialGridDataFrame}}
 \item{attr}{attribute column; if missing, the first
 column is taken; a name or a column number may be given}
 \item{na.value}{numeric; value given to missing valued cells in the
@@ -25,10 +24,10 @@ to write the numeric data }
 }
 \value{
 	\code{read.asciigrid} returns the grid map read; either as
-	an object of class \link{SpatialGriddedDataFrame-class} or, if
+	an object of class \link{SpatialGridDataFrame-class} or, if
 	as.image is TRUE, as list with components \code{x}, \code{y} and {z}.
 }
-\seealso{ \link{read.gdal}, \link{as.image.SpatialGriddedDataFrame}, \link{image} }
+\seealso{ \link{read.gdal}, \link{as.image.SpatialGridDataFrame}, \link{image} }
 \author{Edzer J.\ Pebesma, e.pebesma@geog.uu.nl}
 \examples{
 x <- read.asciigrid(system.file("external/test.ag", package="sp")[1])

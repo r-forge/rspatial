@@ -42,12 +42,11 @@ classes in this package derive from it }
 
 \seealso{
   \code{\link{SpatialPoints-class}},
-  \code{\link{SpatialGridded-class}},
-  \code{\link{SpatialCell-class}},
+  \code{\link{SpatialGrid-class}},
 %  \code{\link{SpatialRings-class}},
 %  \code{\link{SpatialArcs-class}},
   \code{\link{SpatialPointsDataFrame-class}},
-  \code{\link{SpatialCellDataFrame-class}},
+  \code{\link{SpatialGridDataFrame-class}},
 %  \code{\link{SpatialRingsDataFrame-class}},
 }
 \examples{

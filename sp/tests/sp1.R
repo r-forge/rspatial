@@ -16,7 +16,7 @@ sum = summary(x)
 print(sum)
 coordinates(x)
 
-x <- as(x, "data.frame")
+x <- as.data.frame(x)
 class(x)
 
 x[1:10, c("xcoord", "ycoord")]
@@ -38,4 +38,4 @@ x[2,"zinc"]
 # select; re-orders:
 x[c("zinc","copper")]
 # back as data.frame
-as(x, "data.frame")[1:3, c("zinc","copper","x", "y")]
+as.data.frame(x)[1:3, c("zinc","copper","x", "y")]

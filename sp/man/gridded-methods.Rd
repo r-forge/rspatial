@@ -5,6 +5,8 @@
 \alias{gridparameters}
 \alias{"gridded<-"}
 \alias{gridded}
+\alias{"fullgrid<-"}
+\alias{fullgrid}
 \title{ specify spatial data as being gridded, or find out whether they are }
 \description{
 returns logical (TRUE or FALSE) telling whether the object is gridded
@@ -14,27 +16,38 @@ one, or demotes a gridded structure back to a non-structured one.
 \usage{
 	gridded(obj)
 	gridded(obj) <- TRUE
+	fullgrid(obj)
+	fullgrid(obj) <- TRUE
+	gridparameters(obj)
 }
 \arguments{
-\item{obj}{ object deriviving from class "Spatial" }
+\item{obj}{ object deriviving from class "Spatial" (for gridded), or }
+object of class \link{SpatialGridDataFrame-class} (for fullgrid and gridparameters) }
 }
 \section{Methods}{
 \describe{
 \item{obj = "Spatial"}{ object deriviving from class "Spatial" }
 }}
-\value{ if object derives from class Spatial, gridded(object) will tell
+\value{ if obj derives from class Spatial, gridded(object) will tell
 whether it is has topology on a regular grid; if assigned TRUE, if the
 object derives from SpatialPoints and has gridded topology,
 grid topology will be added to object, and the class of the object
-will be promoted to \link{SpatialCell-class} or 
-\link{SpatialCellDataFrame-class}
+will be promoted to \link{SpatialGrid-class} or 
+\link{SpatialGridDataFrame-class}
+
+\code{fullgrid} returns a logical, telling whether the grid is full
+and ordered (i.e., in full matrix form), or whether it is not full
+or unordered (i.e. a list of points that happen to lie on a grid. If
+assigned, the way the points are stored may be changed. Changing a set
+of points to full matrix form and back may change the original order of
+the points.
 
 \code{gridparameters} returns, if \code{obj} inherits from
-SpatialDataFrameGrid its grid parameters, else it returns numeric(0).
-The returned value is a data.frame with three columns, named
-cellcentre.offset ("lower left cell centre coordinates"),
-cellsize, and cells.dim (cell dimension); the rows correspond
-to the spatial dimensions.
+SpatialDataFrameGrid its grid parameters, else it returns numeric(0).  The
+returned value is a data.frame with three columns, named cellcentre.offset
+("lower left cell centre coordinates"), cellsize, and cells.dim (cell
+dimension); the rows correspond to the spatial dimensions.
+
 }
 \keyword{methods}
 \examples{
@@ -62,4 +75,4 @@ plot(meuse.grid) # not much good
 summary(meuse.grid)
 
 }
-\keyword{ }
+\keyword{spatial}

@@ -47,9 +47,9 @@ read.asciigrid <- function(fname, as.image = FALSE, plot.image = FALSE) {
 	} else {
 		df = data.frame(map)
 		names(df) = fname
-		grid = SpatialGridded(c(xllcenter,yllcenter), 
-			rep(cellsize,2), c(ncols,nrows))
-		return(SpatialGriddedDataFrame(grid, df))
+		grid = SpatialGrid(grid = GridTopology(c(xllcenter,yllcenter), 
+			rep(cellsize,2), c(ncols,nrows)))
+		return(SpatialGridDataFrame(grid, data = df))
 	}
 }
 
@@ -69,7 +69,7 @@ write.asciigrid <- function(x, fname, attr = 1, na.value = -9999, ...) {
 
 	if (!gridded(x))
 		stop("can only write SpatialDataFrameGrids to asciigrid")
-	x = as(x, "SpatialGriddedDataFrame")
+	x = as(x, "SpatialGridDataFrame")
 	gp = gridparameters(x)
 	if (length(gp$cells.dim) != 2)
 		stop("asciigrid only supports 2D grids")

@@ -17,19 +17,19 @@ read.gdal = function(fname, ..., silent = FALSE) {
 		d = dim(data) # rows=nx, cols=ny
 		cellsize = abs(c(gt[2],gt[6]))
 		cells.dim = c(d[1], d[2]) # c(d[2],d[1])
-		cellcentre.offset = c(gt[1] + 0.5 * cellsize[1], 
-			gt[4] - (d[2] - 0.5) * abs(cellsize[2]))
-		grid = SpatialGridded(cellcentre.offset, cellsize, cells.dim)
-		if (length(d) == 2) {
+		cellcentre.offset = c(x = gt[1] + 0.5 * cellsize[1], 
+			y = gt[4] - (d[2] - 0.5) * abs(cellsize[2]))
+		grid = GridTopology(cellcentre.offset, cellsize, cells.dim)
+		if (length(d) == 2)
 			df = data.frame(band1 = as.vector(data))
-		} else {
+		else {
 			df = as.vector(data[,,1])
 			for (band in 2:d[3])
 				df = cbind(df, as.vector(data[,,band]))
 			df = as.data.frame(df)
 			names(df) = paste("band", 1:d[3], sep="")
 		}
-		data = SpatialGriddedDataFrame(grid, df)
+		data = SpatialGridDataFrame(grid = grid, data = df)
 	}
 	GDAL.close(x)
 	return(data)

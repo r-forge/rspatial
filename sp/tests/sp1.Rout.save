@@ -256,7 +256,7 @@ Data attributes:
 159 179466 330381
 164 180627 330190
 > 
-> x <- as(x, "data.frame")
+> x <- as.data.frame(x)
 > class(x)
 [1] "data.frame"
 > 
@@ -320,7 +320,7 @@ Data attributes:
 3 (181165, 333537)  640     68
 4 (181298, 333484)  257     81
 > # back as data.frame
-> as(x, "data.frame")[1:3, c("zinc","copper","x", "y")]
+> as.data.frame(x)[1:3, c("zinc","copper","x", "y")]
   zinc copper      x      y
 1 1022     85 181072 333611
 2 1141     81 181025 333558

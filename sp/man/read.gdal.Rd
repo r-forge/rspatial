@@ -21,7 +21,7 @@ package rgdal---it requires package rgdal to be installed.
 
 Usually, GDAL maps will be north-south oriented, in which case the rgdal
 function \code{getRasterData} is used to read the data, and an object
-of class \link{SpatialGriddedDataFrame-class} is returned.
+of class \link{SpatialGridDataFrame-class} is returned.
 
 Some map formats supported by GDAL are not north-south oriented grids. If
 this is the case, \code{read.gdal} returns the data as a set of point
@@ -30,7 +30,7 @@ are on a 45 or 90 degree rotated grid, you can try to enforce gridding
 later on by e.g. using \code{\link{gridded}(x)=TRUE}.
 }
 
-\seealso{ \link{as.image.SpatialGriddedDataFrame}, \link{image},
+\seealso{ \link{as.image.SpatialGridDataFrame}, \link{image},
 \link{read.asciigrid} }
 
 \author{Edzer J.\ Pebesma, e.pebesma@geog.uu.nl}

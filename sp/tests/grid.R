@@ -3,7 +3,16 @@ data(meuse.grid)
 x = meuse.grid
 coordinates(x) = c("x", "y")
 gridded(x) = TRUE
+gridded(x)
 image(x["dist"])
+
+fullgrid(x) = TRUE
+fullgrid(x)
+summary(x)
+fullgrid(x) = FALSE
+fullgrid(x)
+summary(x)
+gridparameters(x)
 
 df = data.frame(z = c(1:6,NA,8,9), 
 	xc = c(1,1,1,2,2,2,3,3,3), 
@@ -11,8 +20,27 @@ df = data.frame(z = c(1:6,NA,8,9),
 
 coordinates(df) = ~xc+yc
 gridded(df) = TRUE
-#df@data
-as.data.frame(df)
+gridparameters(df)
+
+# get grid topology:
+grd = points2grid(as(df, "SpatialPoints"), 1e-31) 
+grd
+getGridIndex(coordinates(df), grd)
+
 print(summary(df))
 image(df["z"])
-as.image.SpatialGriddedDataFrame(as(df["z"], "SpatialGriddedDataFrame"))
+as.image.SpatialGridDataFrame(df)
+as.image.SpatialGridDataFrame(df["z"])
+coordinatevalues(getGridTopology(df))
+
+as.data.frame(df)
+
+fullgrid(df) = TRUE
+as.data.frame(df)
+
+fullgrid(df) = FALSE  # will not drop the NA value:
+as.data.frame(df)
+
+fullgrid(df) = TRUE
+fullgrid(df) = c(FALSE, TRUE)  # will drop the NA value:
+as.data.frame(df)
