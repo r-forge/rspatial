@@ -84,12 +84,14 @@ sp.panel.layout = function(lst, panel.counter, ...) {
 spplot = function(obj, zcol, ..., names.attr, scales = list(draw = FALSE), 
 		xlab = "", ylab = "", aspect = mapasp(obj), 
 		sp.layout = NULL, plot.all = TRUE, identify = FALSE) {
-	dots = list(...)
-	cls.obj = class(obj)
+
 	if (!is(obj, "Spatial"))
 		stop("only objects deriving from class Spatial accepted")
+	dots = list(...)
 	require(lattice)
 	do.levelplot = FALSE
+
+	# if necessary, create a spatial points sdf object as dummy data:
 	if (is(obj, "SpatialRingsDataFrame") || is(obj, "SpatialLinesDataFrame")) {
 		require(grid)
 		xr = bbox(obj)[1, ] 
@@ -98,6 +100,7 @@ spplot = function(obj, zcol, ..., names.attr, scales = list(draw = FALSE),
 		if (is(obj, "SpatialRingsDataFrame"))
 			labpts = getSRSringsLabptSlots(obj)
 		else {
+			# get first points of each lines object:
 			n = length(obj@lines)
 			labpts = matrix(unlist(lapply(ncl@lines, function(x) 
 				lapply(x@Slines[1], function(x) coordinates(x)[1,]))), n, 2, byrow=TRUE) 
@@ -116,12 +119,15 @@ spplot = function(obj, zcol, ..., names.attr, scales = list(draw = FALSE),
 	else 
 		stop(paste("spplot: no plotting method for object of class", class(obj)))
 
+	# if missing, construct zcol:
 	if (missing(zcol)) {
 		if (plot.all)
 			zcol = names(obj) # all columns
 		else
 			zcol = names(obj)[1] # first
 	}
+
+	# create formula:
 	if (length(zcol) > 1) {
 		if (do.levelplot)
 			formula = as.formula(paste("z~", paste(dimnames(coordinates(sdf))[[2]], 
@@ -140,6 +146,7 @@ spplot = function(obj, zcol, ..., names.attr, scales = list(draw = FALSE),
 			formula = y~x
 	}
 
+	# call lattice functions:
 	if (is(obj, "SpatialRingsDataFrame") || is(obj, "SpatialLinesDataFrame")) {
 		if (is(obj, "SpatialRingsDataFrame"))
 			grid.polygons = as(obj, "SpatialRings")
@@ -200,10 +207,10 @@ function (x, y, z, subscripts, at = pretty(z), shrink, labels = NULL,
    		cex = add.text$cex, font = add.text$font, fontfamily = add.text$fontfamily, 
    		fontface = add.text$fontface, col.text = add.text$col, ..., 
    		col.regions = regions$col, alpha.regions = regions$alpha, 
-		grid.polygons, sp.layout, panel.counter, lines.only = FALSE,
-		lines.nodraw = (!lines.only)) 
+		grid.polygons, sp.layout, panel.counter) 
 {
 	regions <- trellis.par.get("regions")
+	add.line <- trellis.par.get("add.line")
 	numcol <- length(at) - 1
 	numcol.r <- length(col.regions)
 	col.regions <- if (numcol.r <= numcol) 
@@ -223,7 +230,6 @@ function (x, y, z, subscripts, at = pretty(z), shrink, labels = NULL,
 			sp.lines2 = function(x, col, ...) lapply(x@Slines, sp.lines3, col, ...)
 			for (i in 1:length(grid.polygons@lines))
 				sp.lines2(grid.polygons@lines[[i]], col = col.regions[zcol[i]], ...)
-				# lapply(obj@lines, sp.lines2, col = col, ...)
 		} else {
 			pls = getSRpolygonsSlot(grid.polygons)
    			pO = getSRplotOrderSlot(grid.polygons)
@@ -231,17 +237,11 @@ function (x, y, z, subscripts, at = pretty(z), shrink, labels = NULL,
        			Srs <- getSringsSringsSlot(pls[[i]])
        			pOi <- getSringsplotOrderSlot(pls[[i]])
        			for (j in pOi) {
-					if (lines.only)
-						gp = gpar(col = col.regions[zcol[i]], fill = "transparent",
-							alpha = alpha.regions)
-					else
-						gp = gpar(fill = col.regions[zcol[i]], col = NULL,
-							alpha = alpha.regions)
 					coords = getSringCoordsSlot(Srs[[j]])
-					grid.polygon(coords[,1], coords[,2], #id.lengths=id.lengths,
-						default.units = "native", gp)
-					if (!lines.nodraw)
-						panel.lines(coords, col = "black")
+					gp = gpar(fill = col.regions[zcol[i]], alpha = alpha.regions,
+						col = col)
+					grid.polygon(coords[,1], coords[,2], default.units = "native", 
+						gp = gp)
 				}
    			}
 		}
