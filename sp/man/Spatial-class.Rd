@@ -19,7 +19,7 @@ are never to be generated; only derived classes can be meaningful }
     \item{\code{proj4string}:}{Object of class \code{"CRS"};
 	holding a valid proj4 string, which can be used for unprojecting
 	or reprojecting coordinates; it is initialised to NA. Other strings
-	are checked for validity in the proj4 library.}
+	are checked for validity in the spproj package.}
   }
 }
 \section{Methods}{

@@ -4,6 +4,7 @@
 \alias{[,SpatialRings-method}
 \alias{as.data.frame.SpatialRings}
 \alias{plotSpatialRings}
+\alias{plot.SpatialRings}
 
 \title{Class "SpatialRings"}
 \description{  class to hold polygon topology (without attributes) }

@@ -13,6 +13,7 @@
 \alias{getSringAreaSlot}
 \alias{getSringCoordsSlot}
 \alias{getSringLabptSlot}
+\alias{getSringHoleSlot}
 \alias{getSringsIDSlot}
 \alias{getSringsLabptSlot}
 \alias{getSringsSringsSlot}
