@@ -82,6 +82,7 @@ plot.SpatialDataFramePolygons = function(x, attr=NULL, breaks=NULL, col=NA, asp 
 		plot.Polylist4(x@polygons, col=col, border=border, asp=asp, 
 			xlab=xlab, ylab=ylab, add=add, xlim=xlim, 
 			ylim=ylim, xpd=xpd, ...) 
+		res <- NA
 	} else { 
 		if (is.character(attr))
 			z = x@data[,attr]
@@ -101,10 +102,12 @@ plot.SpatialDataFramePolygons = function(x, attr=NULL, breaks=NULL, col=NA, asp 
 				density <- density[as.integer(z)]
 				angle <- angle[as.integer(z)]
 				mCols <- NA
+				res <- as.integer(z)
 			} else {
 				if (length(col) != nlevels(z))
 					stop("Number of colours differs from number of factor levels")
 				mCols <- col[as.integer(z)]
+				res <- as.integer(z)
 			}
 		} else {
 			if (is.null(breaks))
@@ -119,17 +122,20 @@ plot.SpatialDataFramePolygons = function(x, attr=NULL, breaks=NULL, col=NA, asp 
 				angle <- angle[findInterval(z, breaks, 
 					all.inside=TRUE)]
 				mCols <- NA
+				res <- findInterval(z, breaks, all.inside=TRUE)
 			} else {
 				if (length(col) != (length(breaks)-1))
 					stop("Number of colours not one less than number of breaks")
 				mCols <- col[findInterval(z, breaks, 
 					all.inside=TRUE)]
+				res <- findInterval(z, breaks, all.inside=TRUE)
 			}
 		}
 		plot.Polylist4(x@polygons, col=mCols, border=border, asp=asp, 
 			xlab=xlab, ylab=ylab, add=add, xlim=xlim, 
 			ylim=ylim, xpd=xpd, density=density, angle=angle, ...) 
 	}
+	invisible(res)
 }
 
 cbindSDFP <- function(SDFP, DF) {
