@@ -91,5 +91,3 @@ plot.SpatialRings <- function(x, col, border = par("fg"), add=FALSE, xlim=NULL,
 #		border = border, col = col, ...)
 #endif
 }
-
-

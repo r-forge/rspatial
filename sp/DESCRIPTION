@@ -25,6 +25,6 @@ Collate: AAA.R Class-CRS.R Class-Spatial.R Spatial-methods.R
 	SpatialRingsDataFrame-methods.R GridTopology-methods.R
 	SpatialGrid-methods.R SpatialGridDataFrame-methods.R
 	SpatialRings-internals.R point.in.polygon.R
-	SpatialRings-displayMethods.R zerodist.R image.R stack.R lplot.R
+	SpatialRings-displayMethods.R zerodist.R image.R stack.R
 	bpy.colors.R bubble.R mapasp.R select.spatial.R gridded.R
 	asciigrid.R gdal.R spplot.R

@@ -317,5 +317,6 @@ plotSpatialRings <- function(SR) {
 #"[.SpatialRings" =  function(x, i, j, ..., drop = T) {
 setMethod("[", "SpatialRings", function(x, i, j, ..., drop = T) {
 	if (!missing(j)) stop("only a single index is allowed for [.SpatialRings")
-	SpatialRings(x[i], pO = order(x@plotOrder))
+	# SpatialRings(x[i], pO = order(x@plotOrder))
+	SpatialRings(x@polygons[i], pO = order(x@plotOrder[i]))
 })

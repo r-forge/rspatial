@@ -1,11 +1,11 @@
 \name{stack}
 \alias{map.to.lev}
 \alias{stack.SpatialPointsDataFrame}
-\alias{stack.SpatialCellDataFrame}
-\title{ rearrange data in SpatialPointsDataFrame or SpatialCellDataFrame 
-for plotting with levelplot }
-\description{ plotting grid and polygon maps with levelplot;
-rearrange SpatialPointsDataFrame for plotting with levelplot }
+\alias{stack.SpatialGridDataFrame}
+\title{ rearrange data in SpatialPointsDataFrame or SpatialGridDataFrame 
+for plotting with spplot (levelplot/xyplot wrapper) }
+\description{ 
+rearrange SpatialPointsDataFrame for plotting with spplot or levelplot }
 \usage{
 map.to.lev(data, zcol = 1:n, n = 2, names.attr)
 stack.SpatialPointsDataFrame(x, select, ...)
@@ -31,17 +31,18 @@ will appear in the plot); if omitted, column names of \code{zcol} }
 of \code{data} stacked } 
 \item{name}{ factor; name of each of the stacked \code{z} columns } 
 
-\code{stack} is an S3 method: it return a SpatialDataFrame or
-SpatialDataFrameGrid with a column \code{values} that has the stacked
-coordinates and attributes, and a column \code{ind} that indicates the 
-variable stacked.  }
-\seealso{ \link{gridplot} and \link{ringplot}, and
-\link{levelplot} in package \code{lattice}; \link{stack}}
+\code{stack} is an S3 method: it return a data.frame with a column
+\code{values} that has the stacked coordinates and attributes, and a
+column \code{ind} that indicates the variable stacked; it also
+replicates the coordinates. }
+
+\seealso{ \link{spplot}, \link{levelplot} in package \code{lattice}, and \link{stack}}
 \examples{
 library(lattice)
 data(meuse.grid) # data frame
 coordinates(meuse.grid) = c("x", "y") # promotes to SpatialDataFrame
 meuse.grid[["idist"]] = 1 - meuse.grid[["dist"]] # add variable
+# the following is made much easier by spplot:
 levelplot(z~x+y|name, map.to.lev(meuse.grid, z=c("dist","idist"), names.attr =
 	c("distance", "inverse of distance")), aspect = "iso")
 levelplot(values~x+y|ind, as.data.frame(stack(meuse.grid)),aspect = "iso")

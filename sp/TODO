@@ -1,6 +1,11 @@
+convert SpatialRings to SpatialLines -- is it necessary?
+
+cut the relevant part from groteriv to get river section in meuse data set
+
 spplot:
 - document sp.layout argument, and layout.north.arrow(), layout.scale.bar()
 - spplot(meuse) # takes ages to create legend of inft. length
+- generate grid lines, following lat/lon or projected coords
 
 coordinates(spdf)=~x+y # give useful error message
 

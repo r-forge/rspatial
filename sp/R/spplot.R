@@ -142,8 +142,10 @@ spplot = function(obj, zcol, ..., names.attr, scales = list(draw = FALSE),
 		if (do.levelplot)
 			formula = as.formula(paste(zcol, "~", paste(dimnames(coordinates(sdf))[[2]],
 				collapse = "+")))
-		else
-			formula = y~x
+		else {
+			ccn = dimnames(coordinates(sdf))[[2]]
+			formula = as.formula(paste(ccn[2], "~", ccn[1]))
+		}
 	}
 
 	# call lattice functions:
@@ -157,7 +159,7 @@ spplot = function(obj, zcol, ..., names.attr, scales = list(draw = FALSE),
 			panel = panel.ringsplot, xlim = xr, ylim = yr, xlab = xlab, ylab =
 			ylab, scales = scales, sp.layout = sp.layout, ...)
 	} else if (gridded(obj))
-		levelplot(formula, as(obj, "data.frame"), aspect = aspect,
+		levelplot(formula, as(sdf, "data.frame"), aspect = aspect,
 			panel = panel.gridplot, xlab = xlab, ylab = ylab, scales = scales,
 			sp.layout = sp.layout, ...)
 	else {

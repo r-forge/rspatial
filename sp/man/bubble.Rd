@@ -14,7 +14,7 @@ bubble(obj, zcol = 1, ..., fill = TRUE, maxsize = 3, do.sqrt = TRUE, pch,
 }
 \arguments{
 \item{obj}{ object of, or extending, class SpatialPointsDataFrame 
-or SpatialCellDataFrame, see \link{coordinates} or \link{SpatialPointsDataFrame}; 
+or SpatialGridDataFrame, see \link{coordinates} or \link{SpatialPointsDataFrame}; 
 the object knows about its spatial coordinates}
 \item{zcol}{ z-variable column name, or column number after removing
 spatial coordinates from x@data: 1 refers to the first non-coordinate

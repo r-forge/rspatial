@@ -33,7 +33,7 @@ df = as.data.frame(df)
 names(df) = paste("band", 1:d[3], sep="")
 Rlogo <- SpatialGridDataFrame(grid = grid, data = df)
 summary(Rlogo)
-gridplot(Rlogo, zcol=1:3, names.attr=c("red","green","blue"), 
+spplot(Rlogo, zcol=1:3, names.attr=c("red","green","blue"), 
 	col.regions=grey(0:100/100),
 	main="example of three-layer (RGB) raster image", as.table=TRUE)
 }

@@ -18,7 +18,6 @@
 }
 
 stack.SpatialPointsDataFrame = function (x, select, ...)
-# inspired heavily on stack.data.frame...
 {
 	xd = x@data
    	cc = coordinates(x)

@@ -229,11 +229,11 @@ df2[["z2"]][10] = 20
 df2[["z3"]] = 1:10
 summary(df2)
 @
-Plotting attribute data can be done by using either {\tt cplot} to
+Plotting attribute data can be done by using either {\tt spplot} to
 colour symbols, or {\tt bubble} which uses symbol size:
 <<eval=FALSE,echo=TRUE,print=FALSE>>=
 bubble(df2, "z1", key.space = "bottom")
-cplot(df2, "z1", key.space = "bottom")
+spplot(df2, "z1", key.space = "bottom")
 @
 the resulting plots are shown in figure \ref{fig:spdf}.
 
@@ -241,11 +241,11 @@ the resulting plots are shown in figure \ref{fig:spdf}.
 \begin{center}
 <<echo=FALSE,print=FALSE,fig=TRUE>>= 
 print(bubble(df2, "z1", key.space = "bottom"), split = c(1,1,2,1), more=TRUE)
-print(cplot(df2, "z1", key.space = "bottom"), split =  c(2,1,2,1), more=FALSE)
+print(spplot(df2, "z1", key.space = "bottom"), split =  c(2,1,2,1), more=FALSE)
 @
 \end{center}
 \caption{plot of {\tt SpatialPointsDataFrame} object, using symbol 
-size ({\tt bubble}, top) or colour ({\tt cplot}, bottom) }
+size ({\tt bubble}, top) or colour ({\tt spplot}, bottom) }
 \label{fig:spdf}
 \end{figure}
 
@@ -318,7 +318,7 @@ fullgrid(grd.attr)
 The advantage of having grids in cell form is that when a large part
 of the grid contains missing values, these cells do not have to be
 stored; also, no ordering of grid cells is required. For plotting by
-{\tt gridplot}, a front-end to {\tt levelplot}, this form is required; in
+{\tt spplot}, a front-end to {\tt levelplot}, this form is required; in
 contrast, {\tt image} requires a slightly altered version of the the full
 grid form.  A disadvantage of the cell form is that the coordinates for
 each point have to be stored, which may be prohibitive for large grids.
@@ -338,7 +338,7 @@ x-coordinate; column index 1 is the larges y-coordinate (top-to-bottom).
 \item {\tt as} coercion methods for {\tt data.frame}, {\tt SpatialPointsDataFrame}
 \item{\tt image} plot an image of the grid
 \end{itemize}
-Finally, {\tt gridplot}, a front-end to {\tt levelplot} allows the
+Finally, {\tt spplot}, a front-end to {\tt levelplot} allows the
 plotting of a single grid plot or a lattice of grid plots.
 
 \section{Lines}
@@ -402,19 +402,19 @@ plotSpatialRings(SR)
 \subsection{Reading grids through rgdal}
 <<fig=TRUE>>=
 library(rgdal)
-x <- read.gdal(system.file("external/test.ag", package="sp")[1])
+x = read.gdal(system.file("external/test.ag", package="sp")[1])
 class(x)
 #x=x[x[["band1"]] < 1e30, ] 
 print(summary(x))
 image(x)
 y = read.gdal(system.file("pictures/Rlogo.jpg", package = "rgdal")[1])
 summary(y)
-gridplot(y, zcol=1:3, names.attr=c("red","green","blue"), col.regions=grey(0:100/100),
+spplot(y, zcol=1:3, names.attr=c("red","green","blue"), col.regions=grey(0:100/100),
     main="example of three-layer (RGB) raster image", as.table=TRUE)
 @
 
 <<echo=FALSE,fig=TRUE>>=
-print(gridplot(y, zcol=1:3, names.attr=c("red","green","blue"), col.regions=grey(0:100/100),
+print(spplot(y, zcol=1:3, names.attr=c("red","green","blue"), col.regions=grey(0:100/100),
     main="example of three-layer (RGB) raster image", as.table=TRUE))
 @
 

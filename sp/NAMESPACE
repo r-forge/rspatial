@@ -5,7 +5,7 @@ importFrom(grid, grid.polygon)
 
 export(CRS, print.CRS, proj4string, "proj4string<-", is.projected)
 
-export(bbox, getGridIndex, points2grid, bpy.colors, bubble, gridplot, ringplot, 
+export(bbox, getGridIndex, points2grid, bpy.colors, bubble,
 	mapasp, point.in.polygon, map.to.lev, zerodist, remove.duplicates)
 
 export(coordinates, "coordinates<-", coordinatevalues)
@@ -85,6 +85,9 @@ S3method("[[<-", SpatialGridDataFrame)
 
 S3method("[[", SpatialRingsDataFrame)
 S3method("[[<-", SpatialRingsDataFrame)
+
+S3method("[[", SpatialLinesDataFrame)
+S3method("[[<-", SpatialLinesDataFrame)
 
 S3method(as.matrix, SpatialGridDataFrame)
 

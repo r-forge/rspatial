@@ -59,7 +59,7 @@ Class \code{"Spatial"}, by class \code{"SpatialGrid"}.
 \examples{
 data(meuse.grid) # only the non-missing valued cells
 coordinates(meuse.grid) = c("x", "y") # promote to SpatialPointsDataFrame
-gridded(meuse.grid) <- TRUE # promote to SpatialCellDataFrame
+gridded(meuse.grid) <- TRUE # promote to SpatialGridDataFrame
 x = as(meuse.grid, "SpatialGridDataFrame") # creates the full grid
 x[["idist"]] = 1 - x[["dist"]] # assigns new attribute
 image(x["idist"]) # note the single [

@@ -2,6 +2,7 @@
 \docType{class}
 \alias{SpatialLines-class}
 % \alias{coordinates,SpatialLines-method}
+\alias{[,SpatialLines-method}
 
 \title{Class "SpatialLines" ~~~ }
 \description{  ~~ A concise (1-5 lines) description of what the class is.  ~~}
