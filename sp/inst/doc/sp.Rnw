@@ -82,11 +82,12 @@ grid      & {\tt SpatialGrid  }          & No          &{\tt SpatialPoints}* \\
 grid      & {\tt SpatialGridDataFrame}   & Yes         &{\tt SpatialGrid}* \\
           &                              &             &{\tt SpatialPointsDataFrame}** \\
 line      & {\tt SLine}                  & No          &{\tt Spatial}* \\
-lines     & {\tt SpatialLines}           & No          &{\tt Spatial}*, {\tt SLine} \\
+lines     & {\tt SLines}                 & No          &{\tt Spatial}*, {\tt Sline} list \\
+lines     & {\tt SpatialLines}           & No          &{\tt Spatial}*, {\tt SLines} list \\
 lines     & {\tt SpatialLinesDataFrame}  & Yes         &{\tt SpatialLines}* \\
 rings     & {\tt Sring}                  & No          &{\tt SLine}* \\
-rings     & {\tt Srings}                 & No          &{\tt Spatial}*, {\tt Sring} \\
-rings     & {\tt SpatialRings}           & No          &{\tt Spatial}*, {\tt Srings} \\
+rings     & {\tt Srings}                 & No          &{\tt Spatial}*, {\tt Sring} list \\
+rings     & {\tt SpatialRings}           & No          &{\tt Spatial}*, {\tt Srings} list \\
 rings     & {\tt SpatialRingsDataFrame}  & Yes         &{\tt SpatialRings}* \\
 \end{tabular}
 \end{center}
