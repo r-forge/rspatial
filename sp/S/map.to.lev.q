@@ -85,6 +85,33 @@ function (data, zcol, names.attr, col.regions = bpy.colors(), ...)
 #ifdef R
 		require(grid)
 #endif
+		"panel.lplot" <-
+		function (x, y, z, zcol, subscripts, at = mean(z), shrink, labels = NULL, 
+			label.style = c("mixed", "flat", "align"), contour = TRUE, 
+			region = TRUE, col = add.line$col, lty = add.line$lty, lwd = add.line$lwd, 
+			cex = add.text$cex, font = add.text$font, fontfamily = 
+			add.text$fontfamily, fontface = add.text$fontface, col.text = add.text$col,
+			..., col.regions, grid.polygons) 
+		{
+			label.style <- match.arg(label.style)
+			x <- as.numeric(x[subscripts])
+			y <- as.numeric(y[subscripts])
+			z <- as.numeric(z[subscripts])
+			zcol <- as.numeric(zcol[subscripts])
+			plotPol = function(x, idx) {
+				from = x@pStart.from
+				to = x@pStart.to
+				coords = na.omit(x@coords)
+				nparts = x@nParts
+				id.lengths = (to - 0:(nparts-1)) - (from - 1:nparts)
+				grid.polygon(coords[,1], coords[,2], id.lengths=id.lengths,
+					default.units = "native", 
+					gp = gpar(fill = col.regions[zcol[idx]], col = NULL))
+			}
+			if (any(subscripts))
+				for (i in 1:length(grid.polygons@polygons))
+					plotPol(grid.polygons@polygons[[i]], i)
+		}
 		levelplot(formula, as.data.frame(data), asp = mapasp(data), 
 			col.regions = col.regions, grid.polygons = pol, 
 			panel = panel.lplot, xlim = bbox(data)[1,], 
@@ -92,32 +119,4 @@ function (data, zcol, names.attr, col.regions = bpy.colors(), ...)
 	} else 
 		levelplot(formula, as.data.frame(data), asp = mapasp(data), 
 			col.regions = col.regions, ...)
-}
-
-"panel.lplot" <-
-function (x, y, z, zcol, subscripts, at = mean(z), shrink, labels = NULL, 
-	label.style = c("mixed", "flat", "align"), contour = TRUE, 
-	region = TRUE, col = add.line$col, lty = add.line$lty, lwd = add.line$lwd, 
-	cex = add.text$cex, font = add.text$font, fontfamily = add.text$fontfamily, 
-	fontface = add.text$fontface, col.text = add.text$col, ..., 
-	col.regions, grid.polygons) 
-{
-	label.style <- match.arg(label.style)
-	x <- as.numeric(x[subscripts])
-	y <- as.numeric(y[subscripts])
-	z <- as.numeric(z[subscripts])
-	zcol <- as.numeric(zcol[subscripts])
-	plotPol = function(x, idx) {
-		from = x@pStart.from
-		to = x@pStart.to
-		coords = na.omit(x@coords)
-		nparts = x@nParts
-		id.lengths = (to - 0:(nparts-1)) - (from - 1:nparts)
-		grid.polygon(coords[,1], coords[,2], id.lengths=id.lengths,
-			default.units = "native", 
-			gp = gpar(fill = col.regions[zcol[idx]], col = NULL))
-	}
-	if (any(subscripts))
-		for (i in 1:length(grid.polygons@polygons))
-			plotPol(grid.polygons@polygons[[i]], i)
 }
