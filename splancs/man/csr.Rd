@@ -35,6 +35,7 @@ Uses \code{runif()} to generate random numbers and so updates \code{.Random.seed
 the standard S random number generator seed.
 }
 \examples{
+data(cardiff)
 emp.Ghat <- Ghat(as.points(cardiff), seq(0,30,1))
 av.Ghat <- numeric(length(emp.Ghat))
 U.Ghat <- numeric(length(emp.Ghat))
