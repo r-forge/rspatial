@@ -71,10 +71,10 @@ setClass("SpatialDataPolygons",
 			return("number of rows in data should equal number of polygons")
 		valid = as.logical(sapply(object@polygons, verifyPolygon))
 		if (any(!valid))
-			return(paste("polygon(s)", paste(which(!valid), collapse = " "), 
-				"are not valid"))
-		# maybe perform more checks here?
-		# check for holes?
+			return(paste("invalid polygon(s):", paste(which(!valid), 
+				collapse = " ")))
+		# perform more checks here?
+		# check for holes, islands or all kinds of trouble?
 		return(TRUE)
 	}
 )
