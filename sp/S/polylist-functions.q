@@ -424,7 +424,7 @@ plot.Polylist4 <- function(x, col, border = NULL, add=FALSE, xlim=NULL,
 	pO <- try(P4@plotOrder)
 	if (inherits(pO, "try-error")) pO <- 1:nParts
 	
-	for (i in P4@plotOrder) {
+	for (i in pO) {
 		if (hatch) {
 			if (P4@ringDir[i] == 1)
 				.polygon(coords[pFrom[i]:pTo[i],], 
