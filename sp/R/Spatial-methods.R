@@ -4,11 +4,6 @@ if (!isGeneric("bbox"))
 if (!isGeneric("coordinates"))
 	setGeneric("coordinates", function(obj)
 		standardGeneric("coordinates"))
-
-#if (!isGeneric("arcs")) 
-#	setGeneric("arcs", function(obj)
-#		standardGeneric("arcs"))
-
 if (!isGeneric("rings"))
 	setGeneric("rings", function(obj)
 		standardGeneric("rings"))
@@ -27,6 +22,9 @@ if (!isGeneric("overlay"))
 if (!isGeneric("spplot"))
 	setGeneric("spplot", function(obj, ...)
 		standardGeneric("spplot"))
+if (!isGeneric("spsample"))
+	setGeneric("spsample", function(x, n, type, ...)
+		standardGeneric("spsample"))
 
 setMethod("bbox", "Spatial", function(obj) obj@bbox)
 

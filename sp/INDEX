@@ -73,6 +73,10 @@ sp                      A package providing classes and methods for
                         spatial data: points, lines, polygons and
                         grids
 spplot                  Lattice (trellis) plots for spatial data
+spplot-methods          Methods for Function spplot in Package 'sp'
+spsample                sample point locations within a spatial region
+spsample-methods        sampling point locations in (or on) a spatial
+                        object
 transform-methods       place holder for transform methods in library
                         spproj
 zerodist                find point pairs with equal spatial

@@ -42,11 +42,11 @@ sp.text = function(loc, txt, ...) {
 	panel.text(loc[1], loc[2], txt, ...)
 }
 
-sp.points = function(obj, ...) {
+sp.points = function(obj, pch = 3, ...) {
 	if (is.character(obj))
 		obj = get(obj)
 	xy = coordinates(obj)
-	panel.points(xy[,1], xy[,2], ...)
+	panel.points(xy[,1], xy[,2], pch = pch, ...)
 }
 
 sp.panel.layout = function(lst, panel.counter, ...) {
