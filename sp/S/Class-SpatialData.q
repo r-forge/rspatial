@@ -9,8 +9,8 @@
 setClass("SpatialData", 
 	representation(bbox = "matrix",
 		proj4string = "CRS"),
-	prototype = list(bbox = matrix(rep(NA, 6), 3, 2),
-		proj4string = CRS(as.character(NA))),
+#	prototype = list(bbox = matrix(rep(NA, 6), 3, 2),
+#		proj4string = CRS(as.character(NA))),
 	validity = function(object) {
 		n = spatial.dimension(object)
 		if (n > 3 || n < 2)

@@ -13,18 +13,18 @@ formula(x)
 is.projected(x)
 proj4string(x)
 
-x = meuse[, sample(NCOL(meuse))] # randomly shuffle columns
+x = meuse[, sample(ncol(meuse))] # randomly shuffle columns
 # coordinates defined as variable names:
 coordinates(x) = c("x", "y") # no matter their position
-plot(x, cex=.05*sqrt(x@data[,"zinc"]),xlab="x-coordinate", 
+plot(x, cex=.05 * sqrt(x@data[,"zinc"]),xlab="x-coordinate", 
  ylab="y-coordinate", main = "Meuse: zinc bubble plot")
-summary(meuse)
+summary(x)
 
 # coordinates defined as formula:
 x = meuse[, 1:5]
-coordinates(meuse) = ~x+y
-formula(meuse)
-summary(meuse)
+coordinates(x) = ~x+y
+formula(x)
+summary(x)
 
 a = NULL
 cc = cbind(sample(1:10), sample(1:10), sample(1:10))

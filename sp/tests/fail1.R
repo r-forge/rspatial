@@ -18,3 +18,13 @@ x$x2 = x$x^2
 x$y2 = x$y^2
 try(coordinates(x) <- ~x+y+x2+y2) # 4D not allowed
 try(coordinates(x) <- ~x) # 1D not allowed
+# is.na.sp.coords
+a = data.frame(cbind(xx=c(1,NA,2,10),yy=c(2,NA,NA,20)))
+try(coordinates(a) <- c("xx", "yy")) # should fail!
+
+x = meuse[1:4,]
+x = SpatialDataFrame(x, coord.columns = c(1,2))
+# this should fail -- zinc is not a row:
+try(q <- x["zinc",])
+# this will issue a warning under S-Plus, or a silent rename under R
+try(x[c("zinc", "x", "copper", "zinc")])

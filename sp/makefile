@@ -16,7 +16,17 @@ S-Plus:
 	./scripts/toSplus $(Sdir) $(Sdest)
 	./scripts/preproc.pl -v SP5 $(Sdir)/src/pip.c > $(Sdest)/pip.c
 	(cd $(Sdest); $(SEXEC) CHAPTER)
+	rm -f $(Sdest)/.Data/.Audit
 	(cd $(Sdest); $(SEXEC) make)
+	make S-test
+
+S-test:
+	echo "options(echo=T)" > $(Sdest)/tests.pass
+	tail -q -n +3 tests/[^f]*.R >> $(Sdest)/tests.pass
+	echo "options(echo=T)" > $(Sdest)/tests.fail
+	tail -q -n +3 tests/f*.R >> $(Sdest)/tests.fail
+	(cd $(Sdest); $(SEXEC) < tests.fail > tests.fail.out 2>&1 )
+	(cd $(Sdest); $(SEXEC) < tests.pass > tests.pass.out 2>&1 )
 
 clean:;
 
