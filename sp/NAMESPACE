@@ -1,0 +1,69 @@
+useDynLib(sp)
+
+export(CRS, print.CRS, proj4string, "proj4string<-", is.projected)
+
+export(bbox, getgridindex, points2grid, bpy.colors, bubble, cplot, lplot, 
+	mapasp, point.in.polygon, map.to.lev, zerodist, remove.duplicates)
+
+export(coordinates, "coordinates<-", coordinates.SPDF)
+
+export(SpatialCell, SpatialPoints, SpatialPointsDataFrame, SpatialCellDataFrame)
+
+export(as.data.frame.SpatialCellDataFrame, as.data.frame.SpatialCellDataFrame, 
+	as.data.frame.SpatialPointsDataFrame, as.data.frame.SpatialPoints)
+
+export(gridparameters, "gridded<-", griddedfn, gridded)
+
+export(plot.SpatialCell, plot.SpatialPoints, plot.SpatialCellDataFrame, 
+	plot.SpatialPointsDataFrame, plot.Spatial, plot.SpatialRings)
+
+export(as.SpatialRings.Shapelist, as.SpatialRings.matrixList, 
+	as.Ring4.matrix, SpatialRings)
+
+export(summary.Spatial, print.summary.Spatial, summary.SpatialGridded, 
+	print.summary.SpatialGridded, summary.SpatialCell, 
+	print.summary.SpatialCell, summary.SpatialCellDataFrame, 
+	print.summary.SpatialCellDataFrame, print.SpatialPointsDataFrame, 
+	dim.SpatialPointsDataFrame, ShowSpatialPointsDataFrame, 
+	summary.SpatialPointsDataFrame, print.summary.SpatialPointsDataFrame, 
+	print.SpatialPoints)
+
+export(image.SpatialCellDataFrame, as.image.SpatialCellDataFrame, 
+	select.spatial, stack.SpatialPointsDataFrame, 
+	stack.SpatialCellDataFrame)
+
+exportClasses(CRS, Spatial, SpatialGridded, SpatialCell, 
+	SpatialCellDataFrame, SLine, SLines, SpatialLines, 
+	SpatialPointsDataFrame, SpatialPoints, Ring4, SpatialRings, 
+	SpatialRingsDataFrame)
+
+exportMethods(show, bbox, coordinates, arcs, rings, gridded, dimensions, 
+	"[", coerce)
+
+S3method(as.data.frame, SpatialCellDataFrame)
+S3method(as.data.frame, SpatialPoints)
+S3method(as.data.frame, SpatialPointsDataFrame)
+S3method(dim, SpatialPointsDataFrame)
+S3method(image, SpatialCellDataFrame)
+S3method(plot, Spatial)
+S3method(plot, SpatialCell)
+S3method(plot, SpatialCellDataFrame)
+S3method(plot, SpatialPoints)
+S3method(plot, SpatialPointsDataFrame)
+S3method(plot, SpatialRings)
+S3method(print, CRS)
+S3method(print, SpatialPoints)
+S3method(print, SpatialPointsDataFrame)
+S3method(print, summary.Spatial)
+S3method(print, summary.SpatialCell)
+S3method(print, summary.SpatialCellDataFrame)
+S3method(print, summary.SpatialGridded)
+S3method(print, summary.SpatialPointsDataFrame)
+S3method(stack, SpatialCellDataFrame)
+S3method(stack, SpatialPointsDataFrame)
+S3method(summary, Spatial)
+S3method(summary, SpatialCell)
+S3method(summary, SpatialGridded)
+S3method(summary, SpatialCellDataFrame)
+S3method(summary, SpatialPointsDataFrame)
+
