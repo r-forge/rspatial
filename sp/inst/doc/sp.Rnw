@@ -1,3 +1,11 @@
+% dimensions(x) returns number of spatial dimensions
+% y = transform(x, "proj4string")
+% bbox(x)
+% coordinates(x) ; <-
+% rings(x) ; <-
+% method to retrieve lines? --> Lines()?
+% gridded(x)  ; <-
+% 
 \documentclass{article}
 % \VignetteIndexEntry{sp: classes and methods for spatial data}
 
