@@ -6,6 +6,7 @@ function (data, zcol = 1:n, n = 2, names.attr)
 
 	if (spatial.dimension(data) == 3)
 		stop("map.to.lev only works for 2D data")
+	coord.names = data@coord.names
 
 	data = stack(data, zcol)
 	if (!missing(names.attr)) {
@@ -15,12 +16,12 @@ function (data, zcol = 1:n, n = 2, names.attr)
 	}
 
     d = data.frame(data)
-    names(d) = c("x", "y", "z", "name")
+    names(d) = c(coord.names, "z", "name")
     d
 }
 
 stack.SpatialDataFrameGrid = function (x, select, ...) {
-	sdf = stack.SpatialDataFrame(as(x, "SpatialDataFrame"), select, ...)
+	sdf = stack(as(x, "SpatialDataFrame"), select, ...)
 	x@data = sdf@data
 	x
 }
@@ -46,6 +47,7 @@ stack.SpatialDataFrame = function (x, select, ...)
 		ccr = data.frame(ccr, rep(cc[,3], ncol(xd)))
 	names(ccr) = x@coord.names
 	x@data = data.frame(ccr, values = unlist(unname(xd)),
-		ind = factor(rep(names(xd), lapply(xd, length))))
+		ind = factor(rep(names(xd), lapply(xd, length)), 
+			levels = names(xd)))
 	x
 }

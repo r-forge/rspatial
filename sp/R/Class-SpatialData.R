@@ -363,7 +363,6 @@ plot.SpatialDataFrame = function(x, xlab = x@coord.names[1],
 		ylab = x@coord.names[2], asp = 1, ...) {
 	df = x@data
 	col = x@coord.columns
-	nam = x@coord.names
 	plot(df[, col[1]], df[, col[2]], asp = asp, xlab = xlab, ylab = ylab, ...)
 }
 
