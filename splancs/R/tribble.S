@@ -59,8 +59,16 @@ tribble <- function(ccflag,vars=NULL,alphas=NULL,betas=NULL,rho
 		
 	}
 
-	allvars <- ifelse(ncovars != 0, cbind(vars,covars),
-             matrix(vars, ncol=ndvars, nrow=npt))
+#	allvars <- ifelse(ncovars != 0, cbind(vars,covars),
+#             matrix(vars, ncol=ndvars, nrow=npt))
+# fixing that ifelse thing gives an R tribble function that
+# reproduces exactly the Splus output. (B.Rowlingson@lancaster.ac.uk
+# 13 Feb 2002)
+        if (ncovars != 0){
+          allvars <- cbind(vars, covars)
+        }else{
+          allvars <- matrix(vars, ncol=ndvars, nrow=npt)
+        }
 
 	nallpars <- ndvars*2+ncovars + 1
 	
