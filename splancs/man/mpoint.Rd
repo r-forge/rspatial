@@ -1,17 +1,6 @@
 % Copyright Barry Rowlingson  and 
 % Peter Diggle (c) 1991-3; http://www.maths.lancs.ac.uk/~rowlings/Splancs/
 % R port: copyright 1998-2000 by Roger S. Bivand
-%
-%  This program is free software; you can redistribute it and/or modify
-%  it under the terms of the GNU General Public License as published by
-%  the Free Software Foundation; either version 2 of the License, or
-%  (at your option) any later version.
-%
-%  This program is distributed in the hope that it will be useful,
-%  but WITHOUT ANY WARRANTY; without even the implied warranty of
-%  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-%  GNU General Public License for more details.
-%
 
 \name{mpoint}
 \alias{mpoint}
@@ -22,7 +11,7 @@ Overlay a number of point patterns
 Overlay a number of point patterns.
 }
 \usage{
-mpoint(\dots,cpch,add=F,type="p")
+mpoint(\dots,cpch,add=FALSE,type="p")
 }
 \arguments{
 \item{...}{
@@ -39,7 +28,7 @@ plot data as points if \code{type="p"}, lines if \code{type="l"}
 
 
 }}
-\section{Side Effects}{
+\details{
 \code{mpoint} enables several point or polygon datasets to be overlayed. The plot
 region is calculated so that all the specified datasets fit in the region.
 The parameter \code{cpch} specifies the characters to use for each set of points. The

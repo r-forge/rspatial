@@ -1,15 +1,5 @@
 % Copyright Giovanni Petris and Roger S. Bivand 2001
-%
-%  This program is free software; you can redistribute it and/or modify
-%  it under the terms of the GNU General Public License as published by
-%  the Free Software Foundation; either version 2 of the License, or
-%  (at your option) any later version.
-%
-%  This program is distributed in the hope that it will be useful,
-%  but WITHOUT ANY WARRANTY; without even the implied warranty of
-%  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-%  GNU General Public License for more details.
-%
+
 \name{pcp}
 \alias{pcp}
 \title{Fit a Poisson cluster process}
@@ -44,7 +34,7 @@ Longman, pp. 106-109.}
 \examples{
 data(cardiff)
 polymap(cardiff$poly)
-pointmap(as.points(cardiff), add=T)
+pointmap(as.points(cardiff), add=TRUE)
 title("Locations of homes of 168 juvenile offenders")
 pcp.fit <- pcp(as.points(cardiff), cardiff$poly, h0=30, n.int=30)
 pcp.fit

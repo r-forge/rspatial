@@ -1,17 +1,6 @@
 % Copyright Barry Rowlingson  and 
 % Peter Diggle (c) 1991-3; http://www.maths.lancs.ac.uk/~rowlings/Splancs/
 % R port: copyright 1998-2000 by Roger S. Bivand
-%
-%  This program is free software; you can redistribute it and/or modify
-%  it under the terms of the GNU General Public License as published by
-%  the Free Software Foundation; either version 2 of the License, or
-%  (at your option) any later version.
-%
-%  This program is distributed in the hope that it will be useful,
-%  but WITHOUT ANY WARRANTY; without even the implied warranty of
-%  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-%  GNU General Public License for more details.
-%
 
 \name{pip}
 \alias{pip}
@@ -22,7 +11,7 @@ Points inside or outside a polygon
 Return points inside or outside a polygon.
 }
 \usage{
-pip(pts,poly,out=F,bound=NULL,quiet=TRUE)
+pip(pts,poly,out=FALSE,bound=NULL,quiet=TRUE)
 }
 \arguments{
 \item{pts}{
@@ -32,14 +21,14 @@ A points data set
 A polygon data set
 }
 \item{out}{
-If \code{out=T}, return the points outside the polygon, else the points inside.
+If \code{out=TRUE}, return the points outside the polygon, else the points inside.
 }
 \item{bound}{If points fall exactly on polygon boundaries, the default NULL gives arbitrary assignments. If TRUE, then all points "on" boundaries are set as within the polygon, if FALSE, outside.}
 \item{quiet}{Do not report which points are on boundary for non-NULL bound}
 }
 \value{
 \code{pip} returns the points of \code{pts} that lie inside (or outside with
-\code{out=T})
+\code{out=TRUE})
 the polygon \code{poly}. Compare this with \code{inpip}, which returns
 the indices of
 the points in the polygon, and \code{inout} which returns a logical vector
@@ -47,7 +36,7 @@ indicating whether points are inside or outside.
 
 
 }
-\section{METHOD}{
+\details{
 \code{pip} calls \code{inout}, then selects the appropriate sub-set of points.
 }
 \seealso{

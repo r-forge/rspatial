@@ -1,17 +1,6 @@
 # Copyright Barry Rowlingson <b.rowlingson@lancaster.ac.uk> and 
 # Peter Diggle (c) 1991-3; http://www.maths.lancs.ac.uk/~rowlings/Splancs/
 # R port: copyright 1998-2000 by Roger S. Bivand
-#
-#  This program is free software; you can redistribute it and/or modify
-#  it under the terms of the GNU General Public License as published by
-#  the Free Software Foundation; either version 2 of the License, or
-#  (at your option) any later version.
-#
-#  This program is distributed in the hope that it will be useful,
-#  but WITHOUT ANY WARRANTY; without even the implied warranty of
-#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#  GNU General Public License for more details.
-#
 
 "kerview"<-
 function(pts,times, k3, map = T,addimg=T,ncol=1)
@@ -21,7 +10,7 @@ function(pts,times, k3, map = T,addimg=T,ncol=1)
 	old.par <- par()
 	im.dev <- dev.cur()
 	par(mfrow=c(ncol,ncol))
-	if(ncol!=1)addimg <- F
+	if(ncol!=1)addimg <- FALSE
 	brks <- quantile(k3$v, seq(0,1,0.05))
 	cols <- heat.colors(length(brks)-1)
 	image(k3$xgr, k3$ygr, k3$v[,  , 1], breaks=brks, col=cols, asp=1)

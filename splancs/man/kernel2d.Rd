@@ -1,17 +1,6 @@
 % Copyright Barry Rowlingson  and 
 % Peter Diggle (c) 1991-3; http://www.maths.lancs.ac.uk/~rowlings/Splancs/
 % R port: copyright 1998-2000 by Roger S. Bivand
-%
-%  This program is free software; you can redistribute it and/or modify
-%  it under the terms of the GNU General Public License as published by
-%  the Free Software Foundation; either version 2 of the License, or
-%  (at your option) any later version.
-%
-%  This program is distributed in the hope that it will be useful,
-%  but WITHOUT ANY WARRANTY; without even the implied warranty of
-%  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-%  GNU General Public License for more details.
-%
 
 \name{kernel2d}
 \alias{kernel2d}
@@ -51,7 +40,7 @@ A list with the following components:
 the kernel function.}
 \item{h0, kernel}{containing the values input to \code{kernel2d}}
 }
-\section{METHOD}{
+\details{
 The kernel estimate, with a correction for edge effects, is computed for
 a grid of points that span the
 input polygon. The kernel function for points in the grid that are outside the polygon are returned
@@ -64,9 +53,9 @@ for display and superposition onto other plots.
 data(bodmin)
 plot(bodmin$poly, asp=1, type="n")
 image(kernel2d(as.points(bodmin), bodmin$poly, h0=2, nx=100, ny=100), 
-add=T, col=terrain.colors(20))
-pointmap(as.points(bodmin), add=T)
-polymap(bodmin$poly, add=T)
+add=TRUE, col=terrain.colors(20))
+pointmap(as.points(bodmin), add=TRUE)
+polymap(bodmin$poly, add=TRUE)
 }
 
 \references{

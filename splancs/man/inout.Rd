@@ -1,17 +1,6 @@
 % Copyright Barry Rowlingson  and 
 % Peter Diggle (c) 1991-3; http://www.maths.lancs.ac.uk/~rowlings/Splancs/
 % R port: copyright 1998-2001 by Roger S. Bivand
-%
-%  This program is free software; you can redistribute it and/or modify
-%  it under the terms of the GNU General Public License as published by
-%  the Free Software Foundation; either version 2 of the License, or
-%  (at your option) any later version.
-%
-%  This program is distributed in the hope that it will be useful,
-%  but WITHOUT ANY WARRANTY; without even the implied warranty of
-%  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-%  GNU General Public License for more details.
-%
 
 \name{inout}
 \alias{inout}
@@ -35,8 +24,8 @@ A polygon data set
 \item{quiet}{Do not report which points are on boundary for non-NULL bound}
 }
 \value{
-A vector of logical values. \code{True} means the point was inside the
-polygon, \code{False} means the point was outside. Note that "inside" is an arbitrary concept for points "on" the polygon boundary.
+A vector of logical values. \code{TRUE} means the point was inside the
+polygon, \code{FALSE} means the point was outside. Note that "inside" is an arbitrary concept for points "on" the polygon boundary.
 
 
 
@@ -59,29 +48,29 @@ data(uganda)
 suganda <- sbox(uganda$poly)
 ruganda <- csr(suganda, 1000)
 polymap(suganda)
-polymap(uganda$poly, add=T)
+polymap(uganda$poly, add=TRUE)
 def <- inout(ruganda, uganda$poly, bound=NULL)
-pointmap(as.points(ruganda[def,1], ruganda[def,2]), add=T, col="black")
-pointmap(as.points(ruganda[!def,1], ruganda[!def,2]), add=T, col="red")
-tru <- inout(ruganda, uganda$poly, bound=TRUE, quiet=F)
+pointmap(as.points(ruganda[def,1], ruganda[def,2]), add=TRUE, col="black")
+pointmap(as.points(ruganda[!def,1], ruganda[!def,2]), add=TRUE, col="red")
+tru <- inout(ruganda, uganda$poly, bound=TRUE, quiet=FALSE)
 which(tru & !def)
 ds1 <- as.points(expand.grid(x=seq(-1.5,1.5,0.5), y=seq(-1.5,1.5,0.5)))
 ds1.poly <- ds1[chull(ds1),]
 ds2 <- as.points(rnorm(300),rnorm(300))
 plot(ds2, type="n", asp=1)
-polymap(ds1.poly, add=T, border="lightblue", col="lightblue", lwd=1)
+polymap(ds1.poly, add=TRUE, border="lightblue", col="lightblue", lwd=1)
 points(ds2[inout(ds2,ds1.poly),],  col="green",  pch=20)
 points(ds2[!inout(ds2,ds1.poly),], col="orange", pch=20)
 points(ds1[inout(ds1,ds1.poly),],  col="black",  pch=20)
 points(ds1[!inout(ds1,ds1.poly),], col="red",    pch=20)
 plot(ds2, type="n", asp=1)
-polymap(ds1.poly, add=T, border="lightblue", col="lightblue", lwd=1)
+polymap(ds1.poly, add=TRUE, border="lightblue", col="lightblue", lwd=1)
 points(ds2[inout(ds2,ds1.poly,bound=TRUE),],  col="green",  pch=20)
 points(ds2[!inout(ds2,ds1.poly,bound=TRUE),], col="orange", pch=20)
 points(ds1[inout(ds1,ds1.poly,bound=TRUE),],  col="black",  pch=20)
 points(ds1[!inout(ds1,ds1.poly,bound=TRUE),], col="red",    pch=20)
 plot(ds2, type="n", asp=1)
-polymap(ds1.poly, add=T, border="lightblue", col="lightblue", lwd=1)
+polymap(ds1.poly, add=TRUE, border="lightblue", col="lightblue", lwd=1)
 points(ds2[inout(ds2,ds1.poly,bound=FALSE),],  col="green",  pch=20)
 points(ds2[!inout(ds2,ds1.poly,bound=FALSE),], col="orange", pch=20)
 points(ds1[inout(ds1,ds1.poly,bound=FALSE),],  col="black",  pch=20)

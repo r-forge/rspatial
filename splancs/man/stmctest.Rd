@@ -1,17 +1,6 @@
 % Copyright Barry Rowlingson  and 
 % Peter Diggle (c) 1991-3; http://www.maths.lancs.ac.uk/~rowlings/Splancs/
 % R port: copyright 1998-2000 by Roger S. Bivand
-%
-%  This program is free software; you can redistribute it and/or modify
-%  it under the terms of the GNU General Public License as published by
-%  the Free Software Foundation; either version 2 of the License, or
-%  (at your option) any later version.
-%
-%  This program is distributed in the hope that it will be useful,
-%  but WITHOUT ANY WARRANTY; without even the implied warranty of
-%  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-%  GNU General Public License for more details.
-%
 
 \name{stmctest}
 \alias{stmctest}
@@ -22,7 +11,7 @@ Monte-Carlo test of space-time clustering
 Perform a Monte-Carlo test of space-time clustering.
 }
 \usage{
-stmctest(pts, times, poly, tlimits, s, tt, nsim, quiet=F)
+stmctest(pts, times, poly, tlimits, s, tt, nsim, quiet=FALSE)
 }
 \arguments{
 \item{pts}{
@@ -47,7 +36,7 @@ A vector of times for the analysis.
 The number of simulations to do.
 }
 \item{quiet}{
-If \code{quiet=T} then no output is produced, otherwise the function
+If \code{quiet=TRUE} then no output is produced, otherwise the function
 prints the number of simulations completed so far, and also how the
 test statistic for the data ranks with the simulations.
 }}
@@ -77,7 +66,7 @@ using the R language. Journal of Geographical Systems, 2, 307-317.
 \examples{
 example(stkhat)
 bur1mc <- stmctest(burpts, burkitt$t, burbdy, c(400, 5800),
-  seq(1,40,2), seq(100, 1500, 100), nsim=49, quiet=T)
+  seq(1,40,2), seq(100, 1500, 100), nsim=49, quiet=TRUE)
 }
 % Converted by Sd2Rd version 0.3-3.
 \keyword{spatial}

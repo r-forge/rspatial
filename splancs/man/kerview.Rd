@@ -1,17 +1,6 @@
 % Copyright Barry Rowlingson  and 
 % Peter Diggle (c) 1991-3; http://www.maths.lancs.ac.uk/~rowlings/Splancs/
 % R port: copyright 1998-2000 by Roger S. Bivand
-%
-%  This program is free software; you can redistribute it and/or modify
-%  it under the terms of the GNU General Public License as published by
-%  the Free Software Foundation; either version 2 of the License, or
-%  (at your option) any later version.
-%
-%  This program is distributed in the hope that it will be useful,
-%  but WITHOUT ANY WARRANTY; without even the implied warranty of
-%  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-%  GNU General Public License for more details.
-%
 
 \name{kerview}
 \alias{kerview}
@@ -22,7 +11,7 @@ A linked-window system for browsing space-time data
 A linked-window system for browsing space-time data.
 }
 \usage{
-kerview(pts, times, k3, map=T, addimg=T, ncol=1)
+kerview(pts, times, k3, map=TRUE, addimg=TRUE, ncol=1)
 }
 \arguments{
 \item{pts}{

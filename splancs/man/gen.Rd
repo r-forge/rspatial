@@ -1,3 +1,7 @@
+% Copyright Barry Rowlingson  and 
+% Peter Diggle (c) 1991-3; http://www.maths.lancs.ac.uk/~rowlings/Splancs/
+% R port: copyright 1998-2000 by Roger S. Bivand
+
 \name{gen}
 \alias{gen}
 %- Also NEED an `\alias' for EACH other topic documented here.

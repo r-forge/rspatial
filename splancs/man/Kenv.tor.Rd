@@ -11,7 +11,7 @@ Envelope of K12hat from random toroidal shifts of two point patterns
 Compute envelope of K12hat from random toroidal shifts of two point patterns.
 }
 \usage{
-Kenv.tor(pts1,pts2,poly,nsim,s,quiet=F)
+Kenv.tor(pts1,pts2,poly,nsim,s,quiet=FALSE)
 }
 \arguments{
 \item{pts1}{
@@ -37,7 +37,7 @@ true, print no messages.
 A list with two components, called \code{$upper} and \code{$lower}. Each
 component is a vector like \code{s}.
 }
-\section{METHOD}{
+\details{
 The second point data set is randomly shifted using \code{rtor.shift}
 in the rectangle defined by \code{poly}. Then \code{k12hat} is called 
 to compute K12hat for the two patterns. 

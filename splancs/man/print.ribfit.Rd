@@ -1,17 +1,6 @@
 % Copyright Barry Rowlingson  and 
 % Peter Diggle (c) 1991-3; http://www.maths.lancs.ac.uk/~rowlings/Splancs/
 % R port: copyright 1998-2000 by Roger S. Bivand
-%
-%  This program is free software; you can redistribute it and/or modify
-%  it under the terms of the GNU General Public License as published by
-%  the Free Software Foundation; either version 2 of the License, or
-%  (at your option) any later version.
-%
-%  This program is distributed in the hope that it will be useful,
-%  but WITHOUT ANY WARRANTY; without even the implied warranty of
-%  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-%  GNU General Public License for more details.
-%
 
 \name{print.ribfit}
 \alias{print.ribfit}
@@ -30,11 +19,9 @@ An object returned from \code{tribble}
 }
 \item{...}{optional arguments to pass through to \code{print()}}
 }
-\section{Side Effects}{
+\details{
  The parameter estimates and log-likelihood for the raised incidence 
 model are displayed. The likelihood ratio, D = 2*(L-Lo), is also given.
-}
-\details{
  This function is called whenever \code{print} operates on an object
 with class \code{ribfit}.
 }

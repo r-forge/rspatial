@@ -1,17 +1,6 @@
 % Copyright Barry Rowlingson  and 
 % Peter Diggle (c) 1991-3; http://www.maths.lancs.ac.uk/~rowlings/Splancs/
 % R port: copyright 1998-2000 by Roger S. Bivand
-%
-%  This program is free software; you can redistribute it and/or modify
-%  it under the terms of the GNU General Public License as published by
-%  the Free Software Foundation; either version 2 of the License, or
-%  (at your option) any later version.
-%
-%  This program is distributed in the hope that it will be useful,
-%  but WITHOUT ANY WARRANTY; without even the implied warranty of
-%  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-%  GNU General Public License for more details.
-%
 
 \name{pointmap}
 \alias{pointmap}
@@ -22,14 +11,14 @@ Graphics
 Plots point and polygon data sets on the current graphics device.
 }
 \usage{
-pointmap(pts,add=F,axes=T,xlab="",ylab="",\dots)
+pointmap(pts,add=FALSE,axes=TRUE,xlab="",ylab="",\dots)
 }
 \arguments{
 \item{pts}{
 a points data set.
 }
 \item{add}{
-if false, start a new plot. If true, superimpose on current plot.
+if FALSE, start a new plot. If TRUE, superimpose on current plot.
 }
 \item{axes}{
 if true, display axes with labelling. If false, do not display any 
@@ -44,12 +33,10 @@ standard S \code{points} and \code{polygon} routines.
 
 
 }}
-\section{Side Effects}{
+\details{
 The specified data set is plotted on the current graphics device, either
 as points or polygons. For \code{polymap}, the last point in the data set
 is drawn connected to the first point.
-}
-\section{NOTES}{
 \code{pointmap} and \code{polymap} preserve
 the aspect ratio in the data by using the \code{asp=1} plot argument.
 Graphical parameters can also be supplied to these routines, and are passed 
@@ -63,8 +50,8 @@ character for points, \code{lty} to change the line type for polygons, and
 \examples{
 data(bodmin)
 plot(bodmin$poly, asp=1, type="n")
-pointmap(as.points(bodmin), add=T)
-polymap(bodmin$poly, add=T)
+pointmap(as.points(bodmin), add=TRUE)
+polymap(bodmin$poly, add=TRUE)
 }
 
 \references{

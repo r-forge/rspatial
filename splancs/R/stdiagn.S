@@ -1,19 +1,8 @@
 # Copyright Barry Rowlingson <b.rowlingson@lancaster.ac.uk> and 
 # Peter Diggle (c) 1991-3; http://www.maths.lancs.ac.uk/~rowlings/Splancs/
 # R port: copyright 1998-2000 by Roger S. Bivand
-#
-#  This program is free software; you can redistribute it and/or modify
-#  it under the terms of the GNU General Public License as published by
-#  the Free Software Foundation; either version 2 of the License, or
-#  (at your option) any later version.
-#
-#  This program is distributed in the hope that it will be useful,
-#  but WITHOUT ANY WARRANTY; without even the implied warranty of
-#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#  GNU General Public License for more details.
-#
 
-stdiagn <- function(pts,stkh,stse,stmc=0,Dzero=F)
+stdiagn <- function(pts,stkh,stse,stmc=0,Dzero=FALSE)
 {
 # set up the 2x2 layout
 oldpar <- par(mfrow=c(2,2))
@@ -50,7 +39,7 @@ if(length(stmc)>1){
  text(stmc[1],y.8,'Data Statistic')
  title('MC results')
 }else{
- plot(c(0,1),c(0,1),type='n',axes=F,xlab='',ylab='')
+ plot(c(0,1),c(0,1),type='n',axes=FALSE,xlab='',ylab='')
  ad <- par()$adj
  par(adj=.5)
  text(0.5,.5,'No MC available')

@@ -11,7 +11,7 @@ Envelope of K1hat-K2hat from random labelling of two point patterns
 Compute envelope of K1hat-K2hat from random labelling of two point patterns
 }
 \usage{
-Kenv.label(pts1,pts2,poly,nsim,s,quiet=F)
+Kenv.label(pts1,pts2,poly,nsim,s,quiet=FALSE)
 }
 \arguments{
 \item{pts1}{
@@ -30,8 +30,8 @@ Number of random labellings to do.
 Vector of distances at which to calculate the envelope.
 }
 \item{quiet}{
-If false, print a message after every simulation for progress monitoring. If
-true, print no messages.
+If FALSE, print a message after every simulation for progress monitoring. If
+TRUE, print no messages.
 }}
 \value{
 A list with two components, called \code{$upper} and \code{$lower}. Each
