@@ -43,5 +43,4 @@ cplot(meuse) # prints cadmium
 cplot(meuse, "zinc")
 cplot(meuse, "zinc", do.log = TRUE, main = "zinc; logarithmic scale breaks")
 }
-\keywords{
-}
+\keywords{dplot}
