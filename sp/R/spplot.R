@@ -43,7 +43,7 @@ sp.points = function(obj, ...) {
 	panel.points(xy[,1], xy[,2], ...)
 }
 
-sp.panel.layout = function(lst, ...) {
+sp.panel.layout = function(lst, panel.counter, ...) {
 	sp.panel0 = function(x, ...) {
 		if (inherits(x, "list")) {
 			n = length(x)
@@ -56,6 +56,10 @@ sp.panel.layout = function(lst, ...) {
 			sp.polygon(x, ...)
 		else stop(paste("cannot plot object of class", class(x)))
 	}
+	if (!is.null(lst$which) && lst$which != panel.counter)
+		return()
+	else
+		lst$which = NULL
 	if (is.null(lst))
 		return()
 	if (inherits(lst, "list")) {
@@ -68,9 +72,9 @@ sp.panel.layout = function(lst, ...) {
 }
 
 spplot <- function(obj, zcol, ..., names.attr, scales = list(draw = FALSE), 
-		col.regions = bpy.colors(), xlab = "", ylab = "", cuts,
-		sp.layout = NULL, aspect = mapasp(obj), plot.all = TRUE) {
-
+		xlab = "", ylab = "", aspect = mapasp(obj), pretty = TRUE,
+		sp.layout = NULL, plot.all = TRUE, identify = FALSE) {
+	dots = list(...)
 	cls.obj = class(obj)
 	if (!is(obj, "Spatial"))
 		stop("only objects deriving from class Spatial accepted")
@@ -121,31 +125,37 @@ spplot <- function(obj, zcol, ..., names.attr, scales = list(draw = FALSE),
 
 	if (is(obj, "SpatialRingsDataFrame"))
 		levelplot(formula, as(sdf, "data.frame"), aspect = aspect,
-			col.regions = col.regions, grid.polygons = as(obj, "SpatialRings"), 
+			grid.polygons = as(obj, "SpatialRings"), 
 			panel = panel.ringsplot, xlim = xr, ylim = yr, xlab = xlab, ylab =
-			ylab, scales = scales, sp.layout = sp.layout, ...)
+			ylab, scales = scales, pretty = pretty, sp.layout = sp.layout, ...)
 	else if (gridded(obj))
 		levelplot(formula, as(obj, "data.frame"), aspect = aspect,
-			col.regions = col.regions, panel = panel.gridplot, 
-			xlab = xlab, ylab =
-			ylab, scales = scales, sp.layout = sp.layout, ...)
+			panel = panel.gridplot, 
+			xlab = xlab, ylab = ylab, scales = scales, pretty = pretty,
+			sp.layout = sp.layout, ...)
 	else {
-		args.xyplot = list(formula = formula, data = as(sdf, "data.frame"), 
+		args.xyplot = append(list(formula = formula, data = as(sdf, "data.frame"), 
 			panel = panel.cplot, aspect = aspect, scales = scales, 
-			xlab = xlab, ylab = ylab, sp.layout = sp.layout, 
-			...)
+			xlab = xlab, ylab = ylab, sp.layout = sp.layout), dots)
 		z = as.vector(as.matrix(as(obj, "data.frame")[zcol]))
-		args.xyplot = fill.call.groups(args.xyplot, z = z, cuts = cuts, col.regions = col.regions, ...)
-		do.call("xyplot", args.xyplot)
+		args.xyplot = fill.call.groups(args.xyplot, z = z, ...)
+		plt = do.call("xyplot", args.xyplot)
+		if (!(is.logical(identify) && identify==FALSE) && interactive()) {
+			print(plt)
+			if (!(is.numeric(identify) && length(identify) == 2))
+				idenfity = c(1,1)
+			trellis.focus("panel", identify[1], identify[2])
+			labels = row.names(as(sdf, "data.frame"))
+			cat("left-mouse to identify points; right-mouse to end\n")
+			cc = coordinates(meuse)
+			x = cc[,1]
+			y = cc[,2]
+			ret = panel.identify(x, y, labels)
+			trellis.unfocus()
+			return(ret)
+		} else
+			plt
 	}
-#	if (identify && interactive()) {
-#		print(plt)
-#		trellis.focus("panel", 1, 1)
-#		cat("left-mouse to identify points; right-mouse to end\n")
-#		ret = panel.identify(x, y, labels)
-#		trellis.unfocus()
-#		return(ret)
-#	} 
 }
 
 spplot.key = function(sp.layout, row = 1, col = 1) {
@@ -158,9 +168,9 @@ spplot.key = function(sp.layout, row = 1, col = 1) {
 	}
 }
 
-panel.gridplot = function(x, y, z, subscripts, ..., sp.layout) {
+panel.gridplot = function(x, y, z, subscripts, ..., panel.counter, sp.layout) {
 	panel.levelplot(x, y, z, subscripts, ...)
-	sp.panel.layout(sp.layout)
+	sp.panel.layout(sp.layout, panel.counter)
 }
 
 panel.ringsplot =
@@ -170,7 +180,7 @@ function (x, y, z, subscripts, at = pretty(z), shrink, labels = NULL,
    		cex = add.text$cex, font = add.text$font, fontfamily = add.text$fontfamily, 
    		fontface = add.text$fontface, col.text = add.text$col, ..., 
    		col.regions = regions$col, alpha.regions = regions$alpha, 
-		grid.polygons, sp.layout) 
+		grid.polygons, sp.layout, panel.counter) 
 {
 	regions <- trellis.par.get("regions")
 	numcol <- length(at) - 1
@@ -202,16 +212,16 @@ function (x, y, z, subscripts, at = pretty(z), shrink, labels = NULL,
 			}
    		}
 	}
-	sp.panel.layout(sp.layout)
+	sp.panel.layout(sp.layout, panel.counter)
 }
 
-panel.cplot = function(x, y, subscripts, col, sp.layout, ...) {
+panel.cplot = function(x, y, subscripts, col, sp.layout, ..., panel.counter) {
 	panel.superpose(x, y, subscripts, col = col, ...)
-	sp.panel.layout(sp.layout)
+	sp.panel.layout(sp.layout, panel.counter)
 }
 
-fill.call.groups = function(lst, z, cuts, col.regions, legend = "", pch, cex = 1, fill = TRUE, 
-		do.log = FALSE, key.space = "bottom", ...) {
+fill.call.groups = function(lst, z, cuts, col.regions = trellis.par.get("regions")$col, 
+		legend = "", pch, cex = 1, fill = TRUE, do.log = FALSE, key.space = "bottom", ...) {
     if (missing(pch)) 
         lst$pch = ifelse(fill, 16, 1)
 	if (missing(cuts))
@@ -229,6 +239,8 @@ fill.call.groups = function(lst, z, cuts, col.regions, legend = "", pch, cex = 1
 		lst$col = col.regions[cols]
 	} else
 		lst$col = col.regions
+	if (!missing(cex))
+		lst$cex = cex
 	if (is.numeric(z)) {
     	if (length(cuts) == 1) {
 			if (do.log) {
@@ -250,7 +262,7 @@ fill.call.groups = function(lst, z, cuts, col.regions, legend = "", pch, cex = 1
 	if (is.character(key.space))
 		lst$key$space = key.space
 	else if (is.list(key.space))
-		lst$key = key.space
+		lst$key = append(lst$key, key.space)
 	else
 		warning("key.space argument ignored (not list or character)")
 	return(lst)
@@ -335,3 +347,12 @@ layout.scale.bar = function(height = 0.05) {
 			Srings(list(Sring(cbind(rev(x2),rev(y2)))), ID="right")))
 }
 # scale.bar = .scale.bar()
+
+sp.theme = function() list(
+	regions = list(col = bpy.colors(100))
+)
+
+sp.pagefn = function(n) {
+	pos = lattice:::lattice.getStatus("current.panel.positions")
+	spplot.key(sp.layout, pos[1], pos[2])
+}
