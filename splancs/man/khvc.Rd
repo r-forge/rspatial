@@ -41,10 +41,10 @@ A vector of distances at which the calculation is to be made.
 }}
 \value{
 A list with four components:
-\item \code{$varmat} The upper triangle of the covariance matrix.
-\item \code{$k11} The variance of Khat for the cases
-\item \code{$k22} The variance of Khat for the controls
-\item \code{$k12} The covariance of Khat for the cases and Khat for controls.
+\item{varmat}{The upper triangle of the covariance matrix.}
+\item{k11}{The variance of Khat for the cases}
+\item{k22}{The variance of Khat for the controls}
+\item{k12}{The covariance of Khat for the cases and Khat for controls.}
 }
 \section{Note}{
 Note that the diagonal of the covariance matrix is

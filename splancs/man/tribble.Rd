@@ -64,12 +64,12 @@ Iteration count for simplex algorithm
 }}
 \value{
 The return value is a list with many components, and class \code{ribfit}. 
-\item \code{$alphas} A vector of the alpha parameters at the maximum
-\item \code{$betas} A vector of the beta values at the maximum
-\item \code{$rho} The value of rho at the maximum
-\item \code{$logl} The maximised log-likelihood
-\item \code{$null.logl} The null log-likelihood
-\item \code{$call} The function call to \code{tribble}
+\item{alphas}{A vector of the alpha parameters at the maximum}
+\item{betas}{A vector of the beta values at the maximum}
+\item{rho}{The value of rho at the maximum}
+\item{logl}{The maximised log-likelihood}
+\item{null.logl}{The null log-likelihood}
+\item{call}{The function call to \code{tribble}}
 For further information see Diggle and Rowlingson (1993).
 }
 \seealso{

@@ -43,7 +43,7 @@ point in \code{pts1} is returned as a vector.
 \examples{
 data(uganda)
 boxplot(nndistF(as.points(uganda), as.points(csr(uganda$poly, length(uganda$x)))))
-library(stepfun)
+require(stepfun)
 plot(ecdf(nndistF(as.points(uganda), as.points(csr(uganda$poly, length(uganda$x))))),main="Fhat ecdf Uganda volcano data")
 }
 

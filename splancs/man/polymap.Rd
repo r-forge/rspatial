@@ -63,8 +63,7 @@ character for points, \code{lty} to change the line type for polygons, and
 }
 \examples{
 data(bodmin)
-require(MASS)
-eqscplot(bodmin$poly, type="n")
+plot(bodmin$poly, asp=1, type="n")
 pointmap(as.points(bodmin), add=T)
 polymap(bodmin$poly, add=T)
 }

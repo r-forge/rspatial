@@ -45,16 +45,16 @@ Type of kernel function to use. Currently only the quartic kernel is implemented
 }}
 \value{
 A list with the following components:
-\item \code{$x} List of x-coordinates at which the kernel function has been evaluated.
-\item \code{$y} List of y-coordinates at which the kernel function has been evaluated.
-\item \code{$z} A matrix of dimension \code{nx} by \code{ny} containing the ratio of the kernel functions.
-\item \code{$h} A vector of length 2 containing \code{h1} and \code{h2}
-\item \code{$kernel} a character string containing the kernel name.
+\item{x}{List of x-coordinates at which the kernel function has been evaluated.}
+\item{y}{List of y-coordinates at which the kernel function has been evaluated.}
+\item{z}{A matrix of dimension \code{nx} by \code{ny} containing the ratio of the kernel functions.}
+\item{h}{A vector of length 2 containing \code{h1} and \code{h2}}
+\item{kernel}{a character string containing the kernel name.}
 
 
 }
 \seealso{
-kernel2d, mse2d
+\code{\link{kernel2d}}, \code{\link{mse2d}}
 }
 \references{
 Berman M. and Diggle P.J. (1989) Estimating Weighted Integrals of the

@@ -45,10 +45,10 @@ A vector of times for the analysis
 }}
 \value{
 A list with the following components is returned:
-\item \code{$s  $t} The spatial and temporal scales
-\item \code{$ks} The spatial K-function
-\item \code{$kt} The temporal K-function
-\item \code{$kst} The space-time K-function
+\item{s, t}{The spatial and temporal scales}
+\item{ks}{The spatial K-function}
+\item{kt}}{The temporal K-function}
+\item{kst}{The space-time K-function}
 For details see Diggle, Chetwynd, Haggkvist, and Morris (1993)
 }
 \seealso{

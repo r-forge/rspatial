@@ -40,7 +40,7 @@ of the neighbour of point \code{i}.
 \examples{
 data(uganda)
 boxplot(nndistG(as.points(uganda))$dists)
-library(stepfun)
+require(stepfun)
 plot(ecdf(nndistG(as.points(uganda))$dists))
 }
 \seealso{

@@ -45,15 +45,11 @@ Type of kernel function to use. Currently only the quartic kernel is implemented
 }}
 \value{
 A list with the following components:
-\item \code{$x} List of x-coordinates at which the kernel function has been evaluated.
-\item \code{$y} List of y-coordinates at which the kernel function has been evaluated.
-\item \code{$z} A matrix of dimension \code{nx} by \code{ny} containing the value of
-the kernel function.
-\item \code{$h0},\code{$kernel}, containing the values input to \code{kernel2d}
-
-
-
-
+\item{x}{List of x-coordinates at which the kernel function has been evaluated.}
+\item{y}{List of y-coordinates at which the kernel function has been evaluated.}
+\item{z}{A matrix of dimension \code{nx} by \code{ny} containing the value of
+the kernel function.}
+\item{h0, kernel}{containing the values input to \code{kernel2d}}
 }
 \section{METHOD}{
 The kernel estimate, with a correction for edge effects, is computed for
@@ -66,8 +62,7 @@ for display and superposition onto other plots.
 
 \examples{
 data(bodmin)
-require(MASS)
-eqscplot(bodmin$poly, type="n")
+plot(bodmin$poly, asp=1, type="n")
 image(kernel2d(as.points(bodmin), bodmin$poly, h0=2, nx=100, ny=100), add=T, col=terrain.colors(20))
 pointmap(as.points(bodmin), add=T)
 polymap(bodmin$poly, add=T)
