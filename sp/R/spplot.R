@@ -67,13 +67,15 @@ sp.panel.layout = function(lst, ...) {
 		stop(paste("expected object of class list; got object of class", class(lst)))
 }
 
-spplot <- function(obj, zcol, ..., names.attr, col.regions = bpy.colors(), 
-		sp.layout = NULL, asp = mapasp(obj), plot.all = TRUE) {
+spplot <- function(obj, zcol, ..., names.attr, scales = list(draw = FALSE), 
+		col.regions = bpy.colors(), xlab = "", ylab = "", cuts,
+		sp.layout = NULL, aspect = mapasp(obj), plot.all = TRUE) {
 
 	cls.obj = class(obj)
 	if (!is(obj, "Spatial"))
 		stop("only objects deriving from class Spatial accepted")
 	require(lattice)
+	do.levelplot = FALSE
 	if (is(obj, "SpatialRingsDataFrame")) {
 		require(grid)
 		xr = bbox(obj)[1, ] 
@@ -82,9 +84,11 @@ spplot <- function(obj, zcol, ..., names.attr, col.regions = bpy.colors(),
 		dimnames(labpts)[[2]] = c("x", "y")
 		sdf = data.frame(cbind(labpts, obj@data))
 		coordinates(sdf) = c("x", "y")
-	} else if (gridded(obj))
+		do.levelplot = TRUE
+	} else if (gridded(obj)) {
 		sdf = as(obj, "SpatialPointsDataFrame")
-	else if (is(obj, "SpatialPointsDataFrame"))
+		do.levelplot = TRUE
+	} else if (is(obj, "SpatialPointsDataFrame"))
 		sdf = obj
 	else if (is(obj, "SpatialPoints"))
 		sdf = obj
@@ -98,28 +102,50 @@ spplot <- function(obj, zcol, ..., names.attr, col.regions = bpy.colors(),
 			zcol = names(obj)[1] # first
 	}
 	if (length(zcol) > 1) {
-		formula = as.formula(paste("z~", paste(dimnames(coordinates(sdf))[[2]], 
-			collapse = "+"), "|name"))
+		if (do.levelplot)
+			formula = as.formula(paste("z~", paste(dimnames(coordinates(sdf))[[2]], 
+				collapse = "+"), "|name"))
+		else 
+			formula = as.formula(paste(paste(dimnames(coordinates(sdf))[[2]][2:1], 
+				collapse = "~"), "|name"))
 		sdf = map.to.lev(sdf, zcol = zcol, names.attr = names.attr)
 	} else {
 		if (!is.character(zcol)) 
-			stop("zcol should be a character vector")
-		formula = as.formula(paste(zcol, "~", paste(dimnames(coordinates(sdf))[[2]],
-			collapse = "+")))
+			zcol = names(sdf)[zcol]
+		if (do.levelplot)
+			formula = as.formula(paste(zcol, "~", paste(dimnames(coordinates(sdf))[[2]],
+				collapse = "+")))
+		else
+			formula = y~x
 	}
 
 	if (is(obj, "SpatialRingsDataFrame"))
-		levelplot(formula, as(sdf, "data.frame"), aspect = asp,
+		levelplot(formula, as(sdf, "data.frame"), aspect = aspect,
 			col.regions = col.regions, grid.polygons = as(obj, "SpatialRings"), 
-			panel = panel.ringsplot, xlim = xr, ylim = yr, sp.layout = sp.layout, ...)
+			panel = panel.ringsplot, xlim = xr, ylim = yr, xlab = xlab, ylab =
+			ylab, scales = scales, sp.layout = sp.layout, ...)
 	else if (gridded(obj))
-		levelplot(formula, as(obj, "data.frame"), aspect = asp,
+		levelplot(formula, as(obj, "data.frame"), aspect = aspect,
 			col.regions = col.regions, panel = panel.gridplot, 
-			sp.layout = sp.layout, ...)
-	else
-		#xyplot(formula, as(obj, "data.frame"), ...)
-		return(xxcplot(obj, zcol, col.regions = col.regions, 
-			sp.layout = sp.layout, ...))
+			xlab = xlab, ylab =
+			ylab, scales = scales, sp.layout = sp.layout, ...)
+	else {
+		args.xyplot = list(formula = formula, data = as(sdf, "data.frame"), 
+			panel = panel.cplot, aspect = aspect, scales = scales, 
+			xlab = xlab, ylab = ylab, sp.layout = sp.layout, 
+			...)
+		z = as.vector(as.matrix(as(obj, "data.frame")[zcol]))
+		args.xyplot = fill.call.groups(args.xyplot, z = z, cuts = cuts, col.regions = col.regions, ...)
+		do.call("xyplot", args.xyplot)
+	}
+#	if (identify && interactive()) {
+#		print(plt)
+#		trellis.focus("panel", 1, 1)
+#		cat("left-mouse to identify points; right-mouse to end\n")
+#		ret = panel.identify(x, y, labels)
+#		trellis.unfocus()
+#		return(ret)
+#	} 
 }
 
 spplot.key = function(sp.layout, row = 1, col = 1) {
@@ -179,75 +205,56 @@ function (x, y, z, subscripts, at = pretty(z), shrink, labels = NULL,
 	sp.panel.layout(sp.layout)
 }
 
-"xxcplot" <-
-function (obj, zcol = 1, cuts = 5, ..., groups, fill = TRUE, pch, col,
-	cex = 1, main = ifelse(is.numeric(zcol), names(data)[zcol],
-	zcol), identify = FALSE, labels = row.names(data.frame(obj)),
-    do.log = FALSE, legend, key.space = "right", sp.layout = NULL)
-{
-	if (missing(groups))
-		panel.cplot = function(x, y, subscripts, col, ...) {
-			panel.xyplot(x, y, subscripts, col = col, ...)
-			sp.panel.layout(sp.layout)
-			print(cbind(x,y,subscripts))
-		}
-	else
-		panel.cplot = function(x, y, subscripts, ...) {
-			panel.superpose(x, y, subscripts, ...)
-			sp.panel.layout(sp.layout)
-		}
-    if (!is(obj, "SpatialPoints")) 
-        stop("first object is not of (or does not extend) class SpatialPoints")
-    cc = coordinates(obj)
-    if (is(obj, "SpatialPointsDataFrame")) 
-        data = as(obj, "data.frame")
-    else data = data.frame(Var1 = rep(1, nrow(cc)))
-    x = cc[, 1]
-    y = cc[, 2]
-    if (NCOL(data) == 1) 
-        z = data
-    else if (NCOL(data) == 0) 
-        z = rep(1, NROW(cc))
-    else {
-        if (is.character(zcol)) 
-            z = model.frame(as.formula(paste(zcol, "~1")), data)[[1]]
-        else z = data[, zcol, drop = TRUE]
-    }
-    if (missing(pch)) 
-        pch = ifelse(fill, 16, 1)
-	if (missing(groups)) {
-		if (missing(col))
-			col = bpy.colors(ifelse(length(cuts) > 1, length(cuts) - 1, cuts))
-    	if (length(cuts) == 1 && do.log) {
-        	lz = log(z)
-        	cuts = c(min(z), exp(seq(min(lz), max(lz), length = cuts + 
-            	1))[2:(cuts)], max(z))
-    	}
-    	groups = cut(as.matrix(z), cuts, dig.lab = 4, include.lowest = TRUE)
-		if (missing(legend))
-			legend = levels(groups)
-		n = length(levels(groups))
-		key = list(space = key.space, points = list(pch = rep(pch, 
-			n), col = col, cex = rep(cex, n)), text = list(legend))
-		plt = xyplot(y ~ x, groups = groups, col = col, cex = cex, 
-			pch = pch, asp = mapasp(obj), key = key, main = main, 
-			panel = panel.cplot, ...)
-		print("here")
-	} else 
-		plt = xyplot(y ~ x, groups = groups, col = col, cex = cex, 
-			pch = pch, asp = mapasp(obj), key = key, main = main, 
-			panel = panel.cplot, ...)
-	if (identify && interactive()) {
-		print(plt)
-		trellis.focus("panel", 1, 1)
-		cat("left-mouse to identify points; right-mouse to end\n")
-		ret = panel.identify(x, y, labels)
-		trellis.unfocus()
-		return(ret)
-	} else
-		return(plt)
+panel.cplot = function(x, y, subscripts, col, sp.layout, ...) {
+	panel.superpose(x, y, subscripts, col = col, ...)
+	sp.panel.layout(sp.layout)
 }
 
+fill.call.groups = function(lst, z, cuts, col.regions, legend = "", pch, cex = 1, fill = TRUE, 
+		do.log = FALSE, key.space = "bottom", ...) {
+    if (missing(pch)) 
+        lst$pch = ifelse(fill, 16, 1)
+	if (missing(cuts))
+		cuts = 5
+	if (length(cuts) > 1)
+		ncuts = length(cuts) - 1
+	else {
+		if (is.numeric(z))
+			ncuts = cuts
+		else
+			ncuts = length(unique(z))
+	}
+	if (ncuts != length(col.regions)) {
+		cols = round(1+(length(col.regions)-1)*(0:(ncuts-1))/(ncuts-1))
+		lst$col = col.regions[cols]
+	} else
+		lst$col = col.regions
+	if (is.numeric(z)) {
+    	if (length(cuts) == 1) {
+			if (do.log) {
+       			lz = log(z)
+       			cuts = c(min(z), exp(seq(min(lz), max(lz), length = cuts + 
+           			1))[2:(cuts)], max(z))
+			} else
+				cuts = seq(min(z), max(z), length = cuts + 1)
+    	}
+    	lst$groups = cut(as.matrix(z), cuts, dig.lab = 4, include.lowest = TRUE)
+	} else
+		lst$groups = factor(z)
+	if (missing(legend))
+		legend = levels(lst$groups)
+	n = length(levels(lst$groups))
+	lst$key = list(points = list(pch = rep(lst$pch, 
+		length = n), col = rep(lst$col, length = n), 
+		cex = rep(cex, length = n)), text = list(legend))
+	if (is.character(key.space))
+		lst$key$space = key.space
+	else if (is.list(key.space))
+		lst$key = key.space
+	else
+		warning("key.space argument ignored (not list or character)")
+	return(lst)
+}
 
 SpatialRings2Grob = function(obj, fill) {
 	if (!is(obj, "SpatialRings"))

@@ -45,7 +45,8 @@ function (obj, zcol = 1, cuts = 5, ..., fill = TRUE, pch, col, cex = 1,
 		legend = levels(groups)
 	n = length(levels(groups))
 	key = list(space = key.space, points = list(pch = rep(pch, 
-		n), col = col, cex = rep(cex, n)), text = list(legend))
+		length=n), col = rep(col,length=n), cex = rep(cex, length=n)), 
+		text = list(legend))
 	plt = xyplot(y ~ x, groups = groups, col = col, cex = cex, 
 		pch = pch, asp = mapasp(obj), key = key, main = main, ...)
 	if (identify) {
