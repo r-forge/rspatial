@@ -1,8 +1,6 @@
 library(sp)
 data(meuse)
 x = meuse
-try(coordinates(x) <- cbind(x = 1:155, y = 1:155))
-# should fail because "x" and "y" are already present
 
 coordinates(x) <- c("x", "y")
 try(proj4string(x) <- 1.5)
@@ -23,7 +21,7 @@ a = data.frame(cbind(xx=c(1,NA,2,10),yy=c(2,NA,NA,20)))
 try(coordinates(a) <- c("xx", "yy")) # should fail!
 
 x = meuse[1:4,]
-x = SpatialDataFrame(x, coord.columns = c(1,2))
+coordinates(x) = c(1,2)
 # this should fail -- zinc is not a row:
 try(q <- x["zinc",])
 # this will issue a warning under S-Plus, or a silent rename under R
