@@ -26,9 +26,9 @@ as.image.SDFG = function(data, attr = 1, xcol = 1, ycol = 2) {
 	if (is.character(attr))
 		z = data@data[,attr]
 	else { 
-		z = data@data[, -data@coord.columns]
+		z = data@data[ , -data@coord.columns, drop = FALSE]
 		if (NCOL(z) >= 1)
-			z = z[, attr]
+			z = z[, attr, drop = TRUE]
 		else # no attributes present; show zeroes:
 			z = rep(0, NROW(z))
 	}

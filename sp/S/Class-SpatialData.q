@@ -315,7 +315,20 @@ setMethod("[", "SpatialDataFrame", function(x, ..., drop = T) {
 setMethod("[", "SpatialDataFrameGrid",
 #ifdef R
 	function(x, i, j, ..., drop = FALSE) {
-		res = as(x, "SpatialDataFrame")[i, j, drop]
+		n.args = nargs()
+		if (!missing(drop))
+			stop("don't supply drop: it needs to be FALSE anyway")
+		if (missing(i) && missing(j))
+			return(x)
+		if (missing(j)) {
+			if (n.args == 3) # with a , : x[i,]
+				res = as(x, "SpatialDataFrame")[i = i, TRUE, ...]
+			else # withouth a , : x[i]
+				res = as(x, "SpatialDataFrame")[TRUE, j = i, ...]
+		} else if (missing(i))
+			res = as(x, "SpatialDataFrame")[TRUE, j = j, ...]
+		else
+			res = as(x, "SpatialDataFrame")[i = i, j = j, ...]
 		gridded(res) = TRUE
 		res
 	}
@@ -514,6 +527,7 @@ as.SDFgrid = function(from) {
 	}
 	ret
 }
+
 #setAs("SpatialDataFrame", "SpatialDataFrameGrid", as.SDFgrid)
 
 as.SDF = function(from) { # strip all grid attributes
@@ -524,6 +538,7 @@ as.SDF = function(from) { # strip all grid attributes
 		coord.names = from@coord.names,
 		coord.columns = from@coord.columns)
 }
+
 #setAs("SpatialDataFrameGrid", "SpatialDataFrame", as.SDF)
 
 as.SD = function(from) { # strip all grid & data.frame attributes

@@ -141,7 +141,9 @@ Map2Poly4 <- function(Map, region.id=NULL, projargs=as.character(NA)) {
    	else return (-1)
 }
 
-plot.Polylist4 <- function(x, col, border=par("fg"), add=FALSE, 
+plot.Polylist4 <- function(x, col, border=
+par("fg"),
+add=FALSE, 
 	xlim=NULL, ylim=NULL, xlab="", ylab="", asp=1, xpd = NULL, 
 	density = NULL, angle = 45, ...) {
 	if (!is(x, "Polylist4")) stop("Not a Polygon4 object")
