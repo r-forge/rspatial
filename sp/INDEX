@@ -18,8 +18,8 @@ mapasp                  Calculate aspect ratio for plotting geographic
                         maps
 map.to.lev              rearrange SpatialDataFrame for plotting with
                         levelplot
-meuse.grid              Prediction Grid for Meuse Data Set
 meuse                   Meuse river data set
+meuse.grid              Prediction Grid for Meuse Data Set
 nc.Map                  North Carolina Map object
 point.in.polygon        do point(s) fall in a given polygon?
 Polygon4-class          Class "Polygon4" for map polygons
@@ -28,14 +28,14 @@ polygons                Create a SpatialDataPolygons object, or
 Polylist4-class         Class "Polylist4" for map polygons
 select.spatial          select points spatially
 SpatialData-class       Class "SpatialData" ~~~
+SpatialDataFrame        Create a SpatialDataFrame
 SpatialDataFrame-class
                         Class "SpatialDataFrame" ~~~
 SpatialDataFrameGrid-class
                         Class "SpatialDataFrameGrid" ~~~
-SpatialDataFrame        Create a SpatialDataFrame
+SpatialDataPolygons     Create a SpatialDataPolygons object
 SpatialDataPolygons-class
                         Class "SpatialDataPolygons"; stores spatial
                         polygons and attributes
-SpatialDataPolygons     Create a SpatialDataPolygons object
 zerodist                find point pairs with equal spatial
                         coordinates
