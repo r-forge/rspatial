@@ -56,7 +56,7 @@ stack.SpatialDataFrame = function (x, select, ...)
 }
 
 "lplot" <-
-function (data, zcol, names.attr, col.regions = bpy.colors(), ...) 
+function (data, zcol, names.attr, col.regions = bpy.colors(), expand = 0.03,...) 
 {
 	if (!extends(class(data), "SpatialDataFrame")) 
 		stop("data is not of a class that extends SpatialDataFrame")
@@ -85,38 +85,88 @@ function (data, zcol, names.attr, col.regions = bpy.colors(), ...)
 #ifdef R
 		require(grid)
 #endif
-		"panel.lplot" <-
-		function (x, y, z, zcol, subscripts, at = mean(z), shrink, labels = NULL, 
-			label.style = c("mixed", "flat", "align"), contour = TRUE, 
-			region = TRUE, col = add.line$col, lty = add.line$lty, lwd = add.line$lwd, 
-			cex = add.text$cex, font = add.text$font, fontfamily = 
-			add.text$fontfamily, fontface = add.text$fontface, col.text = add.text$col,
-			..., col.regions, grid.polygons) 
-		{
-			label.style <- match.arg(label.style)
-			x <- as.numeric(x[subscripts])
-			y <- as.numeric(y[subscripts])
-			z <- as.numeric(z[subscripts])
-			zcol <- as.numeric(zcol[subscripts])
-			plotPol = function(x, idx) {
-				from = x@pStart.from
-				to = x@pStart.to
-				coords = na.omit(x@coords)
-				nparts = x@nParts
-				id.lengths = (to - 0:(nparts-1)) - (from - 1:nparts)
-				grid.polygon(coords[,1], coords[,2], id.lengths=id.lengths,
-					default.units = "native", 
-					gp = gpar(fill = col.regions[zcol[idx]], col = NULL))
+		if (version$major >= 2) {
+			"panel.lplot" <-
+			function (x, y, z, subscripts, at = pretty(z), shrink, labels = NULL, 
+    			label.style = c("mixed", "flat", "align"), contour = FALSE, 
+    			region = TRUE, col = add.line$col, lty = add.line$lty, lwd = add.line$lwd, 
+    			cex = add.text$cex, font = add.text$font, fontfamily = add.text$fontfamily, 
+    			fontface = add.text$fontface, col.text = add.text$col, ..., 
+    			col.regions = regions$col, alpha.regions = regions$alpha, 
+				grid.polygons) 
+			{
+    			regions <- trellis.par.get("regions")
+    			numcol <- length(at) - 1
+    			numcol.r <- length(col.regions)
+    			col.regions <- if (numcol.r <= numcol) 
+        			rep(col.regions, length = numcol)
+    			else col.regions[floor(1 + (1:numcol - 1) * (numcol.r - 1)/(numcol - 
+        			1))]
+    			zcol <- rep(NA, length(z))
+    			for (i in seq(along = col.regions)) zcol[!is.na(x) & !is.na(y) & 
+        			!is.na(z) & z >= at[i] & z < at[i + 1]] <- i
+    			label.style <- match.arg(label.style)
+    			x <- as.numeric(x[subscripts])
+    			y <- as.numeric(y[subscripts])
+    			z <- as.numeric(z[subscripts])
+    			zcol <- as.numeric(zcol[subscripts])
+				plotPol = function(x, idx) {
+					from = x@pStart.from
+					to = x@pStart.to
+					coords = na.omit(x@coords)
+					nparts = x@nParts
+					id.lengths = (to - 0:(nparts-1)) - (from - 1:nparts)
+					grid.polygon(coords[,1], coords[,2], id.lengths=id.lengths,
+						default.units = "native", 
+						gp = gpar(fill = col.regions[zcol[idx]], col = NULL,
+							alpha = alpha.regions))
+				}
+				if (any(subscripts))
+					for (i in 1:length(grid.polygons@polygons))
+						plotPol(grid.polygons@polygons[[i]], i)
 			}
-			if (any(subscripts))
-				for (i in 1:length(grid.polygons@polygons))
-					plotPol(grid.polygons@polygons[[i]], i)
+			asp = "iso"
+		} else {
+		"panel.lplot" <-
+			function (x, y, z, zcol, subscripts, at = mean(z), shrink, labels = NULL, 
+				label.style = c("mixed", "flat", "align"), contour = TRUE, 
+				region = TRUE, col = add.line$col, lty = add.line$lty, lwd = add.line$lwd, 
+				cex = add.text$cex, font = add.text$font, fontfamily = 
+				add.text$fontfamily, fontface = add.text$fontface, col.text = add.text$col,
+				..., col.regions, grid.polygons) 
+			{
+				label.style <- match.arg(label.style)
+				x <- as.numeric(x[subscripts])
+				y <- as.numeric(y[subscripts])
+				z <- as.numeric(z[subscripts])
+				zcol <- as.numeric(zcol[subscripts])
+				plotPol = function(x, idx) {
+					from = x@pStart.from
+					to = x@pStart.to
+					coords = na.omit(x@coords)
+					nparts = x@nParts
+					id.lengths = (to - 0:(nparts-1)) - (from - 1:nparts)
+					grid.polygon(coords[,1], coords[,2], id.lengths=id.lengths,
+						default.units = "native", 
+						gp = gpar(fill = col.regions[zcol[idx]], col = NULL))
+				}
+				if (any(subscripts))
+					for (i in 1:length(grid.polygons@polygons))
+						plotPol(grid.polygons@polygons[[i]], i)
+			}
+			asp = mapasp(data)
 		}
-		levelplot(formula, as.data.frame(data), asp = mapasp(data), 
+		expand.bbox = function(range, value) {
+			r = diff(range)
+			range[1] = range[1] - value * r 
+			range[2] = range[2] + value * r 
+			range
+		}
+		levelplot(formula, as.data.frame(data), asp = asp,
 			col.regions = col.regions, grid.polygons = pol, 
-			panel = panel.lplot, xlim = bbox(data)[1,], 
-			ylim = bbox(data)[2,], ...)
+			panel = panel.lplot, xlim = expand.bbox(bbox(data)[1,], expand), 
+			ylim = expand.bbox(bbox(data)[2,], expand), ...)
 	} else 
-		levelplot(formula, as.data.frame(data), asp = mapasp(data), 
+		levelplot(formula, as.data.frame(data), asp = asp,
 			col.regions = col.regions, ...)
 }

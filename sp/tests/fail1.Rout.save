@@ -1,13 +1,14 @@
 
-R : Copyright 2003, The R Development Core Team
-Version 1.8.0  (2003-10-08)
+R : Copyright 2004, The R Foundation for Statistical Computing
+Version 2.0.0 beta (2004-09-28), ISBN 3-900051-07-0
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
 You are welcome to redistribute it under certain conditions.
 Type 'license()' or 'licence()' for distribution details.
 
 R is a collaborative project with many contributors.
-Type 'contributors()' for more information.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
 
 Type 'demo()' for some demos, 'help()' for on-line help, or
 'help.start()' for a HTML browser interface to help.
@@ -16,8 +17,8 @@ Type 'q()' to quit R.
 > library(sp)
 > data(meuse)
 > x = meuse
-> try(coordinates(x) <- cbind(x = rnorm(155), y = rnorm(155)))
-Error in "coordinates<-"(`*tmp*`, value = cbind(x = rnorm(155), y = rnorm(155))) : 
+> try(coordinates(x) <- cbind(x = 1:155, y = 1:155))
+Error in "coordinates<-"(`*tmp*`, value = c(1, 2, 3, 4, 5, 6, 7, 8, 9,  : 
 	the default coordinate names are already present in object
 > # should fail because "x" and "y" are already present
 > 
@@ -56,7 +57,7 @@ Error in "coordinates<-"(`*tmp*`, value = c("xx", "yy")) :
 > x = SpatialDataFrame(x, coord.columns = c(1,2))
 > # this should fail -- zinc is not a row:
 > try(q <- x["zinc",])
-Error in "coordinates<-"(`*tmp*`, value = coord.names) : 
+Error in "coordinates<-"(`*tmp*`, value = c("x", "y")) : 
 	missing values in coordinates are not allowed
 > # this will issue a warning under S-Plus, or a silent rename under R
 > try(x[c("zinc", "x", "copper", "zinc")])

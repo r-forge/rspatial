@@ -1,7 +1,7 @@
 library(sp)
 data(meuse)
 x = meuse
-try(coordinates(x) <- cbind(x = rnorm(155), y = rnorm(155)))
+try(coordinates(x) <- cbind(x = 1:155, y = 1:155))
 # should fail because "x" and "y" are already present
 
 coordinates(x) <- c("x", "y")
