@@ -1,0 +1,34 @@
+\name{gen}
+\alias{gen}
+%- Also NEED an `\alias' for EACH other topic documented here.
+\title{generate points in polygon}
+\description{
+  generates random points within a defined polygon, trying to reach \code{nptg}
+points - used in \code{csr}.
+}
+\usage{
+gen(poly, nptg)
+}
+%- maybe also `usage' for other objects documented here.
+\arguments{
+  \item{poly}{ ~~Describe \code{poly} here~~ }
+  \item{nptg}{ ~~Describe \code{nptg} here~~ }
+}
+
+\value{
+  returns a point object.
+}
+\references{
+Rowlingson, B. and Diggle, P. 1993 Splancs: spatial point pattern analysis
+code in S-Plus.  Computers and Geosciences, 19, 627-655, (Barry Rowlingson
+<b.rowlingson@lancaster.ac.uk>); the original sources can be accessed at:
+http://www.maths.lancs.ac.uk/~rowlings/Splancs/. See also Bivand, R. and
+Gebhardt, A. 2000 Implementing functions for spatial statistical analysis
+using the R language. Journal of Geographical Systems, 2, 307-317.
+}
+
+\keyword{spatial}
+
+\seealso{\code{\link{csr}} }
+
+

@@ -12,6 +12,7 @@ dsquare                  Distance-squared from a number of points to a
 Fhat                     F nearest neighbour distribution function
 Fzero                    Theoretical nearest neighbour distribution
                          function
+gen                      generate points in polygon
 getpoly                  Draw a polygon on the current graphics device
 Ghat                     G nearest neighbour distribution function
 gridpts                  Generate a grid of points
@@ -45,9 +46,11 @@ okblack                  Oklahoma black offenders
 okwhite                  Oklahoma white offenders
 pdense                   Overall density for a point pattern
 pip                      Points inside or outside a polygon
+plt                      bins nearest neighbour distances
 pointmap                 Graphics
 polymap                  Graphics
 print.ribfit             Display the fit from tribble()
+ranpts                   adjust number of random points in polygon
 rlabel                   Randomly label two or more point sets
 rtor.shift               Random toroidal shift on a point data set
 sbox                     Generate a box surrounding a point object
