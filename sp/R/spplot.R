@@ -51,7 +51,7 @@ sp.panel.layout = function(lst, ...) {
 		} else if (is(x, "SpatialLines") || is(x, "Slines") || is(x, "Sline"))
 			sp.lines(x, ...)
 		else if (is(x, "SpatialPoints"))
-			sp.points(x, ...)
+			sp.points(as(x, "SpatialPoints"), ...)
 		else if (is(x, "SpatialRings"))
 			sp.polygon(x, ...)
 		else stop(paste("cannot plot object of class", class(x)))
@@ -68,8 +68,11 @@ sp.panel.layout = function(lst, ...) {
 }
 
 spplot <- function(obj, zcol, ..., names.attr, col.regions = bpy.colors(), 
-		sp.layout = NULL) {
+		sp.layout = NULL, asp = mapasp(obj), plot.all = TRUE) {
 
+	cls.obj = class(obj)
+	if (!is(obj, "Spatial"))
+		stop("only objects deriving from class Spatial accepted")
 	require(lattice)
 	if (is(obj, "SpatialRingsDataFrame")) {
 		require(grid)
@@ -79,18 +82,21 @@ spplot <- function(obj, zcol, ..., names.attr, col.regions = bpy.colors(),
 		dimnames(labpts)[[2]] = c("x", "y")
 		sdf = data.frame(cbind(labpts, obj@data))
 		coordinates(sdf) = c("x", "y")
-	} else if (gridded(obj)) {
-		obj = as(obj, "SpatialPointsDataFrame")
+	} else if (gridded(obj))
+		sdf = as(obj, "SpatialPointsDataFrame")
+	else if (is(obj, "SpatialPointsDataFrame"))
 		sdf = obj
-	} else if (is(obj, "SpatialPointsDataFrame"))
-		return(xxcplot(obj, zcol, col.regions = col.regions, 
-			sp.layout = sp.layout, ...))
-	else
+	else if (is(obj, "SpatialPoints"))
+		sdf = obj
+	else 
 		stop(paste("spplot: no plotting method for object of class", class(obj)))
 
-	asp = mapasp(obj)
-	if (missing(zcol)) 
-		zcol = names(obj)
+	if (missing(zcol)) {
+		if (plot.all)
+			zcol = names(obj) # all columns
+		else
+			zcol = names(obj)[1] # first
+	}
 	if (length(zcol) > 1) {
 		formula = as.formula(paste("z~", paste(dimnames(coordinates(sdf))[[2]], 
 			collapse = "+"), "|name"))
@@ -105,10 +111,15 @@ spplot <- function(obj, zcol, ..., names.attr, col.regions = bpy.colors(),
 	if (is(obj, "SpatialRingsDataFrame"))
 		levelplot(formula, as(sdf, "data.frame"), aspect = asp,
 			col.regions = col.regions, grid.polygons = as(obj, "SpatialRings"), 
-			panel = panel.lplot, xlim = xr, ylim = yr, sp.layout = sp.layout, ...)
-	else
+			panel = panel.ringsplot, xlim = xr, ylim = yr, sp.layout = sp.layout, ...)
+	else if (gridded(obj))
 		levelplot(formula, as(obj, "data.frame"), aspect = asp,
-			col.regions = col.regions, ...)
+			col.regions = col.regions, panel = panel.gridplot, 
+			sp.layout = sp.layout, ...)
+	else
+		#xyplot(formula, as(obj, "data.frame"), ...)
+		return(xxcplot(obj, zcol, col.regions = col.regions, 
+			sp.layout = sp.layout, ...))
 }
 
 spplot.key = function(sp.layout, row = 1, col = 1) {
@@ -121,7 +132,12 @@ spplot.key = function(sp.layout, row = 1, col = 1) {
 	}
 }
 
-"panel.lplot" <-
+panel.gridplot = function(x, y, z, subscripts, ..., sp.layout) {
+	panel.levelplot(x, y, z, subscripts, ...)
+	sp.panel.layout(sp.layout)
+}
+
+panel.ringsplot =
 function (x, y, z, subscripts, at = pretty(z), shrink, labels = NULL, 
    		label.style = c("mixed", "flat", "align"), contour = FALSE, 
    		region = TRUE, col = add.line$col, lty = add.line$lty, lwd = add.line$lwd, 
@@ -257,6 +273,7 @@ SpatialRings2Grob = function(obj, fill) {
 }
 
 SpatialRingsRescale = function(obj, offset, scale = 1, fill = "black", col = "black",...) {
+	require(grid)
 	if (!is(obj, "SpatialRings"))
 		stop("object is not of class SpatialRings")
 	if (length(offset) != 2)
