@@ -192,10 +192,12 @@ bbox = function(sd) {
 	sd@bbox
 }
 
-coordinates = function(sdf) { 
+coordinates = function(sdf, what = c("values", "names", "columns")) { 
+	what = match.arg(what)
 	if (!(is(sdf, "SpatialDataFrame")))
 		stop("coordinates function only available for SpatialDataFrame objects")
-	sdf@data[, sdf@coord.names] 
+	switch(what, values = sdf@data[, sdf@coord.columns], names = sdf@coord.names,
+		columns = sdf@coord.columns)
 }
 
 "coordinates<-" = function(obj, value) {
@@ -523,7 +525,7 @@ spatial.dimension = function(sd) {
 		return(obj)
 	}
 	# further deal with more complex forms of value
-	stop("more complex forms of value not yet implemented")
+	stop("more complex forms of value not (yet?) implemented; please provide suggestions")
 }
 
 gridded = function(obj) { return(is(obj, "SpatialDataFrameGrid")) }

@@ -1,26 +1,33 @@
 \name{map.to.lev}
 \alias{map.to.lev}
+\alias{lplot}
 \alias{stack.SpatialDataFrame}
 \alias{stack.SpatialDataFrameGrid}
 \title{ rearrange SpatialDataFrame for plotting with levelplot }
 \description{ rearrange SpatialDataFrame for plotting with levelplot }
 \usage{
-map.to.lev(data, zcol = 1:n, n = 2, names.attr)
+lplot(data, zcol, names.attr, col.regions = bpy.colors(), ...)
+map.to.lev(data, zcol = 1:n, n = 2, names.attr, df = TRUE)
 stack.SpatialDataFrame(x, select, ...)
 }
 \arguments{
 \item{data}{ object of class (or extending) SpatialDataFrame }
-\item{zcol}{ z-coordinate column names, or a column number range (after
+\item{zcol}{ z-coordinate column name(s), or a column number (range) (after
 removing the spatial coordinate columns: 1 refers to the first non-coordinate
 column, etc. ) }
-\item{n}{ number of columns to be plotted }
 \item{names.attr}{names of the set of z-columns (these names
 will appear in the plot); if omitted, column names of \code{zcol} }
+\item{col.regions}{ color vector to be passed to \link{levelplot}}
+\item{n}{ number of columns to be plotted }
+\item{df}{ logical; if TRUE, return data.frame, else return SpatialDataFrame }
 \item{x}{ see \code{data}}
 \item{select}{ see \code{zcol}}
-\item{...}{ignored}
+\item{...}{lplot passes these through to \link{levelplot}, otherwise ignored}
 }
-\value{ \code{map.to.lev} returns a
+
+\value{ \code{lplot} is a wrapper around levelplot for spatial, gridded data.
+
+\code{map.to.lev} returns a
 data frame with the following elements:
 \item{x}{ x-coordinate for each row}
 \item{y}{ y-coordinate for each row} 

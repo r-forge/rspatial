@@ -1,3 +1,9 @@
+check levelplot/lplot incompatabilities; retain current? levelplot
+examples now do not work!
+
+For plotting functions (plot, bubble) use a reasonable x/y ratio for
+unprojected data (look in maps?), or bail out with an error
+
 First cut at getting holes and polygon order right, Polygon4 and 
 Polylist4 classes for trial. 
 
