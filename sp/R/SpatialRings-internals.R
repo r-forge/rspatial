@@ -20,7 +20,7 @@
 #	}
 #	res
 #}
-.shp2srs <- function(shp, nParts, proj4string=CRS(as.character(NA)), ID) {
+.shp2srs <- function(shp, nParts, proj4string=CRS(as.character(NA))) {
 	Pstart <- shp$Pstart
 	nVerts <- nrow(shp$verts)
 	from <- integer(nParts)
@@ -38,8 +38,7 @@
 		srl[[j]] <- Sring(coords=shp$verts[from[j]:to[j],], 
 			proj4string=proj4string)
 	}
-	res <- Srings(srl, ID=ID)
-	res
+	srl
 }
 
 nParts.shp <- function(shp) attr(shp, "nParts")

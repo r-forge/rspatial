@@ -5,12 +5,26 @@ as.SpatialRings.Shapes <- function(shapes, IDs,
 	if (attr(shapes, "shp.type") != "poly")
 		stop("Not polygon shapes")
 	if (missing(IDs)) stop("IDs required")
-	n <- attr(shapes,'nshps')
-	if (length(IDs) != n) stop("Number of shapes and IDs differ")
+	if (length(IDs) != attr(shapes,'nshps')) 
+		stop("Number of shapes and IDs differ")
+	tab <- table(factor(IDs))
+	n <- length(tab)
+	IDss <- names(tab)
+	reg <- match(IDs, IDss)
+	belongs <- lapply(1:n, function(x) which(x == reg))
 # assemble the list of Srings
 	Srl <- vector(mode="list", length=n)
-	for (i in 1:n) Srl[[i]] <- .shp2srs(shapes[[i]], 
-		nParts.shp(shapes[[i]]), proj4string=proj4string, ID=IDs[i])
+	for (i in 1:n) {
+		nParts <- length(belongs[[i]])
+		srl <- NULL
+		for (j in 1:nParts) {
+			jres <- .shp2srs(shapes[[belongs[[i]][j]]], 
+				nParts.shp(shapes[[belongs[[i]][j]]]), 
+				proj4string=proj4string)
+			srl <- c(srl, jres)
+		}
+		Srl[[i]] <- Srings(srl, ID=IDss[i])
+	}
 	res <- as.SpatialRings.SringsList(Srl)
 	res
 }

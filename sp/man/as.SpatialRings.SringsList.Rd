@@ -18,7 +18,7 @@ as.SpatialRings.pal(arc, pal, IDs, dropPoly1=TRUE, proj4string=CRS(as.character(
 \arguments{
   \item{Srl}{A list of Srings objects}
   \item{shapes}{The Shapes component of a Map object as read by \code{read.shape}}
-  \item{IDs}{Unique character ID values for each output Srings object}
+  \item{IDs}{Unique character ID values for each output Srings object; the input IDs can be an integer or character vector with duplicates, where the duplicates will be combined as a single output Srings object}
   \item{proj4string}{Object of class \code{"CRS"};
 	holding a valid proj4 string}
   \item{map}{Object returned by \code{map} containing polygon boundaries}

@@ -14,7 +14,8 @@ as.SpatialLines.SLDF(SLDF)
 \arguments{
 \item{SlineList}{ list with objects of class \link{Slines-class}}
 \item{sl}{ object of class \link{SpatialLines-class}}
-\item{data}{ object of class \code{data.frame}; the number of rows in \code{data} 
+\item{data}{ object of class \code{data.frame}; the number of rows in \code{data\item{SLDF}{SpatialLinesDataFrame object}
+} 
 should equal the number of elements in \code{sl}}
 }
 \value{
