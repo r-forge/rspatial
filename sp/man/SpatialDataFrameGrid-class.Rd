@@ -30,7 +30,7 @@ Objects can be created by calls of the form \code{new("SpatialDataFrameGrid", ..
 	see \link{SpatialDataFrame-class}}
     \item{\code{bbox}:}{Object of class \code{"matrix"};
 	see \link{SpatialData-class} }
-    \item{\code{proj4string}:}{Object of class \code{"CoRS"};
+    \item{\code{proj4string}:}{Object of class \code{"CRS"};
 	see \link{SpatialData-class} }
   }
 }

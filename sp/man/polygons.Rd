@@ -34,10 +34,10 @@ point should equal the last.
 \seealso{ }
 
 \examples{
-x = data.frame(x = c(1,2,3), y = c(4,5,6))
-pol1 = cbind(x=c(1,1,2,1),y=c(1,2,1,1)) # closed
-polygon.valid = list(pol1, pol1, pol1)
-polygons(x) = polygon.valid
+data(ncMap)
+P4x <- Map2Poly4(nc.Map, region.id=nc.Map$att.data$FIPSNO)
+x <- nc.Map$att.data
+polygons(x) <- P4x
 summary(x)
 }
 

@@ -12,7 +12,7 @@ Map2Poly4(Map, region.id = NULL, projargs = as.character(NA))
 \arguments{
   \item{Map}{an S3 "Map" object read from a shapefile.}
   \item{region.id}{unique region ID strings, character vector.}
-  \item{projargs}{coordinate reference system data as input to CoRS()}
+  \item{projargs}{coordinate reference system data as input to CRS()}
 }
 
 \value{
@@ -21,12 +21,7 @@ Map2Poly4(Map, region.id = NULL, projargs = as.character(NA))
 
 \author{Roger Bivand \email{Roger.Bivand@nhh.no}}
 
-\seealso{\code{\link{Polylist4-class}}, \code{\link{CoRS-class}}}
+\seealso{\code{\link{Polylist4-class}}, \code{\link{CRS-class}}}
 \examples{
-library(maptools)
-x <- read.shape(system.file("shapes/sids.shp", package="maptools")[1])
-P4x <- Map2Poly4(x, region.id=x$att.data$FIPSNO,
- projargs="+proj=latlong +datum=NAD27")
-proj4string(P4x)
 }
 \keyword{spatial}

@@ -30,7 +30,7 @@ returns the number of spatial dimensions (2 or 3).  }
   Edzer J. Pebesma, \email{e.pebesma@geog.uu.nl}
 }
 
-\seealso{ \link{CoRS} }
+\seealso{ \link{CRS} }
 
 \examples{
 data(meuse) 

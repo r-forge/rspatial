@@ -24,7 +24,7 @@ Error in "coordinates<-"(`*tmp*`, value = cbind(x = rnorm(155), y = rnorm(155)))
 > coordinates(x) <- c("x", "y")
 > try(proj4string(x) <- 1.5)
 Error in "proj4string<-"(`*tmp*`, value = 1.5) : 
-        assigned value must be CoRS object
+        assigned value must be CRS object
 > 
 > try(coordinates(a) <- cbind(1:10, 10:1))
 Error in try(coordinates(a) <- cbind(1:10, 10:1)) : 

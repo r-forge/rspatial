@@ -30,7 +30,7 @@ or more easily by using \link{coordinates}
 	coordinate column numbers in slot data }
     \item{\code{bbox}:}{Object of class \code{"matrix"}; 
 	see \link{SpatialData-class}  }
-    \item{\code{proj4string}:}{Object of class \code{"CoRS"}; 
+    \item{\code{proj4string}:}{Object of class \code{"CRS"}; 
 	see \link{SpatialData-class}  }
   }
 }

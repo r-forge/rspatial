@@ -18,7 +18,7 @@ However, avoid this, see below.
 	holding the minimum in first and maximum in second column for the
 	x-coordinate (first row), y-coordinate (second row) and optionally
 	z-coordinate (third row). }
-    \item{\code{proj4string}:}{Object of class \code{"CoRS"};
+    \item{\code{proj4string}:}{Object of class \code{"CRS"};
 	holding a valid proj4 string, which can be used for unprojecting
 	or reprojecting coordinates; it is initialised to NA. Other strings
 	are checked for validity in the proj4 library.}

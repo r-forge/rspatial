@@ -1,3 +1,6 @@
+0.4-1 splits proj out of sp and (hopefully) simplifies 20030318 RSB
+
+
 make "[" work for SDFGrid and SDPolygons
 
 do we need "[<-" ?
