@@ -383,6 +383,17 @@ setMethod("[", "SpatialDataFrameGrid",
 #endif
 )
 
+#setMethod("[[", "SpatialDataFrame", function(x, ...) {
+#		NextMethod("[[", x@data, ...)
+#	}
+#)
+#
+#setMethod("[[<-", "SpatialDataFrame", function(x, i, j, value) {
+#		x@data = NextMethod("[[<-", x@data, i, j, value)
+#		x
+#	}
+#)
+
 proj4string = function(sd) { 
 	if (!extends(class(sd), "SpatialData"))
 		stop("proj4string only works for classes inheriting from SpatialData")

@@ -80,11 +80,8 @@ function (data, zcol, names.attr, col.regions = bpy.colors(), expand = 0.03,...)
 	}
 #ifdef R
 	require(lattice)
-	if (version$major >= 2)
-		asp = "iso"
-	else
 #endif
-		asp = mapasp(data)
+	asp = mapasp(data)
 	if (!is.null(pol)) {
 #ifdef R
 		require(grid)
