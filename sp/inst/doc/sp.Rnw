@@ -1,0 +1,229 @@
+\documentclass{article}
+% \VignetteIndexEntry{sp: classes and methods for spatial data}
+
+\usepackage{graphicx}
+\usepackage{hyperref}
+
+\usepackage{color}
+
+\usepackage{Sweave}
+
+\title{The {\tt sp} package: S classes and methods for spatial data}
+\author{Edzer J.\ Pebesma\footnote{Dept of Physical Geography,
+Faculty of Geosciences, Utrecht University, P.O. Box 80.115,
+3508 TC Utrecht, The Netherlands {\tt e.pebesma@geog.uu.nl}} \and 
+Roger S.\ Bivand\footnote{Economic Geography Section, Department of Economics, %
+Norwegian School of Economics and Business Administration, %
+Breiviksveien 40, N-5045 Bergen, Norway; {\tt Roger.Bivand@nhh.no}}}
+\date{Feb 2005}
+
+\begin{document}
+
+\maketitle
+
+\section{Introduction}
+
+The {\tt sp} package provides classes and methods for dealing with spatial
+data in S (R and S-Plus). We have chosen to use S4 classes and methods
+style (as described in ``Programming with Data'' by John Chambers) to
+allow validation of objects created. Although we mainly aim at using
+spatial data in the geographical (two-dimensional) domain, those data
+structures that have straightforward implementations in higher dimensions
+(points, grids) do allow this.
+
+The motivation to write this package was born on a
+\href{http://spatial.nhh.no/meetings/vienna/index.html}{pre-conference
+spatial data workshop} during
+\href{http://www.ci.tuwien.ac.at/Conferences/DSC-2003/}{DSC 2003}.
+At that time, the advantage of having multiple R packages for spatial
+statistics seemed to be blocked by the lack of a uniform interface
+for handling spatial data. Each package had its own conventions on how
+spatial data were stored and returned.
+
+With this package we hope that many maintainers of packages dealing with
+spatial data will either convert their package to supporting the spatial
+data classes provided here, or make their package compatible with these
+classes. Even if only conversion routines to and from {\tt sp} classes
+become available it would be useful, as one-to-many conversions are much
+easier to deal with than many-to-many.
+
+This vignette describes the classes, methods and functions provided
+by sp. Instead of manipulating the class slots (components) directly,
+we provide methods and functions to create the classes from elementary
+types such as matrices, data.frames or lists and to convert them back
+to any of these types. Also, coercion (type casting) from one class to
+the other is provided, where relevant.
+
+Package {\tt sp} is started by the command
+<<echo=TRUE,print=FALSE>>= 
+library(sp)
+@
+
+<<echo=FALSE,print=FALSE>>= 
+set.seed(13331)
+@
+
+\section{Spatial data classes}
+
+The spatial data are points, grids, lines, rings and polygons. Package
+{\tt sp} provides classes for the spatial-only information (the topology),
+e.g. {\tt SpatialPoints}, and extensions for the case where we attribute
+information stored in a {\tt data.frame} is available for each point,
+e.g. {\tt SpatialPointsDataFrame}. The available data classes are:
+
+\begin{center}
+\begin{tabular}{lllll}
+data type & class                        & attributes? & contains \\ \hline
+points    & {\tt SpatialPoints}          & No          &{\tt Spatial}* \\
+points    & {\tt SpatialPointsDataFrame} & Yes         &{\tt SpatialPoints}* \\
+grid      & {\tt SpatialGrid  }          & No          &{\tt SpatialPoints}* \\
+grid      & {\tt SpatialGridDataFrame}   & Yes         &{\tt SpatialGrid}* \\
+          &                              &             &{\tt SpatialPointsDataFrame}** \\
+line      & {\tt SLine}                  & No          &{\tt Spatial}* \\
+lines     & {\tt SpatialLines}           & No          &{\tt Spatial}*, {\tt SLine} \\
+lines     & {\tt SpatialLinesDataFrame}  & Yes         &{\tt SpatialLines}* \\
+rings     & {\tt Sring}                  & No          &{\tt SLine}* \\
+rings     & {\tt Srings}                 & No          &{\tt Spatial}*, {\tt Sring} \\
+rings     & {\tt SpatialRings}           & No          &{\tt Spatial}*, {\tt Srings} \\
+rings     & {\tt SpatialRingsDataFrame}  & Yes         &{\tt SpatialRings}* \\
+\end{tabular}
+\end{center}
+* by direct extension; ** by setIs() relationship; otherwise: contains
+a list of objects of the class metioned under ``contains''.
+
+The class {\tt Spatial} does not exist to hold actual data, it only
+provides the information common to all derived classes: a bounding
+box and information about the coordinate reference system (geographic
+projection information).
+
+In the following sections we will show how we can create objects of
+these classes from scratch or from other classes, and which methods and
+functions are available for them.
+
+\section{Points}
+
+\subsection{{\tt SpatialPoints} without attributes}
+
+We can generate a set of 10 points on the unit square $[0,1] \times
+[0,1]$ by
+<<echo=TRUE,print=FALSE>>= 
+xc = round(runif(10), 2)
+yc = round(runif(10), 2)
+xy = cbind(xc, yc)
+xy
+@
+this $10 \times 2$ matrix can be converted into a {\tt SpatialPoints}
+object by
+
+<<echo=TRUE,print=FALSE,fig=FALSE>>= 
+xy.sp = SpatialPoints(xy)
+xy.sp
+plot(xy.sp, pch = 2)
+@
+The plot is shown in figure \ref{fig:points}.
+
+\begin{figure}
+\begin{center}
+<<echo=FALSE,print=FALSE,fig=TRUE>>= 
+plot(xy.sp, pch = 2)
+@
+\end{center}
+\caption{plot of {\tt SpatialPoints} object; aspect ratio of x and y axis units is 1}
+\label{fig:points}
+\end{figure}
+
+We can retrieve the coordinates from {\tt xy.sp} by
+<<echo=TRUE>>=
+xy.cc = coordinates(xy.sp)
+class(xy.cc)
+dim(xy.cc)
+@
+and other methods retrieve the bounding box, the dimensions, select points
+(not dimensions or columns), coerce to a data.frame, or print a summary:
+<<echo=TRUE>>=
+bbox(xy.sp)
+dimensions(xy.sp)
+xy.sp[1:2] # note that row 1 and 2 are selected!
+xy.df = as.data.frame(xy.sp)
+class(xy.df)
+dim(xy.df)
+summary(xy.sp)
+@
+
+\subsection{{\tt SpatialPoints} with attributes: {\tt SpatialPointsDataFrame}}
+
+One way of creating a {\tt SpatialPointsDataFrame} object is by combining
+a {\tt SpatialPoints} object with a data.frame containing the attributes:
+<<echo=TRUE>>=
+df = data.frame(z1 = round(5 + rnorm(10), 2), z2 = 20:29)
+df
+xy.spdf = SpatialPointsDataFrame(xy.sp, df)
+xy.spdf
+summary(xy.spdf)
+dimensions(xy.spdf)
+xy.spdf[1:2, ] # selects row 1 and 2
+xy.spdf[1] # selects attribute column 1, along with the coordinates
+xy.spdf[1:2, "z2"] # select row 1,2 and attribute "z2"
+xy.df = as.data.frame(xy.spdf)
+xy.df[1:2,]
+xy.cc = coordinates(xy.spdf)
+class(xy.cc)
+dim(xy.cc)
+@
+A note on selection with \verb|[|: the behaviour is as much as possible
+copied from that of data.frames, but coordinates are always sticky. If
+coordinates should be dropped, use the {\tt coordinates} or {\tt
+as.data.frame} methods and select on the non-spatial data.
+
+{\tt SpatialPointsDataFrame} objects can be created directly from 
+data.frames by specifying which columns contain the coordinates:
+<<echo=TRUE>>=
+df1 = data.frame(xy, df)
+coordinates(df1) = c("xc", "yc")
+df1
+@
+or
+<<echo=TRUE>>=
+df2 = data.frame(xy, df)
+coordinates(df2) = ~xc+yc
+df2[1:2,]
+as.data.frame(df2)[1:2,]
+@
+Note that in this form, {\tt coordinates} by setting (specifying) the
+coordinates promotes an object of class {\tt data.frame} to an object
+of class {\tt SpatialPointsDataFrame}. The method {\tt as.data.frame}
+coerces back to the original {\tt data.frame}. When used on a right-hand
+side of an equation, {\tt coorinates} {\em retrieves} the matrix with
+coordinates:
+<<>>=
+coordinates(df2)[1:2,]
+@
+Elements (columns) in the data.frame part of an object can be manipulated
+(retrieved, assigned) directly:
+<<>>=
+df2[["z2"]]
+df2[["z2"]][10] = 20
+df2[["z3"]] = 1:10
+summary(df2)
+@
+
+
+\begin{figure}
+\begin{center}
+<<echo=FALSE,print=FALSE,fig=TRUE>>= 
+print(bubble(df2, "z1"), split = c(1,1,1,2), more=TRUE)
+print(cplot(df2, "z1"), split =  c(1,2,1,2), more=FALSE)
+@
+\end{center}
+\caption{plot of {\tt SpatialPointsDataFrame} object, using symbol 
+size ({\tt bubble}, top) or colour ({\tt cplot}, bottom) }
+\label{fig:spdf}
+\end{figure}
+
+\section{Grids}
+
+\section{Lines}
+
+\section{Polygons}
+
+\end{document}
