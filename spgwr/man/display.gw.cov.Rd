@@ -30,7 +30,7 @@ display.gw.cov(cov, colno, breaks, col, ...)
 \author{ ~~who you are~~ }
 \note{ ~~further notes~~ }
 
- ~Make other sections like Warning with \section{Warning }{....} ~
+ 
 
 \seealso{}
 \examples{

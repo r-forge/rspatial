@@ -33,7 +33,7 @@ gw.cov(x, dp, fp, adapt = NULL, bw, gweight = gwr.bisquare, cor = TRUE, var.term
 \author{ ~~who you are~~ }
 \note{ ~~further notes~~ }
 
- ~Make other sections like Warning with \section{Warning }{....} ~
+ 
 
 
 \seealso{}

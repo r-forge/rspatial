@@ -1,10 +1,14 @@
-# Copyright 2001-2004 Roger Bivand and Danlin Yu
+# Copyright 2001-2005 Roger Bivand and Danlin Yu
 # 
 
 gwr.sel <- function(formula, data = list(), coords, adapt=FALSE, 
 	gweight=gwr.gauss, method="cv", verbose=TRUE) {
-	if (is(data, "SpatialDataFrame")) {
-		if (missing(coords)) coords <- coordinates(data)
+	if (is(data, "Spatial")) {
+		if (missing(coords)) {
+			if (is(data, "SpatialRingsDataFrame")) 
+				coords <- getSRSringsLabptSlots(data)
+			else coords <- coordinates(data)
+		}
 		data <- as(data, "data.frame")
 	}
 	if (missing(coords))
@@ -13,7 +17,7 @@ gwr.sel <- function(formula, data = list(), coords, adapt=FALSE,
 	mf <- lm(formula, data, method="model.frame")
 #	require(mva)
 #	dist2 <- (as.matrix(dist(coords)))^2
-	y <- model.response(mf, "numeric")
+	y <- model.extract(mf, "response")
 	x <- model.matrix(mt, mf)
 #	if (NROW(x) != NROW(dist2))
 #		stop("Input data and coordinates have different dimensions")

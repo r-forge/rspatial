@@ -28,7 +28,7 @@ as.SDFG.fp.grid(grid)
 \author{ ~~who you are~~ }
 \note{ ~~further notes~~ }
 
- ~Make other sections like Warning with \section{Warning }{....} ~
+ 
 
 
 \seealso{}

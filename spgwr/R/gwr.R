@@ -1,4 +1,4 @@
-# Copyright 2001-2004 Roger Bivand and Danlin Yu
+# Copyright 2001-2005 Roger Bivand and Danlin Yu
 # 
 
 gwr <- function(formula, data = list(), coords, bandwidth, 
@@ -9,8 +9,18 @@ gwr <- function(formula, data = list(), coords, bandwidth,
 	coords.given <- NULL
 	if (!missing(coords)) coords.given <- TRUE
 	coords.extra <- NULL
-	if (is(data, "SpatialDataFramePolygons")) Polys <- Polygons(data)
-	if (is(data, "SpatialDataFrame")) {
+	if (is(data, "SpatialRingsDataFrame")) {
+		Polys <- as(data, "SpatialRings")
+		if (missing(coords)) {
+			coords <- getSRSringsLabptSlots(data)
+			coords.given <- FALSE
+		} else {
+			coords.extra <- getSRSringsLabptSlots(data)
+		}
+		p4s <- proj4string(data)
+		data <- as(data, "data.frame")
+	}
+	if (is(data, "SpatialPointsDataFrame")) {
 		if (missing(coords)) {
 			coords <- coordinates(data)
 			coords.given <- FALSE
@@ -32,18 +42,20 @@ gwr <- function(formula, data = list(), coords, bandwidth,
 		fit.points <- coords
 		colnames(fit.points) <- colnames(coords)
 	} else fp.given <- TRUE
-	gridded <- gridded(fit.points)
-	if (is(fit.points, "SpatialDataFrame")) {
+	gridded <- FALSE
+	if (is(fit.points, "Spatial")) {
 		Polys <- NULL
-		if (is(fit.points, "SpatialDataFramePolygons")) 
+		if (is(fit.points, "SpatialRingsDataFrame")) {
 			Polys <- Polygons(fit.points)
-		fit.points <- coordinates(fit.points)
+			fit.points <- getSRSringsLabptSlots(fit.points)
+		} else fit.points <- coordinates(fit.points)
+		gridded <- gridded(fit.points)
 	}
 
 	n <- NROW(fit.points)
 	if (is.null(colnames(fit.points))) colnames(fit.points) <- c("x", "y")
 #	if (is.null(fit.points)) fit.points <- coords
-	y <- model.response(mf, "numeric")
+	y <- model.extract(mf, "response")
 	x <- model.matrix(mt, mf)
 	m <- NCOL(x)
 	if (NROW(x) != NROW(coords))
@@ -155,23 +167,22 @@ gwr <- function(formula, data = list(), coords, bandwidth,
 	}
 	if (coords.given) {
 		if (is.null(coords.extra)) {
-			SDF <- SpatialDataFrame(data.frame(fit.points, 
-				sum.w=sum.w, gwr.b, gwr.R2, gwr.se), 
-				coord.names=colnames(fit.points), 
-				proj4string=CRS(p4s))
+			SDF <- SpatialPointsDataFrame(coords=fit.points,
+				data=data.frame(sum.w=sum.w, gwr.b, gwr.R2, 
+				gwr.se), proj4string=CRS(p4s))
 		} else {
-			SDF <- data.frame(fit.points, sum.w=sum.w, 
-				gwr.b, gwr.R2, gwr.se)
-			coordinates(SDF) <- coords.extra
-			proj4string(SDF) <- CRS(p4s)
+			SDF <- SpatialPointsDataFrame(coords=coords.extra,
+				data=data.frame(fit.points, sum.w=sum.w, 
+				gwr.b, gwr.R2, gwr.se), proj4string=CRS(p4s))
 		}		
 	} else {
-		SDF <- SpatialDataFrame(data.frame(fit.points, sum.w=sum.w, 
-		gwr.b, gwr.R2, gwr.se), coord.names=colnames(fit.points), 
+		SDF <- SpatialPointsDataFrame(coords=fit.points, 
+		data=data.frame(sum.w=sum.w, gwr.b, gwr.R2, gwr.se), 
 		proj4string=CRS(p4s))
 	}
 	if (gridded) gridded(SDF) <- TRUE
-	else if (!is.null(Polys)) Polygons(SDF) <- Polys
+	else if (!is.null(Polys)) SDF <- SpatialRingsDataFrame(Sr=Polys, 
+		data=as(SDF, "data.frame"))
 	z <- list(SDF=SDF, lhat=lhat, lm=lm, results=results, 
 		bandwidth=bw, adapt=adapt, hatmatrix=hatmatrix, 
 		gweight=deparse(substitute(gweight)), this.call=this.call)

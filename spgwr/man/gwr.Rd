@@ -67,18 +67,18 @@ col.bisq <- gwr(crime ~ income + housing, data=columbus,
   gweight=gwr.bisquare, hatmatrix=TRUE)
 col.bisq
 data(georgia)
-g.adapt.gauss <- gwr.sel(PctBach ~ TotPop90 + PctRural + PctEld + PctFB + PctPov + PctBlack, data=georgia, adapt=TRUE)
-res.adpt <- gwr(PctBach ~ TotPop90 + PctRural + PctEld + PctFB + PctPov + PctBlack, data=georgia, adapt=g.adapt.gauss)
+g.adapt.gauss <- gwr.sel(PctBach ~ TotPop90 + PctRural + PctEld + PctFB + PctPov + PctBlack, data=gSRDF, adapt=TRUE)
+res.adpt <- gwr(PctBach ~ TotPop90 + PctRural + PctEld + PctFB + PctPov + PctBlack, data=gSRDF, adapt=g.adapt.gauss)
 res.adpt
-pairs(as(res.adpt$SDF, "data.frame")[,1:11], pch=".")
-plot(res.adpt$SDF, "PctBlack", breaks=c(-0.25, 0, 0.01, 0.025, 0.075), 
- col=grey(5:2/6))
-g.bw.gauss <- gwr.sel(PctBach ~ TotPop90 + PctRural + PctEld + PctFB + PctPov + PctBlack, data=georgia)
-res.bw <- gwr(PctBach ~ TotPop90 + PctRural + PctEld + PctFB + PctPov + PctBlack, data=georgia, bandwidth=g.bw.gauss)
+pairs(as(res.adpt$SDF, "data.frame")[,c(17,18, 1:9)], pch=".")
+brks <- c(-0.25, 0, 0.01, 0.025, 0.075)
+cols <- grey(5:2/6)
+plot.SpatialRings(as(res.adpt$SDF, "SpatialRings"), col=cols[findInterval(as(res.adpt$SDF, "data.frame")$PctBlack, brks, all.inside=TRUE)])
+g.bw.gauss <- gwr.sel(PctBach ~ TotPop90 + PctRural + PctEld + PctFB + PctPov + PctBlack, data=gSRDF)
+res.bw <- gwr(PctBach ~ TotPop90 + PctRural + PctEld + PctFB + PctPov + PctBlack, data=gSRDF, bandwidth=g.bw.gauss)
 res.bw
-pairs(as(res.bw$SDF, "data.frame")[,1:11], pch=".")
-plot(res.bw$SDF, "PctBlack", breaks=c(-0.25, 0, 0.01, 0.025, 0.075), 
- col=grey(5:2/6))
+pairs(as(res.bw$SDF, "data.frame")[,c(17,18, 1:9)], pch=".")
+plot.SpatialRings(as(res.bw$SDF, "SpatialRings"), col=cols[findInterval(as(res.bw$SDF, "data.frame")$PctBlack, brks, all.inside=TRUE)])
 }
 \keyword{spatial}
 

@@ -27,7 +27,7 @@ sem.gw.cov(cov, x)
 \author{ ~~who you are~~ }
 \note{ ~~further notes~~ }
 
- ~Make other sections like Warning with \section{Warning }{....} ~
+ 
 
 
 \seealso{}

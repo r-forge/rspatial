@@ -28,7 +28,7 @@ gwr.morantest(x, listw, zero.policy = FALSE)
 \author{ ~~who you are~~ }
 \note{ ~~further notes~~ }
 
- ~Make other sections like Warning with \section{Warning }{....} ~
+ 
 
 
 \seealso{}

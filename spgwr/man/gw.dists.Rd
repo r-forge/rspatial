@@ -27,7 +27,7 @@ gw.dists(dp, pt)
 \author{ ~~who you are~~ }
 \note{ ~~further notes~~ }
 
- ~Make other sections like Warning with \section{Warning }{....} ~
+ 
 
 
 \seealso{}
