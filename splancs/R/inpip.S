@@ -13,7 +13,7 @@
 #  GNU General Public License for more details.
 #
 
-inpip <- function (pts, poly, bound=NULL)
+inpip <- function (pts, poly, bound=NULL, quiet=TRUE)
 {
-	seq(1:npts(pts))[inout(pts, poly, bound)]
+	seq(1:npts(pts))[inout(pts, poly, bound, quiet)]
 }

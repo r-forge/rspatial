@@ -38,7 +38,7 @@ distances in \code{s}.
 
 }
 \section{METHOD}{
-The function \code{Ghat(points,s)} is defined as the proportion of members of a
+The function \code{Ghat(pts,s)} is defined as the proportion of members of a
 point set for which the distance to the nearest other member of the set
 is less than or equal to \code{s}.
 }

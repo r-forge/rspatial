@@ -22,7 +22,7 @@ Test points for inclusion in a polygon
 Test points for inclusion in a polygon.
 }
 \usage{
-inout(pts,poly,bound=NULL)
+inout(pts,poly,bound=NULL,quiet=TRUE)
 }
 \arguments{
 \item{pts}{
@@ -31,11 +31,12 @@ A points data set
 \item{poly}{
 A polygon data set
 }
-\item{bound}{If points fall exactly on polygon vertices, the default NULL gives arbitrary assignments. If TRUE, then all points identical in machine numerical representation terms are set as within the polygon, if FALSE, outside.}
+\item{bound}{If points fall exactly on polygon boundaries, the default NULL gives arbitrary assignments. If TRUE, then all points "on" boundaries are set as within the polygon, if FALSE, outside.}
+\item{quiet}{Do not report which points are on boundary for non-NULL bound}
 }
 \value{
 A vector of logical values. \code{True} means the point was inside the
-polygon, \code{False} means the point was outside. Note that "inside" is an arbitrary concept for points precisely on the polygon boundary.
+polygon, \code{False} means the point was outside. Note that "inside" is an arbitrary concept for points "on" the polygon boundary.
 
 
 
@@ -53,8 +54,39 @@ Gebhardt, A. 2000 Implementing functions for spatial statistical analysis
 using the R language. Journal of Geographical Systems, 2, 307-317.
 }
 
-% Converted by Sd2Rd version 0.3-3.
-
+\examples{
+data(uganda)
+suganda <- sbox(uganda$poly)
+ruganda <- csr(suganda, 1000)
+polymap(suganda)
+polymap(uganda$poly, add=T)
+def <- inout(ruganda, uganda$poly, bound=NULL)
+pointmap(as.points(ruganda[def,1], ruganda[def,2]), add=T, col="black")
+pointmap(as.points(ruganda[!def,1], ruganda[!def,2]), add=T, col="red")
+tru <- inout(ruganda, uganda$poly, bound=TRUE, quiet=F)
+which(tru & !def)
+ds1 <- as.points(expand.grid(x=seq(-1.5,1.5,0.5), y=seq(-1.5,1.5,0.5)))
+ds1.poly <- ds1[chull(ds1),]
+ds2 <- as.points(rnorm(300),rnorm(300))
+plot(ds2, type="n", asp=1)
+polymap(ds1.poly, add=T, border="lightblue", col="lightblue", lwd=1)
+points(ds2[inout(ds2,ds1.poly),],  col="green",  pch=20)
+points(ds2[!inout(ds2,ds1.poly),], col="orange", pch=20)
+points(ds1[inout(ds1,ds1.poly),],  col="black",  pch=20)
+points(ds1[!inout(ds1,ds1.poly),], col="red",    pch=20)
+plot(ds2, type="n", asp=1)
+polymap(ds1.poly, add=T, border="lightblue", col="lightblue", lwd=1)
+points(ds2[inout(ds2,ds1.poly,bound=TRUE),],  col="green",  pch=20)
+points(ds2[!inout(ds2,ds1.poly,bound=TRUE),], col="orange", pch=20)
+points(ds1[inout(ds1,ds1.poly,bound=TRUE),],  col="black",  pch=20)
+points(ds1[!inout(ds1,ds1.poly,bound=TRUE),], col="red",    pch=20)
+plot(ds2, type="n", asp=1)
+polymap(ds1.poly, add=T, border="lightblue", col="lightblue", lwd=1)
+points(ds2[inout(ds2,ds1.poly,bound=FALSE),],  col="green",  pch=20)
+points(ds2[!inout(ds2,ds1.poly,bound=FALSE),], col="orange", pch=20)
+points(ds1[inout(ds1,ds1.poly,bound=FALSE),],  col="black",  pch=20)
+points(ds1[!inout(ds1,ds1.poly,bound=FALSE),], col="red",    pch=20)
+}
 
 \keyword{spatial}
 

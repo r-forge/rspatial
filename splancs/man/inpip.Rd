@@ -22,7 +22,7 @@ Select points inside a polygon
 Select points inside a polygon
 }
 \usage{
-inpip(pts,poly,bound=NULL)
+inpip(pts,poly,bound=NULL,quiet=TRUE)
 }
 \arguments{
 \item{pts}{
@@ -31,11 +31,12 @@ A points data set
 \item{poly}{
 A polygon data set
 }
-\item{bound}{If points fall exactly on polygon vertices, the default NULL gives arbitrary assignments. If TRUE, then all points identical in machine numerical representation terms are set as within the polygon, if FALSE, outside.}
+\item{bound}{If points fall exactly on polygon boundaries, the default NULL gives arbitrary assignments. If TRUE, then all points "on" boundaries are set as within the polygon, if FALSE, outside.}
+\item{quiet}{Do not report which points are on boundary for non-NULL bound}
 }
 \value{
 \code{inpip} returns a vector of indices of the points in \code{pts} that are located
-in the polygon. Note that "in" is an arbitrary concept for points precisely on the polygon boundary.
+in the polygon. Note that "in" is an arbitrary concept for points "on" the polygon boundary.
 
 
 }

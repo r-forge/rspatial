@@ -13,9 +13,9 @@
 #  GNU General Public License for more details.
 #
 
-pip <- function(pts,poly,out=F,bound=NULL)
+pip <- function(pts,poly,out=F,bound=NULL, quiet=TRUE)
 {
-	inoutv <- inout(pts,poly,bound)
+	inoutv <- inout(pts,poly,bound,quiet)
 	if(!out){
 		res <- pts[inoutv==T,,drop=F]
 	}

@@ -13,34 +13,43 @@
 #  GNU General Public License for more details.
 #
 
-inout <- function(pts, poly, bound=NULL)
+inout <- function (pts, poly, bound = NULL, quiet=TRUE) 
 {
-#	library.dynam("splancs", "inpip.o")
-	np <- length(poly[, 1])
-	xp <- c(poly[, 1], poly[1, 1])
-	yp <- c(poly[, 2], poly[1, 2])
-	nptsi <- npts(pts)
-	ind <- seq(T, length = nptsi)
-	piplist <- .Fortran("inpip",
-		as.double(pts[, 1]),
-		as.double(pts[, 2]),
-		as.integer(nptsi),
-		as.double(xp),
-		as.double(yp),
-		as.integer(np),
-		as.logical(ind))
+    xp <- c(poly[, 1], poly[1, 1])
+    yp <- c(poly[, 2], poly[1, 2])
+    np <- length(xp)
+    nptsi <- npts(pts)
+    ind <- logical(length = nptsi)
+    if (!is.null(bound)) {
 #
-# sets in-polygon criterion for points precisely equal to polygon
-# vertices (suggestion by Rainer Hurling <rhurlin@gwdg.de>)
-# better fix to follow for points on polygon boundary
+# sets in-polygon criterion for points equal to polygon
+# boundaries (suggestion by Rainer Hurling <rhurlin@gwdg.de>)
 #
-	if(!is.null(bound)){
-        	if(!is.logical(bound))
-			stop("bound must be NULL, TRUE, or FALSE")
-        	cpts <- complex(real=pts[, 1], imag=pts[, 2])
-        	cpoly <- complex(real=xp, imag=yp)
-        	bound.pts <- which(cpts %in% cpoly)
-        	piplist[[7]][bound.pts] <- bound
-	}
-	piplist[[7]]
+	   if (!is.logical(bound)) 
+		   stop("bound must be NULL, TRUE, or FALSE")
+	   result <- integer(length=nptsi)
+	   bb <- as.vector(apply(sbox(as.points(xp, yp)), 2, range))
+	   za <- .C("ptinpoly1", as.integer(result), as.double(pts[, 1]),
+		as.double(pts[, 2]), as.double(xp), as.double(yp),
+		as.integer(np), as.double(bb), as.integer(nptsi))
+
+	   z <- ind
+	   if (!quiet) {
+	       bpts <- which(za[[1]] == 0)
+	       if (length(bpts > 0)) {
+	           cat("Points on boundary:\n")
+	           print(bpts)
+	       }
+	       else cat("No points on boundary\n")
+	   }
+	   if(bound) z[which(za[[1]] <= 0)] <- TRUE
+	   else z[which(za[[1]] < 0)] <- TRUE
+    } else {
+        piplist <- .Fortran("inpip", as.double(pts[, 1]), as.double(pts[,2]), 
+            as.integer(nptsi), as.double(xp), as.double(yp), 
+            as.integer(np), as.logical(ind))
+        z <- piplist[[7]]
+    }
+    z
 }
+
