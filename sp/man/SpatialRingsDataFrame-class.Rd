@@ -47,5 +47,18 @@ No methods defined with class "SpatialRingsDataFrame" in the signature.
 	\link{SpatialRings-class}
 }
 \examples{
+data(ncshp)
+nc1 <- as.SpatialRings.Shapes(nc.shp$Shapes, as.character(nc.shp$att.data$FIPS))
+df <- nc.shp$att.data
+rownames(df) <- as.character(nc.shp$att.data$FIPS)
+identical(rownames(df), getSRSringsIDSlots(nc1))
+ncSRDF <- SpatialRingsDataFrame(nc1, df)
+names(as(ncSRDF, "data.frame"))
+rrt <- as(ncSRDF, "data.frame")$SID74/as(ncSRDF, "data.frame")$BIR74
+brks <- quantile(rrt, seq(0,1,1/7))
+cols <- grey((length(brks):2)/length(brks))
+dens <- (2:length(brks))*3
+plot.SpatialRings(ncSRDF, col=cols[findInterval(rrt, brks, all.inside=TRUE)])
+plot.SpatialRings(ncSRDF, density=dens[findInterval(rrt, brks, all.inside=TRUE)])
 }
 \keyword{classes}
