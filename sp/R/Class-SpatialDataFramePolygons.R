@@ -8,8 +8,6 @@ setClass("SpatialDataFramePolygons",
 	validity = function(object) {
 		if (nrow(object@data) != length(object@polygons@polygons))
 			return("number of rows in data should equal number of polygons")
-		if (!identical(object@proj4string, object@polygons@proj4string)) 
-			return("Projection arguments differ")
 		valid = as.logical(sapply(object@polygons@polygons, verifyPolygon))
 		if (any(!valid))
 			return(paste("invalid polygon(s):", paste(which(!valid), 
@@ -38,9 +36,20 @@ summary.SpatialDataFramePolygons = summary.SpatialData
 	# if (is.null(obj))
 	#	obj = getMeanDF(value@polygons)
 	# verify has.holes thing, how do we provide this?
+	p4s.a <- proj4string(obj)
+	p4s.b <- proj4string(value)
+	if (is.na(p4s.a) && is.na(p4s.b))
+		p4s.a <- p4s.b
+	else if (is.na(p4s.a) || is.na(p4s.b))
+		warning(paste("Projection arguments differ:", p4s.a, ":",
+			p4s.b))
+	else if (!identical(p4s.a, p4s.b)) 
+		warning(paste("Projection arguments differ:", p4s.a, ":", 
+			p4s.b))
+
 	new("SpatialDataFramePolygons", 
 		bbox = bbox,
-		proj4string = CRS(as.character(NA)), 
+		proj4string = CRS(p4s.a), 
 		data = obj@data,
 		coord.names = obj@coord.names,
 		coord.columns = obj@coord.columns,

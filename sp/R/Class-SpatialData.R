@@ -290,12 +290,13 @@ setMethod("[", "SpatialDataFrameGrid",
 )
 
 proj4string = function(sd) { 
-	if (!is(sd, "SpatialData"))
+	if (!extends(class(sd), "SpatialData"))
 		stop("proj4string only works for classes inheriting from SpatialData")
-	CRSargs(sd@proj4string)
+	sd@proj4string@projargs
 }
+
 "proj4string<-" = function(sd, value) { 
-	if (!is(sd, "SpatialData"))
+	if (!extends(class(sd), "SpatialData"))
 		stop("proj4string only works for classes inheriting from SpatialData")
 	if (!is(value, "CRS"))
 		stop("assigned value must be CRS object")
@@ -321,7 +322,7 @@ summary.SpatialData = function(object, ...) {
 	obj = list()
 	obj[["bbox"]] = object@bbox
 	obj[["is.projected"]] = is.projected(object)
-	obj[["proj4string"]] = CRSargs(object@proj4string)
+	obj[["proj4string"]] = object@proj4string@projargs
 	if (is(object, "SpatialDataFrame") && 
 			(length(object@coord.columns) < NCOL(object@data)))
 		obj[["data"]] = summary(object@data[-object@coord.columns])

@@ -155,7 +155,7 @@ plot.Polylist4 <- function(x, col, border=par("fg"), add=FALSE,
 		plot(x=xlim, y=ylim, xlim=xlim, ylim=ylim, type="n",
 		asp=asp, xlab=xlab, ylab=ylab, ...)
 	}
-	if (missing(col)) return()
+	if (missing(col)) col <- NA
 	n <- length(x@polygons)
         if (length(border) != n) {
             	border <- rep(border, n, n)
