@@ -34,27 +34,26 @@ Breiviksveien 40, N-5045 Bergen, Norway; {\tt Roger.Bivand@nhh.no}}}
 
 The {\tt sp} package provides classes and methods for dealing with spatial
 data in S (R and S-Plus). We have chosen to use S4 classes and methods
-style (as described in ``Programming with Data'' by John Chambers) to
-allow validation of objects created. Although we mainly aim at using
-spatial data in the geographical (two-dimensional) domain, those data
-structures that have straightforward implementations in higher dimensions
-(points, grids) do allow this.
+style (Chambers, 1998) to allow validation of objects created. Although
+we mainly aim at using spatial data in the geographical (two-dimensional)
+domain, the data structures that have a straightforward implementation
+in higher dimensions (points, grids) do allow this.
 
 The motivation to write this package was born on a
 \href{http://spatial.nhh.no/meetings/vienna/index.html}{pre-conference
 spatial data workshop} during
 \href{http://www.ci.tuwien.ac.at/Conferences/DSC-2003/}{DSC 2003}.
 At that time, the advantage of having multiple R packages for spatial
-statistics seemed to be blocked by the lack of a uniform interface
-for handling spatial data. Each package had its own conventions on how
+statistics seemed to be hindered by a lack of a uniform interface for
+handling spatial data. Each package had its own conventions on how
 spatial data were stored and returned.
 
-With this package we hope that many maintainers of packages dealing with
-spatial data will either convert their package to supporting the spatial
-data classes provided here, or make their package compatible with these
-classes. Even if only conversion routines to and from {\tt sp} classes
-become available it would be useful, as one-to-many conversions are much
-easier to deal with than many-to-many.
+With this package we hope that other maintainers of packages dealing
+with spatial data will either convert their package to supporting the
+spatial data classes provided here, or make their package compatible
+with these classes. Even if only conversion routines to and from {\tt sp}
+classes become available it would be useful, as one-to-many conversions
+are much easier to deal with than many-to-many.
 
 This vignette describes the classes, methods and functions provided
 by sp. Instead of manipulating the class slots (components) directly,
@@ -114,12 +113,14 @@ functions are available for them.
 \section{Manipulating spatial objects}
 Although entries in spatial objects are in principle accessible through
 their slot name, e.g. {\tt x@coords} contains the coordinates of an object
-of class or extending {\tt SpatialPoints}, we strongly encourage users to
-access the data by using functions and methods, e.g. {\tt coordinatas(x)}
-to retrieve the coordinates.
+of class or extending {\tt SpatialPoints}, we strongly encourage users
+to access the data by using functions and methods, in this case {\tt
+coordinates(x)} to retrieve the coordinates.
+
+\subsection{Standard methods}
 
 Selecting, retrieving or replacing certain attributes in spatial objects
-with attributes can be done by the methods
+with attributes is done using methods standard
 \begin{itemize}
 \item \verb|[| select "rows" (items) and/or columns in the data attribute
 table; e.g. {\tt meuse[1:2, "zinc"]} returns a {\tt SpatialPointsDataFrame}
@@ -127,6 +128,26 @@ with the first two points and an attribute table with only variable "zinc".
 \item \verb|[[| select a column from the data attribute table
 \item \verb|[[<-| assign or replace values to a column in the data attribute
 table.
+\end{itemize}
+Other methods available are: {\tt plot}, {\tt summary}, {\tt print},
+{\tt dim} and {\tt names} (operate on the data.frame part), {\tt
+as.data.frame}, {\tt as.matrix} and {\tt image} (for gridded data),
+{\tt lines} (for line data), {\tt points} (for point data), {\tt subset}
+(points and grids) and {\tt stack} (point and grid data.frames).
+
+\subsection{Spatial methods}
+A number of new methods are available for spatial data:
+\begin{itemize}
+\item {\tt dimensions(x)} returns number of spatial dimensions
+\item {\tt y = transform(x, "proj4string")} transform from one coordinate
+reference system (geographic projection) to another (requires package
+spproj)
+\item {\tt bbox(x)} returns the coordinate bounding box
+\item {\tt coordinates(x)} returns the spatial coordinates 
+\item {\tt rings(x)} retrieve the spatial rings (polygons) of an
+object deriving from {\tt SpatialRings}
+% \item {\tt method to retrieve lines? --> Lines()?
+\item {\tt gridded(x)} tells whether {\tt x} derives from SpatialGrid
 \end{itemize}
 
 \section{Points}
@@ -429,6 +450,12 @@ print(spplot(y, zcol=1:3, names.attr=c("red","green","blue"), col.regions=grey(0
 \subsection{Reading ESRI shapefiles}
 points, lines, polygons?
 \subsection{Reading ArcGIS coverages}
+
+\section*{References}
+\begin{description}
+\item Chambers, J.M., 1998, Programming with data, a guide to the S language.
+Springer, New York.
+\end{description}
 
 \end{document}
 

@@ -147,7 +147,6 @@ S3method(summary, SpatialGridDataFrame)
 S3method(summary, SpatialLines)
 S3method(summary, SpatialLinesDataFrame)
 S3method(summary, SpatialRingsDataFrame)
-#S3method(transform, Spatial)
 
 export(".__C__CRS")
 export(".__C__SpatialPoints")
