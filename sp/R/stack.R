@@ -1,10 +1,9 @@
 "map.to.lev" <- function (data, zcol = 1:n, n = 2, names.attr)
 {
-	if (!extends(class(data), "SpatialPointsDataFrame") &&
-			!extends(class(data), "SpatialCellDataFrame"))
-		stop("data is not of a class that extends SpatialPointsDataFrame or SpatialCellDataFrame")
+	if (!extends(class(data), "SpatialPointsDataFrame"))
+		stop("data is not of a class that extends SpatialPointsDataFrame")
 
-	if (dimensions(data) == 3)
+	if (dimensions(data) > 2)
 		stop("map.to.lev only works for 2D data")
 	coord.names = dimnames(data@coords)[[2]]
 
@@ -17,11 +16,6 @@
 	names(data) = c(coord.names, "z", "name")
 	data
 }
-
-## Let's see if this is needed, or whether it gets called automatically:
-#stack.SpatialCellDataFrame = function (x, select, ...) {
-#	stack(as(x, "SpatialPointsDataFrame"), select, ...)
-#}
 
 stack.SpatialPointsDataFrame = function (x, select, ...)
 # inspired heavily on stack.data.frame...

@@ -8,9 +8,8 @@
 
 \usepackage{Sweave}
 
-\title{ Classes and methods for spatial data:\\
-the {\tt sp} S package
-}
+\title{ S Classes and methods for spatial data:\\
+the {\tt sp} package }
 \author{Edzer J.\ Pebesma\footnote{Dept of Physical Geography,
 Faculty of Geosciences, Utrecht University, P.O. Box 80.115,
 3508 TC Utrecht, The Netherlands {\tt e.pebesma@geog.uu.nl}} \and 
@@ -241,40 +240,82 @@ grd = SpatialGrid(grid = gt)
 summary(grd)
 @
 
+The grid parameters can be retrieved by the function
+<<>>=
+gridparameters(grd)
+@
+
 \subsection{Creating grids from points}
 In the following example a three-dimensional grid is constructed from
 a set of point coordinates:
 <<>>=
 pts = expand.grid(x = 1:3, y = 1:4, z=2:7)
-grd = SpatialGrid(points = SpatialPoints(pts))
-summary(grd)
+grd.pts = SpatialGrid(points = SpatialPoints(pts))
+summary(grd.pts)
 @
 Note that when passed a points argument, SpatialGrid also accepts a
-tolerance (default 10 * .Machine\$double.eps) to specify how exactly the
-points should be on a grid. For very large coordinates, this value may
-have to be increased.
+tolerance (default 10 * .Machine\$double.eps) to specify how exactly
+the points should be on a grid. For very large coordinates, this value
+may have to be increased.
 
 \subsection{Gridded data with attributes}
 
 Spatial, gridded data are data with coordinates on a regular lattice.
 To form such a grid we can go from coordinates:
 <<>>=
-xy = expand.grid(xc = 1:3, yc = 1:3)
-xy.grd = data.frame(xy, z = 1:9)
-coordinates(xy.grd) = ~xc + yc
-gridded(xy.grd)
-gridded(xy.grd) = TRUE
-gridded(xy.grd)
-summary(xy.grd)
+attr = expand.grid(xc = 1:3, yc = 1:3)
+grd.attr = data.frame(attr, z = 1:9)
+coordinates(grd.attr) = ~xc + yc
+gridded(grd.attr)
+gridded(grd.attr) = TRUE
+gridded(grd.attr)
+summary(grd.attr)
 @
 
-\subsection{Storage mode: as points or as matrix/array?}
+\subsection{Are grids stored as points or as matrix/array?}
+Objects of class {\tt SpatialGridDataFrame} are stored in of the
+two forms:
+\begin{enumerate}
+\item {\em cell form}: grid cells stored as points, like a {\tt
+SpatialPointsDataFrame}, but extended with grid parameters
+\item {\em full grid form}: as a matrix (or array) containing the
+attribute values, without coordinates: coordinates can be derived from
+row/column in the matrix/array and grid parameters.
+\end{enumerate}
+The form in which a {\tt SpatialGridDataFrame} comes depends on whether
+the grid was created from a set of points or from a matrix or external
+grid format (e.g. read through rgdal). Retrieving the form, or conversion
+to another form is provided by the function {\tt fullgrid}:
 <<>>=
-fullgrid(xy.grd)
+fullgrid(grd)
+fullgrid(grd.pts)
+fullgrid(grd.attr)
+fullgrid(grd.pts) = TRUE
+fullgrid(grd.attr) = TRUE
+fullgrid(grd.pts)
+fullgrid(grd.attr)
 @
+
+Besides {\tt print}, {\tt summary}, {\tt plot},
+objects of class {\tt SpatialGridDataFrame} have methods for
+\begin{itemize}
+\item[\[] select rows (points) or columns (variables)
+\item[\[\[] retrieve a column from the attribute table (data.frame part)
+\item[\[\[<-] assign or replace a column in the attribute table (data.frame part)
+\item[{\tt coordinates}] retrieve the coordinates of grid cells
+\item[{\tt as.matrix}] retrieve the data as a matrix. The first index (rows) is the
+x-column, the second index (columns) the y-coordinate. Row index 1 is the smallest
+x-coordinate; column index 1 is the larges y-coordinate (top-to-bottom).
+\item[{\tt as}] coercion methods for {\tt data.frame}, {\tt SpatialPointsDataFrame}
+\end{itemize}
 
 \section{Lines}
 
+% build line objects
+% plot line objects
+
 \section{Polygons}
+
+\section{Interfaces to GIS and external formats}
 
 \end{document}

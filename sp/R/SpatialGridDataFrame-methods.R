@@ -25,7 +25,7 @@ setIs("SpatialGridDataFrame", "SpatialPointsDataFrame",
 as.matrix.SpatialGridDataFrame = function(x) {
 	if (ncol(x@data) > 1)
 		warning(
-		"as.matrix.SpatialGriddedDataFrame uses first column;\n pass subset or [] for other columns")
+		"as.matrix.SpatialGridDataFrame uses first column;\n pass subset or [] for other columns")
 	fullgrid(x) = TRUE
 	matrix(x@data[[1]], x@grid@cells.dim[1], x@grid@cells.dim[2], byrow=FALSE)
 }
@@ -62,8 +62,7 @@ subset.SpatialGridDataFrame <- function(x, subset, select, drop = FALSE, ...) {
 	points <- subset(xSP, subset=subset, select=cselect, drop = drop, ...)
 	if (missing(select)) select <- names(dfSP)
 	data <- subset(dfSP, subset=subset, select=select, drop = drop, ...)
-	SCDF <- SpatialCellDataFrame(points, data)
-	SCDF
+	SpatialGridDataFrame(points, data)
 }
 
 subs.SpatialGridDataFrame <- function(x, i, j, ... , drop = FALSE) {
@@ -108,7 +107,6 @@ names.SpatialGridDataFrame = function(x) names(as(x, "SpatialPointsDataFrame"))
 print.SpatialGridDataFrame = function(x, ...) {
 	cat("Object of class SpatialGridDataFrame\n")
 	print(as(x, "SpatialGrid"))
-	# print(as(as(x, "SpatialCellDataFrame"), "SpatialPointsDataFrame"))
 	cat("Full grid:")
 	print(length(x@grid.index) == 0)
 	cat("\n")

@@ -61,7 +61,7 @@ points2grid = function(points, tolerance) {
 
 .NumberOfCells = function(x) {
 	if (!is(x, "GridTopology"))
-		stop(".NumberOfCells only works on objects of class SpatialGridded")
+		stop(".NumberOfCells only works on objects of class GridTopology")
 	cd = x@cells.dim
 	n = cd[1]
 	for (i in 2:length(cd))

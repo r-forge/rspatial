@@ -26,7 +26,7 @@ export(plotSpatialLines)
 
 export(as.image.SpatialGridDataFrame)
 
-export(gridparameters, "gridded<-", gridded, griddedfn, fullgrid, "fullgrid<-", 
+export(gridparameters, "gridded<-", gridded, fullgrid, "fullgrid<-", 
 	SpatialGrid, SpatialGridDataFrame, GridTopology, getGridTopology)
 
 #export(as.SpatialRings.Shapelist, as.SpatialRings.matrixList, 

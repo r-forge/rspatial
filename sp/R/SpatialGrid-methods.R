@@ -31,7 +31,7 @@ getGridTopology = function(obj) {
 }
 
 gridparameters = function(obj) { 
-	if (is(obj, "SpatialGridded"))
+	if (is(obj, "SpatialGrid"))
 		obj = obj@grid
 	if (is(obj, "GridTopology"))
 		return(data.frame(

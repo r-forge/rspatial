@@ -32,3 +32,6 @@ setClass("SpatialLines",
 getSLlinesSlot <- function(SL) SL@lines
 
 getSlineCoordsSlot <- function(Sline) Sline@coords
+
+setMethod("coordinates", "Sline", function(obj) obj@coords)
+setMethod("coordinates", "SpatialLines", function(obj) lapply(obj@lines, coordinates))

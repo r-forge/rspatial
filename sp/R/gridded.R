@@ -31,36 +31,39 @@
 	obj
 }
 
-griddedfn = function(obj) return (extends(class(obj), "SpatialGrid"))
+setMethod("gridded", "Spatial", function(obj) is(obj, "SpatialGrid"))
 
-setMethod("gridded", "Spatial", function(obj) griddedfn(obj))
-
-fullgrid = function(obj) return(is(obj, "SpatialGridDataFrame") && length(obj@grid.index) == 0)
+fullgrid = function(obj) return(is(obj, "SpatialGrid") && length(obj@grid.index) == 0)
 
 "fullgrid<-" = function(obj, value) {
-	if (!is(obj, "SpatialGridDataFrame"))
-		stop("fullgrid<- only works on objects of class SpatialGridDataFrame")
+	if (!is(obj, "SpatialGrid"))
+		stop("fullgrid<- only works on objects of class or extending SpatialGrid")
 	if (fullgrid(obj) == value[1])
 		return(obj)
-	if (value[1] == TRUE) {
-    	fd = obj@data
-    	data = list()
-    	n = .NumberOfCells(obj@grid)
-    	for (i in seq(along=fd)) {
-        	if (is.factor(fd[[i]]))
-            	stop("cannot (yet) coerce factor variables")
-        	else if (is.integer(fd[[i]]))
-            	data[[i]] = rep(as.integer(NA), n)
-        	else if (is.numeric(fd[[i]]))
-            	data[[i]] = rep(as.numeric(NA), n)
-    	}
-    	data = data.frame(data)
-    	names(data) = names(fd)
-    	for (i in seq(along=fd))
-        	data[obj@grid.index, i] = fd[[i]]
-    	return(SpatialGridDataFrame(grid = obj@grid, data = data, 
-			coords.nrs = obj@coords.nrs, proj4string = CRS(proj4string(obj))))
+	if (value[1] == TRUE) { # convert to full grid
+    	grd = SpatialGrid(grid = obj@grid, proj4string = CRS(proj4string(obj)))
+		if (is(obj, "SpatialGridDataFrame")) {
+    		fd = obj@data
+    		data = list()
+    		n = .NumberOfCells(obj@grid)
+    		for (i in seq(along=fd)) {
+				data[[i]] = vector(mode(fd[[i]]), n)
+        		if (is.factor(fd[[i]]))
+					data[[i]] = factor(data[[i]], levels = levels(fd[[i]]))
+    		}
+    		data = data.frame(data)
+    		names(data) = names(fd)
+    		for (i in seq(along=fd)) {
+        		data[obj@grid.index, i] = fd[[i]]
+        		data[-obj@grid.index, i] = NA
+			}
+			obj = SpatialGridDataFrame(grid = grd@grid, data = data, 
+				coords.nrs = obj@coords.nrs, proj4string = CRS(proj4string(obj)))
+		} else
+    		obj = SpatialGrid(grid = obj@grid, proj4string = CRS(proj4string(obj)))
 	} else {
+		if (!is(obj, "SpatialGridDataFrame"))
+			stop("fullgrid(obj) <- FALSE only works for SpatialGridDataFrame")
 		if (length(value) == 2 && value[2] == TRUE)
 			sel = apply(obj@data, 1, function(x) !all(is.na(x)))
 		else
@@ -69,9 +72,8 @@ fullgrid = function(obj) return(is(obj, "SpatialGridDataFrame") && length(obj@gr
 			warning("complete map seems to be NA's -- no selection was made")
 			sel = rep(TRUE, length(sel))
 		}
-    	return(SpatialGridDataFrame(coordinates(obj)[sel,,drop=FALSE], 
+    	obj = SpatialGridDataFrame(points = coordinates(obj)[sel,,drop=FALSE], 
 			data = obj@data[sel,,drop=FALSE], coords.nrs = obj@coords.nrs, 
-			proj4string = CRS(proj4string(obj))))
-		#warning("in fullgrid(obj)<-FALSE, empty (NA) grid cells were not removed")
+			proj4string = CRS(proj4string(obj)))
 	}
 }
