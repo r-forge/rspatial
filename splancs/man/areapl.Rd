@@ -1,5 +1,5 @@
-\name{area}
-\alias{area}
+\name{areapl}
+\alias{areapl}
 \title{
 Polygon Operations
 }
@@ -7,7 +7,7 @@ Polygon Operations
 Calculate area of polygon
 }
 \usage{
-area(poly)
+areapl(poly)
 }
 \arguments{
 \item{poly}{
@@ -19,6 +19,6 @@ The area of the polygon is returned
 
 }
 \examples{
-lancs.area_area(lancs.poly) # find area of lancaster boundary
+lancs.area_areapl(lancs.poly) # find area of lancaster boundary
 }
 % Converted by Sd2Rd version 0.3-3.
