@@ -354,3 +354,55 @@ map2Poly4 = function(map) {
 		after = as.integer(after))
 }
 
+gpcPoly2P4 <- function(x) {
+	poly2Poly4 = function(pol) {
+		bb = t(apply(pol, 2, range))
+		dimnames(bb) = list(c("x", "y"), c("min", "max"))
+		nverts = dim(pol)[1]
+		new("Polygon4",
+			bbox = bb,
+			proj4string = CRS(as.character(NA)),
+			coords = pol,
+			nVerts = nverts,
+			nParts = as.integer(1),
+			pStart.from = as.integer(1),
+			pStart.to = as.integer(nverts),
+			RingDir = as.integer(-1),
+			ringDir = as.integer(NA),		
+			region.id = "xx",
+			plotOrder=as.integer(1),
+			after = as.integer(1))
+	}
+#	if (!is(x, "gpc.poly")) stop("not a gpc.poly object")
+	pl <- lapply(attr(x, "pts"), function(x) cbind(as.double(x$x), 
+		as.double(x$y)))
+	polys = pl
+	polys0 = lapply(polys, poly2Poly4)
+	for (i in 1:length(polys0)) 
+		polys0[[i]]@ringDir <- as.integer(.ringDir4(polys0[[i]], 1))
+
+	# set up bb
+	getBBx = function(x) range(x@bbox[1,])
+	getBBy = function(x) range(x@bbox[2,])
+	rx = sapply(polys0, getBBx)
+	ry = sapply(polys0, getBBy)
+	bb = t(cbind(c(min(rx[1,]), max(rx[2,])), c(min(ry[1,]), max(ry[2,]))))
+	# bb = matrix(x$range, 2, 2)
+	dimnames(bb) = list(c("x", "y"), c("min", "max"))
+	pO <- as.integer(1:length(polys0))
+	after <- as.integer(rep(NA, length(polys0)))
+	r1 <- .insiders(polys0)
+	if (!all(sapply(r1, is.null))) {
+		after <- as.integer(sapply(r1, 
+			function(x) ifelse(is.null(x), NA, max(x))))
+		pO <- order(after, na.last=FALSE)
+	}
+	new("Polylist4",
+		bbox = bb,
+		proj4string = CRS(as.character(NA)),
+		polygons = polys0,
+		region.id = as.character(1:length(polys0)),
+		plotOrder=as.integer(pO),
+		after = as.integer(after))
+
+}

@@ -9,6 +9,7 @@ CRS-class               Class "CRS" of coordinate reference system
                         arguments
 gridded                 Create a SpatialDataFrameGrid from a
                         SpatialDataFrame, or the reverse
+holepolys               Hisaji Ono's hole problem
 image.SpatialDataFrameGrid
                         image gridded data in SpatialDataFrameGrid to
                         image format
