@@ -21,6 +21,9 @@ if (!isGeneric("dimensions"))
 if (!isGeneric("transform"))
 	setGeneric("transform", function(x, ...)
 		standardGeneric("transform"))
+if (!isGeneric("overlay"))
+	setGeneric("overlay", function(x, y, ...)
+		standardGeneric("overlay"))
 
 setMethod("bbox", "Spatial", function(obj) obj@bbox)
 

@@ -72,7 +72,7 @@ exportClasses(CRS, Spatial,
 exportClasses(Sring, Srings, SpatialRings, SpatialRingsDataFrame)
 
 exportMethods(show, bbox, coordinates, gridded, rings, dimensions, coerce, "[",
-	transform) # not arcs
+	transform, overlay) # not arcs
 
 S3method("[[", SpatialPointsDataFrame)
 S3method("[[<-", SpatialPointsDataFrame)
