@@ -6,13 +6,12 @@ image.SpatialGridDataFrame = function(x, attr = 1, xcol = 1, ycol = 2,
 		xlab = cnames[xcol]
 	if (missing(ylab))
 		ylab = cnames[ycol]
-	image(as.image.SpatialGridDataFrame(x, attr, xcol, ycol), 
+	image(as.image.SpatialGridDataFrame(x[attr], xcol, ycol), 
 		asp = asp, xlab = xlab, ylab = ylab, ...)
 }
 
-as.image.SpatialGridDataFrame = function(x, attr = 1, xcol = 1, ycol = 2) {
-	m = as.matrix(x[attr])
-	cv = coordinatevalues(x@grid)
+as.image.SpatialGridDataFrame = function(x, xcol = 1, ycol = 2) {
+	cv = coordinatevalues(getGridTopology(x))
 	m = as.matrix(x)
 	list(x = cv[[xcol]], y = sort(cv[[ycol]]), z = m[,ncol(m):1])
 }

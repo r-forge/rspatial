@@ -8,7 +8,7 @@ image on data in SpatialGridDataFrame format
 }
 \usage{
 image.SpatialGridDataFrame(x, attr = 1, xcol = 1, ycol = 2, asp = 1, xlab, ylab, ...)
-as.image.SpatialGridDataFrame(x, attr = 1, xcol = 1, ycol = 2)
+as.image.SpatialGridDataFrame(x, xcol = 1, ycol = 2)
 }
 \arguments{
 \item{x}{ object of class \link{SpatialGridDataFrame} }
