@@ -93,14 +93,16 @@ dsubs.SpatialGridDataFrame =  function(x, ...) x@data[[...]]
 #setMethod("[[", "SpatialGridDataFrame", dsubs.SpatialGridDataFrame)
 "[[.SpatialGridDataFrame" =  dsubs.SpatialGridDataFrame
 
-dsubsass.SpatialGridDataFrame =  function(x, i, j, value) {
+"[[<-.SpatialGridDataFrame" = 
+#setMethod("[[<-", "SpatialGridDataFrame", 
+function(x, i, j, value) {
 	if (!missing(j))
 		stop("only valid calls are x[[i]] <- value")
+	if (is.character(i) && any(!is.na(match(i, dimnames(coordinates(x))[[2]]))))
+		stop(paste(i, "is already present as a coordinate name!"))
 	x@data[[i]] <- value
 	x
 }
-"[[<-.SpatialGridDataFrame" =  dsubsass.SpatialGridDataFrame
-#setMethod("[[<-", "SpatialGridDataFrame", dsubsass.SpatialGridDataFrame)
 
 names.SpatialGridDataFrame = function(x) names(as(x, "SpatialPointsDataFrame"))
 

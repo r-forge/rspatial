@@ -177,6 +177,8 @@ setMethod("[", "SpatialPointsDataFrame", function(x, i, j, ... , drop = FALSE) {
 "[[<-.SpatialPointsDataFrame" =  function(x, i, j, value) {
 	if (!missing(j))
 		stop("only valid calls are x[[i]] <- value")
+	if (is.character(i) && any(!is.na(match(i, dimnames(coordinates(x))[[2]]))))
+		stop(paste(i, "is already present as a coordinate name!"))
 	x@data[[i]] <- value
 	x
 }

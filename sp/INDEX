@@ -66,6 +66,8 @@ SpatialRings-class      Class "SpatialRings"
 SpatialRingsDataFrame-class
                         Class "SpatialRingsDataFrame"
 spplot                  Lattice (trellis) plots for spatial data
+transform-methods       place holder for transform methods in library
+                        spproj
 Sring-class             Class "Sring"
 Srings-class            Class "Srings"
 zerodist                find point pairs with equal spatial
