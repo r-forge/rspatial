@@ -172,5 +172,6 @@ char InPoly(PLOT_POINT q, POLYGON *Poly)
     /* q inside iff an odd number of crossings. */
     if( (Rcross % 2) == 1 )
         return 'i';
-    else	return 'o';
+    else
+		return 'o';
 }

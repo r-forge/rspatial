@@ -24,6 +24,9 @@ if (!isGeneric("transform"))
 if (!isGeneric("overlay"))
 	setGeneric("overlay", function(x, y, ...)
 		standardGeneric("overlay"))
+if (!isGeneric("spplot"))
+	setGeneric("spplot", function(obj, ...)
+		standardGeneric("spplot"))
 
 setMethod("bbox", "Spatial", function(obj) obj@bbox)
 

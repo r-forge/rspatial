@@ -81,121 +81,109 @@ sp.panel.layout = function(lst, panel.counter, ...) {
 		stop(paste("expected object of class list; got object of class", class(lst)))
 }
 
-spplot = function(obj, zcol, ..., names.attr, scales = list(draw = FALSE), 
-		xlab = "", ylab = "", aspect = mapasp(obj), 
-		sp.layout = NULL, plot.all = TRUE, identify = FALSE) {
+getFormulaLevelplot = function(sdf, zcol) {
+	if (!is.character(zcol)) 
+		zcol = names(sdf)[zcol]
+	if (length(zcol) > 1)
+		as.formula(paste("z~", paste(dimnames(coordinates(sdf))[[2]], 
+			collapse = "+"), "|name"))
+	else
+		as.formula(paste(zcol, "~", paste(dimnames(coordinates(sdf))[[2]],
+			collapse = "+")))
+}
 
-	if (!is(obj, "Spatial"))
-		stop("only objects deriving from class Spatial accepted")
+spplot.grid = function(obj, zcol = names(obj), ..., names.attr, 
+		scales = list(draw = FALSE), xlab = "", ylab = "", aspect = mapasp(obj), 
+		panel = panel.gridplot, sp.layout = NULL) {
+	require(lattice)
+	sdf = as(obj, "SpatialPointsDataFrame")
+	formula = getFormulaLevelplot(sdf, zcol)
+	if (length(zcol) > 1)
+		sdf = map.to.lev(sdf, zcol = zcol, names.attr = names.attr)
+	levelplot(formula, as(sdf, "data.frame"), aspect = aspect,
+		panel = panel, xlab = xlab, ylab = ylab, scales = scales,
+		sp.layout = sp.layout, ...)
+}
+
+setMethod("spplot", signature("SpatialGridDataFrame"), spplot.grid)
+
+spplot.rings = function(obj, zcol = names(obj), ..., names.attr, 
+		scales = list(draw = FALSE), xlab = "", ylab = "", aspect = mapasp(obj), 
+		panel = panel.ringsplot, sp.layout = NULL) {
+
+	require(lattice)
+	require(grid)
+	xr = bbox(obj)[1, ] 
+	yr = bbox(obj)[2, ]
+	sdf = as.data.frame(obj)
+	if (is(obj, "SpatialRingsDataFrame"))
+		labpts = getSRSringsLabptSlots(obj)
+	else {
+		# get first points of each lines object:
+		n = length(obj@lines)
+		labpts = matrix(unlist(lapply(ncl@lines, function(x) 
+			lapply(x@Slines[1], function(x) coordinates(x)[1,]))), n, 2, byrow=TRUE) 
+	}
+	dimnames(labpts)[[2]] = c("xlabelpoint", "ylabelpoint")
+	sdf = data.frame(cbind(labpts, sdf))
+	coordinates(sdf) = c("xlabelpoint", "ylabelpoint")
+	formula = getFormulaLevelplot(sdf, zcol)
+	if (length(zcol) > 1)
+		sdf = map.to.lev(sdf, zcol = zcol, names.attr = names.attr)
+	if (is(obj, "SpatialRingsDataFrame"))
+		grid.polygons = as(obj, "SpatialRings")
+	else
+		grid.polygons = as(obj, "SpatialLines")
+	levelplot(formula, as(sdf, "data.frame"), aspect = aspect,
+		grid.polygons = grid.polygons,
+		panel = panel, xlim = xr, ylim = yr, xlab = xlab, ylab =
+		ylab, scales = scales, sp.layout = sp.layout, ...)
+}
+setMethod("spplot", signature("SpatialRingsDataFrame"), spplot.rings)
+setMethod("spplot", signature("SpatialLinesDataFrame"), spplot.rings)
+
+spplot.points = function(obj, zcol = names(obj), ..., names.attr, 
+		scales = list(draw = FALSE), xlab = "", ylab = "", 
+		aspect = mapasp(obj), panel = panel.pointsplot,
+		sp.layout = NULL, identify = FALSE) {
+
 	dots = list(...)
 	require(lattice)
-	do.levelplot = FALSE
-
-	# if necessary, create a spatial points sdf object as dummy data:
-	if (is(obj, "SpatialRingsDataFrame") || is(obj, "SpatialLinesDataFrame")) {
-		require(grid)
-		xr = bbox(obj)[1, ] 
-		yr = bbox(obj)[2, ]
-		sdf = as.data.frame(obj)
-		if (is(obj, "SpatialRingsDataFrame"))
-			labpts = getSRSringsLabptSlots(obj)
-		else {
-			# get first points of each lines object:
-			n = length(obj@lines)
-			labpts = matrix(unlist(lapply(ncl@lines, function(x) 
-				lapply(x@Slines[1], function(x) coordinates(x)[1,]))), n, 2, byrow=TRUE) 
-		}
-		dimnames(labpts)[[2]] = c("xlabelpoint", "ylabelpoint")
-		sdf = data.frame(cbind(labpts, sdf))
-		coordinates(sdf) = c("xlabelpoint", "ylabelpoint")
-		do.levelplot = TRUE
-	} else if (gridded(obj)) {
-		sdf = as(obj, "SpatialPointsDataFrame")
-		do.levelplot = TRUE
-	} else if (is(obj, "SpatialPointsDataFrame"))
-		sdf = obj
-	else if (is(obj, "SpatialPoints"))
-		sdf = obj
-	else 
-		stop(paste("spplot: no plotting method for object of class", class(obj)))
-
-	# if missing, construct zcol:
-	if (missing(zcol)) {
-		if (plot.all)
-			zcol = names(obj) # all columns
-		else
-			zcol = names(obj)[1] # first
-	}
-
+	sdf = obj
 	# create formula:
 	if (length(zcol) > 1) {
-		if (do.levelplot)
-			formula = as.formula(paste("z~", paste(dimnames(coordinates(sdf))[[2]], 
-				collapse = "+"), "|name"))
-		else 
-			formula = as.formula(paste(paste(dimnames(coordinates(sdf))[[2]][2:1], 
-				collapse = "~"), "|name"))
+		formula = as.formula(paste(paste(dimnames(coordinates(sdf))[[2]][2:1], 
+			collapse = "~"), "|name"))
 		sdf = map.to.lev(sdf, zcol = zcol, names.attr = names.attr)
 	} else {
 		if (!is.character(zcol)) 
 			zcol = names(sdf)[zcol]
-		if (do.levelplot)
-			formula = as.formula(paste(zcol, "~", paste(dimnames(coordinates(sdf))[[2]],
-				collapse = "+")))
-		else {
-			ccn = dimnames(coordinates(sdf))[[2]]
-			formula = as.formula(paste(ccn[2], "~", ccn[1]))
-		}
+		ccn = dimnames(coordinates(sdf))[[2]]
+		formula = as.formula(paste(ccn[2], "~", ccn[1]))
 	}
-
-	# call lattice functions:
-	if (is(obj, "SpatialRingsDataFrame") || is(obj, "SpatialLinesDataFrame")) {
-		if (is(obj, "SpatialRingsDataFrame"))
-			grid.polygons = as(obj, "SpatialRings")
-		else
-			grid.polygons = as(obj, "SpatialLines")
-		levelplot(formula, as(sdf, "data.frame"), aspect = aspect,
-			grid.polygons = grid.polygons,
-			panel = panel.ringsplot, xlim = xr, ylim = yr, xlab = xlab, ylab =
-			ylab, scales = scales, sp.layout = sp.layout, ...)
-	} else if (gridded(obj))
-		levelplot(formula, as(sdf, "data.frame"), aspect = aspect,
-			panel = panel.gridplot, xlab = xlab, ylab = ylab, scales = scales,
-			sp.layout = sp.layout, ...)
-	else {
-		args.xyplot = append(list(formula = formula, data = as(sdf, "data.frame"), 
-			panel = panel.cplot, aspect = aspect, scales = scales, 
-			xlab = xlab, ylab = ylab, sp.layout = sp.layout), dots)
-		z = as.vector(as.matrix(as(obj, "data.frame")[zcol]))
-		args.xyplot = fill.call.groups(args.xyplot, z = z, ...)
-		plt = do.call("xyplot", args.xyplot)
-		if (!(is.logical(identify) && identify==FALSE) && interactive()) {
-			print(plt)
-			if (!(is.numeric(identify) && length(identify) == 2))
-				idenfity = c(1,1)
-			trellis.focus("panel", identify[1], identify[2])
-			labels = row.names(as(sdf, "data.frame"))
-			cat("left-mouse to identify points; right-mouse to end\n")
-			cc = coordinates(meuse)
-			x = cc[,1]
-			y = cc[,2]
-			ret = panel.identify(x, y, labels)
-			trellis.unfocus()
-			return(ret)
-		} else
-			plt
-	}
+	args.xyplot = append(list(formula = formula, data = as(sdf, "data.frame"), 
+		panel = panel, aspect = aspect, scales = scales, 
+		xlab = xlab, ylab = ylab, sp.layout = sp.layout), dots)
+	z = as.vector(as.matrix(as(obj, "data.frame")[zcol]))
+	args.xyplot = fill.call.groups(args.xyplot, z = z, ...)
+	plt = do.call("xyplot", args.xyplot)
+	if (!(is.logical(identify) && identify==FALSE) && interactive()) {
+		print(plt)
+		if (!(is.numeric(identify) && length(identify) == 2))
+			idenfity = c(1,1)
+		trellis.focus("panel", identify[1], identify[2])
+		labels = row.names(as(sdf, "data.frame"))
+		cat("left-mouse to identify points; right-mouse to end\n")
+		cc = coordinates(meuse)
+		x = cc[,1]
+		y = cc[,2]
+		ret = panel.identify(x, y, labels)
+		trellis.unfocus()
+		return(ret)
+	} else
+		plt
 }
-
-spplot.key = function(sp.layout, row = 1, col = 1) {
-	for (i in seq(along=row)) {
-		for (j in seq(along=col)) {
-			trellis.focus("panel", col[j], row[i], highlight = FALSE)
-			sp.panel.layout(sp.layout)
-			trellis.unfocus()
-		}
-	}
-}
+setMethod("spplot", signature("SpatialPointsDataFrame"), spplot.points)
 
 panel.gridplot = function(x, y, z, subscripts, ..., panel.counter, sp.layout) {
 	panel.levelplot(x, y, z, subscripts, ...)
@@ -251,7 +239,7 @@ function (x, y, z, subscripts, at = pretty(z), shrink, labels = NULL,
 	sp.panel.layout(sp.layout, panel.counter)
 }
 
-panel.cplot = function(x, y, subscripts, col, sp.layout, ..., panel.counter) {
+panel.pointsplot = function(x, y, subscripts, col, sp.layout, ..., panel.counter) {
 	sp.panel.layout(sp.layout, panel.counter)
 	panel.superpose(x, y, subscripts, col = col, ...)
 }
@@ -387,6 +375,16 @@ layout.scale.bar = function(height = 0.05) {
 sp.theme = function() list(
 	regions = list(col = bpy.colors(100))
 )
+
+spplot.key = function(sp.layout, row = 1, col = 1) {
+	for (i in seq(along=row)) {
+		for (j in seq(along=col)) {
+			trellis.focus("panel", col[j], row[i], highlight = FALSE)
+			sp.panel.layout(sp.layout)
+			trellis.unfocus()
+		}
+	}
+}
 
 sp.pagefn = function(n) {
 	pos = lattice:::lattice.getStatus("current.panel.positions")

@@ -31,7 +31,8 @@ shp2SLDF)
 export(plotSpatialLines, plot.SpatialRings)
 
 export(spplot, layout.scale.bar, layout.north.arrow, sp.theme, 
-	mapLegendGrob)
+	mapLegendGrob, sp.pagefn, spplot.key, panel.gridplot, panel.ringsplot,
+	panel.pointsplot)
 
 export(as.image.SpatialGridDataFrame)
 
@@ -72,7 +73,7 @@ exportClasses(CRS, Spatial,
 exportClasses(Sring, Srings, SpatialRings, SpatialRingsDataFrame)
 
 exportMethods(show, bbox, coordinates, gridded, rings, dimensions, coerce, "[",
-	transform, overlay) # not arcs
+	transform, overlay, spplot) # not arcs
 
 S3method("[[", SpatialPointsDataFrame)
 S3method("[[<-", SpatialPointsDataFrame)
