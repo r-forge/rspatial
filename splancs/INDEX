@@ -1,0 +1,54 @@
+Fhat                     Point Summary Statistics
+Fzero                    Point Summary Statistics
+Ghat                     Point Summary Statistics
+Kenv.csr                 Simulations
+Kenv.label               Simulations
+Kenv.tor                 Simulations
+addpoints                Point Operations
+area                     Polygon Operations
+is.points                Point Objects
+bbox                     Polygon Operations
+csr                      Simulations
+delpoints                Point Operations
+dsquare                  Raised Incidence Modelling
+getpoly                  Polygon Operations
+gridpts                  Point Operations
+inout                    Point/Poly Operations
+inpip                    Point/Poly Operations
+is.points                Point Objects
+k12hat                   Point Summary Statistics
+kernel2d                 Point Operations
+kernel3d                 Space-time kernel functions
+kernrat                  Point Operations
+kerview                  Space-time kernel functions
+khat                     Point Summary Statistics
+khvc                     Point summary statistics
+khvmat                   Point Summary Statistics
+mpoint                   Graphics
+mse2d                    Point Operations.
+n2dist                   Point Summary Statistics
+nndistF                  Point Summary Statistics
+nndistG                  Point Summary Statistics
+npts                     Point Objects
+pdense                   Point/Poly Operations
+pip                      Point/Poly Operations
+pointmap                 Graphics
+pointmap                 Graphics
+print.ribfit             Raised Incidence Modelling
+rlabel                   Point Operations
+rtor.shift               Point Operations
+sbox                     Polygon Operations
+secal                    Point Summary Statistics
+shift                    Point Operations
+splancs                  Point pattern analysis
+is.points                Point Objects
+stdiagn                  Space-time Clustering Analysis
+stkhat                   Space-time Clustering Analysis
+stmctest                 Space-time Clustering
+stsecal                  Space-time Clustering Analysis
+stvmat                   Space-time Clustering Analysis
+thin                     Point Operations
+tor.shift                Point Operations
+tribble                  Raised Incidence Modelling
+triblik                  Raised Incidence Modelling
+zoom                     Graphics
