@@ -116,14 +116,13 @@ Map2Poly4 <- function(Map, region.id=NULL, projargs=as.character(NA), raw=FALSE)
 		else {	
 			res[[i]] <- new("Polygon4", SD,
 				coords=Map$Shapes[[i]]$verts,
-				nVerts=as.integer(attr(Map$Shapes[[i]], 
-					"nVerts")),
+				nVerts=as.integer(
+					nrow(Map$Shapes[[i]]$verts)),
 				nParts=as.integer(1),
 				pStart.from=as.integer(1),
-				pStart.to=as.integer(attr(Map$Shapes[[i]], 
-					"nVerts")),
-				RingDir=as.integer(as.vector(attr(
-					Map$Shapes[[i]], "RingDir"))),
+				pStart.to=as.integer(
+					nrow(Map$Shapes[[i]]$verts)), 
+				RingDir=as.integer(NA),
 				ringDir=as.integer(NA),
 				region.id=region.id[i],
 				plotOrder=as.integer(1),
@@ -136,7 +135,7 @@ Map2Poly4 <- function(Map, region.id=NULL, projargs=as.character(NA), raw=FALSE)
 
 .getMultiShp4 <- function(shp, nParts, SD, reg.id, raw=FALSE) {
 	Pstart <- shp$Pstart
-	nVerts <- attr(shp, "nVerts")
+	nVerts <- nrow(shp$verts)
 	from <- integer(nParts)
 	to <- integer(nParts)
 	from[1] <- 1
@@ -171,7 +170,7 @@ Map2Poly4 <- function(Map, region.id=NULL, projargs=as.character(NA), raw=FALSE)
 		nParts=as.integer(nParts),
 		pStart.from=as.integer(from),
 		pStart.to=as.integer(to),
-		RingDir=as.integer(as.vector(attr(shp, "RingDir"))),
+		RingDir=as.integer(NA),
 		ringDir=as.integer(NA),
 		region.id=reg.id,
 		plotOrder=as.integer(pO),
@@ -484,7 +483,7 @@ map2Poly4 = function(map) {
 			nParts = as.integer(1),
 			pStart.from = as.integer(1),
 			pStart.to = as.integer(nverts),
-			RingDir = as.integer(-1),
+			RingDir = as.integer(NA),
 			ringDir = as.integer(NA),		
 			region.id = "xx",
 			plotOrder=as.integer(1),
@@ -540,7 +539,7 @@ gpcPoly2P4 <- function(x) {
 			nParts = as.integer(1),
 			pStart.from = as.integer(1),
 			pStart.to = as.integer(nverts),
-			RingDir = as.integer(-1),
+			RingDir = as.integer(NA),
 			ringDir = as.integer(NA),		
 			region.id = "xx",
 			plotOrder=as.integer(1),
