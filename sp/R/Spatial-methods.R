@@ -18,9 +18,9 @@ if (!isGeneric("gridded"))
 if (!isGeneric("dimensions"))
 	setGeneric("dimensions", function(obj)
 		standardGeneric("dimensions"))
-#if (!isGeneric("transform"))
-#	setGeneric("transform", function(x, ...)
-#		standardGeneric("transform"))
+if (!isGeneric("transform"))
+	setGeneric("transform", function(x, ...)
+		standardGeneric("transform"))
 
 setMethod("bbox", "Spatial", function(obj) obj@bbox)
 
@@ -34,12 +34,14 @@ setMethod("rings", "Spatial", function(obj) {
 	}
 )
 
-#transform.Spatial <- function(x, ...) {
-#	if (require(spproj)) transform(x, ...)
-#	else stop("for using (coordinate) transform on objects deriving from Spatial, first load library spproj")
-#}
+transform.Spatial <- function(x, ...) {
+	if (require(spproj)) 
+		standardGeneric("transform")
+	else 
+		stop("for using (coordinate) transform on objects deriving from Spatial, library spproj is required")
+}
 
-#setMethod("transform", "Spatial", transform.Spatial)
+setMethod("transform", "Spatial", transform.Spatial)
 
 summary.Spatial = function(object, ...) {
     obj = list()
