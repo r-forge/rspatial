@@ -12,16 +12,16 @@ function (data, zcol, names.attr, col.regions = bpy.colors(), expand = 0.03,...)
 	} else
 		pol = NULL
 	if (missing(zcol)) 
-		zcol = names(data@data)[1]
+		zcol = names(as(data, "data.frame"))[1]
 	if (length(zcol) > 1) {
-		formula = as.formula(paste("z~", paste(dimnames(data@coords)[[2]], 
+		formula = as.formula(paste("z~", paste(dimnames(coordinates(data))[[2]], 
 			collapse = "+"), "|name"))
 		data = map.to.lev(data, zcol = zcol, names.attr = names.attr)
 		#data = stack(data, zcol)
 	} else {
 		if (!is.character(zcol)) 
 			stop("zcol should be a character vector")
-		formula = as.formula(paste(zcol, "~", paste(dimnames(data@coords)[[2]],
+		formula = as.formula(paste(zcol, "~", paste(dimnames(coordinates(data))[[2]],
 			collapse = "+")))
 	}
 #ifdef R

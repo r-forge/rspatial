@@ -8,7 +8,7 @@ function (obj, zcol = 1, cuts = 5, ..., fill = TRUE, pch, col, cex = 1,
         stop("first object is not of (or does not extend) class SpatialPoints")
     cc = coordinates(obj)
     if (is(obj, "SpatialPointsDataFrame")) 
-        data = obj@data
+        data = as(data, "data.frame")
     else data = data.frame(Var1 = rep(1, nrow(cc)))
     x = cc[, 1]
     y = cc[, 2]
@@ -43,20 +43,20 @@ function (obj, zcol = 1, cuts = 5, ..., fill = TRUE, pch, col, cex = 1,
 	}
 	if (missing(legend))
 		legend = levels(groups)
-
-    if (identify) {
-        stop("does not work yet")
-        plot(x, y, asp = 1, cex = cex, main = main, col = groups, 
-            ...)
-        return(identify(x, y, labels))
-    } else {
-        require(lattice)
-        n = length(levels(groups))
-        key = list(space = "right", points = list(pch = rep(pch, 
-            n), col = col, cex = rep(cex, n)), text = list(legend))
-        xyplot(y ~ x, groups = groups, col = col, cex = cex, 
-            pch = pch, asp = mapasp(obj), key = key, main = main, 
-            ...)
-    }
+	require(lattice)
+	n = length(levels(groups))
+	key = list(space = "right", points = list(pch = rep(pch, 
+		n), col = col, cex = rep(cex, n)), text = list(legend))
+	plt = xyplot(y ~ x, groups = groups, col = col, cex = cex, 
+		pch = pch, asp = mapasp(obj), key = key, main = main, ...)
+	if (identify) {
+		print(plt)
+		trellis.focus("panel", 1, 1)
+		cat("left-mouse to identify points; right-mouse to end\n")
+		ret = panel.identify(x, y, labels)
+		trellis.unfocus()
+		return(ret)
+	} else
+		return(plt)
 }
 
