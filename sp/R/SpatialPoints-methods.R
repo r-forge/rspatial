@@ -1,5 +1,7 @@
 "SpatialPoints" = function(coords, proj4string = CRS(as.character(NA))) {
 	coords = coordinates(coords) # checks numeric mode
+	if (is.null(dimnames(coords)[[2]]))
+		dimnames(coords)[[2]] = paste("coords.x", 1:(dim(coords)[2]), sep = "")
 	bbox = t(apply(coords, 2, range))
 	dimnames(bbox)[[2]] = c("min", "max")
 	new("SpatialPoints", coords = coords, bbox = as.matrix(bbox),
@@ -25,16 +27,16 @@ setMethod("coordinates", "matrix", function(obj) if (is.numeric(obj)) { obj } el
 		"\n")
 }
 
-plot.SpatialPoints = function(x, xlab, ylab, asp = 1, pch = 3, ...) 
+plot.SpatialPoints = function(x, xlab = "x", ylab = "y", asp = 1, pch = 3, ...) 
 {
 	cc = coordinates(x)
-	if (is.null(dimnames(cc)[[2]]))
-		dimnames(cc)[[2]] = c("x", "y")
 	nm = dimnames(cc)[[2]]
-	if (missing(xlab))
-		xlab = nm[1]
-	if (missing(ylab))
-		ylab = nm[2]
+	if (!is.null(nm)) {
+		if (missing(xlab))
+			xlab = nm[1]
+		if (missing(ylab))
+			ylab = nm[2]
+	}
 	plot(cc[,1], cc[,2], xlab = xlab, ylab = ylab, asp = asp, pch = pch, ...)
 }
 

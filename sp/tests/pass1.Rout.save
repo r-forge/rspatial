@@ -23,9 +23,9 @@ Type 'q()' to quit R.
  [1] "x"       "y"       "cadmium" "copper"  "lead"    "zinc"    "elev"   
  [8] "dist"    "om"      "ffreq"   "soil"    "lime"    "landuse" "dist.m" 
 > names(as.data.frame(x))
- [1] "x"       "y"       "cadmium" "copper"  "lead"    "zinc"    "elev"   
- [8] "dist"    "om"      "ffreq"   "soil"    "lime"    "landuse" "dist.m" 
-[15] "X1"      "X2"     
+ [1] "x"         "y"         "cadmium"   "copper"    "lead"      "zinc"     
+ [7] "elev"      "dist"      "om"        "ffreq"     "soil"      "lime"     
+[13] "landuse"   "dist.m"    "coords.x1" "coords.x2"
 > class(as(x, "data.frame"))
 [1] "data.frame"
 > x = meuse

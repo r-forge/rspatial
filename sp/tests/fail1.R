@@ -13,7 +13,8 @@ try(coordinates(x) <- ~log(x)+sqrt(y)) # no expressions allowed
 try(coordinates(x) <- ~x+y+z) # z is not present
 x$x2 = x$x^2
 x$y2 = x$y^2
-try(coordinates(x) <- ~x+y+x2+y2) # 4D not allowed
+try(coordinates(x) <- ~x+y+x2+y2) # 4D now passes check...
+x = meuse
 try(coordinates(x) <- ~x) # 1D not allowed
 
 # is.na.sp.coords

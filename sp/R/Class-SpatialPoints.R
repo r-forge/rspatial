@@ -5,10 +5,10 @@ setClass("SpatialPoints",
 		if (!is.matrix(object@coords))
 			stop("coords slot is not a matrix")
 		if (length(object@coords) == 0)
-			stop("coords can not have length zero")
+			stop("coords cannot have zero length")
 		if (nrow(object@coords) < 1)
 			stop("no points set: too few rows")
-		if (ncol(object@coords) <= 1)
+		if (ncol(object@coords) < 2)
 			stop("no points set: too few columns")
 		return(TRUE)
 	}

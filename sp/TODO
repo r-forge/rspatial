@@ -1,3 +1,5 @@
+Higher-dimensional grids: drop dimension after selection? (now fails)
+
 check (and document) what happens if duplicate points are converted to
 a grid.
 

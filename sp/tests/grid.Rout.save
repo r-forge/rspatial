@@ -29,9 +29,9 @@ Type 'q()' to quit R.
 > summary(x)
 Object of class SpatialGridDataFrame
 Coordinates:
-        min    max
-[1,] 178460 181540
-[2,] 329620 333740
+     min    max
+x 178460 181540
+y 329620 333740
 Is projected: NA 
 proj4string : [NA]
 Number of points: 2

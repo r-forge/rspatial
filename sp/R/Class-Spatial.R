@@ -1,24 +1,22 @@
 # Lancaster, Thu Nov  4 14:44:00 GMT 2004, fresh start from icelfloe
 setClass("Spatial",
-	representation(bbox = "matrix",
-		proj4string = "CRS"),
-	prototype = list(
-		bbox = matrix(rep(NA, 6), 3, 2, dimnames = list(NULL, c("min","max"))),
-		proj4string = CRS(as.character(NA))), # prototype will not pass validity
+	representation(bbox = "matrix", proj4string = "CRS"),
+	prototype = list(bbox = matrix(rep(NA, 6), 3, 2, dimnames = list(NULL, c("min","max"))),
+		proj4string = CRS(as.character(NA))), # prototype should not pass validity
 	validity = function(object) {
-		if (!is.matrix(object@bbox))
+		bb = bbox(object)
+		if (!is.matrix(bb))
 			return("bbox should be a matrix")
 		n = dimensions(object)
-		# may be relaxed later on:
-		if (n > 3 || n < 2)
-			return("spatial.dimension should be either 2 or 3") 
-		if (any(is.na(object@bbox)))
-			return("bbox x and y values should never be NA")
-		if (any(object@bbox[,"max"] < object@bbox[,"min"]))
-			return("bbox is invalid: max < min")
+		if (n < 2)
+			return("spatial.dimension should be 2 or more") 
+		if (any(is.na(bb)))
+			return("bbox should never contain NA values")
+		if (any(bb[,"max"] < bb[,"min"]))
+			return("invalid bbox: max < min")
 		if (!is(object@proj4string, "CRS"))
-			return("proj4string should be CRS")
-		# validate proj4string here?
+			return("proj4string slot should be of class CRS")
+		# validate proj4string here? -- no, that's spproj business
 		return(TRUE)
 	}
 )

@@ -3,8 +3,12 @@
 	if (!extends(class(data), "SpatialPointsDataFrame"))
 		stop("data is not of a class that extends SpatialPointsDataFrame")
 
-	if (dimensions(data) > 2)
-		stop("map.to.lev only works for 2D data")
+	if (dimensions(data) > 2) {
+		warning("map.to.lev ignores spatial dimensions beyond the first 2")
+		cc = coordinates(data)[,1:2]
+		data = as(data, "data.frame")
+		coordinates(data) = cc
+	}
 	coord.names = dimnames(data@coords)[[2]]
 
 	data = stack(as(data, "SpatialPointsDataFrame"), zcol) # replace with data.frame

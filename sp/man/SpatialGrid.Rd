@@ -12,8 +12,7 @@
 defines spatial grid by offset, cell size and dimensions
 }
 \usage{
-GridTopology(cellcentre.offset, cellsize, cells.dim, crs = CRS(as.character(NA)),
-    cell.extent = 0.5)
+GridTopology(cellcentre.offset, cellsize, cells.dim)
 SpatialGrid(points = NULL, grid = NULL, tolerance = 10 * .Machine$double.eps,
 	proj4string = CRS(as.character(NA)))
 coordinatevalues(obj)
@@ -26,9 +25,6 @@ getGridTopology(obj)
     each dimension}
     \item{cellsize}{numeric; vector with the cell size in each dimension}
     \item{cells.dim}{integer; vector with number of cells in each dimension}
-    \item{crs}{Object of class \code{"CRS"}; projection string }
-	\item{cell.extent}{numeric; amount with which we should extent the bbox, expressed
-	as fraction of cellsize}
 	\item{points}{ coordinates, either as matrix or as object of class
 	\link{SpatialPoints-class} }
 	\item{grid}{ grid topology; object of class \link{GridTopology-class}}
@@ -78,7 +74,7 @@ class(x)
 x
 summary(x)
 coordinates(x)
-coordinates(GridTopology(c(0,0), c(1,1), c(5,4), cell.extent = 0))
+coordinates(GridTopology(c(0,0), c(1,1), c(5,4)))
 coordinatevalues(x)
 }
 

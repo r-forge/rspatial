@@ -9,6 +9,8 @@ setMethod("coordinates", "SpatialPointsDataFrame", function(obj) obj@coords)
 
 "coordinates<-" = function(object, value) {
 	coord.numbers = NULL
+	if (!inherits(object, "data.frame"))
+		stop("coordinates can only be set on objects of class data.frame")
 	if (inherits(value, "formula")) {
 		cc = model.frame(value, object) # retrieve coords
 		if (dim(cc)[2] == 2) {

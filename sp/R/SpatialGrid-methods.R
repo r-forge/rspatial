@@ -44,24 +44,38 @@ gridparameters = function(obj) {
 }
 
 boguspoints = function(grid) {
-	x = c(x = grid@cellcentre.offset, 
-		y = grid@cellcentre.offset + (grid@cells.dim - 1) * grid@cellsize)
-	SpatialPoints(matrix(x, 2, length(grid@cellcentre.offset), byrow = TRUE))
+	x = rbind(grid@cellcentre.offset, 
+			grid@cellcentre.offset + (grid@cells.dim - 1) * grid@cellsize)
+	SpatialPoints(x)
 }
 
 getGridIndex = function(cc, grid) {
 	n = ncol(cc)
-	idx = numeric(nrow(cc))
-	idx = round((cc[,1] - grid@cellcentre.offset[1])/grid@cellsize[1]) + 1
-	yi = grid@cells.dim[2] - 
-		(round((cc[,2] - grid@cellcentre.offset[2])/grid@cellsize[2]) + 1)
-	idx = idx + grid@cells.dim[1] * yi
-	if (n > 2) {
-		zi = round((cc[,3] - grid@cellcentre.offset[3])/grid@cellsize[3])
-		idx = idx + (grid@cells.dim[1] * grid@cells.dim[2]) * zi
+	idx = rep(1, nrow(cc))
+	#idx = round((cc[,1] - grid@cellcentre.offset[1])/grid@cellsize[1]) + 1
+	#yi = grid@cells.dim[2] - 
+	#	(round((cc[,2] - grid@cellcentre.offset[2])/grid@cellsize[2]) + 1)
+	#idx = idx + grid@cells.dim[1] * yi
+	#if (n > 2) {
+	#	zi = round((cc[,3] - grid@cellcentre.offset[3])/grid@cellsize[3])
+	#	idx = idx + (grid@cells.dim[1] * grid@cells.dim[2]) * zi
+	#}
+	cumprod = 1
+	for (i in 1:n) {
+		this.idx = round((cc[,i] - grid@cellcentre.offset[i])/grid@cellsize[i])
+		if (i == 2)
+			this.idx = grid@cells.dim[2] - (this.idx + 1)
+		if (any(this.idx > grid@cells.dim[i] | this.idx < 0)) {
+			print(this.idx)
+			stop("this.idx out of range")
+		}
+		idx = idx + this.idx * cumprod
+		cumprod = cumprod * grid@cells.dim[i]
 	}
-	if (min(idx) < 1 || max(idx) > .NumberOfCells(grid))
+	if (min(idx) < 1 || max(idx) > .NumberOfCells(grid)) {
+		print(idx)
 		stop("index outside boundaries")
+	}
 	as.integer(round(idx))
 }
 

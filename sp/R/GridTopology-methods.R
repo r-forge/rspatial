@@ -1,7 +1,4 @@
-GridTopology = function(cellcentre.offset, cellsize, cells.dim, crs =
-		CRS(as.character(NA)), cell.extent = 0.5) {
-	#bb = cbind(cellcentre.offset - cell.extent * cellsize, 
-	#	cellcentre.offset + (cells.dim + cell.extent) * cellsize)
+GridTopology = function(cellcentre.offset, cellsize, cells.dim) {
 	new("GridTopology",
 		cellcentre.offset = cellcentre.offset,
 		cellsize = cellsize,
@@ -43,14 +40,28 @@ points2grid = function(points, tolerance) {
 		cells.dim = as.integer(rep(1,n)))
 	cc = coordinates(points)
 	for (i in 1:n) { # loop over x, y, and possibly z
+		Warn = TRUE
 		x = cc[, i]
-    	xx = sort(unique(x))
-    	difx = diff(xx)
-    	if (diff(range(unique(difx))) > tolerance)
-       		stop(paste("dimension", i,": coordinate intervals are not constant"))
+    	sux = sort(unique(x))
+    	difx = diff(sux)
+		if (length(difx) == 0)
+			stop(paste("cannot determine cell size from constant coordinate", i))
+		ru.difx = range(unique(difx))
+    	err1 = diff(ru.difx)/max(range(abs(sux)))
+    	if (err1 > tolerance) { 
+			xx = ru.difx / min(ru.difx)
+			err2 = max(abs(floor(xx) - xx))
+			if (err2 > tolerance) {
+				cat(paste("suggested tolerance minimum:", err2))
+       			stop(paste("dimension", i,": coordinate intervals are not constant"))
+			} else if (Warn) {
+				warning(paste("grid has empty column/rows in dimension", i))
+				Warn = FALSE # warn once per dimension
+			}
+		}
 		ret@cellsize[i] = mean(difx)
-		ret@cellcentre.offset[i] = min(xx)
-    	ret@cells.dim[i] = length(xx)
+		ret@cellcentre.offset[i] = min(sux)
+    	ret@cells.dim[i] = length(sux)
 	}
 	nm = dimnames(cc)[[2]]
 	names(ret@cellsize) = nm
@@ -62,11 +73,7 @@ points2grid = function(points, tolerance) {
 .NumberOfCells = function(x) {
 	if (!is(x, "GridTopology"))
 		stop(".NumberOfCells only works on objects of class GridTopology")
-	cd = x@cells.dim
-	n = cd[1]
-	for (i in 2:length(cd))
-		n = n * cd[i]
-	n
+	prod(x@cells.dim)
 }
 
 print.GridTopology = function(x, ...) {

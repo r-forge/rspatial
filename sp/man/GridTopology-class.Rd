@@ -18,7 +18,7 @@ see \link{SpatialGrid}
 \section{Slots}{
   \describe{
     \item{\code{cellcentre.offset}:}{numeric; vector with the smallest coordinates for
-	each dimension}
+	each dimension; coordinates refer to the cell centre }
     \item{\code{cellsize}:}{numeric; vector with the cell size in each dimension}
     \item{\code{cells.dim}:}{integer; vector with number of cells in each dimension}
     \item{\code{bbox}:}{Object of class \code{"matrix"}; bounding box }

@@ -1,10 +1,13 @@
 SpatialGridDataFrame = function(points = NULL, grid = NULL, data, 
+		tolerance = 10 * .Machine$double.eps, 
 		coords.nrs = numeric(0), proj4string = CRS(as.character(NA))) {
 	if (!is.null(points)) {
 		if (is(points, "SpatialPoints"))
-			points = SpatialGrid(SpatialPoints(points, CRS(proj4string(points))))
+			points = SpatialGrid(SpatialPoints(points, CRS(proj4string(points))),
+				tolerance = tolerance)
 		else
-			points = SpatialGrid(SpatialPoints(points))
+			points = SpatialGrid(SpatialPoints(points, proj4string = proj4string),
+				tolerance = tolerance)
 		new("SpatialGridDataFrame", points, data = data, coords.nrs = coords.nrs)
 	} else
 		new("SpatialGridDataFrame", SpatialGrid(grid = grid, proj4string=proj4string), 

@@ -36,15 +36,15 @@ Error in "[.data.frame"(object, , -coord.numbers, drop = FALSE) :
 Error in eval(expr, envir, enclos) : Object "z" not found
 > x$x2 = x$x^2
 > x$y2 = x$y^2
-> try(coordinates(x) <- ~x+y+x2+y2) # 4D not allowed
-Error in validObject(.Object) : Invalid "SpatialPoints" object: spatial.dimension should be either 2 or 3
+> try(coordinates(x) <- ~x+y+x2+y2) # 4D now passes check...
+> x = meuse
 > try(coordinates(x) <- ~x) # 1D not allowed
-Error in validObject(.Object) : Invalid "SpatialPoints" object: spatial.dimension should be either 2 or 3
+Error in validObject(.Object) : Invalid "SpatialPoints" object: spatial.dimension should be 2 or more
 > 
 > # is.na.sp.coords
 > a = data.frame(cbind(xx=c(1,NA,2,10),yy=c(2,NA,NA,20)))
 > try(coordinates(a) <- c("xx", "yy")) # should fail!
-Error in validObject(.Object) : Invalid "SpatialPoints" object: bbox x and y values should never be NA
+Error in validObject(.Object) : Invalid "SpatialPoints" object: bbox should never contain NA values
 > 
 > x = meuse[1:4,]
 > coordinates(x) = c(1,2)

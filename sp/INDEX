@@ -8,6 +8,7 @@ Slines-class            Class "Sline"
 Spatial-class           Class "Spatial" ~~~
 SpatialGrid             define spatial grid
 SpatialGrid-class       Class "SpatialGrid" ~~~
+SpatialGridDataFrame    define spatial grid with attribute data
 SpatialGridDataFrame-class
                         Class "SpatialGridDataFrame" ~~~
 SpatialLines            create objects of class SpatialLines or
@@ -51,6 +52,7 @@ mapasp                  Calculate aspect ratio for plotting geographic
                         maps
 meuse                   Meuse river data set
 meuse.grid              Prediction Grid for Meuse Data Set
+meuse.riv               River Meuse outline
 nc.shp                  North Carolina county boundaries (shapefile)
 ncmap                   North Carolina county boundaries (maps)
 pal                     North Carolina county boundaries (e00)
