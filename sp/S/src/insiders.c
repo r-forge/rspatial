@@ -9,6 +9,8 @@
 #  error("no SPLUS_VERSION >= 6.0")
 # endif
 # define SEXP s_object *
+# define PROTECT(x) x
+# define UNPROTECT(x)
 #endif
 
 #define ROFFSET 1

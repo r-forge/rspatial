@@ -16,6 +16,7 @@ R-target:  # can't use `R' as make target -- it's a directory
 S-Plus:
 	./scripts/toSplus $(Sdir) $(Sdest)
 	./scripts/preproc.pl -v SP5 $(Sdir)/src/pip.c > $(Sdest)/pip.c
+	./scripts/preproc.pl -v SP5 $(Sdir)/src/insiders.c > $(Sdest)/insiders.c
 	(cd $(Sdest); $(SEXEC) CHAPTER)
 	rm -f $(Sdest)/.Data/.Audit
 	(cd $(Sdest); $(SEXEC) make)

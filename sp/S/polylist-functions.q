@@ -1,5 +1,4 @@
-# Polygon classes
-
+# Polygon functions
 
 Map2Poly4 <- function(Map, region.id=NULL, projargs=as.character(NA)) {
 	if (class(Map) != "Map") stop("not a Map")
@@ -98,8 +97,8 @@ Map2Poly4 <- function(Map, region.id=NULL, projargs=as.character(NA)) {
 	res <- shp$verts[from[1]:to[1],]
 	if (nParts > 1) {
 	    for (j in 2:nParts) {
-	        res <- rbind(res, c(NA, NA))
-	        res <- rbind(res, shp$verts[from[j]:to[j],])
+		res <- rbind(res, c(NA, NA))
+		res <- rbind(res, shp$verts[from[j]:to[j],])
 	     }
 	}
 	for (j in 1:nParts) {
@@ -152,7 +151,6 @@ Map2Poly4 <- function(Map, region.id=NULL, projargs=as.character(NA)) {
 	res
 }
 
-
 # based on SHPRingDir_2d, modified to use current ring only, and to strip
 # out last vertex if identical with first
 
@@ -194,21 +192,42 @@ Map2Poly4 <- function(Map, region.id=NULL, projargs=as.character(NA)) {
    	else return (-1)
 }
 
-plot.Polylist4 <- function(x, col, border=
+# .polygon tries to catch the numerous R/S-Plus differences...
+.polygon = function(x, y = NULL, density = NULL, angle = 45,
+	border = NULL, col = NA, lty = NULL, xpd = NULL, ...) {
 #ifdef R
-par("fg"),
+	polygon(x = x, y = y, density = density, angle = angle,
+		border = border, col = col, lty = lty, xpd = xpd, ...)
 #else
-par("col"),
+	# polygon(x, y, density=-1, angle=45, border=T, col=par("col"))
+	if (is.matrix(x))
+		dimnames(x) = list(NULL, c("x", "y")) # may not be necessary
+	if (is.null(density))
+		density = -1
+	if (!(is.logical(border) && !is.na(border)))
+		border = is.null(border)
+	else if (is.na(border))
+		border = F
+	if (is.na(col))
+		col = par("col")
+	polygon(x = x, density = density, angle = angle,
+		border = border, col = col, ...)
 #endif
-	add=FALSE, xlim=NULL, ylim=NULL, xlab="", ylab="", asp=1, xpd = NULL, 
-	density = NULL, angle = 45, pbg=
+}
+
+plot.Polylist4 <- function(x, col, border = NULL, add=FALSE, xlim=NULL, 
+	ylim=NULL, xlab="", ylab="", asp=1, xpd = NULL, density = NULL, 
+	angle = 45, pbg, ...) {
+
+	if (missing(pbg))
 #ifdef R
-par("bg"), 
+		pbg = par("bg") # transparent!
 #else
-0,
+		pbg = 0
 #endif
-	...) {
-	if (!is(x, "Polylist4")) stop("Not a Polygon4 object")
+
+	if (!is(x, "Polylist4")) 
+		stop("Not a Polygon4 object")
 	usrpoly <- function(x) {
 		p <- matrix(c(x[1], x[2], x[2], x[1], x[3], x[3], 
 			x[4], x[4]), ncol=2)
@@ -223,40 +242,31 @@ par("bg"),
 		if (is.null(ylim)) ylim <- c(maplim["y",])
 		plot(x=xlim, y=ylim, xlim=xlim, ylim=ylim, type="n",
 		asp=asp, xlab=xlab, ylab=ylab, ...)
-		polygon(usrpoly(par("usr")), col=pbg, border=NA)
+		.polygon(usrpoly(par("usr")), col = pbg, border = NA)
 	}
 	if (missing(col)) col <- NA
 	n <- length(x@polygons)
-        if (length(border) != n) {
-            	border <- rep(border, n, n)
-        }
-    	if (!is.null(density)) {
-        	if (length(density) != n) {
-            	density <- rep(density, n, n)
-        	}
-        	if (length(angle) != n) {
-            	angle <- rep(angle, n, n)
-        	}
-        	for (j in x@plotOrder) .polygonHolesh(x@polygons[[j]], 
-			border = border[j], xpd = xpd, density = density[j], 
-			angle = angle[j], pbg=pbg)
-    	} else {
-		if (length(col) != n) {
+	if (length(border) != n)
+		border <- rep(border, n, n)
+    if (!is.null(density)) {
+		if (length(density) != n)
+			density <- rep(density, n, n)
+		if (length(angle) != n)
+			angle <- rep(angle, n, n)
+		for (j in x@plotOrder) 
+				.polygonHolesh(x@polygons[[j]], border = border[j], 
+				xpd = xpd, density = density[j], angle = angle[j], pbg = pbg)
+	} else {
+		if (length(col) != n)
 			col <- rep(col, n, n)
-		}
-		for (j in x@plotOrder) .polygonHolesh(x@polygons[[j]], 
-			col=col[j], border=border[j], xpd = xpd, pbg=pbg)
+		for (j in x@plotOrder) 
+			.polygonHolesh(x@polygons[[j]], col=col[j], 
+				border=border[j], xpd = xpd, pbg = pbg)
 	}
 }
 
 .polygonHolesh <- function(P4, col=NA, border=NULL, xpd=NULL, density=NULL,
-	angle=45, pbg=
-#ifdef R
-par("bg")
-#else
-0 
-#endif
-	) {
+	angle=45, pbg) {
 	coords <- P4@coords
 	nParts <- P4@nParts
 	pFrom <- P4@pStart.from
@@ -266,17 +276,17 @@ par("bg")
 	for (i in P4@plotOrder) {
 		if (hatch) {
 			if (P4@ringDir[i] == 1)
-				polygon(coords[pFrom[i]:pTo[i],], 
+				.polygon(coords[pFrom[i]:pTo[i],], 
 					border = border, xpd = xpd, 
 					density = density, angle = angle)
-			else polygon(coords[pFrom[i]:pTo[i],], 
+			else .polygon(coords[pFrom[i]:pTo[i],], 
 					border = border, xpd = xpd, col=pbg, 
 					density = NULL)
 		} else {
 			if (P4@ringDir[i] == 1)
-				polygon(coords[pFrom[i]:pTo[i],], 
+				.polygon(coords[pFrom[i]:pTo[i],], 
 					border = border, xpd = xpd, col=col)
-			else polygon(coords[pFrom[i]:pTo[i],], 
+			else .polygon(coords[pFrom[i]:pTo[i],], 
 				border = border, xpd = xpd, col=pbg)
 		}
 	}

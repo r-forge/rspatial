@@ -34,9 +34,9 @@ setClass("SpatialDataFrame",
 		coord.columns = integer(0)),
 	validity = function(object) {
 		if (nrow(object@data) < 1)
-			stop("no valid data present: too few rows")
+			return("no valid data present: too few rows")
 		if (ncol(object@data) < 2)
-			stop("no coordinates present: too few columns")
+			return("no coordinates present: too few columns")
 		return(TRUE)
 	}
 )
@@ -93,10 +93,8 @@ setClass("Polygon4",
 		plotOrder = integer(0),
 		after = integer(0)),
 	validity = function(object) {
-			if (ncol(object@coords) != 2) {
-				print("polygon should have 2 columns")
-				return(FALSE)
-			}
+			if (ncol(object@coords) != 2)
+				return("polygon should have 2 columns")
 			return(TRUE)
 		}
 )
@@ -115,19 +113,13 @@ setClass("Polylist4",
 		plotOrder = integer(0),
 		after = integer(0)),
 	validity = function(object) {
-		if (length(object@polygons) != length(object@region.id)) {
-			print("length mismatch")
-			return(FALSE)
-		}
-		if (length(object@polygons) != length(object@plotOrder)) {
-			print("length mismatch")
-			return(FALSE)
-		}
+		if (length(object@polygons) != length(object@region.id))
+			return("length mismatch")
+		if (length(object@polygons) != length(object@plotOrder))
+			return("length mismatch")
 		if (any(unlist(lapply(object@polygons, function(x) 
-			!is(x, "Polygon4"))))) {
-			print("polygons not Polygon4 objects")
-			return(FALSE)
-		}
+				!is(x, "Polygon4"))))) 
+			return("polygons not Polygon4 objects")
 		return(TRUE)
 	}
 )
