@@ -7,9 +7,9 @@ c
 c fortran version of C routine by Ken McElvain
 c
 
+      implicit real*8 (a-h,o-z)
       include 'bounds.cmn'
 
-      implicit real*8 (a-h,o-z)
 
       dimension xc(nc+1),yc(nc+1)
 
