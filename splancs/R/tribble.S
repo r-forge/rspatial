@@ -59,7 +59,8 @@ tribble <- function(ccflag,vars=NULL,alphas=NULL,betas=NULL,rho
 		
 	}
 
-	allvars <- cbind(vars,covars)
+	allvars <- ifelse(ncovars != 0, cbind(vars,covars),
+             matrix(vars, ncol=ndvars, nrow=npt))
 
 	nallpars <- ndvars*2+ncovars + 1
 	

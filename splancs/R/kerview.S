@@ -22,7 +22,9 @@ function(pts,times, k3, map = T,addimg=T,ncol=1)
 	im.dev <- dev.cur()
 	par(mfrow=c(ncol,ncol))
 	if(ncol!=1)addimg <- F
-	image(k3$xgr, k3$ygr, k3$v[,  , 1])
+	brks <- quantile(k3$v, seq(0,1,0.05))
+	cols <- heat.colors(length(brks)-1)
+	image(k3$xgr, k3$ygr, k3$v[,  , 1], breaks=brks, col=cols, asp=1)
 	map.dev <- -999
 	if(map) {
 		pbox <- bbox(pts3)
@@ -35,7 +37,7 @@ function(pts,times, k3, map = T,addimg=T,ncol=1)
 		par(pty = "s")
 		par(mfrow=c(ncol,ncol))
 #		par(mai=c(0,0,0,0))
-		pointmap(pts3)
+		pointmap(pts3, asp=1)
 		tmin <- min(pts3[, 3])
 		tmax <- max(pts3[, 3])
 		tbins <- (zgr[1:(length(zgr) - 1)] + zgr[2:length(zgr)])/2
@@ -64,13 +66,14 @@ function(pts,times, k3, map = T,addimg=T,ncol=1)
 		bin <- (1:length(k3$zgr))[bdist == min(bdist)]
 		bin <- bin[1]
 		dev.set(im.dev)
-		image(k3$xgr, k3$ygr, k3$v[,  , bin], add = addimg)
+		image(k3$xgr, k3$ygr, k3$v[,  , bin], add = addimg,
+		      breaks=brks, col=cols, asp=1)
 		if(map) {
 			dev.set(map.dev)
 #			ptsin <- pts3[pbins == bin,]
 		       ptsin <- pts3[abs(pts3[,3]-k3$zgr[bin]) < k3$hz,]
 			if(length(ptsin != 0)) {
-				pointmap(pbox, type = "n")
+				pointmap(pbox, type = "n", asp=1)
 				pointmap(ptsin, add = T)
 				title(paste("time = ", format(k3$zgr[bin])))
 			}

@@ -25,8 +25,8 @@ function(pts, srcs, namepref="d")
 			ptsxy[,2])^2)
 		nameso <- c(nameso,paste(namepref,i,sep=''))
 	}
-	res <- as.data.frame(d)
-        names(res) <- nameso
+	res <- d
+        colnames(res) <- nameso
         res
 }
 

@@ -46,13 +46,14 @@ A vector of times for the analysis
 \value{
 A matrix of dimension \code{[length(s),length(t)]} is returned. Element 
 \code{[i,j]} is the standard error at \code{s[i],t[j]}.
-See Diggle Chetwynd Haggkvist and Morris (1993)for details.
+See Diggle Chetwynd Haggkvist and Morris (1995) for details.
 }
 \seealso{
 \code{\link{stkhat}}, \code{\link{stsecal}}, \code{\link{stvmat}}, \code{\link{stdiagn}}
 }
 
 \references{
+Diggle, P., Chetwynd, A., Haggkvist, R. and Morris, S. 1995 Second-order analysis of space-time clustering. Statistical Methods in Medical Research, 4, 124-136;Bailey, T. C. and Gatrell, A. C. 1995, Interactive spatial data analysis. Longman, Harlow, pp. 122-125;
 Rowlingson, B. and Diggle, P. 1993 Splancs: spatial point pattern analysis
 code in S-Plus.  Computers and Geosciences, 19, 627-655;
 the original sources can be accessed at:
@@ -60,7 +61,11 @@ the original sources can be accessed at:
 Gebhardt, A. 2000 Implementing functions for spatial statistical analysis
 using the R language. Journal of Geographical Systems, 2, 307-317.
 }
-
+\examples{
+example(stkhat)
+bur1se <- stsecal(burpts, burkitt$t, burbdy, c(400, 5800),
+ seq(1,40,2), seq(100, 1500, 100))
+}
 % Converted by Sd2Rd version 0.3-3.
 \keyword{spatial}
 

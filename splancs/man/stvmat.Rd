@@ -46,13 +46,14 @@ A vector of times for the analysis
 \value{
 A four-dimensional matrix is returned. The covariance between space-time
 \code{t1,s1} and \code{t2,s2} is given by the corresponding element \code{[t1,s1,t2,s2]}
-For full details, see Diggle, Chetwynd, Haggkvist and Morris (1993)
+For full details, see Diggle, Chetwynd, Haggkvist and Morris (1995)
 }
 \seealso{
 \code{\link{stkhat}}, \code{\link{stsecal}}, \code{\link{stmctest}}, \code{\link{stdiagn}}
 }
 
 \references{
+Diggle, P., Chetwynd, A., Haggkvist, R. and Morris, S. 1995 Second-order analysis of space-time clustering. Statistical Methods in Medical Research, 4, 124-136;
 Rowlingson, B. and Diggle, P. 1993 Splancs: spatial point pattern analysis
 code in S-Plus.  Computers and Geosciences, 19, 627-655;
 the original sources can be accessed at:

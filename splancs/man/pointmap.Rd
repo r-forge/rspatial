@@ -50,9 +50,8 @@ as points or polygons. For \code{polymap}, the last point in the data set
 is drawn connected to the first point.
 }
 \section{NOTES}{
-When starting a new plot, \code{pointmap} and \code{polymap} set the axes to preserve
-the aspect ratio in the data, and the graphics parameter \code{pty} is set
-to \code{"s"} to produce square plots.
+\code{pointmap} and \code{polymap} preserve
+the aspect ratio in the data by using the \code{asp=1} plot argument.
 Graphical parameters can also be supplied to these routines, and are passed 
 through to \code{plot}. Some useful parameters include \code{pch} to change the plotting
 character for points, \code{lty} to change the line type for polygons, and 
