@@ -1,7 +1,7 @@
 proj4string = function(sd) {
 	if (!extends(class(sd), "Spatial"))
 		stop("proj4string only works for class(es extending) Spatial")
-	sd@proj4string@projargs
+	as.character(sd@proj4string@projargs)
 }
 
 "proj4string<-" = function(sd, value) {
