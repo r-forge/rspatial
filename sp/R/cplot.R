@@ -26,9 +26,10 @@ function (obj, zcol = 1, cuts = 5, ..., fill = TRUE, pch, col, cex = 1,
 	if (is.factor(z)) {
 		groups = z
 		if (missing(col)) {
-			# require(RColorBrewer)
-			# col = brewer.pal(length(levels(z)), "Set1")
-			col = bpy.colors(length(levels(z)))
+			if (require(RColorBrewer))
+				col = brewer.pal(length(levels(z)), "Set1")
+			else
+				col = bpy.colors(length(levels(z)))
 		}
 	} else {
 		if (missing(col))
@@ -48,8 +49,7 @@ function (obj, zcol = 1, cuts = 5, ..., fill = TRUE, pch, col, cex = 1,
         plot(x, y, asp = 1, cex = cex, main = main, col = groups, 
             ...)
         return(identify(x, y, labels))
-    }
-    else {
+    } else {
         require(lattice)
         n = length(levels(groups))
         key = list(space = "right", points = list(pch = rep(pch, 

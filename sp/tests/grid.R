@@ -12,4 +12,4 @@ gridded(df) = TRUE
 #df@data
 as.data.frame(df)
 print(summary(df))
-as.image.SpatialCellDataFrame(df)
+#as.image.SpatialCellDataFrame(df)

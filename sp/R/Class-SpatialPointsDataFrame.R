@@ -128,11 +128,9 @@ as.data.frame.SpatialPointsDataFrame = function(x, row.names, optional)
 #setAs("SpatialPointsDataFrame", "data.frame", 
 #	function(from) as.data.frame.SpatialPointsDataFrame(from))
 
-
 names.SpatialPointsDataFrame <- function(x) {
 	names(as(x, "data.frame"))
 }
-
 
 ShowSpatialPointsDataFrame = function(object) print.SpatialPointsDataFrame(object)
 setMethod("show", "SpatialPointsDataFrame", ShowSpatialPointsDataFrame)
@@ -186,37 +184,33 @@ subset.SpatialPointsDataFrame <- function(x, subset, select,
 	SPDF
 }
 
+#ifdef R
 "[.SpatialPointsDataFrame" <- function(x, i, j, ... , drop = FALSE) {
-	missing.i <- missing(i)
-	missing.j <- missing(j)
-	if (missing.i & missing.j) return(x)
-	nargs <- nargs()
-	if (drop)
+	missing.i = missing(i)
+	missing.j = missing(j)
+	if (drop == TRUE)
 		stop("coerce to data.frame first for drop = TRUE")
-	if (missing.i) {
-		cres <- coordinates(x)
-		data <- as.data.frame(x)[, j, drop = FALSE]
-	} else {
-		if (missing.j) {
-			if (nargs == 2) {
-				j <- i
-				i <- TRUE
-			} else j <- TRUE
+	nargs = nargs() # e.g., a[3,] gives 2 for nargs, a[3] gives 1.
+	if (missing.i && missing.j) {
+		i = TRUE
+		j = TRUE
+	} else if (missing.j && !missing.i) { 
+		if (nargs == 2) {
+			j = i
+			i = TRUE
+		} else {
+			j = TRUE
 		}
-		cres <- coordinates(x)[i, , drop=FALSE]
-		data <- as.data.frame(x)[i, j, drop = FALSE]
-	}
-	res <- SpatialPointsDataFrame(cres, data, 
+	} else if (missing.i && !missing.j)
+		i = TRUE
+	if (is.matrix(i))
+		stop("matrix argument not supported in SpatialPointsDataFrame selection")
+	SpatialPointsDataFrame(coords = x@coords[i, , drop=FALSE],
+		data = x@data[i, j, drop = FALSE], 
+		coords.nrs = x@coords.nrs, 
 		proj4string = CRS(proj4string(x)))
-	res
 }
 
-# try to get "[.data.frame" behaviour, but _always_ preserve columns,
-# if needed add them
-#ifdef R
-setMethod("[", "SpatialPointsDataFrame", function(x, i, j, ..., drop = FALSE) {
-		missing.i = missing(i)
-		missing.j = missing(j)
 #else
 #%setMethod("[", "SpatialPointsDataFrame", function(x, ..., drop = T) {
 #%		missing.i = missing.j = F
@@ -240,28 +234,5 @@ setMethod("[", "SpatialPointsDataFrame", function(x, i, j, ..., drop = FALSE) {
 #%				missing.j = T
 #%		} else 
 #%			missing.j = T
+#    })
 #endif
-		if (drop == TRUE)
-			stop("coerce to data.frame first for drop = TRUE")
-		nargs = nargs() # e.g., a[3,] gives 2 for nargs, a[3] gives 1.
-		if (missing.i && missing.j) {
-			i = TRUE
-			j = TRUE
-		} else if (missing.j && !missing.i) { 
-			if (nargs == 2) {
-				j = i
-				i = TRUE
-			} else {
-				j = TRUE
-			}
-		} else if (missing.i && !missing.j)
-			i = TRUE
-		if (is.matrix(i))
-			stop("matrix argument not supported in SpatialPointsDataFrame selection")
-
-		SpatialPointsDataFrame(coords = x@coords[i, , drop=FALSE],
-			data = x@data[i, j, drop = FALSE], 
-			coords.nrs = x@coords.nrs, 
-			proj4string = CRS(proj4string(x)))
-	}
-)

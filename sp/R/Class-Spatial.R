@@ -60,6 +60,8 @@ summary.Spatial = function(object, ...) {
     obj[["proj4string"]] = object@proj4string@projargs
     if (is(object, "SpatialPointsDataFrame"))
         obj[["data"]] = summary(object@data)
+	if (is(object, "SpatialGridded"))
+		obj[["grid"]] = summary(as(object, "SpatialGridded"))
     class(obj) = "summary.Spatial"
     obj
 }
@@ -67,7 +69,8 @@ summary.Spatial = function(object, ...) {
 summary.SpatialPoints = summary.Spatial
 summary.SpatialPointsDataFrame = summary.Spatial
 # summary.SpatialRingsDataFrame = summary.Spatial
-# summary.SpatialGriddedDataFrame = summary.Spatial
+summary.SpatialGriddedDataFrame = summary.Spatial
+summary.SpatialCellDataFrame = summary.Spatial
 
 # setMethod("summary", "SpatialPointsDataFrame", summary.Spatial)
 
