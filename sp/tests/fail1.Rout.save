@@ -1,6 +1,6 @@
 
 R : Copyright 2004, The R Foundation for Statistical Computing
-Version 2.0.0  (2004-10-04), ISBN 3-900051-07-0
+Version 2.1.0 Under development (unstable) (2004-11-16), ISBN 3-900051-07-0
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
 You are welcome to redistribute it under certain conditions.
@@ -19,43 +19,69 @@ Type 'q()' to quit R.
 > x = meuse
 > 
 > coordinates(x) <- c("x", "y")
-> try(proj4string(x) <- 1.5)
-Error in "proj4string<-"(`*tmp*`, value = 1.5) : 
-	assigned value must be CRS object
+> res <- try(proj4string(x) <- 1.5)
+> print(res)
+[1] "Error in \"proj4string<-\"(`*tmp*`, value = 1.5) : \n\tassigned value must be CRS object\n"
+attr(,"class")
+[1] "try-error"
 > 
-> try(coordinates(a) <- cbind(1:10, 10:1))
-Error in try(coordinates(a) <- cbind(1:10, 10:1)) : 
-	Object "a" not found
+> res <- try(coordinates(a) <- cbind(1:10, 10:1))
+> print(res)
+[1] "Error in try(coordinates(a) <- cbind(1:10, 10:1)) : \n\tObject \"a\" not found\n"
+attr(,"class")
+[1] "try-error"
 > # fails because a is not found; passes if a assigned NULL, see pass1.R
 > 
 > x = meuse
 > # invalid coordinate formulae:
-> try(coordinates(x) <- ~log(x)+sqrt(y)) # no expressions allowed
-Error in "[.data.frame"(object, , -coord.numbers, drop = FALSE) : 
-	undefined columns selected
-> try(coordinates(x) <- ~x+y+z) # z is not present
-Error in eval(expr, envir, enclos) : Object "z" not found
+> res <- try(coordinates(x) <- ~log(x)+sqrt(y)) # no expressions allowed
+> print(res)
+[1] "Error in \"[.data.frame\"(object, , -coord.numbers, drop = FALSE) : \n\tundefined columns selected\n"
+attr(,"class")
+[1] "try-error"
+> res <- try(coordinates(x) <- ~x+y+z) # z is not present
+> print(res)
+[1] "Error in eval(expr, envir, enclos) : Object \"z\" not found\n"
+attr(,"class")
+[1] "try-error"
 > x$x2 = x$x^2
 > x$y2 = x$y^2
-> try(coordinates(x) <- ~x+y+x2+y2) # 4D not allowed
-Error in validObject(.Object) : Invalid "SpatialPoints" object: spatial.dimension should be either 2 or 3
-> try(coordinates(x) <- ~x) # 1D not allowed
-Error in validObject(.Object) : Invalid "SpatialPoints" object: spatial.dimension should be either 2 or 3
+> res <- try(coordinates(x) <- ~x+y+x2+y2) # 4D not allowed
+> print(res)
+[1] "Error in validObject(.Object) : Invalid \"SpatialPoints\" object: spatial.dimension should be either 2 or 3\n"
+attr(,"class")
+[1] "try-error"
+> res <- try(coordinates(x) <- ~x) # 1D not allowed
+> print(res)
+[1] "Error in validObject(.Object) : Invalid \"SpatialPoints\" object: spatial.dimension should be either 2 or 3\n"
+attr(,"class")
+[1] "try-error"
 > # is.na.sp.coords
 > a = data.frame(cbind(xx=c(1,NA,2,10),yy=c(2,NA,NA,20)))
-> try(coordinates(a) <- c("xx", "yy")) # should fail!
-Error in validObject(.Object) : Invalid "SpatialPoints" object: bbox x and y values should never be NA
+> res <- try(coordinates(a) <- c("xx", "yy")) # should fail!
+> print(res)
+[1] "Error in validObject(.Object) : Invalid \"SpatialPoints\" object: bbox x and y values should never be NA\n"
+attr(,"class")
+[1] "try-error"
 > 
 > x = meuse[1:4,]
 > coordinates(x) = c(1,2)
 > # this should fail -- zinc is not a row:
 > #try(q <- x["zinc",])
 > # this will issue a warning under S-Plus, or a silent rename under R
-> try(x[c("zinc", "x", "copper", "zinc")])
-Error in "[.data.frame"(x@data, i, j, drop = FALSE) : 
-	undefined columns selected
+> res <- try(x[c("zinc", "x", "copper", "zinc")])
+> print(res)
+       coordinates zinc      x copper zinc.1
+1 (181072, 333611) 1022 181072     85   1022
+2 (181025, 333558) 1141 181025     81   1141
+3 (181165, 333537)  640 181165     68    640
+4 (181298, 333484)  257 181298     81    257
 > 
 > xx = data.frame(x=1:10, y=1:10)
-> try(coordinates(xx) <- c("x", "y")) # leaves data.frame empty: use SpatialPoints!
-Error in validityMethod(object) : data.frame is empty (possibly after stripping coordinate columns): use SpatialPoints() to create points-only object
+> res <- try(coordinates(xx) <- c("x", "y")) 
+>   #leaves data.frame empty: use SpatialPoints
+> print(res)
+[1] "Error in validityMethod(object) : data.frame is empty (possibly after stripping coordinate columns): use SpatialPoints() to create points-only object\n"
+attr(,"class")
+[1] "try-error"
 > 

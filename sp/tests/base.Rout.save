@@ -1,6 +1,6 @@
 
 R : Copyright 2004, The R Foundation for Statistical Computing
-Version 2.0.0  (2004-10-04), ISBN 3-900051-07-0
+Version 2.1.0 Under development (unstable) (2004-11-16), ISBN 3-900051-07-0
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
 You are welcome to redistribute it under certain conditions.
@@ -830,17 +830,17 @@ Coordinates:
 8  (181027, 333363)     2.8     29  150  406 8.490 0.09215160  9.5     1    1
 9  (181060, 333231)     2.4     37  133  347 8.668 0.18461400 10.6     1    1
 10 (181232, 333168)     1.6     24   80  183 9.049 0.30970200  6.3     1    2
-   lime landuse dist.m
-1     1      Ah     50
-2     1      Ah     30
-3     1      Ah    150
-4     0      Ga    270
-5     0      Ah    380
-6     0      Ga    470
-7     0      Ah    240
-8     0      Ab    120
-9     0      Ab    240
-10    0       W    420
+   lime landuse dist.m      x      y
+1     1      Ah     50 181072 333611
+2     1      Ah     30 181025 333558
+3     1      Ah    150 181165 333537
+4     0      Ga    270 181298 333484
+5     0      Ah    380 181307 333330
+6     0      Ga    470 181390 333260
+7     0      Ah    240 181165 333370
+8     0      Ab    120 181027 333363
+9     0      Ab    240 181060 333231
+10    0       W    420 181232 333168
 > x["zinc"] # column zinc + coords
          coordinates zinc
 1   (181072, 333611) 1022
