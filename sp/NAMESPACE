@@ -11,39 +11,21 @@ export(Coordinates)
 
 export(dimensions, "[.SpatialPointsDataFrame", "[.SpatialCellDataFrame")
  
-export(names.SpatialPointsDataFrame)
-
 #export(names.SpatialCellDataFrame)
-
-export(subset.SpatialCell, subset.SpatialCellDataFrame, subset.SpatialPoints, 
-	subset.SpatialPointsDataFrame)
 
 export(SpatialCell, SpatialPoints, SpatialPointsDataFrame, SpatialCellDataFrame)
 
-#export(as.data.frame.SpatialPointsDataFrame, as.data.frame.SpatialPoints)
-
-export(as.data.frame.SpatialCellDataFrame, as.data.frame.SpatialCellDataFrame, 
-	as.SpatialPoints.SpatialPointsDataFrame)
+export(as.SpatialPoints.SpatialPointsDataFrame)
 
 export(gridparameters, "gridded<-", griddedfn, gridded)
-
-export(plot.SpatialCell, plot.SpatialPoints, plot.SpatialCellDataFrame, 
-	plot.SpatialPointsDataFrame, plot.Spatial, plot.SpatialRings)
 
 export(as.SpatialRings.Shapelist, as.SpatialRings.matrixList, 
 	as.Ring4.matrix, SpatialRings)
 
-export(summary.Spatial, print.summary.Spatial, summary.SpatialGridded, 
-	print.summary.SpatialGridded, summary.SpatialCell, 
-	print.summary.SpatialCell, summary.SpatialCellDataFrame, 
-	print.summary.SpatialCellDataFrame, print.SpatialPointsDataFrame, 
-	dim.SpatialPointsDataFrame, ShowSpatialPointsDataFrame, 
-	summary.SpatialPointsDataFrame, print.summary.SpatialPointsDataFrame, 
-	print.SpatialPoints)
+export(ShowSpatialPointsDataFrame)
 
 export(image.SpatialCellDataFrame, as.image.SpatialCellDataFrame, 
-	select.spatial, stack.SpatialPointsDataFrame, 
-	stack.SpatialCellDataFrame)
+	select.spatial)
 
 exportClasses(CRS, Spatial, SpatialPointsDataFrame, SpatialPoints)
 
@@ -61,6 +43,7 @@ exportMethods(Coordinates)
 
 S3method("[", SpatialCellDataFrame)
 S3method("[", SpatialPointsDataFrame)
+S3method(as.matrix, SpatialPoints)
 S3method(as.data.frame, SpatialPoints)
 S3method(as.data.frame, SpatialPointsDataFrame)
 S3method(as.data.frame, SpatialCellDataFrame)
@@ -89,8 +72,11 @@ S3method(summary, SpatialGridded)
 S3method(summary, SpatialCellDataFrame)
 S3method(summary, SpatialPointsDataFrame)
 S3method(subset, SpatialCell)
+S3method(subset, SpatialCellDataFrame)
 S3method(subset, SpatialPoints)
 S3method(subset, SpatialPointsDataFrame)
+S3method(stack, SpatialPointsDataFrame)
+S3method(stack, SpatialCellDataFrame)
 
 export(".__C__CRS")
 export(".__C__SpatialPoints")

@@ -62,17 +62,15 @@ setMethod("Coordinates", "SpatialPoints", function(obj) obj)
 # setMethod("plot", "SpatialPoints", 
 #  function(object) plot(object@coords[,1], object@coords[,2]))
 
-setAs("SpatialPoints", "data.frame", function(from) from@data)
-as.data.frame.SpatialPoints = function(x, row.names, optional) {
-    as(x, "data.frame")
-}
+setAs("SpatialPoints", "data.frame", function(from) from@coords)
+as.data.frame.SpatialPoints = function(x, row.names, optional) as(x, "data.frame")
 
 #setAs("data.frame", "SpatialPoints", function(from) { 
 #	SpatialPoints(coords = as.matrix(from))
 #})
 
-setAs("SpatialPoints", "matrix", function(from) from@coords)
-
+setAs("SpatialPoints", "matrix", function(from) { return(from@coords)})
+as.matrix.SpatialPoints = function(x) as(x, "matrix")
 
 #setAs("matrix", "SpatialPoints", function(from) {
 #	SpatialPoints(coords = from)
