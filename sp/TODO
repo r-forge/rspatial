@@ -3,11 +3,13 @@ a grid.
 
 document methods for SpatialRings[DF] class
 
+check for dim > 3 for SpatialPoints and SpatialGrid
 check points and grids with more than three dimensions.
+(coordinates on a data.frame works for ndim > 3!)
 
 check that projection can only be present if data is 2/3D (?)
 
-write dist() methods?
+write dist(a, b, c("Euclidian", "squared", "Manhattan", "bbox")) generic/methods?
 
 convert SpatialRings to SpatialLines -- is it necessary?
 
@@ -15,14 +17,12 @@ cut the relevant part from groteriv to get river section in meuse data set
 
 spplot:
 - document sp.layout argument, and layout.north.arrow(), layout.scale.bar()
-- spplot(meuse) # takes ages to create legend of inft. length
+- spplot(meuse) # takes ages to create legend of inft. length -- check e.g. types!!
 - generate grid lines, following lat/lon or projected coords
 
-coordinates(spdf)=~x+y # give useful error message
+coordinates(spdf)=~x+y # give a more useful error message
 
-matrix -> grid coercion
-
-check for dim > 3 for SpatialPoints and SpatialGrid
+matrix -> grid coercion: present?
 
 sp.layout argument to plotting functions, to draw a background for
 spatial plots (e.g. with a grid, lines, polygons, point symbols, ...)
