@@ -1,13 +1,3 @@
-CRS-class               Class "CRS" of coordinate reference system
-                        arguments
-Spatial-class           Class "Spatial" ~~~
-SpatialCell-class       Class "SpatialCell" ~~~
-SpatialCellDataFrame-class
-                        Class "SpatialCellDataFrame" ~~~
-SpatialGridded-class    Class "SpatialGridded" ~~~
-SpatialPoints-class     Class "SpatialPoints" ~~~
-SpatialPointsDataFrame-class
-                        Class "SpatialPointsDataFrame" ~~~
 arcs-methods            ~~ Methods for Function arcs in Package 'sp4'
                         ~~
 bbox,Spatial-method     retrieve bbox from spatial data
@@ -16,6 +6,8 @@ bpy.colors              blue-pink-yellow color scheme that prints well
 bubble                  Create a bubble plot of spatial data
 coordinates-methods     sets spatial coordinates to create spatial
                         data, or retrieves spatial coordinates
+CRS-class               Class "CRS" of coordinate reference system
+                        arguments
 dimensions,Spatial-method
                         retrieve spatial dimensions from spatial data
 gridded-methods         specify spatial data as being gridded, or find
@@ -28,10 +20,21 @@ is.projected            Sets or retrieves projection attributes on
 lplot                   rearrange data in SpatialPointsDataFrame or
                         SpatialCellDataFrame for plotting with
                         levelplot
+mapasp                  Calculate aspect ratio for plotting geographic
+                        maps
 meuse                   Meuse river data set
 meuse.grid              Prediction Grid for Meuse Data Set
 point.in.polygon        do point(s) fall in a given polygon?
 rings-methods           ~~ Methods for Function rings in Package 'sp4'
                         ~~
+select.spatial          select points spatially
+SpatialCell-class       Class "SpatialCell" ~~~
+SpatialCellDataFrame-class
+                        Class "SpatialCellDataFrame" ~~~
+Spatial-class           Class "Spatial" ~~~
+SpatialGridded-class    Class "SpatialGridded" ~~~
+SpatialPoints-class     Class "SpatialPoints" ~~~
+SpatialPointsDataFrame-class
+                        Class "SpatialPointsDataFrame" ~~~
 zerodist                find point pairs with equal spatial
                         coordinates

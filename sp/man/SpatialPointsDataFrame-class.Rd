@@ -12,7 +12,7 @@
 \alias{plot.SpatialPointsDataFrame}
 \alias{print.SpatialPointsDataFrame}
 \alias{summary.SpatialPointsDataFrame}
-\alias{print.summary.SpatialDataPointsDataFrame}
+\alias{print.summary.SpatialPointsDataFrame}
 \alias{ShowSpatialPointsDataFrame}
 
 \title{Class "SpatialPointsDataFrame" ~~~ }
