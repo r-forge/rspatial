@@ -394,18 +394,20 @@ plot.Polylist4 <- function(x, col, border = NULL, add=FALSE, xlim=NULL,
 	n <- length(x@polygons)
 	if (length(border) != n)
 		border <- rep(border, n, n)
+	pO <- try(x@plotOrder)
+	if (inherits(pO, "try-error")) pO <- 1:n
     if (!is.null(density)) {
 		if (length(density) != n)
 			density <- rep(density, n, n)
 		if (length(angle) != n)
 			angle <- rep(angle, n, n)
-		for (j in x@plotOrder) 
+		for (j in pO) 
 				.polygonHolesh(x@polygons[[j]], border = border[j], 
 				xpd = xpd, density = density[j], angle = angle[j], pbg = pbg) 
 	} else {
 		if (length(col) != n)
 			col <- rep(col, n, n)
-		for (j in x@plotOrder) 
+		for (j in pO) 
 			.polygonHolesh(x@polygons[[j]], col=col[j], 
 				border=border[j], xpd = xpd, pbg = pbg)
 	}
@@ -419,6 +421,9 @@ plot.Polylist4 <- function(x, col, border = NULL, add=FALSE, xlim=NULL,
 	pTo <- P4@pStart.to
 	if (is.na(col)) hatch <- TRUE
 	else hatch <- FALSE
+	pO <- try(P4@plotOrder)
+	if (inherits(pO, "try-error")) pO <- 1:nParts
+	
 	for (i in P4@plotOrder) {
 		if (hatch) {
 			if (P4@ringDir[i] == 1)
