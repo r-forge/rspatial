@@ -11,6 +11,9 @@ SpatialPointsDataFrame-class
 arcs-methods            ~~ Methods for Function arcs in Package 'sp4'
                         ~~
 bbox,Spatial-method     retrieve bbox from spatial data
+bpy.colors              blue-pink-yellow color scheme that prints well
+                        on black/white printers
+bubble                  Create a bubble plot of spatial data
 coordinates-methods     sets spatial coordinates to create spatial
                         data, or retrieves spatial coordinates
 dimensions,Spatial-method
@@ -22,6 +25,9 @@ image.SpatialCellDataFrame
                         image format
 is.projected            Sets or retrieves projection attributes on
                         classes extending SpatialData
+lplot                   rearrange data in SpatialPointsDataFrame or
+                        SpatialCellDataFrame for plotting with
+                        levelplot
 meuse                   Meuse river data set
 meuse.grid              Prediction Grid for Meuse Data Set
 point.in.polygon        do point(s) fall in a given polygon?

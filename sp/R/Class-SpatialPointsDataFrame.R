@@ -12,7 +12,10 @@ setClass("SpatialPointsDataFrame",
 		if (ncol(object@data) == 0)
 			stop("data.frame is empty (possibly after stripping coordinate columns): use SpatialPoints() to create points-only object")
 		if (nrow(object@data) != nrow(object@coords))
-		  stop("number of rows in data.frame and SpatialPoints don't match")
+			stop("number of rows in data.frame and SpatialPoints don't match")
+		n = length(object@coords.nrs)
+		if (n > 0 && n != ncol(object@coords))
+			stop("inconsistent coords.nrs slot")
 		return(TRUE)
 	}
 )
@@ -74,8 +77,8 @@ dim.SpatialPointsDataFrame = function(x) dim(x@data)
 #ifdef R
 setAs("SpatialPointsDataFrame", "data.frame", function(from) { 
 	if (length(from@coords.nrs) > 0) {
-		nc = dim(from@coords)[2]
-		nd = dim(from@data)[2]
+		nc = ncol(from@coords)
+		nd = ncol(from@data)
 		nm = character(nc+nd)
 		ret = list()
 		for (i in 1:nc)

@@ -69,7 +69,7 @@ getgridindex = function(points, grid) {
 }
 
 setClass("SpatialCellDataFrame",
-	representation("SpatialCell", data = "data.frame"),
+	representation("SpatialCell", data = "data.frame", coords.nrs = "numeric"),
 	validity = function(object) {
 		# check nrows in data.frame equal n points
 		if (nrow(object@coords) != nrow(object@data))
@@ -78,9 +78,24 @@ setClass("SpatialCellDataFrame",
 	}
 )
 
-SpatialCellDataFrame = function(points, data) {
-	new("SpatialCellDataFrame", SpatialCell(SpatialPoints(points)), data = data)
+SpatialCellDataFrame = function(points, data, coords.nrs = numeric(0)) {
+	new("SpatialCellDataFrame", SpatialCell(SpatialPoints(points)), 
+		data = data, coords.nrs = coords.nrs)
 }
+
+setAs("SpatialCellDataFrame", "SpatialPointsDataFrame", 
+	function(from) SpatialPointsDataFrame(from@coords, from@data, from@coords.nrs)
+)
+
+as.data.frame.SpatialCellDataFrame = function(x, row.names, optional) {
+	as(x, "data.frame")
+}
+
+setAs("SpatialCellDataFrame", "data.frame", 
+	function(from) as(as(from, "SpatialPointsDataFrame"), "data.frame")
+)
+
+setIs("SpatialCellDataFrame", "SpatialPointsDataFrame")
 
 "gridded<-" = function(obj, value) {
 	if (!extends(class(obj), "Spatial"))
@@ -93,10 +108,14 @@ SpatialCellDataFrame = function(points, data) {
 			return(as(obj, "SpatialPoints"))
 	} else if (is(obj, "SpatialPointsDataFrame")) {
 		if (value == TRUE)
-			return(SpatialCellDataFrame(obj@coords, obj@data))
+			return(SpatialCellDataFrame(obj@coords, obj@data, obj@coords.nrs))
 	} else if (is(obj, "SpatialPoints")) {
 		if (value == TRUE)
 			return(SpatialCell(obj))
+	} else if (is(obj, "data.frame") && 
+			(is(value, "formula") || is(value, "character"))) {
+		coordinates(obj) = value
+		gridded(obj) = TRUE
 	}
 	# further deal with more complex forms of value
 	obj
@@ -221,11 +240,12 @@ setMethod("[", "SpatialCellDataFrame",
 )
 
 gridparameters = function(obj) { 
-	if (inherits(obj, "SpatialGridded"))
+	if (is(obj, "SpatialGridded"))
 		return(data.frame( 
 			cellcentre.offset= obj@cellcentre.offset,
 			cellsize = obj@cellsize,
 			cells.dim = obj@cells.dim))
-	else 
-		return(numeric(0))
+	if (is(obj, "SpatialCell"))
+		return(gridparameters(obj@grid))
+	return(numeric(0))
 }
