@@ -11,7 +11,7 @@ Add points interactively to a point data set
 Add points interactively to a point data set.
 }
 \usage{
-addpoints(pts=NULL,plot=FALSE,quiet=FALSE)
+addpoints(pts,plot=FALSE,quiet=FALSE)
 }
 \arguments{
 \item{pts}{

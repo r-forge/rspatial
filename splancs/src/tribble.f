@@ -109,17 +109,21 @@ c     as implemented by O'Neill(1971,Appl.Statist. 20, 338-45), with
 c     subsequent comments by Chambers+Ertel(1974, 23, 250-1), Benyon(1976,
 c     25, 97) and Hill(1978, 27, 380-2)
 c
-      real*8 min
+      real*8 min, rcoeff, ecoeff, ccoeff
       dimension p(20,21),pstar(20),p2star(20),pbar(20),y(20),        
      1   start(n),min(n),step(n)                               
 c                                                                           
-      data rcoeff/1d0/,ecoeff/2d0/,ccoeff/5d-1/                             
+c      data rcoeff/1d0/,ecoeff/2d0/,ccoeff/5d-1/     
+c       (changed to assignment RSB 16/9/2004; g77 data oddity)                  
 c        reflection,extension and contraction coefficients.                 
 c                                  
 c	call intpr('NELMIN',-1,0,1)
                                          
 c       validity checks on input.                                           
 c                                                                           
+      rcoeff=1.0d0
+      ecoeff=2.0d0
+      ccoeff=5.0d-1
       kcount=icount                                                         
       icount=0                                                              
       if(reqmin.le.0d0) icount=icount-1                                     

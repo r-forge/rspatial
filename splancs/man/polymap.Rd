@@ -11,7 +11,7 @@ Graphics
 Plots point and polygon data sets on the current graphics device.
 }
 \usage{
-polymap(poly,add=FALSE,xlab="",ylab="",axes=TRUE,...)
+polymap(poly,add=FALSE,xlab="",ylab="",axes=TRUE, asp,...)
 }
 \arguments{
 \item{poly}{
@@ -27,6 +27,7 @@ Label strings for x and y axes.
 if true, display axes with labelling. If false, do not display any 
 axes on the plot.
 }
+\item{asp}{aspect parameter for plot}
 \item{...}{
 Graphical arguments may be entered, and these are passed to the
 standard S \code{points} and \code{polygon} routines.

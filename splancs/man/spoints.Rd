@@ -11,7 +11,7 @@ Point Objects
 Creates and tests for data in spatial point format.
 }
 \usage{
-spoints(data,npoints=length(data)/2)
+spoints(data,npoints)
 }
 \arguments{
 \item{data}{
@@ -21,7 +21,7 @@ in order (x1,y1),(x2,y2),\dots{}
 
 }
 \item{npoints}{
-number of points to generate.
+number of points to generate, if missing, set to length(data)/2.
 }}
 \value{
 \code{spoints} returns an object suitable for use as a point data

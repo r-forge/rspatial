@@ -8,7 +8,7 @@
 a larger bounding region and given process parameters
 }
 \usage{
-pcp.sim(rho, m, s2, region.poly, larger.region=NULL)
+pcp.sim(rho, m, s2, region.poly, larger.region=NULL, vectorise.loop=TRUE)
 }
 \arguments{
   \item{rho}{intensity of the parent process}
@@ -16,6 +16,7 @@ pcp.sim(rho, m, s2, region.poly, larger.region=NULL)
   \item{s2}{variance of location of offsprings relative to their parent}
   \item{region.poly}{a polygon defining the region in which the process is to be generated}
   \item{larger.region}{a rectangle containing the region of interest given in the form (xl,xu,yl,yu), defaults to \code{sbox()} around region.poly}
+  \item{vectorise.loop}{if TRUE, use new vectorised code, if FALSE, use loop as before}
 }
 \details{
   The function generates the parents in the larger bounding region, generates

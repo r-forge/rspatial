@@ -1,5 +1,5 @@
 addpoints               Add points interactively to a point data set
-amacrines               Amacrines on/off data set
+amacrines.on            Amacrines on/off data set
 areapl                  Calculate area of polygon
 as.points               Creates data in spatial point format
 bbox                    Generate a bounding box round a point object
@@ -28,10 +28,10 @@ Kenv.label              Envelope of K1hat-K2hat from random labelling
                         of two point patterns
 Kenv.pcp                Calculate simulation envelope for a Poisson
                         Cluster Process
-Kenv.tor1               Modified envelope of K12hat from random
-                        toroidal shifts of two point patterns
 Kenv.tor                Envelope of K12hat from random toroidal shifts
                         of two point patterns
+Kenv.tor1               Modified envelope of K12hat from random
+                        toroidal shifts of two point patterns
 kernel2d                Kernel smoothing of a point pattern
 kernel3d                Space-time kernel
 kernrat                 Ratio of two kernel smoothings

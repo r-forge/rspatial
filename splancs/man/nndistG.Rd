@@ -29,7 +29,6 @@ of the neighbour of point \code{i}.
 \examples{
 data(uganda)
 boxplot(nndistG(as.points(uganda))$dists)
-require(stepfun)
 plot(ecdf(nndistG(as.points(uganda))$dists))
 }
 \seealso{

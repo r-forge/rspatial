@@ -11,7 +11,7 @@ Graphics
 Plots point and polygon data sets on the current graphics device.
 }
 \usage{
-pointmap(pts,add=FALSE,axes=TRUE,xlab="",ylab="",\dots)
+pointmap(pts,add=FALSE,axes=TRUE,xlab="",ylab="", asp,\dots)
 }
 \arguments{
 \item{pts}{
@@ -27,6 +27,7 @@ axes on the plot.
 \item{xlab,ylab}{
 Label strings for x and y axes.
 }
+\item{asp}{aspect parameter for plot}
 \item{...}{
 Graphical arguments may be entered, and these are passed to the
 standard S \code{points} and \code{polygon} routines.

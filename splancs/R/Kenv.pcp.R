@@ -3,7 +3,8 @@
 ###
 ### Calculate simulation envelope for a Poisson Cluster Process
 ###
-Kenv.pcp <- function(rho, m, s2, region.poly, larger.region=NULL, nsim, r) {
+Kenv.pcp <- function(rho, m, s2, region.poly, larger.region=NULL, nsim, r,
+	vectorise.loop=TRUE) {
   ## rho: intensity of the parent process
   ## m: average number of offsprings per parent
   ## s2: variance of location of offsprings relative to
@@ -19,8 +20,8 @@ Kenv.pcp <- function(rho, m, s2, region.poly, larger.region=NULL, nsim, r) {
   Kenv <- list(lower=rep(99999,length(r)), ave=numeric(length(r)),
                upper=rep(-99999,length(r)))
   for(i in 1:nsim) {
-    Khat <- khat(pcp.sim(rho, m, s2, region.poly, larger.region),
-                 region.poly, r)
+    Khat <- khat(pcp.sim(rho, m, s2, region.poly, larger.region,
+                 vectorise.loop=vectorise.loop), region.poly, r)
     Kenv$ave <- Kenv$ave + Khat
     Kenv$lower <- pmin(Kenv$lower, Khat)
     Kenv$upper <- pmax(Kenv$upper, Khat)

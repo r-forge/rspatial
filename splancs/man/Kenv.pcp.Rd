@@ -8,7 +8,7 @@
   This function computes the envelope of Khat from simulations of a Poisson Cluster Process for a given polygon
 }
 \usage{
-Kenv.pcp(rho, m, s2, region.poly, larger.region=NULL, nsim, r)
+Kenv.pcp(rho, m, s2, region.poly, larger.region=NULL, nsim, r, vectorise.loop=TRUE)
 }
 \arguments{
   \item{rho}{intensity of the parent process}
@@ -18,6 +18,7 @@ Kenv.pcp(rho, m, s2, region.poly, larger.region=NULL, nsim, r)
   \item{larger.region}{a rectangle containing the region of interest given in the form (xl,xu,yl,yu), defaults to \code{sbox()} around region.poly}
   \item{nsim}{number of simulations required}
   \item{r}{vector of distances at which the K function has to be estimated}
+  \item{vectorise.loop}{if TRUE, use new vectorised code, if FALSE, use loop as before}
 }
 \value{
   \item{ave}{mean of simulations}
