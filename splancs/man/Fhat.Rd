@@ -1,17 +1,6 @@
 % Copyright Barry Rowlingson  and 
 % Peter Diggle (c) 1991-3; http://www.maths.lancs.ac.uk/~rowlings/Splancs/
 % R port: copyright 1998-2000 by Roger S. Bivand
-%
-%  This program is free software; you can redistribute it and/or modify
-%  it under the terms of the GNU General Public License as published by
-%  the Free Software Foundation; either version 2 of the License, or
-%  (at your option) any later version.
-%
-%  This program is distributed in the hope that it will be useful,
-%  but WITHOUT ANY WARRANTY; without even the implied warranty of
-%  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-%  GNU General Public License for more details.
-%
 
 \name{Fhat}
 \alias{Fhat}
@@ -40,7 +29,7 @@ distances in \code{s}.
 
 
 }
-\section{METHOD}{
+\details{
 The function \code{Fhat(pts1,pts2,s)} is defined as the proportion of members of a
 point set \code{pts2} for which the distance to the nearest member of
 another points set \code{pts1} is less than or equal to \code{s}.

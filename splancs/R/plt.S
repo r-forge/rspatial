@@ -1,6 +1,7 @@
 # Copyright Barry Rowlingson <b.rowlingson@lancaster.ac.uk> and 
 # Peter Diggle (c) 1991-3; http://www.maths.lancs.ac.uk/~rowlings/Splancs/
-# R port: copyright 1998-2000 by Roger S. Bivand
+# R port: copyright 1998-2002 by Roger S. Bivand,
+# revised following suggestion by Brian Ripley
 #
 #  This program is free software; you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -16,11 +17,9 @@
 plt <- function(data, value)
 {
 	data <- sort(data)
-	nv <- length(value)
 	nd <- length(data)
-	res <- NULL
-	for(iv in 1:nv) {
-		nlt <- length(data[data < value[iv]])
-		res <- c(res, nlt/nd)
-	}
+	res <- numeric(length(value))
+	for(iv in 1:length(value))
+		res[iv] <- sum(as.integer(data < value[iv]))/nd
+	res
 }

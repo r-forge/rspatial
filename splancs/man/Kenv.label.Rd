@@ -1,17 +1,6 @@
 % Copyright Barry Rowlingson  and 
 % Peter Diggle (c) 1991-3; http://www.maths.lancs.ac.uk/~rowlings/Splancs/
 % R port: copyright 1998-2000 by Roger S. Bivand
-%
-%  This program is free software; you can redistribute it and/or modify
-%  it under the terms of the GNU General Public License as published by
-%  the Free Software Foundation; either version 2 of the License, or
-%  (at your option) any later version.
-%
-%  This program is distributed in the hope that it will be useful,
-%  but WITHOUT ANY WARRANTY; without even the implied warranty of
-%  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-%  GNU General Public License for more details.
-%
 
 \name{Kenv.label}
 \alias{Kenv.label}
@@ -48,7 +37,7 @@ true, print no messages.
 A list with two components, called \code{$upper} and \code{$lower}. Each
 component is a vector like \code{s}.
 }
-\section{METHOD}{
+\details{
 The two point data sets are randomly labelled using \code{rlabel}, then
 \code{Khat} is called to estimate the K-function for each resulting set
 at the distances in \code{s}. The difference between these two estimates

@@ -1,6 +1,6 @@
 % Copyright Barry Rowlingson  and 
 % Peter Diggle (c) 1991-3; http://www.maths.lancs.ac.uk/~rowlings/Splancs/
-% R port: copyright 1998-2000 by Roger S. Bivand
+% R port: copyright 1998-2002 by Roger S. Bivand
 %
 %  This program is free software; you can redistribute it and/or modify
 %  it under the terms of the GNU General Public License as published by
@@ -15,6 +15,8 @@
 
 \name{khat}
 \alias{khat}
+\alias{print.khat}
+\alias{plot.khat}
 \title{
 K-function
 }
@@ -22,7 +24,9 @@ K-function
 Calculates an estimate of the K-function
 }
 \usage{
-khat(pts,poly,s)
+khat(pts,poly,s,newstyle=FALSE)
+print.khat(x, ...)
+plot.khat(x, ...)
 }
 \arguments{
 \item{pts}{
@@ -33,25 +37,43 @@ A polygon containing the points
 }
 \item{s}{
 A vector of distances at which to calculate the K function
-}}
-\value{
-A vector like \code{s} containing the value of K at the points in \code{s}.
-
-
 }
-\section{METHOD}{
+\item{newstyle}{if TRUE, the function returns a khat object}
+\item{x}{a \code{khat} object}
+\item{...}{other arguments passed to plot and print functions}
+}
+\value{
+If \code{newstyle} is FALSE, 
+a vector like \code{s} containing the value of K at the points in \code{s}.
+else a \code{khat} object list with:
+\item{khat}{the value of K at the points in \code{s}}
+\item{counts}{integer matrix of counts of points within the vector of
+ distances \code{s} for each point}
+\item{khats}{matrix of values of K within the vector of distances \code{s}
+ for each point}
+\item{s}{\code{s}}
+}
+\details{
 The K function is defined as the expected number of further points
 within a distance s of an arbitrary point, divided by the
 overall density of the points. 
 In practice an edge-correction is required to avoid biasing the
 estimation due to non-recording of points outside the polygon.
+
+The newstyle argument and khat object were introduced in collaboration with Thomas de Cornulier <oedic@cebc.cnrs.fr> to permit the mapping of counts or khats for chosen distance values, as in \url{ftp://pbil.univ-lyon1.fr/pub/mac/ADE/ADE4/DocThemPDFUS/Thema81.pdf}, p.18.
 }
 \seealso{\code{\link{Kenv.csr}}}
 \examples{
 data(cardiff)
-plot(seq(2,30,2), sqrt(khat(as.points(cardiff), cardiff$poly, 
-seq(2,30,2))/pi)-seq(2,30,2), type="l", xlab="Splancs - polygon boundary", 
-ylab="Estimated L", ylim=c(-1,1.5))
+s <- seq(2,30,2)
+plot(s, sqrt(khat(as.points(cardiff), cardiff$poly, s)/pi) - s,
+ type="l", xlab="Splancs - polygon boundary", ylab="Estimated L",
+ ylim=c(-1,1.5))
+newstyle <- khat(as.points(cardiff), cardiff$poly, s, newstyle=TRUE)
+str(newstyle)
+newstyle
+apply(newstyle$khats, 2, sum)
+plot(newstyle)
 }
 \references{
 Ripley, B.D. 1976 The second-order analysis of stationary point processes,

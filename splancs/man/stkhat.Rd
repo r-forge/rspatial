@@ -47,14 +47,12 @@ A vector of times for the analysis
 A list with the following components is returned:
 \item{s, t}{The spatial and temporal scales}
 \item{ks}{The spatial K-function}
-\item{kt}}{The temporal K-function}
+\item{kt}{The temporal K-function}
 \item{kst}{The space-time K-function}
 For details see Diggle, Chetwynd, Haggkvist, and Morris (1995)
 }
 \seealso{
 \code{\link{stsecal}}, \code{\link{stvmat}}, \code{\link{stmctest}}, \code{\link{stdiagn}}
-
-
 }
 
 \references{
