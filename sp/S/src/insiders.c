@@ -25,6 +25,7 @@ SEXP insiders(SEXP n1, SEXP bbs) {
 	int i, j, k, k1;
 	double bbi[4], bbj[4];
 	int *yes, jhit[4], hsum;
+	SEXP ip;
 	SEXP ans;
 
 	S_EVALUATOR
@@ -65,12 +66,13 @@ SEXP insiders(SEXP n1, SEXP bbs) {
 		}
 		
 		if (k != 0) {
-			SET_VECTOR_ELT(ans, i, NEW_INTEGER(k));
+			ip = NEW_INTEGER(k);
+			PROTECT(ip); pc++;
 			for (j=0, k1=0; j < n; j++) {
 				if (yes[j] > 0)
-					INTEGER_POINTER(VECTOR_ELT(ans, 
-						i))[k1++] = j + ROFFSET;
+					INTEGER_POINTER(ip)[k1++] = j + ROFFSET;
 			}
+			SET_ELEMENT(ans, i, ip);
 		}
 	}
 	UNPROTECT(pc); /* ans */
