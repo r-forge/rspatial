@@ -1,7 +1,7 @@
 \name{sbox}
 \alias{sbox}
 \title{
-Polygon Operations
+Generate a box surrounding a point object
 }
 \description{
 Generate a box surrounding a point object

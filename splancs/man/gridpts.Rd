@@ -1,7 +1,7 @@
 \name{gridpts}
 \alias{gridpts}
 \title{
-Point Operations
+Generate a grid of points
 }
 \description{
 Generate a grid of points
@@ -28,15 +28,6 @@ A points object containing a grid of points inside the polygon. If \code{npts}
 is specified, then a grid spacing \code{xs} and \code{ys} will be calculated to give
 approximately \code{npts} in the polygon. If \code{xs} and \code{ys} are given then these
 will be used to generate a number of points in the polygon.
-
-
-}
-\examples{
-lancs.grid1 <- gridpts(lancs.poly,100)    # generate approx 100 points in lancs
-npts(lancs.grid1)                         # not necessarily 100, but close
-lancs.grid2 <- gridpts(lancs.poly,xs=5,ys=6) # generate a rectangular grid
-npts(lancs.grid2)                         # exact number will depend on 
-#shape of polygon
 
 
 }

@@ -1,7 +1,7 @@
 \name{csr}
 \alias{csr}
 \title{
-Simulations
+Generate completely spatially random points on a polygon
 }
 \description{
 Generate completely spatially random points on a polygon.

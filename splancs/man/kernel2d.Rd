@@ -1,7 +1,7 @@
 \name{kernel2d}
 \alias{kernel2d}
 \title{
-Point Operations
+Kernel smoothing of a point pattern
 }
 \description{
 Perform kernel smoothing of a point pattern

@@ -1,7 +1,7 @@
 \name{stvmat}
 \alias{stvmat}
 \title{
-Space-time Clustering Analysis
+Variance matrix for space-time clustering
 }
 \description{
 Compute the variance matrix for space-time clustering

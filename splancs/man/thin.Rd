@@ -1,10 +1,10 @@
 \name{thin}
 \alias{thin}
 \title{
-Point Operations
+Randomly thin a point data set
 }
 \description{
-Randomly thin a point data set.\"<description (one liner)>
+Randomly thin a point data set.
 }
 \usage{
 thin(pts,n)
@@ -19,8 +19,5 @@ the number of points to return
 \value{
 Returns a point data set consisting of \code{n} points selected randomly
 from the set \code{pts}.
-}
-\examples{
-half <- thin(all,npts(all)/2)      # get half the points in `all'
 }
 % Converted by Sd2Rd version 0.3-3.

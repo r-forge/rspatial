@@ -1,7 +1,7 @@
 \name{Fzero}
 \alias{Fzero}
 \title{
-Point Summary Statistics
+Theoretical nearest neighbour distribution function
 }
 \description{
 Calculate the theoretical nearest neighbour distribution function.

@@ -1,7 +1,7 @@
 \name{kerview}
 \alias{kerview}
 \title{
-Space-time kernel functions
+A linked-window system for browsing space-time data
 }
 \description{
 A linked-window system for browsing space-time data.

@@ -1,7 +1,7 @@
 \name{kernel3d}
 \alias{kernel3d}
 \title{
-Space-time kernel functions
+Space-time kernel
 }
 \description{
 Compute the space-time kernel

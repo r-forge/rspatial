@@ -1,7 +1,7 @@
 \name{zoom}
 \alias{zoom}
 \title{
-Graphics
+Interactively specify a region of a plot for expansion
 }
 \description{
 Interactively specify a region of a plot for expansion
@@ -35,14 +35,5 @@ centred on the current centre.
 }
 \seealso{
 pointmap
-}
-\examples{
-uk()         # plot the uk
-zoom()       # now select a region
-uk(add=T)    # draws selected region
-zoom(out=T)  # now zoom out again
-uk(add=T)    # and replot
-
-
 }
 % Converted by Sd2Rd version 0.3-3.

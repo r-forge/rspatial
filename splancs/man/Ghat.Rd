@@ -1,7 +1,7 @@
 \name{Ghat}
 \alias{Ghat}
 \title{
-Point Summary Statistics
+G nearest neighbour distribution function
 }
 \description{
 Calculates an estimate of the G nearest neighbour distribution function.

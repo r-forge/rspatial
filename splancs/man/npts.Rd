@@ -1,7 +1,7 @@
 \name{npts}
 \alias{npts}
 \title{
-Point Objects
+Number of points in data set
 }
 \description{
 return number of points in data set

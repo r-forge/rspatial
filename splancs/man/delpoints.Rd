@@ -1,7 +1,7 @@
 \name{delpoints}
 \alias{delpoints}
 \title{
-Point Operations
+Select points to delete from a points data set
 }
 \description{
 Select points to delete from a points data set.

@@ -1,7 +1,7 @@
 \name{areapl}
 \alias{areapl}
 \title{
-Polygon Operations
+Calculate area of polygon
 }
 \description{
 Calculate area of polygon
@@ -17,8 +17,5 @@ a polygon data set
 The area of the polygon is returned
 
 
-}
-\examples{
-lancs.area_areapl(lancs.poly) # find area of lancaster boundary
 }
 % Converted by Sd2Rd version 0.3-3.

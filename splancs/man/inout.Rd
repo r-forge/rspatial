@@ -1,7 +1,7 @@
 \name{inout}
 \alias{inout}
 \title{
-Point/Poly Operations
+Test points for inclusion in a polygon
 }
 \description{
 Test points for inclusion in a polygon.

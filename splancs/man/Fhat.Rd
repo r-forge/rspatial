@@ -1,7 +1,7 @@
 \name{Fhat}
 \alias{Fhat}
 \title{
-Point Summary Statistics
+F nearest neighbour distribution function
 }
 \description{
 Calculates an estimate of the F nearest neighbour distribution function

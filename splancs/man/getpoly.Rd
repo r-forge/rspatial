@@ -1,7 +1,7 @@
 \name{getpoly}
 \alias{getpoly}
 \title{
-Polygon Operations
+Draw a polygon on the current graphics device
 }
 \description{
 Draw a polygon on the current graphics device
@@ -26,10 +26,5 @@ system is used.
 }
 \section{Side Effects}{
 A polygon of the points entered is drawn on the current graphics device.
-}
-\examples{
-pointmap(case1)                      #display some data
-cat ("Select region of interest \\n") #prompt the user
-newpoly <- getpoly()                 # define a polygon
 }
 % Converted by Sd2Rd version 0.3-3.

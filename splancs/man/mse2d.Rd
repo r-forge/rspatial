@@ -1,7 +1,7 @@
 \name{mse2d}
 \alias{mse2d}
 \title{
-Point Operations.
+Mean Square Error for a Kernel Smoothing
 }
 \description{
 Estimate the Mean Square Error for a Kernel Smoothing.

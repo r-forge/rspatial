@@ -1,7 +1,7 @@
 \name{rlabel}
 \alias{rlabel}
 \title{
-Point Operations
+Randomly label two or more point sets
 }
 \description{
 Randomly label two or more point sets.

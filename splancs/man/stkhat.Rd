@@ -1,7 +1,7 @@
 \name{stkhat}
 \alias{stkhat}
 \title{
-Space-time Clustering Analysis
+Space-time K-functions
 }
 \description{
 Compute the space-time K-functions

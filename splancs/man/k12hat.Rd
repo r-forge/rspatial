@@ -1,7 +1,7 @@
 \name{k12hat}
 \alias{k12hat}
 \title{
-Point Summary Statistics
+Bivariate K-function
 }
 \description{
 Calculates an estimate of the bivariate K-function
@@ -31,6 +31,12 @@ within a distance s of an arbitrary point of pattern 2, divided by the
 overall density of the points in pattern 1.  To estimate this function,
 the approximately unbiased estimator given by Lotwick and Silverman
 (1982) is used.
+}
+\examples{
+data(okwhite)
+data(okblack)
+okpoly <- list(x=c(okwhite$x, okblack$x), y=c(okwhite$y, okblack$y))
+plot(seq(5,80,5), sqrt(k12hat(as.points(okwhite), as.points(okblack), bbox(as.points(okpoly)), seq(5,80,5))/pi) - seq(5,80,5), xlab="distance", ylab=expression(hat(L)[12]), ylim=c(-20,20), type="l")
 }
 \references{
 Lotwick, H.W. and Silverman B.W. (1982) Methods for Analysing Spatial

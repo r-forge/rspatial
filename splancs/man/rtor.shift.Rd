@@ -1,7 +1,7 @@
 \name{rtor.shift}
 \alias{rtor.shift}
 \title{
-Point Operations
+Random toroidal shift on a point data set
 }
 \description{
 Perform a random toroidal shift on a point data set

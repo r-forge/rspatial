@@ -1,7 +1,7 @@
 \name{tor.shift}
 \alias{tor.shift}
 \title{
-Point Operations
+Toroidal shift on a point data set
 }
 \description{
 Perform a toroidal shift on a point data set

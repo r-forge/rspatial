@@ -1,7 +1,7 @@
 \name{pip}
 \alias{pip}
 \title{
-Point/Poly Operations
+Points inside or outside a polygon
 }
 \description{
 Return points inside or outside a polygon.
@@ -34,9 +34,5 @@ indicating whether points are inside or outside.
 }
 \seealso{
 \code{inpip},\code{inout}
-}
-\examples{
-ptsin <- pip(pts,poly)   # gets the points in the poly
-ptsout<- pip(pts,poly,out=T) # gets the points outside the poly
 }
 % Converted by Sd2Rd version 0.3-3.

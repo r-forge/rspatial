@@ -1,7 +1,7 @@
 \name{print.ribfit}
 \alias{print.ribfit}
 \title{
-Raised Incidence Modelling
+Display the fit from \code{tribble}
 }
 \description{
 Display the fit from \code{tribble}

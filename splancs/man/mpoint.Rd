@@ -1,7 +1,7 @@
 \name{mpoint}
 \alias{mpoint}
 \title{
-Graphics
+Overlay a number of point patterns
 }
 \description{
 Overlay a number of point patterns.
@@ -34,8 +34,5 @@ plot, then it is repeated.
 }
 \seealso{
 \code{pointmap}
-}
-\examples{
-mpoint(rabbit1,rabbit2,cpch=c("1","2"))
 }
 % Converted by Sd2Rd version 0.3-3.

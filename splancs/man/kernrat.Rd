@@ -1,7 +1,7 @@
 \name{kernrat}
 \alias{kernrat}
 \title{
-Point Operations
+Ratio of two kernel smoothings
 }
 \description{
 Return the ratio of two kernel smoothings

@@ -1,7 +1,7 @@
 \name{dsquare}
 \alias{dsquare}
 \title{
-Raised Incidence Modelling
+Distance-squared from a number of points to a number of sources
 }
 \description{
 Computes the distance-squared from a number of points to a number of sources.

@@ -1,7 +1,7 @@
 \name{secal}
 \alias{secal}
 \title{
-Point Summary Statistics
+Standard errors for the difference between two K-functions
 }
 \description{
 Calculate standard errors for the difference between two K-functions under

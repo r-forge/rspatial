@@ -1,7 +1,7 @@
 \name{stsecal}
 \alias{stsecal}
 \title{
-Space-time Clustering Analysis
+Standard error for space-time clustering
 }
 \description{
 Computes the standard error for space-time clustering.

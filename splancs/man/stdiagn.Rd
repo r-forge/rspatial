@@ -1,7 +1,7 @@
 \name{stdiagn}
 \alias{stdiagn}
 \title{
-Space-time Clustering Analysis
+Summary plots for clustering analysis
 }
 \description{
 Produces some summary plots for clustering analysis

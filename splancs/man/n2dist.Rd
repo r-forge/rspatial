@@ -1,7 +1,7 @@
 \name{n2dist}
 \alias{n2dist}
 \title{
-Point Summary Statistics
+Nearest neighbours for two point patterns
 }
 \description{
 Calculate nearest neighbours for two point patterns

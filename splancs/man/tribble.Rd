@@ -1,7 +1,7 @@
 \name{tribble}
 \alias{tribble}
 \title{
-Raised Incidence Modelling
+Diggle-Rowlingson Raised Incidence Model
 }
 \description{
 Fits the Diggle-Rowlingson Raised Incidence Model.

@@ -1,6 +1,5 @@
 \name{polymap}
 \alias{polymap}
-\alias{pointmap}
 \title{
 Graphics
 }
@@ -8,7 +7,6 @@ Graphics
 Plots point and polygon data sets on the current graphics device.
 }
 \usage{
-pointmap(pts,add=F,axes=T,xlab="",ylab="",\dots)
 polymap(poly,add=F,axes=T,xlab="",ylab="",\dots)
 }
 \arguments{

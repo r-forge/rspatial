@@ -1,7 +1,7 @@
 \name{bbox}
 \alias{bbox}
 \title{
-Polygon Operations
+Generate a bounding box round a point object
 }
 \description{
 Generate a bounding box round a point object

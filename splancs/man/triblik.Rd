@@ -1,7 +1,7 @@
 \name{triblik}
 \alias{triblik}
 \title{
-Raised Incidence Modelling
+Log-likelihood for the Diggle-Rowlingson raised incidence model
 }
 \description{
 Calculates the log-likelihood for the Diggle-Rowlingson raised incidence model.

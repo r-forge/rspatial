@@ -1,7 +1,7 @@
 \name{shift}
 \alias{shift}
 \title{
-Point Operations
+Shift a point data set
 }
 \description{
 Shift a point data set

@@ -1,7 +1,7 @@
 \name{khvmat}
 \alias{khvmat}
 \title{
-Point Summary Statistics
+Covariance matrix for the difference between two K-functions
 }
 \description{
 Calculate the covariance matrix for the difference between two K-functions 

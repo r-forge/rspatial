@@ -1,7 +1,7 @@
 \name{addpoints}
 \alias{addpoints}
 \title{
-Point Operations
+Add points interactively to a point data set
 }
 \description{
 Add points interactively to a point data set.

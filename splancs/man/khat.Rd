@@ -1,7 +1,7 @@
 \name{khat}
 \alias{khat}
 \title{
-Point Summary Statistics
+K-function
 }
 \description{
 Calculates an estimate of the K-function

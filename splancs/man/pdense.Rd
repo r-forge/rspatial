@@ -1,7 +1,7 @@
 \name{pdense}
 \alias{pdense}
 \title{
-Point/Poly Operations
+Overall density for a point pattern
 }
 \description{
 Calculate overall density for a point pattern.

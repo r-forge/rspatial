@@ -1,7 +1,7 @@
 \name{stmctest}
 \alias{stmctest}
 \title{
-Space-time Clustering
+Monte-Carlo test of space-time clustering
 }
 \description{
 Perform a Monte-Carlo test of space-time clustering.

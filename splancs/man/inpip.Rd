@@ -1,7 +1,7 @@
 \name{inpip}
 \alias{inpip}
 \title{
-Point/Poly Operations
+Select points inside a polygon
 }
 \description{
 Select points inside a polygon

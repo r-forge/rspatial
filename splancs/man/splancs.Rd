@@ -1,7 +1,7 @@
 \name{splancs}
 \alias{splancs}
 \title{
-Point pattern analysis
+Return version number and author information
 }
 \description{
 Return version number and author information
