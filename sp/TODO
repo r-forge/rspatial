@@ -1,6 +1,10 @@
 build simple SpatialDataFramePolygons example, e.g. using two triangles
 add subscripting [] to SpatialDataFramePolygon objects
 
+find out why does, in S-Plus, 
+  for(i in 1:100) { polygon(P4x@polygons[[i]]@coords) }
+work, but does plot(P4x) error?
+
 clean up this file
 
 add CHANGES file to SF
