@@ -36,17 +36,37 @@ later on by e.g. using \code{\link{gridded}(x)=TRUE}.
 \author{Edzer J.\ Pebesma, e.pebesma@geog.uu.nl}
 
 \examples{
-x <- read.gdal(system.file("external/test.ag", package="sp")[1])
-class(x)
-image(x)
-summary(x)
-x <- read.gdal(system.file("external/simple.ag", package="sp")[1])
-class(x)
-image(x)
-summary(x)
-y = read.gdal(system.file("pictures/Rlogo.jpg", package = "rgdal")[1])
-summary(y)
-gridplot(y, zcol=1:3, names.attr=c("red","green","blue"), col.regions=grey(0:100/100),
+#x <- read.gdal(system.file("external/test.ag", package="sp")[1])
+#class(x)
+#image(x)
+#summary(x)
+#x <- read.gdal(system.file("external/simple.ag", package="sp")[1])
+#class(x)
+#image(x)
+#summary(x)
+#y = read.gdal(system.file("pictures/Rlogo.jpg", package = "rgdal")[1])
+
+
+# library(rgdal)
+# logo <- system.file("pictures/Rlogo.jpg", package="rgdal")[1]
+# x <- GDAL.open(logo)
+# gt = .Call('RGDAL_GetGeoTransform', x, PACKAGE="rgdal")
+# data <- getRasterData(x)
+# GDAL.close(x)
+
+data(Rlogo)
+d = dim(data)
+cellsize = abs(c(gt[2],gt[6]))
+cells.dim = c(d[1], d[2]) # c(d[2],d[1])
+cellcentre.offset = c(x = gt[1] + 0.5 * cellsize[1], y = gt[4] - (d[2] - 0.5) * abs(cellsize[2]))
+grid = GridTopology(cellcentre.offset, cellsize, cells.dim)
+df = as.vector(data[,,1])
+for (band in 2:d[3]) df = cbind(df, as.vector(data[,,band]))
+df = as.data.frame(df)
+names(df) = paste("band", 1:d[3], sep="")
+Rlogo <- SpatialGridDataFrame(grid = grid, data = df)
+summary(Rlogo)
+gridplot(Rlogo, zcol=1:3, names.attr=c("red","green","blue"), col.regions=grey(0:100/100),
 	main="example of three-layer (RGB) raster image", as.table=TRUE)
 }
 \keyword{programming}
