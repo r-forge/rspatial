@@ -8,8 +8,8 @@ Retrieve rings from SpatialRingsDataFrame object
 }
 \section{Methods}{
 \describe{
-\item{obj = "Spatial"}{ returns SpatialRings part if object is of, or deriving from, 
-	class SpatialRingsDataFrame }
+\item{obj = "Spatial"}{ returns SpatialRings part if object is of
+	class "SpatialRingsDataFrame" or "SpatialRings"}
 %\item{}{ ~~describe this method here }
 }}
 \keyword{methods}

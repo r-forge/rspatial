@@ -8,7 +8,7 @@ export(CRS, print.CRS, proj4string, "proj4string<-", is.projected)
 export(bbox, getGridIndex, points2grid, bpy.colors, bubble,
 	mapasp, point.in.polygon, map.to.lev, zerodist, remove.duplicates)
 
-export(coordinates, "coordinates<-", coordinatevalues)
+export("coordinates<-", coordinatevalues)
 
 export(dimensions)
  
@@ -69,17 +69,12 @@ exportClasses(CRS, Spatial,
 
 exportClasses(Sring, Srings, SpatialRings, SpatialRingsDataFrame)
 
-exportMethods(show, bbox, coordinates, gridded, rings, dimensions, coerce, "[")
+exportMethods(show, bbox, coordinates, gridded, rings, dimensions, coerce, "[",
+	transform) # not arcs
 
-#exportMethods(arcs)
-
-# S3method("[", SpatialPoints)
-
-# S3method("[", SpatialPointsDataFrame)
 S3method("[[", SpatialPointsDataFrame)
 S3method("[[<-", SpatialPointsDataFrame)
 
-# S3method("[", SpatialGridDataFrame)
 S3method("[[", SpatialGridDataFrame)
 S3method("[[<-", SpatialGridDataFrame)
 

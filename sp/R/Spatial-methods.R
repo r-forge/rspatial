@@ -18,6 +18,9 @@ if (!isGeneric("gridded"))
 if (!isGeneric("dimensions"))
 	setGeneric("dimensions", function(obj)
 		standardGeneric("dimensions"))
+if (!isGeneric("transform"))
+	setGeneric("transform", function(x, ...)
+		standardGeneric("transform"))
 
 setMethod("bbox", "Spatial", function(obj) obj@bbox)
 
@@ -29,6 +32,10 @@ setMethod("rings", "Spatial", function(obj) {
 		else
 			stop("rings method only available for objects of class or deriving from SpatialRings")
 	}
+)
+
+setMethod("transform", "Spatial", function(x, ...)
+		stop("for using (coordinate) transform on objects deriving from Spatial, first load library spproj")
 )
 
 summary.Spatial = function(object, ...) {

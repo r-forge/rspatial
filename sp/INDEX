@@ -12,9 +12,9 @@ SpatialGridDataFrame-class
                         Class "SpatialGridDataFrame" ~~~
 SpatialLines            create objects of class SpatialLines or
                         SpatialLinesDataFrame
-SpatialLines-class      Class "SpatialLines" ~~~
+SpatialLines-class      a class for spatial lines
 SpatialLinesDataFrame-class
-                        Class "SpatialLinesDataFrame" ~~~
+                        a class for spatial lines with attributes
 SpatialPoints-class     Class "SpatialPoints" ~~~
 SpatialPointsDataFrame-class
                         Class "SpatialPointsDataFrame" ~~~
@@ -25,7 +25,6 @@ SpatialRingsDataFrame-class
                         Class "SpatialRingsDataFrame"
 Sring-class             Class "Sring"
 Srings-class            Class "Srings"
-arcs-methods            ~~ Methods for Function arcs in Package
 as.SpatialRings.SringsList
                         Making SpatialRings objects
 bbox,Spatial-method     retrieve bbox from spatial data
@@ -39,7 +38,6 @@ dimensions,Spatial-method
                         retrieve spatial dimensions from spatial data
 gridded-methods         specify spatial data as being gridded, or find
                         out whether they are
-gridplot                plot grids and polygons using levelplot
 image.SpatialGridDataFrame
                         image gridded spatial data, or convert to
                         format for image
@@ -47,8 +45,8 @@ is.projected            Sets or retrieves projection attributes on
                         classes extending SpatialData
 lns                     Norwegian river center line data
 map.to.lev              rearrange data in SpatialPointsDataFrame or
-                        SpatialCellDataFrame for plotting with
-                        levelplot
+                        SpatialGridDataFrame for plotting with spplot
+                        (levelplot/xyplot wrapper)
 mapasp                  Calculate aspect ratio for plotting geographic
                         maps
 meuse                   Meuse river data set
