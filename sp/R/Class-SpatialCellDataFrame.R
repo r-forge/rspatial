@@ -70,6 +70,9 @@ as.SpatialCellDataFrame.SpatialGriddedDataFrame = function(from) {
 	)
 }
 
+setAs("SpatialGriddedDataFrame", "SpatialCellDataFrame", 
+	as.SpatialCellDataFrame.SpatialGriddedDataFrame)
+
 subset.SpatialCellDataFrame <- function(x, subset, select, drop = FALSE, ...) {
     if (version$major == 2 & version$minor < 1 ) {
 	subset.matrix <- function (x, subset, select, drop = FALSE, ...) {

@@ -54,7 +54,7 @@ exportClasses(Sring, Srings, SpatialRings, SpatialRingsDataFrame)
 exportMethods(show, bbox, coordinates, arcs, rings, gridded, dimensions, "[")
 
 # is this necessary? --
-#exportMethods(coerce)
+exportMethods(coerce)
 
 exportMethods(Coordinates)
 

@@ -12,9 +12,10 @@ function (data, zcol, names.attr, col.regions = bpy.colors(), expand = 0.03,...)
 	if (missing(zcol)) 
 		zcol = names(data@data)[1]
 	if (length(zcol) > 1) {
-		data = map.to.lev(data, zcol = zcol, names.attr = names.attr, df = FALSE)
 		formula = as.formula(paste("z~", paste(dimnames(data@coords)[[2]], 
 			collapse = "+"), "|name"))
+		data = map.to.lev(data, zcol = zcol, names.attr = names.attr)
+		#data = stack(data, zcol)
 	} else {
 		if (!is.character(zcol)) 
 			stop("zcol should be a character vector")
@@ -24,7 +25,8 @@ function (data, zcol, names.attr, col.regions = bpy.colors(), expand = 0.03,...)
 #ifdef R
 	require(lattice)
 #endif
-	asp = mapasp(data)
+	#asp = mapasp(data)
+	asp = "iso"
 	if (!is.null(pol)) {
 #ifdef R
 		require(grid)
