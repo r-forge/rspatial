@@ -1,4 +1,3 @@
-#include <stdlib.h> /* malloc(), free() */
 #include "S.h" 
 
 #ifdef USING_R
@@ -56,10 +55,9 @@ SEXP R_point_in_polygon_sp(SEXP px, SEXP py, SEXP polx, SEXP poly) {
 	POLYGON pol;
 	SEXP ret;
 
+	S_EVALUATOR
 	pol.lines = LENGTH(polx); /* check later that first == last */
-	pol.p = (PLOT_POINT *) malloc(pol.lines * sizeof(PLOT_POINT));
-	if (pol.p == NULL)
-		PROBLEM "could not allocate %d plot points", pol.lines ERROR;
+	pol.p = (PLOT_POINT *) Calloc(pol.lines, PLOT_POINT); /* Calloc does error handling */
 	for (i = 0; i < LENGTH(polx); i++) {
 		pol.p[i].x = NUMERIC_POINTER(polx)[i];
 		pol.p[i].y = NUMERIC_POINTER(poly)[i];
@@ -87,7 +85,7 @@ For each query point q, InPoly returns one of four char's:
 			default: INTEGER_POINTER(ret)[i] = -1; break;
 		}
 	}
-	free(pol.p);
+	Free(pol.p);
 	return(ret);
 }
 

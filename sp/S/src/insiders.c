@@ -19,14 +19,22 @@ int between(double x, double low, double up);
 
 SEXP insiders(SEXP n1, SEXP bbs) {
 
-	int n=INTEGER_POINTER(n1)[0], pc=0;
+	int n, pc=0;
 	int i, j, k, k1;
 	double bbi[4], bbj[4];
 	int *yes, jhit[4], hsum;
-
+	SEXP ip;
 	SEXP ans;
+
+	S_EVALUATOR
+
+	n = INTEGER_POINTER(n1)[0];
 	PROTECT(ans = NEW_LIST(n)); pc++;
-	yes = (int *) S_alloc((long) n, sizeof(int)); /* S_alloc used */
+#ifdef USING_R
+	yes = (int *) S_alloc((long) n, sizeof(int));
+#else
+	yes = (int *) S_alloc((long) n, sizeof(int), S_evaluator);
+#endif
 	for (i=0; i < n; i++) {
 		for (j=0; j < n; j++) yes[j] = 0;
 		bbi[0] = NUMERIC_POINTER(bbs)[i];
@@ -56,15 +64,15 @@ SEXP insiders(SEXP n1, SEXP bbs) {
 		}
 		
 		if (k != 0) {
-			SET_VECTOR_ELT(ans, i, NEW_INTEGER(k));
+			ip = NEW_INTEGER(k);
+			PROTECT(ip); pc++;
 			for (j=0, k1=0; j < n; j++) {
 				if (yes[j] > 0)
-					INTEGER_POINTER(VECTOR_ELT(ans, 
-						i))[k1++] = j + ROFFSET;
+					INTEGER_POINTER(ip)[k1++] = j + ROFFSET;
 			}
+			SET_ELEMENT(ans, i, ip);
 		}
 	}
-
 	UNPROTECT(pc); /* ans */
 	return(ans);
 }
