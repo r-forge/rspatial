@@ -103,6 +103,24 @@ In the following sections we will show how we can create objects of
 these classes from scratch or from other classes, and which methods and
 functions are available for them.
 
+\section{Manipulating spatial objects}
+Although entries in spatial objects are in principle accessible through
+their slot name, e.g. {\tt x@coords} contains the coordinates of an object
+of class or extending {\tt SpatialPoints}, we strongly encourage users to
+access the data by using functions and methods, e.g. {\tt coordinatas(x)}
+to retrieve the coordinates.
+
+Selecting, retrieving or replacing certain attributes in spatial objects
+with attributes can be done by the methods
+\begin{itemize}
+\item \verb|[| select "rows" (items) and/or columns in the data attribute
+table; e.g. {\tt meuse[1:2, "zinc"]} returns a {\tt SpatialPointsDataFrame}
+with the first two points and an attribute table with only variable "zinc".
+\item \verb|[[| select a column from the data attribute table
+\item \verb|[[<-| assign or replace values to a column in the data attribute
+table.
+\end{itemize}
+
 \section{Points}
 
 \subsection{{\tt SpatialPoints} without attributes}

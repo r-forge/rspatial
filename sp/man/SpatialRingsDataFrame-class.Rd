@@ -1,6 +1,22 @@
 \name{SpatialRingsDataFrame-class}
 \docType{class}
 \alias{SpatialRingsDataFrame-class}
+\alias{[,SpatialRingsDataFrame-method}
+\alias{as.data.frame.SpatialRingsDataFrame}
+\alias{coerce,SpatialRingsDataFrame,data.frame-method}
+
+\alias{getSRSringsIDSlots}
+\alias{getSRSringsLabptSlots}
+\alias{getSRnParts}
+\alias{getSRplotOrderSlot}
+\alias{getSRpolygonsSlot}
+\alias{getSringAreaSlot}
+\alias{getSringCoordsSlot}
+\alias{getSringLabptSlot}
+\alias{getSringsIDSlot}
+\alias{getSringsLabptSlot}
+\alias{getSringsSringsSlot}
+\alias{getSringsplotOrderSlot}
 
 \title{Class "SpatialRingsDataFrame" }
 \description{ class to hold polygons with attributes }

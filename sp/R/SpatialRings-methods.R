@@ -165,7 +165,6 @@ as.SpatialRings.pal <- function(arc, pal, IDs, dropPoly1=TRUE,
 #	res
 #}
 
-
 SpatialRings <- function(Srl, pO=1:length(Srl)) {
 	bb <- .bboxSrs(Srl)
 	projargs <- proj4string(Srl[[1]])
@@ -285,3 +284,9 @@ plotSpatialRings <- function(SR) {
 		for (j in pOi) polygon(getSringCoordsSlot(Srs[[j]]))
 	}
 }
+
+#"[.SpatialRings" =  function(x, i, j, ..., drop = T) {
+setMethod("[", "SpatialRings", function(x, i, j, ..., drop = T) {
+	if (!missing(j)) stop("only a single index is allowed for [.SpatialRings")
+	SpatialRings(x[i], pO = order(x@plotOrder))
+})

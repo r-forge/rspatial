@@ -1,6 +1,7 @@
 \name{SpatialLinesDataFrame-class}
 \docType{class}
 \alias{SpatialLinesDataFrame-class}
+\alias{coerce,SpatialLinesDataFrame,data.frame-method}
 
 \title{Class "SpatialLinesDataFrame" ~~~ }
 \description{  ~~ A concise (1-5 lines) description of what the class is.  ~~}

@@ -50,7 +50,7 @@ export(read.asciigrid, write.asciigrid, read.gdal)
 
 exportClasses(CRS, Spatial, 
 	SpatialPoints, 
-#	SpatialPointsDataFrame, 
+ 	SpatialPointsDataFrame, 
 	GridTopology,
 	SpatialGrid, 
 	SpatialGridDataFrame,
@@ -72,11 +72,16 @@ S3method("[[<-", SpatialPointsDataFrame)
 S3method("[[", SpatialGridDataFrame)
 S3method("[[<-", SpatialGridDataFrame)
 
+S3method("[[", SpatialRingsDataFrame)
+S3method("[[<-", SpatialRingsDataFrame)
+
 S3method(as.matrix, SpatialGridDataFrame)
 
 S3method(as.data.frame, SpatialPoints)
 S3method(as.data.frame, SpatialPointsDataFrame)
 S3method(as.data.frame, SpatialGridDataFrame)
+S3method(as.data.frame, SpatialLinesDataFrame)
+S3method(as.data.frame, SpatialRingsDataFrame)
 
 S3method(dim, SpatialPointsDataFrame)
 
@@ -130,6 +135,7 @@ S3method(summary, SpatialGrid)
 S3method(summary, SpatialGridDataFrame)
 S3method(summary, SpatialLines)
 S3method(summary, SpatialLinesDataFrame)
+S3method(summary, SpatialRingsDataFrame)
 
 export(".__C__CRS")
 export(".__C__SpatialPoints")

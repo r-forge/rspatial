@@ -24,8 +24,7 @@ SpatialRingsDataFrame-class
                         Class "SpatialRingsDataFrame"
 Sring-class             Class "Sring"
 Srings-class            Class "Srings" ~~~
-arcs-methods            ~~ Methods for Function arcs in Package 'sp4'
-                        ~~
+arcs-methods            ~~ Methods for Function arcs in Package
 bbox,Spatial-method     retrieve bbox from spatial data
 bpy.colors              blue-pink-yellow color scheme that prints well
                         on black/white printers
