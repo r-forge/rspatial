@@ -79,7 +79,6 @@ S3method(subset, SpatialPointsDataFrame)
 S3method(stack, SpatialPointsDataFrame)
 S3method(stack, SpatialCellDataFrame)
 
-#export(".__C__CRS")
-#export(".__C__SpatialPoints")
-#export(".__C__SpatialPointsDataFrame")
-
+export(".__C__CRS")
+export(".__C__SpatialPoints")
+export(".__C__SpatialPointsDataFrame")
