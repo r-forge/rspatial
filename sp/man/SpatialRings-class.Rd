@@ -5,7 +5,7 @@
 \alias{as.data.frame.SpatialRings}
 \alias{plotSpatialRings}
 
-\title{Class "SpatialRings" ~~~ }
+\title{Class "SpatialRings"}
 \description{  class to hold polygon topology (without attributes) }
 \section{Objects from the Class}{
 Objects can be created by calls to the function \link{SpatialRings}
@@ -31,5 +31,18 @@ No methods defined with class "SpatialRings" in the signature.
 \note{ }
 \seealso{ \link{SpatialRings} }
 \examples{
+data(ncshp)
+nc1 <- as.SpatialRings.Shapes(nc.shp$Shapes, 
+  as.character(nc.shp$att.data$FIPS))
+plotSpatialRings(nc1)
+data(ncmap)
+nc2 <- as.SpatialRings.map(ncmap, ncmap$names)
+plotSpatialRings(nc2)
+data(co37_d90_arc)
+data(co37_d90_pal)
+data(co37_d90_pat)
+IDs <- paste(pat$ST[-1], pat$CO[-1], sep="")
+nc3 <- as.SpatialRings.pal(arc, pal, IDs=IDs)
+plotSpatialRings(nc3)
 }
 \keyword{classes}

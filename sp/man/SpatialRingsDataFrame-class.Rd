@@ -26,7 +26,6 @@ Objects can be created by calls to the function \link{SpatialRingsDataFrame}
 \section{Slots}{
   \describe{
     \item{\code{data}:}{Object of class \code{"data.frame"}; attribute table }
-    \item{\code{labelPoints}:}{Object of class \code{"ANY"}; }
     \item{\code{polygons}:}{Object of class \code{"list"}; see \link{SpatialRings-class} }
     \item{\code{plotOrder}:}{Object of class \code{"integer"}; see \link{SpatialRings-class} }
     \item{\code{bbox}:}{Object of class \code{"matrix"}; see \link{Spatial-class}}

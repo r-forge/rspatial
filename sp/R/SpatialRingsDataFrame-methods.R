@@ -1,8 +1,5 @@
-SpatialRingsDataFrame <- function(Sr, data, labelPoints) {
-	if (missing(labelPoints))
-		new("SpatialRingsDataFrame", Sr, data = data)
-	else
-		new("SpatialRingsDataFrame", Sr, data = data, labelPoints = labelPoints)
+SpatialRingsDataFrame <- function(Sr, data) {
+	new("SpatialRingsDataFrame", Sr, data = data)
 }
 
 names.SpatialRingsDataFrame = function(x) names(x@data)

@@ -2,7 +2,7 @@
 \docType{class}
 \alias{Srings-class}
 
-\title{Class "Srings" ~~~ }
+\title{Class "Srings"}
 \description{ Collection of objects of class \code{"Sring"} }
 \section{Objects from the Class}{
 Objects can be created by calls to the function \code{Srings}
@@ -12,10 +12,10 @@ Objects can be created by calls to the function \code{Srings}
     \item{\code{Srings}:}{Object of class \code{"list"}; list with objects
 	of class \link{Sring-class} }
     \item{\code{plotOrder}:}{Object of class \code{"integer"}; order in which
-	the Sring objects should be plotted; RSB }
-    \item{\code{labpt}:}{Object of class \code{"numeric"}; RSB  }
-    \item{\code{ID}:}{Object of class \code{"character"}; RSB  }
-    \item{\code{area}:}{Object of class \code{"numeric"}; RSB  }
+	the Sring objects should be plotted, currently by order of decreasing size }
+    \item{\code{labpt}:}{Object of class \code{"numeric"}; pair of x, y coordinates giving a label point, the label point of the largest ring component  }
+    \item{\code{ID}:}{Object of class \code{"character"}; identifier string  }
+    \item{\code{area}:}{Object of class \code{"numeric"}; the total area of the Sring list, with hole areas subtracted from non-hole areas }
     \item{\code{bbox}:}{Object of class \code{"matrix"}; see \link{Spatial-class} }
     \item{\code{proj4string}:}{Object of class \code{"CRS"}; see \link{CRS-class} }
   }
@@ -28,7 +28,7 @@ No methods defined with class "Srings" in the signature.
 }
 \references{ }
 \author{ Roger Bivand }
-\note{ }
+\note{ By default, single rings (where Srings is a list of length one) are not expected to be holes, but in multiple rings, hole definitions for member rings can be set }
 
 \seealso{
 }

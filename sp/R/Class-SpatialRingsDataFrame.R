@@ -1,8 +1,6 @@
 setClass("SpatialRingsDataFrame",
-	representation("SpatialRings", data = "data.frame", 
-		labelPoints = "ANY"),
-	prototype = list(new("SpatialRings"), data = data.frame(),
-		labelPoints = NULL),
+	representation("SpatialRings", data = "data.frame"),
+	prototype = list(new("SpatialRings"), data = data.frame()),
 	validity = function(object) {
 		if (!inherits(object@data, "data.frame"))
 			stop("data should be of class data.frame")

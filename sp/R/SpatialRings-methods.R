@@ -173,13 +173,15 @@ SpatialRings <- function(Srl, pO=1:length(Srl)) {
 	res
 }
 
-Sring <- function(coords, proj4string=CRS(as.character(NA))) {
+Sring <- function(coords, proj4string=CRS(as.character(NA)), hole=as.logical(NA)) {
 	sl <- Sline(coords, proj4string=proj4string)
 	rD <- .ringDirxy(coordinates(sl))
 	cents <- .RingCentrd_2d(coordinates(sl))
 	.saneRD(rD)
-	hole <- FALSE
-	if (rD < 0) hole <- TRUE
+	if (is.na(hole)) {
+		hole <- FALSE
+		if (rD < 0) hole <- TRUE
+	}
 	res <- new("Sring", sl, labpt=as.numeric(c(cents$xc, cents$yc)), 
 		area=as.numeric(cents$area), hole=as.logical(hole), 
 		ringDir=as.integer(rD))
