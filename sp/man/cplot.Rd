@@ -41,7 +41,7 @@ data(meuse)
 coordinates(meuse) <- ~x+y
 cplot(meuse) # prints cadmium
 cplot(meuse, "zinc")
-cplot(meuse, "zinc", do.log = TRUE)
+cplot(meuse, "zinc", do.log = TRUE, main = "zinc; logarithmic scale breaks")
 }
 \keywords{
 }
