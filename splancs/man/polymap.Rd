@@ -1,6 +1,6 @@
-\name{pointmap}
-\alias{pointmap}
+\name{polymap}
 \alias{polymap}
+\alias{pointmap}
 \title{
 Graphics
 }
@@ -56,12 +56,4 @@ pointmap(as.points(bodmin), add=T)
 polymap(bodmin$poly, add=T)
 }
 % Converted by Sd2Rd version 0.3-3.
-\name{pointmap}
-\alias{pointmap}
-\alias{polymap}
-\alias{polymap}
-}
-\title{
-See \fCpointmap}
-
 

@@ -46,7 +46,7 @@ character for points, \fClty} to change the line type for polygons, and
 \fCtype="n"} to set up axes for the plot without plotting anything.
 }
 \seealso{
-\fCpar} (standard S function), \fCmpoint}
+ \fCmpoint}
 }
 \examples{
 data(bodmin)
