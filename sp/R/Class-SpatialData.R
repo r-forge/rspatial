@@ -12,6 +12,7 @@ setClass("SpatialData",
 	prototype = list(bbox = matrix(rep(NA, 6), 3, 2),
 		proj4string = CRS(as.character(NA))),
 	validity = function(object) {
+		# print("called valid.SpatialData")
 		n = spatial.dimension(object)
 		if (n > 3 || n < 2)
 			return("spatial.dimension should be either 2 or 3")
@@ -33,7 +34,10 @@ setClass("SpatialDataFrame",
 		data = "data.frame", 
 		coord.names = "character",
   		coord.columns = "integer"),
+	prototype = list(new("SpatialData"), data = data.frame(), 
+		coord.names = as.character(NA), coord.columns = integer(0)),
 	validity = function(object) {
+		# print("called valid.SpatialDataFrame")
 		if (nrow(object@data) < 1)
 			stop("no valid data present: too few rows")
 		if (ncol(object@data) < 2)
@@ -47,6 +51,8 @@ setClass("SpatialDataFrameGrid",
 		cellcentre.offset = "numeric",
 		cellsize = "numeric",
 		cells.dim = "integer"),
+	prototype = list(new("SpatialDataFrame"), cellcentre.offset = numeric(0),
+		cellsize = numeric(0), cells.dim = integer(0)),
 	validity = function(object) {
 		n = spatial.dimension(object)
 		if (length(na.omit(object@cellcentre.offset)) > n)
@@ -58,7 +64,6 @@ setClass("SpatialDataFrameGrid",
 		return(TRUE)
 	}
 )
-
 
 setClass("Polygon4",
 	representation("SpatialData",
@@ -155,6 +160,12 @@ print.SpatialDataFrame = function(x, ...) {
 # setMethod("print", "SpatialDataFrame", PrintSpatialDataFrame)
 ShowSpatialDataFrame = function(object) print.SpatialDataFrame(object)
 setMethod("show", "SpatialDataFrame", ShowSpatialDataFrame)
+
+bbox = function(sd) {
+	if (!(is(sd, "SpatialData")))
+		stop("function bbox only available for objects inheriting from SpatialData")
+	sd@bbox
+}
 
 coordinates = function(sdf) { 
 	if (!(is(sdf, "SpatialDataFrame")))

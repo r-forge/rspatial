@@ -1,3 +1,9 @@
+build simple SpatialDataFramePolygons example
+
+clean up this file
+
+add CHANGES file to SF
+
 SpatialDataPolygons doesn't known which columns in the
 attribute data are the label points. Changed into
 SpatialDataFramePolygon, descending from
