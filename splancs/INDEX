@@ -47,7 +47,7 @@ pdense                   Overall density for a point pattern
 pip                      Points inside or outside a polygon
 pointmap                 Graphics
 polymap                  Graphics
-print.ribfit             Display the fit from \code{tribble
+print.ribfit             Display the fit from tribble()
 rlabel                   Randomly label two or more point sets
 rtor.shift               Random toroidal shift on a point data set
 sbox                     Generate a box surrounding a point object

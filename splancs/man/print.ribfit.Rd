@@ -1,7 +1,7 @@
 \name{print.ribfit}
 \alias{print.ribfit}
 \title{
-Display the fit from \code{tribble}
+Display the fit from tribble()
 }
 \description{
 Display the fit from \code{tribble}

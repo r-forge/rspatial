@@ -2,10 +2,12 @@
 \title{Locations of homes of juvenile offenders}
 \usage{data(cardiff)}
 \alias{cardiff}
-\format{A Venables and Ripley point object with 168 observations
-  \tabular{rlll}{
-    [,1]  \tab Eastings  \tab numeric  \tab grid eastings\cr
-    [,2]  \tab Northings   \tab numeric  \tab grid northings\cr
+\format{A list corresponding to a Venables and Ripley point object with 168 observations
+  \tabular{lll}{
+    x  \tab numeric  \tab grid eastings\cr
+    y   \tab numeric  \tab grid northings\cr
+    area \tab	list	\tab bounding box with xl, xu, yl, yu\cr
+    poly \tab array \tab polygon boundary with columns x and y\cr
   }
 }
 \source{Herbert, 1980, - Bailey and Gatrell 1995, ch. 3.
