@@ -4,9 +4,10 @@
 \alias{stack.SpatialDataFrame}
 \alias{stack.SpatialDataFrameGrid}
 \title{ rearrange SpatialDataFrame for plotting with levelplot }
-\description{ rearrange SpatialDataFrame for plotting with levelplot }
+\description{ plotting grid and polygon maps with levelplot;
+rearrange SpatialDataFrame for plotting with levelplot }
 \usage{
-lplot(data, zcol, names.attr, col.regions = bpy.colors(), ...)
+lplot(data, zcol, names.attr, col.regions = bpy.colors(), expand = 0.03, ...)
 map.to.lev(data, zcol = 1:n, n = 2, names.attr, df = TRUE)
 stack.SpatialDataFrame(x, select, ...)
 }
@@ -18,6 +19,8 @@ column, etc. ) }
 \item{names.attr}{names of the set of z-columns (these names
 will appear in the plot); if omitted, column names of \code{zcol} }
 \item{col.regions}{ color vector to be passed to \link{levelplot}}
+\item{expand}{numeric; factor to expand the bounding box with when plotting
+concerns SpatialDataFramePolygons }
 \item{n}{ number of columns to be plotted }
 \item{df}{ logical; if TRUE, return data.frame, else return SpatialDataFrame }
 \item{x}{ see \code{data}}
@@ -25,7 +28,10 @@ will appear in the plot); if omitted, column names of \code{zcol} }
 \item{...}{lplot passes these through to \link{levelplot}, otherwise ignored}
 }
 
-\value{ \code{lplot} is a wrapper around levelplot for spatial, gridded data.
+\value{ \code{lplot} is a wrapper around \link{levelplot} for spatial
+data. Gridded data uses levelplot directly, for polygons data a modified
+panel function is passed to levelplot, which calls \link{grid.polygon}
+for each of the polygons.
 
 \code{map.to.lev} returns a
 data frame with the following elements:
@@ -54,7 +60,6 @@ gridded(meuse.grid) = TRUE
 levelplot(z~x+y|name, map.to.lev(meuse.grid, z=c(3,4), names.attr =
 	c("distance", "inverse of distance")), aspect = asp)
 levelplot(values~x+y|ind,data.frame(stack(meuse.grid)), asp = asp)
-
 
 }
 \keyword{dplot}
