@@ -42,14 +42,13 @@ pointmap(southlancs.pts[southlancs.cc == 1,])
 pointmap(old.incinerator, add=T, col="red", pch=19)
 title("Larynx cancer cases")
 par(op)
-pointmap(southlancs.pts, type="n")
+polymap(southlancs.bdy,border="grey")
 contour(kernel2d(southlancs.pts[southlancs.cc == 0,], 
 	southlancs.bdy, h=500, nx=100, ny=100), nlevels=20, 
 	add=T,drawlabels=F)
 pointmap(southlancs.pts[southlancs.cc == 1,], add=T, pch=19,
 	 col="green")
 pointmap(old.incinerator, add=T, pch=19, col="red")
-polymap(southlancs.bdy,add=T,border="grey")
 title(xlab="h=500, quartic kernel")
 title("Density map of control, green case points, red old incinerator")
 
