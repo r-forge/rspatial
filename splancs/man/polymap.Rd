@@ -49,13 +49,11 @@ character for points, \fClty} to change the line type for polygons, and
 \fCpar} (standard S function), \fCmpoint}
 }
 \examples{
-\examples{
 data(bodmin)
 require(MASS)
 eqscplot(bodmin$poly, type="n")
 pointmap(as.points(bodmin), add=T)
 polymap(bodmin$poly, add=T)
-}
 }
 % Converted by Sd2Rd version 0.3-3.
 \name{pointmap}
