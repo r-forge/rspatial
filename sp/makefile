@@ -11,6 +11,7 @@ R-target:  # can't use `R' as make target -- it's a directory
 	find $(Sdir)/* scripts/* makefile > .Rbuildignore
 	echo CHANGES >> .Rbuildignore
 	cat $(Sdir)/src/rdef $(Sdir)/src/pip.c > src/pip.c # adds #define USING_R 1
+	cat $(Sdir)/src/rdef $(Sdir)/src/insiders.c > src/insiders.c # adds #define USING_R 1
 
 S-Plus:
 	./scripts/toSplus $(Sdir) $(Sdest)
@@ -28,7 +29,8 @@ S-test:
 	(cd $(Sdest); $(SEXEC) < tests.fail > tests.fail.out 2>&1 )
 	(cd $(Sdest); $(SEXEC) < tests.pass > tests.pass.out 2>&1 )
 
-clean:;
+clean:
+	rm -f $(Rdir)/*.R ; rm -f src/*.c src/*.o src/*.so
 
 veryclean:
 	rm -fr $(Sdest)

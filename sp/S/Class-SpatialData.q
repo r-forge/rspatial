@@ -76,7 +76,9 @@ setClass("Polygon4",
 		pStart.to = "integer",
 		RingDir = "integer",
 		ringDir = "integer",
-		region.id = "character"),
+		region.id = "character",
+		plotOrder = "integer",
+		after = "integer"),
 	prototype = list(
 		bbox = matrix(rep(NA, 6), 3, 2, dimnames = list(NULL, c("min","max"))),
 		proj4string = CRS(as.character(NA)),
@@ -87,7 +89,9 @@ setClass("Polygon4",
 		pStart.to = integer(0),
 		RingDir = integer(0),
 		ringDir = integer(0),
-		region.id = character(0)),
+		region.id = character(0),
+		plotOrder = integer(0),
+		after = integer(0)),
 	validity = function(object) {
 			if (ncol(object@coords) != 2) {
 				print("polygon should have 2 columns")
@@ -101,15 +105,21 @@ setClass("Polylist4",
 	representation("SpatialData",
 		polygons = "list",
 		region.id = "character",
-		within = "integer"),
+		plotOrder = "integer",
+		after = "integer"),
 	prototype = list(
 		bbox = matrix(rep(NA, 6), 3, 2, dimnames = list(NULL, c("min","max"))),
 		proj4string = CRS(as.character(NA)),
 		polygons = list(), 
 		region.id = character(0), 
-		within = integer(0)),
+		plotOrder = integer(0),
+		after = integer(0)),
 	validity = function(object) {
 		if (length(object@polygons) != length(object@region.id)) {
+			print("length mismatch")
+			return(FALSE)
+		}
+		if (length(object@polygons) != length(object@plotOrder)) {
 			print("length mismatch")
 			return(FALSE)
 		}
@@ -686,58 +696,4 @@ as.data.frame.SpatialDataPolygons = function(x, row.names, optional)
 # ... # set up conversion from/to pixmap <<-->> SpatialDataFrameGrid
 #}
 
-map2polys = function(map) {
-	get.polygon = function(x, map) {
-		range = x[1]:x[2]
-		c(map$x[range], map$y[range])
-	}
-	fold.polygon = function(x) {
-		n = length(x)
-		half = n/2
-		cbind(xcoord = x[1:half], ycoord = x[(half+1):n])
-	}
-	if (!inherits(map, "map"))
-		stop("map expected")
-	xc = map$x
-	n = length(xc)
-	breaks = which(is.na(xc))
-	range.limits = cbind(start = c(1, breaks + 1), end = c(breaks - 1, n))
-	lst = apply(range.limits, 1, get.polygon, map = map)
-	names(lst) = map$names
-	lapply(lst, fold.polygon)
-}
 
-map2Poly4 = function(map) {
-	poly2Poly4 = function(pol) {
-		bb = t(apply(pol, 2, range))
-		dimnames(bb) = list(c("x", "y"), c("min", "max"))
-		nverts = dim(pol)[1]
-		new("Polygon4",
-			bbox = bb,
-			proj4string = CRS(as.character(NA)),
-			coords = pol,
-			nVerts = nverts,
-			nParts = as.integer(1),
-			pStart.from = as.integer(1),
-			pStart.to = as.integer(nverts),
-			RingDir = as.integer(-1),
-			ringDir = as.integer(1), # still have to compute this one!
-			region.id = "xx")
-	}
-	polys = map2polys(map)
-	polygons = lapply(polys, poly2Poly4)
-	# set up bb
-	getBBx = function(x) range(x@bbox[1,])
-	getBBy = function(x) range(x@bbox[2,])
-	rx = sapply(polygons, getBBx)
-	ry = sapply(polygons, getBBy)
-	bb = t(cbind(c(min(rx[1,]), max(rx[2,])), c(min(ry[1,]), max(ry[2,]))))
-	# bb = matrix(x$range, 2, 2)
-	dimnames(bb) = list(c("x", "y"), c("min", "max"))
-	new("Polylist4",
-		bbox = bb,
-		proj4string = CRS(as.character(NA)),
-		polygons = polygons,
-		region.id = names(polys),
-		within = as.integer(NA))
-}

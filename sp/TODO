@@ -1,13 +1,19 @@
+First cut at getting holes and polygon order right, Polygon4 and 
+Polylist4 classes for trial. 
+
 build simple SpatialDataFramePolygons example, e.g. using two triangles
-add subscripting [] to SpatialDataFramePolygon objects
+add subscripting [] to SpatialDataFramePolygon objects (with much care!)
 
 find out why does, in S-Plus, 
   for(i in 1:100) { polygon(P4x@polygons[[i]]@coords) }
 work, but does plot(P4x) error?
 
+Do we need to set a method here?
+
 clean up this file
 
 add CHANGES file to SF
+
 
 SpatialDataPolygons doesn't known which columns in the
 attribute data are the label points. Changed into

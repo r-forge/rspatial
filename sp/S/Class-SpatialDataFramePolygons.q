@@ -1,10 +1,9 @@
 
 setClass("SpatialDataFramePolygons",
 	representation("SpatialDataFrame",
-		polygons = "Polylist4",
-		has.holes = "logical"),
+		polygons = "Polylist4"),
 #	prototype = list(data = data.frame(),
-#		polygons = as.list(NULL), has.holes = FALSE),
+#		polygons = as.list(NULL)),
 	validity = function(object) {
 		if (nrow(object@data) != length(object@polygons@polygons))
 			return("number of rows in data should equal number of polygons")
@@ -35,7 +34,6 @@ summary.SpatialDataFramePolygons = summary.SpatialData
 	dimnames(bbox)[[2]] = c("min", "max")
 	# if (is.null(obj))
 	#	obj = getMeanDF(value@polygons)
-	# verify has.holes thing, how do we provide this?
 	p4s.a <- proj4string(obj)
 	p4s.b <- proj4string(value)
 	if (is.na(p4s.a) && is.na(p4s.b))
@@ -53,8 +51,7 @@ summary.SpatialDataFramePolygons = summary.SpatialData
 		data = obj@data,
 		coord.names = obj@coord.names,
 		coord.columns = obj@coord.columns,
-		polygons = value,
-		has.holes = FALSE)
+		polygons = value)
 }
 
 Polygons = function(obj) { 

@@ -17,6 +17,8 @@ Objects will not usually be created by calls of the form \code{new("Polygon4", .
     \item{\code{RingDir}:}{Object of class \code{"integer"} directions of polygon rings (shapelib, possibly wrong)}
     \item{\code{ringDir}:}{Object of class \code{"integer"} directions of polygon rings}
     \item{\code{region.id}:}{Object of class \code{"character"} unique region ID}
+    \item{\code{plotOrder}:}{Object of class \code{"integer"} indicating plotting order to avoid polygon plotting covering earlier smaller internal polygons with later larger ones}
+    \item{\code{after}:}{Object of class \code{"integer"} indicating plotting order to avoid polygon plotting covering earlier smaller internal polygons with later larger ones}
     \item{\code{bbox}:}{Object of class \code{"matrix"} bounding box of polygon}
     \item{\code{proj4string}:}{Object of class \code{"CRS"} projection string description (may be NA)}
   }

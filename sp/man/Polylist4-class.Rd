@@ -13,7 +13,8 @@ Objects will not usually be created by calls of the form \code{new("Polylist4", 
   \describe{
     \item{\code{polygons}:}{Object of class \code{"list"} list of objects of class \code{"Polygon4"}}
     \item{\code{region.id}:}{Object of class \code{"character"} unique region IDs}
-    \item{\code{within}:}{Object of class \code{"integer"} as yet unused vector to indicate which other polygons include each polygon}
+    \item{\code{plotOrder}:}{Object of class \code{"integer"} indicating plotting order to avoid polygon plotting covering earlier smaller internal polygons with later larger ones}
+    \item{\code{after}:}{Object of class \code{"integer"} indicating plotting order to avoid polygon plotting covering earlier smaller internal polygons with later larger ones}
     \item{\code{bbox}:}{Object of class \code{"matrix"} bounding box of polygons}
     \item{\code{proj4string}:}{Object of class \code{"CRS"} projection string description (may be NA)}
   }
@@ -23,7 +24,7 @@ Class \code{"SpatialData"}, directly.
 }
 
 \usage{
-plot.Polylist4(x, col, border = par("fg"), add = FALSE, xlim = NULL, ylim = NULL, xlab = "", ylab = "", asp = 1, xpd = NULL, density = NULL, angle = 45, ...)
+plot.Polylist4(x, col, border = par("fg"), add = FALSE, xlim = NULL, ylim = NULL, xlab = "", ylab = "", asp = 1, xpd = NULL, density = NULL, angle = 45, pbg = par("bg"), ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -37,6 +38,7 @@ plot.Polylist4(x, col, border = par("fg"), add = FALSE, xlim = NULL, ylim = NULL
   \item{xpd}{(where) should clipping take place?}
   \item{density}{the density of shading lines, in lines per inch}
   \item{angle}{the slope of shading lines, given as an angle in degrees (counter-clockwise)}
+  \item{pbg}{colour to be used for hole and background fill (note that default par("bg") may be "transparent")}
   \item{\dots}{graphical parameters can be given as arguments to \code{plot}}
 }
 

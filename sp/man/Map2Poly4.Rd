@@ -1,7 +1,6 @@
 \name{Map2Poly4}
 \alias{Map2Poly4}
 \alias{map2Poly4}
-\alias{map2polys}
 
 \title{Convert a Map object of polygons to S4 Polylist4 object}
 \description{
