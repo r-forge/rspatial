@@ -19,16 +19,22 @@ Type 'q()' to quit R.
 > x = meuse
 > coordinates(x) = cbind(rnorm(155), rnorm(155))
 > # should pass:
-> #names(x@data)
+> names(x@data)
+ [1] "x"       "y"       "cadmium" "copper"  "lead"    "zinc"    "elev"   
+ [8] "dist"    "om"      "ffreq"   "soil"    "lime"    "landuse" "dist.m" 
 > names(as.data.frame(x))
  [1] "x"       "y"       "cadmium" "copper"  "lead"    "zinc"    "elev"   
  [8] "dist"    "om"      "ffreq"   "soil"    "lime"    "landuse" "dist.m" 
 [15] "X1"      "X2"     
+> class(as(x, "data.frame"))
+[1] "data.frame"
 > x = meuse
 > # coordinates defined as data:
 > coordinates(x) = cbind(xcoord = rnorm(155), ycoord = rnorm(155))
 > # should pass:
-> #names(x@data)
+> names(x@data)
+ [1] "x"       "y"       "cadmium" "copper"  "lead"    "zinc"    "elev"   
+ [8] "dist"    "om"      "ffreq"   "soil"    "lime"    "landuse" "dist.m" 
 > names(as.data.frame(x))
  [1] "x"       "y"       "cadmium" "copper"  "lead"    "zinc"    "elev"   
  [8] "dist"    "om"      "ffreq"   "soil"    "lime"    "landuse" "dist.m" 

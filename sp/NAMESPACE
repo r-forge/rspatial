@@ -51,20 +51,15 @@ exportClasses(CRS, Spatial,
 
 exportClasses(Sring, Srings, SpatialRings, SpatialRingsDataFrame)
 
-exportMethods(show, bbox, coordinates, arcs, rings, gridded, dimensions, "[")
+exportMethods(show, bbox, coordinates, arcs, rings, gridded, dimensions, coerce, "[")
 
-# is this necessary? --
-exportMethods(coerce)
+# S3method("[", SpatialPoints)
 
-exportMethods(Coordinates)
-
-S3method("[", SpatialPoints)
-
-S3method("[", SpatialPointsDataFrame)
+# S3method("[", SpatialPointsDataFrame)
 S3method("[[", SpatialPointsDataFrame)
 S3method("[[<-", SpatialPointsDataFrame)
 
-S3method("[", SpatialGridDataFrame)
+# S3method("[", SpatialGridDataFrame)
 S3method("[[", SpatialGridDataFrame)
 S3method("[[<-", SpatialGridDataFrame)
 

@@ -3,13 +3,14 @@ data(meuse)
 x = meuse
 coordinates(x) = cbind(rnorm(155), rnorm(155))
 # should pass:
-#names(x@data)
+names(x@data)
 names(as.data.frame(x))
+class(as(x, "data.frame"))
 x = meuse
 # coordinates defined as data:
 coordinates(x) = cbind(xcoord = rnorm(155), ycoord = rnorm(155))
 # should pass:
-#names(x@data)
+names(x@data)
 names(as.data.frame(x))
 is.projected(x)
 proj4string(x)

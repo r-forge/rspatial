@@ -9,9 +9,13 @@ image(x["dist"])
 fullgrid(x) = TRUE
 fullgrid(x)
 summary(x)
+gridparameters(x)
+class(as(x, "matrix"))
+
 fullgrid(x) = FALSE
 fullgrid(x)
 summary(x)
+class(as(x, "matrix"))
 gridparameters(x)
 
 df = data.frame(z = c(1:6,NA,8,9), 
@@ -21,6 +25,7 @@ df = data.frame(z = c(1:6,NA,8,9),
 coordinates(df) = ~xc+yc
 gridded(df) = TRUE
 gridparameters(df)
+as(df, "matrix")
 
 # get grid topology:
 grd = points2grid(as(df, "SpatialPoints"), 1e-31) 
