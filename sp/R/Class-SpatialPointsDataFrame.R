@@ -20,15 +20,31 @@ setClass("SpatialPointsDataFrame",
 	}
 )
 
-"SpatialPointsDataFrame" = function(coords, data, coords.nrs = numeric(0)) {
-	new("SpatialPointsDataFrame", SpatialPoints(coords), data = data,
+setIs("SpatialPointsDataFrame", "data.frame")
+
+"SpatialPointsDataFrame" = function(coords, data, coords.nrs = numeric(0), 
+	proj4string = CRS(as.character(NA))) {
+	new("SpatialPointsDataFrame", SpatialPoints(coords, 
+		proj4string = proj4string), data = data,
 		coords.nrs = coords.nrs)
 }
 
 coordinates.SPDF = function(obj) {
 	obj@coords
 }
+
 setMethod("coordinates", "SpatialPointsDataFrame", coordinates.SPDF)
+
+setMethod("Coordinates", "SpatialPointsDataFrame", function(obj) {
+	as(obj, "SpatialPoints")
+})
+
+as.SpatialPoints.SpatialPointsDataFrame <- function(from) {
+	SpatialPoints(coords=coordinates(from), 
+		proj4string = CRS(proj4string(from)))
+}
+
+setAs("SpatialPointsDataFrame" ,"SpatialPoints", as.SpatialPoints.SpatialPointsDataFrame)
 
 "coordinates<-" = function(object, value) {
 	coord.numbers = NULL
@@ -75,27 +91,28 @@ print.SpatialPointsDataFrame = function(x, ...) {
 dim.SpatialPointsDataFrame = function(x) dim(x@data)
 
 
+
 #ifdef R
-setAs("SpatialPointsDataFrame", "data.frame", function(from) { 
-	if (length(from@coords.nrs) > 0) {
-		nc = ncol(from@coords)
-		nd = ncol(from@data)
-		nm = character(nc+nd)
-		ret = list()
-		for (i in 1:nc)
-			ret[[from@coords.nrs[i]]] = from@coords[,i]
-		nm[from@coords.nrs] = dimnames(from@coords)[[2]]
-		idx.new = (1:(nc+nd))[-(from@coords.nrs)]
-		for (i in 1:nd)
-			ret[[idx.new[i]]] = from@data[,i]
-		nm[idx.new] = names(from@data)
-		names(ret) = nm
-		data.frame(ret)
-	} else
-		from@data 
-})
+#setAs("SpatialPointsDataFrame", "data.frame", function(from) { 
+#	if (length(from@coords.nrs) > 0) {
+#		nc = ncol(from@coords)
+#		nd = ncol(from@data)
+#		nm = character(nc+nd)
+#		ret = list()
+#		for (i in 1:nc)
+#			ret[[from@coords.nrs[i]]] = from@coords[,i]
+#		nm[from@coords.nrs] = dimnames(from@coords)[[2]]
+#		idx.new = (1:(nc+nd))[-(from@coords.nrs)]
+#		for (i in 1:nd)
+#			ret[[idx.new[i]]] = from@data[,i]
+#		nm[idx.new] = names(from@data)
+#		names(ret) = nm
+#		data.frame(ret)
+#	} else
+#		from@data 
+#})
 #else
-#%setAs("SpatialPointsDataFrame", "data.frame", function(object) { object@data })
+#%setAs("SpatialPointsDataFrame", "data.frame", function(object) { object@data }#)
 #endif
 
 #as.data.frame.SpatialPointsDataFrame = function(x, row.names, optional) 
@@ -108,9 +125,13 @@ as.data.frame.SpatialPointsDataFrame <- function(x, row.names = NULL,
 	df
 }
 
-#name.SpatialPointsDataFrame <- function(x) {
-#	names(as.data.frame(x))
-#}
+setAs("SpatialPointsDataFrame", "data.frame", 
+	function(from) as.data.frame.SpatialPointsDataFrame(from))
+
+
+names.SpatialPointsDataFrame <- function(x) {
+	names(as(x, "data.frame"))
+}
 
 
 ShowSpatialPointsDataFrame = function(object) print.SpatialPointsDataFrame(object)
@@ -124,6 +145,7 @@ summary.SpatialPointsDataFrame = function(object, ...) {
     obj = list()
 	obj[["data"]] = summary(object@data)
 	obj[["coords"]] = summary(object@coords)
+	obj[["proj"]] = proj4string(object)
     class(obj) = "summary.SpatialPointsDataFrame"
     obj
 }
@@ -133,6 +155,7 @@ print.summary.SpatialPointsDataFrame = function(x, ...) {
 	print(x$data)
 	cat("Coordinates:\n")
 	print(x$coords)
+	cat("Coordinate Reference System (CRS) arguments:", x$proj, "\n")
 	cat("\n")
 }
 
@@ -158,7 +181,8 @@ subset.SpatialPointsDataFrame <- function(x, subset, select,
 	points <- subset(xSP, subset=subset, select=cselect, drop = drop, ...)
 	if (missing(select)) select <- names(dfSP)
 	data <- subset(dfSP, subset=subset, select=select, drop = drop, ...)
-	SPDF <- SpatialPointsDataFrame(points, data)
+	SPDF <- SpatialPointsDataFrame(points, data, 
+		proj4string = CRS(proj4string(x)))
 	SPDF
 }
 
@@ -182,7 +206,8 @@ subset.SpatialPointsDataFrame <- function(x, subset, select,
 		cres <- coordinates(x)[i, , drop=FALSE]
 		data <- as.data.frame(x)[i, j, drop = FALSE]
 	}
-	res <- SpatialPointsDataFrame(cres, data)
+	res <- SpatialPointsDataFrame(cres, data, 
+		proj4string = CRS(proj4string(x)))
 	res
 }
 
@@ -235,6 +260,8 @@ setMethod("[", "SpatialPointsDataFrame", function(x, i, j, ..., drop = FALSE) {
 			stop("matrix argument not supported in SpatialPointsDataFrame selection")
 
 		SpatialPointsDataFrame(coords = x@coords[i, , drop=FALSE],
-			data = x@data[i, j, drop = FALSE], coords.nrs = x@coords.nrs)
+			data = x@data[i, j, drop = FALSE], 
+			coords.nrs = x@coords.nrs, 
+			proj4string = CRS(proj4string(x)))
 	}
 )

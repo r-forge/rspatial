@@ -3,6 +3,7 @@
 \alias{SpatialPointsDataFrame-class}
 \alias{[,SpatialPointsDataFrame-method}
 \alias{coerce,SpatialPointsDataFrame,data.frame-method}
+\alias{coerce,SpatialPointsDataFrame,SpatialPoints-method}
 \alias{show,SpatialPointsDataFrame-method}
 % \alias{coordinates,SpatialPointsDataFrame-method}
 % \alias{coordinates}

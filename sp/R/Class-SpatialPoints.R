@@ -14,13 +14,14 @@ setClass("SpatialPoints",
 	}
 )
 
-"SpatialPoints" = function(coords) {
+"SpatialPoints" = function(coords, proj4string = CRS(as.character(NA))) {
 	coords = coordinates(coords)
 	if (mode(coords) != "numeric")
 		stop("coordinates should have mode numeric; try a cast with as.numeric")
 	bbox = t(apply(coords, 2, range))
 	dimnames(bbox)[[2]] = c("min", "max")
-	new("SpatialPoints", coords = coords, bbox = as.matrix(bbox)) # transpose bbox?
+	new("SpatialPoints", coords = coords, bbox = as.matrix(bbox),
+		proj4string = proj4string) # transpose bbox?
 }
 
 setMethod("coordinates", "list", function(obj) as.matrix(as.data.frame(obj)))
@@ -31,6 +32,8 @@ setMethod("coordinates", "matrix", function(obj) obj)
 {
 	cat("SpatialPoints:\n")
 	print(x@coords)
+	cat("Coordinate Reference System (CRS) arguments:", proj4string(x),
+		"\n")
 }
 
 plot.SpatialPoints = function(x, xlab, ylab, asp = 1, pch = 3, ...) 
@@ -53,6 +56,8 @@ setMethod("coordinates", "SpatialPoints", function(obj) obj@coords)
 setMethod("bbox", "SpatialPoints", function(obj) obj@bbox)
 setMethod("dimensions", "SpatialPoints", function(obj) nrow(bbox(obj)))
 
+setMethod("Coordinates", "SpatialPoints", function(obj) obj)
+
 # no, use plot.SpatialPoints
 # setMethod("plot", "SpatialPoints", 
 #  function(object) plot(object@coords[,1], object@coords[,2]))
@@ -62,13 +67,16 @@ as.data.frame.SpatialPoints = function(x, row.names, optional) {
     as(x, "data.frame")
 }
 
-setAs("data.frame", "SpatialPoints", function(from) { 
-	SpatialPoints(coords = as.matrix(from))
-})
+#setAs("data.frame", "SpatialPoints", function(from) { 
+#	SpatialPoints(coords = as.matrix(from))
+#})
 
-setAs("matrix", "SpatialPoints", function(from) {
-	SpatialPoints(coords = from)
-})
+setAs("SpatialPoints", "matrix", function(from) from@coords)
+
+
+#setAs("matrix", "SpatialPoints", function(from) {
+#	SpatialPoints(coords = from)
+#})
 
 subset.SpatialPoints <- function(x, subset, select, drop = FALSE, ...) {
     if (version$major == 2 & version$minor < 1 ) {
@@ -88,12 +96,14 @@ subset.SpatialPoints <- function(x, subset, select, drop = FALSE, ...) {
 	if (!missing(select) && (length(select) < 2)) 
 		stop("selecting too few coordinate columns")
 	res <- SpatialPoints(subset(coordinates(x), subset, select, 
-		drop = drop))
+		drop = drop), proj4string = proj4string(x))
 	res
 }
 
-setMethod("[", "SpatialPoints", function(x, i, j, ..., drop = T)
-	SpatialPoints(x@coords[i, , drop = FALSE]))
+setMethod("[", "SpatialPoints", function(x, i, j, ..., drop = T) {
+	SpatialPoints(coords=x@coords[i, , drop = FALSE], 
+	proj4string = CRS(proj4string(x)))
+})
 
 #setReplaceMethod("[", signature(x = "SpatialPoints"), 
 #	function(x, ..., value) {
