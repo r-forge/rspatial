@@ -1,7 +1,7 @@
 polymap <- function(poly,add=F,xlab="",ylab="",axes=T,...)
 {
-	pty.old <- par("pty")
-	if(pty.old!='s')warning('polymap: plot type not square.')
+#	pty.old <- par("pty")
+#	if(pty.old!='s')warning('polymap: plot type not square.')
 	if(!add){
 		xrnge <- range(poly[, 1],na.rm=T)
 		yrnge <- range(poly[, 2],na.rm=T)
@@ -19,13 +19,13 @@ polymap <- function(poly,add=F,xlab="",ylab="",axes=T,...)
                         xplot[1] <- ((xrnge[2] + xrnge[1])/2) - yd/2
                         xplot[2] <- ((xrnge[2] + xrnge[1])/2) + yd/2
 			}
-	par(pty="s")
+#	par(pty="s")
 	plot(poly,xlim=xplot,ylim=yplot,type="n",axes=axes,xlab=xlab,ylab=ylab)
 	}
 
 #	polygon(poly,density=0,...)
 	polygon(poly,...)
-	par("pty"=pty.old)
+#	par("pty"=pty.old)
 	invisible(0)
 }
 

@@ -1,6 +1,6 @@
 pointmap <- function(pts ,add=F,axes=T,xlab="",ylab="",...)
 {
-	if(par()$pty!='s')warning('pointmap: plot type not square')
+#	if(par()$pty!='s')warning('pointmap: plot type not square')
 
 	xrnge <- range(pts[, 1],na.rm=T)
 	yrnge <- range(pts[, 2],na.rm=T)
@@ -27,11 +27,11 @@ pointmap <- function(pts ,add=F,axes=T,xlab="",ylab="",...)
 			xplot[2] <- ((xrnge[2] + xrnge[1])/2) + yd/2
 		}
 
-		pty.old <- par("pty")
-		par(pty="s")
+#		pty.old <- par("pty")
+#		par(pty="s")
 		plot(pts[,1:2,drop=F],xlim=xplot,ylim=yplot,axes=axes,
 		xlab=xlab,ylab=ylab,...)
-		par(pty=pty.old)
+#		par(pty=pty.old)
 
 	}
 
