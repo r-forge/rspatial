@@ -1,3 +1,16 @@
+lplot does not work on SpatialGriddedDataFrame
+
+R> xx=as(xx,"SpatialCellDataFrame")
+Error in as(xx, "SpatialCellDataFrame") : No method or default for coercing "SpatialGriddedDataFrame" to "SpatialCellDataFrame"
+
+## Why does $ not work as shorthand for [[ ? Does $ only work for lists,
+and S3 derived things (e.g. data.frame)? A question for r-help?
+
+Documentation: write an sp introductory rweave vignette: (i) for users,
+(ii) for package developers, or one for both? Yes, I think one for both.
+
+Run through all examples and tests.
+
 SpatialCell:
 	no print method;
 	[ does not work
@@ -11,14 +24,7 @@ check gridded; GriddedDF <-> CellDF; [.Gridded; [[.Gridded (drop coords).
 last line in tests/grid.R
 
 meuse$xx = meuse$zinc - mean(meuse$zinc) # does not do what you want
-define [[ and [[<-
-
-add methods:
-mean.SpatialDataFrame
-mean.SpatialDataFrameGrid
-mean.SpatialDataFramePolygon ...
-
-add "[[" and "[[<-" to Spatial methods ( meuse$xx == meuse[["xx"]] )
+--->>> $ can't be done, acc to manual <<<---
 
 For plotting functions (plot, bubble) use a reasonable x/y ratio for
 unprojected data (look in maps?), or bail out with an error
@@ -36,9 +42,6 @@ work, but does plot(P4x) error?
 Do we need to set a method here?
 
 clean up this file
-
-add CHANGES file to SF
-
 
 SpatialDataPolygons doesn't known which columns in the
 attribute data are the label points. Changed into
@@ -104,7 +107,3 @@ test:
 S-PLUS portability:
 	PACKAGE = ...
 	plot(..., asp = 1)
-
-DONE:
------
-make "[" work for SDFGrid and SDPolygons

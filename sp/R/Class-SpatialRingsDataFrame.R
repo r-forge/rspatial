@@ -1,4 +1,3 @@
-
 setClass("SpatialRingsDataFrame",
 	representation("SpatialRings", data = "data.frame", 
 		labelPoints = "ANY"),
@@ -8,7 +7,7 @@ setClass("SpatialRingsDataFrame",
 		if (!inherits(object@data, "data.frame"))
 			stop("data should be of class data.frame")
 		if (nrow(object@data) != length(object@polygons))
-		  stop("number of rows in data.frame and SpatialPoints don't match")
+		  stop("number of rows in data.frame and SpatialRings don't match")
 		return(TRUE)
 	}
 )

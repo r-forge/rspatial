@@ -38,8 +38,12 @@ mapasp                  Calculate aspect ratio for plotting geographic
 meuse                   Meuse river data set
 meuse.grid              Prediction Grid for Meuse Data Set
 point.in.polygon        do point(s) fall in a given polygon?
+readAsciigrid           read/write to/from (ESRI) asciigrid format
 rings-methods           ~~ Methods for Function rings in Package 'sp4'
                         ~~
 select.spatial          select points spatially
+sp                      A package providing classes and methods for
+                        spatial data: points, lines, polygons and
+                        grids
 zerodist                find point pairs with equal spatial
                         coordinates

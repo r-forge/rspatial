@@ -41,6 +41,8 @@ export(ShowSpatialPointsDataFrame)
 
 export(select.spatial)
 
+export(readAsciigrid, writeAsciigrid)
+
 exportClasses(CRS, Spatial, 
 	SpatialPoints, SpatialPointsDataFrame, 
 	SpatialGridded, SpatialGriddedDataFrame,

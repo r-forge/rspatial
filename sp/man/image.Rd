@@ -51,7 +51,7 @@ if we take the image.default manual page as the reference. }
 data(meuse.grid)
 coordinates(meuse.grid) = c("x", "y") # promote to SpatialPointsDataFrame
 gridded(meuse.grid) = TRUE            # promote to SpatialCellDataFrame
-image(meuse.grid, "dist", asp = 1, main = "Distance to river Meuse")
+image(meuse.grid["dist"], main = "Distance to river Meuse")
 data(meuse)
 coordinates(meuse) = c("x", "y")
 points(coordinates(meuse), pch = "+")

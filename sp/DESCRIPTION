@@ -5,10 +5,12 @@ Title: generic functions for spatial data
 Author: Edzer J. Pebesma <e.pebesma@geog.uu.nl>, Roger Bivand <Roger.Bivand@nhh.no> and others
 Maintainer: Edzer J. Pebesma <e.pebesma@geog.uu.nl>
 Depends: R (>= 2.0.0)
-Description: Another package that provides classes and methods for spatial
+Suggests: rgdal (>= 0.2-6), pixmap (>= 0.4-2)
+Description: A package that provides classes and methods for spatial
   data. The classes document where the spatial location information
   resides, for 2D or 3D data. Utility functions are provided, e.g. for
-  helping plotting data as maps, or spatial selection.
+  plotting data as maps, spatial selection, as well as methods for
+  retrieving coordinates, for subsetting, print, summary, etc.
 License: GPL version 2 or later
 URL: http://www.sourceforge.net/r-spatial/
-Collate: AAA.R Class-CRS.R Class-Spatial.R projected.R Class-SpatialPoints.R Class-SpatialPointsDataFrame.R Class-SpatialGridded.R Class-SpatialGriddedDataFrame.R Class-SpatialCell.R Class-SpatialCellDataFrame.R Class-SpatialLines.R Class-SpatialLinesDataFrame.R SpatialLines-methods.R Class-SpatialRings.R Class-SpatialRingsDataFrame.R SpatialRings-methods.R SpatialRings-internals.R point.in.polygon.R SpatialRings-displayMethods.R zerodist.R image.R stack.R lplot.R bpy.colors.R bubble.R mapasp.R select.spatial.R cplot.R gridded.R
+Collate: AAA.R Class-CRS.R Class-Spatial.R projected.R Class-SpatialPoints.R Class-SpatialPointsDataFrame.R Class-SpatialGridded.R Class-SpatialGriddedDataFrame.R Class-SpatialCell.R Class-SpatialCellDataFrame.R Class-SpatialLines.R Class-SpatialLinesDataFrame.R SpatialLines-methods.R Class-SpatialRings.R Class-SpatialRingsDataFrame.R SpatialRings-methods.R SpatialRings-internals.R point.in.polygon.R SpatialRings-displayMethods.R zerodist.R image.R stack.R lplot.R bpy.colors.R bubble.R mapasp.R select.spatial.R cplot.R gridded.R asciigrid.R

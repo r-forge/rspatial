@@ -230,7 +230,8 @@ Srings <- function(srl, ID) {
 
 
 as.SpatialRings.SringsList <- function(Srl) {
-	if (any(sapply(Srl, function(x) !is(x, "Srings"))))					stop("srl not a list of Srings objects")
+	if (any(sapply(Srl, function(x) !is(x, "Srings"))))
+		stop("srl not a list of Srings objects")
 	projargs <- unique(sapply(Srl, proj4string))
 	if (length(projargs) > 1) 
 		stop("differing projections among Srings objects")

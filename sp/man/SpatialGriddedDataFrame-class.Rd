@@ -63,6 +63,6 @@ coordinates(meuse.grid) = c("x", "y") # promote to SpatialPointsDataFrame
 gridded(meuse.grid) <- TRUE # promote to SpatialCellDataFrame
 x = as(meuse.grid, "SpatialGriddedDataFrame") # creates the full grid
 x[["idist"]] = 1 - x[["dist"]] # assigns new attribute
-image(x["idist"])
+image(x["idist"]) # note the single [
 }
 \keyword{classes}
