@@ -3,16 +3,16 @@
 %- Also NEED an `\alias' for EACH other topic documented here.
 \title{generate points in polygon}
 \description{
-  generates random points within a defined polygon, trying to reach \code{nptg}
+  generates random points within a defined polygon, trying to reach \code{npoints}
 points - used in \code{csr}.
 }
 \usage{
-gen(poly, nptg)
+gen(poly, npoints)
 }
 %- maybe also `usage' for other objects documented here.
 \arguments{
-  \item{poly}{ ~~Describe \code{poly} here~~ }
-  \item{nptg}{ ~~Describe \code{nptg} here~~ }
+  \item{poly}{A polygon data set}
+  \item{npoints}{The number of points to generate}
 }
 
 \value{

@@ -27,18 +27,17 @@ as.points(...)
 \arguments{
 \item{...}{
 any object(s), such as x and y vectors of the same length, or a list or data
-frame containing x and y vectors. Valid options for \code{p} are:
-\itemize{
-\item {a points object ; returns it unaltered.}
-\item {a list with x and y elements of the same length ; returns a
-points object with the x and y elements as the coordinates of the points.}
-\item {two vectors of equal length ; returns a points object with the 
-first vector as the x coordinates, the second vector as the y-coordinates.}
+frame containing x and y vectors. Valid options for \code{...} are:
+a points object ; returns it unaltered;
+a list with x and y elements of the same length --- returns a
+points object with the x and y elements as the coordinates of the points;
+two vectors of equal length ; returns a points object with the 
+first vector as the x coordinates, the second vector as the y-coordinates.
 }
 }
-}
+
 \value{
-\code{as.points} tries to return \code{p} as a points object. }
+\code{as.points} tries to return the argument(s) as a points object. }
 
 \references{
 Rowlingson, B. and Diggle, P. 1993 Splancs: spatial point pattern analysis

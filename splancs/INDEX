@@ -15,6 +15,7 @@ areapl                   Calculate area of polygon
 as.points                Creates data in spatial point format
 bbox                     Generate a bounding box round a point object
 bodmin                   Bodmin Moors granite tors
+burkitt                  Burkitt's lymphoma in Uganda
 cardiff                  Locations of homes of juvenile offenders
 csr                      Generate completely spatially random points on a
                          polygon
