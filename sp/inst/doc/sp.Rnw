@@ -172,9 +172,11 @@ class(xy.cc)
 dim(xy.cc)
 @
 A note on selection with \verb|[|: the behaviour is as much as possible
-copied from that of data.frames, but coordinates are always sticky. If
-coordinates should be dropped, use the {\tt coordinates} or {\tt
-as.data.frame} methods and select on the non-spatial data.
+copied from that of data.frames, but coordinates are always sticky and a
+{\tt SpatialPointsDataFrame} is always returned; {\tt drop=FALSE} is not
+allowed. If coordinates should be dropped, use the {\tt as.data.frame}
+method and select the non-coordinate data, or use \verb|[[| (example
+below).
 
 {\tt SpatialPointsDataFrame} objects can be created directly from 
 data.frames by specifying which columns contain the coordinates:
@@ -191,11 +193,11 @@ df2[1:2,]
 as.data.frame(df2)[1:2,]
 @
 Note that in this form, {\tt coordinates} by setting (specifying) the
-coordinates promotes an object of class {\tt data.frame} to an object
-of class {\tt SpatialPointsDataFrame}. The method {\tt as.data.frame}
-coerces back to the original {\tt data.frame}. When used on a right-hand
-side of an equation, {\tt coorinates} {\em retrieves} the matrix with
-coordinates:
+coordinates promotes it argument, an object of class {\tt data.frame}
+to an object of class {\tt SpatialPointsDataFrame}. The method {\tt
+as.data.frame} coerces back to the original {\tt data.frame}. When used
+on a right-hand side of an equation, {\tt coorinates} {\em retrieves}
+the matrix with coordinates:
 <<>>=
 coordinates(df2)[1:2,]
 @
@@ -228,6 +230,21 @@ size ({\tt bubble}, top) or colour ({\tt cplot}, bottom) }
 \end{figure}
 
 \section{Grids}
+\subsection{Creating grids from... nothing}
+\subsection{Creating grids from points}
+\subsection{Gridded data with attributes}
+
+Spatial, gridded data are data with coordinates on a regular lattice.
+To form such a grid we can go from coordinates:
+<<>>=
+xy = expand.grid(xc = 1:3, yc = 1:3)
+xy.grd = data.frame(xy, z = 1:9)
+coordinates(xy.grd) = ~xc + yc
+gridded(xy.grd)
+gridded(xy.grd) = TRUE
+gridded(xy.grd)
+summary(xy.grd)
+@
 
 \section{Lines}
 
