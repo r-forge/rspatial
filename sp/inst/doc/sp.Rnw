@@ -8,7 +8,9 @@
 
 \usepackage{Sweave}
 
-\title{The {\tt sp} package: S classes and methods for spatial data}
+\title{ Classes and methods for spatial data:\\
+the {\tt sp} S package
+}
 \author{Edzer J.\ Pebesma\footnote{Dept of Physical Geography,
 Faculty of Geosciences, Utrecht University, P.O. Box 80.115,
 3508 TC Utrecht, The Netherlands {\tt e.pebesma@geog.uu.nl}} \and 
@@ -230,8 +232,28 @@ size ({\tt bubble}, top) or colour ({\tt cplot}, bottom) }
 \end{figure}
 
 \section{Grids}
-\subsection{Creating grids from... nothing}
+\subsection{Creating grids from topology}
+When we know the offset, the cell sizes and the dimensions of a grid, we
+can specify this by using the function {\tt GridTopology}:
+<<>>=
+gt = GridTopology(cellcentre.offset = c(1,1,2), cellsize=c(1,1,1), cells.dim = c(3,4,6))
+grd = SpatialGrid(grid = gt)
+summary(grd)
+@
+
 \subsection{Creating grids from points}
+In the following example a three-dimensional grid is constructed from
+a set of point coordinates:
+<<>>=
+pts = expand.grid(x = 1:3, y = 1:4, z=2:7)
+grd = SpatialGrid(points = SpatialPoints(pts))
+summary(grd)
+@
+Note that when passed a points argument, SpatialGrid also accepts a
+tolerance (default 10 * .Machine\$double.eps) to specify how exactly the
+points should be on a grid. For very large coordinates, this value may
+have to be increased.
+
 \subsection{Gridded data with attributes}
 
 Spatial, gridded data are data with coordinates on a regular lattice.
@@ -244,6 +266,11 @@ gridded(xy.grd)
 gridded(xy.grd) = TRUE
 gridded(xy.grd)
 summary(xy.grd)
+@
+
+\subsection{Storage mode: as points or as matrix/array?}
+<<>>=
+fullgrid(xy.grd)
 @
 
 \section{Lines}

@@ -34,8 +34,8 @@ summary.Spatial = function(object, ...) {
         obj[["npoints"]] = nrow(object@coords)
     if (is(object, "SpatialPointsDataFrame"))
         obj[["data"]] = summary(object@data)
-	if (is(object, "SpatialGridded"))
-		obj[["grid"]] = summary(as(object, "SpatialGridded"))
+	if (is(object, "SpatialGrid"))
+		obj[["grid"]] = gridparameters(as(object, "SpatialGrid"))
     class(obj) = "summary.Spatial"
     obj
 }

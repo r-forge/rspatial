@@ -1,3 +1,7 @@
+fullgrid(SpatialGrid) should work, as well as fullgrid(SpatialGrid)<-
+
+coordinates(spdf) = ~x+y # catch error; give useful message
+
 lplot does not work on SpatialGriddedDataFrame
 
 R> xx=as(xx,"SpatialCellDataFrame")
