@@ -92,6 +92,7 @@ f.x <- cut(x@data$x, breaks=c(-90, -80, -70))
 xx <- cbindSDFP(x, data.frame(f.x))
 plot(xx, "f.x", col=c("red", "blue"))
 plot(xx, "f.x", density=c(15,15), angle=c(45,135))
+lplot(x, c("SID74","SID79"))
 }
 \keyword{classes}
 \keyword{spatial}

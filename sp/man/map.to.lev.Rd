@@ -54,5 +54,7 @@ gridded(meuse.grid) = TRUE
 levelplot(z~x+y|name, map.to.lev(meuse.grid, z=c(3,4), names.attr =
 	c("distance", "inverse of distance")), aspect = asp)
 levelplot(values~x+y|ind,data.frame(stack(meuse.grid)), asp = asp)
+
+
 }
 \keyword{dplot}
