@@ -13,6 +13,14 @@ export(dimensions)
  
 export(SpatialCell, SpatialPoints, SpatialPointsDataFrame, SpatialCellDataFrame)
 
+export(Sline, SpatialLines, SLDF)
+
+export(contourLines2SlineList, contourLines2df, contourLines2SpatialLines, contourLines2SLDF)
+
+export(arcobj2SlineList, arcobj2df, arcobj2SpatialLines, arcobj2SLDF)
+
+export(plotSpatialLines)
+
 export(as.SpatialPoints.SpatialPointsDataFrame)
 
 export(gridparameters, "gridded<-", griddedfn, gridded, SpatialGridded)
@@ -29,7 +37,7 @@ exportClasses(CRS, Spatial, SpatialPointsDataFrame, SpatialPoints)
 
 exportClasses(SpatialGridded, SpatialCell, SpatialCellDataFrame)
 
-exportClasses(SLine, SLines, SpatialLines)
+exportClasses(Sline, SpatialLines, SpatialLinesDataFrame)
 
 exportClasses(Ring4, SpatialRings, SpatialRingsDataFrame)
 

@@ -1,31 +1,34 @@
-setClass("SLine", 
-	representation("Spatial", sline = "matrix"),
+setClass("Sline", 
+	representation("Spatial", coords = "matrix"),
+	prototype = list(bbox = matrix(rep(NA, 6), 3, 2, 
+			dimnames = list(NULL, c("min","max"))),
+		proj4string = CRS(as.character(NA)),
+		coords = matrix(0)),
 	validity = function(object) {
 		if (any(is.na(object)))
-			stop("lines cannot contain missing values")
-		return(TRUE)
-	}
-)
-
-setClass("SLines",
-	representation("Spatial", slines = "SLine"),
-	validity = function(object) {
+			stop("coords cannot contain missing values")
+		if (ncol(object@coords) != 2)
+			return("coords should have 2 columns")
 		return(TRUE)
 	}
 )
 
 setClass("SpatialLines",
-	representation("Spatial", lines = "SLines"),
-	prototype = list(coords = matrix(0)),
+	representation("Spatial", lines = "list"),
+	prototype = list(bbox = matrix(rep(NA, 6), 3, 2, 
+			dimnames = list(NULL, c("min","max"))),
+		proj4string = CRS(as.character(NA)),
+		lines = list()),
 	validity = function(object) {
-		if (!is.matrix(object@coords))
-			stop("coords slot is not a matrix")
-		if (length(object@coords) == 0)
-			stop("coords can not have length zero")
-		if (nrow(object@coords) < 1)
-			stop("no points set: too few rows")
-		if (ncol(object@coords) <= 1)
-			stop("no points set: too few columns")
+		if (any(unlist(lapply(object@lines, function(x) 
+			!is(x, "Sline"))))) stop("polygons not Sline objects")
+		if (any(sapply(object@lines, function(x) 
+			!identical(proj4string(object), proj4string(x))))) 
+			stop("Different projections")
 		return(TRUE)
 	}
 )
+
+getSLlinesSlot <- function(SL) SL@lines
+
+getSlineCoordsSlot <- function(Sline) Sline@coords
