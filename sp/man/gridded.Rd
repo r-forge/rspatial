@@ -46,7 +46,7 @@ coordinates(meuse.grid) <- ~x+y  # promotes meuse to SpatialDataFrame
 gridded(meuse.grid) <- TRUE      # promotes meuse to SpatialDataFrameGrid
 gridded(meuse.grid)
 gridparameters(meuse.grid)
-oldpars <- par()
+oldpars <- par(no.readonly = TRUE)
 par(mfrow=c(1,2))
 image(meuse.grid, "dist", main = "distance to river")
 gridded(meuse.grid) <- FALSE     # demotes meuse to SpatialDataFrameGrid

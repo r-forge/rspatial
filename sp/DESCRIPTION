@@ -1,6 +1,6 @@
 Package: sp
-Version: 0.4-2
-Date: 2004-03-19
+Version: 0.4-3
+Date: 2004-04-02
 Title: generic functions for spatial data
 Author: Edzer J. Pebesma <e.pebesma@geog.uu.nl>, Roger Bivand <Roger.Bivand@nhh.no> and others
 Maintainer: Edzer J. Pebesma <e.pebesma@geog.uu.nl>
