@@ -1,4 +1,5 @@
-build simple SpatialDataFramePolygons example
+build simple SpatialDataFramePolygons example, e.g. using two triangles
+add subscripting [] to SpatialDataFramePolygon objects
 
 clean up this file
 
