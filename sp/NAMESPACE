@@ -28,7 +28,10 @@ export(
 #shapes2SlineList, shapes2SpatialLines, 
 shp2SLDF)
 
-export(spplot, plotSpatialLines)
+export(plotSpatialLines)
+
+export(spplot, layout.scale.bar, layout.north.arrow, sp.theme, 
+	mapLegendGrob)
 
 export(as.image.SpatialGridDataFrame)
 

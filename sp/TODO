@@ -1,8 +1,5 @@
 spplot:
-- make cplot/spplot for points work.
-- sp.layout option (default?) to get scale bar and north arrow only in
-last panel
-- make scale bar drawing easier (one function placing text and all)
+- document sp.layout argument, and layout.north.arrow(), layout.scale.bar()
 
 matrix -> grid coercion
 

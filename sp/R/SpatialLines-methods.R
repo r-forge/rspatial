@@ -120,7 +120,8 @@ shp2SLDF <- function(shp, proj4string=CRS(as.character(NA))) {
 	Slines
 }
 
-plotSpatialLines <- function(SL, xlim = bbox(SL)[1,], ylim = bbox(SL)[2,], asp = 1, col = 1, ...) 
+plotSpatialLines <- function(SL, xlim = bbox(SL)[1,], ylim = bbox(SL)[2,], asp = 1, 
+	col = 1, ...) 
 {
 	frame()
 	plot.window(xlim = xlim, ylim = ylim, asp = asp)
@@ -145,6 +146,8 @@ setMethod("coordinates", "Sline", function(obj) obj@coords)
 setMethod("coordinates", "Slines", function(obj) lapply(obj@Slines, coordinates))
 setMethod("coordinates", "SpatialLines", function(obj) lapply(obj@lines, coordinates))
 
-lines.Sline = function(x, y = NULL, ...) lines(coordinates(x), ...)
-lines.Slines = function(x, y = NULL, ...) lapply(x@Slines, lines, ...)
-lines.SpatialLines = function(x, y = NULL, ...) lapply(x@lines, lines, ...)
+lines.Sline = function(x, y = NULL, ...) invisible(lines(coordinates(x), ...))
+lines.Slines = function(x, y = NULL, ...) invisible(lapply(x@Slines, 
+	function(x, ...) lines(x, ...), ...))
+lines.SpatialLines = function(x, y = NULL, ...) invisible(lapply(x@lines, 
+	function(x, ...) lines(x, ...), ...))

@@ -5,6 +5,8 @@ sp.polygon = function(obj, col = 1, ...) {
 			gp = gpar(col = col, ...))
 		panel.lines(cc, col = col, ...)
 	}
+	if (is.character(obj))
+		obj = get(obj)
 	if (!is(obj, "SpatialRings"))
 		stop(paste("object extending class SpatialRings expected; got class", class(obj)))
 	else
@@ -21,6 +23,8 @@ sp.polygon = function(obj, col = 1, ...) {
 }
 
 sp.lines = function(obj, col = 1, ...) {
+	if (is.character(obj))
+		obj = get(obj)
 	sp.lines3 = function(x, ...) panel.lines(coordinates(x), col = col, ...)
 	sp.lines2 = function(x, ...) lapply(x@Slines, sp.lines3, col = col, ...)
 	if (is(obj, "SpatialLines"))
@@ -39,12 +43,18 @@ sp.text = function(loc, txt, ...) {
 }
 
 sp.points = function(obj, ...) {
+	if (is.character(obj))
+		obj = get(obj)
 	xy = coordinates(obj)
 	panel.points(xy[,1], xy[,2], ...)
 }
 
 sp.panel.layout = function(lst, panel.counter, ...) {
 	sp.panel0 = function(x, ...) {
+		if (is.character(x))
+			obj = get(x)
+		if (!is.null(x$which) && is.na(match(panel.counter, x$which)))
+			return()
 		if (inherits(x, "list")) {
 			n = length(x)
 			do.call(x[[1]], x[2:n])
@@ -56,7 +66,7 @@ sp.panel.layout = function(lst, panel.counter, ...) {
 			sp.polygon(x, ...)
 		else stop(paste("cannot plot object of class", class(x)))
 	}
-	if (!is.null(lst$which) && lst$which != panel.counter)
+	if (!is.null(lst$which) && is.na(match(panel.counter, lst$which)))
 		return()
 	else
 		lst$which = NULL
@@ -72,7 +82,7 @@ sp.panel.layout = function(lst, panel.counter, ...) {
 }
 
 spplot <- function(obj, zcol, ..., names.attr, scales = list(draw = FALSE), 
-		xlab = "", ylab = "", aspect = mapasp(obj), pretty = TRUE,
+		xlab = "", ylab = "", aspect = mapasp(obj), 
 		sp.layout = NULL, plot.all = TRUE, identify = FALSE) {
 	dots = list(...)
 	cls.obj = class(obj)
@@ -216,12 +226,12 @@ function (x, y, z, subscripts, at = pretty(z), shrink, labels = NULL,
 }
 
 panel.cplot = function(x, y, subscripts, col, sp.layout, ..., panel.counter) {
-	panel.superpose(x, y, subscripts, col = col, ...)
 	sp.panel.layout(sp.layout, panel.counter)
+	panel.superpose(x, y, subscripts, col = col, ...)
 }
 
-fill.call.groups = function(lst, z, cuts, col.regions = trellis.par.get("regions")$col, 
-		legend = "", pch, cex = 1, fill = TRUE, do.log = FALSE, key.space = "bottom", ...) {
+fill.call.groups = function(lst, z, ..., cuts, col.regions = trellis.par.get("regions")$col, 
+		legendEntries = "", pch, cex = 1, fill = TRUE, do.log = FALSE, key.space = "bottom") {
     if (missing(pch)) 
         lst$pch = ifelse(fill, 16, 1)
 	if (missing(cuts))
@@ -253,12 +263,12 @@ fill.call.groups = function(lst, z, cuts, col.regions = trellis.par.get("regions
     	lst$groups = cut(as.matrix(z), cuts, dig.lab = 4, include.lowest = TRUE)
 	} else
 		lst$groups = factor(z)
-	if (missing(legend))
-		legend = levels(lst$groups)
+	if (missing(legendEntries))
+		legendEntries = levels(lst$groups)
 	n = length(levels(lst$groups))
 	lst$key = list(points = list(pch = rep(lst$pch, 
 		length = n), col = rep(lst$col, length = n), 
-		cex = rep(cex, length = n)), text = list(legend))
+		cex = rep(cex, length = n)), text = list(legendEntries))
 	if (is.character(key.space))
 		lst$key$space = key.space
 	else if (is.list(key.space))
@@ -288,6 +298,7 @@ SpatialRings2Grob = function(obj, fill) {
 			id = c(id, rep(n, nrow(cc)))
 		}
 	}
+	require(grid)
 	polygonGrob(x=x, y=y, id=id, gp = gpar(fill = fill))
 }
 
@@ -327,7 +338,6 @@ mapLegendGrob <- function(obj, widths = unit(1, "cm"), heights = unit(1, "cm"),
 	key.gf <- placeGrob(key.gf, grb, row = 1, col = 1)
 	key.gf
 }
-
 
 layout.north.arrow = function() {
 	x1 = c(0.1653, 0.2241, 0.2241, 0.2830, 0.1947, 0.1065, 0.1653, 0.1653)
