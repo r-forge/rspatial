@@ -22,7 +22,7 @@ Points inside or outside a polygon
 Return points inside or outside a polygon.
 }
 \usage{
-pip(pts,poly,out=F)
+pip(pts,poly,out=F,bound=NULL)
 }
 \arguments{
 \item{pts}{
@@ -33,7 +33,9 @@ A polygon data set
 }
 \item{out}{
 If \code{out=T}, return the points outside the polygon, else the points inside.
-}}
+}
+\item{bound}{If points fall exactly on polygon vertices, the default NULL gives arbitrary assignments. If TRUE, then all points identical in machine numerical representation terms are set as within the polygon, if FALSE, outside.}
+}
 \value{
 \code{pip} returns the points of \code{pts} that lie inside (or outside with
 \code{out=T})

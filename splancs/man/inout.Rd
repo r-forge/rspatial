@@ -22,7 +22,7 @@ Test points for inclusion in a polygon
 Test points for inclusion in a polygon.
 }
 \usage{
-inout(pts,poly)
+inout(pts,poly,bound=NULL)
 }
 \arguments{
 \item{pts}{

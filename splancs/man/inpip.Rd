@@ -22,7 +22,7 @@ Select points inside a polygon
 Select points inside a polygon
 }
 \usage{
-inpip(pts,poly)
+inpip(pts,poly,bound=NULL)
 }
 \arguments{
 \item{pts}{
