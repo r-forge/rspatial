@@ -2,7 +2,7 @@
 {
 	cat("\nSpatial Point Pattern Analysis Code in S-Plus\n")
 	cat("\n Version 2 - Spatial and Space-Time analysis\n")
-#	library.dynam("splancs", lib, pkg)
+	library.dynam("splancs", lib, pkg)
 	invisible(0)
 }
 
