@@ -1,3 +1,8 @@
+spplot:
+- sp.layout option (default?) to get scale bar and north arrow only in
+last panel
+- make scale bar drawing easier (one function placing text and all)
+
 matrix -> grid coercion
 
 check for dim > 3 for SpatialPoints and SpatialGrid
