@@ -3,11 +3,10 @@
 \title{coloured points plot}
 \description{plot coloured points using xyplot }
 \usage{
-cplot(obj, zcol = 1, fill = TRUE, pch, 
-	col = bpy.colors(ifelse(length(cuts)>1, length(cuts)-1, cuts)), 
-	cex = 1, cuts = 5, main = ifelse(is.numeric(zcol), names(data)[zcol], zcol),
+cplot(obj, zcol = 1, cuts = 5, ..., fill = TRUE, pch, col,
+	cex = 1, main = ifelse(is.numeric(zcol), names(data)[zcol], zcol),
     identify = FALSE, labels = row.names(data.frame(obj)), do.log =
-    FALSE, ...)
+    FALSE, legend, space = "right")
 }
 \arguments{
 \item{obj}{ object of class (or extending) \link{SpatialPoints}, but mostly useful
@@ -23,6 +22,10 @@ when extending \link{SpatialPointsDataFrame} }
 \item{labels}{ labels for identification }
 \item{do.log}{ logical; if TRUE choose cuts linear on the log-scale, else choose
 them linear on the working scale. }
+\item{legend}{ character; array with legend (text) entries; suitable defaults are
+sought. }
+\item{space}{ locations where the legend is placed: "right", "left", "top", 
+or "bottom"}
 \item{...}{ arguments passed to \link{xyplot}}
 }
 \value{
@@ -42,5 +45,9 @@ coordinates(meuse) <- ~x+y
 cplot(meuse) # prints cadmium
 cplot(meuse, "zinc")
 cplot(meuse, "zinc", do.log = TRUE, main = "zinc; logarithmic scale breaks")
+if (require(RColorBrewer)) {
+	cplot(meuse, "ffreq", col = brewer.pal(3, "Set1"),
+		main = "flood frequency; RColorBrewer Set1")
 }
-\keywords{dplot}
+}
+\keyword{dplot}
