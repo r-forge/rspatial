@@ -33,8 +33,4 @@ The points entered are displayed on the current graphics device.
 \seealso{
 \code{delpoints}
 }
-\examples{
-uk()	# display united kingdom map
-uk.points_addpoints()        # now click on some points on the map
-}
 % Converted by Sd2Rd version 0.3-3.

@@ -1,7 +1,7 @@
 \name{nndistG}
 \alias{nndistG}
 \title{
-Nearest neighbour distances as used by \code{Ghat()}
+Nearest neighbour distances as used by Ghat()
 }
 \description{
 Calculate nearest neighbour distances as used by \code{Ghat()}.

@@ -38,10 +38,8 @@ khvmat                   Covariance matrix for the difference between two
 mpoint                   Overlay a number of point patterns
 mse2d                    Mean Square Error for a Kernel Smoothing
 n2dist                   Nearest neighbours for two point patterns
-nndistF                  Nearest neighbour distances as used by
-                         \code{Fhat()
-nndistG                  Nearest neighbour distances as used by
-                         \code{Ghat()
+nndistF                  Nearest neighbour distances as used by Fhat()
+nndistG                  Nearest neighbour distances as used by Ghat()
 npts                     Number of points in data set
 okblack                  Oklahoma black offenders
 okwhite                  Oklahoma white offenders

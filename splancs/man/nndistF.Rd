@@ -1,7 +1,7 @@
 \name{nndistF}
 \alias{nndistF}
 \title{
-Nearest neighbour distances as used by  \code{Fhat()}
+Nearest neighbour distances as used by Fhat()
 }
 \description{
 Calculate nearest neighbour distances as used by  \code{Fhat()}
