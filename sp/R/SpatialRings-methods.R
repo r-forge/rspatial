@@ -166,7 +166,7 @@ as.SpatialRings.pal <- function(arc, pal, IDs, dropPoly1=TRUE,
 #}
 
 
-SpatialRings <- function(Srl, pO) {
+SpatialRings <- function(Srl, pO=1:length(Srl)) {
 	bb <- .bboxSrs(Srl)
 	projargs <- proj4string(Srl[[1]])
 	Sp <- new("Spatial", bbox=bb, proj4string=CRS(projargs))
