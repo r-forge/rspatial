@@ -1,18 +1,17 @@
-\name{Sline-class}
+\name{Slines-class}
 \docType{class}
-\alias{Sline-class}
-% \alias{coordinates,Sline-method}
+\alias{Slines-class}
+% \alias{coordinates,Slines-method}
 
 \title{Class "Sline" }
-\description{ class for line objects }
+\description{ class for sets of line objects }
 \section{Objects from the Class}{
-Objects can be created by calls of the form \code{new("Sline", ...)},
-or (preferred) by calls to the function \link{Sline}
+Objects can be created by calls to the function \link{Sline}
 }
 \section{Slots}{
   \describe{
-    \item{\code{coords}:}{Object of class \code{"matrix"}, containing the
-	line coordinates }
+    \item{\code{Slines}:}{Object of class \code{"list"}, containing elements
+	of class \link{Slines-class}}
     \item{\code{bbox}:}{Object of class \code{"matrix"}, see \link{Spatial-class} }
     \item{\code{proj4string}:}{Object of class \code{"CRS"}, see \link{CRS-class} }
   }
@@ -23,7 +22,7 @@ Class \code{"Spatial"}, directly.
 \section{Methods}{
   \describe{
     \item{coordinates}{\code{signature(obj = "Sline")}: retrieve coordinates
-	from line }
+	from lines; returns list with matrices }
   }
 }
 % \references{  }

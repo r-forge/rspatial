@@ -1,3 +1,7 @@
+matrix -> grid coercion
+
+check for dim > 3 for SpatialPoints and SpatialGrid
+
 sp.layout argument to plotting functions, to draw a background for
 spatial plots (e.g. with a grid, lines, polygons, point symbols, ...)
 can we learn & steal from lattice here?

@@ -34,7 +34,7 @@ export(gridparameters, "gridded<-", gridded, fullgrid, "fullgrid<-",
 
 export(getSringCoordsSlot, getSringLabptSlot, getSringAreaSlot, getSringsSringsSlot, getSringsplotOrderSlot, getSringsLabptSlot, getSringsIDSlot, getSRpolygonsSlot, getSRplotOrderSlot, getSRSringsLabptSlots, getSRSringsIDSlots, getSRnParts)
 
-export(as.SpatialRings.SringsList, Srings, Sring, SpatialRings, as.SpatialRings.Shapes, as.SpatialRings.map, as.SpatialRings.pal, plotSpatialRings)
+export(as.SpatialRings.SringsList, Srings, Sring, SpatialRings, SpatialRingsDataFrame, as.SpatialRings.Shapes, as.SpatialRings.map, as.SpatialRings.pal, plotSpatialRings)
 
 export(ShowSpatialPointsDataFrame)
 

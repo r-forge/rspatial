@@ -273,8 +273,8 @@ as.SpatialRings.SringsList <- function(Srl) {
 }
 
 plotSpatialRings <- function(SR) {
-	xr <- bbox(SR)[1,]
-	yr <- bbox(SR)[2,]
+	xr <- SR@bbox[1,]
+	yr <- SR@bbox[2,]
 	frame()
 	plot.window(xlim=xr, ylim=yr, asp=1)
 	pls <- getSRpolygonsSlot(SR)
@@ -285,4 +285,3 @@ plotSpatialRings <- function(SR) {
 		for (j in pOi) polygon(getSringCoordsSlot(Srs[[j]]))
 	}
 }
-

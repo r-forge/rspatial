@@ -4,7 +4,7 @@ setClass("Spatial",
 		proj4string = "CRS"),
 	prototype = list(
 		bbox = matrix(rep(NA, 6), 3, 2, dimnames = list(NULL, c("min","max"))),
-		proj4string = CRS(as.character(NA))), # will not prove valid; ignore
+		proj4string = CRS(as.character(NA))), # prototype will not pass validity
 	validity = function(object) {
 		if (!is.matrix(object@bbox))
 			return("bbox should be a matrix")
@@ -18,7 +18,7 @@ setClass("Spatial",
 			return("bbox is invalid: max < min")
 		if (!is(object@proj4string, "CRS"))
 			return("proj4string should be CRS")
-		# validate proj4string here
+		# validate proj4string here?
 		return(TRUE)
 	}
 )
