@@ -22,7 +22,7 @@ Select points to delete from a points data set
 Select points to delete from a points data set.
 }
 \usage{
-delpoints(pts,add=F,\dots)
+delpoints(pts,add=F)
 }
 \arguments{
 \item{pts}{

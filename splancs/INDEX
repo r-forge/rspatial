@@ -62,6 +62,7 @@ sbox                     Generate a box surrounding a point object
 secal                    Standard errors for the difference between two
                          K-functions
 shift                    Shift a point data set
+southlancs               Cancer cases in Chorley-Ribble
 splancs                  Return version number and author information
 spoints                  Point Objects
 stdiagn                  Summary plots for clustering analysis

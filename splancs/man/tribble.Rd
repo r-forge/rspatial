@@ -61,7 +61,9 @@ Tolerance for simplex algorithm
 }
 \item{icount}{
 Iteration count for simplex algorithm
-}}
+}
+\item{hessian}{by default NULL, any other value causes hessian to be computed and returned}
+}
 \value{
 The return value is a list with many components, and class \code{ribfit}. 
 \item{alphas}{A vector of the alpha parameters at the maximum}

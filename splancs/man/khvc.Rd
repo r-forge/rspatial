@@ -49,7 +49,7 @@ A list with four components:
 \section{Note}{
 Note that the diagonal of the covariance matrix is
  \code{$k11 - 2 * $k12 + $k22
-}
+}}
 \seealso{
 \code{\link{khat}}, \code{\link{khvmat}}, \code{\link{secal}}
 

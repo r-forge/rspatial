@@ -13,7 +13,7 @@
 #  GNU General Public License for more details.
 #
 
-delpoints <- function(pts,add=F,...)
+delpoints <- function(pts,add=F)
 {
 	if(!add)pointmap(pts)
 	cat("Use button 1 to delete points - button 2 when finished.\n")

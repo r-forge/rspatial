@@ -25,8 +25,8 @@ Plots point and polygon data sets on the current graphics device.
 polymap(poly,add=F,xlab="",ylab="",axes=T,...)
 }
 \arguments{
-\item{pts}{
-a points data set.
+\item{poly}{
+a polygon.
 }
 \item{add}{
 if false, start a new plot. If true, superimpose on current plot.
