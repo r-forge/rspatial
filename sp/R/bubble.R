@@ -17,19 +17,19 @@
     	z = data[, zcol]
     if (missing(pch)) 
         pch = ifelse(fill, 16, 1)
-    z.col = ifelse(z < 0, col[1], col[2])
+    z.col = as.vector(ifelse(z < 0, col[1], col[2]))
     q = key.entries
     q.pch = rep(pch, length(q))
     q.text = as.character(round(q, 3))
-    q.col = ifelse(q < 0, col[1], col[2])
+    q.col = as.vector(ifelse(q < 0, col[1], col[2]))
     az = abs(z)
     q = abs(q)
     if (do.sqrt) {
 		az = sqrt(az)
 		q = sqrt(q)
     }
-    cex = maxsize * az/max(az)
-    q.cex = maxsize * q/max(az)
+    cex = as.vector(maxsize * az/max(az))
+    q.cex = as.vector(maxsize * q/max(az))
 
     if (identify) {
 		plot(x, y, asp = 1, cex = cex, main = main, ...)

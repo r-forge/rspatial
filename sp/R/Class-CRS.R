@@ -1,9 +1,9 @@
 # Copyright (c) 2003-4 by Barry Rowlingson and Roger Bivand
 
 setClass("CRS", representation(projargs = "character"),
-    		prototype(projargs = character(1)),
+    		prototype = list(projargs = character(1)),
 		validity = function(object) {
-			if (!is.na(object@projargs)) {
+			if (!is.na(as.numeric(object@projargs))) {
 #modernise try() later TODO
 				res <- try(library(spproj))
 				if (class(res) == "try-error") {
@@ -24,9 +24,12 @@ setClass("CRS", representation(projargs = "character"),
 
 "CRS" <- function(projargs) {
     res <- new("CRS", projargs=projargs)
-    tst <- validObject(res)
-    if (is(tst, "logical") & tst) return(res)
-    else stop(tst)
+	## added test = TRUE; S-Plus otherwise breaks on the following is-test.
+    tst <- validObject(res, test = TRUE)
+    if (is(tst, "logical") && tst) 
+		return(res)
+    else 
+		stop(tst)
 }
 
 

@@ -72,7 +72,6 @@ setClass("Polygon4",
 		region.id = "character"),
 	validity = function(object) {
 			if (ncol(object@coords) !=2) {
-
 				print("polygon should have 2 columns")
 				return(FALSE)
 			}
@@ -90,8 +89,8 @@ setClass("Polylist4",
 			print("length mismatch")
 			return(FALSE)
 		}
-		if (any(sapply(object@polygons, function(x) 
-			!is(x, "Polygon4")))) {
+		if (any(unlist(lapply(object@polygons, function(x) 
+			!is(x, "Polygon4"))))) {
 			print("polygons not Polygon4 objects")
 			return(FALSE)
 		}
@@ -145,6 +144,7 @@ SpatialDataFrame = function(data, coord.names, coord.columns,
 ## print.Sp... uses S3 method dispatch, but can pass the ... arguments
 print.SpatialDataFrame = function(x, ...) { 
   cc = substr(paste(as.data.frame(t(signif(coordinates(x))))),2,999)
+  # could be done in S-Plus by unpaste(x, "c")[[2]]
   coord.columns = match(x@coord.names, names(x@data))
   rhs = data.frame(x@data[,-coord.columns])
   names(rhs) = names(x@data)[-coord.columns]

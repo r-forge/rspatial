@@ -1,5 +1,6 @@
 \name{gridded}
 \alias{gridded}
+\alias{gridparameters}
 \alias{gridded<-}
 
 \title{Create a SpatialDataFrameGrid from a SpatialDataFrame, or the
