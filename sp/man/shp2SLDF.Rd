@@ -29,16 +29,24 @@ contourLines2SLDF(cL, proj4string=CRS(as.character(NA)))
 
 \seealso{ \link{SpatialLines-class} }
 \examples{
-data(lnsshp)
+data(lnsshp) # retrieved as: 
+# library(maptools)
+# lns <- read.shape(system.file("shapes/fylk-val.shp", package="maptools")[1])
 res <- shp2SLDF(lns)
 plot(res)
-data(co37_d90_arc)
+invisible(title(""))
+data(co37_d90_arc) # retrieved as: 
+# library(RArcInfo)
+# fl <- "http://www.census.gov/geo/cob/bdy/co/co90e00/co37_d90_e00.zip"
+# download.file(fl, "co37_d90_e00.zip")
+# e00 <- zip.file.extract("co37_d90.e00", "co37_d90_e00.zip")
+# e00toavc(e00, "ncar")
+# arc <- get.arcdata(".", "ncar")
 res <- arcobj2SLDF(arc)
 plot(res)
-data(meuse_interp_cL)
-res <- contourLines2SLDF(cL)
-plot(res, col=terrain.colors(nrow(res@data)))
+invisible(title(""))
 res <- contourLines2SLDF(contourLines(volcano))
 plot(res, col=terrain.colors(nrow(res@data)))
+invisible(title(""))
 }
 \keyword{spatial}
