@@ -96,6 +96,9 @@ function(x, fname, attr, na.value = -9999, ...) {
 		attr = (names(x@data)[-x@coord.columns])[1]
 	z[(col - 1) * gp$cells.dim[2] + row] = x@data[, attr, drop = TRUE]
 	z = data.frame(matrix(z, gp$cells.dim[2], gp$cells.dim[1]))
-	write.table(z, file = f, row.names = FALSE, col.names = FALSE, ...)
+	if (is.R())
+		write.table(z, file = f, row.names = FALSE, col.names = FALSE, ...)
+	else
+		write.table(z, file = f, sep = " ", dimnames.write = FALSE, ...)
 	close(f)
 }

@@ -2,6 +2,7 @@
 \alias{SpatialDataFrame}
 \alias{formula.SpatialDataFrame}
 \alias{plot.SpatialDataFrame}
+% \alias{plot.SpatialDataFrameGrid}
 \alias{print.SpatialDataFrame}
 \alias{summary.SpatialDataFrame}
 \alias{row.names.SpatialDataFrame}

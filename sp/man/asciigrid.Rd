@@ -29,4 +29,9 @@ to write the numeric data }
 }
 \seealso{ \link{as.image.SDFG}, \link{image} }
 \author{Edzer J.\ Pebesma, e.pebesma@geog.uu.nl}
+\examples{
+x <- readAsciigrid(system.file("external/test.ag", package="sp")[1])
+class(x)
+image(x)
+}
 \keyword{programming}

@@ -143,13 +143,13 @@ SpatialDataFrame = function(data, coord.names, coord.columns,
 ## show & print:
 ## print.Sp... uses S3 method dispatch, but can pass the ... arguments
 print.SpatialDataFrame = function(x, ...) { 
-  cc = substr(paste(as.data.frame(t(signif(coordinates(x))))),2,999)
+  cc = substring(paste(as.data.frame(t(signif(coordinates(x))))),2,999)
   # could be done in S-Plus by unpaste(x, "c")[[2]]
   coord.columns = match(x@coord.names, names(x@data))
   rhs = data.frame(x@data[,-coord.columns])
   names(rhs) = names(x@data)[-coord.columns]
   ndf = data.frame("coordinates" = cc, rhs)
-  print(ndf,...)
+  print(ndf, ...)
 }
 
 # setMethod("print", "SpatialDataFrame", PrintSpatialDataFrame)
@@ -234,7 +234,12 @@ coordinates = function(sdf) {
 		coord.columns = coord.columns)
 }
 
-setAs("SpatialDataFrame", "data.frame", function(from) { from@data })
+if (is.R()) {
+	setAs("SpatialDataFrame", "data.frame", function(from) { from@data })
+} else {
+	setAs("SpatialDataFrame", "data.frame", function(object) { object@data })
+}
+
 as.data.frame.SpatialDataFrame = function(x, row.names, optional) 
 	as(x, "data.frame")
 
@@ -361,11 +366,25 @@ print.summary.SpatialData = function(x, ...) {
 }
 
 plot.SpatialDataFrame = function(x, xlab = x@coord.names[1], 
-		ylab = x@coord.names[2], asp = 1, ...) {
+		ylab = x@coord.names[2], asp = 1, max = 5, ...) {
 	df = x@data
 	col = x@coord.columns
-	plot(df[, col[1]], df[, col[2]], asp = asp, xlab = xlab, ylab = ylab, ...)
+	if (is.R())
+		plot(df[, col[1]], df[, col[2]], asp = asp, xlab = xlab, ylab = ylab, ...)
+	else {
+		# asp not available
+		xy = diff(t(x@bbox))
+		if (xy[1] > xy[2])
+			pin = c(max, max * xy[2]/xy[1])
+		else
+			pin = c(max * xy[1]/xy[2], max)
+		oldpar = par()
+		par(pin = pin)
+		plot(df[, col[1]], df[, col[2]], xlab = xlab, ylab = ylab, ...)
+		invisible(par(oldpar))
+	} 
 }
+
 plot.SpatialDataFrameGrid = function(x, xlab = x@coord.names[1], 
 		ylab = x@coord.names[2], asp = 1, ...) {
 	plot.SpatialDataFrame(as(x, "SpatialDataFrame"), xlab = xlab, 
@@ -467,8 +486,14 @@ as.SD = function(from) { # strip all grid & data.frame attributes
 #setAs("SpatialDataFrame", "SpatialData", as.SD)
 
 # as(x, "data.frame"):
-setAs("SpatialDataFrameGrid", "data.frame", function(from) { from@data })
+if (is.R()) {
+	setAs("SpatialDataFrameGrid", "data.frame", function(from) { from@data })
+} else {
+	setAs("SpatialDataFrameGrid", "data.frame", function(object) { object@data })
+}
+
 # as.data.frame(x); 
+
 as.data.frame.SpatialDataFrameGrid = function(x, row.names, optional) 
 	as(x, "data.frame")
 
@@ -543,7 +568,12 @@ polygons = function(obj) {
 	obj@polygons
 }
 
-setAs("SpatialDataPolygons", "data.frame", function(from) { from@data })
+if (is.R()) {
+	setAs("SpatialDataPolygons", "data.frame", function(from) { from@data })
+} else {
+	setAs("SpatialDataPolygons", "data.frame", function(object) { object@data })
+}
+
 as.data.frame.SpatialDataPolygons = function(x, row.names, optional)
 	as(x, "data.frame")
 
@@ -579,4 +609,3 @@ as.data.frame.SpatialDataPolygons = function(x, row.names, optional)
 #	names(lst) = map$names
 #	lapply(lst, fold.poly)
 #}
-
