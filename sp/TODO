@@ -1,5 +1,8 @@
 spplot:
 - document sp.layout argument, and layout.north.arrow(), layout.scale.bar()
+- spplot(meuse) # takes ages to create legend of inft. length
+
+coordinates(spdf)=~x+y # give useful error message
 
 matrix -> grid coercion
 
