@@ -93,40 +93,40 @@ dim.SpatialPointsDataFrame = function(x) dim(x@data)
 
 
 #ifdef R
-#setAs("SpatialPointsDataFrame", "data.frame", function(from) { 
-#	if (length(from@coords.nrs) > 0) {
-#		nc = ncol(from@coords)
-#		nd = ncol(from@data)
-#		nm = character(nc+nd)
-#		ret = list()
-#		for (i in 1:nc)
-#			ret[[from@coords.nrs[i]]] = from@coords[,i]
-#		nm[from@coords.nrs] = dimnames(from@coords)[[2]]
-#		idx.new = (1:(nc+nd))[-(from@coords.nrs)]
-#		for (i in 1:nd)
-#			ret[[idx.new[i]]] = from@data[,i]
-#		nm[idx.new] = names(from@data)
-#		names(ret) = nm
-#		data.frame(ret)
-#	} else
-#		from@data 
-#})
+setAs("SpatialPointsDataFrame", "data.frame", function(from) { 
+	if (length(from@coords.nrs) > 0) {
+		nc = ncol(from@coords)
+		nd = ncol(from@data)
+		nm = character(nc+nd)
+		ret = list()
+		for (i in 1:nc)
+			ret[[from@coords.nrs[i]]] = from@coords[,i]
+		nm[from@coords.nrs] = dimnames(from@coords)[[2]]
+		idx.new = (1:(nc+nd))[-(from@coords.nrs)]
+		for (i in 1:nd)
+			ret[[idx.new[i]]] = from@data[,i]
+		nm[idx.new] = names(from@data)
+		names(ret) = nm
+		data.frame(ret)
+	} else
+		from@data 
+})
 #else
 #%setAs("SpatialPointsDataFrame", "data.frame", function(object) { object@data }#)
 #endif
 
-#as.data.frame.SpatialPointsDataFrame = function(x, row.names, optional) 
-#	as(x, "data.frame")
+as.data.frame.SpatialPointsDataFrame = function(x, row.names, optional) 
+	as(x, "data.frame")
 
-as.data.frame.SpatialPointsDataFrame <- function(x, row.names = NULL, 
-	optional = FALSE) {
-	crds <- coordinates(x)
-	df <- data.frame(x@data, as.data.frame(crds))
-	df
-}
+#as.data.frame.SpatialPointsDataFrame <- function(x, row.names = NULL, 
+#	optional = FALSE) {
+#	crds <- coordinates(x)
+#	df <- data.frame(x@data, as.data.frame(crds))
+#	df
+#}
 
-setAs("SpatialPointsDataFrame", "data.frame", 
-	function(from) as.data.frame.SpatialPointsDataFrame(from))
+#setAs("SpatialPointsDataFrame", "data.frame", 
+#	function(from) as.data.frame.SpatialPointsDataFrame(from))
 
 
 names.SpatialPointsDataFrame <- function(x) {
