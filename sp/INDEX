@@ -7,9 +7,9 @@ Polygons<-              Create a SpatialDataFramePolygons object, or
                         retrieve polygon values
 Polylist4-class         Class "Polylist4" for map polygons
 SpatialData-class       Class "SpatialData" ~~~
+SpatialDataFrame        Create a SpatialDataFrame
 SpatialDataFrame-class
                         Class "SpatialDataFrame" ~~~
-SpatialDataFrame        Create a SpatialDataFrame
 SpatialDataFrameGrid-class
                         Class "SpatialDataFrameGrid" ~~~
 SpatialDataFramePolygons-class
@@ -17,7 +17,6 @@ SpatialDataFramePolygons-class
 SpatialDataPolygons-class
                         Class "SpatialDataPolygons"; stores spatial
                         polygons and attributes
-readAsciigrid           read/write to/from ESRI asciigrid format
 bpy.colors              blue-pink-yellow color scheme that prints well
                         on black/white printers
 bubble                  Create a bubble plot of spatial data
@@ -43,6 +42,7 @@ nc.Map                  North Carolina Map object
 point.in.polygon        do point(s) fall in a given polygon?
 polygons                Create a SpatialDataPolygons object, or
                         retrieve polygon values
+readAsciigrid           read/write to/from ESRI asciigrid format
 select.spatial          select points spatially
 zerodist                find point pairs with equal spatial
                         coordinates
