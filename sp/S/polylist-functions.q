@@ -9,8 +9,12 @@ Map2Poly4 <- function(Map, region.id=NULL, projargs=as.character(NA)) {
 		if (class(Map) != "Map") stop("not a Map")
 		res <- cbind(attr(Map$Shapes, 'minbb')[1:2], 
 			attr(Map$Shapes, 'maxbb')[1:2])
+#ifdef R
 		rownames(res) <- c("x", "y")
 		colnames(res) <- c("min", "max")
+#else
+		dimnames(res) <- list(c("x", "y"), c("min", "max"))
+#endif
 		res
 	}
 	if (is.null(region.id) || 
@@ -36,8 +40,12 @@ Map2Poly4 <- function(Map, region.id=NULL, projargs=as.character(NA)) {
 	for (i in 1:n) nParts[i] <- attr(Map$Shapes[[i]], "nParts")
 	for (i in 1:n) {
 		bbox <- matrix(c(attr(Map$Shapes[[i]], "bbox")), 2, 2)
+#ifdef R
 		rownames(bbox) <- c("x", "y")
 		colnames(bbox) <- c("min", "max")
+#else
+		dimnames(bbox) <- list(c("x", "y"), c("min", "max"))
+#endif
 		SD <- new("SpatialData", bbox=bbox, proj4string=CRSobj)
 		if (nParts[i] > 1)
 			res[[i]] <- .getMultiShp4(Map$Shapes[[i]], 
@@ -141,7 +149,13 @@ Map2Poly4 <- function(Map, region.id=NULL, projargs=as.character(NA)) {
    	else return (-1)
 }
 
-plot.Polylist4 <- function(x, col, border=par("fg"), add=FALSE, 
+plot.Polylist4 <- function(x, col, border=
+#ifdef R
+par("fg"),
+#else
+par("col"),
+#endif
+add=FALSE, 
 	xlim=NULL, ylim=NULL, xlab="", ylab="", asp=1, xpd = NULL, 
 	density = NULL, angle = 45, ...) {
 	if (!is(x, "Polylist4")) stop("Not a Polygon4 object")

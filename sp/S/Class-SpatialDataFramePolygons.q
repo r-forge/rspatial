@@ -77,7 +77,13 @@ setAs("SpatialDataFramePolygons", "data.frame", function(object) { object@data})
 as.data.frame.SpatialDataFramePolygons = function(x, row.names, optional) 
 	as(x, "data.frame")
 
-plot.SpatialDataFramePolygons = function(x, attr=NULL, breaks=NULL, col=NA, asp = 1, xlab=x@coord.names[1], ylab=x@coord.names[2], add=FALSE, xlim=NULL, ylim=NULL, border=par("fg"), xpd=NULL, density=NULL, angle=45, ...) {
+plot.SpatialDataFramePolygons = function(x, attr=NULL, breaks=NULL, col=NA, asp = 1, xlab=x@coord.names[1], ylab=x@coord.names[2], add=FALSE, xlim=NULL, ylim=NULL, border=
+#ifdef R
+par("fg"), 
+#else
+par("col"), 
+#endif
+xpd=NULL, density=NULL, angle=45, ...) {
 	if (is.null(attr)) {
 		plot.Polylist4(x@polygons, col=col, border=border, asp=asp, 
 			xlab=xlab, ylab=ylab, add=add, xlim=xlim, 

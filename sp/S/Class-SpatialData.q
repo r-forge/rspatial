@@ -346,14 +346,23 @@ proj4string = function(sd) {
 	sd@proj4string = value; 
 	sd
 }
+
 is.projected = function(sd) {
 	if (!is(sd, "SpatialData"))
 		stop("is.projected only works for classes inheriting from SpatialData")
 	p4str <- proj4string(sd)
+#ifdef R
 	if (is.na(p4str)) 
+#else
+	if (p4str == "NA")  # bloody S-Plus!
+#endif
 		return(as.logical(NA))
 	else {
+#ifdef R
 		res <- grep("latlong", p4str, fixed=TRUE)
+#else
+		res <- grep("latlong", p4str)
+#endif
 		if (length(res) == 0)
 			return(TRUE)
 		else 

@@ -5,25 +5,24 @@ function(fname, as.image = FALSE, plot.image = FALSE) {
 	l5s = strsplit(l5, " ")
 	xllcenter = yllcenter = xllcorner = yllcorner = as.numeric(NA)
 	for (i in 1:6) {
-		if (length(grep("NCOLS", l5s[[i]][1], ignore.case = TRUE)))
+		fieldname = casefold(l5s[[i]][1])
+		if (length(grep("ncols", fieldname)))
 			ncols = as.numeric(l5s[[i]][2])
-		if (length(grep("NROWS", l5s[[i]][1], ignore.case = TRUE)))
+		if (length(grep("nrows", fieldname)))
 			nrows = as.numeric(l5s[[i]][2])
-		if (length(grep("XLLCORNER", l5s[[i]][1], ignore.case = TRUE)))
+		if (length(grep("xllcorner", fieldname)))
 			xllcorner = as.numeric(l5s[[i]][2])
-		if (length(grep("YLLCORNER", l5s[[i]][1], ignore.case = TRUE)))
+		if (length(grep("yllcorner", fieldname)))
 			yllcorner = as.numeric(l5s[[i]][2])
-		if (length(grep("XLLCENTER", l5s[[i]][1], ignore.case = TRUE)))
+		if (length(grep("xllcenter", fieldname)))
 			xllcenter = as.numeric(l5s[[i]][2])
-		if (length(grep("YLLCENTER", l5s[[i]][1], ignore.case = TRUE)))
+		if (length(grep("yllcenter", fieldname)))
 			yllcenter = as.numeric(l5s[[i]][2])
-		if (length(grep("CELLSIZE", l5s[[i]][1], ignore.case = TRUE)))
+		if (length(grep("cellsize", fieldname)))
 			cellsize = as.numeric(l5s[[i]][2])
-		if (length(grep("NODATA_VALUE", l5s[[i]][1], ignore.case = TRUE)))
+		if (length(grep("nodata_value", fieldname)))
 			nodata.value = as.numeric(l5s[[i]][2])
 	}
-	# list(ncols=ncols, nrows=nrows, xllcorner=xllcorner, yllcorner=yllcorner,
-	# 	cellsize=cellsize, nodata.value=nodata.value)
 	if (is.na(xllcorner) && !is.na(xllcenter))
 		xllcorner = xllcenter - 0.5 * cellsize
 	if (is.na(yllcorner) && !is.na(yllcenter))
@@ -96,9 +95,10 @@ function(x, fname, attr, na.value = -9999, ...) {
 		attr = (names(x@data)[-x@coord.columns])[1]
 	z[(col - 1) * gp$cells.dim[2] + row] = x@data[, attr, drop = TRUE]
 	z = data.frame(matrix(z, gp$cells.dim[2], gp$cells.dim[1]))
-	if (is.R())
+#ifdef R
 		write.table(z, file = f, row.names = FALSE, col.names = FALSE, ...)
-	else
+#else
 		write.table(z, file = f, sep = " ", dimnames.write = FALSE, ...)
+#endif
 	close(f)
 }

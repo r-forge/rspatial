@@ -1,5 +1,3 @@
-
-
 SpatialDataPolygons doesn't known which columns in the
 attribute data are the label points. Changed into
 SpatialDataFramePolygon, descending from
@@ -18,16 +16,15 @@ SpatialDataPolygons -> SpatialDataFramePolygons
 
 What exactly is the interface?
 1 coordinates() gets/sets coordinates
-2 polygons() gets/sets polygons
+2 [Pp]olygons() gets/sets polygons
 3 as.data.frame() gets the data as data.frame
 
 0.4-1 splits proj out of sp and (hopefully) simplifies 20030318 RSB
 
-make "[" work for SDFGrid and SDPolygons
+ToDo S-Plus:
+plotting polygons doesn't work yet
 
 do we need "[<-" ?
-
-SpatialData-class.Rd contains merge conflict in header -- grep "=====" 
 
 look at stack() to improve map.to.lev
 
@@ -41,7 +38,7 @@ coordinates<- # 2/3D matrix, char vector, int vector, formula; allow NULL object
 polygons
 polygons<-
 
-methods:
+methods for _all_ (?) classes:
 	print/show
 	plot
 	summary
@@ -57,24 +54,15 @@ done: maps -> SpatialDataPolygons; do reverse?
 	as(x, "maps") # for SpatialDataPolygons
 	look at difference in range between maps() and those of polygon vertexes
 
-do:
-	summary(SpatialDataPolygon)
-
 test:
 	3D data frames
-	3D regulalr grids
+	3D regular grids
 	3D: test as.images.SDFG for (x,y), (x,z) and (y,z) slices
-
-remove spatial.data.frame.R
-add :
-
-image.SpatialDataFrameGrid = function(data, col = 1, ...) {
-	image.default(as.image.SDFG(data, attr = col), ...)
-}
-
-sp.coords(x) <- sp.coords(y) ??
-sp.coords(x) <- c("x", "y")
 
 S-PLUS portability:
 	PACKAGE = ...
 	plot(..., asp = 1)
+
+DONE:
+-----
+make "[" work for SDFGrid and SDPolygons
