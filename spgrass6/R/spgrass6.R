@@ -82,3 +82,52 @@ putSites6 <- function(df, vname) {
 	cmd
 }
 
+readCELL6 <- function(vname, cat=FALSE) {
+	tmpfl <- tempfile()
+	system(paste("r.out.arc input=", vname, " output=", tmpfl, sep=""))
+	library(rgdal)
+	hdl <- GDAL.open(tmpfl)
+	dims <- dim(hdl)
+	res <- getRasterTable(hdl)
+	GDAL.close(hdl)
+	if (cat) {
+		cats <- strsplit(system(paste("r.stats -l", vname), 
+			intern=TRUE), " ")
+		catnos <- sapply(cats, function(x) x[1])
+		catlabs <- sapply(cats, function(x) paste(x[-1], collapse=" "))
+		if (any(!is.na(match(catnos, "*")))) {
+			isNA <- which(catnos == "*")
+			catnos <- catnos[-isNA]
+			catlabs <- catlabs[-isNA]
+		}
+		res[,3] <- factor(res[,3], levels=catnos, labels=catlabs)
+	} else {
+		res[,3] <- as.integer(res[,3])
+	}
+	colnames(res) <- c("north", "east", vname)
+	attr(res, "hdl_dims") <- dims
+	res
+}
+
+readFLOAT6 <- function(vname) {
+	tmpfl <- tempfile()
+	system(paste("r.out.arc input=", vname, " output=", tmpfl, sep=""))
+	library(rgdal)
+	hdl <- GDAL.open(tmpfl)
+	dims <- dim(hdl)
+	res <- getRasterTable(hdl)
+	GDAL.close(hdl)
+	res[,3] <- as.double(res[,3])
+	colnames(res) <- c("north", "east", vname)
+	attr(res, "hdl_dims") <- dims
+	res
+}
+
+writeCELL6 <- function(var, vname) {
+
+}
+
+writeFLOAT6 <- function(var, vname) {
+
+}
+
