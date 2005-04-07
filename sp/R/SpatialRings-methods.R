@@ -71,11 +71,35 @@ as.SpatialRings.pal <- function(arc, pal, IDs, dropPoly1=TRUE,
 # assemble the list of Srings
 	Srl <- vector(mode="list", length=n)
 	for (i in 1:n) {
-		nParts <- length(belongs[[i]])
+		bi <- belongs[[i]]
+		nParts <- length(bi)
+		palei_list <- list()
+		for (j in 1:nParts) {
+			this <- bi[j]
+			paleij <- pale[[this]]
+			if (any(paleij == 0)) {
+				zeros <- which(paleij == 0)
+				palei_list <- c(palei_list, 
+					list(paleij[1:(zeros[1]-1)]))
+				for (k in 1:length(zeros)) {
+					if (k == length(zeros)) {
+						lp <- length(paleij)
+						lz <- zeros[length(zeros)]
+						palei_list <- c(palei_list, 
+						    list(paleij[(lz+1):lp]))
+					} else {
+						zk <- zeros[k]
+						zk1 <- zeros[k+1]
+						palei_list <- c(palei_list, 
+						    list(paleij[(zk+1):(zk1-1)]))
+					}
+				}
+			} else palei_list <- c(palei_list, list(paleij))
+		}
+		nParts <- length(palei_list)
 		srl <- vector(mode="list", length=nParts)
 		for (j in 1:nParts) {
-			this <- belongs[[i]][j]
-			paleij <- pale[[this]]
+			paleij <- palei_list[[j]]
 			nArcs <- length(paleij)
 			x <- NULL
 			y <- NULL
@@ -88,6 +112,10 @@ as.SpatialRings.pal <- function(arc, pal, IDs, dropPoly1=TRUE,
 					x <- c(x, rev(arc[[2]][[-kk]][[1]]))
 					y <- c(y, rev(arc[[2]][[-kk]][[2]]))
 				}
+			}
+			if ((x[1] != x[length(x)]) || (y[1] != y[length(y)])) {
+				x <- c(x, x[1])
+				y <- c(y, y[1])
 			}
 			srl[[j]] <- Sring(coords=cbind(x, y), 
 				proj4string=proj4string)	

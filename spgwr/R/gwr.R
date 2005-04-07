@@ -209,7 +209,7 @@ print.gwr <- function(x, ...) {
 	else cat("Fixed bandwidth:", x$bandwidth, "\n")
 	m <- NCOL(x$lm$x)
 	cat("Summary of GWR coefficient estimates:\n")
-	printCoefmat(t(apply(as(x$SDF, "data.frame")[,(3+(1:m))], 2, summary)))
+	printCoefmat(t(apply(as(x$SDF, "data.frame")[,(1+(1:m))], 2, summary)))
 	if (x$hatmatrix) {
 		cat("Number of data points:", n, "\n")
 		cat("Effective number of parameters:", 2*x$results$v1 -
