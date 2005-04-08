@@ -15,8 +15,11 @@ a grid with 40 m x 40 m spacing that covers the Meuse Study area
 	\item{dist}{distance to the Meuse river; obtained by a spread
 	(spatial distance) GIS operation, from border of river; normalized to
 	$[0,1]$ }
+	\item{ffreq}{flood frequency; the lower the value, the larger the flood frequency; the origin of this item is questionable}
 	\item{part.a}{arbitrary division of the area in two areas, a and b}
 	\item{part.b}{see \code{part.a}}
+	\item{soil}{soil type; it is questionable whether these data come from a real soil
+	map}
   }
 }
 \details{
@@ -32,7 +35,8 @@ See the \link{meuse} documentation
 }
 \examples{
 data(meuse.grid)
-coordinates(meuse.grid) <- ~x+y
-plot(meuse.grid)
+coordinates(meuse.grid) = ~x+y
+gridded(meuse.grid) = TRUE
+spplot(meuse.grid)
 }
 \keyword{datasets}

@@ -49,7 +49,7 @@ the indexes (row numbers) of identified points.
 \examples{
 data(meuse)
 coordinates(meuse) <- c("x", "y") # promote to SpatialDataFrame
-bubble(meuse, "cadmium", max = 2.5, main = "cadmium concentrations (ppm)", 
+bubble(meuse, "cadmium", maxsize = 2.5, main = "cadmium concentrations (ppm)", 
     key.entries = 2^(-1:4))
 bubble(meuse, "zinc", main = "zinc concentrations (ppm)",
     key.entries =  100 * 2^(0:4))
