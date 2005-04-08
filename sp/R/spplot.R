@@ -228,8 +228,18 @@ function (x, y, z, subscripts, at = pretty(z), shrink, labels = NULL,
        			pOi <- getSringsplotOrderSlot(pls[[i]])
        			for (j in pOi) {
 					coords = getSringCoordsSlot(Srs[[j]])
-					gp = gpar(fill = col.regions[zcol[i]], alpha = alpha.regions,
-						col = col)
+					if (getSringHoleSlot(Srs[[j]])) {
+						bg = trellis.par.get()$background
+						if (bg$col == "transparent")
+							fill = "white"
+						else
+							fill = bg$col
+						alpha = bg$alpha
+					} else {
+						fill = col.regions[zcol[i]]
+						alpha = alpha.regions
+					}
+					gp = gpar(fill = fill, alpha = alpha, col = col)
 					grid.polygon(coords[,1], coords[,2], default.units = "native", 
 						gp = gp)
 				}
