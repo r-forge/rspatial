@@ -7,11 +7,6 @@
 \alias{layout.scale.bar}
 \alias{mapLegendGrob}
 \alias{sp.theme}
-\alias{panel.gridplot}
-\alias{panel.pointsplot}
-\alias{panel.ringsplot}
-\alias{sp.pagefn} % needs docs!
-\alias{spplot.key} % needs docs!
 
 \title{Lattice (trellis) plots for spatial data}
 \description{plots for points, grids, polygons }
@@ -45,8 +40,8 @@ layout.scale.bar(height = 0.05)
 \item{aspect}{aspect ratio for spatial axes; defaults to "iso" (one unit
 on the x-axis equals one unit on the y-axis) but may be set to more
 suitable values if the data are e.g. if coordinates are latitude/longitude }
-\item{panel}{ depending on the class of obj, \code{panel.ringsplot} (for
-rings or lines), \code{panel.gridplot} (grids) or \code{panel.pointsplot}
+\item{panel}{ depending on the class of obj, \link{panel.ringsplot} (for
+rings or lines), \link{panel.gridplot} (grids) or \link{panel.pointsplot}
 (points) is used; for further control custom panel functions can be
 supplied that call one of these panel functions, but do read how the
 argument \code{sp.layout} may help }

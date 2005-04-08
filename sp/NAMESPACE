@@ -30,9 +30,10 @@ shp2SLDF)
 
 export(plotSpatialLines, plot.SpatialRings)
 
-export(spplot, layout.scale.bar, layout.north.arrow, sp.theme, 
-	mapLegendGrob, sp.pagefn, spplot.key, panel.gridplot, panel.ringsplot,
-	panel.pointsplot)
+export(spplot, layout.scale.bar, layout.north.arrow, sp.theme,
+	mapLegendGrob, sp.pagefn, spplot.key, panel.gridplot,
+	panel.ringsplot, panel.pointsplot, sp.polygon, sp.text, sp.points,
+	sp.lines, SpatialRingsRescale)
 
 export(as.image.SpatialGridDataFrame)
 
