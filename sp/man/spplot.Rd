@@ -130,7 +130,7 @@ sets the colors to \link{bpy.colors}.
 }
 
 \references{
-\url{http://r-spatial.sourceforge.net/gallery}
+\url{http://r-spatial.sourceforge.net/}
 }
 \seealso{
 }

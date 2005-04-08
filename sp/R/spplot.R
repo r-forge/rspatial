@@ -386,10 +386,10 @@ sp.theme = function() list(
 	regions = list(col = bpy.colors(100))
 )
 
-spplot.key = function(sp.layout, row = 1, col = 1) {
-	for (i in seq(along=row)) {
-		for (j in seq(along=col)) {
-			trellis.focus("panel", col[j], row[i], highlight = FALSE)
+spplot.key = function(sp.layout, rows = 1, cols = 1) {
+	for (i in seq(along=rows)) {
+		for (j in seq(along=cols)) {
+			trellis.focus("panel", cols[j], rows[i], highlight = FALSE)
 			sp.panel.layout(sp.layout)
 			trellis.unfocus()
 		}
