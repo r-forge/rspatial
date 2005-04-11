@@ -13,7 +13,7 @@ c
       integer neighs(npts)
 
       do i=1,npts
-        dsmin=1e40
+        dsmin=1d40
         do j=1,npts
           if(i.ne.j)then
             dij=((pts(1,i)-pts(1,j))**2+(pts(2,i)-pts(2,j))**2)
@@ -42,7 +42,7 @@ c in x1,y1
 c
 
       do i=1,n2pts
-        dsmin=1e40
+        dsmin=1d40
 	xp2=x2(i)
         yp2=y2(i)
         do j=1,n1pts
@@ -73,7 +73,7 @@ c in x1,y1
 c
 
       do i=1,n2pts
-        dsmin=1e40
+        dsmin=1d40
 	xp2=x2(i)
         yp2=y2(i)
         do j=1,n1pts
