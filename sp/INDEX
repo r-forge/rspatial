@@ -59,6 +59,7 @@ overlay                 spatial overlay for points, grids and rings
 overlay-methods         Methods for spatially overlay-ing points
                         (grids) and rings layers
 pal                     North Carolina county boundaries (e00)
+panel.spplot            panel and panel utility functions for spplot
 point.in.polygon        do point(s) fall in a given polygon?
 read.asciigrid          read/write to/from (ESRI) asciigrid format
 read.gdal               read GDAL supported grid maps through rgdal
