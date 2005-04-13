@@ -6,6 +6,7 @@
 \alias{spsample,Sring-method}
 \alias{spsample,Srings-method}
 \alias{spsample,SpatialGrid-method}
+\alias{spsample,SpatialRings-method}
 \title{ sampling point locations in (or on) a spatial object }
 \description{
 sampling point locations in (or on) a spatial object
@@ -21,6 +22,10 @@ sampling point locations in (or on) a spatial object
 
 \item{x = "Srings"}{ sample in an Srings object, consisting of possibly
 multiple Sring objects (and holes!) }
+
+\item{x = "SpatialRings"}{ sample in an SpatialRings object; sampling
+takes place over all Srings objects present, use subsetting to vary
+sampling intensity (density) }
 
 \item{x = "SpatialGrid"}{ sample in an SpatialGrid object }
 }}

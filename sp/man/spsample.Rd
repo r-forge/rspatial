@@ -33,13 +33,14 @@ each "cell"); or \code{"nonaligned"} for nonaligned systematic sampling
 (nx random y coordinates, ny random x coordinates) }
 \item{bb}{ bounding box of the sampled domain; setting this to a smaller
 value leads to sub-region sampling }
-\item{offset}{ for regular sampling: the offset (position) of the regular
+\item{offset}{ for regular sampling only: the offset (position) of the regular
 grid; the default for \code{spsample} methods is a random location in
 the unit cell $[0,1] \times [0,1]$, leading to a different grid after
 each call; if this is set to \code{c(0.5,0.5)}, the returned grid is
 not random (but, in Ripley's wording, "centric systematic") }
 \item{cellsize}{ if missing, a cell size is derived from the sample size
-\code{n}; otherwise, this cell size is used }
+\code{n}; otherwise, this cell size is used for all sampling methods
+except \code{"random"} }
 \item{nsig}{ for "pretty" coordinates; \code{spsample} do not result in
 pretty grids }
 }

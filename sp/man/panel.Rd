@@ -52,8 +52,6 @@ Customizing spplot plots can be done by extending the panel function,
 or by supplying an sp.layout argument; see the documentation for
 \link{spplot}.
 
-Useful arguments that can be passed as \code{...} are: 
-
 \code{SpatialRingsRescale} scales and shifts an object of class
 \link{SpatialRings-class}; this is useful e.g. for scale bars, or other
 layout items.
@@ -69,13 +67,10 @@ call function \code{spplot.key} for the last panel drawn on a page.
 
 \references{
 \url{http://r-spatial.sourceforge.net/} has a graph gallery with
-examples.
+examples with R code.
 }
-\seealso{
-}
-\author{
-Edzer J. Pebesma, \email{e.pebesma@geo.uu.nl}
-}
+\seealso{\link{spplot}, \link{spplot-methods}}
+\author{ Edzer J. Pebesma, \email{e.pebesma@geo.uu.nl} }
 \examples{
 
 }

@@ -79,18 +79,28 @@ sample.Srings = function(x, n, type = "random", bb = bbox(x),
 		offset = runif(2), ...) {
 	#stop("not functioning yet...")
 	area = getSringAreaSlot(x) # also available for Srings!
-	if (area == 0.0) {
+	if (area == 0.0)
 		# distribute n over the lines, according to their length?
 		stop("sampling over multiple lines not functioning yet...")
-		spsample(Sline(getSringCoordsSlot(x), CRS(proj4string(x))), n, type, offset = offset[1])
-	} else {
-		bb.area = prod(apply(bb, 1, function(x) diff(range(x))))
-		pts = spsample(as(x, "Spatial"), round(n * bb.area/area), type, offset = offset, ...)
-		id = overlay(pts, SpatialRings(list(x)))
-		pts[which(!is.na(id))]
-	}
+	bb.area = prod(apply(bb, 1, function(x) diff(range(x))))
+	pts = spsample(as(x, "Spatial"), round(n * bb.area/area), type, offset = offset, ...)
+	id = overlay(pts, SpatialRings(list(x)))
+	pts[which(!is.na(id))]
 }
 setMethod("spsample", signature(x = "Srings"), sample.Srings)
+
+sample.SpatialRings = function(x, n, type = "random", bb = bbox(x),
+		offset = runif(2), ...) {
+	#stop("not functioning yet...")
+	area = sum(unlist(lapply(getSRpolygonsSlot(x),getSringAreaSlot)))
+	if (area == 0.0)
+		stop("sampling over multiple lines not functioning yet...")
+		# distribute n over the lines, according to their length?
+	bb.area = prod(apply(bb, 1, function(x) diff(range(x))))
+	pts = spsample(as(x, "Spatial"), round(n * bb.area/area), type, offset = offset, ...)
+	pts[which(!is.na(overlay(pts, x)))]
+}
+setMethod("spsample", signature(x = "SpatialRings"), sample.SpatialRings)
 
 sample.Sgrid = function(x, n, type = "random", bb = bbox(x),
 		offset = runif(2), ...) {
