@@ -1,4 +1,7 @@
 # first argument of image generic _needs_ to be x!
+image.SpatialPixelsDataFrame = function(x, ...)
+	image(as(x, "SpatialGridDataFrame"), ...)
+
 image.SpatialGridDataFrame = function(x, attr = 1, xcol = 1, ycol = 2, 
 		asp = 1, xlab, ylab, ...) {
 	cnames = dimnames(coordinates(x))[[2]]

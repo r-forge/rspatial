@@ -11,6 +11,8 @@
 \alias{coordinates,Slines-method}
 \alias{coordinates,SpatialLines-method}
 \alias{coordinates,GridTopology-method}
+\alias{coordinates,SpatialPixels-method}
+\alias{coordinates,SpatialPixelsDataFrame-method}
 \alias{coordinates,SpatialGrid-method}
 \alias{coordinates,SpatialGridDataFrame-method}
 \title{ retrieves spatial coordinates }
@@ -29,6 +31,8 @@
 value is list of lists of matrices }
 \item{obj = "GridTopology"}{ object of, or deriving from, GridTopology }
 \item{obj = "GridTopology"}{ object of, or deriving from, GridTopology }
+\item{obj = "SpatialPixels"}{ object of, or deriving from, SpatialPixels }
+\item{obj = "SpatialPixelsDataFrame"}{ object of, or deriving from, SpatialPixelsDataFrame }
 \item{obj = "SpatialGrid"}{ object of, or deriving from, SpatialGrid }
 \item{obj = "SpatialGridDataFrame"}{ object of, or deriving from, SpatialGridDataFrame }
 }}

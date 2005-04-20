@@ -6,7 +6,7 @@
 \alias{summary.SpatialGrid}
 
 \title{Class "SpatialGrid" ~~~ }
-\description{ class for defining a rectangular grid of
+\description{ class for defining a full, rectangular grid of
 arbitrary dimension }
 \section{Objects from the Class}{
 Objects are created by using e.g. 
@@ -35,6 +35,7 @@ Class \code{"Spatial"}, by class \code{"SpatialPoints"}.
    each point on the grid; coordinates are not stored in objects of class SpatialGrid}
    \item{summary}{\code{signature(x = "SpatialGrid")}: gives summary}
    \item{plot}{\code{signature(x = "SpatialGrid")}: plots cell centers }
+   \item{"["}{\code{signature(x = "SpatialGrid")}: select rows and columns }
  }
 }
 \references{ }

@@ -1,55 +1,44 @@
-SpatialGrid = function(points = NULL, grid = NULL, 
-		tolerance = 10 * .Machine$double.eps, proj4string = CRS(as.character(NA))) {
-	if (!is.null(points)) {
-		if (!inherits(points, "SpatialPoints"))
-			stop("points should be or extend SpatialPoints")
-		else
-			points = as(points, "SpatialPoints")
-		grid = points2grid(points, tolerance)
-		new("SpatialGrid", points, grid = grid, 
-			grid.index = getGridIndex(coordinates(points), grid))
-	} else {
-		if (is.null(grid))
-			stop("points and grid are both NULL")
-		new("SpatialGrid", SpatialPoints(coordinates(boguspoints(grid))),
-			grid = grid, grid.index = integer(0))
-	}
+SpatialPixels = function(points, tolerance = 10 * .Machine$double.eps) {
+	if (!is(points, "SpatialPoints"))
+		stop("points should be of class or extending SpatialPoints")
+	points = as(points, "SpatialPoints")
+	grid = points2grid(points, tolerance)
+	new("SpatialPixels", points, grid = grid, 
+		grid.index = getGridIndex(coordinates(points), grid))
 }
 
-setMethod("coordinates", "SpatialGrid", function(obj) { 
-		if (length(obj@grid.index) > 0) # retrieve them:
-			obj@coords
-		else # compute them:
-			coordinates(obj@grid)
-	}
-)
+setMethod("coordinates", "SpatialPixels", function(obj) obj@coords)
+
+SpatialGrid = function(grid, proj4string = CRS(as.character(NA))) {
+	pts = boguspoints(grid)
+	proj4string(pts) = proj4string
+	new("SpatialGrid", pts, grid = grid, grid.index = integer(0))
+}
+
+setMethod("coordinates", "SpatialGrid", function(obj) coordinates(obj@grid))
 
 getGridTopology = function(obj) {
-	if (!is(obj, "SpatialGrid"))
-		stop("object is or does not extend class SpatialGrid")
+	if (!is(obj, "SpatialPixels"))
+		stop("object is not or does not extend class SpatialPixels")
 	obj@grid
 }
 
 areaSpatialGrid = function(obj) {
 	cellarea = prod(obj@grid@cellsize[1:2])
-	if (is(obj, "SpatialGridDataFrame"))
-		nrow(na.omit(obj@data)) * cellarea
-	else if (fullgrid(obj))
-		prod(obj@grid@cells.dim) * cellarea
+	if (is(obj, "SpatialGrid"))
+		return(prod(obj@grid@cells.dim) * cellarea)
 	else
 		length(obj@grid.index) * cellarea
 }
 
 gridparameters = function(obj) { 
-	if (is(obj, "SpatialGrid"))
+	if (is(obj, "SpatialPixels"))
 		obj = obj@grid
 	if (is(obj, "GridTopology"))
 		return(data.frame(
 			cellcentre.offset = obj@cellcentre.offset,
 			cellsize = obj@cellsize,
 			cells.dim = obj@cells.dim))
-	if (is(obj, "SpatialGrid"))
-		return(gridparameters(obj@grid))
 	return(numeric(0))
 }
 
@@ -86,11 +75,13 @@ getGridIndex = function(cc, grid, all.inside = TRUE) {
 	as.integer(round(idx))
 }
 
-plot.SpatialGrid = function(x, ...) {
+plot.SpatialPixels = function(x, ...)
 	plot(as(x, "SpatialPoints"), ...)
-}
 
-subset.SpatialGrid <- function(x, subset, select, drop = FALSE, ...) {
+plot.SpatialGrid = function(x, ...)
+	plot(as(x, "SpatialPixels"), ...)
+
+subset.SpatialPixels <- function(x, subset, select, drop = FALSE, ...) {
 	xSP <- as(x, "SpatialPoints")
 	if (missing(select)) select <- colnames(coordinates(xSP))
 	res <- subset(xSP, subset=subset, select=select, drop = drop, ...)
@@ -98,31 +89,59 @@ subset.SpatialGrid <- function(x, subset, select, drop = FALSE, ...) {
 	res
 }
 
-setMethod("[", "SpatialGrid",
+setMethod("[", "SpatialPixels",
 	function(x, i, j, ..., drop = FALSE) {
-		n.args = nargs()
 		if (!missing(drop))
 			stop("don't supply drop: it needs to be FALSE anyway")
-		if (missing(i) && missing(j))
+		if (!missing(j))
+			stop("can only select pixels with a single index")
+		if (missing(i))
 			return(x)
-		if (missing(j)) {
-			if (n.args == 3) # with a , : x[i,]
-				res = as(x, "SpatialPoints")[i = i, TRUE, ...]
-			else # withouth a , : x[i]
-				res = as(x, "SpatialPoints")[TRUE, j = i, ...]
-		} else if (missing(i))
-			res = as(x, "SpatialPoints")[TRUE, j = j, ...]
-		else
-			res = as(x, "SpatialPoints")[i = i, j = j, ...]
+		res = as(x, "SpatialPoints")[i]
 		gridded(res) = TRUE
 		res
 	}
 )
 
+setMethod("[", "SpatialGrid",
+	function(x, i, j, ..., drop = FALSE) {
+		if (!missing(drop))
+			stop("don't supply drop: it needs to be FALSE anyway")
+		gr = x@grid
+		if (missing(i))
+			rows = 1:gr@cells.dim[2]
+		else
+			rows = i
+		if (missing(j))
+			cols = 1:gr@cells.dim[1]
+		else
+			cols = j
+		idx = 1:prod(gr@cells.dim[1:2])
+		m = matrix(idx, gr@cells.dim[2], gr@cells.dim[1], byrow = TRUE)[rows,cols]
+		idx = as.vector(m) # t(m)?
+		cc = SpatialPixels(SpatialPoints(coordinates(x)[idx,], CRS(proj4string(x))))
+		cc = as(cc, "SpatialGrid")
+		cc
+	}
+)
+
+setAs("SpatialPixels", "SpatialGrid", function(from) SpatialGrid(from@grid, from@proj4string))
+#setAs("SpatialGrid", "SpatialPixels", function(from)
+#	SpatialPixels(SpatialPoints(coordinates(from), from@proj4string))
+#)
+
+summary.SpatialPixels = summary.Spatial
 summary.SpatialGrid = summary.Spatial
 
+print.summary.SpatialPixels = print.summary.Spatial
 print.summary.SpatialGrid = print.summary.Spatial
 
+print.SpatialPixels = function(x, ...) {
+	cat("Object of class SpatialPixels\n")
+	print(summary(x@grid))
+	print(as(x, "SpatialPoints"))
+	invisible(x)
+}
 print.SpatialGrid = function(x, ...) {
 	cat("Object of class SpatialGrid\n")
 	print(summary(x@grid))

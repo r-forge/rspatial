@@ -1,3 +1,35 @@
+CRS-class               Class "CRS" of coordinate reference system
+                        arguments
+GridTopology-class      Class "GridTopology" ~~~
+Rlogo                   Rlogo jpeg image
+Sline                   create objects of class Sline or Slines
+Sline-class             Class "Sline"
+Slines-class            Class "Sline"
+Spatial-class           Class "Spatial" ~~~
+SpatialGrid-class       Class "SpatialGrid" ~~~
+SpatialGridDataFrame-class
+                        Class "SpatialGridDataFrame" ~~~
+SpatialLines            create objects of class SpatialLines or
+                        SpatialLinesDataFrame
+SpatialLines-class      a class for spatial lines
+SpatialLinesDataFrame-class
+                        a class for spatial lines with attributes
+SpatialPixels           define spatial grid
+SpatialPixels-class     Class "SpatialPixels" ~~~
+SpatialPixelsDataFrame
+                        define spatial grid with attribute data
+SpatialPixelsDataFrame-class
+                        Class "SpatialPixelsDataFrame" ~~~
+SpatialPoints-class     Class "SpatialPoints" ~~~
+SpatialPointsDataFrame-class
+                        Class "SpatialPointsDataFrame" ~~~
+SpatialRings            create objects of class SpatialRings or
+                        SpatialRingsDataFrame
+SpatialRings-class      Class "SpatialRings"
+SpatialRingsDataFrame-class
+                        Class "SpatialRingsDataFrame"
+Sring-class             Class "Sring"
+Srings-class            Class "Srings"
 as.SpatialRings.SringsList
                         Making SpatialRings objects
 bbox,Spatial-method     retrieve bbox from spatial data
@@ -7,29 +39,26 @@ bubble                  Create a bubble plot of spatial data
 coordinates             sets spatial coordinates to create spatial
                         data, or retrieves spatial coordinates
 coordinates-methods     retrieves spatial coordinates
-CRS-class               Class "CRS" of coordinate reference system
-                        arguments
 dimensions,Spatial-method
                         retrieve spatial dimensions from spatial data
 gridded-methods         specify spatial data as being gridded, or find
                         out whether they are
-GridTopology-class      Class "GridTopology" ~~~
 image.SpatialGridDataFrame
                         image gridded spatial data, or convert to
                         format for image
 is.projected            Sets or retrieves projection attributes on
                         classes extending SpatialData
 lns                     Norwegian river center line data
-mapasp                  Calculate aspect ratio for plotting geographic
-                        maps
 map.to.lev              rearrange data in SpatialPointsDataFrame or
                         SpatialGridDataFrame for plotting with spplot
                         (levelplot/xyplot wrapper)
+mapasp                  Calculate aspect ratio for plotting geographic
+                        maps
 meuse                   Meuse river data set
 meuse.grid              Prediction Grid for Meuse Data Set
 meuse.riv               River Meuse outline
-ncmap                   North Carolina county boundaries (maps)
 nc.shp                  North Carolina county boundaries (shapefile)
+ncmap                   North Carolina county boundaries (maps)
 overlay                 spatial overlay for points, grids and rings
 overlay-methods         Methods for spatially overlay-ing points
                         (grids) and rings layers
@@ -42,42 +71,17 @@ rings                   sets spatial coordinates to create spatial
                         data, or retrieves spatial coordinates
 rings-methods           Retrieve rings from SpatialRingsDataFrame
                         object
-Rlogo                   Rlogo jpeg image
 select.spatial          select points spatially
 shp2SLDF                Converter functions to build
                         SpatialLinesDataFrame objects
-Sline                   create objects of class Sline or Slines
-Sline-class             Class "Sline"
-Slines-class            Class "Sline"
 sp                      A package providing classes and methods for
                         spatial data: points, lines, polygons and
                         grids
-Spatial-class           Class "Spatial" ~~~
-SpatialGrid             define spatial grid
-SpatialGrid-class       Class "SpatialGrid" ~~~
-SpatialGridDataFrame    define spatial grid with attribute data
-SpatialGridDataFrame-class
-                        Class "SpatialGridDataFrame" ~~~
-SpatialLines            create objects of class SpatialLines or
-                        SpatialLinesDataFrame
-SpatialLines-class      a class for spatial lines
-SpatialLinesDataFrame-class
-                        a class for spatial lines with attributes
-SpatialPoints-class     Class "SpatialPoints" ~~~
-SpatialPointsDataFrame-class
-                        Class "SpatialPointsDataFrame" ~~~
-SpatialRings            create objects of class SpatialRings or
-                        SpatialRingsDataFrame
-SpatialRings-class      Class "SpatialRings"
-SpatialRingsDataFrame-class
-                        Class "SpatialRingsDataFrame"
 spplot                  Lattice (trellis) plots for spatial data
 spplot-methods          Methods for Function spplot in Package 'sp'
 spsample                sample point locations within a spatial region
 spsample-methods        sampling point locations in (or on) a spatial
                         object
-Sring-class             Class "Sring"
-Srings-class            Class "Srings"
 transform-methods       place holder for transform methods in library
                         spproj
 zerodist                find point pairs with equal spatial

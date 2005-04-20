@@ -1,6 +1,6 @@
 
-R : Copyright 2004, The R Foundation for Statistical Computing
-Version 2.0.1  (2004-11-15), ISBN 3-900051-07-0
+R : Copyright 2005, The R Foundation for Statistical Computing
+Version 2.1.0 beta (2005-04-10), ISBN 3-900051-07-0
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
 You are welcome to redistribute it under certain conditions.
@@ -62,47 +62,41 @@ x            178460       40        78
 y            329620       40       104
 > class(as(x, "matrix"))
 [1] "matrix"
-Warning message: 
-as.matrix.SpatialGridDataFrame uses first column;
+Warning message:
+as.matrix.SpatialPixelsDataFrame uses first column;
  pass subset or [] for other columns in: as.matrix.SpatialGridDataFrame(from) 
 > 
 > fullgrid(x) = FALSE
 > fullgrid(x)
 [1] FALSE
 > summary(x)
-Object of class SpatialGridDataFrame
+Object of class SpatialPixelsDataFrame
 Coordinates:
      min    max
 x 178460 181540
 y 329620 333740
 Is projected: NA 
 proj4string : [NA]
-Number of points: 8112
-Grid attributes:
-  cellcentre.offset cellsize cells.dim
-x            178460       40        78
-y            329620       40       104
+Number of points: 3103
 Data attributes:
-     part.a              part.b               dist                soil         
- Min.   :   0.0000   Min.   :   0.0000   Min.   :   0.0000   Min.   :   1.000  
- 1st Qu.:   0.0000   1st Qu.:   0.0000   1st Qu.:   0.1193   1st Qu.:   1.000  
- Median :   0.0000   Median :   1.0000   Median :   0.2715   Median :   1.000  
- Mean   :   0.3986   Mean   :   0.6014   Mean   :   0.2971   Mean   :   1.578  
- 3rd Qu.:   1.0000   3rd Qu.:   1.0000   3rd Qu.:   0.4402   3rd Qu.:   2.000  
- Max.   :   1.0000   Max.   :   1.0000   Max.   :   0.9926   Max.   :   3.000  
- NA's   :5009.0000   NA's   :5009.0000   NA's   :5009.0000   NA's   :5009.000  
-     ffreq         
- Min.   :   1.000  
- 1st Qu.:   1.000  
- Median :   2.000  
- Mean   :   2.068  
- 3rd Qu.:   3.000  
- Max.   :   3.000  
- NA's   :5009.000  
+     part.a           part.b            dist             soil      
+ Min.   :0.0000   Min.   :0.0000   Min.   :0.0000   Min.   :1.000  
+ 1st Qu.:0.0000   1st Qu.:0.0000   1st Qu.:0.1193   1st Qu.:1.000  
+ Median :0.0000   Median :1.0000   Median :0.2715   Median :1.000  
+ Mean   :0.3986   Mean   :0.6014   Mean   :0.2971   Mean   :1.578  
+ 3rd Qu.:1.0000   3rd Qu.:1.0000   3rd Qu.:0.4402   3rd Qu.:2.000  
+ Max.   :1.0000   Max.   :1.0000   Max.   :0.9926   Max.   :3.000  
+     ffreq      
+ Min.   :1.000  
+ 1st Qu.:1.000  
+ Median :2.000  
+ Mean   :2.068  
+ 3rd Qu.:3.000  
+ Max.   :3.000  
 > class(as(x, "matrix"))
 [1] "matrix"
-Warning message: 
-as.matrix.SpatialGridDataFrame uses first column;
+Warning message:
+as.matrix.SpatialPixelsDataFrame uses first column;
  pass subset or [] for other columns in: as.matrix.SpatialGridDataFrame(from) 
 > gridparameters(x)
   cellcentre.offset cellsize cells.dim
@@ -139,13 +133,19 @@ cells.dim          3 3.0
 > fullgrid(g)
 [1] TRUE
 > fullgrid(g) = TRUE
+> class(g)
+[1] "SpatialGrid"
+attr(,"package")
+[1] "sp"
 > # the next one has to fail:
-> try(fullgrid(g) <- FALSE)
-Error in "fullgrid<-"(`*tmp*`, value = FALSE) : 
-	fullgrid(obj) <- FALSE only works for SpatialGridDataFrame
+> fullgrid(g) <- FALSE
+> class(g)
+[1] "SpatialPixels"
+attr(,"package")
+[1] "sp"
 > 
 > print(summary(df))
-Object of class SpatialGridDataFrame
+Object of class SpatialPixelsDataFrame
 Coordinates:
    min max
 xc   1   3
@@ -153,10 +153,6 @@ yc   0   3
 Is projected: NA 
 proj4string : [NA]
 Number of points: 9
-Grid attributes:
-   cellcentre.offset cellsize cells.dim
-xc                 1      1.0         3
-yc                 0      1.5         3
 Data attributes:
        z       
  Min.   :1.00  
@@ -215,32 +211,30 @@ $yc
 > 
 > fullgrid(df) = TRUE
 > as.data.frame(df)
-   z xc  yc
-1  3  1 3.0
-2  6  2 3.0
-3  9  3 3.0
-4  2  1 1.5
-5  5  2 1.5
-6  8  3 1.5
-7  1  1 0.0
-8  4  2 0.0
-9 NA  3 0.0
+  z xc  yc
+1 3  1 3.0
+2 6  2 3.0
+3 9  3 3.0
+4 2  1 1.5
+5 5  2 1.5
+6 8  3 1.5
+7 1  1 0.0
+8 4  2 0.0
 > 
-> fullgrid(df) = FALSE  # will not drop the NA value:
+> fullgrid(df) = FALSE  
 > as.data.frame(df)
-   z xc  yc
-1  3  1 3.0
-2  6  2 3.0
-3  9  3 3.0
-4  2  1 1.5
-5  5  2 1.5
-6  8  3 1.5
-7  1  1 0.0
-8  4  2 0.0
-9 NA  3 0.0
+  z xc  yc
+1 3  1 3.0
+2 6  2 3.0
+3 9  3 3.0
+4 2  1 1.5
+5 5  2 1.5
+6 8  3 1.5
+7 1  1 0.0
+8 4  2 0.0
 > 
 > fullgrid(df) = TRUE
-> fullgrid(df) = c(FALSE, TRUE)  # will drop the NA value:
+> fullgrid(df) = FALSE
 > as.data.frame(df)
   z xc  yc
 1 3  1 3.0

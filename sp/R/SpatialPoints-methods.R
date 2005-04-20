@@ -14,10 +14,17 @@ check.numeric = function(obj) {
 	obj
 }
 
-setMethod("coordinates", "list", function(obj) as.matrix(check.numeric(as.data.frame(obj))))
+setMethod("coordinates", "list", function(obj) 
+	as.matrix(check.numeric(as.data.frame(obj))))
 setMethod("coordinates", "data.frame", function(obj) as.matrix(check.numeric(obj)))
-setMethod("coordinates", "matrix", function(obj) if (is.numeric(obj)) { obj } else { 
-	stop("cannot derive coordinates from non-numeric matrix")})
+setMethod("coordinates", "matrix", 
+	function(obj) {
+		if (is.numeric(obj)) 
+			obj
+		else
+			stop("cannot derive coordinates from non-numeric matrix")
+	}
+)
 
 "print.SpatialPoints" <- function(x, ...)
 {

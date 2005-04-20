@@ -89,9 +89,11 @@ available data classes are:
 data type & class                        & attributes? & contains \\ \hline
 points    & {\tt SpatialPoints}          & No          &{\tt Spatial}* \\
 points    & {\tt SpatialPointsDataFrame} & Yes         &{\tt SpatialPoints}* \\
-grid      & {\tt SpatialGrid  }          & No          &{\tt SpatialPoints}* \\
-grid      & {\tt SpatialGridDataFrame}   & Yes         &{\tt SpatialGrid}* \\
+pixels    & {\tt SpatialPixels}          & No          &{\tt SpatialPoints}* \\
+pixels    & {\tt SpatialPixelsDataFrame} & Yes         &{\tt SpatialPixels}* \\
           &                              &             &{\tt SpatialPointsDataFrame}** \\
+full grid & {\tt SpatialGrid  }          & No          &{\tt SpatialPixels}* \\
+full grid & {\tt SpatialGridDataFrame}   & Yes         &{\tt SpatialGrid}* \\
 line      & {\tt SLine}                  & No          &{\tt Spatial}* \\
 lines     & {\tt SLines}                 & No          &{\tt Spatial}*, {\tt Sline} list \\
 lines     & {\tt SpatialLines}           & No          &{\tt Spatial}*, {\tt SLines} list \\
@@ -150,7 +152,7 @@ spproj)
 \item {\tt rings(x)} retrieve the spatial rings (polygons) of an
 object deriving from {\tt SpatialRings}
 % \item {\tt method to retrieve lines? --> Lines()?
-\item {\tt gridded(x)} tells whether {\tt x} derives from SpatialGrid
+\item {\tt gridded(x)} tells whether {\tt x} derives from SpatialPixels
 \item {\tt spplot(x)} plot attributes, possibly in combination with
 other types of data (points, lines, grids, polygons), and possibly in
 as a conditioning plot for multiple attributes
@@ -292,12 +294,19 @@ size ({\tt bubble}, top) or colour ({\tt spplot}, bottom) }
 \end{figure}
 
 \section{Grids}
+Package {\tt sp} has two classes for grid topology: {\tt SpatialPixels}
+and {\tt SpatialGrid}. The pixels form stores coordinates and is for
+partial grids, or unordered points; the {\tt SpatialGrid} form does not
+store coordinates but holds full grids (i.e., {\tt SpatialGridDataFrame}
+holds attribute values for each grid cell). Objects can be coerced from
+one representation to the other.
+
 \subsection{Creating grids from topology}
 When we know the offset, the cell sizes and the dimensions of a grid, we
 can specify this by using the function {\tt GridTopology}:
 <<>>=
 gt = GridTopology(cellcentre.offset = c(1,1,2), cellsize=c(1,1,1), cells.dim = c(3,4,6))
-grd = SpatialGrid(grid = gt)
+grd = SpatialGrid(gt)
 summary(grd)
 @
 
@@ -311,14 +320,16 @@ In the following example a three-dimensional grid is constructed from
 a set of point coordinates:
 <<>>=
 pts = expand.grid(x = 1:3, y = 1:4, z=2:7)
-grd.pts = SpatialGrid(points = SpatialPoints(pts))
+grd.pts = SpatialPixels(SpatialPoints(pts))
 summary(grd.pts)
+grd = as(grd.pts, "SpatialGrid")
+summary(grd)
 @
-Note that when passed a points argument, SpatialGrid also accepts a
-tolerance (default 10 * .Machine\$double.eps) to specify how close the
-points have to be to being exactly on a grid. For very large coordinates,
-this value may have to be increased. A warning is issued if full rows
-and/or columns are missing.
+Note that when passed a points argument, SpatialPixels accepts a tolerance
+(default 10 * .Machine\$double.eps) to specify how close the points have
+to be to being exactly on a grid. For very large coordinates, this value
+may have to be increased. A warning is issued if full rows and/or columns
+are missing.
 
 \subsection{Gridded data with attributes}
 
@@ -326,7 +337,7 @@ Spatial, gridded data are data with coordinates on a regular lattice.
 To form such a grid we can go from coordinates:
 <<>>=
 attr = expand.grid(xc = 1:3, yc = 1:3)
-grd.attr = data.frame(attr, z = 1:9)
+grd.attr = data.frame(attr, z1 = 1:9, z2 = 9:1)
 coordinates(grd.attr) = ~xc + yc
 gridded(grd.attr)
 gridded(grd.attr) = TRUE
@@ -335,19 +346,11 @@ summary(grd.attr)
 @
 
 \subsection{Are grids stored as points or as matrix/array?}
-Objects of class {\tt SpatialGridDataFrame} are stored in of the
-two forms:
-\begin{enumerate}
-\item {\em cell form}: grid cells stored as points, like a {\tt
-SpatialPointsDataFrame}, but extended with grid parameters
-\item {\em full grid form}: as a matrix (or array) containing the
-attribute values, without coordinates: coordinates can be derived from
-row/column in the matrix/array and grid parameters.
-\end{enumerate}
-The form in which a {\tt SpatialGridDataFrame} comes depends on whether
-the grid was created from a set of points or from a matrix or external
-grid format (e.g. read through rgdal). Retrieving the form, or conversion
-to another form is provided by the function {\tt fullgrid}:
+
+The form in which gridded data comes depends on whether the grid was
+created from a set of points or from a matrix or external grid format
+(e.g. read through rgdal). Retrieving the form, or conversion to another
+can be done by {\tt as(x, "Class")}, or by using the function {\tt fullgrid}:
 <<>>=
 fullgrid(grd)
 fullgrid(grd.pts)
@@ -361,14 +364,13 @@ fullgrid(grd.attr)
 The advantage of having grids in cell form is that when a large part
 of the grid contains missing values, these cells do not have to be
 stored; also, no ordering of grid cells is required. For plotting by
-a grid with {\tt levelplot}, this form is required
-and {\tt spplot} (for grids a front-end to {\tt levelplot}) will
-convert grids that are not in this form.  In contrast, {\tt image}
-requires a slightly altered version of the the full grid form.
-A disadvantage of the cell form is that the coordinates for each point
-have to be stored, which may be prohibitive for large grids.  Grids in
-cell form do have an index to allow for fast transformation to the full
-grid form.
+a grid with {\tt levelplot}, this form is required and {\tt spplot}
+(for grids a front-end to {\tt levelplot}) will convert grids that are
+not in this form.  In contrast, {\tt image} requires a slightly altered
+version of the the full grid form.  A disadvantage of the cell form is
+that the coordinates for each point have to be stored, which may be
+prohibitive for large grids.  Grids in cell form do have an index to
+allow for fast transformation to the full grid form.
 
 Besides {\tt print}, {\tt summary}, {\tt plot},
 objects of class {\tt SpatialGridDataFrame} have methods for
@@ -385,6 +387,17 @@ x-coordinate; column index 1 is the larges y-coordinate (top-to-bottom).
 \end{itemize}
 Finally, {\tt spplot}, a front-end to {\tt levelplot} allows the
 plotting of a single grid plot or a lattice of grid plots.
+
+\subsection{Row and column selection of a region}
+Rows/columns selection can be done when gridded data is in the full grid
+form (as {\tt SpatialGridDataFrame}). In this form also rows and/or columns
+can be de-selected (in which case a warning is issued):
+<<>>=
+fullgrid(grd.attr) = FALSE
+grd.attr[1:5, "z1"]
+fullgrid(grd.attr) = TRUE
+grd.attr[1:2,-2, c("z2","z1")]
+@
 
 \section{Lines}
 

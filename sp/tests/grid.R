@@ -35,8 +35,10 @@ getGridIndex(coordinates(df), grd)
 g = SpatialGrid(grid = grd)
 fullgrid(g)
 fullgrid(g) = TRUE
+class(g)
 # the next one has to fail:
-try(fullgrid(g) <- FALSE)
+fullgrid(g) <- FALSE
+class(g)
 
 print(summary(df))
 image(df["z"])
@@ -49,9 +51,9 @@ as.data.frame(df)
 fullgrid(df) = TRUE
 as.data.frame(df)
 
-fullgrid(df) = FALSE  # will not drop the NA value:
+fullgrid(df) = FALSE  
 as.data.frame(df)
 
 fullgrid(df) = TRUE
-fullgrid(df) = c(FALSE, TRUE)  # will drop the NA value:
+fullgrid(df) = FALSE
 as.data.frame(df)

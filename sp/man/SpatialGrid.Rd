@@ -1,4 +1,6 @@
-\name{SpatialGrid}
+\name{SpatialPixels}
+\alias{SpatialPixels}
+\alias{SpatialGrid}
 \alias{GridTopology}
 \alias{SpatialGrid}
 \alias{plot.SpatialGrid}
@@ -13,8 +15,8 @@ defines spatial grid by offset, cell size and dimensions
 }
 \usage{
 GridTopology(cellcentre.offset, cellsize, cells.dim)
-SpatialGrid(points = NULL, grid = NULL, tolerance = 10 * .Machine$double.eps,
-	proj4string = CRS(as.character(NA)))
+SpatialPixels(points, tolerance = 10 * .Machine$double.eps)
+SpatialGrid(grid, proj4string = CRS(as.character(NA)))
 coordinatevalues(obj)
 points2grid(points, tolerance)
 getGridIndex(cc, grid, all.inside = TRUE)
@@ -26,8 +28,7 @@ areaSpatialGrid(obj)
     each dimension}
     \item{cellsize}{numeric; vector with the cell size in each dimension}
     \item{cells.dim}{integer; vector with number of cells in each dimension}
-	\item{points}{ coordinates, either as matrix or as object of class
-	\link{SpatialPoints-class} }
+	\item{points}{ coordinates, object of class \link{SpatialPoints-class} }
 	\item{grid}{ grid topology; object of class \link{GridTopology-class}}
 	\item{tolerance}{ precision, used to which extent points are exactly on
 	a grid}

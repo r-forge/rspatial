@@ -46,6 +46,8 @@ stack.SpatialPointsDataFrame = function (x, select, ...)
 			levels = names(xd)))
 }
 
-stack.SpatialGridDataFrame = function (x, select, ...) {
+stack.SpatialGridDataFrame = function (x, select, ...)
 	stack(as(x, "SpatialPointsDataFrame"), select, ...)
-}
+
+stack.SpatialPixelsDataFrame = function (x, select, ...)
+	stack(as(x, "SpatialPointsDataFrame"), select, ...)

@@ -47,13 +47,11 @@ read.asciigrid <- function(fname, as.image = FALSE, plot.image = FALSE) {
 			return(invisible(img))
 		} else
 			return(img)
-	} else {
-		df = data.frame(map)
-		names(df) = fname
-		grid = SpatialGrid(grid = GridTopology(c(xllcenter,yllcenter), 
-			rep(cellsize,2), c(ncols,nrows)))
-		return(SpatialGridDataFrame(grid, data = df))
-	}
+	} 
+	df = data.frame(map)
+	names(df) = fname
+	grid = GridTopology(c(xllcenter,yllcenter), rep(cellsize,2), c(ncols,nrows))
+	SpatialGridDataFrame(grid, data = df)
 }
 
 write.asciigrid <- function(x, fname, attr = 1, na.value = -9999, ...) { 
