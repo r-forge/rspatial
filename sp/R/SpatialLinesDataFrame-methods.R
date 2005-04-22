@@ -49,3 +49,5 @@ setMethod("[", "SpatialLinesDataFrame", function(x, i, j, ... , drop = FALSE) {
     x@data[[i]] <- value
     x
 }
+"$.SpatialLinesDataFrame" = function(x,name) { x@data[[name]] }
+"$<-.SpatialLinesDataFrame" = function(x,i,value) { x@data[[i]]=value; x }

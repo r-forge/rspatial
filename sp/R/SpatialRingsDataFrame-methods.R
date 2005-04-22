@@ -57,5 +57,7 @@ setMethod("[", "SpatialRingsDataFrame", function(x, i, j, ... , drop = FALSE) {
     x@data[[i]] <- value
     x
 }
+"$.SpatialRingsDataFrame" = function(x,name) { x@data[[name]] }
+"$<-.SpatialRingsDataFrame" = function(x,i,value) { x@data[[i]]=value; x }
 
 summary.SpatialRingsDataFrame = summary.Spatial

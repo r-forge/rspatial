@@ -4,6 +4,8 @@
 \alias{[,SpatialGridDataFrame-method}
 \alias{[[,SpatialGridDataFrame-method}
 \alias{[[<-,SpatialGridDataFrame-method}
+\alias{"$.SpatialGridDataFrame"}
+\alias{"$<-.SpatialGridDataFrame"}
 % \alias{SpatialGridDataFrame}
 \alias{plot.SpatialGridDataFrame}
 \alias{print.summary.SpatialGridDataFrame}

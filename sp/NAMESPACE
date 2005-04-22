@@ -100,6 +100,18 @@ S3method("[[<-", SpatialRingsDataFrame)
 S3method("[[", SpatialLinesDataFrame)
 S3method("[[<-", SpatialLinesDataFrame)
 
+S3method("$", SpatialPointsDataFrame)
+S3method("$", SpatialPixelsDataFrame)
+S3method("$", SpatialGridDataFrame)
+S3method("$", SpatialLinesDataFrame)
+S3method("$", SpatialRingsDataFrame)
+
+S3method("$<-", SpatialPointsDataFrame)
+S3method("$<-", SpatialPixelsDataFrame)
+S3method("$<-", SpatialGridDataFrame)
+S3method("$<-", SpatialLinesDataFrame)
+S3method("$<-", SpatialRingsDataFrame)
+
 S3method(as.matrix, SpatialGridDataFrame)
 S3method(as.matrix, SpatialPixelsDataFrame)
 

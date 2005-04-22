@@ -9,7 +9,7 @@ lines, polygons and grids }
 \description{
 This package provides S4 classes for importing, manipulating and exporting
 spatial data in R, and for methods including print/show, plot, subset,
-\code{[}, \code{[[}, names, dim, and summary.
+\code{[}, \code{[[}, \code{\$} names, dim, and summary.
 
 }%description
 

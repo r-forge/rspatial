@@ -8,6 +8,10 @@
 % \alias{coordinates,SpatialPointsDataFrame-method}
 % \alias{coordinates}
 \alias{SpatialPointsDataFrame}
+\alias{"[[.SpatialPointsDataFrame"}
+\alias{"[[<-.SpatialPointsDataFrame"}
+\alias{"$.SpatialPointsDataFrame"}
+\alias{"$<-.SpatialPointsDataFrame"}
 \alias{as.data.frame.SpatialPointsDataFrame}
 \alias{dim.SpatialPointsDataFrame}
 \alias{plot.SpatialPointsDataFrame}
@@ -79,6 +83,7 @@ coordinates(meuse) = xy   # as data frame
 class(meuse)
 data(meuse) # reload data.frame
 coordinates(meuse) = as.matrix(xy)   # as matrix
+meuse$log.zn = log(meuse$zinc)
 class(meuse)
 dim(meuse)
 }

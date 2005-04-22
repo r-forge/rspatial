@@ -185,4 +185,8 @@ setMethod("[", "SpatialPointsDataFrame", function(x, i, j, ... , drop = FALSE) {
 	x
 }
 
+"$.SpatialPointsDataFrame" = function(x, name) x@data[[name]]
+
+"$<-.SpatialPointsDataFrame" = function(x, i, value) { x@data[[i]] = value; x }
+
 summary.SpatialPointsDataFrame = summary.Spatial

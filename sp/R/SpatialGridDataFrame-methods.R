@@ -207,6 +207,11 @@ function(x, i, j, value) {
 	x
 }
 
+"$.SpatialGridDataFrame" = function(x,name) { x@data[[name]] }
+"$.SpatialPixelsDataFrame" = function(x,name) { x@data[[name]] }
+"$<-.SpatialGridDataFrame" = function(x,i,value) { x@data[[i]]=value; x }
+"$<-.SpatialPixelsDataFrame" = function(x,i,value) { x@data[[i]]=value; x }
+
 names.SpatialPixelsDataFrame = function(x) names(as(x, "SpatialPointsDataFrame"))
 names.SpatialGridDataFrame = function(x) names(as(x, "SpatialPointsDataFrame"))
 
