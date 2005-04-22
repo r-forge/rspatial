@@ -9,7 +9,8 @@ lines, polygons and grids }
 \description{
 This package provides S4 classes for importing, manipulating and exporting
 spatial data in R, and for methods including print/show, plot, subset,
-\code{[}, \code{[[}, \code{\$} names, dim, and summary.
+\code{[}, \code{[[}, \code{\$}, names, dim, summary, and a number of
+methods specific to spatial data handling.
 
 }%description
 
@@ -29,7 +30,7 @@ provided either in this package or the spatial packages. Wherever possible
 conversion (coercion) functions are automatic, or provided by sp.
 
 External packages that depend on sp will provide importing and exporting
-from and to external GIS formats, e.g. through GDAL or OGR or shapelib.
+from and to external GIS formats, e.g. through GDAL, OGR or shapelib.
 
 In addition, this package tries to provide convenient methods to print,
 summarize and plot such spatial data.
