@@ -105,7 +105,9 @@ spplot.grid = function(obj, zcol = names(obj), ..., names.attr,
 		sp.layout = sp.layout, ...)
 }
 
-setMethod("spplot", signature("SpatialGridDataFrame"), spplot.grid)
+setMethod("spplot", signature("SpatialPixelsDataFrame"), spplot.grid)
+setMethod("spplot", signature("SpatialGridDataFrame"), 
+	function(obj, ...) spplot.grid(as(obj, "SpatialPixelsDataFrame"), ...))
 
 spplot.rings = function(obj, zcol = names(obj), ..., names.attr, 
 		scales = list(draw = FALSE), xlab = "", ylab = "", aspect = mapasp(obj), 
