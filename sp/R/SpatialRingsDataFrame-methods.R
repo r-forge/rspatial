@@ -22,7 +22,7 @@ setAs("SpatialRingsDataFrame", "data.frame", function(from)
 setMethod("[", "SpatialRingsDataFrame", function(x, i, j, ... , drop = FALSE) {
     missing.i = missing(i)
     missing.j = missing(j)
-    if (drop == TRUE)
+    if (drop)
         stop("coerce to data.frame first for drop = TRUE")
     nargs = nargs() # e.g., a[3,] gives 2 for nargs, a[3] gives 1.
     if (missing.i && missing.j) {
@@ -39,7 +39,7 @@ setMethod("[", "SpatialRingsDataFrame", function(x, i, j, ... , drop = FALSE) {
         i = TRUE
     if (is.matrix(i))
         stop("matrix argument not supported in SpatialRingsDataFrame selection")
-    SpatialRingsDataFrame(as(x, "SpatialRings")[i, , drop=FALSE],
+    SpatialRingsDataFrame(as(x, "SpatialRings")[i, , drop = FALSE],
         data = x@data[i, j, drop = FALSE])
 ###
 ### RSB: do something with labelpoints here? How can I check they are present?

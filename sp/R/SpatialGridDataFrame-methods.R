@@ -31,10 +31,7 @@ as.SPDF.SGDF = function(from) {
 setAs("SpatialPixelsDataFrame", "SpatialGridDataFrame", as.SPDF.SGDF)
 
 as.SGDF.SPDF = function(from) { 
-	#if (length(value) == 2 && value[2] == TRUE)
-		sel = apply(from@data, 1, function(x) !all(is.na(x)))
-	#else
-	#	sel = TRUE
+	sel = apply(from@data, 1, function(x) !all(is.na(x)))
 	if (!any(sel)) {
 		warning("complete map seems to be NA's -- no selection was made")
 		sel = rep(TRUE, length(sel))

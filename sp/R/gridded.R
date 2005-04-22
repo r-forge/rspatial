@@ -1,16 +1,16 @@
 "gridded<-" = function(obj, value) {
 	if (is.logical(value)) {
 		if (is(obj, "SpatialPixelsDataFrame")) {
-			if (value == FALSE)
+			if (!value)
 				obj = as(obj, "SpatialPointsDataFrame")
 		} else if (is(obj, "SpatialPixels")) {
-			if (value == FALSE)
+			if (!value)
 				obj = as(obj, "SpatialPoints")
 		} else if (is(obj, "SpatialPointsDataFrame")) {
-			if (value == TRUE)
+			if (value)
 				obj = SpatialPixelsDataFrame(obj, obj@data)
 		} else if (is(obj, "SpatialPoints")) {
-			if (value == TRUE)
+			if (value)
 				#obj = as(obj, "SpatialGrid")
 				obj = SpatialPixels(obj)
 		} else
