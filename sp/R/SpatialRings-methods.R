@@ -258,7 +258,7 @@ Srings <- function(srl, ID) {
 #		after <- as.integer(NA)
 #	}
 # check their ring directions and change if improbable
-	rD <- sapply(srl, function(x) x@ringDir)
+#	rD <- sapply(srl, function(x) x@ringDir)
 	holes <- sapply(srl, function(x) x@hole)
 	areas <- sapply(srl, getSringAreaSlot)
 	marea <- which.max(areas)
