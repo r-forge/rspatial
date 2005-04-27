@@ -1,4 +1,5 @@
-read.asciigrid <- function(fname, as.image = FALSE, plot.image = FALSE) {
+read.asciigrid <- function(fname, as.image = FALSE, plot.image = FALSE,
+	colname=fname, proj4string = CRS(as.character(NA))) {
 	t = file(fname, "r")
 	l5 = readLines(t, n = 6)
 	# instead of:
@@ -49,9 +50,9 @@ read.asciigrid <- function(fname, as.image = FALSE, plot.image = FALSE) {
 			return(img)
 	} 
 	df = data.frame(map)
-	names(df) = fname
+	names(df) = colname
 	grid = GridTopology(c(xllcenter,yllcenter), rep(cellsize,2), c(ncols,nrows))
-	SpatialGridDataFrame(grid, data = df)
+	SpatialGridDataFrame(grid, data = df, proj4string=proj4string)
 }
 
 write.asciigrid <- function(x, fname, attr = 1, na.value = -9999, ...) { 
