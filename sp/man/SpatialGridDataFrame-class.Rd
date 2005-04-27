@@ -6,6 +6,7 @@
 \alias{[[<-,SpatialGridDataFrame-method}
 \alias{"$.SpatialGridDataFrame"}
 \alias{"$<-.SpatialGridDataFrame"}
+\alias{cbind.SpatialGridDataFrame}
 % \alias{SpatialGridDataFrame}
 \alias{plot.SpatialGridDataFrame}
 \alias{print.summary.SpatialGridDataFrame}
@@ -51,6 +52,8 @@ Class \code{"Spatial"}, by class \code{"SpatialGrid"}.
 	else (topology) }
     \item{[[<-}{\code{signature(x = "SpatialGridDataFrame")}: assigns or replaces an attribute }
 	\item{as.matrix}{\code{signature(x = "SpatialGridDataFrame")}: coerce to matrix }
+	\item{cbind}{\code{signature(...)}: if arguments have identical topology, combine their
+	attribute values}
   }
 }
 

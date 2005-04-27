@@ -122,6 +122,8 @@ S3method(as.data.frame, SpatialGridDataFrame)
 S3method(as.data.frame, SpatialLinesDataFrame)
 S3method(as.data.frame, SpatialRingsDataFrame)
 
+S3method(cbind, SpatialGridDataFrame)
+
 S3method(dim, SpatialPointsDataFrame)
 
 S3method(image, SpatialPixelsDataFrame)

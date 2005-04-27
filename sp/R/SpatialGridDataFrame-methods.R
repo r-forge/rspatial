@@ -212,6 +212,26 @@ function(x, i, j, value) {
 "$<-.SpatialGridDataFrame" = function(x,i,value) { x@data[[i]]=value; x }
 "$<-.SpatialPixelsDataFrame" = function(x,i,value) { x@data[[i]]=value; x }
 
+cbind.SpatialGridDataFrame = function(...) { 
+	stop.ifnot.equal = function(a, b) {
+		res = all.equal(getGridTopology(a), getGridTopology(b))
+		if (!is.logical(res) || !res)
+			stop("topology is not equal")
+	}
+	grds = list(...)
+	ngrds = length(grds)
+	if (ngrds < 1)
+		stop("no arguments supplied")
+	if (ngrds == 1)
+		return(grds[[1]])
+	# verify matching topology:
+	sapply(grds[2:ngrds], function(x) stop.ifnot.equal(x, grds[[1]]))
+	gr = grds[[1]]
+	for (i in 2:ngrds)
+		gr@data = cbind(gr@data, grds[[i]]@data)
+	gr
+}
+
 names.SpatialPixelsDataFrame = function(x) names(as(x, "SpatialPointsDataFrame"))
 names.SpatialGridDataFrame = function(x) names(as(x, "SpatialPointsDataFrame"))
 
