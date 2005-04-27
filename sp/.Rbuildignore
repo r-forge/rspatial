@@ -10,6 +10,7 @@ S/src/CVS/Entries
 S/src/insiders.c
 S/src/pip.c
 S/src/rdef
+S/
 scripts/CVS
 scripts/CVS/Root
 scripts/CVS/Repository
@@ -18,5 +19,6 @@ scripts/preproc.pl
 scripts/qtoR
 scripts/Sweave
 scripts/toSplus
+scripts/
 makefile
 CHANGES

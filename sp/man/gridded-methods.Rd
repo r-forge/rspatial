@@ -40,7 +40,7 @@ and ordered (i.e., in full matrix form), or whether it is not full
 or unordered (i.e. a list of points that happen to lie on a grid. If
 assigned, the way the points are stored may be changed. Changing a set
 of points to full matrix form and back may change the original order of
-the points.
+the points, and will remove duplicate points if they were present.
 
 \code{gridparameters} returns, if \code{obj} inherits from
 SpatialDataFrameGrid its grid parameters, else it returns numeric(0).  The
