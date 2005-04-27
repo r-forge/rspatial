@@ -28,7 +28,7 @@ No methods defined with class "Srings" in the signature.
 }
 \references{ }
 \author{ Roger Bivand }
-\note{ By default, single rings (where Srings is a list of length one) are not expected to be holes, but in multiple rings, hole definitions for member rings can be set }
+\note{ By default, single rings (where Srings is a list of length one) are not expected to be holes, but in multiple rings, hole definitions for member rings can be set. Sring objects belonging to an Srings object should either not overlap one-other, or should be fully included (as lakes or islands in lakes). They should not be self-intersecting. Checking of hole FALSE/TRUE status for Srings objects is included in the spgpc wrapper package for gpclib functions, function checkSringsHoles() (currently on sourceforge). }
 
 \seealso{
 }
