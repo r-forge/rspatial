@@ -123,6 +123,50 @@ readFLOAT6 <- function(vname) {
 	res
 }
 
+
+readCELL6sp <- function(vname, cat=FALSE) {
+	tmpfl <- tempfile()
+	system(paste("r.out.arc input=", vname, " output=", tmpfl, sep=""))
+	library(sp)
+	p4 <- CRS(system("g.proj -j -f", intern=TRUE))
+	res <- read.asciigrid(tmpfl, colname=vname, proj4string=p4)
+	if (cat) {
+		cats <- strsplit(system(paste("r.stats -l", vname), 
+			intern=TRUE), " ")
+		catnos <- sapply(cats, function(x) x[1])
+		catlabs <- sapply(cats, function(x) paste(x[-1], collapse=" "))
+		if (any(!is.na(match(catnos, "*")))) {
+			isNA <- which(catnos == "*")
+			catnos <- catnos[-isNA]
+			catlabs <- catlabs[-isNA]
+		}
+		res@data[,1] <- factor(res@data[,1], levels=catnos, labels=catlabs)
+	} else {
+		res@data[,1] <- as.integer(res@data[,1])
+	}
+	res
+}
+
+readFLOAT6sp <- function(vname) {
+	tmpfl <- tempfile()
+	system(paste("r.out.arc input=", vname, " output=", tmpfl, sep=""))
+	library(sp)
+	p4 <- CRS(system("g.proj -j -f", intern=TRUE))
+	res <- read.asciigrid(tmpfl, colname=vname, proj4string=p4)
+	res
+}
+
+
+writeRast6sp <- function(x, vname, zcol = 1, NODATA=-9999) {
+	if (!is.numeric(x@data[,zcol])) 
+		stop("only numeric columns may be exported")
+	tmpfl <- tempfile()
+	library(sp)
+	write.asciigrid(x, tmpfl, attr = zcol, na.value = NODATA)
+	system(paste("r.in.gdal -o input=", tmpfl, " output=", vname, sep=""))
+}
+
+
 writeRast6 <- function(df, vname, zcol = 3, xcol = 1, ycol = 2, NODATA=-9999,
     tol=1e-8) {
 	if (!is.numeric(df[,zcol])) stop("only numeric columns may be exported")
