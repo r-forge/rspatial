@@ -126,86 +126,6 @@ as.SpatialRings.pal <- function(arc, pal, IDs, dropPoly1=TRUE,
 	res
 }
 
-#as.SpatialRings.matrixList <- function(xyList, region.id=NULL, 
-#				projargs=as.character(NA), verbose=TRUE) {
-# assemble the list of Ring4s
-#	n <- length(xyList)
-#	if (is.null(region.id) || length(region.id) != n) {
-#		region.id <- as.character(1:n)
-#	} else {
-#		region.id <- as.character(region.id)
-#	}
-#	R4s <- vector(mode="list", length=n)
-#	for (i in 1:n) {
-#		R4s[[i]] <- as.Ring4.matrix(xyList[[i]], 
-#				region.id=region.id[i], projargs=projargs, 
-#				verbose=verbose)
-#	}
-# check their plot order
-#	pO <- 1:n
-#	after <- as.integer(rep(NA, n))
-#	rD <- sapply(R4s, function(x) x@ringDir[x@plotOrder[1]])
-#	.saneRD(rD)
-#	r1 <- .insidersR4(R4s, rD)
-#	if (!all(sapply(r1, is.null))) {
-#		lres <- .lbuild(.afters(r1), rD)
-#		pO <- lres$pO
-#		after <- lres$after
-#	}
-# check their ring directions and change if improbable
-#	rD <- sapply(R4s, function(x) x@ringDir[which(x@plotOrder == 1)])
-#	.saneRD(rD)
-#	if (any((rD == -1) & is.na(after))) {
-#		oddCC <- which((rD == -1) & is.na(after))
-#		for (i in oddCC) {
-#			tgt <- which(R4s[[i]]@plotOrder == 1)
-#			xyList <- .NAmat2xyList(R4s[[i]]@coords)
-#			xyList[[tgt]] <- xyList[[tgt]][nrow(xyList[[tgt]]):1,]
-#			reved <- .xyList2NAmat(xyList)
-#			R4s[[i]] <- as.Ring4.matrix(reved, 
-#					region.id=region.id[i], 
-#					projargs=projargs, verbose=verbose)
-#			if (verbose)
-#				warning(paste("ring direction changed in polygon", i))
-#		}
-#	}
-#
-#	res <- SpatialRings(R4s, pO, region.id, projargs=projargs)
-#	res
-#}
-
-
-#as.Ring4.matrix <- function(xy, region.id=NULL, projargs=as.character(NA), 
-#	verbose=TRUE) {
-#	xyList <- .NAmat2xyList(xy)
-#	nParts <- length(xyList)
-# check their plot order
-#	pO <- 1:nParts
-#	after <- as.integer(rep(NA, nParts))
-#	rD <- sapply(xyList, .ringDirxy)
-#	.saneRD(rD)
-#	if (nParts > 1) {
-#		r1 <- .insiders(xyList, rD)
-#		if (!all(sapply(r1, is.null))) {
-#			lres <- .lbuild(.afters(r1), rD)
-#			pO <- lres$pO
-#			after <- lres$after
-#		}
-#	} else {
-#		pO <- 1
-#		after <- as.integer(NA)
-#	}
-# check their ring directions and change if improbable
-#	xyList <- .checkRD1(pO, after, rD, xyList, verbose=verbose)
-#	rD <- sapply(xyList, .ringDirxy)
-#	.saneRD(rD)
-#	xy <- .xyList2NAmat(xyList)
-#	
-#	Sp <- new("Spatial", bbox=.bboxSlot(xy), proj4string=CRS(projargs))
-#	res <- new("Ring4", Sp, coords=xy, ringDir=as.integer(rD), 
-#		region.id=region.id, plotOrder=as.integer(pO))
-#	res
-#}
 
 SpatialRings <- function(Srl, pO=1:length(Srl)) {
 	bb <- .bboxSrs(Srl)
@@ -244,21 +164,6 @@ Srings <- function(srl, ID) {
 	after <- as.integer(rep(NA, nParts))
 	area <- sapply(srl, function(x) x@area)
 	pO <- order(area, decreasing=TRUE)
-#	rD <- sapply(srl, function(x) x@ringDir)
-#	.saneRD(rD)
-#	if (nParts > 1) {
-#		r1 <- .insiders(srl, rD)
-#		if (!all(sapply(r1, is.null))) {
-#			lres <- .lbuild(.afters(r1), rD)
-#			pO <- lres$pO
-#			after <- lres$after
-#		}
-#	} else {
-#		pO <- 1
-#		after <- as.integer(NA)
-#	}
-# check their ring directions and change if improbable
-#	rD <- sapply(srl, function(x) x@ringDir)
 	holes <- sapply(srl, function(x) x@hole)
 	areas <- sapply(srl, getSringAreaSlot)
 	marea <- which.max(areas)
@@ -270,7 +175,6 @@ Srings <- function(srl, ID) {
 	}
 	holes <- sapply(srl, function(x) x@hole)
 	Sarea <- abs(sum(area * holes) - sum(area * !holes))
-#	srl <- .checkRD2(pO, after, rD, srl)
 # assign label point to the largest member ring
 	lpt <- t(sapply(srl, getSringLabptSlot))
 	labpt <- lpt[which_list,]
@@ -292,37 +196,8 @@ as.SpatialRings.SringsList <- function(Srl) {
 
 	n <- length(Srl)
 
-# check their plot order
-#	pO <- 1:n
-#	after <- as.integer(rep(NA, n))
 	area <- sapply(Srl, function(x) x@area)
 	pO <- as.integer(order(area, decreasing=TRUE))
-
-#	rD <- sapply(Srl, function(x) {
-#		pO1 <- which(x@plotOrder == 1);
-#		x@Srings[[pO1]]@ringDir
-#		})
-#	.saneRD(rD)
-#	r1 <- .insidersR4a(Srl, rD)
-#	if (!all(sapply(r1, is.null))) {
-#		lres <- .lbuild(.afters(r1), rD)
-#		pO <- lres$pO
-#		after <- lres$after
-#	}
-# check their ring directions and change if improbable
-#	if (any((rD == -1) & is.na(after))) {
-#		oddCC <- which((rD == -1) & is.na(after))
-#		for (i in oddCC) {
-#			Srs <- Srl[[i]]
-#			tgt <- which(Srs@plotOrder == 1)
-#			crds <- getSringCoordsSlot(Srs@Srings[[tgt]])
-#			projargs <- proj4string(Srs)
-#			Srs[[tgt]] <- Sring(coords=crds[nrow(crds):1,], 
-#				proj4string=CRS(projargs))
-#			Srl[[i]] <- Srs
-#			warning(paste("ring direction changed in polygon", i))
-#		}
-#	}
 
 	res <- SpatialRings(Srl, pO)
 	res
