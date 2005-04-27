@@ -174,7 +174,7 @@ Srings <- function(srl, ID) {
 			proj4string=CRS(projargs))
 	}
 	holes <- sapply(srl, function(x) x@hole)
-	Sarea <- abs(sum(area * holes) - sum(area * !holes))
+	Sarea <- sum(abs(area))
 # assign label point to the largest member ring
 	lpt <- t(sapply(srl, getSringLabptSlot))
 	labpt <- lpt[which_list,]
