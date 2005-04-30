@@ -439,8 +439,8 @@ useful methods are welcome.
 
 \subsection{Building from scratch}
 The following example shows how a set of polygons are built from scratch.
-Note that {\tt Sr4} has the opposite direction (right) as the other three;
-it is meant to represent a hole in the {\tt Sr3} polygon.
+Note that {\tt Sr4} has the opposite direction (anti-clockwise) as the other three (clockwise);
+it is meant to represent a hole in the {\tt Sr3} polygon. The default value for the hole colour {\tt pbg} is {\tt "transparent}, which will not show, but which often does not matter, because another polygon fills the hole --- here it is set to {\tt "white"}.
 <<fig=TRUE>>=
 Sr1 = Sring(cbind(c(2,4,4,1,2),c(2,3,5,4,2)))
 Sr2 = Sring(cbind(c(5,4,2,5),c(2,3,2,2)))
@@ -451,7 +451,7 @@ Srs1 = Srings(list(Sr1), "s1")
 Srs2 = Srings(list(Sr2), "s2")
 Srs3 = Srings(list(Sr3, Sr4), "s3/4")
 SR = SpatialRings(list(Srs1,Srs2,Srs3), 1:3)
-plot.SpatialRings(SR, col = 1:3)
+plot.SpatialRings(SR, col = 1:3, pbg="white")
 # plot(SR)
 @
 
