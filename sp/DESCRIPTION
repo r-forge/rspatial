@@ -28,4 +28,4 @@ Collate: AAA.R Class-CRS.R Class-Spatial.R Spatial-methods.R
 	SpatialRings-internals.R point.in.polygon.R
 	SpatialRings-displayMethods.R zerodist.R image.R stack.R
 	bpy.colors.R bubble.R mapasp.R select.spatial.R gridded.R
-	asciigrid.R spplot.R overlay.R spsample.R
+	asciigrid.R spplot.R overlay.R spsample.R recenter.R
