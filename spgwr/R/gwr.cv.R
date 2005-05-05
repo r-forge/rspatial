@@ -2,7 +2,7 @@
 # 
 
 gwr.sel <- function(formula, data = list(), coords, adapt=FALSE, 
-	gweight=gwr.gauss, method="cv", verbose=TRUE) {
+	gweight=gwr.gauss, method="cv", verbose=TRUE, lonlat=FALSE) {
 	if (is(data, "Spatial")) {
 		if (missing(coords)) {
 			if (is(data, "SpatialRingsDataFrame")) 
@@ -15,26 +15,24 @@ gwr.sel <- function(formula, data = list(), coords, adapt=FALSE,
 		stop("Observation coordinates have to be given")
 	mt <- terms(formula, data = data)
 	mf <- lm(formula, data, method="model.frame")
-#	require(mva)
 #	dist2 <- (as.matrix(dist(coords)))^2
 	y <- model.extract(mf, "response")
 	x <- model.matrix(mt, mf)
 #	if (NROW(x) != NROW(dist2))
 #		stop("Input data and coordinates have different dimensions")
 	if (!adapt) {
-		xdiff <- diff(range(coords[,1]))
-		ydiff <- diff(range(coords[,2]))
-		difmin <- min(xdiff, ydiff)
+		bbox <- cbind(range(coords[,1]), range(coords[,2]))
+		difmin <- gw.dists(bbox, bbox[2,], lonlat)[1]
 		beta1 <- difmin/1000
 		beta2 <- difmin
 		if (method == "cv") {
 			opt <- optimize(gwr.cv.f, lower=beta1, upper=beta2, 
 				maximum=FALSE, y=y, x=x, coords=coords, 
-				gweight=gweight, verbose=verbose)
+				gweight=gweight, verbose=verbose, lonlat=lonlat)
 		} else {
 			opt <- optimize(gwr.aic.f, lower=beta1, upper=beta2, 
 				maximum=FALSE, y=y, x=x, coords=coords, 
-				gweight=gweight, verbose=verbose)
+				gweight=gweight, verbose=verbose, lonlat=lonlat)
 		}
 		bdwt <- opt$minimum
 		res <- bdwt
@@ -44,11 +42,13 @@ gwr.sel <- function(formula, data = list(), coords, adapt=FALSE,
 		if (method == "cv") {
 			opt <- optimize(gwr.cv.adapt.f, lower=beta1, 
 				upper=beta2, maximum=FALSE, y=y, x=x, 
-				coords=coords, gweight=gweight, verbose=verbose)
+				coords=coords, gweight=gweight, 
+				verbose=verbose, lonlat=lonlat)
 		} else {
 			opt <- optimize(gwr.aic.adapt.f, lower=beta1, 
 				upper=beta2, maximum=FALSE, y=y, x=x, 
-				coords=coords, gweight=gweight, verbose=verbose)
+				coords=coords, gweight=gweight, 
+				verbose=verbose, lonlat=lonlat)
 		}
 		q <- opt$minimum
 		res <- q
@@ -56,7 +56,7 @@ gwr.sel <- function(formula, data = list(), coords, adapt=FALSE,
 	res
 }
 
-gwr.aic.f <- function(bandwidth, y, x, coords, gweight, verbose=TRUE) {
+gwr.aic.f <- function(bandwidth, y, x, coords, gweight, verbose=TRUE, lonlat=FALSE) {
     n <- NROW(x)
     m <- NCOL(x)
     lhat <- matrix(nrow=n, ncol=n)
@@ -64,7 +64,7 @@ gwr.aic.f <- function(bandwidth, y, x, coords, gweight, verbose=TRUE) {
     options(show.error.messages = FALSE)
     for (i in 1:n) {
         xx <- x[i, ]
-	w.i <- gweight(gw.dists(coords, coords[i,])^2, bandwidth)
+	w.i <- gweight(gw.dists(coords, coords[i,], lonlat=lonlat)^2, bandwidth)
         lm.i <- try(lm.wfit(y = y, x = x, w = w.i))
         if(!inherits(lm.i, "try-error")) {
             p <- lm.i$rank
@@ -91,7 +91,7 @@ gwr.aic.f <- function(bandwidth, y, x, coords, gweight, verbose=TRUE) {
     score
 }
 
-gwr.cv.f <- function(bandwidth, y, x, coords, gweight, verbose=TRUE)
+gwr.cv.f <- function(bandwidth, y, x, coords, gweight, verbose=TRUE, lonlat=FALSE)
 {
     n <- NROW(x)
     m <- NCOL(x)
@@ -99,7 +99,7 @@ gwr.cv.f <- function(bandwidth, y, x, coords, gweight, verbose=TRUE)
     options(show.error.messages = FALSE)
     for (i in 1:n) {
         xx <- x[i, ]
-	w.i <- gweight(gw.dists(coords, coords[i,])^2, bandwidth)
+	w.i <- gweight(gw.dists(coords, coords[i,], lonlat=lonlat)^2, bandwidth)
         w.i[i] <- 0
         lm.i <- try(lm.wfit(y = y, x = x, w = w.i))
         if(!inherits(lm.i, "try-error")) {
@@ -113,16 +113,16 @@ gwr.cv.f <- function(bandwidth, y, x, coords, gweight, verbose=TRUE)
     score
 }
 
-gwr.aic.adapt.f <- function(q, y, x, coords, gweight, verbose=TRUE) {
+gwr.aic.adapt.f <- function(q, y, x, coords, gweight, verbose=TRUE, lonlat=FALSE) {
     n <- NROW(x)
     m <- NCOL(x)
     lhat <- matrix(nrow=n, ncol=n)
-    bw <- gw.adapt(dp=coords, fp=coords, quant=q)
+    bw <- gw.adapt(dp=coords, fp=coords, quant=q, lonlat=lonlat)
     flag <- 0
     options(show.error.messages = FALSE)
     for (i in 1:n) {
         xx <- x[i, ]
-	w.i <- gweight(gw.dists(coords, coords[i,])^2, bw[i])
+	w.i <- gweight(gw.dists(coords, coords[i,], lonlat=lonlat)^2, bw[i])
         lm.i <- try(lm.wfit(y = y, x = x, w = w.i))
         if(!inherits(lm.i, "try-error")) {
             p <- lm.i$rank
@@ -149,16 +149,16 @@ gwr.aic.adapt.f <- function(q, y, x, coords, gweight, verbose=TRUE) {
     score
 }
 
-gwr.cv.adapt.f <- function(q, y, x, coords, gweight, verbose=TRUE)
+gwr.cv.adapt.f <- function(q, y, x, coords, gweight, verbose=TRUE, lonlat=FALSE)
 {
     n <- NROW(x)
     m <- NCOL(x)
     cv <- real(n)
-    bw <- gw.adapt(dp=coords, fp=coords, quant=q)
+    bw <- gw.adapt(dp=coords, fp=coords, quant=q, lonlat=lonlat)
     options(show.error.messages = FALSE)
     for (i in 1:n) {
         xx <- x[i, ]
-	w.i <- gweight(gw.dists(coords, coords[i,])^2, bw[i])
+	w.i <- gweight(gw.dists(coords, coords[i,], lonlat=lonlat)^2, bw[i])
         w.i[i] <- 0
         lm.i <- try(lm.wfit(y = y, x = x, w = w.i))
         if(!inherits(lm.i, "try-error")) {

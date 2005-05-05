@@ -1,16 +1,16 @@
 # Copyright 2001-2004 Roger Bivand and Danlin Yu
 # 
 
-gw.dists <- function(dp, pt) {
+gw.dists <- function(dp, pt, lonlat=FALSE) {
 	n <- nrow(dp)
 	dists <- numeric(n)
 	res <- .C("gw_dists", as.double(dp[,1]), as.double(dp[,2]),
 		as.double(pt[1]), as.double(pt[2]), as.integer(n),
-		as.double(dists), PACKAGE="spgwr")[[6]]
+		as.double(dists), as.integer(lonlat), PACKAGE="spgwr")[[6]]
 	res
 }
 
-gw.adapt <- function(dp, fp, quant) {
+gw.adapt <- function(dp, fp, quant, lonlat=FALSE) {
 	n1 <- nrow(dp)
 	n2 <- nrow(fp)
 	dists <- numeric(n1)
@@ -21,7 +21,8 @@ gw.adapt <- function(dp, fp, quant) {
 		res <- .C("gw_adapt", as.double(dp[,1]), as.double(dp[,2]),
 			as.double(fp[,1]), as.double(fp[,2]), as.integer(n1),
 			as.integer(n2), as.double(bw), as.double(quant),
-			as.double(dists), PACKAGE="spgwr")[[7]]
+			as.double(dists), as.integer(lonlat), 
+			PACKAGE="spgwr")[[7]]
 		res <- res*factor
 	} else {
 		n.ideal <- n1*quant
@@ -32,11 +33,13 @@ gw.adapt <- function(dp, fp, quant) {
 		res1 <- .C("gw_adapt", as.double(dp[,1]), as.double(dp[,2]),
 			as.double(fp[,1]), as.double(fp[,2]), as.integer(n1),
 			as.integer(n2), as.double(bw), as.double(q1),
-			as.double(dists), PACKAGE="spgwr")[[7]]
+			as.double(dists), as.integer(lonlat), 
+			PACKAGE="spgwr")[[7]]
 		res2 <- .C("gw_adapt", as.double(dp[,1]), as.double(dp[,2]),
 			as.double(fp[,1]), as.double(fp[,2]), as.integer(n1),
 			as.integer(n2), as.double(bw), as.double(q2),
-			as.double(dists), PACKAGE="spgwr")[[7]]
+			as.double(dists), as.integer(lonlat), 
+			PACKAGE="spgwr")[[7]]
 
 		res <- (n.ideal - n.lower)*res2 + (n.higher - n.ideal)*res1
 	}
@@ -45,7 +48,7 @@ gw.adapt <- function(dp, fp, quant) {
 
 
 gw.cov <- function(x, dp, fp, adapt=NULL, bw, gweight=gwr.bisquare, cor=TRUE,
-		var.term=FALSE) {
+		var.term=FALSE, lonlat=FALSE) {
 	if (any(is.na(x))) stop("x contains NAs")
 	x <- as.matrix(x)
 	nc <- ncol(x)
@@ -65,7 +68,7 @@ gw.cov <- function(x, dp, fp, adapt=NULL, bw, gweight=gwr.bisquare, cor=TRUE,
 	trhat <- 0
 	for (i in 1:n1) { # establish residuals for data points and 
 			# calculate hat matrix trace
-		wts <- gweight(gw.dists(dp, dp[i,]), bw0[i])
+		wts <- gweight(gw.dists(dp, dp[i,], lonlat=lonlat), bw0[i])
 		for (j in 1:nc) {
 			dm[j] <- weighted.mean(x[,j], wts)
 			rss[j] <- rss[j] + (x[i,j] - dm[j])^2
@@ -108,7 +111,7 @@ gw.cov <- function(x, dp, fp, adapt=NULL, bw, gweight=gwr.bisquare, cor=TRUE,
 	swts2 <- numeric(n2)
 
 	for (i in 1:n2) {
-		wts <- gweight(gw.dists(dp, fp[i,]), bw[i])
+		wts <- gweight(gw.dists(dp, fp[i,], lonlat=lonlat), bw[i])
 		swts[i] <- sum(wts)
 		swts2[i] <- sum((wts/swts[i])^2)
 		res1 <- cov.wt(as.matrix(x), wts, cor=cor)
@@ -141,56 +144,6 @@ gw.cov <- function(x, dp, fp, adapt=NULL, bw, gweight=gwr.bisquare, cor=TRUE,
 	res
 }
 
-fp.grid <- function(grid) {
-	if (!is.list(grid)) stop("grid not list")
-	if (is.null(grid$res)) stop("grid$res not given")
-	else res <- grid$res
-	if (length(res) != 2) stop("grid$res not length 2")
-	if (any(res <= 0)) stop("grid$res not positive")
-	if (any(!is.integer(res))) stop("non-integer grid$res")
-	if (is.null(grid$xlim)) stop("grid$xlim not given")
-	else xlim <- grid$xlim
-	if (length(xlim) != 2) stop("grid$xlim not length 2")
-	if (xlim[1] >= xlim[2]) stop("grid$xlim not in ascending order")
-	if (!is.numeric(xlim)) stop("grid$xlim not numeric")
-	if (is.null(grid$ylim)) stop("grid$ylim not given")
-	else ylim <- grid$ylim
-	if (length(ylim) != 2) stop("grid$ylim not length 2")
-	if (ylim[1] >= ylim[2]) stop("grid$ylim not in ascending order")
-	if (!is.numeric(ylim)) stop("grid$ylim not numeric")
-	xseq <- seq(xlim[1], xlim[2], (xlim[2]-xlim[1])/(res[1]-1))
-	yseq <- seq(ylim[1], ylim[2], (ylim[2]-ylim[1])/(res[2]-1))
-	fp <- as.matrix(expand.grid(xseq, yseq))
-	attr(fp, "xseq") <- xseq
-	attr(fp, "yseq") <- yseq
-	fp
-}
-
-as.SDFG.fp.grid <- function(grid) {
-	if (!is.list(grid)) stop("grid not list")
-	if (is.null(grid$res)) stop("grid$res not given")
-	else res <- grid$res
-	if (length(res) != 2) stop("grid$res not length 2")
-	if (any(res <= 0)) stop("grid$res not positive")
-	if (any(!is.integer(res))) stop("non-integer grid$res")
-	if (is.null(grid$xlim)) stop("grid$xlim not given")
-	else xlim <- grid$xlim
-	if (length(xlim) != 2) stop("grid$xlim not length 2")
-	if (xlim[1] >= xlim[2]) stop("grid$xlim not in ascending order")
-	if (!is.numeric(xlim)) stop("grid$xlim not numeric")
-	if (is.null(grid$ylim)) stop("grid$ylim not given")
-	else ylim <- grid$ylim
-	if (length(ylim) != 2) stop("grid$ylim not length 2")
-	if (ylim[1] >= ylim[2]) stop("grid$ylim not in ascending order")
-	if (!is.numeric(ylim)) stop("grid$ylim not numeric")
-	xseq <- seq(xlim[1], xlim[2], (xlim[2]-xlim[1])/(res[1]-1))
-	yseq <- seq(ylim[1], ylim[2], (ylim[2]-ylim[1])/(res[2]-1))
-	fp <- expand.grid(xseq, yseq)
-	colnames(fp) <- c("x", "y")
-	fp <- SpatialDataFrame(fp, coord.names=c("x", "y"))
-	gridded(fp) <- TRUE
-	fp
-}
 
 
 display.gw.cov <- function(cov, colno, breaks, col, ...) {

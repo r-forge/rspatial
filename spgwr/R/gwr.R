@@ -2,7 +2,8 @@
 # 
 
 gwr <- function(formula, data = list(), coords, bandwidth, 
-	gweight=gwr.gauss, adapt=NULL, hatmatrix=FALSE, fit.points) {
+	gweight=gwr.gauss, adapt=NULL, hatmatrix=FALSE, fit.points, 
+	lonlat=FALSE) {
 	this.call <- match.call()
 	p4s <- as.character(NA)
 	Polys <- NULL
@@ -79,7 +80,8 @@ gwr <- function(formula, data = list(), coords, bandwidth,
 	if (!fp.given && hatmatrix) lhat <- matrix(nrow=n, ncol=n)
 	sum.w <- numeric(n)
 	for (i in 1:n) {
-		w.i <- gweight(gw.dists(coords, fit.points[i,])^2, bandwidth[i])
+		w.i <- gweight(gw.dists(coords, fit.points[i,], 
+			lonlat=lonlat)^2, bandwidth[i])
 		lm.i <- lm.wfit(y=y, x=x, w=w.i)
 		sum.w[i] <- sum(w.i)
 		gwr.b[i,] <- coefficients(lm.i)

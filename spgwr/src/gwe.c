@@ -1,4 +1,4 @@
-/*  Copyright by Roger Bivand (C) 2003 (with thanks to Chris Brunsdon
+/*  Copyright by Roger Bivand (C) 2003-5 (with thanks to Chris Brunsdon
  *  for access to his Fortran code)
  */
 #include <R.h>
@@ -10,10 +10,10 @@ void gw_gcdist(double *lon1, double *lon2, double *lat1, double *lat2,
 		double *dist);
 
 void gw_dists(double *u, double *v, double *uout, double *vout, 
-		int *n, double *dists);
+		int *n, double *dists, int *lonlat);
 
 void gw_adapt(double *u, double *v, double *uout, double *vout, int *n1, 
-		int *n2, double *bw, double *qin, double *d) 
+		int *n2, double *bw, double *qin, double *d, int *lonlat) 
 {
 	int N1 = *n1, N2 = *n2, i, index;
 	double q = *qin;
@@ -24,7 +24,7 @@ void gw_adapt(double *u, double *v, double *uout, double *vout, int *n1,
 	for (i=0; i<N2; i++) {
 	    	uo[0] = uout[i];
 	    	vo[0] = vout[i];
-		gw_dists(u, v, uo, vo, n1, d);
+		gw_dists(u, v, uo, vo, n1, d, lonlat);
 
 		R_rsort(d, N1);
 		bw[i] = d[index];
@@ -32,12 +32,20 @@ void gw_adapt(double *u, double *v, double *uout, double *vout, int *n1,
 }
 
 void gw_dists(double *u, double *v, double *uout, double *vout, 
-		int *n, double *dists)
+		int *n, double *dists, int *lonlat)
 {
 	int N = *n, j;
+	double gc[1];
 		
-	for (j=0; j<N; j++) 
-		dists[j] = pythag((u[j]-uout[0]), (v[j]-vout[0]));
+	if (lonlat[0] == 0) {
+		for (j=0; j<N; j++) 
+			dists[j] = pythag((u[j]-uout[0]), (v[j]-vout[0]));
+	} else {
+		for (j=0; j<N; j++) {
+			gw_gcdist(u+j, uout, v+j, vout, gc);
+		    	dists[j] = gc[0];
+		}
+	}
 }
 
 
