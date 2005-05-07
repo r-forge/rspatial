@@ -131,7 +131,7 @@ readCELL6sp <- function(vname, cat=FALSE) {
 	p4 <- CRS(system("g.proj -j -f", intern=TRUE))
 	res <- read.asciigrid(tmpfl, colname=vname, proj4string=p4)
 	if (cat) {
-		cats <- strsplit(system(paste("r.stats -l", vname), 
+		cats <- strsplit(system(paste("r.stats -l -q", vname), 
 			intern=TRUE), " ")
 		catnos <- sapply(cats, function(x) x[1])
 		catlabs <- sapply(cats, function(x) paste(x[-1], collapse=" "))
