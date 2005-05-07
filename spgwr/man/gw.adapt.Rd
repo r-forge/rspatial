@@ -1,39 +1,27 @@
 \name{gw.adapt}
 \alias{gw.adapt}
 %- Also NEED an '\alias' for EACH other topic documented here.
-\title{ ~~function to do ... ~~ }
+\title{Adaptive kernel for GWR}
 \description{
-  ~~ A concise (1-5 lines) description of what the function does. ~~
+  The function constructs weights using an adaptive kernal for geographically weighted regression
 }
 \usage{
-gw.adapt(dp, fp, quant)
+gw.adapt(dp, fp, quant, lonlat=FALSE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{dp}{ ~~Describe \code{dp} here~~ }
-  \item{fp}{ ~~Describe \code{fp} here~~ }
-  \item{quant}{ ~~Describe \code{quant} here~~ }
+  \item{dp}{data points coordinates}
+  \item{fp}{fit points coordinates}
+  \item{quant}{proportion of data points to include in the weights}
+  \item{lonlat}{if TRUE, use distances on an ellipse with WGS84 parameters}
 }
-\details{
-  ~~ If necessary, more details than the description  above ~~
+
 }
 \value{
-  ~Describe the value returned
-  If it is a LIST, use
-  \item{comp1 }{Description of 'comp1'}
-  \item{comp2 }{Description of 'comp2'}
-  ...
+  a vector of weights
 }
-\references{ ~put references to the literature/web site here ~ }
-\author{ ~~who you are~~ }
-\note{ ~~further notes~~ }
 
- 
+\author{Roger Bivand \email{Roger.Bivand@nhh.no}}
 
-
-\seealso{}
-\examples{
-
-}
 \keyword{spatial}
 

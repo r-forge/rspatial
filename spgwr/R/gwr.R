@@ -49,8 +49,10 @@ gwr <- function(formula, data = list(), coords, bandwidth,
 		if (is(fit.points, "SpatialRingsDataFrame")) {
 			Polys <- Polygons(fit.points)
 			fit.points <- getSRSringsLabptSlots(fit.points)
-		} else fit.points <- coordinates(fit.points)
-		gridded <- gridded(fit.points)
+		} else {
+			gridded <- gridded(fit.points)
+			fit.points <- coordinates(fit.points)
+		}
 	}
 
 	n <- NROW(fit.points)

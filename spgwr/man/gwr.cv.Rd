@@ -7,13 +7,12 @@
 \title{Crossvalidation of bandwidth for geographically weighted regression}
 \description{
 The function finds a bandwidth for a given geographically weighted regression
-by optimzing function \code{gwr.cv.f}. This scores the root mean square
+by optimzing a selected function. Fro cross-validation, this scores the root mean square
 prediction error for the geographically weighted regressions, choosing the
-bandwidth minimizing this quantity. This replicates the crossvalidation
-function in the original Fortran code.
+bandwidth minimizing this quantity. 
 }
 \usage{
-gwr.sel(formula, data=list(), coords, adapt=FALSE, gweight=gwr.gauss, method = "cv", verbose = TRUE)
+gwr.sel(formula, data=list(), coords, adapt=FALSE, gweight=gwr.gauss, method = "cv", verbose = TRUE, lonlat=FALSE)
 }
 \arguments{
   \item{formula}{regression model formula as in \code{lm}}
@@ -23,12 +22,17 @@ gwr.sel(formula, data=list(), coords, adapt=FALSE, gweight=gwr.gauss, method = "
   \item{adapt}{either TRUE: find the proportion between 0 and 1 of observations to include in weighting scheme (k-nearest neighbours), or FALSE --- find global bandwidth}
   \item{gweight}{geographical weighting function, at present only
   \code{gwr.gauss()} or \code{gwr.bisquare()}}
-  \item{method}{}
-  \item{verbose}{}
+  \item{method}{default "cv" for drop-1 cross-validation, or "aic" for AIC optimisation (depends on assumptions about AIC degrees of freedom)}
+  \item{verbose}{if TRUE (default), reports the progress of search for bandwidth}
+  \item{lonlat}{if TRUE, use distances on an ellipse with WGS84 parameters}
 }
 \value{
 returms the cross-validation bandwidth.
 }
+\references{Fotheringham, A.S., Brunsdon, C., and Charlton, M.E., 2002,
+Geographically Weighted Regression, Chichester: Wiley;
+\url{http://www.nuim.ie/ncg/GWR/index.htm}}
+\author{Roger Bivand \email{Roger.Bivand@nhh.no}}
 \seealso{\code{\link{gwr.bisquare}}, \code{\link{gwr.gauss}}}
 
 \examples{

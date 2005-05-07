@@ -47,10 +47,25 @@ gw.adapt <- function(dp, fp, quant, lonlat=FALSE) {
 }
 
 
-gw.cov <- function(x, dp, fp, adapt=NULL, bw, gweight=gwr.bisquare, cor=TRUE,
-		var.term=FALSE, lonlat=FALSE) {
+gw.cov <- function(x, vars, fp, adapt=NULL, bw, gweight=gwr.bisquare, 
+		cor=TRUE, var.term=FALSE, lonlat=FALSE) {
+	p4s <- as.character(NA)
+	Polys <- NULL
+	fp.missing <- missing(fp)
+	if (is(x, "SpatialRingsDataFrame")) {
+		Polys <- as(x, "SpatialRings")
+		gridded <- gridded(x)
+		dp <- getSRSringsLabptSlots(x)
+		p4s <- proj4string(x)
+		data <- as(x, "data.frame")
+	} else if (is(x, "SpatialPointsDataFrame")) {
+		gridded <- gridded(x)
+		dp <- coordinates(x)
+		p4s <- proj4string(x)
+		data <- as(x, "data.frame")
+	} else stop("x must be a Spatial Rings or Points DataFrame")
+	x <- as.matrix(data[, vars])
 	if (any(is.na(x))) stop("x contains NAs")
-	x <- as.matrix(x)
 	nc <- ncol(x)
 	if (is.null(colnames(x))) colnames(x) <- paste("V", 1:nc, sep="")
 	cn <- colnames(x)
@@ -62,7 +77,7 @@ gw.cov <- function(x, dp, fp, adapt=NULL, bw, gweight=gwr.bisquare, cor=TRUE,
 		if (!missing(bw)) bw0 <- rep(bw, n1)
 		else stop("Bandwidth must be given for non-adaptive weights")
 	}
-	else bw0 <- gw.adapt(dp=dp, fp=dp, quant=adapt)
+	else bw0 <- gw.adapt(dp=dp, fp=dp, quant=adapt, lonlat=lonlat)
 	dm <- numeric(nc)
 	rss <- numeric(nc)
 	trhat <- 0
@@ -82,8 +97,10 @@ gw.cov <- function(x, dp, fp, adapt=NULL, bw, gweight=gwr.bisquare, cor=TRUE,
 		fp.given <- FALSE
 		fp <- dp
 		colnames(fp) <- colnames(dp)
-	} else fp.given <- TRUE
-	gridded <- gridded(fp)
+	} else {
+		fp.given <- TRUE
+		gridded <- gridded(fp)
+	}
 	if (gridded) fp <- coordinates(fp)
 
 	# prepare bandwidths for fitting/estimation points
@@ -92,12 +109,14 @@ gw.cov <- function(x, dp, fp, adapt=NULL, bw, gweight=gwr.bisquare, cor=TRUE,
 		if (!missing(bw)) bw <- rep(bw, n2)
 		else stop("Bandwidth must be given for non-adaptive weights")
 	}
-	else bw <- gw.adapt(dp=dp, fp=fp, quant=adapt)
+	else bw <- gw.adapt(dp=dp, fp=fp, quant=adapt, lonlat=lonlat)
 	
 	ut <- ((nc^2 -nc)/2)
-	res <- matrix(NA, nrow=n2, ncol=((2*nc)+(ifelse(cor, 2*ut, ut))))
+	res <- matrix(NA, nrow=n2, ncol=((4*nc)+(ifelse(cor, 2*ut, ut))))
 	rnm <- paste("mean", cn, sep=".")
 	rnm <- c(rnm, paste("sd", cn, sep="."))
+	rnm <- c(rnm, paste("sem", cn, sep="."))
+	rnm <- c(rnm, paste("diff", cn, sep="."))
 	if (nc > 1) {
 		corn <- outer(cn, cn, paste, sep=",")
 		rnm <- c(rnm, 
@@ -124,74 +143,33 @@ gw.cov <- function(x, dp, fp, adapt=NULL, bw, gweight=gwr.bisquare, cor=TRUE,
 		sd <- sqrt(diag(cov))
 		res[i, (nc+1):(2*nc)] <- sd
 		if (nc > 1) {
-			res[i, ((2*nc)+1):((2*nc)+ut)] <- 
+			res[i, ((4*nc)+1):((4*nc)+ut)] <- 
 				res1$cov[upper.tri(res1$cov)]
 			if (cor) {
 			        sdinv <- diag(1/sd, nrow(cov))
         			corr <- sdinv %*% cov %*% sdinv
-				res[i, ((2*nc)+ut+1):((2*nc)+2*ut)] <- 
+				res[i, ((4*nc)+ut+1):((4*nc)+2*ut)] <- 
 					corr[upper.tri(corr)]
 			}
 		}
 	}
+	gxbar <- apply(x, 2, mean)
+	means <- grep("mean", colnames(res))
+	for (i in means) res[,((nc*2)+i)] <- dm[i] * sqrt(swts2)
+	for (i in means) 
+		res[,((nc*3)+i)] <- (gxbar[i] - res[,i]) / res[,((nc*2)+i)]
+	SDF <- SpatialPointsDataFrame(coords=fp, data=data.frame(res), 
+		proj4string=CRS(p4s))
+	if (gridded) gridded(SDF) <- TRUE
+	else if (!is.null(Polys) && fp.missing) 
+		SDF <- SpatialRingsDataFrame(Sr=Polys, 
+		data=as(SDF, "data.frame"))
+	res <- list(SDF=SDF, bandwidth=bw, adapt=adapt,  
+		gweight=deparse(substitute(gweight)))
 	class(res) <- c("gw.cov", "matrix")
-	attr(res, "bw") <- bw
 	attr(res, "swts") <- swts
 	attr(res, "sdswts2") <- swts2
-	attr(res, "grid") <- grid
-	attr(res, "fp.given") <- fp.given
 	attr(res, "g.se") <- dm
 	res
 }
-
-
-
-display.gw.cov <- function(cov, colno, breaks, col, ...) {
-	if (!inherits(cov, "gw.cov")) stop("not at gw.cov object")
-	if (colno < 1 || colno > ncol(cov)) stop("column number invalid")
-	grid <- attr(cov, "grid")
-	xseq <- attr(grid, "xseq")
-	yseq <- attr(grid, "yseq")
-	res <- grid$res
-	mat <- matrix(cov[,colno], res[1], res[2])
-	if (missing(breaks)) 
-		breaks <- quantile(cov[,colno], seq(0, 1, 1/10), na.rm=TRUE)
-	if (missing(col)) col <- heat.colors(length(breaks)-1)
-	image(xseq, yseq, mat, main=colnames(cov)[colno], 
-		breaks=breaks, col=col, ...)
-	invisible(list(x=xseq, y=yseq, z=mat))
-}
-
-sem.gw.cov <- function(cov, x) {
-	if (!inherits(cov, "gw.cov")) stop("not a gw.cov object")
-	if (any(is.na(x))) stop("x contains NAs")
-	x <- as.matrix(x)
-	nc <- ncol(x)
-	if (is.null(colnames(x))) colnames(x) <- paste("V", 1:nc, sep="")
-	cn <- colnames(x)
-	gxbar <- apply(x, 2, mean)
-	means <- grep("mean", colnames(cov))
-	if (nc != length(means)) stop("mismatch in x and cov")
-	sds <- grep("sd", colnames(cov))
-	res <- matrix(NA, nrow=nrow(cov), ncol=nc*4)
-	res[,1:(nc*2)] <- cov[,1:(nc*2)]
-	rnm <- colnames(cov)[1:(nc*2)]
-	for (i in means) res[,((nc*2)+i)] <- 
-		attr(cov, "g.se")[i] * sqrt(attr(cov, "sdswts2"))
-	rnm <- c(rnm, paste("sem", cn, sep="."))
-	for (i in means) 
-		res[,((nc*3)+i)] <- (gxbar[i] - cov[,i]) / res[,((nc*2)+i)]
-	rnm <- c(rnm, paste("diff", cn, sep="."))
-	colnames(res) <- rnm
-	class(res) <- c("sem.gw.cov", class(cov))
-	attr(res, "bw") <- attr(cov, "bw")
-	attr(res, "swts") <- attr(cov, "swts")
-	attr(res, "sdswts2") <- attr(cov, "sdswts2")
-	attr(res, "grid") <- attr(cov, "grid")
-	attr(res, "fp.given") <- attr(cov, "fp.given")
-	attr(res, "g.se") <- attr(cov, "g.se")
-	res
-}
-
-
 

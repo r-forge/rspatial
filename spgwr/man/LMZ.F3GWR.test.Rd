@@ -25,7 +25,10 @@ BFC99.gwr.test(x)
 BFC99.GWR.test, LMZ.F1GWR.test and LMZ.F2GWR.test return "htest" objects, 
 LMZ.F3GWR.test a matrix of test results.
 }
-\references{Brunsdon, C., Fotheringham, A.S., and Charlton, M.E., 1999, Some notes on parametric signficance tests for geographically weighted regression, Journal of Regional Science, 39, 497-524; Leung, Y., Mei, C.-G., and Zhang, W.-X. 2000, Statistical tests for spatial non-stationarity based on the geographically weighted regression model, Environment and Planning A, 32, 9-32; \url{http://www.ncl.ac.uk/~ngeog/GWR/}}
+\references{Fotheringham, A.S., Brunsdon, C., and Charlton, M.E., 2002,
+Geographically Weighted Regression, Chichester: Wiley;
+\url{http://www.nuim.ie/ncg/GWR/index.htm}}
+
 \author{Roger Bivand \email{Roger.Bivand@nhh.no} and Danlin Yu}
 
 \seealso{\code{\link{gwr}}}

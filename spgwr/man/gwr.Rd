@@ -9,24 +9,26 @@ weighting scheme.
 }
 \usage{
 gwr(formula, data=list(), coords, bandwidth, gweight=gwr.gauss, 
-	adapt=NULL, hatmatrix = FALSE, fit.points)
+	adapt=NULL, hatmatrix = FALSE, fit.points, 
+	lonlat=FALSE)
 print.gwr(x, ...)
 }
 
 \arguments{
   \item{formula}{regression model formula as in \code{lm}}
-  \item{data}{model data frame as in \code{lm}}
+  \item{data}{model data frame, or SpatialPointsDataFrame or SpatialRingsDataFrame as defined in package \pkg{sp}}
   \item{coords}{matrix of coordinates of points representing the spatial
-  positions of the observations}
+  positions of the observations; may be omitted if the object passed through the data argument is from package \pkg{sp}}
   \item{bandwidth}{bandwidth used in the weighting function, possibly
-  calculated by \code{gwr.cv}}
+  calculated by \code{gwr.sel}}
   \item{gweight}{geographical weighting function, at present only
   \code{gwr.gauss()} or \code{gwr.bisquare()}}
   \item{adapt}{either NULL (default) or a proportion between 0 and 1 of observations to include in weighting scheme (k-nearest neighbours)}
-  \item{hatmatrix}{}
-  \item{fit.points}{}
-  \item{x}{}
-  \item{...}{}
+  \item{hatmatrix}{if TRUE, return the hatmatrix as a component of the result}
+  \item{fit.points}{an object containing the coordinates of fit points; often an object from package \pkg{sp}; if missing, the coordinates given through the data argument object, or the coords argument are used}
+  \item{lonlat}{if TRUE, use distances on an ellipse with WGS84 parameters}
+  \item{x}{an object of class "gwr" returned by the \code{gwr} function}
+  \item{...}{arguments to be passed to other functions}
 }
 \details{
 The function applies the weighting function in turn to each of the 
@@ -35,16 +37,14 @@ for each point. The
 results may be explored to see if coefficient values vary over space.
 }
 \value{
-  \item{SDF}{a SpatialDataFrame (may be gridded) or SpatialDataFramePolygons object (see package "sp") with fit.points, weights, GWR coefficient estimates, R-squared, and coefficient standard errors in its "data" slot.}
+  \item{SDF}{a SpatialPointsDataFrame (may be gridded) or SpatialRingsDataFrame object (see package "sp") with fit.points, weights, GWR coefficient estimates, R-squared, and coefficient standard errors in its "data" slot.}
   \item{lhat}{Leung et al. L matrix}
   \item{lm}{Ordinary least squares global regression on the same model formula.}  \item{bandwidth}{the bandwidth used.}
   \item{this.call}{the function call used.}
 }
-\references{Fotheringham, A.S., Brunsdon, C., and Charlton, M.E., 2000,
-Quantitative Geography, London: Sage; C. Brunsdon, A.Stewart Fotheringham
-and M.E. Charlton, 1996, "Geographically Weighted Regression: A Method for
-Exploring Spatial Nonstationarity", Geographical Analysis, 28(4), 281-298;
-\url{http://www.ncl.ac.uk/~ngeog/GWR/}}
+\references{Fotheringham, A.S., Brunsdon, C., and Charlton, M.E., 2002,
+Geographically Weighted Regression, Chichester: Wiley;
+\url{http://www.nuim.ie/ncg/GWR/index.htm}}
 \author{Roger Bivand \email{Roger.Bivand@nhh.no}}
 
 
@@ -79,6 +79,17 @@ res.bw <- gwr(PctBach ~ TotPop90 + PctRural + PctEld + PctFB + PctPov + PctBlack
 res.bw
 pairs(as(res.bw$SDF, "data.frame")[,c(17,18, 1:9)], pch=".")
 plot.SpatialRings(as(res.bw$SDF, "SpatialRings"), col=cols[findInterval(as(res.bw$SDF, "data.frame")$PctBlack, brks, all.inside=TRUE)])
+g.bw.gauss <- gwr.sel(PctBach ~ TotPop90 + PctRural + PctEld + PctFB + PctPov + PctBlack, data=gSRDF, lonlat=TRUE)
+library(spgpc)
+gSR <- as(gSRDF, "SpatialRings")
+length(getSRpolygonsSlot(gSR))
+gSRouter <- unionSpatialRings(gSR, IDs=rep("Georgia", 159))
+gGrid <- sample.Srings(getSRpolygonsSlot(gSRouter)[[1]], 5000, type="regular")
+gridded(gGrid) <- TRUE
+summary(gGrid)
+res.bw <- gwr(PctBach ~ TotPop90 + PctRural + PctEld + PctFB + PctPov + PctBlack, data=gSRDF, bandwidth=g.bw.gauss, fit.points=gGrid, lonlat=TRUE)
+res.bw
+spplot(res.bw$SDF, "PctBlack")
 }
 \keyword{spatial}
 

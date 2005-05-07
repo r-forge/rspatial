@@ -6,12 +6,13 @@
   ~~ A concise (1-5 lines) description of what the function does. ~~
 }
 \usage{
-gw.dists(dp, pt)
+gw.dists(dp, pt, lonlat=FALSE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{dp}{ ~~Describe \code{dp} here~~ }
   \item{pt}{ ~~Describe \code{pt} here~~ }
+  \item{lonlat}{if TRUE, use distances on an ellipse with WGS84 parameters}
 }
 \details{
   ~~ If necessary, more details than the description  above ~~
