@@ -1,3 +1,8 @@
+document x[row,col,vars] indexing of SpatialGridDataFrame
+
+rgdal interfacing
+
+gridded(x) = TRUE for x SpatialPoints should create SpatialGrid.
 spplot: draw image as background or on top (transparent)
 
 spplot: pass spplot.panel generic function, or arg1 type-specific ones?
