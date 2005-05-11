@@ -1,3 +1,5 @@
+spsample is broken for SpatialPixels examples, seems overlay problem;
+
 document x[row,col,vars] indexing of SpatialGridDataFrame
 
 rgdal interfacing
