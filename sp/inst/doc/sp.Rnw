@@ -125,7 +125,7 @@ coordinates(x)} to retrieve the coordinates.
 \subsection{Standard methods}
 
 Selecting, retrieving or replacing certain attributes in spatial objects
-with attributes is done using methods standard
+with attributes is done using standard methods
 \begin{itemize}
 \item \verb|[| select "rows" (items) and/or columns in the data attribute
 table; e.g. {\tt meuse[1:2, "zinc"]} returns a {\tt SpatialPointsDataFrame}
@@ -257,10 +257,10 @@ df2[1:2,]
 as.data.frame(df2)[1:2,]
 @
 Note that in this form, {\tt coordinates} by setting (specifying) the
-coordinates promotes it argument, an object of class {\tt data.frame}
+coordinates promotes its argument, an object of class {\tt data.frame}
 to an object of class {\tt SpatialPointsDataFrame}. The method {\tt
 as.data.frame} coerces back to the original {\tt data.frame}. When used
-on a right-hand side of an equation, {\tt coorinates} {\em retrieves}
+on a right-hand side of an equation, {\tt coordinates} {\em retrieves}
 the matrix with coordinates:
 <<>>=
 coordinates(df2)[1:2,]
