@@ -15,12 +15,12 @@ empbaysmooth<-function(Observed, Expected, maxiter=20, tol=1e-5)
 	smthrr[idx]<-Observed[idx]/Expected[idx]
 	
 	m0<-mean(smthrr[idx])
-	v0<-var(smthrr[idx])*(n-1)/(n1-1)
+	v0<-var(smthrr[idx])
 
 	if(v0==0)#No variability, i.e., Observed = K
 	{
 		print("Observed cases are equal to a constant.")
-		return( list(nu=NA, alpha=NA, smthrr=rep(NA,n)) )
+		return( list(nu=NA, alpha=NA, smthrr=rep(NA,n), niter=0) )
 	}
 
 	#Initial values for the gamma parameters
@@ -30,7 +30,7 @@ empbaysmooth<-function(Observed, Expected, maxiter=20, tol=1e-5)
 	smthrr[idx]<-(nu+Observed[idx])/(alpha+Expected[idx])
 
 	m<-mean(smthrr[idx])
-	v<- sum( (1+alpha/Expected[idx]) * ((smthrr[idx]-m)^2) )/(n1-1)
+	v<- sum( (1+alpha/Expected[idx]) * ((smthrr[idx]-m0)^2) )/(n1-1)
 
 	iter<-1
 	while(  (  ( abs(m-m0) >tol*(m+m0) ) || ( abs(v-v0) >tol*(v+v0) ) )   && ( iter<=maxiter) )
@@ -48,11 +48,11 @@ empbaysmooth<-function(Observed, Expected, maxiter=20, tol=1e-5)
 		m<-mean(smthrr[idx])
 		v<- sum( (1+alpha/Expected[idx]) * ((smthrr[idx]-m0)^2) )/(n1-1)
 
-
+		print(iter)
 		iter<-iter+1
 	}
 
 
-	return( list(n=length(Observed), nu=nu, alpha=alpha, smthrr=smthrr))
+	return( list(n=length(Observed), nu=nu, alpha=alpha, smthrr=smthrr, niter=iter) )
 
 }
