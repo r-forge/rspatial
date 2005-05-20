@@ -21,6 +21,8 @@ SpatialPixelsDataFrame
                         define spatial grid with attribute data
 SpatialPixelsDataFrame-class
                         Class "SpatialPixelsDataFrame" ~~~
+SpatialPoints           create objects of class SpatialPoints or
+                        SpatialPointsDataFrame
 SpatialPoints-class     Class "SpatialPoints" ~~~
 SpatialPointsDataFrame-class
                         Class "SpatialPointsDataFrame" ~~~

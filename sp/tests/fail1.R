@@ -37,3 +37,8 @@ xx = data.frame(x=1:10, y=1:10)
 # fails; use SpatialPoints() to create points without attribute 
 try(coordinates(xx) <- c("x", "y")) 
 
+x = matrix(3, 5, 2)
+dimnames(x) = list(c(1,1:4), NULL)
+y = data.frame(a = 1:5, b = 5:1)
+try(SpatialPointsDataFrame(x, y)) # will complain:
+SpatialPointsDataFrame(x, y, match.ID = FALSE) # won't complain

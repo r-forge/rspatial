@@ -1,7 +1,26 @@
 "SpatialPointsDataFrame" = function(coords, data, coords.nrs = numeric(0), 
-		proj4string = CRS(as.character(NA))) {
-	new("SpatialPointsDataFrame", SpatialPoints(coords, 
-		proj4string = proj4string), data = as(data, "AttributeList"),
+		proj4string = CRS(as.character(NA)), match.ID = TRUE) {
+	if (!is(coords, "SpatialPoints"))
+		coords = coordinates(coords)
+	if (match.ID && is.matrix(coords)) {
+		cc.ID = dimnames(coords)[[1]]
+		if (!is.null(cc.ID) && is(data, "data.frame")) {
+			n = nrow(data)
+			if (length(unique(cc.ID)) != n)
+				stop(
+				"nr of unique coords ID's (rownames) not equal to nr of data records")
+			data.ID = row.names(data)
+			mtch = match(cc.ID, data.ID)
+			if (any(is.na(mtch)))
+				stop("row.names of data and coords do not match")
+			if (length(unique(mtch)) != n)
+				stop("row.names of data and dimnames of coords do not match")
+			data = data[mtch, ]
+		}
+	}
+	if (!is(coords, "SpatialPoints"))
+		coords = SpatialPoints(coords, proj4string = proj4string)
+	new("SpatialPointsDataFrame", coords, data = as(data, "AttributeList"),
 		coords.nrs = coords.nrs)
 }
 
@@ -41,7 +60,8 @@ setMethod("coordinates", "SpatialPointsDataFrame", function(obj) obj@coords)
 			"only coords columns present: use SpatialPoints to create a points object")
 	} else
 		stripped = numeric(0)
-	SpatialPointsDataFrame(data = object, coords = cc, coords.nrs = stripped)
+	SpatialPointsDataFrame(data = object, coords = cc, coords.nrs = stripped,
+		match.ID = FALSE)
 }
 
 print.SpatialPointsDataFrame = function(x, ...) {

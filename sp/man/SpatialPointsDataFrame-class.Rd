@@ -7,7 +7,7 @@
 \alias{show,SpatialPointsDataFrame-method}
 % \alias{coordinates,SpatialPointsDataFrame-method}
 % \alias{coordinates}
-\alias{SpatialPointsDataFrame}
+% \alias{SpatialPointsDataFrame}
 \alias{"[[.SpatialPointsDataFrame"}
 \alias{"[[<-.SpatialPointsDataFrame"}
 \alias{"$.SpatialPointsDataFrame"}

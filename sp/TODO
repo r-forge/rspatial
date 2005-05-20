@@ -1,8 +1,12 @@
-spsample is broken for SpatialPixels examples, seems overlay problem;
+names(x)<- methods for *DataFrame
 
-document x[row,col,vars] indexing of SpatialGridDataFrame
+coordnames(x)<- methods for ... all?
 
-rgdal interfacing
+verify (re)projection of Spatial[Pixel|Grid]DataFrame
+
+document (and check) x[row,col,vars] indexing of SpatialGridDataFrame
+
+rgdal interfacing (in rgdal? spgdal?)
 
 gridded(x) = TRUE for x SpatialPoints should create SpatialGrid.
 spplot: draw image as background or on top (transparent)
