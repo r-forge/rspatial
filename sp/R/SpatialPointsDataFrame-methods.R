@@ -1,7 +1,7 @@
 "SpatialPointsDataFrame" = function(coords, data, coords.nrs = numeric(0), 
 		proj4string = CRS(as.character(NA))) {
 	new("SpatialPointsDataFrame", SpatialPoints(coords, 
-		proj4string = proj4string), data = data,
+		proj4string = proj4string), data = as(data, "AttributeList"),
 		coords.nrs = coords.nrs)
 }
 
@@ -9,8 +9,8 @@ setMethod("coordinates", "SpatialPointsDataFrame", function(obj) obj@coords)
 
 "coordinates<-" = function(object, value) {
 	coord.numbers = NULL
-	if (!inherits(object, "data.frame"))
-		stop("coordinates can only be set on objects of class data.frame")
+	if (!is.list(object))
+		stop("coordinates can only be set on objects of class data.frame or list")
 	if (inherits(value, "formula")) {
 		cc = model.frame(value, object) # retrieve coords
 		if (dim(cc)[2] == 2) {
@@ -31,10 +31,14 @@ setMethod("coordinates", "SpatialPointsDataFrame", function(obj) obj@coords)
 		coord.numbers = value
 	} else  # raw coordinates given; try transform them to matrix:
 		cc = coordinates(value)
+	if (any(is.na(cc)))
+		stop("coordinates are not allowed to contain missing values")
 	if (!is.null(coord.numbers)) {
 		object = object[ , -coord.numbers, drop = FALSE]
 		stripped = coord.numbers
 		# ... but as.data.frame(x) will merge them back in, so nothing gets lost.
+		if (ncol(object) == 0) stop(
+			"only coords columns present: use SpatialPoints to create a points object")
 	} else
 		stripped = numeric(0)
 	SpatialPointsDataFrame(data = object, coords = cc, coords.nrs = stripped)
@@ -86,6 +90,11 @@ setAs("SpatialPointsDataFrame", "data.frame", function(from)
 names.SpatialPointsDataFrame <- function(x) {
 	# names(as(x, "data.frame"))
 	names(x@data)
+}
+
+"names<-.SpatialPointsDataFrame" <- function(x, value) {
+	names(x@data) <- value
+	x
 }
 
 ShowSpatialPointsDataFrame = function(object) print.SpatialPointsDataFrame(object)

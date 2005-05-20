@@ -1,3 +1,4 @@
+AttributeList-class     Class "AttributeList"
 CRS-class               Class "CRS" of coordinate reference system
                         arguments
 GridTopology-class      Class "GridTopology" ~~~

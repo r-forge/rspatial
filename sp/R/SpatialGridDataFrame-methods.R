@@ -5,33 +5,34 @@ SpatialPixelsDataFrame = function(points, data, tolerance = 10 * .Machine$double
 	if (!is(points, "SpatialPoints"))
 		points = SpatialPoints(points, proj4string = proj4string)
 	points = SpatialPixels(points, tolerance)
-	new("SpatialPixelsDataFrame", points, data = data)
+	new("SpatialPixelsDataFrame", points, data = as(data, "AttributeList"))
 }
 
 SpatialGridDataFrame = function(grid, data, proj4string = CRS(as.character(NA)))
-	new("SpatialGridDataFrame", SpatialGrid(grid, proj4string), data = data)
+	new("SpatialGridDataFrame", SpatialGrid(grid, proj4string), 
+		data = as(data, "AttributeList"))
 
-as.SPDF.SGDF = function(from) {
+as.SPixDF.SGDF = function(from) {
    	fd = from@data
    	data = list()
    	n = .NumberOfCells(from@grid)
-   	for (i in seq(along=fd)) {
+   	for (i in seq(along=fd@att)) {
 		data[[i]] = vector(mode(fd[[i]]), n)
-      		if (is.factor(fd[[i]]))
+      	if (is.factor(fd[[i]]))
 			data[[i]] = factor(data[[i]], levels = levels(fd[[i]]))
+		data[[i]][from@grid.index] = fd[[i]]
+		data[[i]][-from@grid.index] = NA
    	}
-   	data = data.frame(data)
+   	#data = data.frame(data)
+	data = AttributeList(data)
    	names(data) = names(fd)
-   	for (i in seq(along=fd)) {
-		data[from@grid.index, i] = fd[[i]]
-		data[-from@grid.index, i] = NA
-	}
 	SpatialGridDataFrame(from@grid, data, CRS(proj4string(from)))
 }
-setAs("SpatialPixelsDataFrame", "SpatialGridDataFrame", as.SPDF.SGDF)
+setAs("SpatialPixelsDataFrame", "SpatialGridDataFrame", as.SPixDF.SGDF)
 
-as.SGDF.SPDF = function(from) { 
-	sel = apply(from@data, 1, function(x) !all(is.na(x)))
+as.SGDF.SPixDF = function(from) { 
+	#sel = apply(from@data, 1, function(x) !all(is.na(x)))
+	sel = apply(sapply(from@data@att, is.na), 1, function(x) !all(x))
 	if (!any(sel)) {
 		warning("complete map seems to be NA's -- no selection was made")
 		sel = rep(TRUE, length(sel))
@@ -39,7 +40,7 @@ as.SGDF.SPDF = function(from) {
    	SpatialPixelsDataFrame(points = coordinates(from)[sel,], 
 		data = from@data[sel,,drop=FALSE], proj4string = CRS(proj4string(from)))
 }
-setAs("SpatialGridDataFrame", "SpatialPixelsDataFrame", as.SGDF.SPDF)
+setAs("SpatialGridDataFrame", "SpatialPixelsDataFrame", as.SGDF.SPixDF)
 setAs("SpatialGridDataFrame", "SpatialPointsDataFrame", 
 	function(from) as(as(from, "SpatialPixelsDataFrame"), "SpatialPointsDataFrame"))
 

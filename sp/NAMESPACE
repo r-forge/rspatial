@@ -14,6 +14,8 @@ export(dimensions)
  
 export(SpatialPoints, SpatialPointsDataFrame)
 
+export(AttributeList)
+
 export(Sline, Slines, SpatialLines, SpatialLinesDataFrame, as.SpatialLines.SLDF)
 
 export(
@@ -77,6 +79,7 @@ exportClasses(CRS,
 	Sline, 
 	Slines,
 	SpatialLines, 
+	AttributeList,
  	SpatialPointsDataFrame, 
 	SpatialPixelsDataFrame,
 	SpatialGridDataFrame,
@@ -104,17 +107,22 @@ S3method("[[<-", SpatialRingsDataFrame)
 S3method("[[", SpatialLinesDataFrame)
 S3method("[[<-", SpatialLinesDataFrame)
 
+S3method("[[", AttributeList)
+S3method("[[<-", AttributeList)
+
 S3method("$", SpatialPointsDataFrame)
 S3method("$", SpatialPixelsDataFrame)
 S3method("$", SpatialGridDataFrame)
 S3method("$", SpatialLinesDataFrame)
 S3method("$", SpatialRingsDataFrame)
+S3method("$", AttributeList)
 
 S3method("$<-", SpatialPointsDataFrame)
 S3method("$<-", SpatialPixelsDataFrame)
 S3method("$<-", SpatialGridDataFrame)
 S3method("$<-", SpatialLinesDataFrame)
 S3method("$<-", SpatialRingsDataFrame)
+S3method("$<-", AttributeList)
 
 S3method(as.matrix, SpatialGridDataFrame)
 S3method(as.matrix, SpatialPixelsDataFrame)
@@ -125,10 +133,12 @@ S3method(as.data.frame, SpatialPixelsDataFrame)
 S3method(as.data.frame, SpatialGridDataFrame)
 S3method(as.data.frame, SpatialLinesDataFrame)
 S3method(as.data.frame, SpatialRingsDataFrame)
+S3method(as.data.frame, AttributeList)
 
 S3method(cbind, SpatialGridDataFrame)
 
 S3method(dim, SpatialPointsDataFrame)
+S3method(dim, AttributeList)
 
 S3method(image, SpatialPixelsDataFrame)
 S3method(image, SpatialGridDataFrame)
@@ -141,6 +151,10 @@ S3method(names, SpatialPointsDataFrame)
 S3method(names, SpatialPixelsDataFrame)
 S3method(names, SpatialLinesDataFrame)
 S3method(names, SpatialRingsDataFrame)
+S3method(names, AttributeList)
+
+S3method("names<-", SpatialPointsDataFrame)
+S3method("names<-", AttributeList)
 
 S3method(plot, Spatial)
 S3method(plot, SpatialPoints)
@@ -174,6 +188,7 @@ S3method(print, summary.SpatialGridDataFrame)
 S3method(stack, SpatialPointsDataFrame)
 S3method(stack, SpatialPixelsDataFrame)
 S3method(stack, SpatialGridDataFrame)
+S3method(stack, AttributeList)
 
 S3method(subset, SpatialPoints)
 S3method(subset, SpatialPointsDataFrame)
@@ -189,6 +204,7 @@ S3method(summary, SpatialGridDataFrame)
 S3method(summary, SpatialLines)
 S3method(summary, SpatialLinesDataFrame)
 S3method(summary, SpatialRingsDataFrame)
+S3method(summary, AttributeList)
 
 export(".__C__CRS")
 export(".__C__SpatialPoints")
@@ -200,4 +216,3 @@ export(".__C__SpatialLines")
 export(".__C__Sring")
 export(".__C__Srings")
 export(".__C__SpatialRings")
-

@@ -44,7 +44,8 @@ Error in validObject(.Object) : invalid class "SpatialPoints" object: spatial.di
 > # is.na.sp.coords
 > a = data.frame(cbind(xx=c(1,NA,2,10),yy=c(2,NA,NA,20)))
 > try(coordinates(a) <- c("xx", "yy")) # should fail!
-Error in validObject(.Object) : invalid class "SpatialPoints" object: bbox should never contain NA values
+Error in "coordinates<-"(`*tmp*`, value = c("xx", "yy")) : 
+	coordinates are not allowed to contain missing values
 > 
 > x = meuse[1:4,]
 > coordinates(x) = c(1,2)
@@ -61,13 +62,13 @@ Error in validObject(.Object) : invalid class "SpatialPoints" object: bbox shoul
 > 
 > # this will fail, as "x" is not in the data part:
 > try(x[c("zinc", "x", "copper", "zinc")])
-Error in "[.data.frame"(x@data, i, j, drop = FALSE) : 
-	undefined columns selected
+Error in x@data[i, j, drop = FALSE] : undefined columns selected
 > 
 > xx = data.frame(x=1:10, y=1:10)
 > 
 > # fails; use SpatialPoints() to create points without attribute 
 > try(coordinates(xx) <- c("x", "y")) 
-Error in validityMethod(object) : data.frame is empty (possibly after stripping coordinate columns): use SpatialPoints() to create points-only object
+Error in "coordinates<-"(`*tmp*`, value = c("x", "y")) : 
+	only coords columns present: use SpatialPoints to create a points object
 > 
 > 
