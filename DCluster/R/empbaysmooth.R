@@ -48,7 +48,6 @@ empbaysmooth<-function(Observed, Expected, maxiter=20, tol=1e-5)
 		m<-mean(smthrr[idx])
 		v<- sum( (1+alpha/Expected[idx]) * ((smthrr[idx]-m0)^2) )/(n1-1)
 
-		print(iter)
 		iter<-iter+1
 	}
 
