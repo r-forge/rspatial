@@ -76,8 +76,6 @@ as.matrix.SpatialGridDataFrame = function(x) {
 setAs("SpatialPixelsDataFrame", "matrix", function(from) as.matrix.SpatialPixelsDataFrame(from))
 setAs("SpatialGridDataFrame", "matrix", function(from) as.matrix.SpatialGridDataFrame(from))
 
-names.SpatialPixelsDataFrame = function(x) names(as.data.frame(x))
-
 as.data.frame.SpatialPixelsDataFrame = function(x, row.names, optional)
 	as.data.frame(as(x, "SpatialPointsDataFrame"))
 
@@ -233,9 +231,6 @@ cbind.SpatialGridDataFrame = function(...) {
 	gr
 }
 
-names.SpatialPixelsDataFrame = function(x) names(as(x, "SpatialPointsDataFrame"))
-names.SpatialGridDataFrame = function(x) names(as(x, "SpatialPointsDataFrame"))
-
 print.SpatialPixelsDataFrame = function(x, ...) {
 	cat("Object of class SpatialPixelsDataFrame\n")
 	print(as(x, "SpatialPixels"))
@@ -268,3 +263,6 @@ print.summary.SpatialGridDataFrame = print.summary.Spatial
 
 names.SpatialPixelsDataFrame = function(x) names(x@data)
 names.SpatialGridDataFrame = function(x) names(x@data)
+
+"names<-.SpatialPixelsDataFrame" = function(x,value) { names(x@data) = value; x }
+"names<-.SpatialGridDataFrame" = function(x,value) { names(x@data) = value; x }

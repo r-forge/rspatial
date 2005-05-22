@@ -26,6 +26,10 @@
 
 setMethod("coordinates", "SpatialPointsDataFrame", function(obj) obj@coords)
 
+#setReplaceMethod("coordinates", signature(object = "data.frame", value = "numeric"),
+#	coordinates.num)
+#coordinates.repl = function(object, value) {
+
 "coordinates<-" = function(object, value) {
 	coord.numbers = NULL
 	if (!is.list(object))
@@ -65,9 +69,9 @@ setMethod("coordinates", "SpatialPointsDataFrame", function(obj) obj@coords)
 }
 
 print.SpatialPointsDataFrame = function(x, ...) {
-  cc = substring(paste(as.data.frame(t(signif(coordinates(x))))),2,999)
-  # could be done in S-Plus by unpaste(x, "c")[[2]]
-  print(data.frame("coordinates" = cc, x@data), ...)
+	cc = substring(paste(as.data.frame(t(signif(coordinates(x))))),2,999)
+	# could be done in S-Plus by unpaste(x, "c")[[2]]
+	print(data.frame("coordinates" = cc, x@data), ...)
 }
 
 dim.SpatialPointsDataFrame = function(x) dim(x@data)
@@ -107,15 +111,8 @@ as.data.frame.SpatialPointsDataFrame = function(x, row.names, optional)  {
 setAs("SpatialPointsDataFrame", "data.frame", function(from)
 	as.data.frame.SpatialPointsDataFrame(from))
 
-names.SpatialPointsDataFrame <- function(x) {
-	# names(as(x, "data.frame"))
-	names(x@data)
-}
-
-"names<-.SpatialPointsDataFrame" <- function(x, value) {
-	names(x@data) <- value
-	x
-}
+names.SpatialPointsDataFrame <- function(x) names(x@data)
+"names<-.SpatialPointsDataFrame" <- function(x, value) { names(x@data) = value; x }
 
 ShowSpatialPointsDataFrame = function(object) print.SpatialPointsDataFrame(object)
 

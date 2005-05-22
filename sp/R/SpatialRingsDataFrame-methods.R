@@ -23,6 +23,7 @@ SpatialRingsDataFrame <- function(Sr, data, match.ID = TRUE) {
 #setMethod("rings", "SpatialRingsDataFrame", function(obj) as(obj, "SpatialRings"))
 
 names.SpatialRingsDataFrame = function(x) names(x@data)
+"names<-.SpatialRingsDataFrame" = function(x,value) { names(x@data) = value; x }
 
 as.data.frame.SpatialRingsDataFrame = function(x, row.names, optional) x@data
 

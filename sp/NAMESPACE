@@ -154,6 +154,10 @@ S3method(names, SpatialRingsDataFrame)
 S3method(names, AttributeList)
 
 S3method("names<-", SpatialPointsDataFrame)
+S3method("names<-", SpatialRingsDataFrame)
+S3method("names<-", SpatialLinesDataFrame)
+S3method("names<-", SpatialPixelsDataFrame)
+S3method("names<-", SpatialGridDataFrame)
 S3method("names<-", AttributeList)
 
 S3method(plot, Spatial)
