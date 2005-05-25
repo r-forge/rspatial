@@ -90,5 +90,10 @@ zc=as.character(z)
 zc[is.na(zc)]="NA"
 text(cc[,1],cc[,2],zc)
 
+# the following is weird, but illustrates the concept of row/col selection:
+fullgrid(meuse.grid) = TRUE
+image(meuse.grid)
+image(meuse.grid[20:70, 10:70, "dist"], add = TRUE, col = bpy.colors())
+
 }
 \keyword{classes}

@@ -8,7 +8,7 @@ export(CRS, print.CRS, proj4string, "proj4string<-", is.projected)
 export(bbox, getGridIndex, points2grid, bpy.colors, bubble,
 	mapasp, point.in.polygon, map.to.lev, zerodist, remove.duplicates)
 
-export("coordinates<-", coordinatevalues)
+export(coordinatevalues)
 
 export(dimensions)
  
@@ -87,8 +87,9 @@ exportClasses(CRS,
 
 exportClasses(Sring, Srings, SpatialRings, SpatialRingsDataFrame)
 
-exportMethods(show, bbox, coordinates, gridded, rings, dimensions, coerce, "[",
-	transform, overlay, spplot, spsample) # not arcs
+exportMethods(show, bbox, coordinates, "coordinates<-",
+	coordnames, "coordnames<-", gridded, rings, dimensions, coerce,
+	"[", transform, overlay, spplot, spsample)
 
 exportMethods(recenter)
 

@@ -1,6 +1,6 @@
-names(x)<- methods for *DataFrame
-
-coordnames(x)<- methods for ... all?
+coerce:
+	SpatialRings <---> SpatialLines
+	SpatialLines ---> SpatialPointsDataFrame, adding Sline.ID, Slines.ID and Line.ID
 
 verify (re)projection of Spatial[Pixel|Grid]DataFrame
 
@@ -8,22 +8,17 @@ document (and check) x[row,col,vars] indexing of SpatialGridDataFrame
 
 rgdal interfacing (in rgdal? spgdal?)
 
-gridded(x) = TRUE for x SpatialPoints should create SpatialGrid.
+### gridded(x) = TRUE for x SpatialPoints should create SpatialGrid.
+
 spplot: draw image as background or on top (transparent)
 
-spplot: pass spplot.panel generic function, or arg1 type-specific ones?
-
 Higher-dimensional grids: drop dimension after selection? (now fails)
+check for dim > 3 for SpatialPoints and SpatialGrid
+check points and grids with more than three dimensions.
 
 document methods for SpatialRings[DF] class
 
-check for dim > 3 for SpatialPoints and SpatialGrid
-check points and grids with more than three dimensions.
-(coordinates on a data.frame works for ndim > 3!)
-
 write dist(a, b, c("Euclidian", "squared", "Manhattan", "bbox")) generic/methods?
-
-convert SpatialRings to SpatialLines -- is it necessary?
 
 spplot:
 - document sp.layout argument, and layout.north.arrow(), layout.scale.bar()

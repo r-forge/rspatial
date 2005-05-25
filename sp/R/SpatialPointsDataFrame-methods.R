@@ -30,10 +30,12 @@ setMethod("coordinates", "SpatialPointsDataFrame", function(obj) obj@coords)
 #	coordinates.num)
 #coordinates.repl = function(object, value) {
 
-"coordinates<-" = function(object, value) {
+setReplaceMethod("coordinates", signature(object = "data.frame", value = "ANY"),
+  function(object, value) {
+#"coordinates<-" = function(object, value) {
 	coord.numbers = NULL
-	if (!is.list(object))
-		stop("coordinates can only be set on objects of class data.frame or list")
+	#if (!is.list(object))
+	#	stop("coordinates can only be set on objects of class data.frame or list")
 	if (inherits(value, "formula")) {
 		cc = model.frame(value, object) # retrieve coords
 		if (dim(cc)[2] == 2) {
@@ -66,7 +68,9 @@ setMethod("coordinates", "SpatialPointsDataFrame", function(obj) obj@coords)
 		stripped = numeric(0)
 	SpatialPointsDataFrame(data = object, coords = cc, coords.nrs = stripped,
 		match.ID = FALSE)
-}
+#}
+  }
+)
 
 print.SpatialPointsDataFrame = function(x, ...) {
 	cc = substring(paste(as.data.frame(t(signif(coordinates(x))))),2,999)
@@ -113,6 +117,8 @@ setAs("SpatialPointsDataFrame", "data.frame", function(from)
 
 names.SpatialPointsDataFrame <- function(x) names(x@data)
 "names<-.SpatialPointsDataFrame" <- function(x, value) { names(x@data) = value; x }
+
+#"coordnames<-.SpatialPointsDataFrame" <- function(x, value)
 
 ShowSpatialPointsDataFrame = function(object) print.SpatialPointsDataFrame(object)
 

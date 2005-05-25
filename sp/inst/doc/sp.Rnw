@@ -338,7 +338,7 @@ To form such a grid we can go from coordinates:
 <<>>=
 attr = expand.grid(xc = 1:3, yc = 1:3)
 grd.attr = data.frame(attr, z1 = 1:9, z2 = 9:1)
-coordinates(grd.attr) = ~xc + yc
+coordinates(grd.attr) = ~xc+yc
 gridded(grd.attr)
 gridded(grd.attr) = TRUE
 gridded(grd.attr)
