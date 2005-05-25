@@ -37,11 +37,6 @@ fullgrid(SpatialGrid) should work, as well as fullgrid(SpatialGrid)<-
 
 coordinates(spdf) = ~x+y # catch error; give useful message
 
-Documentation: write an sp introductory rweave vignette: (i) for users,
-(ii) for package developers, or one for both? Yes, I think one for both.
-
-Run through all examples and tests.
-
 For plotting functions (plot, bubble) use a reasonable x/y ratio for
 unprojected data (look in maps?), or bail out with an error
 

@@ -13,20 +13,22 @@ SpatialGridDataFrame = function(grid, data, proj4string = CRS(as.character(NA)))
 		data = as(data, "AttributeList"))
 
 as.SPixDF.SGDF = function(from) {
-   	fd = from@data
-   	data = list()
+   	#fd = from@data
+   	#data = list()
    	n = .NumberOfCells(from@grid)
-   	for (i in seq(along=fd@att)) {
-		data[[i]] = vector(mode(fd[[i]]), n)
-      	if (is.factor(fd[[i]]))
-			data[[i]] = factor(data[[i]], levels = levels(fd[[i]]))
-		data[[i]][from@grid.index] = fd[[i]]
-		data[[i]][-from@grid.index] = NA
+   	for (i in seq(along=from@data@att)) {
+		# data[[i]] = vector(mode(from@data[[i]]), n)
+		v = vector(mode(from@data[[i]]), n)
+      	if (is.factor(from@data[[i]]))
+			v = factor(from@data[[i]], levels = levels(from@data[[i]]))
+		v[from@grid.index] = from@data[[i]]
+		v[-from@grid.index] = NA
+		from@data@att[[i]] = v
    	}
    	#data = data.frame(data)
-	data = AttributeList(data)
-   	names(data) = names(fd)
-	SpatialGridDataFrame(from@grid, data, CRS(proj4string(from)))
+	#data = AttributeList(data)
+   	#names(data) = names(from@data)
+	SpatialGridDataFrame(from@grid, from@data, CRS(proj4string(from)))
 }
 setAs("SpatialPixelsDataFrame", "SpatialGridDataFrame", as.SPixDF.SGDF)
 
