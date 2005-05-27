@@ -180,13 +180,17 @@ gwr <- function(formula, data = list(), coords, bandwidth,
 				gwr.b, gwr.R2, gwr.se), proj4string=CRS(p4s))
 		}		
 	} else {
+		
 		SDF <- SpatialPointsDataFrame(coords=fit.points, 
-		data=data.frame(sum.w=sum.w, gwr.b, gwr.R2, gwr.se), 
-		proj4string=CRS(p4s))
+		data=data.frame(sum.w=sum.w, gwr.b, gwr.R2, gwr.se, 
+			fit.points), proj4string=CRS(p4s))
 	}
 	if (gridded) gridded(SDF) <- TRUE
-	else if (!is.null(Polys)) SDF <- SpatialRingsDataFrame(Sr=Polys, 
-		data=as(SDF, "data.frame"))
+	else if (!is.null(Polys)) {
+		df <- data.frame(SDF@data)
+		rownames(df) <- getSRSringsIDSlots(Polys)
+		SDF <- SpatialRingsDataFrame(Sr=Polys, data=df)
+	}
 	z <- list(SDF=SDF, lhat=lhat, lm=lm, results=results, 
 		bandwidth=bw, adapt=adapt, hatmatrix=hatmatrix, 
 		gweight=deparse(substitute(gweight)), this.call=this.call)

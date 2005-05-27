@@ -158,12 +158,14 @@ gw.cov <- function(x, vars, fp, adapt=NULL, bw, gweight=gwr.bisquare,
 	for (i in means) res[,((nc*2)+i)] <- dm[i] * sqrt(swts2)
 	for (i in means) 
 		res[,((nc*3)+i)] <- (gxbar[i] - res[,i]) / res[,((nc*2)+i)]
-	SDF <- SpatialPointsDataFrame(coords=fp, data=data.frame(res), 
-		proj4string=CRS(p4s))
+	SDF <- SpatialPointsDataFrame(coords=fp, data=data.frame(res, 
+		fp), proj4string=CRS(p4s))
 	if (gridded) gridded(SDF) <- TRUE
-	else if (!is.null(Polys) && fp.missing) 
-		SDF <- SpatialRingsDataFrame(Sr=Polys, 
-		data=as(SDF, "data.frame"))
+	else if (!is.null(Polys) && fp.missing) {
+		df <- data.frame(SDF@data)
+		rownames(df) <- getSRSringsIDSlots(Polys)
+		SDF <- SpatialRingsDataFrame(Sr=Polys, data=df)
+	}
 	res <- list(SDF=SDF, bandwidth=bw, adapt=adapt,  
 		gweight=deparse(substitute(gweight)))
 	class(res) <- c("gw.cov", "matrix")
