@@ -82,46 +82,46 @@ putSites6 <- function(df, vname) {
 	cmd
 }
 
-readCELL6 <- function(vname, cat=FALSE) {
-	tmpfl <- tempfile()
-	system(paste("r.out.arc input=", vname, " output=", tmpfl, sep=""))
-	library(rgdal)
-	hdl <- GDAL.open(tmpfl)
-	dims <- dim(hdl)
-	res <- getRasterTable(hdl)
-	GDAL.close(hdl)
-	if (cat) {
-		cats <- strsplit(system(paste("r.stats -l", vname), 
-			intern=TRUE), " ")
-		catnos <- sapply(cats, function(x) x[1])
-		catlabs <- sapply(cats, function(x) paste(x[-1], collapse=" "))
-		if (any(!is.na(match(catnos, "*")))) {
-			isNA <- which(catnos == "*")
-			catnos <- catnos[-isNA]
-			catlabs <- catlabs[-isNA]
-		}
-		res[,3] <- factor(res[,3], levels=catnos, labels=catlabs)
-	} else {
-		res[,3] <- as.integer(res[,3])
-	}
-	colnames(res) <- c("north", "east", vname)
-	attr(res, "hdl_dims") <- dims
-	res
-}
+# readCELL6 <- function(vname, cat=FALSE) {
+# 	tmpfl <- tempfile()
+# 	system(paste("r.out.arc input=", vname, " output=", tmpfl, sep=""))
+# 	library(rgdal)
+# 	hdl <- GDAL.open(tmpfl)
+# 	dims <- dim(hdl)
+# 	res <- getRasterTable(hdl)
+# 	GDAL.close(hdl)
+# 	if (cat) {
+# 		cats <- strsplit(system(paste("r.stats -l", vname), 
+# 			intern=TRUE), " ")
+# 		catnos <- sapply(cats, function(x) x[1])
+# 		catlabs <- sapply(cats, function(x) paste(x[-1], collapse=" "))
+# 		if (any(!is.na(match(catnos, "*")))) {
+# 			isNA <- which(catnos == "*")
+# 			catnos <- catnos[-isNA]
+# 			catlabs <- catlabs[-isNA]
+# 		}
+# 		res[,3] <- factor(res[,3], levels=catnos, labels=catlabs)
+# 	} else {
+# 		res[,3] <- as.integer(res[,3])
+# 	}
+# 	colnames(res) <- c("north", "east", vname)
+# 	attr(res, "hdl_dims") <- dims
+# 	res
+# }
 
-readFLOAT6 <- function(vname) {
-	tmpfl <- tempfile()
-	system(paste("r.out.arc input=", vname, " output=", tmpfl, sep=""))
-	library(rgdal)
-	hdl <- GDAL.open(tmpfl)
-	dims <- dim(hdl)
-	res <- getRasterTable(hdl)
-	GDAL.close(hdl)
-	res[,3] <- as.double(res[,3])
-	colnames(res) <- c("north", "east", vname)
-	attr(res, "hdl_dims") <- dims
-	res
-}
+# readFLOAT6 <- function(vname) {
+# 	tmpfl <- tempfile()
+# 	system(paste("r.out.arc input=", vname, " output=", tmpfl, sep=""))
+# 	library(rgdal)
+# 	hdl <- GDAL.open(tmpfl)
+# 	dims <- dim(hdl)
+# 	res <- getRasterTable(hdl)
+# 	GDAL.close(hdl)
+# 	res[,3] <- as.double(res[,3])
+# 	colnames(res) <- c("north", "east", vname)
+# 	attr(res, "hdl_dims") <- dims
+# 	res
+# }
 
 
 readCELL6sp <- function(vname, cat=FALSE) {
@@ -140,9 +140,9 @@ readCELL6sp <- function(vname, cat=FALSE) {
 			catnos <- catnos[-isNA]
 			catlabs <- catlabs[-isNA]
 		}
-		res@data[,1] <- factor(res@data[,1], levels=catnos, labels=catlabs)
+		res@data[[1]] <- factor(res@data[[1]], levels=catnos, labels=catlabs)
 	} else {
-		res@data[,1] <- as.integer(res@data[,1])
+		res@data[[1]] <- as.integer(res@data[[1]])
 	}
 	res
 }
@@ -158,7 +158,7 @@ readFLOAT6sp <- function(vname) {
 
 
 writeRast6sp <- function(x, vname, zcol = 1, NODATA=-9999) {
-	if (!is.numeric(x@data[,zcol])) 
+	if (!is.numeric(x@data[[zcol]])) 
 		stop("only numeric columns may be exported")
 	tmpfl <- tempfile()
 	library(sp)
@@ -167,59 +167,59 @@ writeRast6sp <- function(x, vname, zcol = 1, NODATA=-9999) {
 }
 
 
-writeRast6 <- function(df, vname, zcol = 3, xcol = 1, ycol = 2, NODATA=-9999,
-    tol=1e-8) {
-	if (!is.numeric(df[,zcol])) stop("only numeric columns may be exported")
-	tmpfl <- tempfile()
-	arcGrid(df, tmpfl, zcol=zcol, xcol=xcol, ycol=ycol, NODATA=NODATA,
-		tol=tol)
-	system(paste("r.in.gdal -o input=", tmpfl, " output=", vname, sep=""))
-}
+# writeRast6 <- function(df, vname, zcol = 3, xcol = 1, ycol = 2, NODATA=-9999,
+#    tol=1e-8) {
+# 	if (!is.numeric(df[,zcol])) stop("only numeric columns may be exported")
+# 	tmpfl <- tempfile()
+# 	arcGrid(df, tmpfl, zcol=zcol, xcol=xcol, ycol=ycol, NODATA=NODATA,
+# 		tol=tol)
+# 	system(paste("r.in.gdal -o input=", tmpfl, " output=", vname, sep=""))
+# }
 
-arcGrid <- function (xyz, file, zcol = 3, xcol = 1, ycol = 2, NODATA=-9999,
-    tol=1e-8) 
+# arcGrid <- function (xyz, file, zcol = 3, xcol = 1, ycol = 2, NODATA=-9999,
+#    tol=1e-8) 
 # original code by Edzer Pebesma
-{
-    if (ncol(xyz) < 3) 
-        stop("xyz object should have at least three columns")
-    z = xyz[, zcol]
-    z[!is.finite(z)] <- NODATA
-    x = xyz[, xcol]
-    y = xyz[, ycol]
-    xx = sort(unique(x))
-    yy = sort(unique(y))
-    my = match(y, yy)
-    nx = length(xx)
-    ny = length(yy)
-    nmax = max(nx, ny)
-    difx = diff(xx)
-    if (diff(range(unique(difx))) > tol) 
-        stop("x intervals are not constant")
-    dify = diff(yy)
-    if (diff(range(unique(dify))) > tol) 
-        stop("y intervals are not constant")
-    dx = difx[1]
-    dy = dify[1]
-    ratio = (nx * dx)/(ny * dy)
-    xmin = min(xx)
-    xmax = max(xx)
-    xrange = xmax - xmin
-    ymin = min(yy)
-    ymax = max(yy)
-    yrange = ymax - ymin
-    zzz <- file(file, "w")
-    cat("NCOLS ", nx, "\n", file=zzz)
-    cat("NROWS ", ny, "\n", file=zzz)
-    cat("XLLCENTER ", xmin, "\n", file=zzz)
-    cat("YLLCENTER ", ymin, "\n", file=zzz)
-    cat("CELLSIZE" , dx, "\n", file=zzz)
-    cat("NODATA_VALUE" , NODATA, "\n", file=zzz)
-    for(i in ny:1) {
-	zz <- rep(NODATA, nx)
-	mmy <- which(my == i)
-	zz[match(x[mmy], xx)] <- z[mmy]
-        write(zz, file=zzz, ncolumns=nx, append=TRUE)
-    }
-    close(zzz)
-}
+# {
+#    if (ncol(xyz) < 3) 
+#       stop("xyz object should have at least three columns")
+#  z = xyz[, zcol]
+#     z[!is.finite(z)] <- NODATA
+#     x = xyz[, xcol]
+#     y = xyz[, ycol]
+#     xx = sort(unique(x))
+#     yy = sort(unique(y))
+#     my = match(y, yy)
+#     nx = length(xx)
+#     ny = length(yy)
+#     nmax = max(nx, ny)
+#     difx = diff(xx)
+#     if (diff(range(unique(difx))) > tol) 
+#         stop("x intervals are not constant")
+#     dify = diff(yy)
+#     if (diff(range(unique(dify))) > tol) 
+#         stop("y intervals are not constant")
+#     dx = difx[1]
+#     dy = dify[1]
+#     ratio = (nx * dx)/(ny * dy)
+#     xmin = min(xx)
+#     xmax = max(xx)
+#     xrange = xmax - xmin
+#     ymin = min(yy)
+#     ymax = max(yy)
+#     yrange = ymax - ymin
+#     zzz <- file(file, "w")
+#     cat("NCOLS ", nx, "\n", file=zzz)
+#     cat("NROWS ", ny, "\n", file=zzz)
+#     cat("XLLCENTER ", xmin, "\n", file=zzz)
+#     cat("YLLCENTER ", ymin, "\n", file=zzz)
+#     cat("CELLSIZE" , dx, "\n", file=zzz)
+#     cat("NODATA_VALUE" , NODATA, "\n", file=zzz)
+#     for(i in ny:1) {
+# 	zz <- rep(NODATA, nx)
+# 	mmy <- which(my == i)
+# 	zz[match(x[mmy], xx)] <- z[mmy]
+#        write(zz, file=zzz, ncolumns=nx, append=TRUE)
+#     }
+#     close(zzz)
+# }
 
