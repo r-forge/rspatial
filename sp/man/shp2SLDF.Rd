@@ -10,8 +10,8 @@
   These functions show how to build converters from external formats to build SpatialLinesDataFrame objects: \code{shp2SLDF} from \code{"arc"} type ESRI shapefiles read into \code{"Map"} objects using the \code{read.shape()} function in the maptools package; \code{arcobj2SLDF} from the list returned by the \code{get.arcdata} function in the RArcInfo package; and \code{contourLines2SLDF} from the list returned by the \code{contourLines} function in the graphics package (here the data frame is just the contour levels, with one Slines object made up of at least one Sline object per level). 
 }
 \usage{
-shp2SLDF(shp, proj4string = CRS(as.character(NA)))
-arcobj2SLDF(arc, proj4string=CRS(as.character(NA)))
+shp2SLDF(shp, proj4string = CRS(as.character(NA)), IDs)
+arcobj2SLDF(arc, proj4string=CRS(as.character(NA)), IDs)
 contourLines2SLDF(cL, proj4string=CRS(as.character(NA)))
 }
 %- maybe also 'usage' for other objects documented here.
@@ -20,6 +20,7 @@ contourLines2SLDF(cL, proj4string=CRS(as.character(NA)))
   \item{arc}{a list returned by the \code{get.arcdata} function in the RArcInfo package}
   \item{cL}{a list returned by the \code{contourLines} function in the graphics package}
   \item{proj4string}{Object of class \code{"CRS"}; see \link{CRS-class}}
+  \item{IDs}{vector of unique character identifiers; if not given, suitable defaults will be used, and the same values inserted as data slot row names}
 }
 
 \value{
