@@ -134,6 +134,32 @@ shp2SLDF <- function(shp, proj4string=CRS(as.character(NA)), IDs) {
 	Slines
 }
 
+Mapgen2SL <- function(file, proj4string=CRS(as.character(NA))) {
+	con <- file(file, "r")
+	hold <- readLines(con)
+	close(con)
+	if (length(hold) == 500000) warning("500,000 point limit reached")
+	starts <- which(hold == "# -b")
+	n <- length(starts)
+	if (n < 1) stop("Not a Mapgen format file")
+	res <- vector(mode="list", length=n)
+	IDs <- paste("L", 1:n, sep="_")
+	for (i in 1:n) {
+		if (i < n) {
+			x <- t(sapply(strsplit(hold[(starts[i]+1):
+				(starts[i+1]-1)], "\t"), as.numeric))
+		} else {
+			x <- t(sapply(strsplit(hold[(starts[i]+1):
+				length(hold)], "\t"), as.numeric))
+		}
+		res[[i]] <- Slines(list(Sline(x, proj4string=proj4string)),
+			ID=IDs[i])
+	}
+	SL <- SpatialLines(res)
+	SL
+}
+
+
 plotSpatialLines <- function(SL, xlim = NULL, ylim = NULL, asp = 1, 
 	col = 1, add=FALSE, ...) 
 {

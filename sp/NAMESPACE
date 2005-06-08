@@ -30,6 +30,8 @@ export(
 #shapes2SlineList, shapes2SpatialLines, 
 shp2SLDF)
 
+export(Mapgen2SL)
+
 export(plotSpatialLines, plot.SpatialRings)
 
 export(spplot, layout.scale.bar, layout.north.arrow, sp.theme,
