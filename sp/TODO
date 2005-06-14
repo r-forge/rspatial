@@ -2,15 +2,10 @@ coerce:
 	SpatialRings <---> SpatialLines
 	SpatialLines ---> SpatialPointsDataFrame, adding Sline.ID, Slines.ID and Line.ID
 
-verify (re)projection of Spatial[Pixel|Grid]DataFrame
-
-document (and check) x[row,col,vars] indexing of SpatialGridDataFrame
-
 rgdal interfacing (in rgdal? spgdal?)
 
-### gridded(x) = TRUE for x SpatialPoints should create SpatialGrid.
-
 spplot: draw image as background or on top (transparent)
+	start with colour indexed images; use grid.rect, see panel.levelplot
 
 Higher-dimensional grids: drop dimension after selection? (now fails)
 check for dim > 3 for SpatialPoints and SpatialGrid
@@ -18,7 +13,8 @@ check points and grids with more than three dimensions.
 
 document methods for SpatialRings[DF] class
 
-write dist(a, b, c("Euclidian", "squared", "Manhattan", "bbox")) generic/methods?
+write dist(a, b, c("Euclidian", "squared", "Manhattan", "bbox", "greatcircle")) 
+	generic/methods?
 
 spplot:
 - document sp.layout argument, and layout.north.arrow(), layout.scale.bar()
