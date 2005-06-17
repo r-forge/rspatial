@@ -10,7 +10,6 @@
 \alias{coordnames,Srings-method}
 \alias{coordnames,Sring-method}
 \alias{coordnames<-}
-% \alias{"coordnames<-"-methods}
 \alias{coordnames<-,SpatialPoints,character-method}
 \alias{coordnames<-,SpatialLines,character-method}
 \alias{coordnames<-,Slines,character-method}

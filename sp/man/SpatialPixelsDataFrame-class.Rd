@@ -4,8 +4,8 @@
 \alias{[,SpatialPixelsDataFrame-method}
 \alias{[[,SpatialPixelsDataFrame-method}
 \alias{[[<-,SpatialPixelsDataFrame-method}
-\alias{"$.SpatialPixelsDataFrame"}
-\alias{"$<-.SpatialPixelsDataFrame"}
+\alias{$.SpatialPixelsDataFrame}
+\alias{$<-.SpatialPixelsDataFrame}
 % \alias{SpatialPixelsDataFrame}
 \alias{plot.SpatialPixelsDataFrame}
 \alias{print.summary.SpatialPixelsDataFrame}
