@@ -161,7 +161,7 @@ Mapgen2SL <- function(file, proj4string=CRS(as.character(NA))) {
 
 
 plotSpatialLines <- function(SL, xlim = NULL, ylim = NULL, asp = 1, 
-	col = 1, lwd = 1, add=FALSE, ...) 
+	col = 1, lwd = 1, lty=1, add=FALSE, ...) 
 {
 #	frame()
 #	plot.window(xlim = xlim, ylim = ylim, asp = asp)
@@ -175,7 +175,10 @@ plotSpatialLines <- function(SL, xlim = NULL, ylim = NULL, asp = 1,
 				col <- rep(col[1], length(lst))
 			if (length(lwd) != length(lst)) 
 				lwd <- rep(lwd[1], length(lst))
-			lines(crds, col = col[i], lwd = lwd[i], ...)
+			if (length(lty) != length(lst)) 
+				lty <- rep(lty[1], length(lst))
+			lines(crds, col = col[i], lwd = lwd[i], 
+				lty = lty[i], ...)
 		}
 	}
 }
