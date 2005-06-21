@@ -19,8 +19,10 @@ gmeta6()
 \author{Roger S. Bivand, e-mail: \email{Roger.Bivand@nhh.no.}}
 
 \examples{
-\dontrun{G <- gmeta6()}
-\dontrun{str(G)}
+if (nchar(Sys.getenv("GISRC")) > 0) {
+  G <- gmeta6()
+  str(G)
+}
 }
 \keyword{spatial}
 

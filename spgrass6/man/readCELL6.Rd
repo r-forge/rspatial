@@ -55,14 +55,16 @@ writeRast6sp(x, vname, zcol = 1, NODATA=-9999)
 %\dontrun{range(dem$sqdem, na.rm=TRUE)}
 %\dontrun{writeRast6(dem, "sqdem", zcol=4, NODATA=-9999.99)}
 %\dontrun{system("r.info sqdem")}
-\dontrun{dem <- readFLOAT6sp("elevation.dem")}
-\dontrun{geol <- readCELL6sp("geology", cat = TRUE)}
-\dontrun{table(geol$geology)}
-\dontrun{system("r.stats -cl geology")}
-\dontrun{boxplot(dem$elevation.dem ~ geol$geology)}
-\dontrun{dem$sqdem <- sqrt(dem$elevation.dem)}
-\dontrun{writeRast6sp(dem, "sqdemSP", zcol=2, NODATA=-9999.99)}
-\dontrun{system("r.info sqdemSP")}
+if (nchar(Sys.getenv("GISRC")) > 0) {
+  dem <- readFLOAT6sp("elevation.dem")
+  geol <- readCELL6sp("geology", cat = TRUE)
+  table(geol$geology)
+  system("r.stats -cl geology")
+  boxplot(dem$elevation.dem ~ geol$geology)
+  dem$sqdem <- sqrt(dem$elevation.dem)
+  writeRast6sp(dem, "sqdemSP", zcol=2, NODATA=-9999.99)
+  system("r.info sqdemSP")
+}
 }
 \keyword{spatial}
 

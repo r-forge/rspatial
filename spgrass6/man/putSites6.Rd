@@ -23,9 +23,11 @@ putSites6(df, vname)
 \author{Roger S. Bivand, e-mail: \email{Roger.Bivand@nhh.no.}}
 
 \examples{
-\dontrun{bugs <- getSites6("bugsites")}
-\dontrun{str(bugs)}
-\dontrun{putSites6(bugs, "newbugs")}
+if (nchar(Sys.getenv("GISRC")) > 0) {
+  bugs <- getSites6("bugsites")
+  str(bugs)
+  putSites6(bugs, "newbugs")
+}
 }
 \keyword{spatial}
 

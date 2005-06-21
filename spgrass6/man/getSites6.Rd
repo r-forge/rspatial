@@ -22,8 +22,10 @@ getSites6(vname)
 \author{Roger S. Bivand, e-mail: \email{Roger.Bivand@nhh.no.}}
 
 \examples{
-\dontrun{bugs <- getSites6("bugsites")}
-\dontrun{str(bugs)}
+if (nchar(Sys.getenv("GISRC")) > 0) {
+  bugs <- getSites6("bugsites")
+  str(bugs)
+}
 }
 \keyword{spatial}
 
