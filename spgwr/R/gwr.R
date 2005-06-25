@@ -82,8 +82,10 @@ gwr <- function(formula, data = list(), coords, bandwidth,
 	if (!fp.given && hatmatrix) lhat <- matrix(nrow=n, ncol=n)
 	sum.w <- numeric(n)
 	for (i in 1:n) {
-		w.i <- gweight(gw.dists(coords, fit.points[i,], 
+		w.i <- gweight(gw.dists(coords, fit.points[i,],
 			lonlat=lonlat)^2, bandwidth[i])
+		if (any(w.i < 0 | is.na(w.i)))
+        		stop(paste("Invalid weights for i:", i))
 		lm.i <- lm.wfit(y=y, x=x, w=w.i)
 		sum.w[i] <- sum(w.i)
 		gwr.b[i,] <- coefficients(lm.i)

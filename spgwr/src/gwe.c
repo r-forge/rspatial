@@ -35,15 +35,19 @@ void gw_dists(double *u, double *v, double *uout, double *vout,
 		int *n, double *dists, int *lonlat)
 {
 	int N = *n, j;
-	double gc[1];
+	double gc[1], res;
 		
 	if (lonlat[0] == 0) {
-		for (j=0; j<N; j++) 
-			dists[j] = pythag((u[j]-uout[0]), (v[j]-vout[0]));
+		for (j=0; j<N; j++) {
+			res = pythag((u[j]-uout[0]), (v[j]-vout[0]));
+			if (R_FINITE(res)) dists[j] = res;
+			else dists[j] = (double) 0;
+		}
 	} else {
 		for (j=0; j<N; j++) {
 			gw_gcdist(u+j, uout, v+j, vout, gc);
-		    	dists[j] = gc[0];
+			if (R_FINITE(gc[0])) dists[j] = gc[0];
+			else dists[j] = (double) 0;
 		}
 	}
 }
