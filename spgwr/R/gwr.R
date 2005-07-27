@@ -90,8 +90,10 @@ gwr <- function(formula, data = list(), coords, bandwidth,
 		sum.w[i] <- sum(w.i)
 		gwr.b[i,] <- coefficients(lm.i)
 		ei <- residuals(lm.i)
-		rss <- (t(ei) %*% diag(w.i) %*% ei)
-		gwr.R2[i] <- 1 - (rss / (t(yiybar) %*% diag(w.i) %*% yiybar))
+# use of diag(w.i) dropped to avoid forming n by n matrix
+# bug report: Ilka Afonso Reis, July 2005
+		rss <- sum(ei * w.i * ei)
+		gwr.R2[i] <- 1 - (rss / sum(yiybar * w.i * yiybar))
 		p <- lm.i$rank
 		p1 <- 1:p
 		inv.Z <- chol2inv(lm.i$qr$qr[p1, p1, drop=FALSE])

@@ -27,8 +27,9 @@ gwr.sel(formula, data=list(), coords, adapt=FALSE, gweight=gwr.gauss, method = "
   \item{lonlat}{if TRUE, use distances on an ellipse with WGS84 parameters}
 }
 \value{
-returms the cross-validation bandwidth.
+returns the cross-validation bandwidth.
 }
+\note{Use of method="aic" results in the creation of an n by n matrix, and should not be chosen when n is large.}
 \references{Fotheringham, A.S., Brunsdon, C., and Charlton, M.E., 2002,
 Geographically Weighted Regression, Chichester: Wiley;
 \url{http://www.nuim.ie/ncg/GWR/index.htm}}
