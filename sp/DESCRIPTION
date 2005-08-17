@@ -1,6 +1,6 @@
 Package: sp
-Version: 0.7-11
-Date: 2005-06-16
+Version: 0.7-12
+Date: 2005-08-26
 Title: classes and methods for spatial data
 Author: Edzer J. Pebesma <e.pebesma@geo.uu.nl>, Roger Bivand <Roger.Bivand@nhh.no> and others
 Maintainer: Edzer J. Pebesma <e.pebesma@geo.uu.nl>
