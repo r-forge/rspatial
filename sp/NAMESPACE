@@ -73,6 +73,8 @@ export(transform.Spatial)
 export(makegrid, sample.Spatial, sample.Sline, sample.Sring, sample.Srings,
 	sample.Sgrid)
 
+export(as.SpatialRings.GridTopology, IDvaluesGridTopology)
+
 exportClasses(CRS, 
 	Spatial, 
 	SpatialPoints, 

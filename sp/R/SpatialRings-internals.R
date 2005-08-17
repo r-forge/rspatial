@@ -41,7 +41,7 @@ nParts.shp <- function(shp) attr(shp, "nParts")
 			from[i] <- NAs[(i-1)]+1
 		}
 	}
-	for (i in 1:nParts) res[[i]] <- xy[from[i]:to[i],]
+	for (i in 1:nParts) res[[i]] <- xy[from[i]:to[i],, drop = FALSE]
 	res
 }
 
