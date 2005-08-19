@@ -42,7 +42,10 @@ setMethod("spsample", signature(x = "Spatial"), sample.Spatial)
 sample.Sline = function(x, n, type, offset = runif(1), ...) {
 	cc = coordinates(x)
 	dxy = apply(cc, 2, diff)
-	lengths = apply(dxy, 1, function(x) sqrt(sum(x ** 2)))
+	if (inherits(dxy, "matrix"))
+		lengths = apply(dxy, 1, function(x) sqrt(sum(x ** 2)))
+	else # cc has 2 rows:
+		lengths = sqrt(sum(dxy ** 2))
 	csl = c(0, cumsum(lengths))
 	maxl = csl[length(csl)]
 	if (type == "random")
