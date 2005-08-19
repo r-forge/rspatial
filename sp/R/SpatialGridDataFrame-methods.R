@@ -67,13 +67,13 @@ as.matrix.SpatialPixelsDataFrame = function(x) {
 	as(x, "matrix")
 }
 
-as.matrix.SpatialGridDataFrame = function(x) {
+as.matrix.SpatialGridDataFrame = function(x, byrow = FALSE) {
 	if (ncol(x@data) > 1)
 		warning(
 		"as.matrix.SpatialPixelsDataFrame uses first column;\n pass subset or [] for other columns")
 	# try, at some stage also:
 	# matrix(x@data[[1]], x@grid@cells.dim[2], x@grid@cells.dim[1], byrow=TRUE)
-	matrix(x@data[[1]], x@grid@cells.dim[1], x@grid@cells.dim[2], byrow=FALSE)
+	matrix(x@data[[1]], x@grid@cells.dim[1], x@grid@cells.dim[2], byrow=byrow)
 }
 
 setAs("SpatialPixelsDataFrame", "matrix", function(from) as.matrix.SpatialPixelsDataFrame(from))
@@ -87,6 +87,9 @@ as.data.frame.SpatialGridDataFrame = function(x, row.names, optional)
 
 setAs("SpatialPixelsDataFrame", "data.frame", function(from) as.data.frame.SpatialPixelsDataFrame(from))
 setAs("SpatialGridDataFrame", "data.frame", function(from) as.data.frame.SpatialGridDataFrame(from))
+
+setAs("SpatialPixelsDataFrame", "AttributeList", function(from) from@data)
+setAs("SpatialGridDataFrame", "AttributeList", function(from) from@data)
 
 subset.SpatialPixelsDataFrame <- function(x, subset, select, drop = FALSE, ...) {
     if (version$major == 2 & version$minor < 1 ) {

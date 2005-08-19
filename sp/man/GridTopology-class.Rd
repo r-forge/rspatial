@@ -4,6 +4,7 @@
 \alias{print.summary.GridTopology}
 \alias{summary.GridTopology}
 \alias{show,GridTopology-method}
+\alias{coerce,GridTopology,data.frame-method}
 
 \title{Class "GridTopology" ~~~ }
 \description{ class for defining a rectangular grid of
@@ -33,6 +34,8 @@ see \link{SpatialGrid}
  \describe{
    \item{coordinates}{\code{signature(x = "SpatialGrid")}: calculates coordinates for
    each point on the grid
+    \item{coerce}{\code{signature(from = "GridTopology", to = "data.frame")}: convert to data.frame
+	with columns cellcentre.offset, cellsize and cells.dim}
    }
  }
 }

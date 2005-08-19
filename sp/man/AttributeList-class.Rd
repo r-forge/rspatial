@@ -6,6 +6,7 @@
 \alias{coerce,AttributeList,data.frame-method}
 \alias{coerce,data.frame,AttributeList-method}
 \alias{coerce,list,AttributeList-method}
+\alias{coerce,AttributeList,list-method}
 \alias{as.list.AttributeList}
 \alias{as.data.frame.AttributeList}
 \alias{dim.AttributeList}
@@ -32,7 +33,9 @@ with \code{x} a list having elements of equal length.
 \section{Methods}{
   \describe{
     \item{[}{\code{signature(x = "AttributeList")}: subsets }
-    \item{coerce}{\code{signature(from = "AttributeList", to = "data.frame")}: ... }
+    \item{coerce}{\code{signature(from = "AttributeList", to = "data.frame")}: convert the list
+	slot to data.frame }
+    \item{coerce}{\code{signature(from = "AttributeList", to = "list")}: retrieve the list slot }
     \item{coerce}{\code{signature(from = "data.frame", to = "AttributeList")}: ... }
     \item{coerce}{\code{signature(from = "list", to = "AttributeList")}: ... }
 	\item{as.list}{ coerce AttributeList object to list}

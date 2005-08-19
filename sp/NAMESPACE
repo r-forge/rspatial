@@ -1,7 +1,7 @@
 useDynLib(sp)
 
 importFrom(lattice, levelplot, xyplot, trellis.par.set)
-importFrom(grid, grid.polygon)
+importFrom(grid, grid.polygon, grid.rect, gpar)
 
 export(CRS, print.CRS, proj4string, "proj4string<-", is.projected)
 
@@ -37,7 +37,7 @@ export(plotSpatialLines, plot.SpatialRings)
 export(spplot, layout.scale.bar, layout.north.arrow, sp.theme,
 	mapLegendGrob, sp.pagefn, spplot.key, panel.gridplot,
 	panel.ringsplot, panel.pointsplot, sp.polygon, sp.text, sp.points,
-	sp.lines, SpatialRingsRescale)
+	sp.lines, sp.grid, SpatialRingsRescale)
 
 export(as.image.SpatialGridDataFrame)
 
@@ -140,6 +140,7 @@ S3method(as.data.frame, SpatialGridDataFrame)
 S3method(as.data.frame, SpatialLinesDataFrame)
 S3method(as.data.frame, SpatialRingsDataFrame)
 S3method(as.data.frame, AttributeList)
+S3method(as.data.frame, GridTopology)
 
 S3method(cbind, SpatialGridDataFrame)
 

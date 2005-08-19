@@ -5,6 +5,8 @@ as.data.frame.AttributeList = function(x, row.names = NULL, optional = FALSE)
 
 setAs("AttributeList", "data.frame", function(from) as.data.frame(from))
 
+setAs("AttributeList", "list", function(from) from@att)
+
 setAs("data.frame", "AttributeList", function(from) AttributeList(as.list(from)))
 
 setAs("list", "AttributeList", function(from) AttributeList(from))

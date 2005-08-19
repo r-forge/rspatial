@@ -10,6 +10,7 @@
 \alias{sp.points}
 \alias{sp.polygon}
 \alias{sp.text}
+\alias{sp.grid}
 
 \title{panel and panel utility functions for spplot}
 \description{panel functions for spplot functions, and functions that can be
@@ -21,6 +22,7 @@ SpatialRingsRescale(obj, offset, scale = 1, fill = "black", col = "black",...)
 sp.lines(obj, col = 1, ...)
 sp.points(obj, pch = 3, ...)
 sp.polygon(obj, col = 1, ...)
+sp.grid(obj, col = 1, alpha = 1,...)
 sp.text(loc, txt, ...)
 }
 \arguments{
@@ -42,6 +44,7 @@ class is evaluated.  }
 \item{pch}{ plotting character }
 \item{loc}{ numeric vector of two elements }
 \item{txt}{ text to be plotted }
+\item{alpha}{ alpha (transparency) level }
 \item{...}{ arguments passed to the underlying lattice or grid functions}
 }
 \note{

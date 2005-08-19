@@ -7,6 +7,13 @@ GridTopology = function(cellcentre.offset, cellsize, cells.dim) {
 
 setMethod("show", "GridTopology", function(object) summary(obj))
 
+as.data.frame.GridTopology = function(x, row.names, optional) data.frame(
+		cellcentre.offset = from@cellcentre.offset,
+		cellsize = from@cellsize,
+		cells.dim = from@cells.dim
+	)
+setAs("GridTopology", "data.frame", function(from) as.data.frame.GridTopology(from))
+
 setMethod("coordinates", "GridTopology", function(obj) {
 	cc = do.call("expand.grid", coordinatevalues(obj))
 	as.matrix(sapply(cc, as.numeric))

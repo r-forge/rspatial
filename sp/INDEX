@@ -1,3 +1,6 @@
+as.SpatialRings.GridTopology
+                        Make SpatialRings object from GridTopology
+                        object
 as.SpatialRings.SringsList
                         Making SpatialRings objects
 AttributeList-class     Class "AttributeList"

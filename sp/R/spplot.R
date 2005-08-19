@@ -36,17 +36,31 @@ sp.lines = function(obj, col = 1, ...) {
 	else stop(paste("obj of class Sline, Slines or SpatialLines expected, got", class(obj)))
 }
 
-sp.text = function(loc, txt, ...) {
-	if (length(loc) != 2)
-		stop("loc should have length 2")
-	panel.text(loc[1], loc[2], txt, ...)
-}
-
 sp.points = function(obj, pch = 3, ...) {
 	if (is.character(obj))
 		obj = get(obj)
 	xy = coordinates(obj)
 	panel.points(xy[,1], xy[,2], pch = pch, ...)
+}
+
+sp.grid = function(obj, col = 1, alpha = 1, ...) {
+	if (is.character(obj))
+		obj = get(obj)
+	xy = coordinates(obj)
+	if (length(col) != 1 && length(col) != nrow(xy)) {
+		# do something with col
+	}
+	gt = as(getGridTopology(obj), "data.frame")
+	require(grid)
+	grid.rect(x = xy[,1], y = xy[,2], width = gt$cellsize[1],
+		height = gt$cellsize[2], default.units = "native",
+		gp = gpar(fill = col, col = NULL, alpha = alpha))
+}
+
+sp.text = function(loc, txt, ...) {
+	if (length(loc) != 2)
+		stop("loc should have length 2")
+	panel.text(loc[1], loc[2], txt, ...)
 }
 
 sp.panel.layout = function(lst, panel.counter, ...) {
@@ -68,6 +82,8 @@ sp.panel.layout = function(lst, panel.counter, ...) {
 			sp.points(as(x, "SpatialPoints"), ...)
 		else if (is(x, "SpatialRings"))
 			sp.polygon(x, ...)
+		else if (is(x, "SpatialPixels") || is(x, "SpatialGrid"))
+			sp.grid(x, ...)
 		else stop(paste("cannot plot object of class", class(x)))
 	}
 	if (!is.null(lst$which) && is.na(match(panel.counter, lst$which)))
