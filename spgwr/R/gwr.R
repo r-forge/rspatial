@@ -69,8 +69,9 @@ gwr <- function(formula, data = list(), coords, bandwidth,
 			bandwidth <- rep(bandwidth, n)
 		} else stop("Bandwidth must be given for non-adaptive weights")
 	} else {
-		bandwidth <- gw.adapt(dp=coords, fp=fit.points, quant=adapt)
-		bw <- NULL
+		bandwidth <- gw.adapt(dp=coords, fp=fit.points, quant=adapt,
+			lonlat=lonlat)
+		bw <- bandwidth
 	}
 	if (any(bandwidth < 0)) stop("Invalid bandwidth")
 	gwr.b <- matrix(nrow=n, ncol=m)

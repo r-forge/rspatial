@@ -3,6 +3,8 @@
 
 gwr.sel <- function(formula, data = list(), coords, adapt=FALSE, 
 	gweight=gwr.gauss, method="cv", verbose=TRUE, lonlat=FALSE) {
+	if (!is.logical(adapt)) stop("adapt must be logical")
+	if (!is.logical(lonlat)) stop("lonlat must be logical")
 	if (is(data, "Spatial")) {
 		if (missing(coords)) {
 			if (is(data, "SpatialRingsDataFrame")) 
