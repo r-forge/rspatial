@@ -18,7 +18,8 @@ useful within these panel functions }
 \usage{
 sp.pagefn(n)
 spplot.key(sp.layout, rows = 1, cols = 1)
-SpatialRingsRescale(obj, offset, scale = 1, fill = "black", col = "black",...)
+SpatialRingsRescale(obj, offset, scale = 1, fill = "black", col = "black",
+	plot.grid = TRUE, ...)
 sp.lines(obj, col = 1, ...)
 sp.points(obj, pch = 3, ...)
 sp.polygon(obj, col = 1, ...)
@@ -41,6 +42,8 @@ class is evaluated.  }
 \item{scale}{ scale for rescaling }
 \item{fill}{ fill color }
 \item{col}{ line color }
+\item{plot.grid}{logical; plot through grid functions (TRUE), or through
+traditional graphics functions (FALSE)}
 \item{pch}{ plotting character }
 \item{loc}{ numeric vector of two elements }
 \item{txt}{ text to be plotted }

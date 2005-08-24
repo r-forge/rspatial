@@ -36,17 +36,16 @@ setMethod("coordinates", "matrix",
 		"\n")
 }
 
-plot.SpatialPoints = function(x, xlab = "x", ylab = "y", asp = 1, pch = 3, ...) 
+plot.SpatialPoints = function(x, asp = 1, pch = 3, axes = FALSE, add = FALSE, ...) 
 {
+	if (! add)
+		plot(as(x, "Spatial"), asp = asp, axes = axes)
 	cc = coordinates(x)
-	nm = dimnames(cc)[[2]]
-	if (!is.null(nm)) {
-		if (missing(xlab))
-			xlab = nm[1]
-		if (missing(ylab))
-			ylab = nm[2]
+	points(cc[,1], cc[,2], pch = pch, ...)
+	if (axes) {
+		axis(3, labels = FALSE)
+		axis(4, labels = FALSE)
 	}
-	plot(cc[,1], cc[,2], xlab = xlab, ylab = ylab, asp = asp, pch = pch, ...)
 }
 
 points.SpatialPoints = function(x, y = NULL, ...) points(coordinates(x), ...)

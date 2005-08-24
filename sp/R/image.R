@@ -3,14 +3,13 @@ image.SpatialPixelsDataFrame = function(x, ...)
 	image(as(x, "SpatialGridDataFrame"), ...)
 
 image.SpatialGridDataFrame = function(x, attr = 1, xcol = 1, ycol = 2, 
-		asp = 1, xlab, ylab, ...) {
-	cnames = dimnames(coordinates(x))[[2]]
-	if (missing(xlab))
-		xlab = cnames[xcol]
-	if (missing(ylab))
-		ylab = cnames[ycol]
+		asp = 1, axes = FALSE, ...) {
 	image(as.image.SpatialGridDataFrame(x[attr], xcol, ycol), 
-		asp = asp, xlab = xlab, ylab = ylab, ...)
+		asp = asp, axes = axes, ...)
+	if (axes) {
+		axis(3, labels = FALSE)
+		axis(4, labels = FALSE)
+	}
 }
 
 as.image.SpatialGridDataFrame = function(x, xcol = 1, ycol = 2) {

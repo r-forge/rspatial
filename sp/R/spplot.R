@@ -369,12 +369,16 @@ SpatialRings2Grob = function(obj, fill) {
 	polygonGrob(x=x, y=y, id=id, gp = gpar(fill = fill))
 }
 
-SpatialRingsRescale = function(obj, offset, scale = 1, fill = "black", col = "black",...) {
-	require(grid)
+SpatialRingsRescale = function(obj, offset, scale = 1, fill = "black", col = "black",
+		plot.grid = TRUE, ...) {
+	if (plot.grid)
+		require(grid)
 	if (!is(obj, "SpatialRings"))
 		stop("object is not of class SpatialRings")
 	if (length(offset) != 2)
 		stop("offset should have length 2")
+	if (is.list(offset))
+		offset = c(offset[[1]], offset[[2]])
 	if (length(scale) == 1)
 		scale = rep(scale,2)
 	pls = getSRpolygonsSlot(obj)
@@ -387,8 +391,13 @@ SpatialRingsRescale = function(obj, offset, scale = 1, fill = "black", col = "bl
 			cc = getSringCoordsSlot(Srs[[j]])
 			x = offset[1] + (cc[,1] * scale[1])
 			y = offset[2] + (cc[,2] * scale[2])
-			grid.polygon(x, y, default.units = "native", 
-				gp = gpar(col = col, fill = fill[i], ...))
+			if (plot.grid) {
+				grid.polygon(x, y, default.units = "native", 
+					gp = gpar(col = col, fill = fill[i], ...))
+			} else {
+				polygon(x, y, col = fill[i])
+				lines(x, y, col = col)
+			}
 		}
 	}
 }

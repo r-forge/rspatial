@@ -161,11 +161,12 @@ Mapgen2SL <- function(file, proj4string=CRS(as.character(NA))) {
 
 
 plotSpatialLines <- function(SL, xlim = NULL, ylim = NULL, asp = 1, 
-	col = 1, lwd = 1, lty=1, add=FALSE, ...) 
+	col = 1, lwd = 1, lty=1, add = FALSE, axes = FALSE, ...) 
 {
 #	frame()
 #	plot.window(xlim = xlim, ylim = ylim, asp = asp)
-	if (!add) plot.Spatial(SL, xlim=xlim, ylim=ylim, asp=asp, ...)
+	if (! add) 
+		plot(as(SL, "Spatial"), xlim = xlim, ylim = ylim, asp = asp, axes = axes, ...)
 	lst <- SL@lines
 	for (i in seq(along=lst)) {
 		sllst = lst[[i]]@Slines

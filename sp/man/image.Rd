@@ -7,7 +7,7 @@ Convert gridded data in SpatialGridDataFrame to image format; call
 image on data in SpatialGridDataFrame format
 }
 \usage{
-image.SpatialGridDataFrame(x, attr = 1, xcol = 1, ycol = 2, asp = 1, xlab, ylab, ...)
+image.SpatialGridDataFrame(x, attr = 1, xcol = 1, ycol = 2, asp = 1, axes = FALSE, ...)
 as.image.SpatialGridDataFrame(x, xcol = 1, ycol = 2)
 }
 \arguments{
@@ -18,8 +18,7 @@ a column number }
 \item{xcol}{ column number of x-coordinate, in the coordinate matrix }
 \item{ycol}{ column number of y-coordinate, in the coordinate matrix }
 \item{asp}{ aspect ratio of unit x and unit y axis }
-\item{xlab}{ label for x-axis }
-\item{ylab}{ label for y-axis }
+\item{axes}{ logical; should coordinate axes be drawn? }
 \item{...}{ arguments passed to \link{image}, see examples }
 }
 \value{ \code{as.image.SpatialGridDataFrame} returns the list with

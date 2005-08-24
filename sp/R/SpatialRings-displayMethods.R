@@ -1,6 +1,7 @@
 #
 plot.SpatialRings <- function(x, col, border = par("fg"), add=FALSE, xlim=NULL, 
-	ylim=NULL, asp=1, xpd = NULL, density = NULL, angle = 45, pbg=NULL, ...) {
+	ylim=NULL, asp=1, xpd = NULL, density = NULL, angle = 45, pbg=NULL, axes = FALSE, 
+	...) {
 
 	if (is.null(pbg))
 #ifdef R
@@ -11,7 +12,8 @@ plot.SpatialRings <- function(x, col, border = par("fg"), add=FALSE, xlim=NULL,
 	if (!is(x, "SpatialRings")) 
 		stop("Not a SpatialRings object")
 
-	if (!add) plot.Spatial(x, xlim=xlim, ylim=ylim, asp=asp, ...)
+	if (! add) 
+		plot(as(x, "Spatial"), xlim=xlim, ylim=ylim, asp=asp, axes = axes, ...)
 
 	if (missing(col)) col <- NA
 	n <- length(getSRpolygonsSlot(x))

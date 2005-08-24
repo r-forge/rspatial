@@ -100,10 +100,19 @@ print.summary.Spatial = function(x, ...) {
     invisible(x)
 }
 
-plot.Spatial <- function(x, xlim=NULL, ylim=NULL, asp=1, ...) {
+# sp.axes = FALSE
+
+plot.Spatial <- function(x, xlim=NULL, ylim=NULL, asp=1, axes = FALSE, ...) {
 	bbox <- x@bbox
 	if (is.null(xlim)) xlim <- c(bbox[1,1], bbox[1,2])
 	if (is.null(ylim)) ylim <- c(bbox[2,1], bbox[2,2])
 	plot.new()
 	plot.window(xlim=xlim, ylim=ylim, asp=asp, ...)
+	if (axes) { # set up default axes system & box:
+		box()
+		axis(1)
+		axis(2)
+		axis(3, labels = FALSE)
+		axis(4, labels = FALSE)
+	}
 }
