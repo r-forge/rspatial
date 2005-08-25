@@ -1,22 +1,22 @@
 sp.polygon = function(obj, col = 1, ...) {
 	sp.polygon3 = function(x, ...) { 
-		cc = getSringCoordsSlot(x)
+		cc = getPolygonCoordsSlot(x)
 		grid.polygon(cc[,1], cc[,2], default.units = "native", 
 			gp = gpar(col = col, ...))
 		panel.lines(cc, col = col, ...)
 	}
 	if (is.character(obj))
 		obj = get(obj)
-	if (!is(obj, "SpatialRings"))
-		stop(paste("object extending class SpatialRings expected; got class", class(obj)))
+	if (!is(obj, "SpatialPolygons"))
+		stop(paste("object extending class SpatialPolygons expected; got class", class(obj)))
 	else
-		obj = as(obj, "SpatialRings")
-	pls = getSRpolygonsSlot(obj)
-   	pO <- getSRplotOrderSlot(obj)
+		obj = as(obj, "SpatialPolygons")
+	pls = getSpPpolygonsSlot(obj)
+   	pO <- getSpPplotOrderSlot(obj)
 	require(grid)
    	for (i in pO) {
-   		Srs <- getSringsSringsSlot(pls[[i]])
-   		pOi <- getSringsplotOrderSlot(pls[[i]])
+   		Srs <- getPolygonsPolygonsSlot(pls[[i]])
+   		pOi <- getPolygonsplotOrderSlot(pls[[i]])
    		for (j in pOi)
 			sp.polygon3(Srs[[j]], ...)
 	}
@@ -26,14 +26,14 @@ sp.lines = function(obj, col = 1, ...) {
 	if (is.character(obj))
 		obj = get(obj)
 	sp.lines3 = function(x, ...) panel.lines(coordinates(x), col = col, ...)
-	sp.lines2 = function(x, ...) lapply(x@Slines, sp.lines3, col = col, ...)
+	sp.lines2 = function(x, ...) lapply(x@Lines, sp.lines3, col = col, ...)
 	if (is(obj, "SpatialLines"))
 		lapply(obj@lines, sp.lines2, col = col, ...)
-	else if (is(obj, "Slines"))
-		lapply(obj@Slines, sp.lines3, col = col, ...)
-	else if (is(obj, "Sline"))
+	else if (is(obj, "Lines"))
+		lapply(obj@Lines, sp.lines3, col = col, ...)
+	else if (is(obj, "Line"))
 		panel.lines(coordinates(obj), col = col, ...)
-	else stop(paste("obj of class Sline, Slines or SpatialLines expected, got", class(obj)))
+	else stop(paste("obj of class Line, Lines or SpatialLines expected, got", class(obj)))
 }
 
 sp.points = function(obj, pch = 3, ...) {
@@ -76,11 +76,11 @@ sp.panel.layout = function(lst, panel.counter, ...) {
 					do.call(x[[1]], x[2:length(x)])
 			} else if (!first)
 				do.call(x[[1]], x[2:length(x)])
-		} else if (is(x, "SpatialLines") || is(x, "Slines") || is(x, "Sline"))
+		} else if (is(x, "SpatialLines") || is(x, "Lines") || is(x, "Line"))
 			sp.lines(x, ...)
 		else if (is(x, "SpatialPoints"))
 			sp.points(as(x, "SpatialPoints"), ...)
-		else if (is(x, "SpatialRings"))
+		else if (is(x, "SpatialPolygons"))
 			sp.polygon(x, ...)
 		else if (is(x, "SpatialPixels") || is(x, "SpatialGrid"))
 			sp.grid(x, ...)
@@ -139,13 +139,13 @@ spplot.rings = function(obj, zcol = names(obj), ..., names.attr,
 	xr = bbox(obj)[1, ] 
 	yr = bbox(obj)[2, ]
 	sdf = as.data.frame(obj)
-	if (is(obj, "SpatialRingsDataFrame"))
-		labpts = getSRSringsLabptSlots(obj)
+	if (is(obj, "SpatialPolygonsDataFrame"))
+		labpts = getSpPPolygonsLabptSlots(obj)
 	else {
 		# get first points of each lines object:
 		n = length(obj@lines)
 		labpts = matrix(unlist(lapply(ncl@lines, function(x) 
-			lapply(x@Slines[1], function(x) coordinates(x)[1,]))), n, 2, byrow=TRUE) 
+			lapply(x@Lines[1], function(x) coordinates(x)[1,]))), n, 2, byrow=TRUE) 
 	}
 	dimnames(labpts)[[2]] = c("xlabelpoint", "ylabelpoint")
 	sdf = data.frame(cbind(labpts, sdf))
@@ -154,8 +154,8 @@ spplot.rings = function(obj, zcol = names(obj), ..., names.attr,
 		formula = getFormulaLevelplot(sdf, zcol)
 	if (length(zcol) > 1)
 		sdf = map.to.lev(sdf, zcol = zcol, names.attr = names.attr)
-	if (is(obj, "SpatialRingsDataFrame"))
-		grid.polygons = as(obj, "SpatialRings")
+	if (is(obj, "SpatialPolygonsDataFrame"))
+		grid.polygons = as(obj, "SpatialPolygons")
 	else
 		grid.polygons = as(obj, "SpatialLines")
 	levelplot(formula, as(sdf, "data.frame"), aspect = aspect,
@@ -163,7 +163,7 @@ spplot.rings = function(obj, zcol = names(obj), ..., names.attr,
 		panel = panel, xlim = xr, ylim = yr, xlab = xlab, ylab =
 		ylab, scales = scales, sp.layout = sp.layout, ...)
 }
-setMethod("spplot", signature("SpatialRingsDataFrame"), spplot.rings)
+setMethod("spplot", signature("SpatialPolygonsDataFrame"), spplot.rings)
 setMethod("spplot", signature("SpatialLinesDataFrame"), spplot.rings)
 
 spplot.points = function(obj, zcol = names(obj), ..., names.attr, 
@@ -258,18 +258,18 @@ function (x, y, z, subscripts, at = pretty(z), shrink, labels = NULL,
 	if (any(subscripts)) {
 		if (is(grid.polygons, "SpatialLines")) {
 			sp.lines3 = function(x, col, ...) panel.lines(coordinates(x), col = col, ...)
-			sp.lines2 = function(x, col, ...) lapply(x@Slines, sp.lines3, col, ...)
+			sp.lines2 = function(x, col, ...) lapply(x@Lines, sp.lines3, col, ...)
 			for (i in 1:length(grid.polygons@lines))
 				sp.lines2(grid.polygons@lines[[i]], col = col.regions[zcol[i]], ...)
 		} else {
-			pls = getSRpolygonsSlot(grid.polygons)
-   			pO = getSRplotOrderSlot(grid.polygons)
+			pls = getSpPpolygonsSlot(grid.polygons)
+   			pO = getSpPplotOrderSlot(grid.polygons)
    			for (i in pO) {
-       			Srs <- getSringsSringsSlot(pls[[i]])
-       			pOi <- getSringsplotOrderSlot(pls[[i]])
+       			Srs <- getPolygonsPolygonsSlot(pls[[i]])
+       			pOi <- getPolygonsplotOrderSlot(pls[[i]])
        			for (j in pOi) {
-					coords = getSringCoordsSlot(Srs[[j]])
-					if (getSringHoleSlot(Srs[[j]])) {
+					coords = getPolygonCoordsSlot(Srs[[j]])
+					if (getPolygonHoleSlot(Srs[[j]])) {
 						bg = trellis.par.get()$background
 						if (bg$col == "transparent")
 							fill = "white"
@@ -345,21 +345,21 @@ fill.call.groups = function(lst, z, ..., cuts,
 	return(lst)
 }
 
-SpatialRings2Grob = function(obj, fill) {
-	if (!is(obj, "SpatialRings"))
-		stop("object is not of class SpatialRings")
+SpatialPolygons2Grob = function(obj, fill) {
+	if (!is(obj, "SpatialPolygons"))
+		stop("object is not of class SpatialPolygons")
 	x = numeric(0)
 	y = numeric(0)
 	id = integer(0)
-	pls = getSRpolygonsSlot(obj)
-   	pO <- getSRplotOrderSlot(obj)
+	pls = getSpPpolygonsSlot(obj)
+   	pO <- getSpPplotOrderSlot(obj)
 	n = 0
    	for (i in pO) {
-   		Srs <- getSringsSringsSlot(pls[[i]])
-   		pOi <- getSringsplotOrderSlot(pls[[i]])
+   		Srs <- getPolygonsPolygonsSlot(pls[[i]])
+   		pOi <- getPolygonsplotOrderSlot(pls[[i]])
    		for (j in pOi) {
 			n = n + 1
-			cc = getSringCoordsSlot(Srs[[j]])
+			cc = getPolygonCoordsSlot(Srs[[j]])
 			x = c(x, cc[,1])
 			y = c(y, cc[,2])
 			id = c(id, rep(n, nrow(cc)))
@@ -369,26 +369,24 @@ SpatialRings2Grob = function(obj, fill) {
 	polygonGrob(x=x, y=y, id=id, gp = gpar(fill = fill))
 }
 
-SpatialRingsRescale = function(obj, offset, scale = 1, fill = "black", col = "black",
-		plot.grid = TRUE, ...) {
-	if (plot.grid)
-		require(grid)
-	if (!is(obj, "SpatialRings"))
-		stop("object is not of class SpatialRings")
+SpatialPolygonsRescale = function(obj, offset, scale = 1, fill = "black", col = "black", plot.grid = TRUE, ...) {
+	require(grid)
+	if (!is(obj, "SpatialPolygons"))
+		stop("object is not of class SpatialPolygons")
 	if (length(offset) != 2)
 		stop("offset should have length 2")
 	if (is.list(offset))
 		offset = c(offset[[1]], offset[[2]])
 	if (length(scale) == 1)
 		scale = rep(scale,2)
-	pls = getSRpolygonsSlot(obj)
-   	pO = getSRplotOrderSlot(obj)
+	pls = getSpPpolygonsSlot(obj)
+   	pO = getSpPplotOrderSlot(obj)
 	fill = rep(fill, length = length(pls))
    	for (i in pO) {
-   		Srs <- getSringsSringsSlot(pls[[i]])
-   		pOi <- getSringsplotOrderSlot(pls[[i]])
+   		Srs <- getPolygonsPolygonsSlot(pls[[i]])
+   		pOi <- getPolygonsplotOrderSlot(pls[[i]])
    		for (j in pOi) {
-			cc = getSringCoordsSlot(Srs[[j]])
+			cc = getPolygonCoordsSlot(Srs[[j]])
 			x = offset[1] + (cc[,1] * scale[1])
 			y = offset[2] + (cc[,2] * scale[2])
 			if (plot.grid) {
@@ -404,7 +402,7 @@ SpatialRingsRescale = function(obj, offset, scale = 1, fill = "black", col = "bl
 
 mapLegendGrob <- function(obj, widths = unit(1, "cm"), heights = unit(1, "cm"),
 		fill = "black", just = "right") {
-	grb = SpatialRings2Grob(obj, fill)
+	grb = SpatialPolygons2Grob(obj, fill)
 	key.layout <- grid.layout(nrow = 1, ncol = 1, widths = widths,
 					heights = heights, respect = TRUE, just = just)
 	key.gf <- frameGrob(layout = key.layout)
@@ -420,7 +418,7 @@ layout.north.arrow = function() {
 	x2 = c(0, 0.0967, 0.0967, 0.2928, 0.3908, 0.3908, 0.2928, 0.2928, 0.1032, 0, 0)
 	y1 = c(0, 0, 0.8823, 0.8235, 1, 0.8235, 0.8823, 0)
 	y2 = c(0.2352, 0.2352, 0.5686, 0.2352, 0.2352, 0.7189, 0.7189, 0.3986, 0.7189, 0.7189, 0.2352 )
-	SpatialRings(list(Srings(list(Sring(cbind(x1,y1)), Sring(cbind(rev(x2),rev(y2)))), ID="north")))
+	SpatialPolygons(list(Polygons(list(Polygon(cbind(x1,y1)), Polygon(cbind(rev(x2),rev(y2)))), ID="north")))
 }
 # north.arrow = .north.arrow()
 
@@ -429,8 +427,8 @@ layout.scale.bar = function(height = 0.05) {
 	y1 = c(0, 0, height, height, 0)
 	x2 = x1 + 0.5
 	y2 = y1
-	SpatialRings(list(Srings(list(Sring(cbind(x1,y1))), ID="left"), 
-			Srings(list(Sring(cbind(rev(x2),rev(y2)))), ID="right")))
+	SpatialPolygons(list(Polygons(list(Polygon(cbind(x1,y1))), ID="left"), 
+			Polygons(list(Polygon(cbind(rev(x2),rev(y2)))), ID="right")))
 }
 # scale.bar = .scale.bar()
 

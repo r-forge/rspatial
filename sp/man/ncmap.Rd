@@ -23,8 +23,8 @@ ncmap <- map("county", "north carolina", fill=TRUE, col="transparent", plot=FALS
 }
 data(ncmap)
 IDs <- sapply(strsplit(ncmap$names, ","), function(x) x[2])
-nc2 <- as.SpatialRings.map(ncmap, IDs)
-plotSpatialRings(nc2)
-invisible(text(getSRSringsLabptSlots(nc2), labels=getSRSringsIDSlots(nc2), cex=0.6))
+nc2 <- as.SpatialPolygons.map(ncmap, IDs)
+plotSpatialPolygons(nc2)
+invisible(text(getSpPPolygonsLabptSlots(nc2), labels=getSpPPolygonsIDSlots(nc2), cex=0.6))
 }
 \keyword{datasets}

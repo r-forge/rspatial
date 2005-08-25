@@ -1,12 +1,12 @@
 SpatialLinesDataFrame = function(sl, data, match.ID = TRUE) {
 	if (match.ID) {
-		Sl_IDs <- getSLSlinesIDSlots(sl)
+		Sl_IDs <- getSLLinesIDSlots(sl)
 		data_IDs <- row.names(data)
 		mtch <- match(Sl_IDs, data_IDs)
 		if (any(is.na(mtch)))
-			stop("row.names of data and Slines IDs do not match")
+			stop("row.names of data and Lines IDs do not match")
 		if (length(unique(mtch)) != length(Sl_IDs))
-			stop("row.names of data and Slines IDs do not match")
+			stop("row.names of data and Lines IDs do not match")
 		data <- data[mtch, , drop=FALSE]
 	}
 	new("SpatialLinesDataFrame", sl, data = data)
@@ -44,13 +44,13 @@ setMethod("[", "SpatialLinesDataFrame", function(x, i, j, ... , drop = FALSE) {
     } else if (missing.i && !missing.j)
         i = TRUE
     if (is.matrix(i))
-        stop("matrix argument not supported in SpatialRingsDataFrame selection")
+        stop("matrix argument not supported in SpatialLinesDataFrame selection")
     SpatialLinesDataFrame(as(x, "SpatialLines")[i, , drop = FALSE],
         data = x@data[i, j, drop = FALSE])
 })
 
 "[[.SpatialLinesDataFrame" =  function(x, ...)
-#setMethod("[[", "SpatialRingsDataFrame", function(x, ...)
+#setMethod("[[", "SpatialLinesDataFrame", function(x, ...)
     x@data[[...]]
 #)
 

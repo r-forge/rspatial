@@ -7,13 +7,13 @@
 \title{a class for spatial lines }
 \description{ a class that holds spatial lines }
 \section{Objects from the Class}{
-hold a list of Slines objects; each Slines object holds a list
-of Sline (line) objects.
+hold a list of Lines objects; each Lines object holds a list
+of Line (line) objects.
 }
 \section{Slots}{
   \describe{
     \item{\code{lines}:}{Object of class \code{"list"}; list members are all of
-	class \link{Slines-class}}
+	class \link{Lines-class}}
     \item{\code{bbox}:}{Object of class \code{"matrix"}; see \link{Spatial-class} }
     \item{\code{proj4string}:}{Object of class \code{"CRS"}; see \link{CRS-class}}
   }
@@ -36,7 +36,7 @@ Class \code{"Spatial"}, directly.
 \note{ }
 
 \seealso{
-	\link{Sline-class}, \link{Slines-class}
+	\link{Line-class}, \link{Lines-class}
 }
 \examples{
 }

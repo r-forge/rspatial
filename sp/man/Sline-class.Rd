@@ -1,30 +1,25 @@
-\name{Sline-class}
+\name{Line-class}
 \docType{class}
-\alias{Sline-class}
-% \alias{coordinates,Sline-method}
+\alias{Line-class}
+% \alias{coordinates,Line-method}
 
-\title{Class "Sline" }
+\title{Class "Line" }
 \description{ class for line objects }
 \section{Objects from the Class}{
-Objects can be created by calls of the form \code{new("Sline", ...)},
-or (preferred) by calls to the function \link{Sline}
+Objects can be created by calls of the form \code{new("Line", ...)},
+or (preferred) by calls to the function \link{Line}
 }
 \section{Slots}{
   \describe{
     \item{\code{coords}:}{Object of class \code{"matrix"}, containing the
 	line coordinates }
-    \item{\code{bbox}:}{Object of class \code{"matrix"}, see \link{Spatial-class} }
-    \item{\code{proj4string}:}{Object of class \code{"CRS"}, see \link{CRS-class} }
   }
-}
-\section{Extends}{
-Class \code{"Spatial"}, directly.
 }
 \section{Methods}{
   \describe{
-    \item{coordinates}{\code{signature(obj = "Sline")}: retrieve coordinates
+    \item{coordinates}{\code{signature(obj = "Line")}: retrieve coordinates
 	from line }
-    \item{lines}{\code{signature(x = "Sline")}: add lines to a plot }
+    \item{lines}{\code{signature(x = "Line")}: add lines to a plot }
   }
 }
 % \references{  }
@@ -32,7 +27,7 @@ Class \code{"Spatial"}, directly.
 % \note{ }
 
 \seealso{
-  \link{Slines-class}, \link{SpatialLines-class}
+  \link{Lines-class}, \link{SpatialLines-class}
 }
 \examples{
 }

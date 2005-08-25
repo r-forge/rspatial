@@ -31,11 +31,11 @@ r3 = cbind(c(179110, 179907, 180433, 180712, 180752, 180329, 179875,
 c(331086, 330620, 330494, 330265, 330075, 330233, 330336, 330004, 
 329783, 329665, 329720, 329933, 330478, 331062, 331086))
 
-sr1=Srings(list(Sring(r1)),"r1")
-sr2=Srings(list(Sring(r2)),"r2")
-sr3=Srings(list(Sring(r3)),"r3")
-sr=SpatialRings(list(sr1,sr2,sr3))
-srdf=SpatialRingsDataFrame(sr, data.frame(cbind(1:3,5:3), row.names=c("r1","r2","r3")))
+sr1=Polygons(list(Polygon(r1)),"r1")
+sr2=Polygons(list(Polygon(r2)),"r2")
+sr3=Polygons(list(Polygon(r3)),"r3")
+sr=SpatialPolygons(list(sr1,sr2,sr3))
+srdf=SpatialPolygonsDataFrame(sr, data.frame(cbind(1:3,5:3), row.names=c("r1","r2","r3")))
 
 data(meuse)
 coordinates(meuse) = ~x+y

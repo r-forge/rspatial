@@ -37,8 +37,8 @@ data(co37_d90_arc)
 data(co37_d90_pal)
 data(co37_d90_pat)
 IDs <- paste(pat$ST[-1], pat$CO[-1], sep="")
-nc3 <- as.SpatialRings.pal(arc, pal, IDs=IDs)
-plotSpatialRings(nc3)
-invisible(text(getSRSringsLabptSlots(nc3), labels=getSRSringsIDSlots(nc3), cex=0.6))
+nc3 <- as.SpatialPolygons.pal(arc, pal, IDs=IDs)
+plotSpatialPolygons(nc3)
+invisible(text(getSpPPolygonsLabptSlots(nc3), labels=getSpPPolygonsIDSlots(nc3), cex=0.6))
 }
 \keyword{datasets}

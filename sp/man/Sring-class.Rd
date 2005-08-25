@@ -1,11 +1,11 @@
-\name{Sring-class}
+\name{Polygon-class}
 \docType{class}
-\alias{Sring-class}
+\alias{Polygon-class}
 
-\title{Class "Sring" }
+\title{Class "Polygon" }
 \description{ class for spatial polygon }
 \section{Objects from the Class}{
-Objects can be created by calls to the function \code{Sring}
+Objects can be created by calls to the function \code{Polygon}
 }
 \section{Slots}{
   \describe{
@@ -15,23 +15,20 @@ Objects can be created by calls to the function \code{Sring}
     \item{\code{hole}:}{Object of class \code{"logical"}; does the ring seem to be a hole }
     \item{\code{coords}:}{Object of class \code{"matrix"}; coordinates of the polygon;
 	first point should equal the last point }
-    \item{\code{bbox}:}{Object of class \code{"matrix"}; see \link{Spatial-class} }
-    \item{\code{proj4string}:}{Object of class \code{"CRS"}; see \link{CRS-class} }
   }
 }
 \section{Extends}{
-Class \code{"Sline"}, directly.
-Class \code{"Spatial"}, by class \code{"Sline"}.
+Class \code{"Line"}, directly.
 }
 \section{Methods}{
-No methods defined with class "Sring" in the signature.
+No methods defined with class "Polygon" in the signature.
 }
 \references{ }
 \author{ Roger Bivand }
 \note{ }
 
 \seealso{
-	\link{Srings-class}, \link{SpatialRings-class}
+	\link{Polygons-class}, \link{SpatialPolygons-class}
 }
 \examples{
 }

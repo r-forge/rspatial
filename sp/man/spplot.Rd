@@ -109,7 +109,7 @@ to set a north arrow or scale bar.
 The \code{sp.layout} argument is either a single layout item, or a list
 with a layout items. A layout item is a list with its first argument
 the name of the layout function to be called: \code{sp.points} for
-SpatialPoints, \code{sp.polygon} for SpatialRings object, \code{sp.lines}
+SpatialPoints, \code{sp.polygon} for SpatialPolygons object, \code{sp.lines}
 for a SpatialLines object, and \code{sp.text} for text to place. The
 second argument contains the object (or text) to be plotted; remaining
 arguments are passed to the corresponding \code{panel.*} functions.
@@ -147,9 +147,9 @@ library(lattice)
 trellis.par.set(sp.theme()) # sets bpy.colors() ramp
 data(meuse)
 coordinates(meuse) <- ~x+y
-l2 = list("SpatialRingsRescale", layout.north.arrow(), offset = c(181300,329800), 
+l2 = list("SpatialPolygonsRescale", layout.north.arrow(), offset = c(181300,329800), 
 	scale = 400)
-l3 = list("SpatialRingsRescale", layout.scale.bar(), offset = c(180500,329800), 
+l3 = list("SpatialPolygonsRescale", layout.scale.bar(), offset = c(180500,329800), 
 	scale = 500, fill=c("transparent","black"))
 l4 = list("sp.text", c(180500,329900), "0")
 l5 = list("sp.text", c(181000,329900), "500 m")

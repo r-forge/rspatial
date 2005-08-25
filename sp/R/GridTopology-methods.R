@@ -103,9 +103,9 @@ print.summary.GridTopology = function(x, ...) {
 	invisible(x)
 }
 
-# make a SpatialRings from a GridTopology - NERSC query
+# make a SpatialPolygons from a GridTopology - NERSC query
 
-as.SpatialRings.GridTopology <- function(grd, proj4string=CRS(as.character(NA)))
+as.SpatialPolygons.GridTopology <- function(grd, proj4string=CRS(as.character(NA)))
 {
 	grd_crds <- coordinates(grd)
 	IDs <- IDvaluesGridTopology(grd)
@@ -120,10 +120,11 @@ as.SpatialRings.GridTopology <- function(grd, proj4string=CRS(as.character(NA)))
 		yi <- grd_crds[i,2]
 		x <- c(xi-cS2x, xi-cS2x, xi+cS2x, xi+cS2x, xi-cS2x)
 		y <- c(yi-cS2y, yi+cS2y, yi+cS2y, yi-cS2y, yi-cS2y)
-		Srl[[i]] <- Srings(list(Sring(coords=cbind(x, y), 
-			proj4string=proj4string)), ID=IDs[i])
+		Srl[[i]] <- Polygons(list(Polygon(coords=cbind(x, y)
+#, proj4string=proj4string
+)), ID=IDs[i])
 	}
-	res <- as.SpatialRings.SringsList(Srl)
+	res <- as.SpatialPolygons.PolygonsList(Srl, proj4string=proj4string)
 	res
 }
 

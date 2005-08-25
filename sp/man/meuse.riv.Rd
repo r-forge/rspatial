@@ -27,7 +27,7 @@ gridded(meuse.grid) = TRUE
 image(meuse.grid, "dist", add = TRUE)
 data(meuse)
 coordinates(meuse) = c("x", "y")
-meuse.sr = SpatialRings(list(Srings(list(Sring(meuse.riv)),"meuse.riv")))
+meuse.sr = SpatialPolygons(list(Polygons(list(Polygon(meuse.riv)),"meuse.riv")))
 spplot(meuse.grid, col.regions=bpy.colors(), main = "meuse.grid",
   sp.layout=list(
 	list("sp.polygon", meuse.sr),

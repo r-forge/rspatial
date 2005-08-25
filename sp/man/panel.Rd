@@ -5,7 +5,7 @@
 \alias{panel.ringsplot}
 \alias{sp.pagefn} % needs docs!
 \alias{spplot.key} % needs docs!
-\alias{SpatialRingsRescale}
+\alias{SpatialPolygonsRescale}
 \alias{sp.lines}
 \alias{sp.points}
 \alias{sp.polygon}
@@ -18,7 +18,7 @@ useful within these panel functions }
 \usage{
 sp.pagefn(n)
 spplot.key(sp.layout, rows = 1, cols = 1)
-SpatialRingsRescale(obj, offset, scale = 1, fill = "black", col = "black",
+SpatialPolygonsRescale(obj, offset, scale = 1, fill = "black", col = "black",
 	plot.grid = TRUE, ...)
 sp.lines(obj, col = 1, ...)
 sp.points(obj, pch = 3, ...)
@@ -31,11 +31,11 @@ sp.text(loc, txt, ...)
 \item{sp.layout}{ list; see \link{spplot} for definition }
 \item{rows}{ integer; panel row(s) for which the layout should be drawn }
 \item{cols}{ integer; panel column(s) for which the layout should be drawn }
-\item{obj}{ object of class \link{SpatialRings-class} for
-\code{SpatialRingsRescale}; of class \link{SpatialLines-class},
-\link{Slines-class} or \link{Sline-class} for \code{sp.lines} of a
+\item{obj}{ object of class \link{SpatialPolygons-class} for
+\code{SpatialPolygonsRescale}; of class \link{SpatialLines-class},
+\link{Lines-class} or \link{Line-class} for \code{sp.lines} of a
 class that has a \link{coordinates-methods} for \code{sp.points}; of
-class \link{SpatialRings-class} for \code{sp.polygon}.  When obj is
+class \link{SpatialPolygons-class} for \code{sp.polygon}.  When obj is
 character, the actual object is retrieved by \code{get(obj)} before its
 class is evaluated.  }
 \item{offset}{ offset for shifting a Rings object }
@@ -58,8 +58,8 @@ Customizing spplot plots can be done by extending the panel function,
 or by supplying an sp.layout argument; see the documentation for
 \link{spplot}.
 
-\code{SpatialRingsRescale} scales and shifts an object of class
-\link{SpatialRings-class}; this is useful e.g. for scale bars, or other
+\code{SpatialPolygonsRescale} scales and shifts an object of class
+\link{SpatialPolygons-class}; this is useful e.g. for scale bars, or other
 layout items.
 
 \code{sp.lines}, \code{sp.points}, \code{sp.polygon} and \code{sp.text}

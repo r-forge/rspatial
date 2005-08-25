@@ -1,7 +1,6 @@
 #
-plot.SpatialRings <- function(x, col, border = par("fg"), add=FALSE, xlim=NULL, 
-	ylim=NULL, asp=1, xpd = NULL, density = NULL, angle = 45, pbg=NULL, axes = FALSE, 
-	...) {
+plot.SpatialPolygons <- function(x, col, border = par("fg"), add=FALSE, xlim=NULL, 
+	ylim=NULL, asp=1, xpd = NULL, density = NULL, angle = 45, pbg=NULL, axes = FALSE, ...) {
 
 	if (is.null(pbg))
 #ifdef R
@@ -9,18 +8,18 @@ plot.SpatialRings <- function(x, col, border = par("fg"), add=FALSE, xlim=NULL,
 #else
 #		pbg = 0
 #endif
-	if (!is(x, "SpatialRings")) 
-		stop("Not a SpatialRings object")
+	if (!is(x, "SpatialPolygons")) 
+		stop("Not a SpatialPolygons object")
 
 	if (! add) 
 		plot(as(x, "Spatial"), xlim=xlim, ylim=ylim, asp=asp, axes = axes, ...)
 
 	if (missing(col)) col <- NA
-	n <- length(getSRpolygonsSlot(x))
+	n <- length(getSpPpolygonsSlot(x))
 	if (length(border) != n)
 		border <- rep(border, n, n)
-	polys <- getSRpolygonsSlot(x)
-	pO <- getSRplotOrderSlot(x)
+	polys <- getSpPpolygonsSlot(x)
+	pO <- getSpPplotOrderSlot(x)
 	if (!is.null(density)) {
 		if (length(density) != n)
 			density <- rep(density, n, n)
@@ -40,28 +39,28 @@ plot.SpatialRings <- function(x, col, border = par("fg"), add=FALSE, xlim=NULL,
 
 .polygonRingHoles <- function(Sr, col=NA, border=NULL, xpd=NULL, density=NULL,
 	angle=45, pbg) {
-	if (!is(Sr, "Srings")) 
-		stop("Not an Srings object")
+	if (!is(Sr, "Polygons")) 
+		stop("Not an Polygons object")
 	if (is.na(col)) hatch <- TRUE
 	else hatch <- FALSE
-	pO <- getSringsplotOrderSlot(Sr)
-	polys <- getSringsSringsSlot(Sr)
+	pO <- getPolygonsplotOrderSlot(Sr)
+	polys <- getPolygonsPolygonsSlot(Sr)
 	
 	for (i in pO) {
 		if (hatch) {
-			if (!getSringHoleSlot(polys[[i]]))
-				.polygon(getSringCoordsSlot(polys[[i]]), 
+			if (!getPolygonHoleSlot(polys[[i]]))
+				.polygon(getPolygonCoordsSlot(polys[[i]]), 
 					border = border, xpd = xpd, 
 					density = density, angle = angle,
 					hatch=TRUE)
-			else .polygon(getSringCoordsSlot(polys[[i]]), 
+			else .polygon(getPolygonCoordsSlot(polys[[i]]), 
 					border = border, xpd = xpd, col=pbg, 
 					density = NULL)
 		} else {
-			if (!getSringHoleSlot(polys[[i]]))
-				.polygon(getSringCoordsSlot(polys[[i]]), 
+			if (!getPolygonHoleSlot(polys[[i]]))
+				.polygon(getPolygonCoordsSlot(polys[[i]]), 
 					border = border, xpd = xpd, col=col)
-			else .polygon(getSringCoordsSlot(polys[[i]]), 
+			else .polygon(getPolygonCoordsSlot(polys[[i]]), 
 				border = border, xpd = xpd, col=pbg)
 		}
 	}

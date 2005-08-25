@@ -13,9 +13,9 @@ if (!isGeneric("coordnames"))
 if (!isGeneric("coordnames<-"))
 	setGeneric("coordnames<-", function(x,value)
 		standardGeneric("coordnames<-"))
-if (!isGeneric("rings"))
-	setGeneric("rings", function(obj)
-		standardGeneric("rings"))
+if (!isGeneric("polygons"))
+	setGeneric("polygons", function(obj)
+		standardGeneric("polygons"))
 if (!isGeneric("gridded"))
 	setGeneric("gridded", function(obj)
 		standardGeneric("gridded"))
@@ -39,11 +39,11 @@ setMethod("bbox", "Spatial", function(obj) obj@bbox)
 
 setMethod("dimensions", "Spatial", function(obj) nrow(bbox(obj)))
 
-setMethod("rings", "Spatial", function(obj) {
-		if (is(obj, "SpatialRings"))
-			as(obj, "SpatialRings")
+setMethod("polygons", "Spatial", function(obj) {
+		if (is(obj, "SpatialPolygons"))
+			as(obj, "SpatialPolygons")
 		else
-			stop("rings method only available for objects of class or deriving from SpatialRings")
+			stop("polygons method only available for objects of class or deriving from SpatialPolygons")
 	}
 )
 
@@ -67,7 +67,7 @@ summary.Spatial = function(object, ...) {
 	if (is(object, "SpatialGrid"))
 		obj[["grid"]] = gridparameters(as(object, "SpatialGrid"))
     if (is(object, "SpatialPointsDataFrame") || is(object, "SpatialLinesDataFrame") 
-			|| is(object, "SpatialGridDataFrame") || is(object, "SpatialRingsDataFrame"))
+			|| is(object, "SpatialGridDataFrame") || is(object, "SpatialPolygonsDataFrame"))
         obj[["data"]] = summary(object@data)
     class(obj) = "summary.Spatial"
     obj

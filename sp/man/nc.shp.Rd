@@ -20,8 +20,8 @@ library(maptools)
 nc.shp <- read.shape(system.file("shapes/sids.shp", package="maptools")[1])
 }
 data(ncshp)
-nc1 <- as.SpatialRings.Shapes(nc.shp$Shapes, as.character(nc.shp$att.data$FIPS))
-plotSpatialRings(nc1)
-invisible(text(getSRSringsLabptSlots(nc1), labels=getSRSringsIDSlots(nc1), cex=0.6))
+nc1 <- as.SpatialPolygons.Shapes(nc.shp$Shapes, as.character(nc.shp$att.data$FIPS))
+plotSpatialPolygons(nc1)
+invisible(text(getSpPPolygonsLabptSlots(nc1), labels=getSpPPolygonsIDSlots(nc1), cex=0.6))
 }
 \keyword{datasets}

@@ -8,7 +8,7 @@
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{Converter functions to build SpatialLinesDataFrame objects}
 \description{
-  These functions show how to build converters from external formats to build SpatialLinesDataFrame objects: \code{shp2SLDF} from \code{"arc"} type ESRI shapefiles read into \code{"Map"} objects using the \code{read.shape()} function in the maptools package; \code{arcobj2SLDF} from the list returned by the \code{get.arcdata} function in the RArcInfo package; and \code{contourLines2SLDF} from the list returned by the \code{contourLines} function in the graphics package (here the data frame is just the contour levels, with one Slines object made up of at least one Sline object per level). In addition, \code{Mapgen2SL} reads a file in "Mapgen" format into a \code{SpatialLines} object.
+  These functions show how to build converters from external formats to build SpatialLinesDataFrame objects: \code{shp2SLDF} from \code{"arc"} type ESRI shapefiles read into \code{"Map"} objects using the \code{read.shape()} function in the maptools package; \code{arcobj2SLDF} from the list returned by the \code{get.arcdata} function in the RArcInfo package; and \code{contourLines2SLDF} from the list returned by the \code{contourLines} function in the graphics package (here the data frame is just the contour levels, with one Lines object made up of at least one Line object per level). In addition, \code{Mapgen2SL} reads a file in "Mapgen" format into a \code{SpatialLines} object.
 }
 \usage{
 shp2SLDF(shp, proj4string = CRS(as.character(NA)), IDs)
