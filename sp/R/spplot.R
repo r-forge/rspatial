@@ -120,7 +120,7 @@ spplot.grid = function(obj, zcol = names(obj), ..., names.attr,
 	if (missing(formula))
 		formula = getFormulaLevelplot(sdf, zcol)
 	if (length(zcol) > 1)
-		sdf = map.to.lev(sdf, zcol = zcol, names.attr = names.attr)
+		sdf = spmap.to.lev(sdf, zcol = zcol, names.attr = names.attr)
 	levelplot(formula, as(sdf, "data.frame"), aspect = aspect,
 		panel = panel, xlab = xlab, ylab = ylab, scales = scales,
 		sp.layout = sp.layout, ...)
@@ -153,7 +153,7 @@ spplot.rings = function(obj, zcol = names(obj), ..., names.attr,
 	if (missing(formula))
 		formula = getFormulaLevelplot(sdf, zcol)
 	if (length(zcol) > 1)
-		sdf = map.to.lev(sdf, zcol = zcol, names.attr = names.attr)
+		sdf = spmap.to.lev(sdf, zcol = zcol, names.attr = names.attr)
 	if (is(obj, "SpatialPolygonsDataFrame"))
 		grid.polygons = as(obj, "SpatialPolygons")
 	else
@@ -179,7 +179,7 @@ spplot.points = function(obj, zcol = names(obj), ..., names.attr,
 		if (length(zcol) > 1) {
 			formula = as.formula(paste(paste(dimnames(coordinates(sdf))[[2]][2:1], 
 				collapse = "~"), "|name"))
-			sdf = map.to.lev(sdf, zcol = zcol, names.attr = names.attr)
+			sdf = spmap.to.lev(sdf, zcol = zcol, names.attr = names.attr)
 		} else {
 			if (!is.character(zcol)) 
 				zcol = names(sdf)[zcol]

@@ -107,12 +107,33 @@ plot.Spatial <- function(x, xlim=NULL, ylim=NULL, asp=1, axes = FALSE, ...) {
 	if (is.null(xlim)) xlim <- c(bbox[1,1], bbox[1,2])
 	if (is.null(ylim)) ylim <- c(bbox[2,1], bbox[2,2])
 	plot.new()
-	plot.window(xlim=xlim, ylim=ylim, asp=asp, ...)
+	plot.window(xlim = xlim, ylim = ylim, asp = asp, ...)
 	if (axes) { # set up default axes system & box:
 		box()
-		axis(1)
-		axis(2)
+		if (length(grep("latlong", proj4string(x))) > 0) {
+			degAxis(1)
+			degAxis(2)
+		} else {
+			axis(1)
+			axis(2)
+		}
 		axis(3, labels = FALSE)
 		axis(4, labels = FALSE)
 	}
 }
+
+degAxis = function (side) {
+        at = axTicks(side)
+        pos = sign(at) + 2
+        labels = FALSE
+        if (side == 1) {
+                dir = c("W", "", "E")
+                labels = parse(text = paste(abs(at), "*degree*", dir[pos]))
+        }
+        if (side == 2) {
+                dir = c("S", "", "N")
+                labels = parse(text = paste(abs(at), "*degree*", dir[pos]))
+        }
+        axis(side, at = at, labels = labels)
+}
+

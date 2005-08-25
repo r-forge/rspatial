@@ -6,7 +6,7 @@ importFrom(grid, grid.polygon, grid.rect, gpar)
 export(CRS, print.CRS, proj4string, "proj4string<-", is.projected)
 
 export(bbox, getGridIndex, points2grid, bpy.colors, bubble,
-	mapasp, point.in.polygon, map.to.lev, zerodist, remove.duplicates)
+	mapasp, point.in.polygon, spmap.to.lev, zerodist, remove.duplicates)
 
 export(coordinatevalues)
 

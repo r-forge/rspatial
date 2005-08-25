@@ -1,10 +1,10 @@
-"map.to.lev" <- function (data, zcol = 1:n, n = 2, names.attr)
+"spmap.to.lev" <- function (data, zcol = 1:n, n = 2, names.attr)
 {
 	if (!extends(class(data), "SpatialPointsDataFrame"))
 		stop("data is not of a class that extends SpatialPointsDataFrame")
 
 	if (dimensions(data) > 2) {
-		warning("map.to.lev ignores spatial dimensions beyond the first 2")
+		warning("spmap.to.lev ignores spatial dimensions beyond the first 2")
 		cc = coordinates(data)[,1:2]
 		data = as(data, "data.frame")
 		coordinates(data) = cc
