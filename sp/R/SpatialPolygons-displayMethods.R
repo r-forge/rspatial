@@ -28,17 +28,17 @@ plot.SpatialPolygons <- function(x, col, border = par("fg"), add=FALSE, xlim=NUL
 		for (j in pO) 
 			.polygonRingHoles(polys[[j]], border = border[j], 
 			xpd = xpd, density = density[j], angle = angle[j], 
-			pbg = pbg) 
+			pbg = pbg, ...) 
 	} else {
 		if (length(col) != n) col <- rep(col, n, n)
 		for (j in pO) 
 			.polygonRingHoles(polys[[j]], col=col[j], 
-			border=border[j], xpd = xpd, pbg = pbg)
+			border=border[j], xpd = xpd, pbg = pbg, ...)
 	}
 }
 
 .polygonRingHoles <- function(Sr, col=NA, border=NULL, xpd=NULL, density=NULL,
-	angle=45, pbg) {
+	angle=45, pbg, ...) {
 	if (!is(Sr, "Polygons")) 
 		stop("Not an Polygons object")
 	if (is.na(col)) hatch <- TRUE
@@ -52,16 +52,17 @@ plot.SpatialPolygons <- function(x, col, border = par("fg"), add=FALSE, xlim=NUL
 				.polygon(getPolygonCoordsSlot(polys[[i]]), 
 					border = border, xpd = xpd, 
 					density = density, angle = angle,
-					hatch=TRUE)
+					hatch=TRUE, ...)
 			else .polygon(getPolygonCoordsSlot(polys[[i]]), 
 					border = border, xpd = xpd, col=pbg, 
-					density = NULL)
+					density = NULL, ...)
 		} else {
 			if (!getPolygonHoleSlot(polys[[i]]))
 				.polygon(getPolygonCoordsSlot(polys[[i]]), 
-					border = border, xpd = xpd, col=col)
+					border = border, xpd = xpd, 
+					col=col, ...)
 			else .polygon(getPolygonCoordsSlot(polys[[i]]), 
-				border = border, xpd = xpd, col=pbg)
+				border = border, xpd = xpd, col=pbg, ...)
 		}
 	}
 }
