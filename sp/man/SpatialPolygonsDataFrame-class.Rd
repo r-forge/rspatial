@@ -62,7 +62,7 @@ rrt <- as(ncSpPDF, "data.frame")$SID74/as(ncSpPDF, "data.frame")$BIR74
 brks <- quantile(rrt, seq(0,1,1/7))
 cols <- grey((length(brks):2)/length(brks))
 dens <- (2:length(brks))*3
-plot.SpatialPolygons(ncSpPDF, col=cols[findInterval(rrt, brks, all.inside=TRUE)])
-plot.SpatialPolygons(ncSpPDF, density=dens[findInterval(rrt, brks, all.inside=TRUE)])
+plot(ncSpPDF, col=cols[findInterval(rrt, brks, all.inside=TRUE)])
+plot(ncSpPDF, density=dens[findInterval(rrt, brks, all.inside=TRUE)])
 }
 \keyword{classes}

@@ -32,7 +32,7 @@ shp2SLDF)
 
 export(Mapgen2SL)
 
-export(plotSpatialLines, plot.SpatialPolygons)
+export(plotSpatialLines, plot.SpatialPolygons, plot.SpatialPolygonsDataFrame)
 
 export(spplot, layout.scale.bar, layout.north.arrow, sp.theme,
 	mapLegendGrob, sp.pagefn, spplot.key, panel.gridplot,
@@ -174,12 +174,13 @@ S3method("names<-", AttributeList)
 
 S3method(plot, Spatial)
 S3method(plot, SpatialPoints)
-S3method(plot, SpatialPixels)
-S3method(plot, SpatialGrid)
 S3method(plot, SpatialPointsDataFrame)
+S3method(plot, SpatialPixels)
 S3method(plot, SpatialPixelsDataFrame)
+S3method(plot, SpatialGrid)
 S3method(plot, SpatialGridDataFrame)
 S3method(plot, SpatialPolygons)
+S3method(plot, SpatialPolygonsDataFrame)
 S3method(plot, SpatialLines)
 S3method(plot, SpatialLinesDataFrame)
 

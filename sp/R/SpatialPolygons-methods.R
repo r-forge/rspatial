@@ -252,6 +252,7 @@ plotSpatialPolygons <- function(SpP) {
 setMethod("[", "SpatialPolygons", function(x, i, j, ..., drop = T) {
 	if (!missing(j)) stop("only a single index is allowed for [.SpatialPolygons")
 	# SpatialPolygons(x[i], pO = order(x@plotOrder))
+	if (is.logical(i)) i <- which(i)
 	if (length(unique(i)) != length(i))
 		stop("SpatialPolygons selection: can't find plot order if rings are replicated")
 	SpatialPolygons(x@polygons[i], pO = order(match(i, x@plotOrder)))

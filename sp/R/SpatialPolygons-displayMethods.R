@@ -92,3 +92,8 @@ plot.SpatialPolygons <- function(x, col, border = par("fg"), add=FALSE, xlim=NUL
 #		border = border, col = col, ...)
 #endif
 }
+
+plot.SpatialPolygonsDataFrame = function(x, ...) {
+	plot(as(x, "SpatialPolygons"), ...)
+}
+

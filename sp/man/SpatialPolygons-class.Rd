@@ -5,6 +5,7 @@
 \alias{as.data.frame.SpatialPolygons}
 \alias{plotSpatialPolygons}
 \alias{plot.SpatialPolygons}
+\alias{plot.SpatialPolygonsDataFrame}
 
 \title{Class "SpatialPolygons"}
 \description{  class to hold polygon topology (without attributes) }
@@ -34,19 +35,19 @@ No methods defined with class "SpatialPolygons" in the signature.
 \examples{
 data(ncshp)
 nc1 <- as.SpatialPolygons.Shapes(nc.shp$Shapes, as.character(nc.shp$att.data$FIPS))
-plotSpatialPolygons(nc1)
+plot(nc1)
 invisible(text(getSpPPolygonsLabptSlots(nc1), labels=getSpPPolygonsIDSlots(nc1), cex=0.6))
 data(ncmap)
 IDs <- sapply(strsplit(ncmap$names, ","), function(x) x[2])
 nc2 <- as.SpatialPolygons.map(ncmap, IDs)
-plotSpatialPolygons(nc2)
+plot(nc2)
 invisible(text(getSpPPolygonsLabptSlots(nc2), labels=getSpPPolygonsIDSlots(nc2), cex=0.6))
 data(co37_d90_arc)
 data(co37_d90_pal)
 data(co37_d90_pat)
 IDs <- paste(pat$ST[-1], pat$CO[-1], sep="")
 nc3 <- as.SpatialPolygons.pal(arc, pal, IDs=IDs)
-plotSpatialPolygons(nc3)
+plot(nc3)
 invisible(text(getSpPPolygonsLabptSlots(nc3), labels=getSpPPolygonsIDSlots(nc3), cex=0.6))
 }
 \keyword{classes}
