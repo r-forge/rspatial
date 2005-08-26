@@ -23,7 +23,12 @@
 
 stack.AttributeList = function(x, ...) {
 	ns = names(x)
-	x = stack(lapply(x@att, as.numeric), ...)
+	if (all(unlist(lapply(x@att, is.factor)))) {
+		# the expensive but robust way:
+		x = stack(lapply(x@att, as.character), ...)
+		x$values = factor(x$values)
+	} else
+		x = stack(lapply(x@att, as.numeric), ...)
 	x$ind = factor(x$ind, levels = ns) # don't sort alphabetically
 	x
 }

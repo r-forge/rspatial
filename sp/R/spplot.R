@@ -114,30 +114,48 @@ getFormulaLevelplot = function(sdf, zcol) {
 
 spplot.grid = function(obj, zcol = names(obj), ..., names.attr, 
 		scales = list(draw = FALSE), xlab = "", ylab = "", aspect = mapasp(obj), 
-		panel = panel.gridplot, sp.layout = NULL, formula) {
+		panel = panel.gridplot, sp.layout = NULL, formula, 
+		xlim = bbox(obj)[1,], ylim = bbox(obj)[2,]) {
 	require(lattice)
 	sdf = as(obj, "SpatialPointsDataFrame")
 	if (missing(formula))
 		formula = getFormulaLevelplot(sdf, zcol)
-	if (length(zcol) > 1)
+	if (length(zcol) > 1) {
 		sdf = spmap.to.lev(sdf, zcol = zcol, names.attr = names.attr)
-	levelplot(formula, as(sdf, "data.frame"), aspect = aspect,
-		panel = panel, xlab = xlab, ylab = ylab, scales = scales,
-		sp.layout = sp.layout, ...)
+		zcol2 = "z"
+	} else
+		zcol2 = zcol
+	scales = latlong.scales(obj, scales, xlim, ylim)
+	args = append(list(formula = formula, data = as(sdf, "data.frame"), 
+		aspect = aspect, panel = panel, xlab = xlab, ylab = ylab, scales = scales,
+		sp.layout = sp.layout, xlim = xlim, ylim = ylim), list(...))
+	# deal with factor variables:
+	if (all(unlist(lapply(obj@data@att[zcol], is.factor)))) {
+		args$data[[zcol2]] = as.numeric(args$data[[zcol2]])
+		if (is.null(args$colorkey) || (is.logical(args$colorkey) && args$colorkey)
+				|| (is.list(args$colorkey) && is.null(args$colorkey$at) && 
+					is.null(args$colorkey$labels))) {
+			if (!is.list(args$colorkey))
+				args$colorkey = list()
+			ck = args$colorkey
+			args$colorkey = NULL
+			args = append(args, colorkey.factor(sdf[[zcol2]], ck))
+		}
+	}
+	do.call("levelplot", args)
 }
 
 setMethod("spplot", signature("SpatialPixelsDataFrame"), spplot.grid)
 setMethod("spplot", signature("SpatialGridDataFrame"), 
 	function(obj, ...) spplot.grid(as(obj, "SpatialPixelsDataFrame"), ...))
 
-spplot.rings = function(obj, zcol = names(obj), ..., names.attr, 
+spplot.polygons = function(obj, zcol = names(obj), ..., names.attr, 
 		scales = list(draw = FALSE), xlab = "", ylab = "", aspect = mapasp(obj), 
-		panel = panel.ringsplot, sp.layout = NULL, formula) {
+		panel = panel.polygonsplot, sp.layout = NULL, formula, 
+		xlim = bbox(obj)[1,], ylim = bbox(obj)[2,]) {
 
 	require(lattice)
 	require(grid)
-	xr = bbox(obj)[1, ] 
-	yr = bbox(obj)[2, ]
 	sdf = as.data.frame(obj)
 	if (is(obj, "SpatialPolygonsDataFrame"))
 		labpts = getSpPPolygonsLabptSlots(obj)
@@ -152,24 +170,49 @@ spplot.rings = function(obj, zcol = names(obj), ..., names.attr,
 	coordinates(sdf) = c("xlabelpoint", "ylabelpoint")
 	if (missing(formula))
 		formula = getFormulaLevelplot(sdf, zcol)
-	if (length(zcol) > 1)
+	if (length(zcol) > 1) {
 		sdf = spmap.to.lev(sdf, zcol = zcol, names.attr = names.attr)
+		zcol2 = "z"
+	} else
+		zcol2 = zcol
 	if (is(obj, "SpatialPolygonsDataFrame"))
 		grid.polygons = as(obj, "SpatialPolygons")
 	else
 		grid.polygons = as(obj, "SpatialLines")
-	levelplot(formula, as(sdf, "data.frame"), aspect = aspect,
-		grid.polygons = grid.polygons,
-		panel = panel, xlim = xr, ylim = yr, xlab = xlab, ylab =
-		ylab, scales = scales, sp.layout = sp.layout, ...)
+	scales = latlong.scales(obj, scales, xlim, ylim)
+
+	args = append(list(formula = formula, data = as(sdf, "data.frame"),
+		aspect = aspect, grid.polygons = grid.polygons, panel =
+		panel, xlab = xlab, ylab = ylab, scales = scales,
+		sp.layout = sp.layout, xlim = xlim, ylim = ylim), list(...))
+	if (all(unlist(lapply(obj@data[zcol], is.factor)))) {
+		args$data[[zcol2]] = as.numeric(args$data[[zcol2]])
+		if (is.null(args$colorkey) || (is.logical(args$colorkey) && args$colorkey)
+				|| (is.list(args$colorkey) && is.null(args$colorkey$at) && 
+					is.null(args$colorkey$labels))) {
+			if (!is.list(args$colorkey))
+				args$colorkey = list()
+			ck = args$colorkey
+			args$colorkey = NULL
+			args = append(args, colorkey.factor(sdf[[zcol2]], ck))
+		}
+	}
+	do.call("levelplot", args)
+
+	#levelplot(formula, as(sdf, "data.frame"), aspect = aspect,
+	#	grid.polygons = grid.polygons, panel = panel, xlab = xlab, ylab =
+	#	ylab, scales = scales, sp.layout = sp.layout, xlim = xlim, ylim =
+	#	ylim, ...)
 }
-setMethod("spplot", signature("SpatialPolygonsDataFrame"), spplot.rings)
-setMethod("spplot", signature("SpatialLinesDataFrame"), spplot.rings)
+
+setMethod("spplot", signature("SpatialPolygonsDataFrame"), spplot.polygons)
+setMethod("spplot", signature("SpatialLinesDataFrame"), spplot.polygons)
 
 spplot.points = function(obj, zcol = names(obj), ..., names.attr, 
 		scales = list(draw = FALSE), xlab = "", ylab = "", 
 		aspect = mapasp(obj), panel = panel.pointsplot,
-		sp.layout = NULL, identify = FALSE, formula) {
+		sp.layout = NULL, identify = FALSE, formula,
+		xlim = bbexpand(bbox(obj)[1,], 0.04), ylim = bbexpand(bbox(obj)[2,], 0.04)) {
 
 	dots = list(...)
 	require(lattice)
@@ -189,9 +232,11 @@ spplot.points = function(obj, zcol = names(obj), ..., names.attr,
 	}
 	args.xyplot = append(list(formula = formula, data = as(sdf, "data.frame"), 
 		panel = panel, aspect = aspect, scales = scales, 
-		xlab = xlab, ylab = ylab, sp.layout = sp.layout), dots)
+		xlab = xlab, ylab = ylab, sp.layout = sp.layout,
+		xlim = xlim, ylim = ylim), dots)
 	z = as.vector(as.matrix(as(obj, "data.frame")[zcol]))
 	args.xyplot = fill.call.groups(args.xyplot, z = z, ...)
+	scales = latlong.scales(obj, scales, xlim, ylim)
 	plt = do.call("xyplot", args.xyplot)
 	if (!(is.logical(identify) && identify==FALSE) && interactive()) {
 		print(plt)
@@ -231,7 +276,7 @@ panel.gridplot = function(x, y, z, subscripts, ..., panel.counter, sp.layout) {
 	sp.panel.layout(sp.layout, panel.counter)
 }
 
-panel.ringsplot =
+panel.polygonsplot =
 function (x, y, z, subscripts, at = pretty(z), shrink, labels = NULL, 
    		label.style = c("mixed", "flat", "align"), contour = FALSE, 
    		region = TRUE, col = add.line$col, lty = add.line$lty, lwd = add.line$lwd, 
@@ -299,6 +344,7 @@ fill.call.groups = function(lst, z, ..., cuts,
 	col.regions = trellis.par.get("regions")$col, legendEntries = "", pch, 
 	cex = 1, fill = TRUE, do.log = FALSE, key.space = "bottom") 
 {
+	dots = list(...)
     if (missing(pch)) 
         lst$pch = ifelse(fill, 16, 1)
 	if (missing(cuts))
@@ -333,9 +379,12 @@ fill.call.groups = function(lst, z, ..., cuts,
 	if (missing(legendEntries))
 		legendEntries = levels(lst$groups)
 	n = length(levels(lst$groups))
-	lst$key = list(points = list(pch = rep(lst$pch, 
-		length = n), col = rep(lst$col, length = n), 
-		cex = rep(cex, length = n)), text = list(legendEntries))
+	if (!is.null(dots$key))
+		lst$key = dots$key
+	else
+		lst$key = list(points = list(pch = rep(lst$pch, length = n), 
+			col = rep(lst$col, length = n), cex = rep(cex, length = n)), 
+			text = list(legendEntries))
 	if (is.character(key.space))
 		lst$key$space = key.space
 	else if (is.list(key.space))
@@ -453,4 +502,47 @@ spplot.key = function(sp.layout, rows = 1, cols = 1) {
 sp.pagefn = function(n) {
 	pos = lattice:::lattice.getStatus("current.panel.positions")
 	spplot.key(sp.layout, pos[1], pos[2])
+}
+
+latlong.scales = function(obj, scales, xlim, ylim) {
+	isp = is.projected(obj)
+	if (scales$draw && !is.na(isp) && !isp) {
+		# lat long -- x:
+		if (is.null(scales$x))
+			scales$x = list()
+		if (is.null(scales$x$at))
+			scales$x$at = pretty(xlim)
+		if (is.null(scales$x$labels)) {
+        	pos = sign(scales$x$at) + 2
+        	dir = c("W", "", "E")
+        	scales$x$labels = parse(text = paste(abs(scales$x$at), "*degree*", dir[pos]))
+		}
+		# lat long -- y:
+		if (is.null(scales$y))
+			scales$y = list()
+		if (is.null(scales$y$at))
+			scales$y$at = pretty(ylim)
+		if (is.null(scales$y$labels)) {
+        	pos = sign(scales$y$at) + 2
+        	dir = c("S", "", "N")
+        	scales$y$labels = parse(text = paste(abs(scales$y$at), "*degree*", dir[pos]))
+		}
+	}
+	scales
+}
+
+bbexpand = function(x, fraction) {
+	r = diff(x)
+	c(x - fraction * r, x + fraction * r)
+}
+
+colorkey.factor = function(f, colorkey = list()) {
+	f.num = as.numeric(f)
+	f.range = range(f.num)
+	at = seq(f.range[1]-0.5, f.range[2]+0.501)
+	at.labels = seq(f.range[1], f.range[2])
+	lf = levels(f)
+	colorkey=append(colorkey, list(labels=list(at=at.labels,labels=lf), 
+		height=min(1, .05 * length(lf))))
+	list(at = at, colorkey = colorkey)
 }

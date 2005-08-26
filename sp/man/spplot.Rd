@@ -1,7 +1,7 @@
 \name{spplot}
 \alias{spplot}
 \alias{spplot.grid}
-\alias{spplot.rings}
+\alias{spplot.polygons}
 \alias{spplot.points}
 \alias{layout.north.arrow}
 \alias{layout.scale.bar}
@@ -14,13 +14,16 @@
 spplot(obj, ...)
 spplot.grid(obj, zcol = names(obj), ..., names.attr, 
 	scales = list(draw = FALSE), xlab = "", ylab = "", aspect = mapasp(obj), 
-	panel = panel.gridplot, sp.layout = NULL, formula)
-spplot.rings(obj, zcol = names(obj), ..., names.attr, 
+	panel = panel.gridplot, sp.layout = NULL, formula, xlim = bbox(obj)[1, ], 
+	ylim = bbox(obj)[2, ])
+spplot.polygons(obj, zcol = names(obj), ..., names.attr, 
 	scales = list(draw = FALSE), xlab = "", ylab = "", aspect = mapasp(obj), 
-	panel = panel.ringsplot, sp.layout = NULL, formula)
+	panel = panel.polygonsplot, sp.layout = NULL, formula, xlim = bbox(obj)[1, ], 
+	ylim = bbox(obj)[2, ])
 spplot.points(obj, zcol = names(obj), ..., names.attr, 
 	scales = list(draw = FALSE), xlab = "", ylab = "", aspect = mapasp(obj), 
-	panel = panel.pointsplot, sp.layout = NULL, identify = FALSE, formula)
+	panel = panel.pointsplot, sp.layout = NULL, identify = FALSE, formula, 
+	xlim = bbexpand(bbox(obj)[1, ], 0.04), ylim = bbexpand(bbox(obj)[2, ], 0.04))
 mapLegendGrob(obj, widths = unit(1, "cm"), heights = unit(1, "cm"),
 	fill = "black", just = "right")
 sp.theme()
@@ -40,8 +43,8 @@ layout.scale.bar(height = 0.05)
 \item{aspect}{aspect ratio for spatial axes; defaults to "iso" (one unit
 on the x-axis equals one unit on the y-axis) but may be set to more
 suitable values if the data are e.g. if coordinates are latitude/longitude }
-\item{panel}{ depending on the class of obj, \link{panel.ringsplot} (for
-rings or lines), \link{panel.gridplot} (grids) or \link{panel.pointsplot}
+\item{panel}{ depending on the class of obj, \link{panel.polygonsplot} (for
+polygons or lines), \link{panel.gridplot} (grids) or \link{panel.pointsplot}
 (points) is used; for further control custom panel functions can be
 supplied that call one of these panel functions, but do read how the
 argument \code{sp.layout} may help }
@@ -54,6 +57,8 @@ value \code{c(i,j)}}
 \item{formula}{optional; may be useful to plot a transformed value. Defaults
 to \code{z~x+y} for single and \code{z~x+y|name} for multiple attributes; use
 e.g. \code{exp(x)~x+y|name} to plot the exponent of the z-variable}
+\item{xlim}{ numeric; x-axis limits }
+\item{ylim}{ numeric; y-axis limits }
 \item{widths}{width of grob}
 \item{heights}{heights of grob}
 \item{fill}{fill color of grob}

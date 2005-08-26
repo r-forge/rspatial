@@ -36,7 +36,7 @@ export(plotSpatialLines, plot.SpatialPolygons, plot.SpatialPolygonsDataFrame)
 
 export(spplot, layout.scale.bar, layout.north.arrow, sp.theme,
 	mapLegendGrob, sp.pagefn, spplot.key, panel.gridplot,
-	panel.ringsplot, panel.pointsplot, sp.polygon, sp.text, sp.points,
+	panel.polygonsplot, panel.pointsplot, sp.polygon, sp.text, sp.points,
 	sp.lines, sp.grid, SpatialPolygonsRescale)
 
 export(as.image.SpatialGridDataFrame)

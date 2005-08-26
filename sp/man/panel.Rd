@@ -2,7 +2,7 @@
 \alias{panel.spplot}
 \alias{panel.gridplot}
 \alias{panel.pointsplot}
-\alias{panel.ringsplot}
+\alias{panel.polygonsplot}
 \alias{sp.pagefn} % needs docs!
 \alias{spplot.key} % needs docs!
 \alias{SpatialPolygonsRescale}
