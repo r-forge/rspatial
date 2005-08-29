@@ -8,7 +8,7 @@
 }
 \usage{data(georgia)}
 \format{
- A SpatialRingsDataFrame object (proj4string set to NA, probably "+proj=latlong +datum=NAD27").
+ A SpatialPolygonsDataFrame object (proj4string set to "+proj=latlong +datum=NAD27").
 
   The "data" slot is a data frame with 159 observations on the following 13 variables.
   \describe{
@@ -38,6 +38,6 @@ Variables are from GWR3 file GeorgiaData.csv.
 }
 \examples{
 data(georgia)
-plot(as(gSRDF, "SpatialRings"))
+plot(gSRDF)
 }
 \keyword{datasets}

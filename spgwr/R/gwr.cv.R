@@ -7,7 +7,7 @@ gwr.sel <- function(formula, data = list(), coords, adapt=FALSE,
 	if (!is.logical(lonlat)) stop("lonlat must be logical")
 	if (is(data, "Spatial")) {
 		if (missing(coords)) {
-			if (is(data, "SpatialRingsDataFrame")) 
+			if (is(data, "SpatialPolygonsDataFrame")) 
 				coords <- getSRSringsLabptSlots(data)
 			else coords <- coordinates(data)
 		}

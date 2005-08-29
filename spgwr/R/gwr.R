@@ -10,8 +10,8 @@ gwr <- function(formula, data = list(), coords, bandwidth,
 	coords.given <- NULL
 	if (!missing(coords)) coords.given <- TRUE
 	coords.extra <- NULL
-	if (is(data, "SpatialRingsDataFrame")) {
-		Polys <- as(data, "SpatialRings")
+	if (is(data, "SpatialPolygonsDataFrame")) {
+		Polys <- as(data, "SpatialPolygons")
 		if (missing(coords)) {
 			coords <- getSRSringsLabptSlots(data)
 			coords.given <- FALSE
@@ -46,7 +46,7 @@ gwr <- function(formula, data = list(), coords, bandwidth,
 	gridded <- FALSE
 	if (is(fit.points, "Spatial")) {
 		Polys <- NULL
-		if (is(fit.points, "SpatialRingsDataFrame")) {
+		if (is(fit.points, "SpatialPolygonsDataFrame")) {
 			Polys <- Polygons(fit.points)
 			fit.points <- getSRSringsLabptSlots(fit.points)
 		} else {
@@ -194,7 +194,7 @@ gwr <- function(formula, data = list(), coords, bandwidth,
 	else if (!is.null(Polys)) {
 		df <- data.frame(SDF@data)
 		rownames(df) <- getSRSringsIDSlots(Polys)
-		SDF <- SpatialRingsDataFrame(Sr=Polys, data=df)
+		SDF <- SpatialPolygonsDataFrame(Sr=Polys, data=df)
 	}
 	z <- list(SDF=SDF, lhat=lhat, lm=lm, results=results, 
 		bandwidth=bw, adapt=adapt, hatmatrix=hatmatrix, 

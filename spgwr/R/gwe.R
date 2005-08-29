@@ -52,8 +52,8 @@ gw.cov <- function(x, vars, fp, adapt=NULL, bw, gweight=gwr.bisquare,
 	p4s <- as.character(NA)
 	Polys <- NULL
 	fp.missing <- missing(fp)
-	if (is(x, "SpatialRingsDataFrame")) {
-		Polys <- as(x, "SpatialRings")
+	if (is(x, "SpatialPolygonsDataFrame")) {
+		Polys <- as(x, "SpatialPolygons")
 		gridded <- gridded(x)
 		dp <- getSRSringsLabptSlots(x)
 		p4s <- proj4string(x)
@@ -63,7 +63,7 @@ gw.cov <- function(x, vars, fp, adapt=NULL, bw, gweight=gwr.bisquare,
 		dp <- coordinates(x)
 		p4s <- proj4string(x)
 		data <- as(x, "data.frame")
-	} else stop("x must be a Spatial Rings or Points DataFrame")
+	} else stop("x must be a Spatial Polygons or Points DataFrame")
 	x <- as.matrix(data[, vars])
 	if (any(is.na(x))) stop("x contains NAs")
 	nc <- ncol(x)
@@ -164,7 +164,7 @@ gw.cov <- function(x, vars, fp, adapt=NULL, bw, gweight=gwr.bisquare,
 	else if (!is.null(Polys) && fp.missing) {
 		df <- data.frame(SDF@data)
 		rownames(df) <- getSRSringsIDSlots(Polys)
-		SDF <- SpatialRingsDataFrame(Sr=Polys, data=df)
+		SDF <- SpatialPolygonsDataFrame(Sr=Polys, data=df)
 	}
 	res <- list(SDF=SDF, bandwidth=bw, adapt=adapt,  
 		gweight=deparse(substitute(gweight)))
