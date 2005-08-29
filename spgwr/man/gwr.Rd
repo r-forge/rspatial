@@ -16,7 +16,7 @@ print.gwr(x, ...)
 
 \arguments{
   \item{formula}{regression model formula as in \code{lm}}
-  \item{data}{model data frame, or SpatialPointsDataFrame or SpatialRingsDataFrame as defined in package \pkg{sp}}
+  \item{data}{model data frame, or SpatialPointsDataFrame or SpatialPolygonsDataFrame as defined in package \pkg{sp}}
   \item{coords}{matrix of coordinates of points representing the spatial
   positions of the observations; may be omitted if the object passed through the data argument is from package \pkg{sp}}
   \item{bandwidth}{bandwidth used in the weighting function, possibly
@@ -37,7 +37,7 @@ for each point. The
 results may be explored to see if coefficient values vary over space.
 }
 \value{
-  \item{SDF}{a SpatialPointsDataFrame (may be gridded) or SpatialRingsDataFrame object (see package "sp") with fit.points, weights, GWR coefficient estimates, R-squared, and coefficient standard errors in its "data" slot.}
+  \item{SDF}{a SpatialPointsDataFrame (may be gridded) or SpatialPolygonsDataFrame object (see package "sp") with fit.points, weights, GWR coefficient estimates, R-squared, and coefficient standard errors in its "data" slot.}
   \item{lhat}{Leung et al. L matrix}
   \item{lm}{Ordinary least squares global regression on the same model formula.}  \item{bandwidth}{the bandwidth used.}
   \item{this.call}{the function call used.}
@@ -73,18 +73,18 @@ res.adpt
 pairs(as(res.adpt$SDF, "data.frame")[,c(17,18, 1:9)], pch=".")
 brks <- c(-0.25, 0, 0.01, 0.025, 0.075)
 cols <- grey(5:2/6)
-plot.SpatialRings(as(res.adpt$SDF, "SpatialRings"), col=cols[findInterval(as(res.adpt$SDF, "data.frame")$PctBlack, brks, all.inside=TRUE)])
+plot(res.adpt$SDF, col=cols[findInterval(res.adpt$SDF$PctBlack, brks, all.inside=TRUE)])
 g.bw.gauss <- gwr.sel(PctBach ~ TotPop90 + PctRural + PctEld + PctFB + PctPov + PctBlack, data=gSRDF)
 res.bw <- gwr(PctBach ~ TotPop90 + PctRural + PctEld + PctFB + PctPov + PctBlack, data=gSRDF, bandwidth=g.bw.gauss)
 res.bw
 pairs(as(res.bw$SDF, "data.frame")[,c(17,18, 1:9)], pch=".")
-plot.SpatialRings(as(res.bw$SDF, "SpatialRings"), col=cols[findInterval(as(res.bw$SDF, "data.frame")$PctBlack, brks, all.inside=TRUE)])
+plot(res.bw$SDF, col=cols[findInterval(res.bw$SDF$PctBlack, brks, all.inside=TRUE)])
 g.bw.gauss <- gwr.sel(PctBach ~ TotPop90 + PctRural + PctEld + PctFB + PctPov + PctBlack, data=gSRDF, lonlat=TRUE)
 library(spgpc)
-gSR <- as(gSRDF, "SpatialRings")
-length(getSRpolygonsSlot(gSR))
-gSRouter <- unionSpatialRings(gSR, IDs=rep("Georgia", 159))
-gGrid <- sample.Srings(getSRpolygonsSlot(gSRouter)[[1]], 5000, type="regular")
+gSR <- as(gSRDF, "SpatialPolygons")
+length(getSpPpolygonsSlot(gSR))
+gSRouter <- unionSpatialPolygons(gSR, IDs=rep("Georgia", 159))
+gGrid <- sample.Polygons(getSpPpolygonsSlot(gSRouter)[[1]], 5000, type="regular")
 gridded(gGrid) <- TRUE
 summary(gGrid)
 res.bw <- gwr(PctBach ~ TotPop90 + PctRural + PctEld + PctFB + PctPov + PctBlack, data=gSRDF, bandwidth=g.bw.gauss, fit.points=gGrid, lonlat=TRUE)

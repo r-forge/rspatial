@@ -10,7 +10,7 @@ gw.cov(x, vars, fp, adapt = NULL, bw, gweight = gwr.bisquare, cor = TRUE, var.te
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{x}{ \code{x} should be a SpatialRingsDataFrame object or a SpatialPointsDataFrame object }
+  \item{x}{ \code{x} should be a SpatialPolygonsDataFrame object or a SpatialPointsDataFrame object }
   \item{vars}{ \code{vars} is a vector of column numbers or a vector of column names applied to the columns of the data frame in the data slot of x }
   \item{fp}{ \code{fp} if given contains the fit points to be used, for example a SpatialPixels object describing the grid of points to be used }
   \item{adapt}{ \code{adapt} if given should lie between 0 and 1, and indicates the proportion of observations to be included in the weighted window - it cannot be selected automatically}
@@ -31,24 +31,24 @@ Geographically Weighted Regression, Chichester: Wiley (chapter 7);
 \author{Roger Bivand \email{Roger.Bivand@nhh.no}}
 
 
-\seealso{\code{\link{gwr}}}
+\seealso{\code{\link{gwr}}, \code{\link[spgpc]{unionSpatialPolygons}}}
 
 \examples{
 data(georgia)
 library(spgpc)
-gSR <- as(gSRDF, "SpatialRings")
-length(getSRpolygonsSlot(gSR))
-gSRouter <- unionSpatialRings(gSR, IDs=rep("Georgia", 159))
-gGrid <- sample.Srings(getSRpolygonsSlot(gSRouter)[[1]], 5000, type="regular")
+gSR <- as(gSRDF, "SpatialPolygons")
+length(getSpPpolygonsSlot(gSR))
+gSRouter <- unionSpatialPolygons(gSR, IDs=rep("Georgia", 159))
+gGrid <- sample.Polygons(getSpPpolygonsSlot(gSRouter)[[1]], 5000, type="regular")
 gridded(gGrid) <- TRUE
-SRgwls <- gw.cov(gSRDF, vars=5:10, bw=25, lonlat=TRUE)
+SRgwls <- gw.cov(gSRDF, vars=6:11, bw=25, lonlat=TRUE)
 names(SRgwls$SDF)
 spplot(SRgwls$SDF, "mean.PctPov")
 spplot(SRgwls$SDF, "sd.PctPov")
 spplot(SRgwls$SDF, "sem.PctPov")
 spplot(SRgwls$SDF, "diff.PctPov")
 spplot(SRgwls$SDF, "cor.PctPov.PctBlack.")
-SGgwls <- gw.cov(gSRDF, vars=5:10, fp=gGrid, bw=25, lonlat=TRUE)
+SGgwls <- gw.cov(gSRDF, vars=6:11, fp=gGrid, bw=25, lonlat=TRUE)
 names(SGgwls$SDF)
 spplot(SGgwls$SDF, "mean.PctPov")
 spplot(SGgwls$SDF, "sd.PctPov")

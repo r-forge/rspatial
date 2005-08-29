@@ -55,7 +55,7 @@ gw.cov <- function(x, vars, fp, adapt=NULL, bw, gweight=gwr.bisquare,
 	if (is(x, "SpatialPolygonsDataFrame")) {
 		Polys <- as(x, "SpatialPolygons")
 		gridded <- gridded(x)
-		dp <- getSRSringsLabptSlots(x)
+		dp <- getSpPPolygonsLabptSlots(x)
 		p4s <- proj4string(x)
 		data <- as(x, "data.frame")
 	} else if (is(x, "SpatialPointsDataFrame")) {
@@ -163,7 +163,7 @@ gw.cov <- function(x, vars, fp, adapt=NULL, bw, gweight=gwr.bisquare,
 	if (gridded) gridded(SDF) <- TRUE
 	else if (!is.null(Polys) && fp.missing) {
 		df <- data.frame(SDF@data)
-		rownames(df) <- getSRSringsIDSlots(Polys)
+		rownames(df) <- getSpPPolygonsIDSlots(Polys)
 		SDF <- SpatialPolygonsDataFrame(Sr=Polys, data=df)
 	}
 	res <- list(SDF=SDF, bandwidth=bw, adapt=adapt,  

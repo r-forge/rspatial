@@ -8,7 +8,7 @@ gwr.sel <- function(formula, data = list(), coords, adapt=FALSE,
 	if (is(data, "Spatial")) {
 		if (missing(coords)) {
 			if (is(data, "SpatialPolygonsDataFrame")) 
-				coords <- getSRSringsLabptSlots(data)
+				coords <- getSpPPolygonsLabptSlots(data)
 			else coords <- coordinates(data)
 		}
 		data <- as(data, "data.frame")

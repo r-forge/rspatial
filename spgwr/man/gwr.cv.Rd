@@ -16,7 +16,7 @@ gwr.sel(formula, data=list(), coords, adapt=FALSE, gweight=gwr.gauss, method = "
 }
 \arguments{
   \item{formula}{regression model formula as in \code{lm}}
-  \item{data}{model data frame as in \code{lm}}
+  \item{data}{model data frame as in \code{lm}, or may be a SpatialPointsDataFrame or SpatialPolygonsDataFrame object as defined in package \pkg{sp}}
   \item{coords}{matrix of coordinates of points representing the spatial
   positions of the observations}
   \item{adapt}{either TRUE: find the proportion between 0 and 1 of observations to include in weighting scheme (k-nearest neighbours), or FALSE --- find global bandwidth}

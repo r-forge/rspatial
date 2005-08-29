@@ -4,7 +4,7 @@
 \docType{data}
 \title{Georgia census data set (SpatialDataFramePolygons)}
 \description{
-  The Georgia census data set from Fotherinham et al. (2002) in SpatialRingsDataFrame format (depending on package "sp").
+  The Georgia census data set from Fotheringham et al. (2002) in shapefile format.
 }
 \usage{data(georgia)}
 \format{

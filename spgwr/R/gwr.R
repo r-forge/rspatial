@@ -13,10 +13,10 @@ gwr <- function(formula, data = list(), coords, bandwidth,
 	if (is(data, "SpatialPolygonsDataFrame")) {
 		Polys <- as(data, "SpatialPolygons")
 		if (missing(coords)) {
-			coords <- getSRSringsLabptSlots(data)
+			coords <- getSpPPolygonsLabptSlots(data)
 			coords.given <- FALSE
 		} else {
-			coords.extra <- getSRSringsLabptSlots(data)
+			coords.extra <- getSpPPolygonsLabptSlots(data)
 		}
 		p4s <- proj4string(data)
 		data <- as(data, "data.frame")
@@ -48,7 +48,7 @@ gwr <- function(formula, data = list(), coords, bandwidth,
 		Polys <- NULL
 		if (is(fit.points, "SpatialPolygonsDataFrame")) {
 			Polys <- Polygons(fit.points)
-			fit.points <- getSRSringsLabptSlots(fit.points)
+			fit.points <- getSpPPolygonsLabptSlots(fit.points)
 		} else {
 			gridded <- gridded(fit.points)
 			fit.points <- coordinates(fit.points)
@@ -193,7 +193,7 @@ gwr <- function(formula, data = list(), coords, bandwidth,
 	if (gridded) gridded(SDF) <- TRUE
 	else if (!is.null(Polys)) {
 		df <- data.frame(SDF@data)
-		rownames(df) <- getSRSringsIDSlots(Polys)
+		rownames(df) <- getSpPPolygonsIDSlots(Polys)
 		SDF <- SpatialPolygonsDataFrame(Sr=Polys, data=df)
 	}
 	z <- list(SDF=SDF, lhat=lhat, lm=lm, results=results, 
@@ -222,15 +222,18 @@ print.gwr <- function(x, ...) {
 	else cat("Fixed bandwidth:", x$bandwidth, "\n")
 	m <- NCOL(x$lm$x)
 	cat("Summary of GWR coefficient estimates:\n")
-	printCoefmat(t(apply(as(x$SDF, "data.frame")[,(1+(1:m))], 2, summary)))
+	CM <- t(apply(as(x$SDF, "data.frame")[,(1+(1:m))], 2, summary))[,c(1:3,5,6)]
+	CM <- cbind(CM, coefficients(x$lm))
+	colnames(CM) <- c(colnames(CM)[1:5], "Global OLS")
+	printCoefmat(CM)
 	if (x$hatmatrix) {
 		cat("Number of data points:", n, "\n")
 		cat("Effective number of parameters:", 2*x$results$v1 -
 			x$results$v2, "\n")
 		cat("Effective degrees of freedom:", x$results$edf, "\n")
 		cat("Sigma squared (ML):", x$results$sigma2.b, "\n")
-		cat("AIC (GWR p. 96, eq. 4.21):", x$results$AICb, "\n")
-		cat("AICc (GWR p. 96, eq. 4.22):", x$results$AICh, "\n")
+		cat("AICc (GWR p. 61, eq 2.33; p. 96, eq. 4.21):", x$results$AICb, "\n")
+		cat("AIC (GWR p. 96, eq. 4.22):", x$results$AICh, "\n")
 		cat("Residual sum of squares:", x$results$rss, "\n")
 	}
 	invisible(x)
