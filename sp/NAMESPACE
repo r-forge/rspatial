@@ -35,7 +35,7 @@ shp2SLDF)
 
 export(Mapgen2SL)
 
-export(spplot, layout.scale.bar, layout.north.arrow, sp.theme,
+export(layout.scale.bar, layout.north.arrow, sp.theme,
 	mapLegendGrob, sp.pagefn, spplot.key, panel.gridplot,
 	panel.polygonsplot, panel.pointsplot, sp.polygon, sp.text,
 	sp.points, sp.lines, sp.grid, SpatialPolygonsRescale)

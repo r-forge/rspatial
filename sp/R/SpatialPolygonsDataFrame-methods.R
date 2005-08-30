@@ -20,8 +20,6 @@ SpatialPolygonsDataFrame <- function(Sr, data, match.ID = TRUE) {
 	SpatialPolygonsDataFrame(value, object)
 }
 
-#setMethod("rings", "SpatialPolygonsDataFrame", function(obj) as(obj, "SpatialPolygons"))
-
 names.SpatialPolygonsDataFrame = function(x) names(x@data)
 "names<-.SpatialPolygonsDataFrame" = function(x,value) { names(x@data) = value; x }
 
@@ -30,7 +28,6 @@ as.data.frame.SpatialPolygonsDataFrame = function(x, row.names, optional) x@data
 setAs("SpatialPolygonsDataFrame", "data.frame", function(from)
     as.data.frame.SpatialPolygonsDataFrame(from))
 
-#"[.SpatialPolygonsDataFrame" <- function(x, i, j, ... , drop = FALSE) {
 setMethod("[", "SpatialPolygonsDataFrame", function(x, i, j, ... , drop = FALSE) {
     missing.i = missing(i)
     missing.j = missing(j)

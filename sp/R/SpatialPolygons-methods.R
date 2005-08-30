@@ -234,21 +234,6 @@ as.SpatialPolygons.PolygonsList <- function(Srl, proj4string=CRS(as.character(NA
 	res
 }
 
-plotSpatialPolygons <- function(SpP) {
-	xr <- SpP@bbox[1,]
-	yr <- SpP@bbox[2,]
-	frame()
-	plot.window(xlim=xr, ylim=yr, asp=1)
-	pls <- getSpPpolygonsSlot(SpP)
-	pO <- getSpPplotOrderSlot(SpP)
-	for (i in pO) {
-		Srs <- getPolygonsPolygonsSlot(pls[[i]])
-		pOi <- getPolygonsplotOrderSlot(pls[[i]])
-		for (j in pOi) polygon(getPolygonCoordsSlot(Srs[[j]]))
-	}
-}
-
-#"[.SpatialPolygons" =  function(x, i, j, ..., drop = T) {
 setMethod("[", "SpatialPolygons", function(x, i, j, ..., drop = T) {
 	if (!missing(j)) stop("only a single index is allowed for [.SpatialPolygons")
 	# SpatialPolygons(x[i], pO = order(x@plotOrder))
