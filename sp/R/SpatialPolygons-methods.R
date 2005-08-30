@@ -236,7 +236,6 @@ as.SpatialPolygons.PolygonsList <- function(Srl, proj4string=CRS(as.character(NA
 
 setMethod("[", "SpatialPolygons", function(x, i, j, ..., drop = T) {
 	if (!missing(j)) stop("only a single index is allowed for [.SpatialPolygons")
-	# SpatialPolygons(x[i], pO = order(x@plotOrder))
 	if (is.logical(i)) {
 		if (length(i) == 1 && i)
 			i = 1:length(x@polygons)

@@ -40,12 +40,12 @@ setMethod("[", "SpatialPolygonsDataFrame", function(x, i, j, ... , drop = FALSE)
     } else if (missing.j && !missing.i) {
         if (nargs == 2) {
             j = i
-            i = TRUE
+            i = TRUE 
         } else {
             j = TRUE
         }
     } else if (missing.i && !missing.j)
-        i = TRUE
+        i = TRUE 
     if (is.matrix(i))
         stop("matrix argument not supported in SpatialPolygonsDataFrame selection")
     SpatialPolygonsDataFrame(as(x, "SpatialPolygons")[i, , drop = FALSE],
