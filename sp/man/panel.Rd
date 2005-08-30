@@ -38,7 +38,7 @@ class that has a \link{coordinates-methods} for \code{sp.points}; of
 class \link{SpatialPolygons-class} for \code{sp.polygon}.  When obj is
 character, the actual object is retrieved by \code{get(obj)} before its
 class is evaluated.  }
-\item{offset}{ offset for shifting a Rings object }
+\item{offset}{ offset for shifting a Polygons object }
 \item{scale}{ scale for rescaling }
 \item{fill}{ fill color }
 \item{col}{ line color }
@@ -52,8 +52,8 @@ traditional graphics functions (FALSE)}
 }
 \note{
 The panel functions of \link{spplot}, \code{panel.gridplot} for grids,
-\code{panel.pointsplot} for points, or \code{panel.ringsplot} for lines
-or rings (polygons) can be called with arguments \code{(x,y,...)}.
+\code{panel.pointsplot} for points, or \code{panel.polygonsplot} for lines
+or polygons can be called with arguments \code{(x,y,...)}.
 Customizing spplot plots can be done by extending the panel function,
 or by supplying an sp.layout argument; see the documentation for
 \link{spplot}.
@@ -63,7 +63,7 @@ or by supplying an sp.layout argument; see the documentation for
 layout items.
 
 \code{sp.lines}, \code{sp.points}, \code{sp.polygon} and \code{sp.text}
-plot lines, points, rings or text in a panel.
+plot lines, points, polygons or text in a panel.
 
 \code{spplot.key} draws the \code{sp.layout} object at given rows/cols.
 

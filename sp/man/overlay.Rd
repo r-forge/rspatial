@@ -1,6 +1,6 @@
 \name{overlay}
 \alias{overlay}
-\title{ spatial overlay for points, grids and rings }
+\title{ spatial overlay for points, grids and polygons }
 \description{
 }
 \usage{
@@ -16,8 +16,8 @@ a numerical array of indices of \code{x} on locations of \code{y}, or
 a data.frame with (possibly aggregate) properties of \code{x} in units
 of \code{y}.
 }
-\note{points on a ring boundary and points corresponding to a ring vertex are
-considered to be inside the ring}
+\note{points on a polygon boundary and points corresponding to a polygon vertex are
+considered to be inside the polygon}
 \seealso{\link{overlay-methods}, \link{point.in.polygon}}
 \examples{
 r1 = cbind(c(180114, 180553, 181127, 181477, 181294, 181007, 180409, 

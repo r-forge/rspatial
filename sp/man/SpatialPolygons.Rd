@@ -17,7 +17,7 @@ SpatialPolygonsDataFrame(Sr, data, match.ID = TRUE)
 \item{coords}{2-column numeric matrix with coordinates; first point (row) should
 equal last coordinates (row) }
 \item{proj4string}{ projection string of class \link{CRS-class}}
-\item{hole}{logical value for setting ring as hole or not}
+\item{hole}{logical value for setting polygon as hole or not}
 \item{srl}{list with \link{Polygon-class} objects}
 \item{ID}{character vector of length one with identifier}
 \item{Srl}{ list with objects of class \link{Polygons-class}}

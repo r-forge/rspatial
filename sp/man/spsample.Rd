@@ -7,8 +7,8 @@
 \alias{sample.Polygons}
 \alias{sample.Sgrid}
 \title{ sample point locations within a spatial region }
-\description{ sample point locations within a square area,
-a ring, or on a spatial line, using regular or random sampling
+\description{ sample point locations within a square area, a grid,
+a polygon, or on a spatial line, using regular or random sampling
 }
 \usage{
 spsample(x, n, type, ...)

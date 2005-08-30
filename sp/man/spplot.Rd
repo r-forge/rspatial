@@ -75,7 +75,7 @@ the selected points.
 \note{
 Missing values in the attributes are (currently) not allowed.
 
-\code{spplot.grid}, \code{spplot.rings} and \code{spplot.points} are S4
+\code{spplot.grid}, \code{spplot.polygons} and \code{spplot.points} are S4
 methods for \code{spplot}; see \link{spplot-methods}.
 
 Useful arguments that can be passed as \code{...} are: 
