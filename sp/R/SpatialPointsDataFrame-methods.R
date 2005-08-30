@@ -15,7 +15,7 @@
 				stop("row.names of data and coords do not match")
 			if (length(unique(mtch)) != n)
 				stop("row.names of data and dimnames of coords do not match")
-			data = data[mtch, ]
+			data = data[mtch, , drop = FALSE]
 		}
 	}
 	if (!is(coords, "SpatialPoints"))
