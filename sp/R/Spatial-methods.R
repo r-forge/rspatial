@@ -13,27 +13,33 @@ if (!isGeneric("coordnames"))
 if (!isGeneric("coordnames<-"))
 	setGeneric("coordnames<-", function(x,value)
 		standardGeneric("coordnames<-"))
-if (!isGeneric("polygons"))
-	setGeneric("polygons", function(obj)
-		standardGeneric("polygons"))
-if (!isGeneric("gridded"))
-	setGeneric("gridded", function(obj)
-		standardGeneric("gridded"))
 if (!isGeneric("dimensions"))
 	setGeneric("dimensions", function(obj)
 		standardGeneric("dimensions"))
-if (!isGeneric("transform"))
-	setGeneric("transform", function(x, ...)
-		standardGeneric("transform"))
+if (!isGeneric("gridded"))
+	setGeneric("gridded", function(obj)
+		standardGeneric("gridded"))
 if (!isGeneric("overlay"))
 	setGeneric("overlay", function(x, y, ...)
 		standardGeneric("overlay"))
+if (!isGeneric("plot"))
+	setGeneric("plot", function(x, y, ...)
+		standardGeneric("plot"))
+if (!isGeneric("polygons"))
+	setGeneric("polygons", function(obj)
+		standardGeneric("polygons"))
 if (!isGeneric("spplot"))
 	setGeneric("spplot", function(obj, ...)
 		standardGeneric("spplot"))
 if (!isGeneric("spsample"))
 	setGeneric("spsample", function(x, n, type, ...)
 		standardGeneric("spsample"))
+if (!isGeneric("summary"))
+	setGeneric("summary", function(object, ...)
+		standardGeneric("summary"))
+if (!isGeneric("transform"))
+	setGeneric("transform", function(x, ...)
+		standardGeneric("transform"))
 
 setMethod("bbox", "Spatial", function(obj) obj@bbox)
 
@@ -72,6 +78,7 @@ summary.Spatial = function(object, ...) {
     class(obj) = "summary.Spatial"
     obj
 }
+setMethod("summary", "Spatial", summary.Spatial)
 
 print.summary.Spatial = function(x, ...) {
 	cat(paste("Object of class ", x[["class"]], "\n", sep = ""))
@@ -121,6 +128,7 @@ plot.Spatial <- function(x, xlim=NULL, ylim=NULL, asp=1, axes = FALSE, ...) {
 		axis(4, labels = FALSE)
 	}
 }
+setMethod("plot", signature(x = "Spatial", y = "missing"), plot.Spatial)
 
 degAxis = function (side) {
         at = axTicks(side)

@@ -80,28 +80,29 @@ set.seed(13331)
 The spatial data classes implemented are points, grids, lines, rings
 and polygons. Package {\tt sp} provides classes for the spatial-only
 information (the topology), e.g. {\tt SpatialPoints}, and extensions for
-the case where we attribute information stored in a {\tt data.frame}
+the case where we attribute information stored in a {\tt data.frame} or
+{\tt AttributeList} (a {\tt data.frame}-like object without row names)
 is available for each point, e.g. {\tt SpatialPointsDataFrame}. The
 available data classes are:
 
 \begin{center}
 \begin{tabular}{lllll}
-data type & class                        & attributes? & contains \\ \hline
-points    & {\tt SpatialPoints}          & No          &{\tt Spatial}* \\
-points    & {\tt SpatialPointsDataFrame} & Yes         &{\tt SpatialPoints}* \\
-pixels    & {\tt SpatialPixels}          & No          &{\tt SpatialPoints}* \\
-pixels    & {\tt SpatialPixelsDataFrame} & Yes         &{\tt SpatialPixels}* \\
-          &                              &             &{\tt SpatialPointsDataFrame}** \\
-full grid & {\tt SpatialGrid  }          & No          &{\tt SpatialPixels}* \\
-full grid & {\tt SpatialGridDataFrame}   & Yes         &{\tt SpatialGrid}* \\
-line      & {\tt SLine}                  & No          &{\tt Spatial}* \\
-lines     & {\tt SLines}                 & No          &{\tt Spatial}*, {\tt Line} list \\
-lines     & {\tt SpatialLines}           & No          &{\tt Spatial}*, {\tt SLines} list \\
-lines     & {\tt SpatialLinesDataFrame}  & Yes         &{\tt SpatialLines}* \\
-rings     & {\tt Polygon}                  & No          &{\tt SLine}* \\
-rings     & {\tt Polygons}                 & No          &{\tt Spatial}*, {\tt Polygon} list \\
-rings     & {\tt SpatialPolygons}           & No          &{\tt Spatial}*, {\tt Polygons} list \\
-rings     & {\tt SpatialPolygonsDataFrame}  & Yes         &{\tt SpatialPolygons}* \\
+data type & class                        & attributes  & contains \\ \hline
+points    & {\tt SpatialPoints}          & No           &{\tt Spatial}* \\
+points    & {\tt SpatialPointsDataFrame} & {\tt AttributeList} &{\tt SpatialPoints}* \\
+pixels    & {\tt SpatialPixels}          & No           &{\tt SpatialPoints}* \\
+pixels    & {\tt SpatialPixelsDataFrame} & {\tt AttributeList} &{\tt SpatialPixels}* \\
+          &                              &              &{\tt SpatialPointsDataFrame}** \\
+full grid & {\tt SpatialGrid  }          & No           &{\tt SpatialPixels}* \\
+full grid & {\tt SpatialGridDataFrame}   & {\tt AttributeList}  &{\tt SpatialGrid}* \\
+line      & {\tt Line}                   & No           & \\
+lines     & {\tt Lines}                  & No           & {\tt Line} list \\
+lines     & {\tt SpatialLines}           & No           & {\tt Spatial}*, {\tt Lines} list \\
+lines     & {\tt SpatialLinesDataFrame}  & {\tt data.frame} &{\tt SpatialLines}* \\
+rings     & {\tt Polygon}                & No           &{\tt Line}* \\
+rings     & {\tt Polygons}               & No           &{\tt Polygon} list \\
+rings     & {\tt SpatialPolygons}        & No           &{\tt Spatial}*, {\tt Polygons} list \\
+rings     & {\tt SpatialPolygonsDataFrame} & {\tt data.frame} &{\tt SpatialPolygons}* \\
 \end{tabular}
 \end{center}
 * by direct extension; ** by setIs() relationship; 
@@ -111,11 +112,20 @@ the information common to all derived classes: the spatial coordinates
 bounding box and information about the coordinate reference system
 (geographic projection information).
 
+Row names, allways present in {\tt data.frame} objects, take up too much
+memory and computing time when the number of rows becomes very large. For
+this reason, Points, pixels and grid objects have attributes in an object
+of class {\tt AttributeList}, which tries to mimic {\tt data.frame}
+objects as close as possible, but does not have row names. If row names
+have to be stored in such an object, they should be converted to a column
+in the {\tt AttributeList}.
+
 In the following sections we will show how we can create objects of
 these classes from scratch or from other classes, and which methods and
 functions are available for them.
 
 \section{Manipulating spatial objects}
+
 Although entries in spatial objects are in principle accessible through
 their slot name, e.g. {\tt x@coords} contains the coordinates of an object
 of class or extending {\tt SpatialPoints}, we strongly encourage users
@@ -147,10 +157,11 @@ A number of spatial methods are available for the classes in {\tt sp}:
 \item {\tt y = transform(x, "latlong")} transform from one coordinate
 reference system (geographic projection) to another (requires package
 spproj)
-\item {\tt bbox(x)} returns the coordinate bounding box
+\item {\tt bbox(x)} returns a matrix with the coordinates bounding box;
+the dimensions form rows, min/max form the columns
 \item {\tt coordinates(x)} returns a matrix with the spatial coordinates 
-\item {\tt rings(x)} retrieve the spatial rings (polygons) of an
-object deriving from {\tt SpatialPolygons}
+%\item {\tt rings(x)} retrieve the spatial rings (polygons) of an
+%object deriving from {\tt SpatialPolygons}
 % \item {\tt method to retrieve lines? --> Lines()?
 \item {\tt gridded(x)} tells whether {\tt x} derives from SpatialPixels
 \item {\tt spplot(x)} plot attributes, possibly in combination with
@@ -451,7 +462,7 @@ Srs1 = Polygons(list(Sr1), "s1")
 Srs2 = Polygons(list(Sr2), "s2")
 Srs3 = Polygons(list(Sr3, Sr4), "s3/4")
 SpP = SpatialPolygons(list(Srs1,Srs2,Srs3), 1:3)
-plot.SpatialPolygons(SpP, col = 1:3, pbg="white")
+plot(SpP, col = 1:3, pbg="white")
 # plot(SpP)
 @
 

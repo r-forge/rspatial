@@ -2,6 +2,7 @@
 \docType{class}
 \alias{SpatialPolygonsDataFrame-class}
 \alias{[,SpatialPolygonsDataFrame-method}
+\alias{summary,SpatialPolygonsDataFrame-method}
 \alias{$.SpatialPolygonsDataFrame}
 \alias{$<-.SpatialPolygonsDataFrame}
 \alias{as.data.frame.SpatialPolygonsDataFrame}
@@ -40,7 +41,11 @@ Class \code{"SpatialPolygons"}, directly.
 Class \code{"Spatial"}, by class \code{"SpatialPolygons"}.
 }
 \section{Methods}{
-No methods defined with class "SpatialPolygonsDataFrame" in the signature.
+Methods defined with class "SpatialPolygonsDataFrame" in the signature:
+  \describe{
+    \item{[}{\code{signature(x = "SpatialPolygonsDataFrame")}: select subset of (sets of) polygons}
+	\item{summary}{\code{\signature(object = "SpatialPolygonsDataFrame")}: summarize object}
+  }
 }
 \references{ }
 \author{ }

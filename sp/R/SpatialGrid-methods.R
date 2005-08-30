@@ -83,12 +83,6 @@ getGridIndex = function(cc, grid, all.inside = TRUE) {
 	as.integer(round(idx))
 }
 
-plot.SpatialPixels = function(x, ...)
-	plot(as(x, "SpatialPoints"), ...)
-
-plot.SpatialGrid = function(x, ...)
-	plot(as(x, "SpatialPixels"), ...)
-
 subset.SpatialPixels <- function(x, subset, select, drop = FALSE, ...) {
 	xSP <- as(x, "SpatialPoints")
 	if (missing(select)) select <- colnames(coordinates(xSP))
@@ -138,8 +132,8 @@ setAs("SpatialPixels", "SpatialGrid", function(from) SpatialGrid(from@grid, from
 #	SpatialPixels(SpatialPoints(coordinates(from), from@proj4string))
 #)
 
-summary.SpatialPixels = summary.Spatial
-summary.SpatialGrid = summary.Spatial
+setMethod("summary", "SpatialPixels", summary.Spatial)
+setMethod("summary", "SpatialGrid", summary.Spatial)
 
 print.summary.SpatialPixels = print.summary.Spatial
 print.summary.SpatialGrid = print.summary.Spatial

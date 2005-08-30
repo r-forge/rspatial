@@ -72,4 +72,4 @@ setMethod("[", "SpatialPolygonsDataFrame", function(x, i, j, ... , drop = FALSE)
 "$.SpatialPolygonsDataFrame" = function(x,name) { x@data[[name]] }
 "$<-.SpatialPolygonsDataFrame" = function(x,i,value) { x@data[[i]]=value; x }
 
-summary.SpatialPolygonsDataFrame = summary.Spatial
+setMethod("summary", "SpatialPolygonsDataFrame", summary.Spatial)

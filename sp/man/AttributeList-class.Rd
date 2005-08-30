@@ -4,6 +4,7 @@
 \alias{AttributeList}
 \alias{[,AttributeList-method}
 \alias{coerce,AttributeList,data.frame-method}
+\alias{summary,AttributeList-method}
 \alias{coerce,data.frame,AttributeList-method}
 \alias{coerce,list,AttributeList-method}
 \alias{coerce,AttributeList,list-method}
@@ -45,7 +46,8 @@ with \code{x} a list having elements of equal length.
 		\code{dim(x)[2]} the number of variables (nr of columns) }
 	\item{[[, \$}{retrieve a list element}
 	\item{[[<-, \$<-}{assign a list element}
-	\item{summary}{calls \code{summary.data.frame} on the list}
+	\item{summary}{\code{signature(object = "AttributeList")} summarize object; 
+	calls \code{summary.data.frame} on the list}
 	\item{names}{get names from the list}
 	\item{names<-}{assign names to the list}
   }

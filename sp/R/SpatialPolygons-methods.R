@@ -191,7 +191,7 @@ Polygons <- function(srl, ID) {
 		
 #	Sp <- new("Spatial", bbox=.bboxSrs(srl), proj4string=CRS(projargs))
 	res <- new("Polygons", #Sp, 
-Polygons=srl, plotOrder=as.integer(pO),
+		Polygons=srl, plotOrder=as.integer(pO),
 		labpt=as.numeric(labpt), ID=as.character(ID), area=Sarea)
 	res
 
@@ -254,7 +254,7 @@ setMethod("[", "SpatialPolygons", function(x, i, j, ..., drop = T) {
 	# SpatialPolygons(x[i], pO = order(x@plotOrder))
 	if (is.logical(i)) i <- which(i)
 	if (length(unique(i)) != length(i))
-		stop("SpatialPolygons selection: can't find plot order if rings are replicated")
+		stop("SpatialPolygons selection: can't find plot order if polygons are replicated")
 	SpatialPolygons(x@polygons[i], pO = order(match(i, x@plotOrder)))
 })
 
@@ -290,3 +290,5 @@ setReplaceMethod("coordnames",
 		x
 	}
 )
+
+setMethod("summary", "SpatialPolygons", summary.Spatial)

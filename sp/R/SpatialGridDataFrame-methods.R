@@ -255,14 +255,7 @@ print.SpatialGridDataFrame = function(x, ...) {
 }
 #setMethod("show", "SpatialPixelsDataFrame", print.SpatialPixelsDataFrame)
 
-plot.SpatialPixelsDataFrame = function(x, ...)
-	plot(as(x, "SpatialPoints"), ...)
-
-plot.SpatialGridDataFrame = function(x, ...)
-	plot(as(x, "SpatialPixels"), ...)
-
-summary.SpatialPixelsDataFrame = summary.Spatial
-summary.SpatialGridDataFrame = summary.Spatial
+setMethod("summary", "SpatialPixelsDataFrame", summary.Spatial)
 
 print.summary.SpatialPixelsDataFrame = print.summary.Spatial
 print.summary.SpatialGridDataFrame = print.summary.Spatial

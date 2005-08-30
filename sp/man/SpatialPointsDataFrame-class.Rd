@@ -15,9 +15,8 @@
 \alias{$<-.SpatialPointsDataFrame}
 \alias{as.data.frame.SpatialPointsDataFrame}
 \alias{dim.SpatialPointsDataFrame}
-\alias{plot.SpatialPointsDataFrame}
 \alias{print.SpatialPointsDataFrame}
-\alias{summary.SpatialPointsDataFrame}
+\alias{summary,SpatialPointsDataFrame-method}
 \alias{print.summary.SpatialPointsDataFrame}
 \alias{ShowSpatialPointsDataFrame}
 \alias{as.SpatialPoints.SpatialPointsDataFrame}
@@ -56,7 +55,7 @@ Class \code{"Spatial"}, by class \code{"SpatialPoints"}.
     \item{coordinates}{\code{signature(obj = "SpatialPointsDataFrame")}: retrieves
 	the coordinates only }
     \item{show}{\code{signature(object = "SpatialPointsDataFrame")}: print method }
-    \item{plot}{\code{signature(x = "SpatialPointsDataFrame")}: plot points}
+    \item{summary}{\code{signature(object = "SpatialPointsDataFrame")}: summarize object}
     \item{points}{\code{signature(x = "SpatialPointsDataFrame")}: add points to plot}
   }
 }

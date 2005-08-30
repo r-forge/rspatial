@@ -90,12 +90,13 @@ print.GridTopology = function(x, ...) {
 	invisible(res)
 }
 
-summary.GridTopology = function(object, ...) {
+summ.GridTopology = function(object, ...) {
 	ret = list()
 	ret[["values"]] = gridparameters(object)
 	class(ret) = "summary.GridTopology"
 	ret
 }
+setMethod("summary", "GridTopology", summ.GridTopology)
 
 print.summary.GridTopology = function(x, ...) {
 	cat("Grid topology:\n")

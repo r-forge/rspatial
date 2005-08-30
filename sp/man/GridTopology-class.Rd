@@ -2,7 +2,7 @@
 \docType{class}
 \alias{GridTopology-class}
 \alias{print.summary.GridTopology}
-\alias{summary.GridTopology}
+\alias{summary,GridTopology-method}
 \alias{show,GridTopology-method}
 \alias{coerce,GridTopology,data.frame-method}
 
@@ -33,10 +33,10 @@ see \link{SpatialGrid}
 \section{Methods}{
  \describe{
    \item{coordinates}{\code{signature(x = "SpatialGrid")}: calculates coordinates for
-   each point on the grid
-    \item{coerce}{\code{signature(from = "GridTopology", to = "data.frame")}: convert to data.frame
-	with columns cellcentre.offset, cellsize and cells.dim}
-   }
+   each point on the grid}
+   \item{summary}{\code{signature(object = "SpatialGrid")}: summarize object}
+   \item{coerce}{\code{signature(from = "GridTopology", to = "data.frame")}: 
+		convert to data.frame with columns cellcentre.offset, cellsize and cells.dim}
  }
 }
 \references{ }

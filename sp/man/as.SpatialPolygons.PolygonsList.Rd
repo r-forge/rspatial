@@ -40,7 +40,7 @@ nc.shp <- read.shape(system.file("shapes/sids.shp", package="maptools")[1])
 }
 data(ncshp)
 nc1 <- as.SpatialPolygons.Shapes(nc.shp$Shapes, as.character(nc.shp$att.data$FIPS))
-plotSpatialPolygons(nc1)
+plot(nc1)
 invisible(text(getSpPPolygonsLabptSlots(nc1), labels=getSpPPolygonsIDSlots(nc1), cex=0.6))
 \dontrun{
 library(maps)
@@ -49,7 +49,7 @@ ncmap <- map("county", "north carolina", fill=TRUE, col="transparent", plot=FALS
 data(ncmap)
 IDs <- sapply(strsplit(ncmap$names, "[,:]"), function(x) x[2])
 nc2 <- as.SpatialPolygons.map(ncmap, IDs)
-plotSpatialPolygons(nc2)
+plot(nc2)
 invisible(text(getSpPPolygonsLabptSlots(nc2), labels=getSpPPolygonsIDSlots(nc2), cex=0.6))
 \dontrun{
 library(RArcInfo)
@@ -67,7 +67,7 @@ sapply(pal[[2]], function(x) length(x[[1]]))
 data(co37_d90_pat)
 IDs <- paste(pat$ST[-1], pat$CO[-1], sep="")
 nc3 <- as.SpatialPolygons.pal(arc, pal, IDs=IDs)
-plotSpatialPolygons(nc3)
+plot(nc3)
 invisible(text(getSpPPolygonsLabptSlots(nc3), labels=getSpPPolygonsIDSlots(nc3), cex=0.6))
 }
 \keyword{spatial}

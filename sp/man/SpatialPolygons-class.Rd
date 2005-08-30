@@ -3,9 +3,8 @@
 \alias{SpatialPolygons-class}
 \alias{[,SpatialPolygons-method}
 \alias{as.data.frame.SpatialPolygons}
-\alias{plotSpatialPolygons}
-\alias{plot.SpatialPolygons}
-\alias{plot.SpatialPolygonsDataFrame}
+\alias{plot,SpatialPolygons,missing-method}
+\alias{summary,SpatialPolygons-method}
 
 \title{Class "SpatialPolygons"}
 \description{  class to hold polygon topology (without attributes) }
@@ -26,7 +25,13 @@ Objects can be created by calls to the function \link{SpatialPolygons}
 Class \code{"Spatial"}, directly.
 }
 \section{Methods}{
-No methods defined with class "SpatialPolygons" in the signature.
+Methods defined with class "SpatialPolygons" in the signature:
+  \describe{
+    \item{[}{\code{signature(obj = "SpatialPolygons")}: select subset of (sets of) polygons}
+	\item{plot}{\code{\signature(x = "SpatialPolygons", y = "missing")}: 
+	plot polygons in SpatialPolygons object}
+	\item{summary}{\code{\signature(object = "SpatialPolygons")}: summarize object}
+  }
 }
 \references{ }
 \author{ Roger Bivand }

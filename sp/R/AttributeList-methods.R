@@ -68,7 +68,8 @@ setMethod("[", "AttributeList", function(x, i, j, ... , drop = FALSE) {
 	x 
 }
 
-summary.AttributeList = function(object, ...) summary.data.frame(object@att)
+summ.AttributeList = function(object, ...) summary.data.frame(object@att)
+setMethod("summary", "AttributeList", summ.AttributeList)
 
 names.AttributeList = function(x) { names(x@att) }
 

@@ -123,12 +123,7 @@ names.SpatialPointsDataFrame <- function(x) names(x@data)
 #"coordnames<-.SpatialPointsDataFrame" <- function(x, value)
 
 ShowSpatialPointsDataFrame = function(object) print.SpatialPointsDataFrame(object)
-
 setMethod("show", "SpatialPointsDataFrame", ShowSpatialPointsDataFrame)
-
-plot.SpatialPointsDataFrame = function(x, ...) {
-	plot(as(x, "SpatialPoints"), ...)
-}
 
 points.SpatialPointsDataFrame = function(x, y = NULL, ...) 
 	points(as(x, "SpatialPoints"), ...)
@@ -141,6 +136,7 @@ summary.SpatialPointsDataFrame = function(object, ...) {
     class(obj) = "summary.SpatialPointsDataFrame"
     obj
 }
+#setMethod("summary", "SpatialPointsDataFrame", summary.SpatialPointsDataFrame)
 
 print.summary.SpatialPointsDataFrame = function(x, ...) {
 	cat("attribute table data:\n")
@@ -223,4 +219,4 @@ setMethod("[", "SpatialPointsDataFrame", function(x, i, j, ... , drop = FALSE) {
 
 "$<-.SpatialPointsDataFrame" = function(x, i, value) { x@data[[i]] = value; x }
 
-summary.SpatialPointsDataFrame = summary.Spatial
+setMethod("summary", "SpatialPointsDataFrame", summary.Spatial)

@@ -3,7 +3,6 @@
 \alias{arcobj2SLDF}
 \alias{contourLines2SLDF}
 \alias{Mapgen2SL}
-\alias{plotSpatialLines}
 
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{Converter functions to build SpatialLinesDataFrame objects}

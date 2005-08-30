@@ -235,9 +235,10 @@ plotSpatialLines <- function(SL, xlim = NULL, ylim = NULL, asp = 1,
 	}
 }
 
-summary.SpatialLines = summary.Spatial
+setMethod("summary", "SpatialLines", summary.Spatial)
 
-plot.SpatialLines = function(x, ...) plotSpatialLines(x, ...)
+setMethod("plot", signature(x = "SpatialLines", y = "missing"),
+	function(x, ...) plotSpatialLines(x, ...))
 
 setMethod("coordinates", "Line", function(obj) obj@coords)
 setMethod("coordinates", "Lines", function(obj) lapply(obj@Lines, coordinates))

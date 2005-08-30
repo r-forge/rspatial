@@ -21,7 +21,7 @@ nc.shp <- read.shape(system.file("shapes/sids.shp", package="maptools")[1])
 }
 data(ncshp)
 nc1 <- as.SpatialPolygons.Shapes(nc.shp$Shapes, as.character(nc.shp$att.data$FIPS))
-plotSpatialPolygons(nc1)
+plot(nc1)
 invisible(text(getSpPPolygonsLabptSlots(nc1), labels=getSpPPolygonsIDSlots(nc1), cex=0.6))
 }
 \keyword{datasets}

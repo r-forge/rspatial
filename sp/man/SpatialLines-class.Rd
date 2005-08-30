@@ -3,6 +3,8 @@
 \alias{SpatialLines-class}
 % \alias{coordinates,SpatialLines-method}
 \alias{[,SpatialLines-method}
+\alias{plot,SpatialLines,missing-method}
+\alias{summary,SpatialLines-method}
 
 \title{a class for spatial lines }
 \description{ a class that holds spatial lines }
@@ -25,10 +27,12 @@ Class \code{"Spatial"}, directly.
   \describe{
     \item{[}{\code{signature(obj = "SpatialLines")}: select subset of (sets of) lines}
 	coordinates; value is a list of lists with matrices }
-	\item{plot}{\code{\signature(x = "SpatialLines")}: 
+	\item{plot}{\code{\signature(x = "SpatialLines", y = "missing")}: 
 	plot lines in SpatialLines object}
 	\item{lines}{\code{\signature(x = "SpatialLines")}: 
 	add lines in SpatialLines object to a plot }
+	\item{summary}{\code{\signature(object = "SpatialLines")}: 
+	summarize object }
   }
 }
 \references{ }

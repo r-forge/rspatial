@@ -35,6 +35,7 @@ setMethod("coordinates", "matrix",
 	cat("Coordinate Reference System (CRS) arguments:", proj4string(x),
 		"\n")
 }
+setMethod("show", "SpatialPoints", function(object) print.SpatialPoints(object))
 
 plot.SpatialPoints = function(x, asp = 1, pch = 3, axes = FALSE, add = FALSE, ...) 
 {
@@ -42,15 +43,11 @@ plot.SpatialPoints = function(x, asp = 1, pch = 3, axes = FALSE, add = FALSE, ..
 		plot(as(x, "Spatial"), asp = asp, axes = axes)
 	cc = coordinates(x)
 	points(cc[,1], cc[,2], pch = pch, ...)
-	if (axes) {
-		axis(3, labels = FALSE)
-		axis(4, labels = FALSE)
-	}
 }
+setMethod("plot", signature(x = "SpatialPoints", y = "missing"),
+	plot.SpatialPoints)
 
 points.SpatialPoints = function(x, y = NULL, ...) points(coordinates(x), ...)
-
-setMethod("show", "SpatialPoints", function(object) print.SpatialPoints(object))
 
 setMethod("coordinates", "SpatialPoints", function(obj) obj@coords)
 
@@ -86,7 +83,7 @@ setMethod("[", "SpatialPoints", function(x, i, j, ..., drop = T) {
 	proj4string = CRS(proj4string(x)))
 })
 
-summary.SpatialPoints = summary.Spatial
+setMethod("summary", "SpatialPoints", summary.Spatial)
 
 print.summary.SpatialPoints = print.summary.Spatial
 
