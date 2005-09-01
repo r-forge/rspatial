@@ -13,15 +13,15 @@
 \usage{
 spplot(obj, ...)
 spplot.grid(obj, zcol = names(obj), ..., names.attr, 
-	scales = list(draw = FALSE), xlab = "", ylab = "", aspect = mapasp(obj), 
+	scales = list(draw = FALSE), xlab = NULL, ylab = NULL, aspect = mapasp(obj), 
 	panel = panel.gridplot, sp.layout = NULL, formula, xlim = bbox(obj)[1, ], 
 	ylim = bbox(obj)[2, ])
 spplot.polygons(obj, zcol = names(obj), ..., names.attr, 
-	scales = list(draw = FALSE), xlab = "", ylab = "", aspect = mapasp(obj), 
+	scales = list(draw = FALSE), xlab = NULL, ylab = NULL, aspect = mapasp(obj), 
 	panel = panel.polygonsplot, sp.layout = NULL, formula, xlim = bbox(obj)[1, ], 
 	ylim = bbox(obj)[2, ])
 spplot.points(obj, zcol = names(obj), ..., names.attr, 
-	scales = list(draw = FALSE), xlab = "", ylab = "", aspect = mapasp(obj), 
+	scales = list(draw = FALSE), xlab = NULL, ylab = NULL, aspect = mapasp(obj), 
 	panel = panel.pointsplot, sp.layout = NULL, identify = FALSE, formula, 
 	xlim = bbexpand(bbox(obj)[1, ], 0.04), ylim = bbexpand(bbox(obj)[2, ], 0.04))
 mapLegendGrob(obj, widths = unit(1, "cm"), heights = unit(1, "cm"),

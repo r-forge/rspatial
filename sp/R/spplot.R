@@ -113,8 +113,8 @@ getFormulaLevelplot = function(sdf, zcol) {
 }
 
 spplot.grid = function(obj, zcol = names(obj), ..., names.attr, 
-		scales = list(draw = FALSE), xlab = "", ylab = "", aspect = mapasp(obj), 
-		panel = panel.gridplot, sp.layout = NULL, formula, 
+		scales = list(draw = FALSE), xlab = NULL, ylab = NULL, 
+		aspect = mapasp(obj), panel = panel.gridplot, sp.layout = NULL, formula, 
 		xlim = bbox(obj)[1,], ylim = bbox(obj)[2,]) {
 	require(lattice)
 	sdf = as(obj, "SpatialPointsDataFrame")
@@ -150,7 +150,7 @@ setMethod("spplot", signature("SpatialGridDataFrame"),
 	function(obj, ...) spplot.grid(as(obj, "SpatialPixelsDataFrame"), ...))
 
 spplot.polygons = function(obj, zcol = names(obj), ..., names.attr, 
-		scales = list(draw = FALSE), xlab = "", ylab = "", aspect = mapasp(obj), 
+		scales = list(draw = FALSE), xlab = NULL, ylab = NULL, aspect = mapasp(obj), 
 		panel = panel.polygonsplot, sp.layout = NULL, formula, 
 		xlim = bbox(obj)[1,], ylim = bbox(obj)[2,]) {
 
@@ -209,7 +209,7 @@ setMethod("spplot", signature("SpatialPolygonsDataFrame"), spplot.polygons)
 setMethod("spplot", signature("SpatialLinesDataFrame"), spplot.polygons)
 
 spplot.points = function(obj, zcol = names(obj), ..., names.attr, 
-		scales = list(draw = FALSE), xlab = "", ylab = "", 
+		scales = list(draw = FALSE), xlab = NULL, ylab = NULL, 
 		aspect = mapasp(obj), panel = panel.pointsplot,
 		sp.layout = NULL, identify = FALSE, formula,
 		xlim = bbexpand(bbox(obj)[1,], 0.04), ylim = bbexpand(bbox(obj)[2,], 0.04)) {
