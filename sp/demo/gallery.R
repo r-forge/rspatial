@@ -29,11 +29,11 @@ trellis.par.set(sp.theme()) # sets color ramp to bpy.colors()
 data(meuse)
 coordinates(meuse)=~x+y
 
-scale = list("SpatialRingsRescale", layout.scale.bar(), 
+scale = list("SpatialPolygonsRescale", layout.scale.bar(), 
 	offset = c(178600,333100), scale = 500, fill=c("transparent","black"))
 text1 = list("sp.text", c(178600,333200), "0")
 text2 = list("sp.text", c(179100,333200), "500 m")
-arrow = list("SpatialRingsRescale", layout.north.arrow(), 
+arrow = list("SpatialPolygonsRescale", layout.north.arrow(), 
 	offset = c(178750,332500), scale = 400)
 ## points plot with scale bar, scale bar text, north arrow and title:
 spplot(meuse, "zinc", do.log=T,
@@ -47,14 +47,14 @@ trellis.par.set(sp.theme()) # sets color ramp to bpy.colors()
 data(meuse)
 coordinates(meuse)=~x+y
 data(meuse.riv)
-meuse.sr = SpatialRings(list(Srings(list(Sring(meuse.riv)),"meuse.riv")))
+meuse.sr = SpatialPolygons(list(Polygons(list(Polygon(meuse.riv)),"meuse.riv")))
 rv = list("sp.polygon", meuse.sr, fill = "lightblue")
 
-scale = list("SpatialRingsRescale", layout.scale.bar(), 
+scale = list("SpatialPolygonsRescale", layout.scale.bar(), 
 	offset = c(180500,329800), scale = 500, fill=c("transparent","black"), which = 1)
 text1 = list("sp.text", c(180500,329900), "0", which = 1)
 text2 = list("sp.text", c(181000,329900), "500 m", which = 1)
-arrow = list("SpatialRingsRescale", layout.north.arrow(), 
+arrow = list("SpatialPolygonsRescale", layout.north.arrow(), 
 	offset = c(178750,332500), scale = 400)
 ## plot with north arrow and text outside panels
 ## (scale can, as of yet, not be plotted outside panels)
@@ -70,16 +70,16 @@ trellis.par.set(sp.theme()) # sets color ramp to bpy.colors()
 data(meuse)
 coordinates(meuse)=~x+y
 data(meuse.riv)
-meuse.sr = SpatialRings(list(Srings(list(Sring(meuse.riv)),"meuse.riv")))
+meuse.sr = SpatialPolygons(list(Polygons(list(Polygon(meuse.riv)),"meuse.riv")))
 
 ## same plot; north arrow now inside panel, custom panel function instead of sp.layout
 spplot(meuse, "zinc", panel = function(x, y, ...) {
 		sp.polygon(meuse.sr, fill = "lightblue")
-		SpatialRingsRescale(layout.scale.bar(), offset = c(179900,329600), 
+		SpatialPolygonsRescale(layout.scale.bar(), offset = c(179900,329600), 
 			scale = 500, fill=c("transparent","black"))
 		sp.text(c(179900,329700), "0")
 		sp.text(c(180400,329700), "500 m")
-		SpatialRingsRescale(layout.north.arrow(), 
+		SpatialPolygonsRescale(layout.north.arrow(), 
 			offset = c(178750,332500), scale = 400)
 		panel.pointsplot(x, y, ...)
 	},
@@ -93,18 +93,18 @@ trellis.par.set(sp.theme()) # sets color ramp to bpy.colors()
 data(meuse)
 coordinates(meuse)=~x+y
 data(meuse.riv)
-meuse.sr = SpatialRings(list(Srings(list(Sring(meuse.riv)),"meuse.riv")))
+meuse.sr = SpatialPolygons(list(Polygons(list(Polygon(meuse.riv)),"meuse.riv")))
 rv = list("sp.polygon", meuse.sr, fill = "lightblue")
 
 ## multi-panel plot, scales + north arrow only in last plot:
 ## using the "which" argument in a layout component
 ## (if which=4 was set as list component of sp.layout, the river
 ## would as well be drawn only in that (last) panel)
-scale = list("SpatialRingsRescale", layout.scale.bar(), 
+scale = list("SpatialPolygonsRescale", layout.scale.bar(), 
 	offset = c(180500,329800), scale = 500, fill=c("transparent","black"), which = 4)
 text1 = list("sp.text", c(180500,329900), "0", cex = .5, which = 4)
 text2 = list("sp.text", c(181000,329900), "500 m", cex = .5, which = 4)
-arrow = list("SpatialRingsRescale", layout.north.arrow(), 
+arrow = list("SpatialPolygonsRescale", layout.north.arrow(), 
 	offset = c(181300,329800), 
 	scale = 400, which = 4)
 cuts = c(.2,.5,1,2,5,10,20,50,100,200,500,1000,2000)
@@ -123,16 +123,17 @@ alphaChannelSupported = function() {
 data(meuse)
 coordinates(meuse)=~x+y
 data(meuse.riv)
-meuse.sr = SpatialRings(list(Srings(list(Sring(meuse.riv)),"meuse.riv")))
-rv = list("sp.polygon", meuse.sr, fill = "lightblue")
+meuse.sr = SpatialPolygons(list(Polygons(list(Polygon(meuse.riv)),"meuse.riv")))
 
-scale = list("SpatialRingsRescale", layout.scale.bar(), 
-	offset = c(180500,329800), scale = 500, fill=c("transparent","black"), which = 4)
+rv = list("sp.polygon", meuse.sr, 
+	fill = ifelse(alphaChannelSupported(), "blue", "transparent"),
+	alpha = ifelse(alphaChannelSupported(), 0.1, 1))
+pts = list("sp.points", meuse, pch = 3, col = "grey", 
+	alpha = ifelse(alphaChannelSupported(), .5, 1))
 text1 = list("sp.text", c(180500,329900), "0", cex = .5, which = 4)
 text2 = list("sp.text", c(181000,329900), "500 m", cex = .5, which = 4)
-arrow = list("SpatialRingsRescale", layout.north.arrow(), 
-	offset = c(181300,329800), 
-	scale = 400, which = 4)
+scale = list("SpatialPolygonsRescale", layout.scale.bar(), 
+	offset = c(180500,329800), scale = 500, fill=c("transparent","black"), which = 4)
 
 library(gstat)
 data(meuse.grid)
@@ -154,29 +155,11 @@ zn.uk = krige(log(zinc)~sqrt(dist), meuse, meuse.grid, model = uk.model)
 zn.sk = krige(log(zinc)~ff,         meuse, meuse.grid, model = sk.model)
 zn.id = krige(log(zinc)~1,          meuse, meuse.grid)
 
-rv = list("sp.polygon", meuse.sr, 
-	fill = ifelse(alphaChannelSupported(), "blue", "transparent"),
-	alpha = ifelse(alphaChannelSupported(), 0.1, 1))
-pts = list("sp.points", meuse, pch = 3, col = "grey", 
-	alpha = ifelse(alphaChannelSupported(), .5, 1))
-spplot(zn.uk, "var1.pred",
-	sp.layout = list(rv, scale, text1, text2, pts),
-	main = "log(zinc); universal kriging using sqrt(dist to Meuse)")
-zn.uk[["se"]] = sqrt(zn.uk[["var1.var"]])
-
-#spplot(zn.uk, "se",
-#	sp.layout = list(rv, scale, text1, text2, pts),
-#	main = "log(zinc); universal kriging standard errors")
-
 zn = zn.ok
 zn[["a"]] = zn.ok[["var1.pred"]]
 zn[["b"]] = zn.uk[["var1.pred"]]
 zn[["c"]] = zn.sk[["var1.pred"]]
 zn[["d"]] = zn.id[["var1.pred"]]
-text1 = list("sp.text", c(180500,329900), "0", cex = .5, which = 4)
-text2 = list("sp.text", c(181000,329900), "500 m", cex = .5, which = 4)
-scale = list("SpatialRingsRescale", layout.scale.bar(), 
-	offset = c(180500,329800), scale = 500, fill=c("transparent","black"), which = 4)
 spplot(zn, c("a", "b", "c", "d"), 
 	names.attr = c("ordinary kriging", "universal kriging with dist to river", 
 		"stratified kriging with flood freq", "inverse distance"), 
@@ -194,14 +177,14 @@ alphaChannelSupported = function() {
 data(meuse)
 coordinates(meuse)=~x+y
 data(meuse.riv)
-meuse.sr = SpatialRings(list(Srings(list(Sring(meuse.riv)),"meuse.riv")))
+meuse.sr = SpatialPolygons(list(Polygons(list(Polygon(meuse.riv)),"meuse.riv")))
 rv = list("sp.polygon", meuse.sr, fill = "lightblue")
 
-scale = list("SpatialRingsRescale", layout.scale.bar(), 
+scale = list("SpatialPolygonsRescale", layout.scale.bar(), 
 	offset = c(180500,329800), scale = 500, fill=c("transparent","black"), which = 4)
 text1 = list("sp.text", c(180500,329900), "0", cex = .5, which = 4)
 text2 = list("sp.text", c(181000,329900), "500 m", cex = .5, which = 4)
-arrow = list("SpatialRingsRescale", layout.north.arrow(), 
+arrow = list("SpatialPolygonsRescale", layout.north.arrow(), 
 	offset = c(181300,329800), 
 	scale = 400, which = 4)
 
@@ -247,12 +230,12 @@ trellis.par.set(sp.theme()) # sets color ramp to bpy.colors()
 
 # prepare nc sids data set:
 data(ncshp)
-nc.rings = as.SpatialRings.Shapes(nc.shp$Shapes, IDs=rownames(nc.shp$att.data))
-nc = SpatialRingsDataFrame(nc.rings, nc.shp$att.data)
+nc.rings = as.SpatialPolygons.Shapes(nc.shp$Shapes, IDs=rownames(nc.shp$att.data))
+nc = SpatialPolygonsDataFrame(nc.rings, nc.shp$att.data)
 # prepare layout
-arrow = list("SpatialRingsRescale", layout.north.arrow(), 
+arrow = list("SpatialPolygonsRescale", layout.north.arrow(), 
 	offset = c(-76,34), scale = 0.5, which = 2)
-scale = list("SpatialRingsRescale", layout.scale.bar(), 
+scale = list("SpatialPolygonsRescale", layout.scale.bar(), 
 	offset = c(-77.5,34), scale = 1, fill=c("transparent","black"), which = 2)
 text1 = list("sp.text", c(-77.5,34.15), "0", which = 2)
 text2 = list("sp.text", c(-76.5,34.15), "1 degree", which = 2)
@@ -265,9 +248,9 @@ library(sp)
 library(lattice) # required for trellis.par.set():
 trellis.par.set(sp.theme()) # sets color ramp to bpy.colors()
 
-arrow = list("SpatialRingsRescale", layout.north.arrow(), 
+arrow = list("SpatialPolygonsRescale", layout.north.arrow(), 
 	offset = c(-76,34), scale = 0.5, which = 2)
-scale = list("SpatialRingsRescale", layout.scale.bar(), 
+scale = list("SpatialPolygonsRescale", layout.scale.bar(), 
 	offset = c(-77.5,34), scale = 1, fill=c("transparent","black"), which = 2)
 text1 = list("sp.text", c(-77.5,34.15), "0", which = 2)
 text2 = list("sp.text", c(-76.5,34.15), "1 degree", which = 2)
@@ -289,7 +272,7 @@ gridded(meuse.grid) = TRUE
 data(meuse)
 coordinates(meuse) = ~x+y
 data(meuse.riv)
-meuse.sl = SpatialLines(list(Slines(list(Sline(meuse.riv)))))
+meuse.sl = SpatialLines(list(Lines(list(Line(meuse.riv)))))
 
 ## image plot with points and lines
 image(meuse.grid["dist"], 
@@ -304,55 +287,55 @@ coordinates(meuse) = ~x+y
 
 ## bubble plots for cadmium and zinc
 data(meuse)
-coordinates(meuse) <- c("x", "y") # promote to SpatialDataFrame
+coordinates(meuse) <- c("x", "y") # promote to SpatialPointsDataFrame
 b1 = bubble(meuse, "cadmium", maxsize = 1.5, main = "cadmium concentrations (ppm)",
-	key.entries = 2^(-1:4), scales = list(draw = FALSE))
+	key.entries = 2^(-1:4))
 b2 = bubble(meuse, "zinc", maxsize = 1.5, main = "zinc concentrations (ppm)",
-	key.entries =  100 * 2^(0:4), scales = list(draw = FALSE))
+	key.entries =  100 * 2^(0:4))
 print(b1, split = c(1,1,2,1), more = TRUE)
 print(b2, split = c(2,1,2,1), more = FALSE)
 library(sp)
 
-## plot for SpatialRings, with county name at label point
+## plot for SpatialPolygons, with county name at label point
 data(ncmap)
 IDs <- sapply(strsplit(ncmap$names, ","), function(x) x[2])
-nc2 <- as.SpatialRings.map(ncmap, IDs)
-plotSpatialRings(nc2)
-invisible(text(getSRSringsLabptSlots(nc2), labels=getSRSringsIDSlots(nc2), cex=0.6))
+nc2 <- as.SpatialPolygons.map(ncmap, IDs)
+plot(nc2)
+invisible(text(getSpPPolygonsLabptSlots(nc2), labels=getSpPPolygonsIDSlots(nc2), cex=0.6))
 library(sp)
 
-## plot of SpatialRingsDataFrame, using grey shades
+## plot of SpatialPolygonsDataFrame, using grey shades
 data(ncshp)
-nc1 <- as.SpatialRings.Shapes(nc.shp$Shapes, as.character(nc.shp$att.data$FIPS))
+nc1 <- as.SpatialPolygons.Shapes(nc.shp$Shapes, as.character(nc.shp$att.data$FIPS))
 df <- nc.shp$att.data
 rownames(df) <- as.character(nc.shp$att.data$FIPS)
-identical(rownames(df), getSRSringsIDSlots(nc1))
-ncSRDF <- SpatialRingsDataFrame(nc1, df)
-names(as(ncSRDF, "data.frame"))
-rrt <- as(ncSRDF, "data.frame")$SID74/as(ncSRDF, "data.frame")$BIR74
+identical(rownames(df), getSpPPolygonsIDSlots(nc1))
+nc <- SpatialPolygonsDataFrame(nc1, df)
+names(as(nc, "data.frame"))
+rrt <- as(nc, "data.frame")$SID74/as(nc, "data.frame")$BIR74
 brks <- quantile(rrt, seq(0,1,1/7))
 cols <- grey((length(brks):2)/length(brks))
 dens <- (2:length(brks))*3
-plot.SpatialRings(ncSRDF, col=cols[findInterval(rrt, brks, all.inside=TRUE)])
+plot(nc, col=cols[findInterval(rrt, brks, all.inside=TRUE)])
 library(sp)
 
-## plot of SpatialRingsDataFrame, using line densities
+## plot of SpatialPolygonsDataFrame, using line densities
 data(ncshp)
-nc1 <- as.SpatialRings.Shapes(nc.shp$Shapes, as.character(nc.shp$att.data$FIPS))
+nc1 <- as.SpatialPolygons.Shapes(nc.shp$Shapes, as.character(nc.shp$att.data$FIPS))
 df <- nc.shp$att.data
 rownames(df) <- as.character(nc.shp$att.data$FIPS)
-identical(rownames(df), getSRSringsIDSlots(nc1))
-ncSRDF <- SpatialRingsDataFrame(nc1, df)
-names(as(ncSRDF, "data.frame"))
-rrt <- as(ncSRDF, "data.frame")$SID74/as(ncSRDF, "data.frame")$BIR74
+identical(rownames(df), getSpPPolygonsIDSlots(nc1))
+nc <- SpatialPolygonsDataFrame(nc1, df)
+names(as(nc, "data.frame"))
+rrt <- as(nc, "data.frame")$SID74/as(nc, "data.frame")$BIR74
 brks <- quantile(rrt, seq(0,1,1/7))
 cols <- grey((length(brks):2)/length(brks))
 dens <- (2:length(brks))*3
-plot.SpatialRings(ncSRDF, density=dens[findInterval(rrt, brks, all.inside=TRUE)])
+plot(nc, density=dens[findInterval(rrt, brks, all.inside=TRUE)])
 library(sp)
 data(meuse.riv)
 
-meuse.sr = SpatialRings(list(Srings(list(Sring(meuse.riv)), "x")))
+meuse.sr = SpatialPolygons(list(Polygons(list(Polygon(meuse.riv)), "x")))
 plot(meuse.sr)
 ## stratified sampling within a polygon
 points(spsample(meuse.sr@polygons[[1]], n = 200, "stratified"), pch = 3, cex=.3)
@@ -374,3 +357,74 @@ data(meuse.grid)
 gridded(meuse.grid) = ~x+y
 image(meuse.grid["dist"])
 points(spsample(meuse.grid,n=1000,type="nonaligned"), pch=3, cex=.4)
+library(sp)
+library(lattice) # required for trellis.par.set():
+trellis.par.set(sp.theme()) # sets color ramp to bpy.colors()
+
+alphaChannelSupported = function() { 
+	!is.na(match(names(dev.cur()), c("pdf")))
+}
+
+data(meuse)
+coordinates(meuse)=~x+y
+data(meuse.riv)
+meuse.sr = SpatialPolygons(list(Polygons(list(Polygon(meuse.riv)),"meuse.riv")))
+rv = list("sp.polygon", meuse.sr, fill = "lightblue")
+
+scale = list("SpatialPolygonsRescale", layout.scale.bar(), 
+	offset = c(180500,329800), scale = 500, fill=c("transparent","black"), which = 4)
+text1 = list("sp.text", c(180500,329900), "0", cex = .5, which = 4)
+text2 = list("sp.text", c(181000,329900), "500 m", cex = .5, which = 4)
+arrow = list("SpatialPolygonsRescale", layout.north.arrow(), 
+	offset = c(181300,329800), 
+	scale = 400, which = 4)
+
+library(gstat)
+data(meuse.grid)
+coordinates(meuse.grid) = ~x+y
+gridded(meuse.grid) = TRUE
+v.ok = variogram(log(zinc)~1, meuse)
+ok.model = fit.variogram(v.ok, vgm(1, "Exp", 500, 1))
+# plot(v.ok, ok.model, main = "ordinary kriging")
+v.uk = variogram(log(zinc)~sqrt(dist), meuse)
+uk.model = fit.variogram(v.uk, vgm(1, "Exp", 300, 1))
+# plot(v.uk, uk.model, main = "universal kriging")
+meuse[["ff"]] = factor(meuse[["ffreq"]])
+meuse.grid[["ff"]] = factor(meuse.grid[["ffreq"]])
+v.sk = variogram(log(zinc)~ff, meuse)
+sk.model = fit.variogram(v.sk, vgm(1, "Exp", 300, 1))
+# plot(v.sk, sk.model, main = "stratified kriging")
+zn.ok = krige(log(zinc)~1,          meuse, meuse.grid, model = ok.model)
+zn.uk = krige(log(zinc)~sqrt(dist), meuse, meuse.grid, model = uk.model)
+zn.sk = krige(log(zinc)~ff,         meuse, meuse.grid, model = sk.model)
+zn.id = krige(log(zinc)~1,          meuse, meuse.grid)
+
+rv = list("sp.polygon", meuse.sr, 
+	fill = ifelse(alphaChannelSupported(), "blue", "transparent"),
+	alpha = ifelse(alphaChannelSupported(), 0.1, 1))
+pts = list("sp.points", meuse, pch = 3, col = "grey", 
+	alpha = ifelse(alphaChannelSupported(), .5, 1))
+spplot(zn.uk, "var1.pred",
+	sp.layout = list(rv, scale, text1, text2, pts),
+	main = "log(zinc); universal kriging using sqrt(dist to Meuse)")
+zn.uk[["se"]] = sqrt(zn.uk[["var1.var"]])
+
+## Universal kriging standard errors; grid plot with point locations
+## and polygon (river), pdf has transparency on points and river
+spplot(zn.uk, "se",
+	sp.layout = list(rv, scale, text1, text2, pts),
+	main = "log(zinc); universal kriging standard errors")
+
+library(sp)
+data(ncshp)
+nc1 <- as.SpatialPolygons.Shapes(nc.shp$Shapes, as.character(nc.shp$att.data$FIPS))
+df <- nc.shp$att.data
+rownames(df) <- as.character(nc.shp$att.data$FIPS)
+nc <- SpatialPolygonsDataFrame(nc1, df)
+proj4string(nc) <- CRS("+proj=latlong")
+# create two dummy factor variables:
+nc$f = factor(sample(1:5,100,replace=T),labels=letters[1:5])
+nc$g = factor(sample(1:5,100,replace=T),labels=letters[6:10])
+library(RColorBrewer)
+## Two (dummy) factor variables shown with qualitative colour ramp; degrees in axes
+spplot(nc, c("f","g"), col.regions=brewer.pal(10, "Set3"), scales=list(draw = TRUE))
