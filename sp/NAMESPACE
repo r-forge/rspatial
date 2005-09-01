@@ -25,13 +25,13 @@ export(
 #contourLines2LinesList, contourLines2df, contourLines2SpatialLines, 
 contourLines2SLDF)
 
-export(
+#export(
 #arcobj2LineList, arcobj2df, arcobj2SpatialLines, 
-arcobj2SLDF)
+#arcobj2SLDF)
 
-export(
+#export(
 #shapes2LineList, shapes2SpatialLines, 
-shp2SLDF)
+#shp2SLDF)
 
 export(Mapgen2SL)
 
@@ -60,8 +60,8 @@ export(getPolygonCoordsSlot, getPolygonLabptSlot, getPolygonAreaSlot,
 	getSpPnParts, "polygons<-")
 
 export(as.SpatialPolygons.PolygonsList, Polygons, Polygon, SpatialPolygons,
-	SpatialPolygonsDataFrame, as.SpatialPolygons.Shapes, as.SpatialPolygons.map,
-	as.SpatialPolygons.pal)
+	SpatialPolygonsDataFrame)
+#, as.SpatialPolygons.Shapes, as.SpatialPolygons.map, as.SpatialPolygons.pal)
 
 export(ShowSpatialPointsDataFrame)
 
