@@ -1,10 +1,6 @@
 setClass("Line", 
-	representation(#"Spatial", 
-coords = "matrix"),
-#	prototype = list(bbox = matrix(rep(NA, 6), 3, 2, 
-#			dimnames = list(NULL, c("min","max"))),
-#		proj4string = CRS(as.character(NA)),
-#		coords = matrix(0)),
+	representation(coords = "matrix"),
+	prototype = list(coords = matrix(0)),
 	validity = function(object) {
 		if (any(is.na(object@coords)))
 			stop("coords cannot contain missing values")
