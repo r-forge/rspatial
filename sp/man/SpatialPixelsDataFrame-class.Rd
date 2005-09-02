@@ -2,6 +2,7 @@
 \docType{class}
 \alias{SpatialPixelsDataFrame-class}
 \alias{[,SpatialPixelsDataFrame-method}
+\alias{show,SpatialPixelsDataFrame-method}
 \alias{[[,SpatialPixelsDataFrame-method}
 \alias{[[<-,SpatialPixelsDataFrame-method}
 \alias{$.SpatialPixelsDataFrame}

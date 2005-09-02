@@ -38,7 +38,7 @@ plot.SpatialPolygons <- function(x, col, border = par("fg"), add=FALSE, xlim=NUL
 }
 
 setMethod("plot", signature(x = "SpatialPolygons", y = "missing"),
-	plot.SpatialPolygons)
+	function(x, y, ...) plot.SpatialPolygons(x, ...))
 
 .polygonRingHoles <- function(Sr, col=NA, border=NULL, xpd=NULL, density=NULL,
 	angle=45, pbg, ...) {

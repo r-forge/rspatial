@@ -2,6 +2,7 @@
 \docType{class}
 \alias{SpatialGridDataFrame-class}
 \alias{[,SpatialGridDataFrame-method}
+\alias{show,SpatialGridDataFrame-method}
 \alias{[[,SpatialGridDataFrame-method}
 \alias{[[<-,SpatialGridDataFrame-method}
 \alias{$.SpatialGridDataFrame}

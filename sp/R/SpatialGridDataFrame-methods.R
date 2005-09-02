@@ -241,19 +241,23 @@ print.SpatialPixelsDataFrame = function(x, ...) {
 	cat("Object of class SpatialPixelsDataFrame\n")
 	print(as(x, "SpatialPixels"))
 	cat("\n")
-	cat("Data:\n")
+	cat("Data summary:\n")
 	print(summary(x@data))
 	invisible(x)
 }
+setMethod("show", "SpatialPixelsDataFrame", 
+	function(object) print.SpatialPixelsDataFrame(object))
+
 print.SpatialGridDataFrame = function(x, ...) {
 	cat("Object of class SpatialGridDataFrame\n")
 	print(as(x, "SpatialGrid"))
 	cat("\n")
-	cat("Data:\n")
+	cat("Data summary:\n")
 	print(summary(x@data))
 	invisible(x)
 }
-#setMethod("show", "SpatialPixelsDataFrame", print.SpatialPixelsDataFrame)
+setMethod("show", "SpatialGridDataFrame", 
+	function(object) print.SpatialGridDataFrame(object))
 
 setMethod("summary", "SpatialPixelsDataFrame", summary.Spatial)
 

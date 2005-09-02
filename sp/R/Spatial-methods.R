@@ -109,7 +109,7 @@ print.summary.Spatial = function(x, ...) {
 
 # sp.axes = FALSE
 
-plot.Spatial <- function(x, y, xlim=NULL, ylim=NULL, asp=1, axes = FALSE, ...) {
+plot.Spatial <- function(x, xlim=NULL, ylim=NULL, asp=1, axes = FALSE, ...) {
 	bbox <- x@bbox
 	if (is.null(xlim)) xlim <- c(bbox[1,1], bbox[1,2])
 	if (is.null(ylim)) ylim <- c(bbox[2,1], bbox[2,2])
@@ -133,7 +133,8 @@ plot.Spatial <- function(x, y, xlim=NULL, ylim=NULL, asp=1, axes = FALSE, ...) {
 		axis(4, labels = FALSE)
 	}
 }
-setMethod("plot", signature(x = "Spatial", y = "missing"), plot.Spatial)
+setMethod("plot", signature(x = "Spatial", y = "missing"), 
+	function(x,y,...) plot.Spatial(x,...))
 
 degAxis = function (side) {
         at = axTicks(side)
