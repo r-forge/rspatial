@@ -175,7 +175,7 @@ subset.SpatialPointsDataFrame <- function(x, subset, select,
 }
 
 #"[.SpatialPointsDataFrame" <- function(x, i, j, ... , drop = FALSE) {
-setMethod("[", "SpatialPointsDataFrame", function(x, i, j, ... , drop = FALSE) {
+setMethod("[", "SpatialPointsDataFrame", function(x, i, j, ..., drop = FALSE) {
 	missing.i = missing(i)
 	missing.j = missing(j)
 	if (drop)
