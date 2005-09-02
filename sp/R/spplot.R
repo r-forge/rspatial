@@ -13,7 +13,6 @@ sp.polygon = function(obj, col = 1, ...) {
 		obj = as(obj, "SpatialPolygons")
 	pls = getSpPpolygonsSlot(obj)
    	pO <- getSpPplotOrderSlot(obj)
-	require(grid)
    	for (i in pO) {
    		Srs <- getPolygonsPolygonsSlot(pls[[i]])
    		pOi <- getPolygonsplotOrderSlot(pls[[i]])
@@ -51,7 +50,6 @@ sp.grid = function(obj, col = 1, alpha = 1, ...) {
 		# do something with col
 	}
 	gt = as(getGridTopology(obj), "data.frame")
-	require(grid)
 	grid.rect(x = xy[,1], y = xy[,2], width = gt$cellsize[1],
 		height = gt$cellsize[2], default.units = "native",
 		gp = gpar(fill = col, col = NULL, alpha = alpha))
@@ -116,7 +114,6 @@ spplot.grid = function(obj, zcol = names(obj), ..., names.attr,
 		scales = list(draw = FALSE), xlab = NULL, ylab = NULL, 
 		aspect = mapasp(obj), panel = panel.gridplot, sp.layout = NULL, formula, 
 		xlim = bbox(obj)[1,], ylim = bbox(obj)[2,]) {
-	require(lattice)
 	sdf = as(obj, "SpatialPointsDataFrame")
 	if (missing(formula))
 		formula = getFormulaLevelplot(sdf, zcol)
@@ -154,8 +151,6 @@ spplot.polygons = function(obj, zcol = names(obj), ..., names.attr,
 		panel = panel.polygonsplot, sp.layout = NULL, formula, 
 		xlim = bbox(obj)[1,], ylim = bbox(obj)[2,]) {
 
-	require(lattice)
-	require(grid)
 	sdf = as.data.frame(obj)
 	if (is(obj, "SpatialPolygonsDataFrame"))
 		labpts = getSpPPolygonsLabptSlots(obj)
@@ -215,7 +210,6 @@ spplot.points = function(obj, zcol = names(obj), ..., names.attr,
 		xlim = bbexpand(bbox(obj)[1,], 0.04), ylim = bbexpand(bbox(obj)[2,], 0.04)) {
 
 	dots = list(...)
-	require(lattice)
 	sdf = obj
 	# create formula:
 	if (missing(formula)) {
@@ -414,12 +408,10 @@ SpatialPolygons2Grob = function(obj, fill) {
 			id = c(id, rep(n, nrow(cc)))
 		}
 	}
-	require(grid)
 	polygonGrob(x=x, y=y, id=id, gp = gpar(fill = fill))
 }
 
 SpatialPolygonsRescale = function(obj, offset, scale = 1, fill = "black", col = "black", plot.grid = TRUE, ...) {
-	require(grid)
 	if (!is(obj, "SpatialPolygons"))
 		stop("object is not of class SpatialPolygons")
 	if (length(offset) != 2)

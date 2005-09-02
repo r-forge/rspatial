@@ -3,6 +3,12 @@
 setClass("CRS", representation(projargs = "character"),
     		prototype = list(projargs = character(1)))
 
+if (!is.R())
+  strsplit <- function(a,b) {
+    if (a == as.character(NA))
+        return(as.character(NA))
+    else list(unlist(unpaste(a, b)))
+  }
 
 "CRS" <- function(projargs) {
     if (is.na(projargs)) uprojargs <- projargs
@@ -17,8 +23,6 @@ setClass("CRS", representation(projargs = "character"),
     res <- new("CRS", projargs=uprojargs)
     res
 }
-
-
 
 "print.CRS" <- function(x, ...)
 {

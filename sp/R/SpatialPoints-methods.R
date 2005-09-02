@@ -37,7 +37,7 @@ setMethod("coordinates", "matrix",
 }
 setMethod("show", "SpatialPoints", function(object) print.SpatialPoints(object))
 
-plot.SpatialPoints = function(x, asp = 1, pch = 3, axes = FALSE, add = FALSE, ...) 
+plot.SpatialPoints = function(x, y, asp = 1, pch = 3, axes = FALSE, add = FALSE, ...) 
 {
 	if (! add)
 		plot(as(x, "Spatial"), asp = asp, axes = axes)

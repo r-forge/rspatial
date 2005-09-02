@@ -109,12 +109,17 @@ print.summary.Spatial = function(x, ...) {
 
 # sp.axes = FALSE
 
-plot.Spatial <- function(x, xlim=NULL, ylim=NULL, asp=1, axes = FALSE, ...) {
+plot.Spatial <- function(x, y, xlim=NULL, ylim=NULL, asp=1, axes = FALSE, ...) {
 	bbox <- x@bbox
 	if (is.null(xlim)) xlim <- c(bbox[1,1], bbox[1,2])
 	if (is.null(ylim)) ylim <- c(bbox[2,1], bbox[2,2])
-	plot.new()
-	plot.window(xlim = xlim, ylim = ylim, asp = asp, ...)
+	frame() # S-Plus compatible version of plot.new()
+	if (is.R())
+		plot.window(xlim = xlim, ylim = ylim, asp = asp, ...)
+	else {
+		plot.default(x = bbox[1,], y = bbox[2,], type = "n", 
+			xlim = xlim, ylim = ylim, asp = asp, ...)
+	}
 	if (axes) { # set up default axes system & box:
 		box()
 		if (length(grep("proj=latlong", proj4string(x))) > 0) {
@@ -144,4 +149,3 @@ degAxis = function (side) {
         }
         axis(side, at = at, labels = labels)
 }
-

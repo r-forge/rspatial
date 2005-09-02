@@ -135,7 +135,7 @@ text2 = list("sp.text", c(181000,329900), "500 m", cex = .5, which = 4)
 scale = list("SpatialPolygonsRescale", layout.scale.bar(), 
 	offset = c(180500,329800), scale = 500, fill=c("transparent","black"), which = 4)
 
-library(gstat)
+library(gstat, pos = match(paste("package", "sp", sep=":"), search()) + 1)
 data(meuse.grid)
 coordinates(meuse.grid) = ~x+y
 gridded(meuse.grid) = TRUE
@@ -188,7 +188,7 @@ arrow = list("SpatialPolygonsRescale", layout.north.arrow(),
 	offset = c(181300,329800), 
 	scale = 400, which = 4)
 
-library(gstat)
+library(gstat, pos = match(paste("package", "sp", sep=":"), search()) + 1)
 data(meuse.grid)
 coordinates(meuse.grid) = ~x+y
 gridded(meuse.grid) = TRUE
@@ -231,21 +231,17 @@ trellis.par.set(sp.theme()) # sets color ramp to bpy.colors()
 # prepare nc sids data set:
 library(maptools)
 nc <- read_ShapePoly(system.file("shapes/sids.shp", package="maptools")[1], proj4string=CRS("+proj=latlong +datum=NAD27"))
-#data(ncshp)
-#nc.rings = as.SpatialPolygons.Shapes(nc.shp$Shapes, IDs=rownames(nc.shp$att.data))
-#nc = SpatialPolygonsDataFrame(nc.rings, nc.shp$att.data)
-# prepare layout
-arrow = list("SpatialPolygonsRescale", layout.north.arrow(), 
-	offset = c(-76,34), scale = 0.5, which = 2)
-scale = list("SpatialPolygonsRescale", layout.scale.bar(), 
-	offset = c(-77.5,34), scale = 1, fill=c("transparent","black"), which = 2)
+arrow = list("SpatialPolygonsRescale", layout.north.arrow(),
+    offset = c(-76,34), scale = 0.5, which = 2)
+scale = list("SpatialPolygonsRescale", layout.scale.bar(),
+    offset = c(-77.5,34), scale = 1, fill=c("transparent","black"), which = 2)
 text1 = list("sp.text", c(-77.5,34.15), "0", which = 2)
 text2 = list("sp.text", c(-76.5,34.15), "1 degree", which = 2)
 ## multi-panel plot with filled polygons: North Carolina SIDS
-spplot(nc, c("SID74", "SID79"), names.attr = c("1974","1979"), 
-	colorkey=list(space="bottom"),
-	main = "SIDS (sudden infant death syndrome) in North Carolina",
-	sp.layout = list(arrow, scale, text1, text2), as.table = TRUE)
+spplot(nc, c("SID74", "SID79"), names.attr = c("1974","1979"),
+    colorkey=list(space="bottom"),
+    main = "SIDS (sudden infant death syndrome) in North Carolina",
+    sp.layout = list(arrow, scale, text1, text2), as.table = TRUE)
 library(sp)
 library(lattice) # required for trellis.par.set():
 trellis.par.set(sp.theme()) # sets color ramp to bpy.colors()
@@ -259,15 +255,11 @@ text2 = list("sp.text", c(-76.5,34.15), "1 degree", which = 2)
 # create a fake lines data set:
 library(maptools)
 ncl <- read_ShapeLines(system.file("shapes/sids.shp", package="maptools")[1], proj4string=CRS("+proj=latlong +datum=NAD27"))
-#data(ncshp)
-#xx = nc.shp
-#attr(xx$Shapes, "shp.type") = "arc"
-#ncl = shp2SLDF(xx)
 ## multi-panel plot with coloured lines: North Carolina SIDS
-spplot(ncl, c("SID74","SID79"), names.attr = c("1974","1979"), 
-	colorkey=list(space="bottom"),
-	main = "SIDS (sudden infant death syndrome) in North Carolina",
-	sp.layout = list(arrow, scale, text1, text2), as.table = TRUE)
+spplot(ncl, c("SID74","SID79"), names.attr = c("1974","1979"),
+    colorkey=list(space="bottom"),
+    main = "SIDS (sudden infant death syndrome) in North Carolina",
+    sp.layout = list(arrow, scale, text1, text2), as.table = TRUE)
 library(sp)
 
 data(meuse.grid)
@@ -303,9 +295,6 @@ library(sp)
 ## plot for SpatialPolygons, with county name at label point
 library(maptools)
 nc2 <- read_ShapePoly(system.file("shapes/sids.shp", package="maptools")[1], proj4string=CRS("+proj=latlong +datum=NAD27"))
-#data(ncmap)
-#IDs <- sapply(strsplit(ncmap$names, ","), function(x) x[2])
-#nc2 <- as.SpatialPolygons.map(ncmap, IDs)
 plot(nc2)
 invisible(text(getSpPPolygonsLabptSlots(nc2), labels=as.character(nc2$NAME), cex=0.4))
 library(sp)
@@ -313,12 +302,6 @@ library(sp)
 ## plot of SpatialPolygonsDataFrame, using grey shades
 library(maptools)
 nc1 <- read_ShapePoly(system.file("shapes/sids.shp", package="maptools")[1], proj4string=CRS("+proj=latlong +datum=NAD27"))
-#data(ncshp)
-#nc1 <- as.SpatialPolygons.Shapes(nc.shp$Shapes, as.character(nc.shp$att.data$FIPS))
-#df <- nc.shp$att.data
-#rownames(df) <- as.character(nc.shp$att.data$FIPS)
-#identical(rownames(df), getSpPPolygonsIDSlots(nc1))
-#nc <- SpatialPolygonsDataFrame(nc1, df)
 names(nc1)
 rrt <- nc1$SID74/nc1$BIR74
 brks <- quantile(rrt, seq(0,1,1/7))
@@ -330,12 +313,6 @@ library(sp)
 ## plot of SpatialPolygonsDataFrame, using line densities
 library(maptools)
 nc <- read_ShapePoly(system.file("shapes/sids.shp", package="maptools")[1], proj4string=CRS("+proj=latlong +datum=NAD27"))
-#data(ncshp)
-#nc1 <- as.SpatialPolygons.Shapes(nc.shp$Shapes, as.character(nc.shp$att.data$FIPS))
-#df <- nc.shp$att.data
-#rownames(df) <- as.character(nc.shp$att.data$FIPS)
-#identical(rownames(df), getSpPPolygonsIDSlots(nc1))
-#nc <- SpatialPolygonsDataFrame(nc1, df)
 names(nc)
 rrt <- nc$SID74/nc$BIR74
 brks <- quantile(rrt, seq(0,1,1/7))
@@ -389,7 +366,7 @@ arrow = list("SpatialPolygonsRescale", layout.north.arrow(),
 	offset = c(181300,329800), 
 	scale = 400, which = 4)
 
-library(gstat)
+library(gstat, pos = match(paste("package", "sp", sep=":"), search()) + 1)
 data(meuse.grid)
 coordinates(meuse.grid) = ~x+y
 gridded(meuse.grid) = TRUE
@@ -426,12 +403,10 @@ spplot(zn.uk, "se",
 	main = "log(zinc); universal kriging standard errors")
 
 library(sp)
-data(ncshp)
-nc1 <- as.SpatialPolygons.Shapes(nc.shp$Shapes, as.character(nc.shp$att.data$FIPS))
-df <- nc.shp$att.data
-rownames(df) <- as.character(nc.shp$att.data$FIPS)
-nc <- SpatialPolygonsDataFrame(nc1, df)
-proj4string(nc) <- CRS("+proj=latlong")
+library(maptools)
+
+nc <- read_ShapePoly(system.file("shapes/sids.shp", package="maptools")[1], proj4string=CRS("+proj=latlong +datum=NAD27"))
+names(nc)
 # create two dummy factor variables:
 nc$f = factor(sample(1:5,100,replace=T),labels=letters[1:5])
 nc$g = factor(sample(1:5,100,replace=T),labels=letters[6:10])

@@ -74,3 +74,8 @@ setMethod("summary", "AttributeList", summ.AttributeList)
 names.AttributeList = function(x) { names(x@att) }
 
 "names<-.AttributeList" = function(x, value) { names(x@att)<-value; x }
+
+if (!is.R()) {
+	setMethod("ncol", "AttributeList", function(x)length(x@att))
+	setMethod("nrow", "AttributeList", function(x)length(x@att[[1]]))
+}
