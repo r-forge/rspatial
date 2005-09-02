@@ -229,9 +229,11 @@ library(lattice) # required for trellis.par.set():
 trellis.par.set(sp.theme()) # sets color ramp to bpy.colors()
 
 # prepare nc sids data set:
-data(ncshp)
-nc.rings = as.SpatialPolygons.Shapes(nc.shp$Shapes, IDs=rownames(nc.shp$att.data))
-nc = SpatialPolygonsDataFrame(nc.rings, nc.shp$att.data)
+library(maptools)
+nc <- read_ShapePoly(system.file("shapes/sids.shp", package="maptools")[1], proj4string=CRS("+proj=latlong +datum=NAD27"))
+#data(ncshp)
+#nc.rings = as.SpatialPolygons.Shapes(nc.shp$Shapes, IDs=rownames(nc.shp$att.data))
+#nc = SpatialPolygonsDataFrame(nc.rings, nc.shp$att.data)
 # prepare layout
 arrow = list("SpatialPolygonsRescale", layout.north.arrow(), 
 	offset = c(-76,34), scale = 0.5, which = 2)
@@ -255,10 +257,12 @@ scale = list("SpatialPolygonsRescale", layout.scale.bar(),
 text1 = list("sp.text", c(-77.5,34.15), "0", which = 2)
 text2 = list("sp.text", c(-76.5,34.15), "1 degree", which = 2)
 # create a fake lines data set:
-data(ncshp)
-xx = nc.shp
-attr(xx$Shapes, "shp.type") = "arc"
-ncl = shp2SLDF(xx)
+library(maptools)
+ncl <- read_ShapeLines(system.file("shapes/sids.shp", package="maptools")[1], proj4string=CRS("+proj=latlong +datum=NAD27"))
+#data(ncshp)
+#xx = nc.shp
+#attr(xx$Shapes, "shp.type") = "arc"
+#ncl = shp2SLDF(xx)
 ## multi-panel plot with coloured lines: North Carolina SIDS
 spplot(ncl, c("SID74","SID79"), names.attr = c("1974","1979"), 
 	colorkey=list(space="bottom"),
@@ -297,37 +301,43 @@ print(b2, split = c(2,1,2,1), more = FALSE)
 library(sp)
 
 ## plot for SpatialPolygons, with county name at label point
-data(ncmap)
-IDs <- sapply(strsplit(ncmap$names, ","), function(x) x[2])
-nc2 <- as.SpatialPolygons.map(ncmap, IDs)
+library(maptools)
+nc2 <- read_ShapePoly(system.file("shapes/sids.shp", package="maptools")[1], proj4string=CRS("+proj=latlong +datum=NAD27"))
+#data(ncmap)
+#IDs <- sapply(strsplit(ncmap$names, ","), function(x) x[2])
+#nc2 <- as.SpatialPolygons.map(ncmap, IDs)
 plot(nc2)
-invisible(text(getSpPPolygonsLabptSlots(nc2), labels=getSpPPolygonsIDSlots(nc2), cex=0.6))
+invisible(text(getSpPPolygonsLabptSlots(nc2), labels=as.character(nc2$NAME), cex=0.4))
 library(sp)
 
 ## plot of SpatialPolygonsDataFrame, using grey shades
-data(ncshp)
-nc1 <- as.SpatialPolygons.Shapes(nc.shp$Shapes, as.character(nc.shp$att.data$FIPS))
-df <- nc.shp$att.data
-rownames(df) <- as.character(nc.shp$att.data$FIPS)
-identical(rownames(df), getSpPPolygonsIDSlots(nc1))
-nc <- SpatialPolygonsDataFrame(nc1, df)
-names(as(nc, "data.frame"))
-rrt <- as(nc, "data.frame")$SID74/as(nc, "data.frame")$BIR74
+library(maptools)
+nc1 <- read_ShapePoly(system.file("shapes/sids.shp", package="maptools")[1], proj4string=CRS("+proj=latlong +datum=NAD27"))
+#data(ncshp)
+#nc1 <- as.SpatialPolygons.Shapes(nc.shp$Shapes, as.character(nc.shp$att.data$FIPS))
+#df <- nc.shp$att.data
+#rownames(df) <- as.character(nc.shp$att.data$FIPS)
+#identical(rownames(df), getSpPPolygonsIDSlots(nc1))
+#nc <- SpatialPolygonsDataFrame(nc1, df)
+names(nc1)
+rrt <- nc1$SID74/nc1$BIR74
 brks <- quantile(rrt, seq(0,1,1/7))
 cols <- grey((length(brks):2)/length(brks))
 dens <- (2:length(brks))*3
-plot(nc, col=cols[findInterval(rrt, brks, all.inside=TRUE)])
+plot(nc1, col=cols[findInterval(rrt, brks, all.inside=TRUE)])
 library(sp)
 
 ## plot of SpatialPolygonsDataFrame, using line densities
-data(ncshp)
-nc1 <- as.SpatialPolygons.Shapes(nc.shp$Shapes, as.character(nc.shp$att.data$FIPS))
-df <- nc.shp$att.data
-rownames(df) <- as.character(nc.shp$att.data$FIPS)
-identical(rownames(df), getSpPPolygonsIDSlots(nc1))
-nc <- SpatialPolygonsDataFrame(nc1, df)
-names(as(nc, "data.frame"))
-rrt <- as(nc, "data.frame")$SID74/as(nc, "data.frame")$BIR74
+library(maptools)
+nc <- read_ShapePoly(system.file("shapes/sids.shp", package="maptools")[1], proj4string=CRS("+proj=latlong +datum=NAD27"))
+#data(ncshp)
+#nc1 <- as.SpatialPolygons.Shapes(nc.shp$Shapes, as.character(nc.shp$att.data$FIPS))
+#df <- nc.shp$att.data
+#rownames(df) <- as.character(nc.shp$att.data$FIPS)
+#identical(rownames(df), getSpPPolygonsIDSlots(nc1))
+#nc <- SpatialPolygonsDataFrame(nc1, df)
+names(nc)
+rrt <- nc$SID74/nc$BIR74
 brks <- quantile(rrt, seq(0,1,1/7))
 cols <- grey((length(brks):2)/length(brks))
 dens <- (2:length(brks))*3
