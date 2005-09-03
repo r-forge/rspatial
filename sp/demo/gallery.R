@@ -295,7 +295,7 @@ library(sp)
 ## plot for SpatialPolygons, with county name at label point
 library(maptools)
 nc2 <- read_ShapePoly(system.file("shapes/sids.shp", package="maptools")[1], proj4string=CRS("+proj=longlat +datum=NAD27"))
-plot(nc2)
+plot(nc2, axes=TRUE, las=1)
 invisible(text(getSpPPolygonsLabptSlots(nc2), labels=as.character(nc2$NAME), cex=0.4))
 library(sp)
 
@@ -307,7 +307,7 @@ rrt <- nc1$SID74/nc1$BIR74
 brks <- quantile(rrt, seq(0,1,1/7))
 cols <- grey((length(brks):2)/length(brks))
 dens <- (2:length(brks))*3
-plot(nc1, col=cols[findInterval(rrt, brks, all.inside=TRUE)])
+plot(nc1, col=cols[findInterval(rrt, brks, all.inside=TRUE)], axes=TRUE, las=1)
 library(sp)
 
 ## plot of SpatialPolygonsDataFrame, using line densities
@@ -318,7 +318,7 @@ rrt <- nc$SID74/nc$BIR74
 brks <- quantile(rrt, seq(0,1,1/7))
 cols <- grey((length(brks):2)/length(brks))
 dens <- (2:length(brks))*3
-plot(nc, density=dens[findInterval(rrt, brks, all.inside=TRUE)])
+plot(nc, density=dens[findInterval(rrt, brks, all.inside=TRUE)], axes=TRUE, las=1)
 library(sp)
 data(meuse.riv)
 

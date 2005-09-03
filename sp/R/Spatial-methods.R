@@ -123,20 +123,20 @@ plot.Spatial <- function(x, xlim=NULL, ylim=NULL, asp=1, axes = FALSE, ...) {
 	if (axes) { # set up default axes system & box:
 		box()
 		if (length(grep("proj=longlat", proj4string(x))) > 0) {
-			degAxis(1)
-			degAxis(2)
+			degAxis(1, ...)
+			degAxis(2, ...)
 		} else {
-			axis(1)
-			axis(2)
+			axis(1, ...)
+			axis(2, ...)
 		}
-		axis(3, labels = FALSE)
-		axis(4, labels = FALSE)
+#		axis(3, labels = FALSE, ...)
+#		axis(4, labels = FALSE, ...)
 	}
 }
 setMethod("plot", signature(x = "Spatial", y = "missing"), 
 	function(x,y,...) plot.Spatial(x,...))
 
-degAxis = function (side) {
+degAxis = function (side, ...) {
         at = axTicks(side)
         pos = sign(at) + 2
         labels = FALSE
@@ -148,5 +148,5 @@ degAxis = function (side) {
                 dir = c("S", "", "N")
                 labels = parse(text = paste(abs(at), "*degree*", dir[pos]))
         }
-        axis(side, at = at, labels = labels)
+        axis(side, at = at, labels = labels, ...)
 }
