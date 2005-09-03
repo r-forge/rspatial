@@ -28,11 +28,12 @@ as.data.frame.SpatialPolygonsDataFrame = function(x, row.names, optional) x@data
 setAs("SpatialPolygonsDataFrame", "data.frame", function(from)
     as.data.frame.SpatialPolygonsDataFrame(from))
 
-setMethod("[", "SpatialPolygonsDataFrame", function(x, i, j, ... , drop = FALSE) {
+setMethod("[", "SpatialPolygonsDataFrame", function(x, i, j, ... , drop = TRUE) {
     missing.i = missing(i)
     missing.j = missing(j)
-    if (drop)
-        stop("coerce to data.frame first for drop = TRUE")
+    drop <- FALSE
+#    if (drop)
+#       stop("coerce to data.frame first for drop = TRUE")
     nargs = nargs() # e.g., a[3,] gives 2 for nargs, a[3] gives 1.
     if (missing.i && missing.j) {
         i = TRUE

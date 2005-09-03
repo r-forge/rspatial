@@ -15,11 +15,12 @@ as.list.AttributeList = function(x, ...) x@att
 
 dim.AttributeList = function(x) c(length(x@att[[1]]), length(x@att))
 
-setMethod("[", "AttributeList", function(x, i, j, ... , drop = FALSE) {
+setMethod("[", "AttributeList", function(x, i, j, ... , drop = TRUE) {
 	missing.i = missing(i)
 	missing.j = missing(j)
-	if (drop)
-		stop("coerce to data.frame first for drop = TRUE")
+	drop <- FALSE
+#	if (drop)
+#		stop("coerce to data.frame first for drop = TRUE")
 	nargs = nargs() # e.g., a[3,] gives 2 for nargs, a[3] gives 1.
 	if (missing.i && missing.j) {
 		i = TRUE

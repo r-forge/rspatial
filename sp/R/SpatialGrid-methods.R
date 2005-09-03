@@ -92,9 +92,10 @@ subset.SpatialPixels <- function(x, subset, select, drop = FALSE, ...) {
 }
 
 setMethod("[", "SpatialPixels",
-	function(x, i, j, ..., drop = FALSE) {
-		if (!missing(drop))
-			stop("don't supply drop: it needs to be FALSE anyway")
+	function(x, i, j, ..., drop = TRUE) {
+		drop <- FALSE
+#		if (!missing(drop))
+#			stop("don't supply drop: it needs to be FALSE anyway")
 		if (!missing(j))
 			stop("can only select pixels with a single index")
 		if (missing(i))
@@ -106,9 +107,10 @@ setMethod("[", "SpatialPixels",
 )
 
 setMethod("[", "SpatialGrid",
-	function(x, i, j, ..., drop = FALSE) {
-		if (!missing(drop))
-			stop("don't supply drop: it needs to be FALSE anyway")
+	function(x, i, j, ..., drop = TRUE) {
+		drop <- FALSE
+#		if (!missing(drop))
+#			stop("don't supply drop: it needs to be FALSE anyway")
 		gr = x@grid
 		if (missing(i))
 			rows = 1:gr@cells.dim[2]

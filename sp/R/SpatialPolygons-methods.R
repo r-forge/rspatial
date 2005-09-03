@@ -234,7 +234,7 @@ as.SpatialPolygons.PolygonsList <- function(Srl, proj4string=CRS(as.character(NA
 	res
 }
 
-setMethod("[", "SpatialPolygons", function(x, i, j, ..., drop = T) {
+setMethod("[", "SpatialPolygons", function(x, i, j, ..., drop = TRUE) {
 	if (!missing(j)) stop("only a single index is allowed for [.SpatialPolygons")
 	if (is.logical(i)) {
 		if (length(i) == 1 && i)

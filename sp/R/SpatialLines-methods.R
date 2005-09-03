@@ -251,7 +251,7 @@ lines.SpatialLines = function(x, y = NULL, ...) invisible(lapply(x@lines,
 	function(x, ...) lines(x, ...), ...))
 
 #"[.SpatialLines" =  function(x, i, j, ..., drop = T) {
-setMethod("[", "SpatialLines", function(x, i, j, ..., drop = T) {
+setMethod("[", "SpatialLines", function(x, i, j, ..., drop = TRUE) {
 	if (!missing(j)) stop("only a single index is allowed for [.SpatialLines")
 	SpatialLines(x@lines[i])
 })
