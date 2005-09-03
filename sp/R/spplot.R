@@ -122,7 +122,7 @@ spplot.grid = function(obj, zcol = names(obj), ..., names.attr,
 		zcol2 = "z"
 	} else
 		zcol2 = zcol
-	scales = latlong.scales(obj, scales, xlim, ylim)
+	scales = longlat.scales(obj, scales, xlim, ylim)
 	args = append(list(formula = formula, data = as(sdf, "data.frame"), 
 		aspect = aspect, panel = panel, xlab = xlab, ylab = ylab, scales = scales,
 		sp.layout = sp.layout, xlim = xlim, ylim = ylim), list(...))
@@ -174,7 +174,7 @@ spplot.polygons = function(obj, zcol = names(obj), ..., names.attr,
 		grid.polygons = as(obj, "SpatialPolygons")
 	else
 		grid.polygons = as(obj, "SpatialLines")
-	scales = latlong.scales(obj, scales, xlim, ylim)
+	scales = longlat.scales(obj, scales, xlim, ylim)
 
 	args = append(list(formula = formula, data = as(sdf, "data.frame"),
 		aspect = aspect, grid.polygons = grid.polygons, panel =
@@ -230,7 +230,7 @@ spplot.points = function(obj, zcol = names(obj), ..., names.attr,
 		xlim = xlim, ylim = ylim), dots)
 	z = as.vector(as.matrix(as(obj, "data.frame")[zcol]))
 	args.xyplot = fill.call.groups(args.xyplot, z = z, ...)
-	scales = latlong.scales(obj, scales, xlim, ylim)
+	scales = longlat.scales(obj, scales, xlim, ylim)
 	plt = do.call("xyplot", args.xyplot)
 	if (!(is.logical(identify) && identify==FALSE) && interactive()) {
 		print(plt)
@@ -496,7 +496,7 @@ sp.pagefn = function(n) {
 	spplot.key(sp.layout, pos[1], pos[2])
 }
 
-latlong.scales = function(obj, scales, xlim, ylim) {
+longlat.scales = function(obj, scales, xlim, ylim) {
 	isp = is.projected(obj)
 	if (scales$draw && !is.na(isp) && !isp) {
 		# lat long -- x:

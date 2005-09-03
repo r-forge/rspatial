@@ -122,7 +122,7 @@ plot.Spatial <- function(x, xlim=NULL, ylim=NULL, asp=1, axes = FALSE, ...) {
 	}
 	if (axes) { # set up default axes system & box:
 		box()
-		if (length(grep("proj=latlong", proj4string(x))) > 0) {
+		if (length(grep("proj=longlat", proj4string(x))) > 0) {
 			degAxis(1)
 			degAxis(2)
 		} else {

@@ -22,7 +22,7 @@ nowrapSpatialLines(obj, offset = 0, eps = rep(.Machine$double.eps, 2))
 \author{Roger Bivand}
 
 \examples{
-Sl <- SpatialLines(list(Lines(list(Line(cbind(sin(seq(-4,4,0.4)), seq(1,21,1)))))), proj4string=CRS("+proj=latlong"))
+Sl <- SpatialLines(list(Lines(list(Line(cbind(sin(seq(-4,4,0.4)), seq(1,21,1)))))), proj4string=CRS("+proj=longlat"))
 summary(Sl)
 #lapply(sapply(getSLlinesSlot(Sl), getLinesLinesSlot), bbox)
 #lapply(sapply(getSLlinesSlot(recenter(Sl)), getLinesLinesSlot), bbox)
