@@ -18,6 +18,7 @@ coordnames-methods      retrieve or assign coordinate names for
                         classes in sp
 CRS-class               Class "CRS" of coordinate reference system
                         arguments
+degAxis                 axis with degrees
 dimensions,Spatial-method
                         retrieve spatial dimensions from spatial data
 DMS-class               Class "DMS" for degree, minute, decimal second

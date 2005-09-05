@@ -123,9 +123,9 @@ plot.Spatial <- function(x, xlim=NULL, ylim=NULL, asp=1, axes = FALSE, ...) {
 	if (axes) { # set up default axes system & box:
 		box()
 		isp = is.projected(x)
-		if (is.logical(isp) && !isp) {
-			degAxis(1)
-			degAxis(2)
+		if (!is.na(isp) && !isp) {
+			degAxis(1, ...)
+			degAxis(2, ...)
 		} else {
 			axis(1, ...)
 			axis(2, ...)
@@ -137,17 +137,22 @@ plot.Spatial <- function(x, xlim=NULL, ylim=NULL, asp=1, axes = FALSE, ...) {
 setMethod("plot", signature(x = "Spatial", y = "missing"), 
 	function(x,y,...) plot.Spatial(x,...))
 
-degAxis = function (side, ...) {
-        at = axTicks(side)
-        pos = sign(at) + 2
-        labels = FALSE
-        if (side == 1) {
-                dir = c("W", "", "E")
-                labels = parse(text = paste(abs(at), "*degree*", dir[pos]))
-        }
-        if (side == 2) {
-                dir = c("S", "", "N")
-                labels = parse(text = paste(abs(at), "*degree*", dir[pos]))
-        }
+degAxis = function (side, at, labels, ...) {
+		if (missing(at))
+        	at = axTicks(side)
+        if (missing(labels)) {
+			labels = FALSE
+        	if (side == 1 || side == 3) {
+                	dir = c("*W", "", "*E")
+        			pos = sign(at) + 2
+                	labels = parse(text = paste(abs(at), "*degree", dir[pos]))
+        	} else if (side == 2 || side == 4) {
+                	dir = c("*S", "", "*N")
+        			pos = sign(at) + 2
+                	labels = parse(text = paste(abs(at), "*degree", dir[pos]))
+        	}
+		} 
+		print(at)
+		print(labels)
         axis(side, at = at, labels = labels, ...)
 }

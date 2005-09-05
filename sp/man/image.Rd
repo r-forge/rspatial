@@ -8,7 +8,8 @@ image on data in SpatialGridDataFrame format
 }
 \usage{
 image.SpatialGridDataFrame(x, attr = 1, xcol = 1, ycol = 2, 
-	red=NULL, green=NULL, blue=NULL, asp = 1, axes = FALSE, ...)
+	red=NULL, green=NULL, blue=NULL, asp = 1, axes = FALSE, xlim = NULL,
+	ylim = NULL, add = TRUE, ...)
 as.image.SpatialGridDataFrame(x, xcol = 1, ycol = 2)
 }
 \arguments{
@@ -21,6 +22,11 @@ a column number }
 \item{red,green,blue}{columns names or numbers given instead of the \code{attr} argument when the data represent an image encoded in three colour bands on the 0-255 integer scale; all three columns must be given in this case, and the attribute values will be constructed using function \code{rgb} }
 \item{asp}{ aspect ratio of unit x and unit y axis }
 \item{axes}{ logical; should coordinate axes be drawn? }
+\item{xlim}{ x-axis limits }
+\item{ylim}{ y-axis limits }
+\item{add}{ logical; if TRUE, the image is added to the plot layout setup
+by \code{plot(as(x, "Spatial"),axes=axes,xlim=xlim,ylim=ylim,asp=asp)}
+which sets up axes and plotting region. }
 \item{...}{ arguments passed to \link{image}, see examples }
 }
 \value{ \code{as.image.SpatialGridDataFrame} returns the list with
