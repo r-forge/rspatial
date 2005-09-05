@@ -301,7 +301,7 @@ library(sp)
 
 ## plot of SpatialPolygonsDataFrame, using grey shades
 library(maptools)
-nc1 <- read_ShapePoly(system.file("shapes/sids.shp", package="maptools")[1], proj4string=CRS("+proj=latlong +datum=NAD27"))
+nc1 <- readShapePoly(system.file("shapes/sids.shp", package="maptools")[1], proj4string=CRS("+proj=latlong +datum=NAD27"))
 names(nc1)
 rrt <- nc1$SID74/nc1$BIR74
 brks <- quantile(rrt, seq(0,1,1/7))

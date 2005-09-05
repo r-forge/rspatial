@@ -81,6 +81,7 @@ subset.SpatialPoints <- function(x, subset, select, drop = FALSE, ...) {
 #"[.SpatialPoints" =  function(x, i, j, ..., drop = T) {
 setMethod("[", "SpatialPoints", function(x, i, j, ..., drop = TRUE) {
 	if (!missing(j)) warning("j index ignored")
+	drop = FALSE
 	SpatialPoints(coords=x@coords[i, , drop=drop], 
 		proj4string = CRS(proj4string(x)))
 })
