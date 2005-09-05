@@ -15,7 +15,7 @@ Description: A package that provides classes and methods for spatial
 License: GPL version 2 or later
 URL: http://r-spatial.sourceforge.net/
 SaveImage: yes
-Collate: AAA.R Class-CRS.R Class-Spatial.R Spatial-methods.R
+Collate: AAA.R Class-CRS.R CRS-methods.R Class-Spatial.R Spatial-methods.R
 	projected.R Class-SpatialPoints.R SpatialPoints-methods.R
 	Class-AttributeList.R AttributeList-methods.R
 	Class-SpatialPointsDataFrame.R SpatialPointsDataFrame-methods.R
