@@ -154,7 +154,7 @@ as.data.frame}, {\tt as.matrix} and {\tt image} (for gridded data),
 A number of spatial methods are available for the classes in {\tt sp}:
 \begin{itemize}
 \item {\tt dimensions(x)} returns number of spatial dimensions
-\item {\tt y = transform(x, "latlong")} transform from one coordinate
+\item {\tt y = transform(x, "longlat")} transform from one coordinate
 reference system (geographic projection) to another (requires package
 spproj)
 \item {\tt bbox(x)} returns a matrix with the coordinates bounding box;
