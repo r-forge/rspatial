@@ -122,9 +122,10 @@ plot.Spatial <- function(x, xlim=NULL, ylim=NULL, asp=1, axes = FALSE, ...) {
 	}
 	if (axes) { # set up default axes system & box:
 		box()
-		if (length(grep("proj=longlat", proj4string(x))) > 0) {
-			degAxis(1, ...)
-			degAxis(2, ...)
+		isp = is.projected(x)
+		if (is.logical(isp) && !isp) {
+			degAxis(1)
+			degAxis(2)
 		} else {
 			axis(1, ...)
 			axis(2, ...)
