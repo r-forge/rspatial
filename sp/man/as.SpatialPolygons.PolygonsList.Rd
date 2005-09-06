@@ -18,7 +18,7 @@ as.SpatialPolygons.PolygonsList(Srl, proj4string=CRS(as.character(NA)))
 \arguments{
   \item{Srl}{A list of Polygons objects}
 %  \item{shapes}{The Shapes component of a Map object as read by \code{read.shape}}
-  \item{IDs}{Unique character ID values for each output Polygons object; the input IDs can be an integer or character vector with duplicates, where the duplicates will be combined as a single output Polygons object}
+%  \item{IDs}{Unique character ID values for each output Polygons object; the input IDs can be an integer or character vector with duplicates, where the duplicates will be combined as a single output Polygons object}
   \item{proj4string}{Object of class \code{"CRS"};
 	holding a valid proj4 string}
 %  \item{map}{Object returned by \code{map} containing polygon boundaries}
