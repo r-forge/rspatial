@@ -9,7 +9,7 @@
   This function is used in making SpatialPolygons objects from other formats.
 }
 \usage{
-as.SpatialPolygons.PolygonsList(Srl, proj4string=CRS(as.character(NA))
+as.SpatialPolygons.PolygonsList(Srl, proj4string=CRS(as.character(NA)))
 %as.SpatialPolygons.Shapes(shapes, IDs, proj4string=CRS(as.character(NA)))
 %as.SpatialPolygons.map(map, IDs, proj4string=CRS(as.character(NA)))
 %as.SpatialPolygons.pal(arc, pal, IDs, dropPoly1=TRUE, proj4string=CRS(as.character(NA)))
