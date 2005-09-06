@@ -5,7 +5,8 @@ importFrom(graphics, plot)
 # importFrom(base, summary)
 importFrom(lattice, levelplot, xyplot, trellis.par.set, 
 	panel.lines, panel.text, panel.points, panel.identify,
-	panel.levelplot, panel.superpose, trellis.par.get)
+	panel.levelplot, panel.superpose, trellis.par.get,
+	trellis.focus, trellis.unfocus)
 importFrom(grid, grid.polygon, grid.rect, polygonGrob, gpar,
 	grid.layout, unit, frameGrob, placeGrob, rectGrob)
 
@@ -40,9 +41,10 @@ contourLines2SLDF)
 export(Mapgen2SL)
 
 export(layout.scale.bar, layout.north.arrow, sp.theme,
-	mapLegendGrob, sp.pagefn, spplot.key, panel.gridplot,
-	panel.polygonsplot, panel.pointsplot, sp.polygon, sp.text,
-	sp.points, sp.lines, sp.grid, SpatialPolygonsRescale)
+	mapLegendGrob, spplot.key, panel.gridplot, panel.polygonsplot,
+	panel.pointsplot, sp.polygons, sp.text, sp.points, sp.lines,
+	sp.grid, SpatialPolygonsRescale)
+# export(sp.pagefn)
 
 export(as.image.SpatialGridDataFrame)
 

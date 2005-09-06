@@ -1,4 +1,4 @@
-sp.polygon = function(obj, col = 1, ...) {
+sp.polygons = function(obj, col = 1, ...) {
 	sp.polygon3 = function(x, ...) { 
 		cc = getPolygonCoordsSlot(x)
 		grid.polygon(cc[,1], cc[,2], default.units = "native", 
@@ -79,7 +79,7 @@ sp.panel.layout = function(lst, panel.counter, ...) {
 		else if (is(x, "SpatialPoints"))
 			sp.points(as(x, "SpatialPoints"), ...)
 		else if (is(x, "SpatialPolygons"))
-			sp.polygon(x, ...)
+			sp.polygons(x, ...)
 		else if (is(x, "SpatialPixels") || is(x, "SpatialGrid"))
 			sp.grid(x, ...)
 		else stop(paste("cannot plot object of class", class(x)))
@@ -157,7 +157,7 @@ spplot.polygons = function(obj, zcol = names(obj), ..., names.attr,
 	else {
 		# get first points of each lines object:
 		n = length(obj@lines)
-		labpts = matrix(unlist(lapply(ncl@lines, function(x) 
+		labpts = matrix(unlist(lapply(obj@lines, function(x) 
 			lapply(x@Lines[1], function(x) coordinates(x)[1,]))), n, 2, byrow=TRUE) 
 	}
 	dimnames(labpts)[[2]] = c("xlabelpoint", "ylabelpoint")
@@ -239,10 +239,8 @@ spplot.points = function(obj, zcol = names(obj), ..., names.attr,
 		trellis.focus("panel", identify[1], identify[2])
 		labels = row.names(as(sdf, "data.frame"))
 		cat("left-mouse to identify points; right-mouse to end\n")
-		cc = coordinates(meuse)
-		x = cc[,1]
-		y = cc[,2]
-		ret = panel.identify(x, y, labels)
+		cc = coordinates(obj)
+		ret = panel.identify(cc[,1], cc[,2], labels)
 		trellis.unfocus()
 		return(ret)
 	} else
@@ -257,11 +255,11 @@ panel.gridplot = function(x, y, z, subscripts, ..., panel.counter, sp.layout) {
 			for (i in seq(along = sp.layout)) {
 				if (inherits(sp.layout[[i]], "list")) {
 					sp.i = sp.layout[[i]]
-					if (is.null(sp.i$first) && sp.i[[1]] == "sp.polygon")
+					if (is.null(sp.i$first) && sp.i[[1]] == "sp.polygons")
 						sp.layout[[i]]$first = TRUE
 				}
 			}
-		} else if (is.null(sp.layout$first) && sp.layout[[1]] == "sp.polygon")
+		} else if (is.null(sp.layout$first) && sp.layout[[1]] == "sp.polygons")
 			sp.layout$first = TRUE
 	}
 	# print(sp.layout)
@@ -281,6 +279,7 @@ function (x, y, z, subscripts, at = pretty(z), shrink, labels = NULL,
 {
 	regions <- trellis.par.get("regions")
 	add.line <- trellis.par.get("add.line")
+	add.text <- trellis.par.get("add.text")
 	numcol <- length(at) - 1
 	numcol.r <- length(col.regions)
 	col.regions <- if (numcol.r <= numcol) 
@@ -491,10 +490,10 @@ spplot.key = function(sp.layout, rows = 1, cols = 1) {
 	}
 }
 
-sp.pagefn = function(n) {
-	pos = lattice:::lattice.getStatus("current.panel.positions")
-	spplot.key(sp.layout, pos[1], pos[2])
-}
+#sp.pagefn = function(n) {
+#	pos = lattice:::lattice.getStatus("current.panel.positions")
+#	spplot.key(sp.layout, pos[1], pos[2])
+#}
 
 longlat.scales = function(obj, scales, xlim, ylim) {
 	isp = is.projected(obj)

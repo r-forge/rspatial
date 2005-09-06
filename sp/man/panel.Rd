@@ -3,12 +3,11 @@
 \alias{panel.gridplot}
 \alias{panel.pointsplot}
 \alias{panel.polygonsplot}
-\alias{sp.pagefn} % needs docs!
 \alias{spplot.key} % needs docs!
 \alias{SpatialPolygonsRescale}
 \alias{sp.lines}
 \alias{sp.points}
-\alias{sp.polygon}
+\alias{sp.polygons}
 \alias{sp.text}
 \alias{sp.grid}
 
@@ -16,18 +15,16 @@
 \description{panel functions for spplot functions, and functions that can be
 useful within these panel functions }
 \usage{
-sp.pagefn(n)
 spplot.key(sp.layout, rows = 1, cols = 1)
 SpatialPolygonsRescale(obj, offset, scale = 1, fill = "black", col = "black",
 	plot.grid = TRUE, ...)
 sp.lines(obj, col = 1, ...)
 sp.points(obj, pch = 3, ...)
-sp.polygon(obj, col = 1, ...)
+sp.polygons(obj, col = 1, ...)
 sp.grid(obj, col = 1, alpha = 1,...)
 sp.text(loc, txt, ...)
 }
 \arguments{
-\item{n}{ignored}
 \item{sp.layout}{ list; see \link{spplot} for definition }
 \item{rows}{ integer; panel row(s) for which the layout should be drawn }
 \item{cols}{ integer; panel column(s) for which the layout should be drawn }
@@ -35,7 +32,7 @@ sp.text(loc, txt, ...)
 \code{SpatialPolygonsRescale}; of class \link{SpatialLines-class},
 \link{Lines-class} or \link{Line-class} for \code{sp.lines} of a
 class that has a \link{coordinates-methods} for \code{sp.points}; of
-class \link{SpatialPolygons-class} for \code{sp.polygon}.  When obj is
+class \link{SpatialPolygons-class} for \code{sp.polygons}.  When obj is
 character, the actual object is retrieved by \code{get(obj)} before its
 class is evaluated.  }
 \item{offset}{ offset for shifting a Polygons object }
@@ -62,7 +59,7 @@ or by supplying an sp.layout argument; see the documentation for
 \link{SpatialPolygons-class}; this is useful e.g. for scale bars, or other
 layout items.
 
-\code{sp.lines}, \code{sp.points}, \code{sp.polygon} and \code{sp.text}
+\code{sp.lines}, \code{sp.points}, \code{sp.polygons} and \code{sp.text}
 plot lines, points, polygons or text in a panel.
 
 \code{spplot.key} draws the \code{sp.layout} object at given rows/cols.

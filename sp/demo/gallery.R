@@ -48,7 +48,7 @@ data(meuse)
 coordinates(meuse)=~x+y
 data(meuse.riv)
 meuse.sr = SpatialPolygons(list(Polygons(list(Polygon(meuse.riv)),"meuse.riv")))
-rv = list("sp.polygon", meuse.sr, fill = "lightblue")
+rv = list("sp.polygons", meuse.sr, fill = "lightblue")
 
 scale = list("SpatialPolygonsRescale", layout.scale.bar(), 
 	offset = c(180500,329800), scale = 500, fill=c("transparent","black"), which = 1)
@@ -74,7 +74,7 @@ meuse.sr = SpatialPolygons(list(Polygons(list(Polygon(meuse.riv)),"meuse.riv")))
 
 ## same plot; north arrow now inside panel, custom panel function instead of sp.layout
 spplot(meuse, "zinc", panel = function(x, y, ...) {
-		sp.polygon(meuse.sr, fill = "lightblue")
+		sp.polygons(meuse.sr, fill = "lightblue")
 		SpatialPolygonsRescale(layout.scale.bar(), offset = c(179900,329600), 
 			scale = 500, fill=c("transparent","black"))
 		sp.text(c(179900,329700), "0")
@@ -94,7 +94,7 @@ data(meuse)
 coordinates(meuse)=~x+y
 data(meuse.riv)
 meuse.sr = SpatialPolygons(list(Polygons(list(Polygon(meuse.riv)),"meuse.riv")))
-rv = list("sp.polygon", meuse.sr, fill = "lightblue")
+rv = list("sp.polygons", meuse.sr, fill = "lightblue")
 
 ## multi-panel plot, scales + north arrow only in last plot:
 ## using the "which" argument in a layout component
@@ -125,7 +125,7 @@ coordinates(meuse)=~x+y
 data(meuse.riv)
 meuse.sr = SpatialPolygons(list(Polygons(list(Polygon(meuse.riv)),"meuse.riv")))
 
-rv = list("sp.polygon", meuse.sr, 
+rv = list("sp.polygons", meuse.sr, 
 	fill = ifelse(alphaChannelSupported(), "blue", "transparent"),
 	alpha = ifelse(alphaChannelSupported(), 0.1, 1))
 pts = list("sp.points", meuse, pch = 3, col = "grey", 
@@ -178,7 +178,7 @@ data(meuse)
 coordinates(meuse)=~x+y
 data(meuse.riv)
 meuse.sr = SpatialPolygons(list(Polygons(list(Polygon(meuse.riv)),"meuse.riv")))
-rv = list("sp.polygon", meuse.sr, fill = "lightblue")
+rv = list("sp.polygons", meuse.sr, fill = "lightblue")
 
 scale = list("SpatialPolygonsRescale", layout.scale.bar(), 
 	offset = c(180500,329800), scale = 500, fill=c("transparent","black"), which = 4)
@@ -208,7 +208,7 @@ zn.uk = krige(log(zinc)~sqrt(dist), meuse, meuse.grid, model = uk.model)
 zn.sk = krige(log(zinc)~ff,         meuse, meuse.grid, model = sk.model)
 zn.id = krige(log(zinc)~1,          meuse, meuse.grid)
 
-rv = list("sp.polygon", meuse.sr, 
+rv = list("sp.polygons", meuse.sr, 
 	fill = ifelse(alphaChannelSupported(), "blue", "transparent"),
 	alpha = ifelse(alphaChannelSupported(), 0.1, 1))
 pts = list("sp.points", meuse, pch = 3, col = "grey", 
@@ -356,7 +356,7 @@ data(meuse)
 coordinates(meuse)=~x+y
 data(meuse.riv)
 meuse.sr = SpatialPolygons(list(Polygons(list(Polygon(meuse.riv)),"meuse.riv")))
-rv = list("sp.polygon", meuse.sr, fill = "lightblue")
+rv = list("sp.polygons", meuse.sr, fill = "lightblue")
 
 scale = list("SpatialPolygonsRescale", layout.scale.bar(), 
 	offset = c(180500,329800), scale = 500, fill=c("transparent","black"), which = 4)
@@ -386,7 +386,7 @@ zn.uk = krige(log(zinc)~sqrt(dist), meuse, meuse.grid, model = uk.model)
 zn.sk = krige(log(zinc)~ff,         meuse, meuse.grid, model = sk.model)
 zn.id = krige(log(zinc)~1,          meuse, meuse.grid)
 
-rv = list("sp.polygon", meuse.sr, 
+rv = list("sp.polygons", meuse.sr, 
 	fill = ifelse(alphaChannelSupported(), "blue", "transparent"),
 	alpha = ifelse(alphaChannelSupported(), 0.1, 1))
 pts = list("sp.points", meuse, pch = 3, col = "grey", 

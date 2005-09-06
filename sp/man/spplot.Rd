@@ -114,7 +114,7 @@ to set a north arrow or scale bar.
 The \code{sp.layout} argument is either a single layout item, or a list
 with a layout items. A layout item is a list with its first argument
 the name of the layout function to be called: \code{sp.points} for
-SpatialPoints, \code{sp.polygon} for SpatialPolygons object, \code{sp.lines}
+SpatialPoints, \code{sp.polygons} for SpatialPolygons object, \code{sp.lines}
 for a SpatialLines object, and \code{sp.text} for text to place. The
 second argument contains the object (or text) to be plotted; remaining
 arguments are passed to the corresponding \code{panel.*} functions.
