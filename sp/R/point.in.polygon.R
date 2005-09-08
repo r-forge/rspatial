@@ -16,16 +16,21 @@ pointsInPolygon = function(pts, Polygon) {
 
 pointsInPolygons = function(pts, Polygons, which = FALSE) {
 	rings = getPolygonsPolygonsSlot(Polygons)
-	res = lapply(rings, function(x, pts) pointsInPolygon(pts, x), pts = pts)
-	if (which) {
-		ret = rep(as.numeric(NA), nrow(coordinates(pts)))
-		for (i in seq(along = res))
-			ret[res[[i]] > 0] = i
-		
+	holes <- sapply(rings, getPolygonHoleSlot)
+	res = unlist(lapply(rings[!holes], function(x, pts) 
+		pointsInPolygon(pts, x), pts = pts))
+	if (any(holes)) {
+		resH = unlist(lapply(rings[holes], function(x, pts) 
+			pointsInPolygon(pts, x), pts = pts))
+		ret <- xor(res > 0 , resH > 0)
 	} else {
-		ret = rep(FALSE, nrow(coordinates(pts)))
-		for (i in seq(along = res))
-			ret = ret | (res[[i]] > 0)
+		ret <- res > 0
+	}
+	if (which) {
+		reti = as.integer(res)
+		is.na(reti) <- !ret
+		return(reti)
+		
 	}
 	ret
 }

@@ -78,16 +78,22 @@ sample.Polygon = function(x, n, type = "random", bb = bbox(x),
 			n, type, offset = offset[1], proj4string=proj4string)
 #CRS(proj4string(x))), n, type, offset = offset[1])
 	else {
-		bb.area = prod(apply(bb, 1, function(x) diff(range(x))))
-		xSP <- new("Spatial", bbox=bbox(x), proj4string=proj4string)
-		pts = sample.Spatial(
+		res <- NULL
+		while (is.null(res)) {
+		    bb.area = prod(apply(bb, 1, function(x) diff(range(x))))
+		    xSP <- new("Spatial", bbox=bbox(x), proj4string=proj4string)
+		    pts = sample.Spatial(
 #spsample(
 #as(x, "Spatial")
-xSP, round(n * bb.area/area), type, offset = offset, ...)
+xSP, round(n * bb.area/area), type=type, offset = offset, ...)
 # FIXME!!
-		id = overlay(pts, SpatialPolygons(list(Polygons(list(x),"xx")), 
-			proj4string=proj4string))
-		pts[which(!is.na(id))]
+		    id = overlay(pts, SpatialPolygons(list(Polygons(list(x),
+			"xx")), proj4string=proj4string))
+		    Not_NAs <- !is.na(id)
+		    if (!any(Not_NAs)) res <- NULL
+		    else res <- pts[which(Not_NAs)]
+		}
+		res
 	}
 }
 setMethod("spsample", signature(x = "Polygon"), sample.Polygon)
@@ -101,15 +107,21 @@ proj4string=CRS(as.character(NA)), ...) {
 	if (area == 0.0)
 		# distribute n over the lines, according to their length?
 		stop("sampling over multiple lines not functioning yet...")
-	bb.area = prod(apply(bb, 1, function(x) diff(range(x))))
-	xSP <- new("Spatial", bbox=bbox(x), proj4string=proj4string)
-	pts = sample.Spatial(
+	res <- NULL
+	while (is.null(res)) {
+	    bb.area = prod(apply(bb, 1, function(x) diff(range(x))))
+	    xSP <- new("Spatial", bbox=bbox(x), proj4string=proj4string)
+	    pts = sample.Spatial(
 #spsample(
 #as(x, "Spatial")
-xSP, round(n * bb.area/area), type, offset = offset, ...)
+xSP, round(n * bb.area/area), type=type, offset = offset, ...)
 # FIXME!!
-	id = overlay(pts, SpatialPolygons(list(x), proj4string=proj4string))
-	pts[which(!is.na(id))]
+	    id = overlay(pts, SpatialPolygons(list(x), proj4string=proj4string))
+	    Not_NAs <- !is.na(id)
+	    if (!any(Not_NAs)) res <- NULL
+	    else res <- pts[which(Not_NAs)]
+	}
+	res
 }
 setMethod("spsample", signature(x = "Polygons"), sample.Polygons)
 
@@ -120,10 +132,17 @@ sample.SpatialPolygons = function(x, n, type = "random", bb = bbox(x),
 	if (area == 0.0)
 		stop("sampling over multiple lines not functioning yet...")
 		# distribute n over the lines, according to their length?
-	bb.area = prod(apply(bb, 1, function(x) diff(range(x))))
-	pts = #spsample(as(x, "Spatial")
-sample.Spatial(as(x, "Spatial"), round(n * bb.area/area), type, offset = offset, ...)
-	pts[which(!is.na(overlay(pts, x)))]
+	res <- NULL
+	while (is.null(res)) {
+	    bb.area = prod(apply(bb, 1, function(x) diff(range(x))))
+	    pts = #spsample(as(x, "Spatial")
+sample.Spatial(as(x, "Spatial"), round(n * bb.area/area), type=type, offset = offset, ...)
+	    Over_pts_x <- overlay(pts, x)
+	    Not_NAs <- !is.na(Over_pts_x)
+	    if (!any(Not_NAs)) res <- NULL
+	    else res <- pts[which(Not_NAs)]
+	}
+	res
 }
 setMethod("spsample", signature(x = "SpatialPolygons"), sample.SpatialPolygons)
 
