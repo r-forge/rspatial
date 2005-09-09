@@ -35,8 +35,8 @@ pointsInPolygons = function(pts, Polygons, which = FALSE) {
 	ret
 }
 
-pointsInSpatialPolygons = function(pts, SpRings) {
-	sr = getSpPpolygonsSlot(SpRings)
+pointsInSpatialPolygons = function(pts, SpPolygons) {
+	sr = getSpPpolygonsSlot(SpPolygons)
 	res = lapply(sr, function(x, pts) pointsInPolygons(pts, x), pts = pts)
 	ret = rep(as.numeric(NA), nrow(coordinates(pts)))
 	for (i in seq(along = res))
