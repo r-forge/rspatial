@@ -1,3 +1,7 @@
+Thu Sep  8 16:18:02 CEST 2005
+	contour methods
+	gridlines taken from example in transform/spproj
+
 Sun Jun 12 16:09:06 CEST 2005
 	polygons are plotted by default behind grids, if grid is main theme;
 	add first = FALSE to overplot

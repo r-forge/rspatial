@@ -1,5 +1,8 @@
 \name{image.SpatialGridDataFrame}
 \alias{image.SpatialGridDataFrame}
+\alias{image.SpatialPixelsDataFrame}
+\alias{contour.SpatialGridDataFrame}
+\alias{contour.SpatialPixelsDataFrame}
 \alias{as.image.SpatialGridDataFrame}
 \title{ image gridded spatial data, or convert to format for image }
 \description{

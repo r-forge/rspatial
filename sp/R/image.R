@@ -23,6 +23,12 @@ image.SpatialGridDataFrame = function(x, attr = 1, xcol = 1, ycol = 2,
 	}
 }
 
+contour.SpatialGridDataFrame = function(x, ...) 
+	contour(as.image.SpatialGridDataFrame(x), ...)
+
+contour.SpatialPixelsDataFrame = function(x, ...)
+	contour(as.image.SpatialGridDataFrame(as(x, "SpatialGridDataFrame")), ...)
+
 as.image.SpatialGridDataFrame = function(x, xcol = 1, ycol = 2) {
 	cv = coordinatevalues(getGridTopology(x))
 	m = as(x, "matrix")
