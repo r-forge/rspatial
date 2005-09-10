@@ -6,10 +6,14 @@ makegrid = function(x, n = 10000, nsig = 2, cellsize, offset = c(0.5,0.5),
 	ry = bb[2,]
 	if (missing(cellsize))
 		cellsize = signif(sqrt(diff(rx) * diff(ry)/n), nsig)
+# in some cases with small n, min* can be larger than bbox max values
+# so guard imposed to step down from cellsize
 	minx = max(rx[1], signif(rx[1] + offset[1] * cellsize, nsig))
 	miny = max(ry[1], signif(ry[1] + offset[2] * cellsize, nsig))
-	seqx = seq(minx, rx[2], by = cellsize)
-	seqy = seq(miny, ry[2], by = cellsize)
+	if (minx < rx[2]) seqx = seq(minx, rx[2], by = cellsize)
+	else seqx = seq(minx, rx[2], by = -cellsize)
+	if (miny < ry[2]) seqy = seq(miny, ry[2], by = cellsize)
+	else seqy = seq(miny, ry[2], by = -cellsize)
 	# type = "regular" :
 	xy = expand.grid(x = seqx, y = seqy)
 	if (type == "stratified") {
@@ -70,7 +74,7 @@ proj4string=CRS(as.character(NA)), ...) {
 setMethod("spsample", signature(x = "Line"), sample.Line)
 
 sample.Polygon = function(x, n, type = "random", bb = bbox(x),
-		offset = runif(2), proj4string=CRS(as.character(NA)), ...) {
+		offset = runif(2), proj4string=CRS(as.character(NA)), iter=4, ...) {
 #...) {
 	area = getPolygonAreaSlot(x)
 	if (area == 0.0)
@@ -79,7 +83,8 @@ sample.Polygon = function(x, n, type = "random", bb = bbox(x),
 #CRS(proj4string(x))), n, type, offset = offset[1])
 	else {
 		res <- NULL
-		while (is.null(res)) {
+		its <- 0
+		while (is.null(res) && its < iter) {
 		    bb.area = prod(apply(bb, 1, function(x) diff(range(x))))
 		    xSP <- new("Spatial", bbox=bbox(x), proj4string=proj4string)
 		    pts = sample.Spatial(
@@ -92,6 +97,7 @@ xSP, round(n * bb.area/area), type=type, offset = offset, ...)
 		    Not_NAs <- !is.na(id)
 		    if (!any(Not_NAs)) res <- NULL
 		    else res <- pts[which(Not_NAs)]
+		    its <- its+1
 		}
 		res
 	}
@@ -101,14 +107,15 @@ setMethod("spsample", signature(x = "Polygon"), sample.Polygon)
 sample.Polygons = function(x, n, type = "random", bb = bbox(x),
 		offset = runif(2), 
 #...) {
-proj4string=CRS(as.character(NA)), ...) {
+proj4string=CRS(as.character(NA)), iter=4, ...) {
 	#stop("not functioning yet...")
 	area = getPolygonAreaSlot(x) # also available for Polygons!
 	if (area == 0.0)
 		# distribute n over the lines, according to their length?
 		stop("sampling over multiple lines not functioning yet...")
 	res <- NULL
-	while (is.null(res)) {
+	its <- 0
+	while (is.null(res) && its < iter) {
 	    bb.area = prod(apply(bb, 1, function(x) diff(range(x))))
 	    xSP <- new("Spatial", bbox=bbox(x), proj4string=proj4string)
 	    pts = sample.Spatial(
@@ -120,20 +127,22 @@ xSP, round(n * bb.area/area), type=type, offset = offset, ...)
 	    Not_NAs <- !is.na(id)
 	    if (!any(Not_NAs)) res <- NULL
 	    else res <- pts[which(Not_NAs)]
+	    its <- its+1
 	}
 	res
 }
 setMethod("spsample", signature(x = "Polygons"), sample.Polygons)
 
 sample.SpatialPolygons = function(x, n, type = "random", bb = bbox(x),
-		offset = runif(2), ...) {
+		offset = runif(2), iter=4, ...) {
 	#stop("not functioning yet...")
 	area = sum(unlist(lapply(getSpPpolygonsSlot(x),getPolygonAreaSlot)))
 	if (area == 0.0)
 		stop("sampling over multiple lines not functioning yet...")
 		# distribute n over the lines, according to their length?
 	res <- NULL
-	while (is.null(res)) {
+	its <- 0
+	while (is.null(res) && its < iter) {
 	    bb.area = prod(apply(bb, 1, function(x) diff(range(x))))
 	    pts = #spsample(as(x, "Spatial")
 sample.Spatial(as(x, "Spatial"), round(n * bb.area/area), type=type, offset = offset, ...)
@@ -141,6 +150,7 @@ sample.Spatial(as(x, "Spatial"), round(n * bb.area/area), type=type, offset = of
 	    Not_NAs <- !is.na(Over_pts_x)
 	    if (!any(Not_NAs)) res <- NULL
 	    else res <- pts[which(Not_NAs)]
+	    its <- its+1
 	}
 	res
 }
