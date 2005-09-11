@@ -4,9 +4,10 @@ image.SpatialPixelsDataFrame = function(x, ...)
 
 image.SpatialGridDataFrame = function(x, attr = 1, xcol = 1, ycol = 2, 
 		red=NULL, green=NULL, blue=NULL, asp = 1, axes = FALSE, xlim = NULL, 
-		ylim = NULL, add = TRUE, ...) {
+		ylim = NULL, add = FALSE, ...) {
 
-	plot(as(x, "Spatial"), asp = asp, xlim = xlim, ylim = ylim, axes = axes)
+	if (!add)
+		plot(as(x, "Spatial"), asp = asp, xlim = xlim, ylim = ylim, axes = axes)
 	if (is.null(red)) 
 		image(as.image.SpatialGridDataFrame(x[attr], xcol, ycol), add = add, ...)
 	else {
