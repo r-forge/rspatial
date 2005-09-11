@@ -57,6 +57,8 @@ dimensions,Spatial-method
                         retrieve spatial dimensions from spatial data
 gridded-methods         specify spatial data as being gridded, or find
                         out whether they are
+gridlines               Create N-S and E-W grid lines over a
+                        geographic region
 image.SpatialGridDataFrame
                         image gridded spatial data, or convert to
                         format for image
