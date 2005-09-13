@@ -84,14 +84,12 @@ sample.Polygon = function(x, n, type = "random", bb = bbox(x),
 	else {
 		res <- NULL
 		its <- 0
-		while (is.null(res) && its < iter) {
-		    bb.area = prod(apply(bb, 1, function(x) diff(range(x))))
-		    xSP <- new("Spatial", bbox=bbox(x), proj4string=proj4string)
-		    pts = sample.Spatial(
-#spsample(
-#as(x, "Spatial")
-xSP, round(n * bb.area/area), type=type, offset = offset, ...)
-# FIXME!!
+		bb.area = prod(apply(bb, 1, function(x) diff(range(x))))
+		xSP <- new("Spatial", bbox=bbox(x), proj4string=proj4string)
+		n_is <- round(n * bb.area/area)
+		while (is.null(res) && its < iter && n_is > 0) {
+		    pts = sample.Spatial(xSP, n_is, type=type, 
+			offset = offset, ...)
 		    id = overlay(pts, SpatialPolygons(list(Polygons(list(x),
 			"xx")), proj4string=proj4string))
 		    Not_NAs <- !is.na(id)
@@ -135,12 +133,17 @@ proj4string=CRS(as.character(NA)), iter=4, ...) {
 		    type = type, offset = offset, proj4string=proj4string, 
 		    iter=iter)
 	    }
-	    pts <- SpatialPoints(do.call("rbind", lapply(ptsres, function(x) 
-	        if (!is.null(x)) coordinates(x))), proj4string=proj4string)
-	    id = overlay(pts, SpatialPolygons(list(x), proj4string=proj4string))
-	    Not_NAs <- !is.na(id)
-	    if (!any(Not_NAs)) res <- NULL
-	    else res <- pts[which(Not_NAs)]
+	    crds <- do.call("rbind", lapply(ptsres, function(x) 
+	        if (!is.null(x)) coordinates(x)))
+	    if (is.null(crds)) res <- NULL
+	    else {
+	        pts <- SpatialPoints(crds, proj4string=proj4string)
+	        id = overlay(pts, SpatialPolygons(list(x), 
+		    proj4string=proj4string))
+	        Not_NAs <- !is.na(id)
+	        if (!any(Not_NAs)) res <- NULL
+	        else res <- pts[which(Not_NAs)]
+	    }
 	    its <- its+1
 	}
 	res
