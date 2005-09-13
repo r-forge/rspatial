@@ -130,9 +130,14 @@ as.SpatialPolygons.pal <- function(arc, pal, IDs, dropPoly1=TRUE,
 }
 
 
-SpatialPolygons <- function(Srl, pO=1:length(Srl), proj4string=CRS(as.character(NA))) {
+SpatialPolygons <- function(Srl, pO, proj4string=CRS(as.character(NA))) {
 	bb <- .bboxCalcR(Srl)
 #	projargs <- proj4string(Srl[[1]])
+	if (missing(pO)) {
+		area <- sapply(Srl, function(x) x@area)
+		pO <- as.integer(order(area, decreasing=TRUE))
+	}
+
 	Sp <- new("Spatial", bbox=bb, proj4string=proj4string)
 	res <- new("SpatialPolygons", Sp, polygons=Srl, plotOrder=as.integer(pO))
 	res
@@ -198,8 +203,8 @@ Polygons <- function(srl, ID) {
 }
 
 bbox.Polygons <- function(obj) {
-	rx=range(lapply(obj@Polygons, function(x) range(x@coords[,1]))[[1]])
-	ry=range(lapply(obj@Polygons, function(x) range(x@coords[,2]))[[1]])
+	rx=range(c(sapply(obj@Polygons, function(x) range(x@coords[,1]))))
+	ry=range(c(sapply(obj@Polygons, function(x) range(x@coords[,2]))))
 	res=rbind(r1=rx,r2=ry)
    	colnames(res) <- c("min", "max")
 	res
@@ -225,12 +230,10 @@ as.SpatialPolygons.PolygonsList <- function(Srl, proj4string=CRS(as.character(NA
 #	if (length(projargs) > 1) 
 #		stop("differing projections among Polygons objects")
 
-	n <- length(Srl)
+#	n <- length(Srl)
 
-	area <- sapply(Srl, function(x) x@area)
-	pO <- as.integer(order(area, decreasing=TRUE))
 
-	res <- SpatialPolygons(Srl, pO, proj4string=proj4string)
+	res <- SpatialPolygons(Srl, proj4string=proj4string)
 	res
 }
 

@@ -109,20 +109,34 @@ sample.Polygons = function(x, n, type = "random", bb = bbox(x),
 #...) {
 proj4string=CRS(as.character(NA)), iter=4, ...) {
 	#stop("not functioning yet...")
-	area = getPolygonAreaSlot(x) # also available for Polygons!
-	if (area == 0.0)
+	area = sapply(getPolygonsPolygonsSlot(x), getPolygonAreaSlot) # also available for Polygons!
+	if (sum(area) == 0.0)
 		# distribute n over the lines, according to their length?
 		stop("sampling over multiple lines not functioning yet...")
 	res <- NULL
 	its <- 0
+	holes <- sapply(getPolygonsPolygonsSlot(x), getPolygonHoleSlot)
+	pls <- getPolygonsPolygonsSlot(x)
+	smple <- rep(TRUE, length(pls))
+	if (length(pls) > 1) {
+	    for (i in seq(along=pls)) {
+		bbi <- .bbox2SPts(bbox(pls[[i]]), proj4string=proj4string)
+		bb_in <- lapply(pls[-i], function(x, pts) 
+			pointsInPolygon(pts, x), pts = bbi)
+		if (holes[i] || any(unlist(bb_in) > 0)) smple[i] <- FALSE
+	    }
+	}
+	sum_area <- sum(area[smple])
 	while (is.null(res) && its < iter) {
-	    bb.area = prod(apply(bb, 1, function(x) diff(range(x))))
-	    xSP <- new("Spatial", bbox=bbox(x), proj4string=proj4string)
-	    pts = sample.Spatial(
-#spsample(
-#as(x, "Spatial")
-xSP, round(n * bb.area/area), type=type, offset = offset, ...)
-# FIXME!!
+	    ptsres <- vector(mode="list", length=length(area))
+	    for (i in seq(along=ptsres)) {
+		if (smple[i]) ptsres[[i]] <- sample.Polygon(
+		    x=pls[[i]], n=round(n*(area[i]/sum_area)), 
+		    type = type, offset = offset, proj4string=proj4string, 
+		    iter=iter)
+	    }
+	    pts <- SpatialPoints(do.call("rbind", lapply(ptsres, function(x) 
+	        if (!is.null(x)) coordinates(x))), proj4string=proj4string)
 	    id = overlay(pts, SpatialPolygons(list(x), proj4string=proj4string))
 	    Not_NAs <- !is.na(id)
 	    if (!any(Not_NAs)) res <- NULL
