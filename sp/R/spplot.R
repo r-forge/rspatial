@@ -123,7 +123,7 @@ spplot.grid = function(obj, zcol = names(obj), ..., names.attr,
 	} else
 		zcol2 = zcol
 	scales = longlat.scales(obj, scales, xlim, ylim)
-	args = append(list(formula = formula, data = as(sdf, "data.frame"), 
+	args = append(list(formula, data = as(sdf, "data.frame"), 
 		aspect = aspect, panel = panel, xlab = xlab, ylab = ylab, scales = scales,
 		sp.layout = sp.layout, xlim = xlim, ylim = ylim), list(...))
 	# deal with factor variables:
@@ -176,7 +176,7 @@ spplot.polygons = function(obj, zcol = names(obj), ..., names.attr,
 		grid.polygons = as(obj, "SpatialLines")
 	scales = longlat.scales(obj, scales, xlim, ylim)
 
-	args = append(list(formula = formula, data = as(sdf, "data.frame"),
+	args = append(list(formula, data = as(sdf, "data.frame"),
 		aspect = aspect, grid.polygons = grid.polygons, panel =
 		panel, xlab = xlab, ylab = ylab, scales = scales,
 		sp.layout = sp.layout, xlim = xlim, ylim = ylim), list(...))
@@ -224,7 +224,7 @@ spplot.points = function(obj, zcol = names(obj), ..., names.attr,
 			formula = as.formula(paste(ccn[2], "~", ccn[1]))
 		}
 	}
-	args.xyplot = append(list(formula = formula, data = as(sdf, "data.frame"), 
+	args.xyplot = append(list(formula, data = as(sdf, "data.frame"), 
 		panel = panel, aspect = aspect, scales = scales, 
 		xlab = xlab, ylab = ylab, sp.layout = sp.layout,
 		xlim = xlim, ylim = ylim), dots)

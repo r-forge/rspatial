@@ -85,6 +85,8 @@ export(as.SpatialPolygons.GridTopology, IDvaluesGridTopology)
 export(dd2dms, print.DMS, char2dms, as.character.DMS,
 	as.double.DMS, as.numeric.DMS)
 
+# export(as.SpatialPoints.ppp, as.SpatialPointsDataFrame.ppp)
+
 exportClasses(CRS, 
 	Spatial, 
 	SpatialPoints, 
@@ -98,7 +100,8 @@ exportClasses(CRS,
  	SpatialPointsDataFrame, 
 	SpatialPixelsDataFrame,
 	SpatialGridDataFrame,
-	SpatialLinesDataFrame)
+	SpatialLinesDataFrame,
+	ppp)
 
 exportClasses(Polygon, Polygons, SpatialPolygons, SpatialPolygonsDataFrame)
 
@@ -140,9 +143,6 @@ S3method("$<-", SpatialLinesDataFrame)
 S3method("$<-", SpatialPolygonsDataFrame)
 S3method("$<-", AttributeList)
 
-S3method(as.matrix, SpatialGridDataFrame)
-S3method(as.matrix, SpatialPixelsDataFrame)
-
 S3method(as.data.frame, SpatialPoints)
 S3method(as.data.frame, SpatialPointsDataFrame)
 S3method(as.data.frame, SpatialPixelsDataFrame)
@@ -151,6 +151,9 @@ S3method(as.data.frame, SpatialLinesDataFrame)
 S3method(as.data.frame, SpatialPolygonsDataFrame)
 S3method(as.data.frame, AttributeList)
 S3method(as.data.frame, GridTopology)
+
+S3method(as.matrix, SpatialGridDataFrame)
+S3method(as.matrix, SpatialPixelsDataFrame)
 
 S3method(cbind, SpatialGridDataFrame)
 

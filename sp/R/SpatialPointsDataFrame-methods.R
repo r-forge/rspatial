@@ -117,6 +117,16 @@ setAs("SpatialPointsDataFrame", "data.frame", function(from)
 
 setAs("SpatialPointsDataFrame", "AttributeList", function(from) from@data)
 
+if (!isClass("ppp"))
+	setClass("ppp")
+
+as.SpatialPoints.ppp =  function(from) SpatialPoints(cbind(from$x, from$y))
+setAs("ppp", "SpatialPoints", as.SpatialPoints.ppp)
+
+as.SpatialPointsDataFrame.ppp = function(from) 
+	SpatialPointsDataFrame(SpatialPoints(cbind(from$x, from$y)), list(marks = from$marks))
+setAs("ppp", "SpatialPointsDataFrame", as.SpatialPointsDataFrame.ppp)
+
 names.SpatialPointsDataFrame <- function(x) names(x@data)
 "names<-.SpatialPointsDataFrame" <- function(x, value) { names(x@data) = value; x }
 
