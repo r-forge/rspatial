@@ -88,10 +88,8 @@ SpatialPolygonsDataFrame-class
 spmap.to.lev            rearrange data in SpatialPointsDataFrame or
                         SpatialGridDataFrame for plotting with spplot
                         (levelplot/xyplot wrapper)
-spplot                  Lattice (trellis) plots for spatial data
-spplot-methods          Methods for Function spplot in Package 'sp'
-spsample                sample point locations within a spatial region
-spsample-methods        sampling point locations in (or on) a spatial
+spplot                  Plot methods for spatial data with attributes
+spsample                sample point locations in (or on) a spatial
                         object
 transform-methods       place holder for transform methods in library
                         spproj
