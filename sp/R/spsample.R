@@ -154,9 +154,8 @@ sample.SpatialPolygons = function(x, n, type = "random", bb = bbox(x),
 		offset = runif(2), iter=4, ...) {
 	#stop("not functioning yet...")
 	area = sum(unlist(lapply(getSpPpolygonsSlot(x),getPolygonAreaSlot)))
-	if (area == 0.0)
-		stop("sampling over multiple lines not functioning yet...")
-		# distribute n over the lines, according to their length?
+	if (area <= 0.0)
+		stop("cannot sample in zero-area polygons")
 	res <- NULL
 	its <- 0
 	while (is.null(res) && its < iter) {
