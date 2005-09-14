@@ -13,6 +13,8 @@
 	ppp object into SpatialPoints object }
     \item{coerce}{\code{signature(from = "ppp", to = "SpatialPointsDataFrame")}: 
 	coerce marked ppp object into SpatialPointsDataFrame object }
+    \item{coerce}{\code{signature(from = "ppp", to = "SpatialGridDataFrame")}: 
+	coerce a mask window in a ppp object into a SpatialGridDataFrame object }
   }
 }
 \author{ Edzer J. Pebesma }

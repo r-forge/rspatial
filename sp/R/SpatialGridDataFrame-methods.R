@@ -76,8 +76,10 @@ as.matrix.SpatialGridDataFrame = function(x, byrow = FALSE) {
 	matrix(x@data[[1]], x@grid@cells.dim[1], x@grid@cells.dim[2], byrow=byrow)
 }
 
-setAs("SpatialPixelsDataFrame", "matrix", function(from) as.matrix.SpatialPixelsDataFrame(from))
-setAs("SpatialGridDataFrame", "matrix", function(from) as.matrix.SpatialGridDataFrame(from))
+setAs("SpatialPixelsDataFrame", "matrix", function(from) 
+	as.matrix.SpatialPixelsDataFrame(from))
+setAs("SpatialGridDataFrame", "matrix", function(from) 
+	as.matrix.SpatialGridDataFrame(from))
 
 as.data.frame.SpatialPixelsDataFrame = function(x, row.names, optional)
 	as.data.frame(as(x, "SpatialPointsDataFrame"))
@@ -85,11 +87,28 @@ as.data.frame.SpatialPixelsDataFrame = function(x, row.names, optional)
 as.data.frame.SpatialGridDataFrame = function(x, row.names, optional)
 	as.data.frame(as(x, "SpatialPixelsDataFrame"))
 
-setAs("SpatialPixelsDataFrame", "data.frame", function(from) as.data.frame.SpatialPixelsDataFrame(from))
-setAs("SpatialGridDataFrame", "data.frame", function(from) as.data.frame.SpatialGridDataFrame(from))
+setAs("SpatialPixelsDataFrame", "data.frame", function(from) 
+	as.data.frame.SpatialPixelsDataFrame(from))
+setAs("SpatialGridDataFrame", "data.frame", function(from) 
+	as.data.frame.SpatialGridDataFrame(from))
 
 setAs("SpatialPixelsDataFrame", "AttributeList", function(from) from@data)
 setAs("SpatialGridDataFrame", "AttributeList", function(from) from@data)
+
+as.ppp.SpatialGridDataFrame = function(from) {
+	w = from$window
+	if (w$type != "mask")
+		stop("window is not of type mask")
+	offset = c(w$xrange[1] + 0.5 * w$xstep, w$yrange[1] + 0.5 * w$ystep)
+	cellsize = c(diff(w$xrange)/w$dim[2], diff(w$yrange)/w$dim[1])
+	dim = c(w$dim[2], w$dim[1])
+	gt = GridTopology(offset, cellsize, dim)
+	m = t(w$m[nrow(w$m):1,])
+	m[!m] = NA
+	data = data.frame(mask = as.vector(m))
+	SpatialGridDataFrame(gt, data)
+}
+setAs("ppp", "SpatialGridDataFrame", as.ppp.SpatialGridDataFrame)
 
 subset.SpatialPixelsDataFrame <- function(x, subset, select, drop = FALSE, ...) {
     if (version$major == 2 & version$minor < 1 ) {

@@ -53,6 +53,7 @@ polygons                sets spatial coordinates to create spatial
 Polygons-class          Class "Polygons"
 polygons-methods        Retrieve polygons from
                         SpatialPolygonsDataFrame object
+ppp-class               Virtual class "ppp"
 read.asciigrid          read/write to/from (ESRI) asciigrid format
 recenter-methods        Methods for Function recenter in Package 'sp'
 Rlogo                   Rlogo jpeg image
