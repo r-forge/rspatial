@@ -87,8 +87,6 @@ export(dd2dms, print.DMS, char2dms, as.character.DMS,
 
 export(spDistsN1)
 
-# export(as.SpatialPoints.ppp, as.SpatialPointsDataFrame.ppp)
-
 exportClasses(CRS, 
 	Spatial, 
 	SpatialPoints, 
@@ -102,8 +100,7 @@ exportClasses(CRS,
  	SpatialPointsDataFrame, 
 	SpatialPixelsDataFrame,
 	SpatialGridDataFrame,
-	SpatialLinesDataFrame,
-	ppp)
+	SpatialLinesDataFrame)
 
 exportClasses(Polygon, Polygons, SpatialPolygons, SpatialPolygonsDataFrame)
 
