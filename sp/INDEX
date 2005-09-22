@@ -13,7 +13,7 @@ contourLines2SLDF       Converter functions to build
                         SpatialLinesDataFrame objects
 coordinates             sets spatial coordinates to create spatial
                         data, or retrieves spatial coordinates
-coordinates-methods     retrieves spatial coordinates
+coordinates-methods     retrieve (or set) spatial coordinates
 coordnames-methods      retrieve or assign coordinate names for
                         classes in sp
 CRS-class               Class "CRS" of coordinate reference system

@@ -95,21 +95,6 @@ setAs("SpatialGridDataFrame", "data.frame", function(from)
 setAs("SpatialPixelsDataFrame", "AttributeList", function(from) from@data)
 setAs("SpatialGridDataFrame", "AttributeList", function(from) from@data)
 
-as.ppp.SpatialGridDataFrame = function(from) {
-	w = from$window
-	if (w$type != "mask")
-		stop("window is not of type mask")
-	offset = c(w$xrange[1] + 0.5 * w$xstep, w$yrange[1] + 0.5 * w$ystep)
-	cellsize = c(diff(w$xrange)/w$dim[2], diff(w$yrange)/w$dim[1])
-	dim = c(w$dim[2], w$dim[1])
-	gt = GridTopology(offset, cellsize, dim)
-	m = t(w$m[nrow(w$m):1,])
-	m[!m] = NA
-	data = data.frame(mask = as.vector(m))
-	SpatialGridDataFrame(gt, data)
-}
-setAs("ppp", "SpatialGridDataFrame", as.ppp.SpatialGridDataFrame)
-
 subset.SpatialPixelsDataFrame <- function(x, subset, select, drop = FALSE, ...) {
     if (version$major == 2 & version$minor < 1 ) {
 	subset.matrix <- function (x, subset, select, drop = FALSE, ...) {

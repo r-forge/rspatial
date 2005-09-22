@@ -63,7 +63,7 @@ export(getPolygonCoordsSlot, getPolygonLabptSlot, getPolygonAreaSlot,
 	getPolygonHoleSlot, getPolygonsPolygonsSlot, getPolygonsplotOrderSlot,
 	getPolygonsLabptSlot, getPolygonsIDSlot, getSpPpolygonsSlot,
 	getSpPplotOrderSlot, getSpPPolygonsLabptSlots, getSpPPolygonsIDSlots,
-	getSpPnParts, "polygons<-")
+	getSpPnParts)
 
 export(as.SpatialPolygons.PolygonsList, Polygons, Polygon, SpatialPolygons,
 	SpatialPolygonsDataFrame)
@@ -110,8 +110,9 @@ exportClasses(Polygon, Polygons, SpatialPolygons, SpatialPolygonsDataFrame)
 exportClasses(DMS)
 
 exportMethods(show, bbox, coordinates, "coordinates<-",
-	coordnames, "coordnames<-", gridded, polygons, dimensions, coerce,
-	"[", transform, overlay, plot, recenter, spplot, spsample, summary)
+	coordnames, "coordnames<-", gridded, polygons, "polygons<-",
+	dimensions, coerce, "[", transform, overlay, plot, recenter,
+	spplot, spsample, summary)
 
 S3method("[[", SpatialPointsDataFrame)
 S3method("[[<-", SpatialPointsDataFrame)

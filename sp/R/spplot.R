@@ -453,14 +453,21 @@ mapLegendGrob <- function(obj, widths = unit(1, "cm"), heights = unit(1, "cm"),
 	key.gf
 }
 
-layout.north.arrow = function() {
-	x1 = c(0.1653, 0.2241, 0.2241, 0.2830, 0.1947, 0.1065, 0.1653, 0.1653)
-	x2 = c(0, 0.0967, 0.0967, 0.2928, 0.3908, 0.3908, 0.2928, 0.2928, 0.1032, 0, 0)
-	y1 = c(0, 0, 0.8823, 0.8235, 1, 0.8235, 0.8823, 0)
-	y2 = c(0.2352, 0.2352, 0.5686, 0.2352, 0.2352, 0.7189, 0.7189, 0.3986, 0.7189, 0.7189, 0.2352 )
-	SpatialPolygons(list(Polygons(list(Polygon(cbind(x1,y1)), Polygon(cbind(rev(x2),rev(y2)))), ID="north")))
+layout.north.arrow = function(type = 1) {
+	if (type == 1) {
+		x1 = c(0.1653, 0.2241, 0.2241, 0.2830, 0.1947, 0.1065, 0.1653, 0.1653)
+		x2 = c(0, 0.0967, 0.0967, 0.2928, 0.3908, 0.3908, 0.2928, 0.2928, 0.1032, 0, 0)
+		y1 = c(0, 0, 0.8823, 0.8235, 1, 0.8235, 0.8823, 0)
+		y2 = c(0.2352, 0.2352, 0.5686, 0.2352, 0.2352, 0.7189, 0.7189, 0.3986, 0.7189, 0.7189, 0.2352 )
+		return(SpatialPolygons(list(Polygons(list(Polygon(cbind(x1,y1)), Polygon(cbind(rev(x2),rev(y2)))), ID="north"))))
+	}
+	if (type == 2) {
+		x = c(0.143,0.143,0.0143,0.207,0.400,0.271,0.271,0.143)
+		y = c(0,0.707,0.707,0.964,0.707,0.707,0.00,0.0)
+		return(SpatialPolygons(list(Polygons(list(Polygon(cbind(x,y))), ID="north"))))
+	}
+	stop("unknown value for type")
 }
-# north.arrow = .north.arrow()
 
 layout.scale.bar = function(height = 0.05) {
 	x1 = c(0, 0.5, 0.5, 0, 0)
