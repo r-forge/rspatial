@@ -30,4 +30,4 @@ Collate: AAA.R Class-CRS.R CRS-methods.R Class-Spatial.R Spatial-methods.R
 	SpatialPolygons-displayMethods.R zerodist.R image.R stack.R
 	bpy.colors.R bubble.R mapasp.R select.spatial.R gridded.R
 	asciigrid.R spplot.R overlay.R spsample.R recenter.R dms.R
-	gridlines.R
+	gridlines.R spdists.R
