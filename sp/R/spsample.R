@@ -84,10 +84,14 @@ sample.Polygon = function(x, n, type = "random", bb = bbox(x),
 	else {
 		res <- NULL
 		its <- 0
+		n_now <- 0
 		bb.area = prod(apply(bb, 1, function(x) diff(range(x))))
 		xSP <- new("Spatial", bbox=bbox(x), proj4string=proj4string)
-		n_is <- round(n * bb.area/area)
-		while (is.null(res) && its < iter && n_is > 0) {
+		brks <- c(1,3,6,10,20,100)
+		reps <- c(5,4,3,2,1.5)
+		n_is <- round(n * reps[findInterval(n,
+			brks, all.inside=TRUE)] * bb.area/area)
+		while (is.null(res) && its < iter && n_now < n && n_is > 0) {
 		    pts = sample.Spatial(xSP, n_is, type=type, 
 			offset = offset, ...)
 		    id = overlay(pts, SpatialPolygons(list(Polygons(list(x),
@@ -95,8 +99,11 @@ sample.Polygon = function(x, n, type = "random", bb = bbox(x),
 		    Not_NAs <- !is.na(id)
 		    if (!any(Not_NAs)) res <- NULL
 		    else res <- pts[which(Not_NAs)]
+		    n_now <- nrow(res@coords)
 		    its <- its+1
 		}
+		if (!is.null(res) && n < nrow(res@coords)) 
+			res <- res[sample(nrow(res@coords), n)]
 		res
 	}
 }
