@@ -3,9 +3,8 @@
 #
 
 gmeta6 <- function() {
-	tmpfl <- tempfile()
-	system(paste("g.region -p3 >", tmpfl))
-	res <- read.dcf(tmpfl)
+	tx <- system("g.region -p3", intern=TRUE)
+	res <- read.dcf(textConnection(tx))
 	lres <- as.list(res)
 	names(lres) <- colnames(res)
 	lres$north <- as.double(lres$north)
@@ -24,7 +23,7 @@ gmeta6 <- function() {
 	lres$cols <- as.integer(lres$cols)
 	lres$cols3 <- as.integer(lres$cols3)
 	lres$depths <- as.integer(lres$depths)
-	lres$proj4 <- system("g.proj -j -f", intern=TRUE)
+	lres$proj4 <- getLocationProj()
 	gisenv <- gsub("[';]", "", system("g.gisenv", intern=TRUE))
 	gisenv <- strsplit(gisenv, "=")
 	glist <- as.list(sapply(gisenv, function(x) x[2]))
@@ -34,192 +33,153 @@ gmeta6 <- function() {
 }
 
 getSites6 <- function(vname) {
-# based on suggestions by Miha Staut
-	tmpfl1 <- tempfile()
-	system(paste("v.out.ascii in=", vname, " out=", tmpfl1, sep=""))
-	res1 <- read.table(tmpfl1, sep="|", header=FALSE)
-	names(res1) <- c("x", "y", ifelse(ncol(res1) == 3, "cat", 
-		c("z", "cat")))
-	tmpfl2 <- tempfile()
-	system(paste("v.db.select map=", vname, " > ", tmpfl2, sep=""))
-	res2 <- read.table(tmpfl2, sep="|", header=TRUE)
-	res <- merge(res1, res2, sort=FALSE)
+# based on suggestions by Miha Staut using v.out.ascii and v.db.select,
+# modified to avoid cygwin problems
+	SPDF <- getSites6sp(vname)
+	res <- as(SPDF, "data.frame")
+	res
+}
+
+getSites6sp <- function(vname) {
+	pid <- as.integer(round(runif(1, 1, 1000)))
+	gtmpfl1 <- dirname(system(paste("g.tempfile pid=", pid, sep=""), 
+		intern=TRUE))
+	rtmpfl1 <- ifelse(.Platform$OS.type == "windows", 
+		system(paste("cygpath -w", gtmpfl1, sep=" "), intern=TRUE), 
+		gtmpfl1)
+	shname <- substring(vname, 1, ifelse(nchar(vname) > 8, 8, 
+		nchar(vname)))
+	system(paste("v.out.ogr input=", vname, " type=point dsn=", 
+		gtmpfl1, " olayer=", shname, sep=""))
+	p4 <- CRS(getLocationProj())
+	res <- readShapePoints(paste(rtmpfl1, shname, sep=.Platform$file.sep), 
+		proj4string=p4)
+	unlink(paste(rtmpfl1, list.files(rtmpfl1, pattern=shname), 
+		sep=.Platform$file.sep))
 	res
 }
 
 
 putSites6 <- function(df, vname) {
-	tmpfl1 <- tempfile()
-	write.table(df, tmpfl1, sep="|", quote=FALSE, row.names = FALSE, 
-		col.names = FALSE)
-	ndf <- names(df)
-	ndf1 <- gsub("\\.", "_", ndf)
-	cmd <- paste("v.in.ascii in=", tmpfl1, " out=", vname, sep="")
-	cmd <- paste(cmd, " x=", which(ndf == "x"), sep="")
-	cmd <- paste(cmd, " y=", which(ndf == "y"), sep="")
-	cmd <- paste(cmd, " cat=", which(ndf == "cat"), sep="")
-	ncl <- sapply(df, class)
-	cols <- "columns='"
-	for (i in 1:length(ndf1)) {
-		if (ncl[i] == "integer") {
-			cols <- paste(cols, ndf1[i], "int")
-		} else if (ncl[i] == "numeric") {
-			cols <- paste(cols, ndf1[i], "double")
-		} else if (ncl[i] == "factor") {
-			val <- max(nchar(levels(df[,i])))
-			cols <- paste(cols, " ", ndf1[i], " varchar(", 
-				val, ")", sep="")
-		} else if (ncl[i] == "character") {
-			val <- max(nchar(df[,i]))
-			cols <- paste(cols, " ", ndf1[i], " varchar(", 
-				val, ")", sep="")
-		} else stop(paste("class", ncl[i], "cannot be exported"))
-		if (i < length(ndf1)) cols <- paste(cols, ",", sep="")
-		else cols <- paste(cols, "'", sep="")
-	}
-	cmd <- paste(cmd, cols)
-	system(cmd)
-	cmd
+# based on suggestions by Miha Staut using v.out.ascii and v.db.select,
+# modified to avoid cygwin problems
+	coordinates(df) <- c("x", "y")
+	putSites6sp(df, vname)
 }
 
-# readCELL6 <- function(vname, cat=FALSE) {
-# 	tmpfl <- tempfile()
-# 	system(paste("r.out.arc input=", vname, " output=", tmpfl, sep=""))
-# 	library(rgdal)
-# 	hdl <- GDAL.open(tmpfl)
-# 	dims <- dim(hdl)
-# 	res <- getRasterTable(hdl)
-# 	GDAL.close(hdl)
-# 	if (cat) {
-# 		cats <- strsplit(system(paste("r.stats -l", vname), 
-# 			intern=TRUE), " ")
-# 		catnos <- sapply(cats, function(x) x[1])
-# 		catlabs <- sapply(cats, function(x) paste(x[-1], collapse=" "))
-# 		if (any(!is.na(match(catnos, "*")))) {
-# 			isNA <- which(catnos == "*")
-# 			catnos <- catnos[-isNA]
-# 			catlabs <- catlabs[-isNA]
-# 		}
-# 		res[,3] <- factor(res[,3], levels=catnos, labels=catlabs)
-# 	} else {
-# 		res[,3] <- as.integer(res[,3])
-# 	}
-# 	colnames(res) <- c("north", "east", vname)
-# 	attr(res, "hdl_dims") <- dims
-# 	res
-# }
-
-# readFLOAT6 <- function(vname) {
-# 	tmpfl <- tempfile()
-# 	system(paste("r.out.arc input=", vname, " output=", tmpfl, sep=""))
-# 	library(rgdal)
-# 	hdl <- GDAL.open(tmpfl)
-# 	dims <- dim(hdl)
-# 	res <- getRasterTable(hdl)
-# 	GDAL.close(hdl)
-# 	res[,3] <- as.double(res[,3])
-# 	colnames(res) <- c("north", "east", vname)
-# 	attr(res, "hdl_dims") <- dims
-# 	res
-# }
+putSites6sp <- function(SPDF, vname, factor2char = TRUE) {
+	pid <- as.integer(round(runif(1, 1, 1000)))
+	gtmpfl1 <- dirname(system(paste("g.tempfile pid=", pid, sep=""), 
+		intern=TRUE))
+	rtmpfl1 <- ifelse(.Platform$OS.type == "windows", 
+		system(paste("cygpath -w", gtmpfl1, sep=" "), intern=TRUE), 
+		gtmpfl1)
+	shname <- substring(vname, 1, ifelse(nchar(vname) > 8, 8, 
+		nchar(vname)))
+	writePointsShape(SPDF, paste(rtmpfl1, shname, sep=.Platform$file.sep),
+		factor2char=factor2char)
+	system(paste("v.in.ogr -o dsn=", gtmpfl1, " output=", vname, 
+		" layer=", shname, " type=point", sep=""))
+	unlink(paste(rtmpfl1, list.files(rtmpfl1, pattern=shname), 
+		sep=.Platform$file.sep))
+}
 
 
-readCELL6sp <- function(vname, cat=FALSE) {
-	tmpfl <- tempfile()
-	system(paste("r.out.arc input=", vname, " output=", tmpfl, sep=""))
-	library(sp)
-	p4 <- CRS(system("g.proj -j -f", intern=TRUE))
-	res <- read.asciigrid(tmpfl, colname=vname, proj4string=p4)
-	if (cat) {
-		cats <- strsplit(system(paste("r.stats -l -q", vname), 
-			intern=TRUE), " ")
-		catnos <- sapply(cats, function(x) x[1])
-		catlabs <- sapply(cats, function(x) paste(x[-1], collapse=" "))
-		if (any(!is.na(match(catnos, "*")))) {
-			isNA <- which(catnos == "*")
-			catnos <- catnos[-isNA]
-			catlabs <- catlabs[-isNA]
-		}
-		res@data[[1]] <- factor(res@data[[1]], levels=catnos, labels=catlabs)
-	} else {
-		res@data[[1]] <- as.integer(res@data[[1]])
+getLocationProj <- function() {
+# too strict assumption on g.proj Rohan Sadler 20050928
+	projstr <- system("g.proj -j -f", intern=TRUE)
+	if (length(grep("XY location", projstr)) > 0)
+		projstr <- as.character(NA)
+	if (length(grep("latlong", projstr)) > 0)
+		projstr <- sub("latlong", "longlat", projstr)
+    	if (is.na(projstr)) uprojargs <- projstr
+    	else uprojargs <- paste(unique(unlist(strsplit(projstr, " "))), 
+		collapse=" ")
+    	if (length(grep("= ", uprojargs)) != 0) {
+		warning(paste("No spaces permitted in PROJ4",
+			"argument-value pairs:", uprojargs))
+		uprojargs <- as.character(NA)
 	}
-	res
+    	if (length(grep(" [:alnum:]", uprojargs)) != 0) {
+		warning(paste("PROJ4 argument-value pairs",
+			"must begin with +:", uprojargs))
+		uprojargs <- as.character(NA)
+	}
+	uprojargs
 }
 
 readFLOAT6sp <- function(vname) {
-	tmpfl <- tempfile()
-	system(paste("r.out.arc input=", vname, " output=", tmpfl, sep=""))
-	library(sp)
-	p4 <- CRS(system("g.proj -j -f", intern=TRUE))
-	res <- read.asciigrid(tmpfl, colname=vname, proj4string=p4)
+	pid <- as.integer(round(runif(1, 1, 1000)))
+	p4 <- CRS(getLocationProj())
+	for (i in seq(along=vname)) {
+		gtmpfl1 <- system(paste("g.tempfile pid=", pid, sep=""), 
+			intern=TRUE)
+		rtmpfl1 <- ifelse(.Platform$OS.type == "windows", 
+			system(paste("cygpath -w", gtmpfl1, sep=" "), 
+			intern=TRUE), gtmpfl1)
+		system(paste("r.out.arc input=", vname[i], " output=", 
+			gtmpfl1, sep=""))
+		res <- readAsciiGrid(rtmpfl1, colname=vname[i], proj4string=p4)
+		unlink(rtmpfl1)
+		if (i == 1) resa <- res
+		else {
+			grida <- getGridTopology(resa)
+			grid <- getGridTopology(res)
+			if (!all.equal(grida, grid)) 
+				stop("topology is not equal")
+			onames <- c(names(resa@data), names(res@data))
+			ncols <- dim(resa@data)[2]
+			lst <- vector(mode="list", length=ncols+1)
+			names(lst) <- onames
+			for (i in 1:ncols) lst[[i]] <- resa@data[[i]]
+			lst[[ncols+1]] <- res@data[[1]]
+			resa <- SpatialGridDataFrame(grid=grida, 
+				data=AttributeList(lst), proj4string=p4)
+		}
+	}
+	resa
+}
+
+readCELL6sp <- function(vname, cat=NULL) {
+	if (!is.null(cat))
+		if(length(vname) != length(cat)) 
+			stop("vname and cat not same length")
+	res <- readFLOAT6sp(vname)
+	if (!is.null(cat)) {
+		for (i in seq(along=cat)) {
+			if (cat[i]) {
+				cats <- strsplit(system(paste("r.stats -l -q", 
+					vname[i]), intern=TRUE), " ")
+				catnos <- sapply(cats, function(x) x[1])
+				catlabs <- sapply(cats, 
+					function(x) paste(x[-1], collapse=" "))
+				if (any(!is.na(match(catnos, "*")))) {
+					isNA <- which(catnos == "*")
+					catnos <- catnos[-isNA]
+					catlabs <- catlabs[-isNA]
+				}
+				res@data[[i]] <- factor(res@data[[i]], 
+					levels=catnos, labels=catlabs)
+			}
+		}
+	} 
 	res
 }
 
 
 writeRast6sp <- function(x, vname, zcol = 1, NODATA=-9999) {
+	pid <- as.integer(round(runif(1, 1, 1000)))
+	gtmpfl1 <- system(paste("g.tempfile pid=", pid, sep=""), 
+		intern=TRUE)
+	rtmpfl1 <- ifelse(.Platform$OS.type == "windows", 
+		system(paste("cygpath -w", gtmpfl1, sep=" "), intern=TRUE), 
+		gtmpfl1)
 	if (!is.numeric(x@data[[zcol]])) 
 		stop("only numeric columns may be exported")
-	tmpfl <- tempfile()
-	library(sp)
-	write.asciigrid(x, tmpfl, attr = zcol, na.value = NODATA)
-	system(paste("r.in.gdal -o input=", tmpfl, " output=", vname, sep=""))
+	writeAsciiGrid(x, rtmpfl1, attr = zcol, na.value = NODATA)
+	system(paste("r.in.gdal -o input=", gtmpfl1, " output=", vname, sep=""))
+	unlink(rtmpfl1)
 }
 
 
-# writeRast6 <- function(df, vname, zcol = 3, xcol = 1, ycol = 2, NODATA=-9999,
-#    tol=1e-8) {
-# 	if (!is.numeric(df[,zcol])) stop("only numeric columns may be exported")
-# 	tmpfl <- tempfile()
-# 	arcGrid(df, tmpfl, zcol=zcol, xcol=xcol, ycol=ycol, NODATA=NODATA,
-# 		tol=tol)
-# 	system(paste("r.in.gdal -o input=", tmpfl, " output=", vname, sep=""))
-# }
-
-# arcGrid <- function (xyz, file, zcol = 3, xcol = 1, ycol = 2, NODATA=-9999,
-#    tol=1e-8) 
-# original code by Edzer Pebesma
-# {
-#    if (ncol(xyz) < 3) 
-#       stop("xyz object should have at least three columns")
-#  z = xyz[, zcol]
-#     z[!is.finite(z)] <- NODATA
-#     x = xyz[, xcol]
-#     y = xyz[, ycol]
-#     xx = sort(unique(x))
-#     yy = sort(unique(y))
-#     my = match(y, yy)
-#     nx = length(xx)
-#     ny = length(yy)
-#     nmax = max(nx, ny)
-#     difx = diff(xx)
-#     if (diff(range(unique(difx))) > tol) 
-#         stop("x intervals are not constant")
-#     dify = diff(yy)
-#     if (diff(range(unique(dify))) > tol) 
-#         stop("y intervals are not constant")
-#     dx = difx[1]
-#     dy = dify[1]
-#     ratio = (nx * dx)/(ny * dy)
-#     xmin = min(xx)
-#     xmax = max(xx)
-#     xrange = xmax - xmin
-#     ymin = min(yy)
-#     ymax = max(yy)
-#     yrange = ymax - ymin
-#     zzz <- file(file, "w")
-#     cat("NCOLS ", nx, "\n", file=zzz)
-#     cat("NROWS ", ny, "\n", file=zzz)
-#     cat("XLLCENTER ", xmin, "\n", file=zzz)
-#     cat("YLLCENTER ", ymin, "\n", file=zzz)
-#     cat("CELLSIZE" , dx, "\n", file=zzz)
-#     cat("NODATA_VALUE" , NODATA, "\n", file=zzz)
-#     for(i in ny:1) {
-# 	zz <- rep(NODATA, nx)
-# 	mmy <- which(my == i)
-# 	zz[match(x[mmy], xx)] <- z[mmy]
-#        write(zz, file=zzz, ncolumns=nx, append=TRUE)
-#     }
-#     close(zzz)
-# }
 
