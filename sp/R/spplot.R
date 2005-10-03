@@ -512,8 +512,8 @@ longlat.scales = function(obj, scales, xlim, ylim) {
 			scales$x$at = pretty(xlim)
 		if (is.null(scales$x$labels)) {
         	pos = sign(scales$x$at) + 2
-        	dir = c("W", "", "E")
-        	scales$x$labels = parse(text = paste(abs(scales$x$at), "*degree*", dir[pos]))
+        	dir = c("*W", "", "*E")
+        	scales$x$labels = parse(text = paste(abs(scales$x$at), "*degree", dir[pos]))
 		}
 		# lat long -- y:
 		if (is.null(scales$y))
@@ -522,8 +522,8 @@ longlat.scales = function(obj, scales, xlim, ylim) {
 			scales$y$at = pretty(ylim)
 		if (is.null(scales$y$labels)) {
         	pos = sign(scales$y$at) + 2
-        	dir = c("S", "", "N")
-        	scales$y$labels = parse(text = paste(abs(scales$y$at), "*degree*", dir[pos]))
+        	dir = c("*S", "", "*N")
+        	scales$y$labels = parse(text = paste(abs(scales$y$at), "*degree", dir[pos]))
 		}
 	}
 	scales
