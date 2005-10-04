@@ -51,7 +51,7 @@ export(as.image.SpatialGridDataFrame)
 export(gridparameters, "gridded<-", gridded, fullgrid, "fullgrid<-",
 	SpatialPixels, SpatialPixelsDataFrame, SpatialGrid,
 	SpatialGridDataFrame, GridTopology, getGridTopology,
-	areaSpatialGrid, gridlines)
+	areaSpatialGrid, gridlines, gridat)
 
 #export(as.SpatialPolygons.Shapelist, as.SpatialPolygons.matrixList, 
 #	as.Ring4.matrix)
