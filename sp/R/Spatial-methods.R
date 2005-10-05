@@ -145,15 +145,10 @@ degAxis = function (side, at, labels, ...) {
         	at = axTicks(side)
         if (missing(labels)) {
 			labels = FALSE
-        	if (side == 1 || side == 3) {
-                	dir = c("*W", "", "*E")
-        			pos = sign(at) + 2
-                	labels = parse(text = paste(abs(at), "*degree", dir[pos]))
-        	} else if (side == 2 || side == 4) {
-                	dir = c("*S", "", "*N")
-        			pos = sign(at) + 2
-                	labels = parse(text = paste(abs(at), "*degree", dir[pos]))
-        	}
+        	if (side == 1 || side == 3)
+               	labels = parse(text = degreeLabelsEW(at))
+        	else if (side == 2 || side == 4)
+               	labels = parse(text = degreeLabelsNS(at))
 		} 
         axis(side, at = at, labels = labels, ...)
 }

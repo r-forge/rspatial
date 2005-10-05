@@ -1,3 +1,14 @@
+degreeLabelsNS = function(x) {
+	pos = sign(x) + 2
+	dir = c("*S", "", "*N")
+	paste(abs(x), "*degree", dir[pos])
+}
+degreeLabelsEW = function(x) {
+	pos = sign(x) + 2
+	dir = c("*W", "", "*E")
+	paste(abs(x), "*degree", dir[pos])
+}
+
 gridlines = function(x, easts = pretty(bbox(x)[1,]), 
 	norths = pretty(bbox(x)[2,]), ndiscr = 20) 
 {
@@ -25,13 +36,9 @@ gridat <- function(x, easts = pretty(bbox(x)[1,]),
 	easts <- easts[easts > bb[1,1] & easts < bb[1,2]]
 	norths <- norths[norths > bb[2,1] & norths < bb[2,2]]
 	a1 <- cbind(easts, rep(bb[2,1], length(easts)))
-	pos = sign(a1[,1]) + 2
-	dir = c("*W", "", "*E")
-	a1lab <- paste(abs(a1[,1]), "*degree", dir[pos])
+	a1lab <- degreeLabelsEW(a1[,1])
 	a2 <- cbind(rep(bb[1,1], length(norths)), norths)
-	pos = sign(a2[,2]) + 2
-	dir = c("*S", "", "*N")
-	a2lab <- paste(abs(a2[,2]), "*degree", dir[pos])
+	a2lab <- degreeLabelsNS(a2[,2])
 	as <- SpatialPoints(rbind(a1, a2), CRS(proj4string(x)))
 	res <- SpatialPointsDataFrame(as, 
 		data.frame(lab=I(c(a1lab, a2lab)), 

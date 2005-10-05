@@ -24,7 +24,8 @@ export(SpatialPoints, SpatialPointsDataFrame)
 
 export(AttributeList)
 
-export(Line, Lines, SpatialLines, SpatialLinesDataFrame, as.SpatialLines.SLDF)
+export(Line, Lines, SpatialLines, SpatialLinesDataFrame, as.SpatialLines.SLDF,
+	gridat)
 
 export(
 #contourLines2LinesList, contourLines2df, contourLines2SpatialLines, 
@@ -233,6 +234,8 @@ S3method(subset, SpatialPointsDataFrame)
 # S3method(summary, SpatialLinesDataFrame)
 # S3method(summary, SpatialPolygonsDataFrame)
 # S3method(summary, AttributeList)
+
+S3method(text, SpatialPointsDataFrame)
 
 S3method(print, DMS)
 S3method(as.character, DMS)

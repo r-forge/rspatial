@@ -505,26 +505,20 @@ spplot.key = function(sp.layout, rows = 1, cols = 1) {
 longlat.scales = function(obj, scales, xlim, ylim) {
 	isp = is.projected(obj)
 	if (scales$draw && !is.na(isp) && !isp) {
-		# lat long -- x:
+		# long lat -- x:
 		if (is.null(scales$x))
 			scales$x = list()
 		if (is.null(scales$x$at))
 			scales$x$at = pretty(xlim)
-		if (is.null(scales$x$labels)) {
-        	pos = sign(scales$x$at) + 2
-        	dir = c("*W", "", "*E")
-        	scales$x$labels = parse(text = paste(abs(scales$x$at), "*degree", dir[pos]))
-		}
-		# lat long -- y:
+		if (is.null(scales$x$labels))
+        	scales$x$labels = parse(text = degreeLabelsEW(scales$x$at))
+		# long lat -- y:
 		if (is.null(scales$y))
 			scales$y = list()
 		if (is.null(scales$y$at))
 			scales$y$at = pretty(ylim)
-		if (is.null(scales$y$labels)) {
-        	pos = sign(scales$y$at) + 2
-        	dir = c("*S", "", "*N")
-        	scales$y$labels = parse(text = paste(abs(scales$y$at), "*degree", dir[pos]))
-		}
+		if (is.null(scales$y$labels))
+        	scales$y$labels = parse(text = degreeLabelsNS(scales$y$at))
 	}
 	scales
 }

@@ -6,8 +6,7 @@
 \description{ Create N-S and E-W grid lines over a geographic region; \code{gridat} permits the construction of points and labels for non-projected grid annotation }
 \usage{
 gridlines(x, easts = pretty(bbox(x)[1,]), norths = pretty(bbox(x)[2,]), ndiscr = 20) 
-gridat <- function(x, easts = pretty(bbox(x)[1,]), 
-	norths = pretty(bbox(x)[2,]), offset=0.5)
+gridat(x, easts = pretty(bbox(x)[1,]), norths = pretty(bbox(x)[2,]), offset=0.5)
 }
 \arguments{
   \item{x}{object deriving from class \link{Spatial-class}}
