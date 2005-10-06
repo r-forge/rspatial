@@ -134,7 +134,7 @@ text.SpatialPointsDataFrame = function(x, ...) {
         lst$pos = x$pos
     if (!is.null(x$offset) && is.null(lst$offset))
         lst$offset = x$offset
-    if (!is.null(x$lab) && is.null(lst$labels))
+    if (!is.null(x$labels) && is.null(lst$labels))
         lst$labels = parse(text = x$lab)
     do.call(text, lst)
 }
