@@ -293,6 +293,8 @@ function (x, y, z, subscripts, at = pretty(z), shrink, labels = NULL,
 	y <- as.numeric(y[subscripts])
 	z <- as.numeric(z[subscripts])
 	zcol <- as.numeric(zcol[subscripts])
+	if (is(grid.polygons, "SpatialLines"))
+		sp.panel.layout(sp.layout, panel.number)
 	if (any(subscripts)) {
 		if (is(grid.polygons, "SpatialLines")) {
 			sp.lines3 = function(x, col, ...) panel.lines(coordinates(x), col = col, ...)
@@ -325,7 +327,8 @@ function (x, y, z, subscripts, at = pretty(z), shrink, labels = NULL,
    			}
 		}
 	}
-	sp.panel.layout(sp.layout, panel.number)
+	if (!is(grid.polygons, "SpatialLines"))
+		sp.panel.layout(sp.layout, panel.number)
 }
 
 panel.pointsplot = function(x, y, subscripts, col, sp.layout, ..., panel.number) {
