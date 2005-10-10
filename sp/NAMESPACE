@@ -44,7 +44,7 @@ export(Mapgen2SL)
 export(layout.scale.bar, layout.north.arrow, sp.theme,
 	mapLegendGrob, spplot.key, panel.gridplot, panel.polygonsplot,
 	panel.pointsplot, sp.polygons, sp.text, sp.points, sp.lines,
-	sp.grid, SpatialPolygonsRescale)
+	sp.grid, SpatialPolygonsRescale, spplot.locator)
 # export(sp.pagefn)
 
 export(as.image.SpatialGridDataFrame)

@@ -541,3 +541,23 @@ colorkey.factor = function(f, colorkey = list()) {
 		height=min(1, .05 * length(lf))))
 	list(at = at, colorkey = colorkey)
 }
+
+"spplot.locator" <- function(n = 512, type = "n", ...) { 
+	stopifnot(n > 0)
+	res = as.numeric(grid.locator(unit = "native"))
+	if (type == "o" || type == "p")
+		panel.points(res[1], res[2], ...)
+	if (n > 1) for (i in 2:n) {
+		xy = grid.locator(unit = "native")
+		if (is.null(xy))
+			return(res)
+		else
+			xy = as.numeric(xy)
+		res = rbind(res, xy)
+		if (type == "o" || type == "p")
+			panel.points(xy[1], xy[2], ...)
+		if (type == "o" || type == "l")
+			panel.lines(res[(i-1):i,])
+	}
+	res
+}
