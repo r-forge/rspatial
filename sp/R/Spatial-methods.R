@@ -112,10 +112,19 @@ print.summary.Spatial = function(x, ...) {
 
 # sp.axes = FALSE
 
-plot.Spatial <- function(x, xlim=NULL, ylim=NULL, asp=1, axes = FALSE, ...) {
-	bbox <- x@bbox
-	if (is.null(xlim)) xlim <- c(bbox[1,1], bbox[1,2])
-	if (is.null(ylim)) ylim <- c(bbox[2,1], bbox[2,2])
+#asp <- function(x, ylim) {
+#	if (is.na(proj4string(x)) || is.projected(x))
+#		return(1.0)
+#	else
+#		return(1/cos((mean(ylim) * pi)/180))
+#}
+
+plot.Spatial <- function(x, xlim=NULL, ylim=NULL, 
+		asp = ifelse(is.na(proj4string(x)) || is.projected(x), 1.0, 1/cos((mean(ylim) * pi)/180)), 
+		axes = FALSE, ...) {
+	bbox <- bbox(x)
+	if (is.null(xlim)) xlim <- bbox[1,]
+	if (is.null(ylim)) ylim <- bbox[2,]
 	frame() # S-Plus compatible version of plot.new()
 	if (is.R())
 		plot.window(xlim = xlim, ylim = ylim, asp = asp, ...)
