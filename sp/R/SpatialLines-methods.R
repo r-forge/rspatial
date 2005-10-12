@@ -252,7 +252,7 @@ lines.SpatialLines = function(x, y = NULL, ...) invisible(lapply(x@lines,
 #"[.SpatialLines" =  function(x, i, j, ..., drop = T) {
 setMethod("[", "SpatialLines", function(x, i, j, ..., drop = TRUE) {
 	if (!missing(j)) stop("only a single index is allowed for [.SpatialLines")
-	SpatialLines(x@lines[i])
+	SpatialLines(x@lines[i], CRS(proj4string(x)))
 })
 
 setMethod("coordnames", signature(x = "SpatialLines"), 
