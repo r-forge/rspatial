@@ -148,6 +148,7 @@ Polygon <- function(coords, hole=as.logical(NA)) {
 		if (hole && rD > 0) coords <- coords[nrow(coords):1,]
 		if (!hole && rD < 0) coords <- coords[nrow(coords):1,]
 	}
+	rD <- .spFindCG(coords)$rD
 	sl <- Line(coords)
 #	rD <- .ringDirxy(coordinates(sl))
 #	cents <- .RingCentrd_2d(coordinates(sl))
