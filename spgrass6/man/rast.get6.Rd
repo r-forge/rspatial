@@ -1,6 +1,8 @@
 % Copyright (C) 2005 Roger S. Bivand
 %
-\name{readCELL6sp}
+\name{rast.get6}
+\alias{rast.get6}
+\alias{rast.put6}
 \alias{readCELL6sp}
 \alias{readFLOAT6sp}
 \alias{writeRast6sp}
@@ -10,6 +12,8 @@
   Read GRASS 6 raster files from GRASS 6 as ASCII Arc GRID files into R using readAsciiGrid in the maptools package; write R data as ASCII Arc GRID and read into GRASS 6 using r.in.gdal. Data are read into the SpatialGridDataFrame object introduced in the sp package.
 }
 \usage{
+rast.get6(vname, cat=NULL)
+rast.put6(x, vname, zcol = 1, NODATA=-9999)
 readCELL6sp(vname, cat=NULL)
 readFLOAT6sp(vname)
 writeRast6sp(x, vname, zcol = 1, NODATA=-9999)
@@ -24,7 +28,7 @@ writeRast6sp(x, vname, zcol = 1, NODATA=-9999)
 }
 
 \value{
- readCELL6sp and readFLOAT6sp return SpatialGridDataFrame objects with data frames in the data slots, and with the projection argument set.
+ \code{rast.get6} returns a SpatialGridDataFrame object with an AttributeList in the data slots, and with the projection argument set. (readCELL6sp and readFLOAT6sp are wrapped inside rast.get6).
 }
 
 
@@ -32,12 +36,12 @@ writeRast6sp(x, vname, zcol = 1, NODATA=-9999)
 
 \examples{
 if (nchar(Sys.getenv("GISRC")) > 0) {
-  spear <- readCELL6sp(c("geology", "elevation.dem"), cat=c(TRUE, FALSE))
+  spear <- rast.get6(c("geology", "elevation.dem"), cat=c(TRUE, FALSE))
   table(spear$geology)
   system("r.stats -cl geology")
   boxplot(spear$elevation.dem ~ spear$geology)
   spear$sqdem <- sqrt(spear$elevation.dem)
-  writeRast6sp(spear, "sqdemSP", zcol="sqdem", NODATA=-9999.99)
+  rast.put6(spear, "sqdemSP", zcol="sqdem", NODATA=-9999.99)
   system("r.info sqdemSP")
 }
 }

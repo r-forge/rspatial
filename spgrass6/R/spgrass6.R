@@ -120,12 +120,15 @@ readFLOAT6sp <- function(vname) {
 		system(paste("r.out.arc input=", vname[i], " output=", 
 			gtmpfl1, sep=""))
 		res <- readAsciiGrid(rtmpfl1, colname=vname[i], proj4string=p4)
+		to_int <- length(which(unlist(strsplit(system(paste(
+		    "r.info -t", vname[i]), intern=TRUE), "=")) == "CELL")) > 0
+		if (to_int) res@data[[1]] <- as.integer(res@data[[1]])
 		unlink(rtmpfl1)
 		if (i == 1) resa <- res
 		else {
 			grida <- getGridTopology(resa)
 			grid <- getGridTopology(res)
-			if (!all.equal(grida, grid)) 
+			if (!isTRUE(all.equal(grida, grid)))
 				stop("topology is not equal")
 			onames <- c(names(resa@data), names(res@data))
 			ncols <- dim(resa@data)[2]
@@ -147,7 +150,7 @@ readCELL6sp <- function(vname, cat=NULL) {
 	res <- readFLOAT6sp(vname)
 	if (!is.null(cat)) {
 		for (i in seq(along=cat)) {
-			if (cat[i]) {
+			if (cat[i] && is.integer(res@data[[i]])) {
 				cats <- strsplit(system(paste("r.stats -l -q", 
 					vname[i]), intern=TRUE), " ")
 				catnos <- sapply(cats, function(x) x[1])
@@ -164,6 +167,14 @@ readCELL6sp <- function(vname, cat=NULL) {
 		}
 	} 
 	res
+}
+
+rast.get6 <- function(vname, cat=NULL) {
+	readCELL6sp(vname=vname, cat=cat)
+}
+
+rast.put6 <- function(x, vname, zcol = 1, NODATA=-9999) {
+	writeRast6sp(x=x, vname=vname, zcol=zcol, NODATA=NODATA)
 }
 
 
