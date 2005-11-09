@@ -30,7 +30,7 @@ empbaysmooth<-function(Observed, Expected, maxiter=20, tol=1e-5)
 	smthrr[idx]<-(nu+Observed[idx])/(alpha+Expected[idx])
 
 	m<-mean(smthrr[idx])
-	v<- sum( (1+alpha/Expected[idx]) * ((smthrr[idx]-m0)^2) )/(n1-1)
+	v<- sum( (1+alpha/Expected[idx]) * ((smthrr[idx]-m)^2) )/(n1-1)
 
 	iter<-1
 	while(  (  ( abs(m-m0) >tol*(m+m0) ) || ( abs(v-v0) >tol*(v+v0) ) )   && ( iter<=maxiter) )
@@ -46,7 +46,7 @@ empbaysmooth<-function(Observed, Expected, maxiter=20, tol=1e-5)
 		v0<-v
 
 		m<-mean(smthrr[idx])
-		v<- sum( (1+alpha/Expected[idx]) * ((smthrr[idx]-m0)^2) )/(n1-1)
+		v<- sum( (1+alpha/Expected[idx]) * ((smthrr[idx]-m)^2) )/(n1-1)
 
 		iter<-iter+1
 	}
