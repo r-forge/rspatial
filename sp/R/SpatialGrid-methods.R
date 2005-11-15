@@ -3,10 +3,8 @@ SpatialPixels = function(points, tolerance = 10 * .Machine$double.eps) {
 		stop("points should be of class or extending SpatialPoints")
 	points = as(points, "SpatialPoints")
 	grid = points2grid(points, tolerance)
-	points@bbox[1,1] = points@bbox[1,1] - 0.5 * grid@cellsize[1]
-	points@bbox[1,2] = points@bbox[1,2] + 0.5 * grid@cellsize[1]
-	points@bbox[2,1] = points@bbox[2,1] - 0.5 * grid@cellsize[2]
-	points@bbox[2,2] = points@bbox[2,2] + 0.5 * grid@cellsize[2]
+	points@bbox[,1] = points@bbox[,1] - 0.5 * grid@cellsize
+	points@bbox[,2] = points@bbox[,2] + 0.5 * grid@cellsize
 	new("SpatialPixels", points, grid = grid, 
 		grid.index = getGridIndex(coordinates(points), grid))
 }
@@ -15,10 +13,8 @@ setMethod("coordinates", "SpatialPixels", function(obj) obj@coords)
 
 SpatialGrid = function(grid, proj4string = CRS(as.character(NA))) {
 	pts = boguspoints(grid)
-	pts@bbox[1,1] = pts@bbox[1,1] - 0.5 * grid@cellsize[1]
-	pts@bbox[1,2] = pts@bbox[1,2] + 0.5 * grid@cellsize[1]
-	pts@bbox[2,1] = pts@bbox[2,1] - 0.5 * grid@cellsize[2]
-	pts@bbox[2,2] = pts@bbox[2,2] + 0.5 * grid@cellsize[2]
+	pts@bbox[,1] = pts@bbox[,1] - 0.5 * grid@cellsize
+	pts@bbox[,2] = pts@bbox[,2] + 0.5 * grid@cellsize
 	proj4string(pts) = proj4string
 	new("SpatialGrid", pts, grid = grid, grid.index = integer(0))
 }
@@ -32,10 +28,10 @@ getGridTopology = function(obj) {
 }
 
 areaSpatialGrid = function(obj) {
-	cellarea = prod(obj@grid@cellsize[1:2])
+	cellarea = prod(obj@grid@cellsize)
 	if (is(obj, "SpatialGrid"))
 		return(prod(obj@grid@cells.dim) * cellarea)
-	else
+	else # take number of cells:
 		length(obj@grid.index) * cellarea
 }
 
@@ -93,15 +89,19 @@ subset.SpatialPixels <- function(x, subset, select, drop = FALSE, ...) {
 
 setMethod("[", "SpatialPixels",
 	function(x, i, j, ..., drop = TRUE) {
-		drop <- FALSE
 #		if (!missing(drop))
 #			stop("don't supply drop: it needs to be FALSE anyway")
 		if (!missing(j))
 			stop("can only select pixels with a single index")
 		if (missing(i))
 			return(x)
-		res = as(x, "SpatialPoints")[i]
-		gridded(res) = TRUE
+		if (drop) { # default: adjust bbox and grid
+			res = as(x, "SpatialPoints")[i]
+			gridded(res) = TRUE
+		} else
+			res = new("SpatialPixels", bbox = x@bbox, proj4string = x@proj4string,	
+				coords = x@coords[i, , drop = FALSE], grid = x@grid, 
+				grid.index = x@grid.index[i])
 		res
 	}
 )
