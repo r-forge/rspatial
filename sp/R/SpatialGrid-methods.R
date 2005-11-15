@@ -1,4 +1,4 @@
-SpatialPixels = function(points, tolerance = 10 * .Machine$double.eps) {
+SpatialPixels = function(points, tolerance = sqrt(.Machine$double.eps)) {
 	if (!is(points, "SpatialPoints"))
 		stop("points should be of class or extending SpatialPoints")
 	points = as(points, "SpatialPoints")

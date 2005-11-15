@@ -38,7 +38,7 @@ coordinatevalues = function(obj) {
 	ret
 }
 
-points2grid = function(points, tolerance) {
+points2grid = function(points, tolerance=sqrt(.Machine$double.eps)) {
 	# work out grid topology from points
 	n = dimensions(points)
 	ret = new("GridTopology", 

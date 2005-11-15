@@ -15,10 +15,10 @@ defines spatial grid by offset, cell size and dimensions
 }
 \usage{
 GridTopology(cellcentre.offset, cellsize, cells.dim)
-SpatialPixels(points, tolerance = 10 * .Machine$double.eps)
+SpatialPixels(points, tolerance = sqrt(.Machine$double.eps))
 SpatialGrid(grid, proj4string = CRS(as.character(NA)))
 coordinatevalues(obj)
-points2grid(points, tolerance)
+points2grid(points, tolerance = sqrt(.Machine$double.eps))
 getGridIndex(cc, grid, all.inside = TRUE)
 getGridTopology(obj)
 areaSpatialGrid(obj)
