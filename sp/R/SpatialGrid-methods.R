@@ -97,7 +97,11 @@ setMethod("[", "SpatialPixels",
 			return(x)
 		if (drop) { # default: adjust bbox and grid
 			res = as(x, "SpatialPoints")[i]
-			gridded(res) = TRUE
+			tolerance = list(...)$tolerance
+			if (!is.null(tolerance))
+				res = SpatialPixels(res, tolerance = tolerance)
+			else
+				gridded(res) = TRUE
 		} else
 			res = new("SpatialPixels", bbox = x@bbox, proj4string = x@proj4string,	
 				coords = x@coords[i, , drop = FALSE], grid = x@grid, 

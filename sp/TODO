@@ -1,3 +1,8 @@
+
+document and examples on [ for SpatialPixels.
+
+rbind for Points, Pixels, lines & polygons?
+
 coerce:
 	SpatialRings <---> SpatialLines
 	SpatialLines ---> SpatialPointsDataFrame, adding Sline.ID, Slines.ID and Line.ID

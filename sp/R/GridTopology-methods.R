@@ -53,11 +53,12 @@ points2grid = function(points, tolerance=sqrt(.Machine$double.eps)) {
     	difx = diff(sux)
 		if (length(difx) == 0)
 			stop(paste("cannot determine cell size from constant coordinate", i))
-		ru.difx = range(unique(difx))
-    	err1 = diff(ru.difx)/max(range(abs(sux)))
+		#ru.difx = range(unique(difx))
+		ru.difx = range(difx) # min to max x coord leaps
+    	err1 = diff(ru.difx)/max(range(abs(sux))) # (max-min)/max(abs(x))
     	if (err1 > tolerance) { 
 			xx = ru.difx / min(ru.difx)
-			err2 = max(abs(floor(xx) - xx))
+			err2 = max(abs(floor(xx) - xx)) # is it an integer multiple?
 			if (err2 > tolerance) {
 				cat(paste("suggested tolerance minimum:", err2))
        			stop(paste("dimension", i,": coordinate intervals are not constant"))
