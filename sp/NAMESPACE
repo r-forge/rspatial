@@ -81,7 +81,7 @@ export(transform.Spatial)
 export(makegrid, sample.Spatial, sample.Line, sample.Polygon, sample.Polygons,
 	sample.Sgrid)
 
-export(as.SpatialPolygons.GridTopology, IDvaluesGridTopology)
+export(as.SpatialPolygons.GridTopology, IDvaluesGridTopology, as.SpatialPolygons.SpatialPixels, IDvaluesSpatialPixels)
 
 export(dd2dms, print.DMS, char2dms, as.character.DMS,
 	as.double.DMS, as.numeric.DMS)

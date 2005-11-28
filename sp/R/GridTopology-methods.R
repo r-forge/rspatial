@@ -137,19 +137,8 @@ as.SpatialPolygons.GridTopology <- function(grd, proj4string=CRS(as.character(NA
 IDvaluesGridTopology <- function(obj) {
 	if (!is(obj, "GridTopology"))
 		stop("function only works for objects of class or extending GridTopology")
-	ret = list()
-	for (i in seq(along=obj@cells.dim)) {
-		if (i == 2) # y-axis is the exception--starting at top of map, and decreasing:
-			ret[[i]] = 1 + ((obj@cells.dim[i] - 1):0)
-		else
-			ret[[i]] = 1 + (0:(obj@cells.dim[i] - 1))
-	}
-	ns = names(obj@cellcentre.offset)
-	if (is.null(ns))
-		ns = paste("s", 1:length(ret), sep = "") #dimnames(obj@bbox)[[1]]
-	names(ret) = ns
-	cc <- do.call("expand.grid", ret)
+	cc <- getGridIndex(coordinates(obj), obj)
 	res <- as.matrix(sapply(cc, as.integer))
-	paste("c", cc[,1], "r", cc[,2], sep="")
+	paste("g", cc, sep="")
 }
 

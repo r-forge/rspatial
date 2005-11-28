@@ -156,3 +156,37 @@ print.SpatialGrid = function(x, ...) {
 	print(as(x, "SpatialPoints"))
 	invisible(x)
 }
+
+# make a SpatialPolygons from a SpatialPixels - Kohris Sahlen workshop
+
+as.SpatialPolygons.SpatialPixels <- function(obj, proj4string=CRS(as.character(NA)))
+{
+	obj_crds <- coordinates(obj)
+	IDs <- IDvaluesSpatialPixels(obj)
+	nPolygons <- nrow(obj_crds)
+	cS <- slot(slot(obj, "grid"), "cellsize")
+	cS2 <- cS/2
+	cS2x <- cS2[1]
+	cS2y <- cS2[2]
+	Srl <- vector(mode="list", length=nPolygons)
+	for (i in 1:nPolygons) {
+		xi <- obj_crds[i,1]
+		yi <- obj_crds[i,2]
+		x <- c(xi-cS2x, xi-cS2x, xi+cS2x, xi+cS2x, xi-cS2x)
+		y <- c(yi-cS2y, yi+cS2y, yi+cS2y, yi-cS2y, yi-cS2y)
+		Srl[[i]] <- Polygons(list(Polygon(coords=cbind(x, y)
+#, proj4string=proj4string
+)), ID=IDs[i])
+	}
+	res <- as.SpatialPolygons.PolygonsList(Srl, proj4string=proj4string)
+	res
+}
+
+IDvaluesSpatialPixels <- function(obj) {
+	if (!is(obj, "SpatialPixels"))
+		stop("function only works for objects of class or extending SpatialPixels")
+
+	cc <- slot(obj, "grid.index")
+	res <- as.matrix(sapply(cc, as.integer))
+	paste("g", cc, sep="")
+}
