@@ -1,10 +1,13 @@
 SpatialPixels = function(points, tolerance = sqrt(.Machine$double.eps)) {
 	if (!is(points, "SpatialPoints"))
 		stop("points should be of class or extending SpatialPoints")
+	is.gridded = gridded(points)
 	points = as(points, "SpatialPoints")
 	grid = points2grid(points, tolerance)
-	points@bbox[,1] = points@bbox[,1] - 0.5 * grid@cellsize
-	points@bbox[,2] = points@bbox[,2] + 0.5 * grid@cellsize
+	if (!is.gridded) {
+		points@bbox[,1] = points@bbox[,1] - 0.5 * grid@cellsize
+		points@bbox[,2] = points@bbox[,2] + 0.5 * grid@cellsize
+	}
 	new("SpatialPixels", points, grid = grid, 
 		grid.index = getGridIndex(coordinates(points), grid))
 }
@@ -155,6 +158,16 @@ print.SpatialGrid = function(x, ...) {
 	print(summary(x@grid))
 	print(as(x, "SpatialPoints"))
 	invisible(x)
+}
+"$<-.SpatialGrid" = function(x,i,value) {
+	df = data.frame(value)
+	names(df) = as.character(substitute(i))
+	SpatialGridDataFrame(x@grid, df) 
+}
+"$<-.SpatialPixels" = function(x,i,value) { 
+	df = data.frame(value)
+	names(df) = as.character(substitute(i))
+	SpatialPixelsDataFrame(x, df)
 }
 
 # make a SpatialPolygons from a SpatialPixels - Kohris Sahlen workshop

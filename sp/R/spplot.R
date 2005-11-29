@@ -113,8 +113,11 @@ getFormulaLevelplot = function(sdf, zcol) {
 spplot.grid = function(obj, zcol = names(obj), ..., names.attr, 
 		scales = list(draw = FALSE), xlab = NULL, ylab = NULL, 
 		aspect = mapasp(obj,xlim,ylim), panel = panel.gridplot, sp.layout = NULL, formula, 
-		xlim = bbox(obj)[1,], ylim = bbox(obj)[2,]) {
-	sdf = as(obj, "SpatialPointsDataFrame")
+		xlim = bbox(obj)[1,], ylim = bbox(obj)[2,], checkEmptyRC = TRUE) {
+	if (checkEmptyRC)
+		sdf = addNAemptyRows(obj) # returns SpatialPointsDataFrame
+	else
+		sdf = as(obj, "SpatialPointsDataFrame")
 	if (missing(formula))
 		formula = getFormulaLevelplot(sdf, zcol)
 	if (length(zcol) > 1) {
@@ -560,4 +563,23 @@ colorkey.factor = function(f, colorkey = list()) {
 			panel.lines(res[(i-1):i,])
 	}
 	res
+}
+
+addNAemptyRows = function(obj) {
+	# accept gridded; return SpatialPointsDataFrame with NA records on empty row/cols
+	xy = coordinates(obj)[,1:2]
+	coordvals = coordinatevalues(obj@grid)
+	missing.x = coordvals[[1]][is.na(match(coordvals[[1]],xy[,1]))]
+	missing.y = coordvals[[2]][is.na(match(coordvals[[2]],xy[,2]))]
+	n = length(missing.x) + length(missing.y)
+	if (n > 0) {
+		if (length(missing.x) > 0)
+			xy = rbind(xy, cbind(missing.x, rep(xy[1,2], length(missing.x))))
+		if (length(missing.y) > 0)
+			xy = rbind(xy, cbind(rep(xy[1,1], length(missing.y)), missing.y))
+		newatt = AttributeList(lapply(obj@data@att, function(x) c(x, rep(NA, n))))
+		obj = SpatialPointsDataFrame(xy, newatt, obj@coords.nrs, obj@proj4string, FALSE)
+	} else
+		obj = as(obj, "SpatialPointsDataFrame")
+	obj
 }

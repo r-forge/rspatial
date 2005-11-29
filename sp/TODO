@@ -1,3 +1,4 @@
+[ on a SpatialGridDataFrame, omitting 1 row & 1 column does not work correctly.
 
 document and examples on [ for SpatialPixels.
 
