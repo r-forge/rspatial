@@ -1,3 +1,5 @@
+rewrite zerodist in C, which does not require the full distance matrix (memory limitation!)
+
 [ on a SpatialGridDataFrame, omitting 1 row & 1 column does not work correctly.
 
 document and examples on [ for SpatialPixels.
