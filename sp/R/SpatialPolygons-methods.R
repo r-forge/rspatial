@@ -275,3 +275,7 @@ setReplaceMethod("coordnames",
 )
 
 setMethod("summary", "SpatialPolygons", summary.Spatial)
+
+setMethod("coordinates", "SpatialPolygons", 
+	function(obj) getSpPPolygonsLabptSlots(obj))
+
