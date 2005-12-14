@@ -176,6 +176,7 @@ S3method(lines, SpatialLines)
 
 S3method(names, SpatialPointsDataFrame)
 S3method(names, SpatialPixelsDataFrame)
+S3method(names, SpatialGridDataFrame)
 S3method(names, SpatialLinesDataFrame)
 S3method(names, SpatialPolygonsDataFrame)
 S3method(names, AttributeList)
