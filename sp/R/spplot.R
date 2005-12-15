@@ -553,7 +553,8 @@ colorkey.factor = function(f, colorkey = list()) {
 	if (n > 1) for (i in 2:n) {
 		xy = grid.locator(unit = "native")
 		if (is.null(xy))
-			return(res)
+			# return(res)
+			break
 		else
 			xy = as.numeric(xy)
 		res = rbind(res, xy)
@@ -562,6 +563,7 @@ colorkey.factor = function(f, colorkey = list()) {
 		if (type == "o" || type == "l")
 			panel.lines(res[(i-1):i,])
 	}
+	dimnames(res) = list(NULL, NULL)
 	res
 }
 

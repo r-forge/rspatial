@@ -8,7 +8,7 @@ importFrom(lattice, levelplot, xyplot, trellis.par.set,
 	panel.levelplot, panel.superpose, trellis.par.get,
 	trellis.focus, trellis.unfocus)
 importFrom(grid, grid.polygon, grid.rect, polygonGrob, gpar,
-	grid.layout, unit, frameGrob, placeGrob, rectGrob)
+	grid.layout, unit, frameGrob, placeGrob, rectGrob, grid.locator)
 
 export(CRS, print.CRS, proj4string, "proj4string<-", is.projected)
 
