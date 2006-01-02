@@ -60,12 +60,12 @@ gwr.sel <- function(formula, data = list(), coords, adapt=FALSE,
 
 gwr.aic.f <- function(bandwidth, y, x, coords, gweight, verbose=TRUE, longlat=FALSE) {
     n <- NROW(x)
-    m <- NCOL(x)
+#    m <- NCOL(x)
     lhat <- matrix(nrow=n, ncol=n)
     flag <- 0
     options(show.error.messages = FALSE)
     for (i in 1:n) {
-        xx <- x[i, ]
+#        xx <- x[i, ]
 	w.i <- gweight(spDistsN1(coords, coords[i,], longlat=longlat)^2, bandwidth)
         lm.i <- try(lm.wfit(y = y, x = x, w = w.i))
         if(!inherits(lm.i, "try-error")) {
@@ -96,7 +96,7 @@ gwr.aic.f <- function(bandwidth, y, x, coords, gweight, verbose=TRUE, longlat=FA
 gwr.cv.f <- function(bandwidth, y, x, coords, gweight, verbose=TRUE, longlat=FALSE)
 {
     n <- NROW(x)
-    m <- NCOL(x)
+#    m <- NCOL(x)
     cv <- numeric(n)
     options(show.error.messages = FALSE)
     for (i in 1:n) {
@@ -117,13 +117,13 @@ gwr.cv.f <- function(bandwidth, y, x, coords, gweight, verbose=TRUE, longlat=FAL
 
 gwr.aic.adapt.f <- function(q, y, x, coords, gweight, verbose=TRUE, longlat=FALSE) {
     n <- NROW(x)
-    m <- NCOL(x)
+#    m <- NCOL(x)
     lhat <- matrix(nrow=n, ncol=n)
     bw <- gw.adapt(dp=coords, fp=coords, quant=q, longlat=longlat)
     flag <- 0
     options(show.error.messages = FALSE)
     for (i in 1:n) {
-        xx <- x[i, ]
+#        xx <- x[i, ]
 	w.i <- gweight(spDistsN1(coords, coords[i,], longlat=longlat)^2, bw[i])
         lm.i <- try(lm.wfit(y = y, x = x, w = w.i))
         if(!inherits(lm.i, "try-error")) {
@@ -154,7 +154,7 @@ gwr.aic.adapt.f <- function(q, y, x, coords, gweight, verbose=TRUE, longlat=FALS
 gwr.cv.adapt.f <- function(q, y, x, coords, gweight, verbose=TRUE, longlat=FALSE)
 {
     n <- NROW(x)
-    m <- NCOL(x)
+#    m <- NCOL(x)
     cv <- real(n)
     bw <- gw.adapt(dp=coords, fp=coords, quant=q, longlat=longlat)
     options(show.error.messages = FALSE)

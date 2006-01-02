@@ -104,9 +104,9 @@ LMZ.F3GWR.test <- function(go) {
 	if (class(go) != "gwr") stop ("Not a GWR object")
 	if (!go$hatmatrix) stop("Fit GWR model with argument hatmatrix=TRUE")
 	
-	this.call <- match.call()
+#	this.call <- match.call()
 
-	y <- go$lm$y
+#	y <- go$lm$y
 	x <- go$lm$x
 	n <- NROW(x)
 	m <- NCOL(x)

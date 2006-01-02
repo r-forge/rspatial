@@ -94,11 +94,11 @@ gw.cov <- function(x, vars, fp, adapt=NULL, bw, gweight=gwr.bisquare,
 	# global adjusted residual standard error
 
 	if (missing(fp)) {
-		fp.given <- FALSE
+#		fp.given <- FALSE
 		fp <- dp
 		colnames(fp) <- colnames(dp)
 	} else {
-		fp.given <- TRUE
+#		fp.given <- TRUE
 		gridded <- gridded(fp)
 	}
 	if (gridded) fp <- coordinates(fp)
