@@ -154,7 +154,7 @@ LMZ.F3GWR.test <- function(go) {
 	for (i in 1:m){
 		B <- matrix (nrow = n, ncol = n)
 		for (j in 1:n){
-			wj <- gweight(gw.dists(coords, coords[j,])^2, 
+			wj <- gweight(spDistsN1(coords, coords[j,])^2, 
 				bandwidth[j])
 			B[j,] <- ek[i,] %*% solve(t(x)%*%diag(wj)%*%x) %*%
 				t(x) %*% diag(wj)

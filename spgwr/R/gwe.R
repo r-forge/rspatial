@@ -1,16 +1,16 @@
 # Copyright 2001-2004 Roger Bivand and Danlin Yu
 # 
 
-gw.dists <- function(dp, pt, lonlat=FALSE) {
-	n <- nrow(dp)
-	dists <- numeric(n)
-	res <- .C("gw_dists", as.double(dp[,1]), as.double(dp[,2]),
-		as.double(pt[1]), as.double(pt[2]), as.integer(n),
-		as.double(dists), as.integer(lonlat), PACKAGE="spgwr")[[6]]
-	res
-}
+#gw.dists <- function(dp, pt, lonlat=FALSE) {
+#	n <- nrow(dp)
+#	dists <- numeric(n)
+#	res <- .C("gw_dists", as.double(dp[,1]), as.double(dp[,2]),
+#		as.double(pt[1]), as.double(pt[2]), as.integer(n),
+#		as.double(dists), as.integer(lonlat), PACKAGE="spgwr")[[6]]
+#	res
+#}
 
-gw.adapt <- function(dp, fp, quant, lonlat=FALSE) {
+gw.adapt <- function(dp, fp, quant, longlat=FALSE) {
 	n1 <- nrow(dp)
 	n2 <- nrow(fp)
 	dists <- numeric(n1)
@@ -21,7 +21,7 @@ gw.adapt <- function(dp, fp, quant, lonlat=FALSE) {
 		res <- .C("gw_adapt", as.double(dp[,1]), as.double(dp[,2]),
 			as.double(fp[,1]), as.double(fp[,2]), as.integer(n1),
 			as.integer(n2), as.double(bw), as.double(quant),
-			as.double(dists), as.integer(lonlat), 
+			as.double(dists), as.integer(longlat), 
 			PACKAGE="spgwr")[[7]]
 		res <- res*factor
 	} else {
@@ -33,12 +33,12 @@ gw.adapt <- function(dp, fp, quant, lonlat=FALSE) {
 		res1 <- .C("gw_adapt", as.double(dp[,1]), as.double(dp[,2]),
 			as.double(fp[,1]), as.double(fp[,2]), as.integer(n1),
 			as.integer(n2), as.double(bw), as.double(q1),
-			as.double(dists), as.integer(lonlat), 
+			as.double(dists), as.integer(longlat), 
 			PACKAGE="spgwr")[[7]]
 		res2 <- .C("gw_adapt", as.double(dp[,1]), as.double(dp[,2]),
 			as.double(fp[,1]), as.double(fp[,2]), as.integer(n1),
 			as.integer(n2), as.double(bw), as.double(q2),
-			as.double(dists), as.integer(lonlat), 
+			as.double(dists), as.integer(longlat), 
 			PACKAGE="spgwr")[[7]]
 
 		res <- (n.ideal - n.lower)*res2 + (n.higher - n.ideal)*res1
@@ -48,7 +48,7 @@ gw.adapt <- function(dp, fp, quant, lonlat=FALSE) {
 
 
 gw.cov <- function(x, vars, fp, adapt=NULL, bw, gweight=gwr.bisquare, 
-		cor=TRUE, var.term=FALSE, lonlat=FALSE) {
+		cor=TRUE, var.term=FALSE, longlat=FALSE) {
 	p4s <- as.character(NA)
 	Polys <- NULL
 	fp.missing <- missing(fp)
@@ -77,13 +77,13 @@ gw.cov <- function(x, vars, fp, adapt=NULL, bw, gweight=gwr.bisquare,
 		if (!missing(bw)) bw0 <- rep(bw, n1)
 		else stop("Bandwidth must be given for non-adaptive weights")
 	}
-	else bw0 <- gw.adapt(dp=dp, fp=dp, quant=adapt, lonlat=lonlat)
+	else bw0 <- gw.adapt(dp=dp, fp=dp, quant=adapt, longlat=longlat)
 	dm <- numeric(nc)
 	rss <- numeric(nc)
 	trhat <- 0
 	for (i in 1:n1) { # establish residuals for data points and 
 			# calculate hat matrix trace
-		wts <- gweight(gw.dists(dp, dp[i,], lonlat=lonlat), bw0[i])
+		wts <- gweight(spDistsN1(dp, dp[i,], longlat=longlat), bw0[i])
 		for (j in 1:nc) {
 			dm[j] <- weighted.mean(x[,j], wts)
 			rss[j] <- rss[j] + (x[i,j] - dm[j])^2
@@ -109,7 +109,7 @@ gw.cov <- function(x, vars, fp, adapt=NULL, bw, gweight=gwr.bisquare,
 		if (!missing(bw)) bw <- rep(bw, n2)
 		else stop("Bandwidth must be given for non-adaptive weights")
 	}
-	else bw <- gw.adapt(dp=dp, fp=fp, quant=adapt, lonlat=lonlat)
+	else bw <- gw.adapt(dp=dp, fp=fp, quant=adapt, longlat=longlat)
 	
 	ut <- ((nc^2 -nc)/2)
 	res <- matrix(NA, nrow=n2, ncol=((4*nc)+(ifelse(cor, 2*ut, ut))))
@@ -130,7 +130,7 @@ gw.cov <- function(x, vars, fp, adapt=NULL, bw, gweight=gwr.bisquare,
 	swts2 <- numeric(n2)
 
 	for (i in 1:n2) {
-		wts <- gweight(gw.dists(dp, fp[i,], lonlat=lonlat), bw[i])
+		wts <- gweight(spDistsN1(dp, fp[i,], longlat=longlat), bw[i])
 		swts[i] <- sum(wts)
 		swts2[i] <- sum((wts/swts[i])^2)
 		res1 <- cov.wt(as.matrix(x), wts, cor=cor)

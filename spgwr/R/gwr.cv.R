@@ -2,9 +2,9 @@
 # 
 
 gwr.sel <- function(formula, data = list(), coords, adapt=FALSE, 
-	gweight=gwr.gauss, method="cv", verbose=TRUE, lonlat=FALSE) {
+	gweight=gwr.gauss, method="cv", verbose=TRUE, longlat=FALSE) {
 	if (!is.logical(adapt)) stop("adapt must be logical")
-	if (!is.logical(lonlat)) stop("lonlat must be logical")
+	if (!is.logical(longlat)) stop("longlat must be logical")
 	if (is(data, "Spatial")) {
 		if (missing(coords)) {
 			if (is(data, "SpatialPolygonsDataFrame")) 
@@ -24,17 +24,17 @@ gwr.sel <- function(formula, data = list(), coords, adapt=FALSE,
 #		stop("Input data and coordinates have different dimensions")
 	if (!adapt) {
 		bbox <- cbind(range(coords[,1]), range(coords[,2]))
-		difmin <- gw.dists(bbox, bbox[2,], lonlat)[1]
+		difmin <- spDistsN1(bbox, bbox[2,], longlat)[1]
 		beta1 <- difmin/1000
 		beta2 <- difmin
 		if (method == "cv") {
 			opt <- optimize(gwr.cv.f, lower=beta1, upper=beta2, 
 				maximum=FALSE, y=y, x=x, coords=coords, 
-				gweight=gweight, verbose=verbose, lonlat=lonlat)
+				gweight=gweight, verbose=verbose, longlat=longlat)
 		} else {
 			opt <- optimize(gwr.aic.f, lower=beta1, upper=beta2, 
 				maximum=FALSE, y=y, x=x, coords=coords, 
-				gweight=gweight, verbose=verbose, lonlat=lonlat)
+				gweight=gweight, verbose=verbose, longlat=longlat)
 		}
 		bdwt <- opt$minimum
 		res <- bdwt
@@ -45,12 +45,12 @@ gwr.sel <- function(formula, data = list(), coords, adapt=FALSE,
 			opt <- optimize(gwr.cv.adapt.f, lower=beta1, 
 				upper=beta2, maximum=FALSE, y=y, x=x, 
 				coords=coords, gweight=gweight, 
-				verbose=verbose, lonlat=lonlat)
+				verbose=verbose, longlat=longlat)
 		} else {
 			opt <- optimize(gwr.aic.adapt.f, lower=beta1, 
 				upper=beta2, maximum=FALSE, y=y, x=x, 
 				coords=coords, gweight=gweight, 
-				verbose=verbose, lonlat=lonlat)
+				verbose=verbose, longlat=longlat)
 		}
 		q <- opt$minimum
 		res <- q
@@ -58,7 +58,7 @@ gwr.sel <- function(formula, data = list(), coords, adapt=FALSE,
 	res
 }
 
-gwr.aic.f <- function(bandwidth, y, x, coords, gweight, verbose=TRUE, lonlat=FALSE) {
+gwr.aic.f <- function(bandwidth, y, x, coords, gweight, verbose=TRUE, longlat=FALSE) {
     n <- NROW(x)
     m <- NCOL(x)
     lhat <- matrix(nrow=n, ncol=n)
@@ -66,7 +66,7 @@ gwr.aic.f <- function(bandwidth, y, x, coords, gweight, verbose=TRUE, lonlat=FAL
     options(show.error.messages = FALSE)
     for (i in 1:n) {
         xx <- x[i, ]
-	w.i <- gweight(gw.dists(coords, coords[i,], lonlat=lonlat)^2, bandwidth)
+	w.i <- gweight(spDistsN1(coords, coords[i,], longlat=longlat)^2, bandwidth)
         lm.i <- try(lm.wfit(y = y, x = x, w = w.i))
         if(!inherits(lm.i, "try-error")) {
             p <- lm.i$rank
@@ -93,7 +93,7 @@ gwr.aic.f <- function(bandwidth, y, x, coords, gweight, verbose=TRUE, lonlat=FAL
     score
 }
 
-gwr.cv.f <- function(bandwidth, y, x, coords, gweight, verbose=TRUE, lonlat=FALSE)
+gwr.cv.f <- function(bandwidth, y, x, coords, gweight, verbose=TRUE, longlat=FALSE)
 {
     n <- NROW(x)
     m <- NCOL(x)
@@ -101,7 +101,7 @@ gwr.cv.f <- function(bandwidth, y, x, coords, gweight, verbose=TRUE, lonlat=FALS
     options(show.error.messages = FALSE)
     for (i in 1:n) {
         xx <- x[i, ]
-	w.i <- gweight(gw.dists(coords, coords[i,], lonlat=lonlat)^2, bandwidth)
+	w.i <- gweight(spDistsN1(coords, coords[i,], longlat=longlat)^2, bandwidth)
         w.i[i] <- 0
         lm.i <- try(lm.wfit(y = y, x = x, w = w.i))
         if(!inherits(lm.i, "try-error")) {
@@ -115,16 +115,16 @@ gwr.cv.f <- function(bandwidth, y, x, coords, gweight, verbose=TRUE, lonlat=FALS
     score
 }
 
-gwr.aic.adapt.f <- function(q, y, x, coords, gweight, verbose=TRUE, lonlat=FALSE) {
+gwr.aic.adapt.f <- function(q, y, x, coords, gweight, verbose=TRUE, longlat=FALSE) {
     n <- NROW(x)
     m <- NCOL(x)
     lhat <- matrix(nrow=n, ncol=n)
-    bw <- gw.adapt(dp=coords, fp=coords, quant=q, lonlat=lonlat)
+    bw <- gw.adapt(dp=coords, fp=coords, quant=q, longlat=longlat)
     flag <- 0
     options(show.error.messages = FALSE)
     for (i in 1:n) {
         xx <- x[i, ]
-	w.i <- gweight(gw.dists(coords, coords[i,], lonlat=lonlat)^2, bw[i])
+	w.i <- gweight(spDistsN1(coords, coords[i,], longlat=longlat)^2, bw[i])
         lm.i <- try(lm.wfit(y = y, x = x, w = w.i))
         if(!inherits(lm.i, "try-error")) {
             p <- lm.i$rank
@@ -151,16 +151,16 @@ gwr.aic.adapt.f <- function(q, y, x, coords, gweight, verbose=TRUE, lonlat=FALSE
     score
 }
 
-gwr.cv.adapt.f <- function(q, y, x, coords, gweight, verbose=TRUE, lonlat=FALSE)
+gwr.cv.adapt.f <- function(q, y, x, coords, gweight, verbose=TRUE, longlat=FALSE)
 {
     n <- NROW(x)
     m <- NCOL(x)
     cv <- real(n)
-    bw <- gw.adapt(dp=coords, fp=coords, quant=q, lonlat=lonlat)
+    bw <- gw.adapt(dp=coords, fp=coords, quant=q, longlat=longlat)
     options(show.error.messages = FALSE)
     for (i in 1:n) {
         xx <- x[i, ]
-	w.i <- gweight(gw.dists(coords, coords[i,], lonlat=lonlat)^2, bw[i])
+	w.i <- gweight(spDistsN1(coords, coords[i,], longlat=longlat)^2, bw[i])
         w.i[i] <- 0
         lm.i <- try(lm.wfit(y = y, x = x, w = w.i))
         if(!inherits(lm.i, "try-error")) {

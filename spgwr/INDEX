@@ -3,12 +3,10 @@ georgia                 Georgia census data set
                         (SpatialDataFramePolygons)
 gw.adapt                Adaptive kernel for GWR
 gw.cov                  Geographically weighted local statistics
-gw.dists                ~~function to do ... ~~
 gwr                     Geographically weighted regression
 gwr.bisquare            GWR bisquare weights function
 gwr.gauss               GWR Gaussian weights function
-gwr.morantest           ~~function to do ... ~~
-gwr.sel                 Crossvalidation of bandwidth for
-                        geographically weighted regression
+gwr.sel                 Crossvalidation of bandwidth for geographically
+                        weighted regression
 LMZ.F3GWR.test          Global tests of geographical weighted
                         regressions

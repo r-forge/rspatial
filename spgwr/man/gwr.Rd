@@ -10,7 +10,7 @@ weighting scheme.
 \usage{
 gwr(formula, data=list(), coords, bandwidth, gweight=gwr.gauss, 
 	adapt=NULL, hatmatrix = FALSE, fit.points, 
-	lonlat=FALSE)
+	longlat=FALSE)
 print.gwr(x, ...)
 }
 
@@ -26,7 +26,7 @@ print.gwr(x, ...)
   \item{adapt}{either NULL (default) or a proportion between 0 and 1 of observations to include in weighting scheme (k-nearest neighbours)}
   \item{hatmatrix}{if TRUE, return the hatmatrix as a component of the result}
   \item{fit.points}{an object containing the coordinates of fit points; often an object from package \pkg{sp}; if missing, the coordinates given through the data argument object, or the coords argument are used}
-  \item{lonlat}{if TRUE, use distances on an ellipse with WGS84 parameters}
+  \item{longlat}{if TRUE, use distances on an ellipse with WGS84 parameters}
   \item{x}{an object of class "gwr" returned by the \code{gwr} function}
   \item{...}{arguments to be passed to other functions}
 }
@@ -79,17 +79,19 @@ res.bw <- gwr(PctBach ~ TotPop90 + PctRural + PctEld + PctFB + PctPov + PctBlack
 res.bw
 pairs(as(res.bw$SDF, "data.frame")[,c(17,18, 1:9)], pch=".")
 plot(res.bw$SDF, col=cols[findInterval(res.bw$SDF$PctBlack, brks, all.inside=TRUE)])
-g.bw.gauss <- gwr.sel(PctBach ~ TotPop90 + PctRural + PctEld + PctFB + PctPov + PctBlack, data=gSRDF, lonlat=TRUE)
-library(spgpc)
-gSR <- as(gSRDF, "SpatialPolygons")
-length(getSpPpolygonsSlot(gSR))
-gSRouter <- unionSpatialPolygons(gSR, IDs=rep("Georgia", 159))
-gGrid <- sample.Polygons(getSpPpolygonsSlot(gSRouter)[[1]], 5000, type="regular")
-gridded(gGrid) <- TRUE
-summary(gGrid)
-res.bw <- gwr(PctBach ~ TotPop90 + PctRural + PctEld + PctFB + PctPov + PctBlack, data=gSRDF, bandwidth=g.bw.gauss, fit.points=gGrid, lonlat=TRUE)
-res.bw
-spplot(res.bw$SDF, "PctBlack")
+g.bw.gauss <- gwr.sel(PctBach ~ TotPop90 + PctRural + PctEld + PctFB + PctPov + PctBlack, data=gSRDF, longlat=TRUE)
+if (require(spgpc)) {
+  gSR <- as(gSRDF, "SpatialPolygons")
+  length(getSpPpolygonsSlot(gSR))
+  gSRouter <- unionSpatialPolygons(gSR, IDs=rep("Georgia", 159))
+  gGrid <- sample.Polygons(getSpPpolygonsSlot(gSRouter)[[1]], 5000,
+    type="regular")
+  gridded(gGrid) <- TRUE
+  summary(gGrid)
+  res.bw <- gwr(PctBach ~ TotPop90 + PctRural + PctEld + PctFB + PctPov + PctBlack, data=gSRDF, bandwidth=g.bw.gauss, fit.points=gGrid, longlat=TRUE)
+  res.bw
+  spplot(res.bw$SDF, "PctBlack")
+}
 }
 \keyword{spatial}
 

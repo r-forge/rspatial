@@ -3,7 +3,7 @@
 
 gwr <- function(formula, data = list(), coords, bandwidth, 
 	gweight=gwr.gauss, adapt=NULL, hatmatrix=FALSE, fit.points, 
-	lonlat=FALSE) {
+	longlat=FALSE) {
 	this.call <- match.call()
 	p4s <- as.character(NA)
 	Polys <- NULL
@@ -70,7 +70,7 @@ gwr <- function(formula, data = list(), coords, bandwidth,
 		} else stop("Bandwidth must be given for non-adaptive weights")
 	} else {
 		bandwidth <- gw.adapt(dp=coords, fp=fit.points, quant=adapt,
-			lonlat=lonlat)
+			longlat=longlat)
 		bw <- bandwidth
 	}
 	if (any(bandwidth < 0)) stop("Invalid bandwidth")
@@ -83,8 +83,8 @@ gwr <- function(formula, data = list(), coords, bandwidth,
 	if (!fp.given && hatmatrix) lhat <- matrix(nrow=n, ncol=n)
 	sum.w <- numeric(n)
 	for (i in 1:n) {
-		w.i <- gweight(gw.dists(coords, fit.points[i,],
-			lonlat=lonlat)^2, bandwidth[i])
+		w.i <- gweight(spDistsN1(coords, fit.points[i,],
+			longlat=longlat)^2, bandwidth[i])
 		if (any(w.i < 0 | is.na(w.i)))
         		stop(paste("Invalid weights for i:", i))
 		lm.i <- lm.wfit(y=y, x=x, w=w.i)
@@ -216,10 +216,9 @@ print.gwr <- function(x, ...) {
 	print(x$this.call)
 	cat("Kernel function:", x$gweight, "\n")
 	n <- NROW(x$lm$x)
-	if (is.null(x$bandwidth)) 
-		cat("Adaptive quantile: ", x$adapt, " (about ", 
-			floor(x$adapt*n), " of ", n, ")\n", sep="")
-	else cat("Fixed bandwidth:", x$bandwidth, "\n")
+	if (is.null(x$adapt)) cat("Fixed bandwidth:", x$bandwidth, "\n")
+	else cat("Adaptive quantile: ", x$adapt, " (about ", 
+		floor(x$adapt*n), " of ", n, ")\n", sep="")
 	m <- NCOL(x$lm$x)
 	cat("Summary of GWR coefficient estimates:\n")
 	CM <- t(apply(as(x$SDF, "data.frame")[,(1+(1:m))], 2, summary))[,c(1:3,5,6)]

@@ -6,7 +6,7 @@
   The function provides an implementation of geographically weighted local statistics based on Chapter 7 of the GWR book - see references. Local means, local standard deviations, local standard errors of the mean, standardised differences of the global and local means, and local covariances and if requested correlations, are reported for the chosed fixed or adaptive bandwidth and weighting function.
 }
 \usage{
-gw.cov(x, vars, fp, adapt = NULL, bw, gweight = gwr.bisquare, cor = TRUE, var.term = FALSE, lonlat = FALSE)
+gw.cov(x, vars, fp, adapt = NULL, bw, gweight = gwr.bisquare, cor = TRUE, var.term = FALSE, longlat = FALSE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -18,7 +18,7 @@ gw.cov(x, vars, fp, adapt = NULL, bw, gweight = gwr.bisquare, cor = TRUE, var.te
   \item{gweight}{ \code{gweight} default gwr.bisquare - the weighting function to use }
   \item{cor}{ \code{cor} default TRUE, report correlations in addition to covariances }
   \item{var.term}{ \code{var.term} default FALSE, if TRUE apply a correction to the variance term }
-  \item{lonlat}{if TRUE, use distances on an ellipse with WGS84 parameters}
+  \item{longlat}{if TRUE, use distances on an ellipse with WGS84 parameters}
 }
 
 \value{
@@ -31,30 +31,32 @@ Geographically Weighted Regression, Chichester: Wiley (chapter 7);
 \author{Roger Bivand \email{Roger.Bivand@nhh.no}}
 
 
-\seealso{\code{\link{gwr}}, \code{\link[spgpc]{unionSpatialPolygons}}}
+\seealso{\code{\link{gwr}}}
 
 \examples{
 data(georgia)
-library(spgpc)
-gSR <- as(gSRDF, "SpatialPolygons")
-length(getSpPpolygonsSlot(gSR))
-gSRouter <- unionSpatialPolygons(gSR, IDs=rep("Georgia", 159))
-gGrid <- sample.Polygons(getSpPpolygonsSlot(gSRouter)[[1]], 5000, type="regular")
-gridded(gGrid) <- TRUE
-SRgwls <- gw.cov(gSRDF, vars=6:11, bw=25, lonlat=TRUE)
+SRgwls <- gw.cov(gSRDF, vars=6:11, bw=25, longlat=TRUE)
 names(SRgwls$SDF)
 spplot(SRgwls$SDF, "mean.PctPov")
 spplot(SRgwls$SDF, "sd.PctPov")
 spplot(SRgwls$SDF, "sem.PctPov")
 spplot(SRgwls$SDF, "diff.PctPov")
 spplot(SRgwls$SDF, "cor.PctPov.PctBlack.")
-SGgwls <- gw.cov(gSRDF, vars=6:11, fp=gGrid, bw=25, lonlat=TRUE)
-names(SGgwls$SDF)
-spplot(SGgwls$SDF, "mean.PctPov")
-spplot(SGgwls$SDF, "sd.PctPov")
-spplot(SGgwls$SDF, "sem.PctPov")
-spplot(SGgwls$SDF, "diff.PctPov")
-spplot(SGgwls$SDF, "cor.PctPov.PctBlack.")
+if (require(spgpc)) {
+  gSR <- as(gSRDF, "SpatialPolygons")
+  length(getSpPpolygonsSlot(gSR))
+  gSRouter <- unionSpatialPolygons(gSR, IDs=rep("Georgia", 159))
+  gGrid <- sample.Polygons(getSpPpolygonsSlot(gSRouter)[[1]], 5000,
+    type="regular")
+  gridded(gGrid) <- TRUE
+  SGgwls <- gw.cov(gSRDF, vars=6:11, fp=gGrid, bw=25, longlat=TRUE)
+  names(SGgwls$SDF)
+  spplot(SGgwls$SDF, "mean.PctPov")
+  spplot(SGgwls$SDF, "sd.PctPov")
+  spplot(SGgwls$SDF, "sem.PctPov")
+  spplot(SGgwls$SDF, "diff.PctPov")
+  spplot(SGgwls$SDF, "cor.PctPov.PctBlack.")
+}
 }
 \keyword{spatial}
 

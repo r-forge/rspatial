@@ -12,7 +12,7 @@ prediction error for the geographically weighted regressions, choosing the
 bandwidth minimizing this quantity. 
 }
 \usage{
-gwr.sel(formula, data=list(), coords, adapt=FALSE, gweight=gwr.gauss, method = "cv", verbose = TRUE, lonlat=FALSE)
+gwr.sel(formula, data=list(), coords, adapt=FALSE, gweight=gwr.gauss, method = "cv", verbose = TRUE, longlat=FALSE)
 }
 \arguments{
   \item{formula}{regression model formula as in \code{lm}}
@@ -24,7 +24,7 @@ gwr.sel(formula, data=list(), coords, adapt=FALSE, gweight=gwr.gauss, method = "
   \code{gwr.gauss()} or \code{gwr.bisquare()}}
   \item{method}{default "cv" for drop-1 cross-validation, or "aic" for AIC optimisation (depends on assumptions about AIC degrees of freedom)}
   \item{verbose}{if TRUE (default), reports the progress of search for bandwidth}
-  \item{lonlat}{if TRUE, use distances on an ellipse with WGS84 parameters}
+  \item{longlat}{if TRUE, use distances on an ellipse with WGS84 parameters}
 }
 \value{
 returns the cross-validation bandwidth.
