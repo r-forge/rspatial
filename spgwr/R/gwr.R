@@ -83,8 +83,11 @@ gwr <- function(formula, data = list(), coords, bandwidth,
 	if (!fp.given && hatmatrix) lhat <- matrix(nrow=n, ncol=n)
 	sum.w <- numeric(n)
 	for (i in 1:n) {
-		w.i <- gweight(spDistsN1(coords, fit.points[i,],
-			longlat=longlat)^2, bandwidth[i])
+		dxs <- spDistsN1(coords, fit.points[i,], longlat=longlat)
+		if (any(!is.finite(dxs)))
+			dxs[which(!is.finite(dxs))] <- 0
+#		if (!is.finite(dxs[i])) dxs[i] <- 0
+		w.i <- gweight(dxs^2, bandwidth[i])
 		if (any(w.i < 0 | is.na(w.i)))
         		stop(paste("Invalid weights for i:", i))
 		lm.i <- lm.wfit(y=y, x=x, w=w.i)

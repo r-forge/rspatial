@@ -25,6 +25,8 @@ gwr.sel <- function(formula, data = list(), coords, adapt=FALSE,
 	if (!adapt) {
 		bbox <- cbind(range(coords[,1]), range(coords[,2]))
 		difmin <- spDistsN1(bbox, bbox[2,], longlat)[1]
+		if (any(!is.finite(difmin)))
+			difmin[which(!is.finite(difmin))] <- 0
 		beta1 <- difmin/1000
 		beta2 <- difmin
 		if (method == "cv") {
@@ -66,7 +68,12 @@ gwr.aic.f <- function(bandwidth, y, x, coords, gweight, verbose=TRUE, longlat=FA
     options(show.error.messages = FALSE)
     for (i in 1:n) {
 #        xx <- x[i, ]
-	w.i <- gweight(spDistsN1(coords, coords[i,], longlat=longlat)^2, bandwidth)
+	dxs <- spDistsN1(coords, coords[i,], longlat=longlat)
+	if (!is.finite(dxs[i])) dxs[i] <- 0
+	w.i <- gweight(dxs^2, bandwidth)
+#	w.i <- gweight(spDistsN1(coords, coords[i,], longlat=longlat)^2, bandwidth)
+	if (any(w.i < 0 | is.na(w.i)))
+       		stop(paste("Invalid weights for i:", i))
         lm.i <- try(lm.wfit(y = y, x = x, w = w.i))
         if(!inherits(lm.i, "try-error")) {
             p <- lm.i$rank
@@ -101,8 +108,13 @@ gwr.cv.f <- function(bandwidth, y, x, coords, gweight, verbose=TRUE, longlat=FAL
     options(show.error.messages = FALSE)
     for (i in 1:n) {
         xx <- x[i, ]
-	w.i <- gweight(spDistsN1(coords, coords[i,], longlat=longlat)^2, bandwidth)
+	dxs <- spDistsN1(coords, coords[i,], longlat=longlat)
+	if (!is.finite(dxs[i])) dxs[i] <- 0
+	w.i <- gweight(dxs^2, bandwidth)
+#	w.i <- gweight(spDistsN1(coords, coords[i,], longlat=longlat)^2, bandwidth)
         w.i[i] <- 0
+	if (any(w.i < 0 | is.na(w.i)))
+       		stop(paste("Invalid weights for i:", i))
         lm.i <- try(lm.wfit(y = y, x = x, w = w.i))
         if(!inherits(lm.i, "try-error")) {
             b <- coefficients(lm.i)
@@ -124,7 +136,12 @@ gwr.aic.adapt.f <- function(q, y, x, coords, gweight, verbose=TRUE, longlat=FALS
     options(show.error.messages = FALSE)
     for (i in 1:n) {
 #        xx <- x[i, ]
-	w.i <- gweight(spDistsN1(coords, coords[i,], longlat=longlat)^2, bw[i])
+	dxs <- spDistsN1(coords, coords[i,], longlat=longlat)
+	if (!is.finite(dxs[i])) dxs[i] <- 0
+	w.i <- gweight(dxs^2, bw[i])
+#	w.i <- gweight(spDistsN1(coords, coords[i,], longlat=longlat)^2, bw[i])
+	if (any(w.i < 0 | is.na(w.i)))
+       		stop(paste("Invalid weights for i:", i))
         lm.i <- try(lm.wfit(y = y, x = x, w = w.i))
         if(!inherits(lm.i, "try-error")) {
             p <- lm.i$rank
@@ -160,8 +177,12 @@ gwr.cv.adapt.f <- function(q, y, x, coords, gweight, verbose=TRUE, longlat=FALSE
     options(show.error.messages = FALSE)
     for (i in 1:n) {
         xx <- x[i, ]
-	w.i <- gweight(spDistsN1(coords, coords[i,], longlat=longlat)^2, bw[i])
+	dxs <- spDistsN1(coords, coords[i,], longlat=longlat)
+	if (!is.finite(dxs[i])) dxs[i] <- 0
+	w.i <- gweight(dxs^2, bw[i])
         w.i[i] <- 0
+	if (any(w.i < 0 | is.na(w.i)))
+       		stop(paste("Invalid weights for i:", i))
         lm.i <- try(lm.wfit(y = y, x = x, w = w.i))
         if(!inherits(lm.i, "try-error")) {
             b <- coefficients(lm.i)

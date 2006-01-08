@@ -83,7 +83,17 @@ gw.cov <- function(x, vars, fp, adapt=NULL, bw, gweight=gwr.bisquare,
 	trhat <- 0
 	for (i in 1:n1) { # establish residuals for data points and 
 			# calculate hat matrix trace
-		wts <- gweight(spDistsN1(dp, dp[i,], longlat=longlat), bw0[i])
+		dxs <- spDistsN1(dp, dp[i,], longlat=longlat)
+		if (!is.finite(dxs[i])) dxs[i] <- 0
+		wts <- gweight(dist2=dxs^2, bw0[i])
+		if (any(wts < 0 | is.na(wts))) {
+			print(dxs)
+			print(wts)
+        		stop(paste("Invalid weights for i:", i)) }
+		if (sum(wts) == 0) {
+			print(dxs)
+			print(wts)
+        		stop(paste("Invalid weights for i:", i)) }
 		for (j in 1:nc) {
 			dm[j] <- weighted.mean(x[,j], wts)
 			rss[j] <- rss[j] + (x[i,j] - dm[j])^2
@@ -130,8 +140,20 @@ gw.cov <- function(x, vars, fp, adapt=NULL, bw, gweight=gwr.bisquare,
 	swts2 <- numeric(n2)
 
 	for (i in 1:n2) {
-		wts <- gweight(spDistsN1(dp, fp[i,], longlat=longlat), bw[i])
+		dxs <- spDistsN1(dp, fp[i,], longlat=longlat)
+		if (any(!is.finite(dxs)))
+			dxs[which(!is.finite(dxs))] <- 0
+#		if (!is.finite(dxs[i])) dxs[i] <- 0
+		wts <- gweight(dxs^2, bw[i])
+		if (any(wts < 0 | is.na(wts))) {
+			print(dxs)
+			print(wts)
+        		stop(paste("Invalid weights for i:", i))}
 		swts[i] <- sum(wts)
+		if (swts[i] == 0) {
+			print(dxs)
+			print(wts)
+        		stop(paste("Invalid weights for i:", i))}
 		swts2[i] <- sum((wts/swts[i])^2)
 		res1 <- cov.wt(as.matrix(x), wts, cor=cor)
 		res[i, 1:nc] <- res1$center

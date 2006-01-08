@@ -1,6 +1,6 @@
 Package: spgwr
-Version: 0.3-9
-Date: 2006-01-02
+Version: 0.3-12
+Date: 2006-01-08
 Title: Geographically weighted regression
 Author: Roger Bivand and Danlin Yu
 Maintainer: Roger Bivand <Roger.Bivand@nhh.no>

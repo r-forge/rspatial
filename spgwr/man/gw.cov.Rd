@@ -35,7 +35,14 @@ Geographically Weighted Regression, Chichester: Wiley (chapter 7);
 
 \examples{
 data(georgia)
-SRgwls <- gw.cov(gSRDF, vars=6:11, bw=25, longlat=TRUE)
+SRgwls <- gw.cov(gSRDF, vars=6:11, bw=2, longlat=FALSE)
+names(SRgwls$SDF)
+spplot(SRgwls$SDF, "mean.PctPov")
+spplot(SRgwls$SDF, "sd.PctPov")
+spplot(SRgwls$SDF, "sem.PctPov")
+spplot(SRgwls$SDF, "diff.PctPov")
+spplot(SRgwls$SDF, "cor.PctPov.PctBlack.")
+SRgwls <- gw.cov(gSRDF, vars=6:11, bw=150, longlat=TRUE)
 names(SRgwls$SDF)
 spplot(SRgwls$SDF, "mean.PctPov")
 spplot(SRgwls$SDF, "sd.PctPov")
@@ -49,7 +56,7 @@ if (require(spgpc)) {
   gGrid <- sample.Polygons(getSpPpolygonsSlot(gSRouter)[[1]], 5000,
     type="regular")
   gridded(gGrid) <- TRUE
-  SGgwls <- gw.cov(gSRDF, vars=6:11, fp=gGrid, bw=25, longlat=TRUE)
+  SGgwls <- gw.cov(gSRDF, vars=6:11, fp=gGrid, bw=150, longlat=TRUE)
   names(SGgwls$SDF)
   spplot(SGgwls$SDF, "mean.PctPov")
   spplot(SGgwls$SDF, "sd.PctPov")
