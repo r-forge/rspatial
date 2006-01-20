@@ -47,7 +47,6 @@ Systems. Oxford University Press.
 
 \url{http:/www.gstat.org/}
 }
-\author{ }
 \keyword{datasets}
 
 \examples{
