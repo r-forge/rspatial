@@ -28,7 +28,8 @@ setMethod("coordinates", "matrix",
 			stop("cannot derive coordinates from non-numeric matrix")
 		dn = dimnames(obj)
 		dd = dim(obj)
-		obj = apply(obj, 2, as.double)
+#		obj = apply(obj, 2, as.double)
+		storage.mode(obj) <- "double"
 		dim(obj) = dd
 		dimnames(obj) = dn
 		obj
