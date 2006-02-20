@@ -46,7 +46,7 @@ if (as.numeric(version$minor) < 3) {
 		standardGeneric("transform"))
 } else {
     if (!isGeneric("transform"))
-	setGeneric("transform", function(_data, ...)
+	setGeneric("transform", function(`_data`, ...)
 		standardGeneric("transform"))
 }
 setMethod("bbox", "Spatial", function(obj) obj@bbox)
@@ -72,7 +72,7 @@ if (as.numeric(version$minor) < 3) {
 
 } else {
 
-    transform.Spatial <- function(_data, ...) {
+    transform.Spatial <- function(`_data`, ...) {
 	if (require(spproj)) 
 		standardGeneric("transform")
 	else 
