@@ -64,7 +64,8 @@ sp.text = function(loc, txt, ...) {
 sp.panel.layout = function(lst, panel.number, ...) {
 	sp.panel0 = function(x, first = FALSE, ...) {
 		if (is.character(x))
-			obj = get(x)
+#			obj = get(x)
+			x = get(x)
 		if (!is.null(x$which) && is.na(match(panel.number, x$which)))
 			return()
 		if (inherits(x, "list")) {
