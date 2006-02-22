@@ -7,7 +7,7 @@ dcluster.test<-function(b)
 {
 
 cl<-attr(b, "class")#Get class
-if(grep("boot",cl))
+if("boot"==cl)
 {
 
 	#Parameters used in the call to boot(...)
@@ -28,7 +28,7 @@ if(grep("boot",cl))
 
 	#Sampling model
 	m<-(strsplit(p[6], ".", fixed=TRUE))[[1]][1]
-	if(grep("parametric", b$sim))
+	if("parametric"==b$sim)
 	{
 		model<-switch(m, 
 			"multinom"="Multinomial",
@@ -53,11 +53,43 @@ if(grep("boot",cl))
 }
 else
 {
-if(grep("data.frame",cl))
+if("data.frame"==cl)
 {
 
-	print("Results from data frames returned by opgam")
+	cat('Scan test for the detection of clusters of disease\n\n')
 
+
+	d<-dim(b)
+	if(d[1]>0)
+	{
+		cat('\tNumber of significant cluster centres:', d[1], '\n')
+
+		i<-which.min(b$pvalue)
+
+	#Check if the KN's statistic has been used...
+	kn<-round(b$statistic[1])!=b$statistic[1]#If the statistic is NOT an integer...
+
+	if(!kn)#Summarise GAM results
+	{
+
+		i<-which.min(b$pvalue)
+			cat('\tCluster with the lowest p-value: (',b$x[i] ,', ', b$y[i] ,
+			'),  size:',b$size[i], ', pvalue:',b$pvalue[i], '\n') 
+
+
+	}
+	else#Kulldorff's statistic output
+	{
+		i<-which.max(b$statistic)	
+
+
+		cat('\tMost likely cluster: (',b$x[i] ,', ', b$y[i] ,
+                        '), likelihood ratio: ', b$statistic[i] ,', size:',b$size[i], ', pvalue:',b$pvalue[i], '\n')
+	
+
+	}
+
+	}
 
 }
 }
