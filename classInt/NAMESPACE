@@ -1,3 +1,5 @@
+useDynLib(classInt)
+
 importFrom(stats, quantile, kmeans, hclust)
 importFrom(grDevices, colorRampPalette, nclass.Sturges)
 importFrom(e1071, bclust)

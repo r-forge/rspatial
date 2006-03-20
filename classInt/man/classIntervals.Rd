@@ -11,17 +11,22 @@
 \usage{
 classIntervals(var, n, style = "quantile", rtimes = 3, ...)
 plot.classIntervals(x, pal, ...) 
-print.classIntervals(x, ...) 
+print.classIntervals(x, digits = getOption("digits"), ..., under="under", over="over", between="-", cutlabels=FALSE) 
 nPartitions(x) 
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{var}{a continuous numerical variable}
   \item{n}{number of classes required, if missing, \code{nclass.Sturges} is used}
-  \item{style}{chosen style: one of "fixed", "sd", "equal", "pretty", "quantile", "kmeans", "hclust" or "bclust"}
+  \item{style}{chosen style: one of "fixed", "sd", "equal", "pretty", "quantile", "kmeans", "hclust", "bclust", or "fisher"}
   \item{rtimes}{number of replications of var to catenate and jitter; may be used with styles "kmeans" or "bclust" in case they have difficulties reaching a classification}
   \item{\dots}{arguments to be passed to the functions called in each style}
   \item{x}{"classIntervals" object for printing or plotting}
+  \item{under}{character string value for "under" in printed table labels}
+  \item{over}{character string value for "over" in printed table labels}
+  \item{between}{character string value for "between" in printed table labels}
+  \item{digits}{minimal number of significant digits in printed table labels}
+  \item{cutlabels}{use cut-style labels in printed table labels}
   \item{pal}{a character vector of at least two colour names for colour coding the class intervals in an ECDF plot; \code{colorRampPalette} is used internally to create the correct number of colours}
 }
 \details{
@@ -40,6 +45,8 @@ nPartitions(x)
   The "hclust" style uses \code{hclust} to generate the breaks using hierarchical clustering; the \code{pars} attribute returns the hclust object generated, and can be used to find other breaks using \code{getHclustClassIntervals}; arguments to \code{hclust} may be passed through \code{\dots}.
 
   The "bclust" style uses \code{bclust} to generate the breaks using bagged clustering; it may be anchored using \code{set.seed}; the \code{pars} attribute returns the bclust object generated, and can be used to find other breaks using \code{getBclustClassIntervals}; if \code{bclust} fails, a jittered input vector containing \code{rtimes} replications of \code{var} is tried --- with few unique values in \code{var}, this can prove necessary; arguments to \code{bclust} may be passed through \code{\dots}.
+
+  The "fisher" style uses the algorithm proposed by W. D. Fisher (1958) and discussed by Slocum et al. (2005) as the Fisher-Jenks algorithm; added here thanks to Hisaji Ono.
 }
 
 \value{
@@ -52,7 +59,7 @@ nPartitions(x)
   \item{nobs}{number of different finite values in the input variable}
   \item{call}{this function's call}
 }
-\references{Armstrong, M. P., Xiao, N., Bennett, D. A., 2003. "Using genetic algorithms to create multicriteria class intervals for choropleth maps". Annals, Association of American Geographers, 93 (3), 595--623; Jenks, G. F., Caspall, F. C., 1971. "Error on choroplethic maps: definition, measurement, reduction". Annals, Association of American Geographers, 61 (2), 217--244; Dent, B. D., 1999, Cartography: thematic map design. McGraw-Hill, Boston, 417 pp.}
+\references{Armstrong, M. P., Xiao, N., Bennett, D. A., 2003. "Using genetic algorithms to create multicriteria class intervals for choropleth maps". Annals, Association of American Geographers, 93 (3), 595--623; Jenks, G. F., Caspall, F. C., 1971. "Error on choroplethic maps: definition, measurement, reduction". Annals, Association of American Geographers, 61 (2), 217--244; Dent, B. D., 1999, Cartography: thematic map design. McGraw-Hill, Boston, 417 pp.; Slocum TA, McMaster RB, Kessler FC, Howard HH 2005 Thematic Cartography and Geographic Visualizatio, Prentice Hall, Upper Saddle River NJ.; Fisher, W. D. 1958 "On grouping for maximum homogeneity", Journal of the American Statistical Association, 53, pp. 789--798 (\url{http://lib.stat.cmu.edu/cmlib/src/cluster/fish.f})}
 
 \author{Roger Bivand <Roger.Bivand@nhh.no>}
 
@@ -71,7 +78,7 @@ plot(classIntervals(jenks71$jenks71, n=5, style="hclust", method="complete"), pa
 plot(classIntervals(jenks71$jenks71, n=5, style="hclust", method="single"), pal=pal1, main="Single cluster")
 set.seed(1)
 plot(classIntervals(jenks71$jenks71, n=5, style="bclust", verbose=FALSE), pal=pal1, main="Bagged cluster")
-plot(classIntervals(jenks71$jenks71, n=5, style="bclust", hclust.method="complete", verbose=FALSE), pal=pal1, main="Bagged complete cluster")
+plot(classIntervals(jenks71$jenks71, n=5, style="fisher"), pal=pal1, main="Fisher's method")
 par(opar)
 classIntervals(jenks71$jenks71, n=5, style="fixed", fixedBreaks=c(15.57, 25, 50, 75, 100, 155.30))
 classIntervals(jenks71$jenks71, n=5, style="sd")
@@ -84,6 +91,7 @@ classIntervals(jenks71$jenks71, n=5, style="hclust", method="single")
 set.seed(1)
 classIntervals(jenks71$jenks71, n=5, style="bclust", verbose=FALSE)
 classIntervals(jenks71$jenks71, n=5, style="bclust", hclust.method="complete", verbose=FALSE)
+classIntervals(jenks71$jenks71, n=5, style="fisher")
 }
 \keyword{spatial}
 

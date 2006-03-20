@@ -85,9 +85,10 @@ classIntervals <- function(var, n, style="quantile", rtimes=3, ...) {
       fixedBreaks <- sort(eval(mc$...$fixedBreaks))
       if (is.null(fixedBreaks)) 
         stop("fixed method requires fixedBreaks argument")
-      if (length(fixedBreaks) != (n+1))
-        stop("mismatch between fixedBreaks and n")
+#      if (length(fixedBreaks) != (n+1))
+#        stop("mismatch between fixedBreaks and n")
       if (!is.numeric(fixedBreaks)) stop("fixedBreaks must be numeric")
+      if (any(diff(fixedBreaks) < 0)) stop("decreasing fixedBreaks found")
       if (min(var) < fixedBreaks[1] || 
         max(var) > fixedBreaks[length(fixedBreaks)])
           warning("variable range greater than fixedBreaks")
@@ -99,7 +100,7 @@ classIntervals <- function(var, n, style="quantile", rtimes=3, ...) {
       sbrks <- pretty(x=svar, n=n, ...)
       brks <- c((sbrks * pars[2]) + pars[1])
     } else if (style =="equal") {
-      brks <- seq(min(var), max(var), length.out=n)
+      brks <- seq(min(var), max(var), length.out=(n+1))
     } else if (style =="pretty") {
       brks <- c(pretty(x=var, n=n, ...))
     } else if (style =="quantile") {
@@ -151,6 +152,12 @@ classIntervals <- function(var, n, style="quantile", rtimes=3, ...) {
       }
       names(rbrks) <- NULL
       brks <- .rbrks(rbrks)
+    } else if (style =="fisher") {
+      pars <- fish(x=var, k=n)
+      brks <- pars[n,1]
+      for (i in n:1) brks <- c(brks, (pars[i,2]+pars[(i-1),1])/2)
+      brks <- c(brks, pars[1,2])
+      colnames(pars) <- c("min", "max", "class mean", "class sd")
     } else stop(paste(style, "unknown"))
   }
   if (is.null(brks)) stop("Null breaks")
@@ -180,7 +187,8 @@ classIntervals <- function(var, n, style="quantile", rtimes=3, ...) {
   brks
 }
 
-findColours <- function(clI, pal, under="under", over="over", between="-") {
+findColours <- function(clI, pal, under="under", over="over", between="-",
+  digits = getOption("digits"), cutlabels=FALSE) {
   if (class(clI) != "classIntervals") stop("Class interval object required")
   if (is.null(clI$brks)) stop("Null breaks")
   if (length(pal) < 2) stop("pal must contain at least two colours")
@@ -188,14 +196,8 @@ findColours <- function(clI, pal, under="under", over="over", between="-") {
   palette <- colorRampPalette(pal)(length(clI$brks)-1)
   res <- palette[cols]
   attr(res, "palette") <- palette
-  tab <- table(cols)
-  x <- clI$brks
-  lx <- length(x)
-  nres <- character(lx - 1)
-  nres[1] <- paste(under, x[2])
-  for (i in 2:(lx - 2)) nres[i] <- paste(x[i], between, x[i + 1])
-  nres[lx - 1] <- paste(over, x[lx - 1])
-  names(tab) <- nres
+  tab <- tableClassIntervals(cols=cols, brks=clI$brks, under=under, over=over,
+    between=between, digits=digits, cutlabels=cutlabels)
   attr(res, "table") <- tab
   res
 }
@@ -207,23 +209,49 @@ findCols <- function(clI)  {
   cols
 }
 
-tableClassIntervals <- function(clI) {
-   if (class(clI) != "classIntervals") stop("Class interval object required")
-   if (is.null(clI$brks)) stop("Null breaks")
-   stbrks <- cbind(clI$brks[-length(clI$brks)], clI$brks[-1])
-   tab <- table(findCols(clI))
-   names(tab) <- apply(stbrks, 1, function(x) paste(format(x), collapse="-"))
+tableClassIntervals <- function(cols, brks, under="under", over="over",
+   between="-", digits = getOption("digits"), cutlabels=FALSE) {
+   x <- format(brks, digits=digits, trim=TRUE)
+   lx <- length(x)
+   nres <- character(lx - 1)
+   sep <- " "
+   if (cutlabels) {
+      sep <- ""
+      between=","
+   }
+   if (cutlabels) nres[1] <- paste("(", x[1], between, x[2], "]", sep=sep)
+   else nres[1] <- paste(under, x[2], sep=sep)
+   for (i in 2:(lx - 2)) {
+      if (cutlabels) nres[i] <- paste("(", x[i], between, x[i + 1], "]",
+         sep=sep)
+      else nres[i] <- paste(x[i], between, x[i + 1], sep=sep)
+   }
+   if (cutlabels) nres[lx - 1] <- paste("(", x[lx - 1], between, x[lx], ")",
+     sep=sep)
+   else nres[lx - 1] <- paste(over, x[lx - 1], sep=sep)
+   tab <- table(factor(cols, levels=1:(lx - 1)))
+   names(tab) <- nres
    tab
 }
 
-print.classIntervals <- function(x, ...) {
+print.classIntervals <- function(x, digits = getOption("digits"), ..., under="under", over="over", between="-", cutlabels=FALSE) {
    if (class(x) != "classIntervals") stop("Class interval object required")
-   cat("style: ", attr(x, "style"), ";\n  one of ", prettyNum(nPartitions(x),
-      big.mark = ","), " possible partitions of this variable into ",
-      length(x$brks)-1, " classes\n", sep="")
-   tab <- tableClassIntervals(x)
-   print(tab, ...)
+   cat("style: ", attr(x, "style"), "\n", sep="")
+   nP <- nPartitions(x)
+   if (is.finite(nP)) cat("  one of ", prettyNum(nP, big.mark = ","),
+      " possible partitions of this variable into ", length(x$brks)-1,
+      " classes\n", sep="")
+   cols <- findCols(x)
+   tab <- tableClassIntervals(cols=cols, brks=x$brks, digits=digits,
+      cutlabels=cutlabels)
+   print(tab, digits=digits, ...)
    invisible(tab)
+}
+
+nPartitions <- function(x) {
+  n <- attr(x, "nobs")
+  k <- length(x$brks)-1
+  (factorial(n - 1))/(factorial(n - k) * factorial(k - 1))
 }
 
 getBclustClassIntervals <- function(clI, k) {
@@ -284,8 +312,16 @@ getHclustClassIntervals <- function(clI, k) {
 
 }
 
-nPartitions <- function(x) {
-  n <- attr(x, "nobs")
-  k <- length(x$brks)-1
-  (factorial(n - 1))/(factorial(n - k) * factorial(k - 1))
+fish <- function(x, k) {
+   x <- sort(x)
+   m <- length(x)
+   k <- as.integer(k)
+   work <- double(m*k)
+   iwork <- integer(m*k)
+   res <- double(k*4)
+   out <- .Fortran("fish", as.integer(m), as.double(x), as.integer(k),
+      as.integer(m), as.double(work), as.integer(m), as.integer(iwork),
+      as.double(res), PACKAGE="classInt")[[8]]
+   out <- matrix(out, k, 4)
+   out
 }
