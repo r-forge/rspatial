@@ -1,4 +1,101 @@
 #
+#Funstions to provide an easier interface to the library
+#
+#
+
+#d= data
+#model = "permut", "multinom", "poisson", "negbin"
+
+#Returns some of the parameters needed by boot.
+dotest<-function(stat, d, model, R, ...)
+{
+	#Type of bootstrap
+	if(model=="permut")
+	{
+		sim<-"ordinary"
+		statistic<-paste(stat, ".boot", sep="")
+
+		p<-list(sim=sim, statistic=statistic, ran.gen=NULL)
+	}
+	else
+	{
+		sim<-"parametric"
+		statistic<-paste(stat, ".pboot", sep="")
+		ran.gen<-paste(model, ".sim", sep="")
+
+		p<-list(sim=sim, statistic=statistic, ran.gen=ran.gen)
+	}
+
+
+	#Do the test!!
+	if(is.null(p$ran.gen))
+		result<-boot(d, statistic=get(p$statistic), R=R, ...)
+	else
+	{
+		result<-boot(d, statistic=get(p$statistic), 
+		  sim=p$sim, ran.gen=get(p$ran.gen), R=R, ...)
+		result$sim<-p$sim
+		result$ran.gen<-p$ran.gen
+	}
+
+	result$statistic<-p$statistic
+	return(result)
+}
+
+achisq.test<-function(d, model, R, ...)
+{
+	ifelse(length(list(...))>0,
+		return(dotest("achisq", d, model, R, ...)),
+		return(dotest("achisq", d, model, R))
+	)
+}
+
+
+pottwhitt.test<-function(d, model, R, ...)
+{
+	ifelse(length(list(...))>0,
+		return(dotest("pottwhitt", d, model, R, ...)),
+		return(dotest("pottwhitt", d, model, R))
+	)
+}
+
+
+moranI.test<-function(d, model, R, ...)
+{
+	ifelse(length(list(...))>0,
+		return(dotest("moranI", d, model, R, ...)),
+		return(dotest("moranI", d, model, R))
+	)
+}
+
+gearyc.test<-function(d, model, R, ...)
+{
+	ifelse(length(list(...))>0,
+		return(dotest("gearyc", d, model, R, ...)),
+		return(dotest("gearyc", d, model, R))
+	)
+}
+
+
+tango.test<-function(d, model, R, ...)
+{
+	ifelse(length(list(...))>0,
+		return(dotest("tango", d, model, R, ...)),
+		return(dotest("tango", d, model, R))
+	)
+}
+
+whittermore.test<-function(d, model, R, ...)
+{
+	ifelse(length(list(...))>0,
+		return(dotest("whittermore", d, model, R, ...)),
+		return(dotest("whittermore", d, model, R))
+	)
+}
+
+
+
+#
 #This function produces a pretty output of the boot object created by
 #varios tests
 #
@@ -11,15 +108,15 @@ if("boot"==cl)
 {
 
 	#Parameters used in the call to boot(...)
-	p<-as.character(b$call)
+	#p<-as.character(b$call)
 
 	#Test computed
-	test<-(strsplit(p[3], ".", fixed=TRUE))[[1]][1]
+	test<-(strsplit(b$statistic, ".", fixed=TRUE))[[1]][1]
 
 	#Title
 	title<-switch(test,
-	"achisq"="Chi-square test for overdispertion",
-	"pottwhitt"="Potthoff-Whittinghill's test of overdispertion",
+	"achisq"="Chi-square test for overdispersion",
+	"pottwhitt"="Potthoff-Whittinghill's test of overdispersion",
 	"moranI"="Moran's I test of spatial autocorrelation",
 	"gearyc"="Geary's c test of spatial autocorrelation",
 	"whittermore"="Whittermore's test of global clustering",
@@ -27,7 +124,7 @@ if("boot"==cl)
 	)
 
 	#Sampling model
-	m<-(strsplit(p[6], ".", fixed=TRUE))[[1]][1]
+	m<-(strsplit(b$ran.gen, ".", fixed=TRUE))[[1]][1]
 	if("parametric"==b$sim)
 	{
 		model<-switch(m, 
