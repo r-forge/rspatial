@@ -213,3 +213,13 @@ if("data.frame"==cl)
 
 
 print.dcluster<-function(x, ...){summary(x)}
+
+
+plot.dcluster<-function(x, ...)
+{
+	xl<-range(c(x$t0, x$t))
+
+	hist(x$t, main="Histogram of the simulated values", xlim=xl,
+	  xlab="Statistic", ... )
+	abline(v=x$t0, lty=2)
+}
