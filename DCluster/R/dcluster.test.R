@@ -39,6 +39,8 @@ dotest<-function(stat, d, model, R, ...)
 	}
 
 	result$statistic<-p$statistic
+
+	class(result)<-"dcluster"
 	return(result)
 }
 
@@ -94,17 +96,33 @@ whittermore.test<-function(d, model, R, ...)
 }
 
 
-
 #
 #This function produces a pretty output of the boot object created by
 #varios tests
 #
 
+
+#This function can be used to display results in a boot object
 dcluster.test<-function(b)
 {
+	a<-b
+	p<-as.character(b$call)
+
+	a$statistic<-p[3]
+	a$ran.gen<-p[6]
+
+	class(a)<-"dcluster"
+	summary(a)
+}
+
+
+summary.dcluster<-function(object, ...)
+{
+
+b<-object
 
 cl<-attr(b, "class")#Get class
-if("boot"==cl)
+if("dcluster"==cl)
 {
 
 	#Parameters used in the call to boot(...)
@@ -192,3 +210,6 @@ if("data.frame"==cl)
 }
 
 }
+
+
+print.dcluster<-function(x, ...){summary(x)}
