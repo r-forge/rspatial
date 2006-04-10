@@ -31,7 +31,7 @@ A points data set of four points giving the coordinates of the surrounding box
 
 }
 \seealso{
-\code{\link{bbox}}
+\code{\link{bboxx}}
 }
 
 \references{

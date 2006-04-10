@@ -2,23 +2,23 @@
 % Peter Diggle (c) 1991-3; http://www.maths.lancs.ac.uk/~rowlings/Splancs/
 % R port: copyright 1998-2000 by Roger S. Bivand
 
-\name{bbox}
-\alias{bbox}
+\name{bboxx}
+\alias{bboxx}
 \title{
-Generate a bounding box round a point object
+Generate a non-closed bounding polygon
 }
 \description{
-Generate a bounding box round a point object
+Generate a non-closed bounding polygon from the bounding box of an object
 }
 \usage{
-bbox(pts)
+bboxx(obj)
 }
 \arguments{
-\item{pts}{
-A points data set
+\item{obj}{
+An object: either a Spatial object or a points data set
 }}
 \value{
-A points data set of four points giving the coordinates of the bounding box
+A points data set of four points giving the non-closed coordinates of the bounding box
 
 
 }

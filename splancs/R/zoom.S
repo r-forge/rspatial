@@ -8,7 +8,7 @@ zoom <- function(quiet=FALSE,out=FALSE,...)
 		if(!quiet){
 			cat("Enter 2 points as corners of zoom area\n")
 		}
-		pointmap(bbox(as.points(locator(2,type="l"))),type="n",...)
+		pointmap(bboxx(bbox(as.points(locator(2,type="l")))),type="n",...)
 	}
 	if(out){
 		usr <- par()$usr

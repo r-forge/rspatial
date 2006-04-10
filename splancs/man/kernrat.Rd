@@ -57,11 +57,11 @@ Gebhardt, A. 2000 Implementing functions for spatial statistical analysis
 using the R language. Journal of Geographical Systems, 2, 307-317.
 }
 
-\example{
+\examples{
 data(okwhite)
 data(okblack)
 okpoly <- list(x=c(okwhite$x, okblack$x), y=c(okwhite$y, okblack$y))
-kr <- kernrat(as.points(okwhite), as.points(okblack), bbox(as.points(okpoly)),
+kr <- kernrat(as.points(okwhite), as.points(okblack), bboxx(bbox(as.points(okpoly))),
  h1=50, h2=50)
 image(kr, asp=1)
 brks <- quantile(c(kr$z), seq(0,1,1/10), na.rm=TRUE)

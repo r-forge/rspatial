@@ -4,7 +4,7 @@
 
 rtor.shift <- function(pts,rect)
 {
-	if(missing(rect))rect <- bbox(pts)
+	if(missing(rect))rect <- bboxx(bbox(pts))
 	xsc <- max(rect[,1])-min(rect[,1])
 	ysc <- max(rect[,2])-min(rect[,2])
 	xsh <- runif(1)*xsc

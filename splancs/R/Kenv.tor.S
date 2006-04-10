@@ -4,7 +4,7 @@
 
 Kenv.tor <- function(pts1,pts2,poly,nsim,s,quiet=FALSE)
 {
-	rect <- bbox(poly)
+	rect <- bboxx(bbox(poly))
 	kmax <- rep(0, length = length(s))
 	kmin <- rep(9.999999999999999e+33, length = length(s))
 	for(isim in 1:nsim){
@@ -24,7 +24,7 @@ Kenv.tor1 <- function (pts1, pts2, poly, nsim, s, quiet = FALSE)
   ## This function adapted from Kenv.tor in splancs library.
   ## This allows us to compute u for each simulation.
   
-  rect <- bbox(poly)
+  rect <- bboxx(bbox(poly))
   kmax <- rep(0, length = length(s))
   kmin <- rep(1e+34, length = length(s))
 

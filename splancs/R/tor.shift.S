@@ -4,7 +4,7 @@
 
 tor.shift <- function(pts,xsh=0.0,ysh=0.0,rect)
 {
-	if(missing(rect))rect <- bbox(pts)
+	if(missing(rect))rect <- bboxx(bbox(pts))
 	
 	xoff <- min(rect[,1])
 	yoff <- min(rect[,2])

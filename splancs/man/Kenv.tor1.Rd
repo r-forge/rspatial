@@ -35,7 +35,7 @@ components are vectors like \code{s}, the next two contain results passed back f
 \examples{
 data(amacrines)
 ama.a <- rbind(amacrines.on, amacrines.off)
-ama.bb <- bbox(as.points(ama.a))
+ama.bb <- bboxx(bbox(as.points(ama.a)))
 ama.t <- seq(from = 0.002, to=.250, by=0.002)
 nsim=999
 plot(amacrines.on, asp=1, pch=19,

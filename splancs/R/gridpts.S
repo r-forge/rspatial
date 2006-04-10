@@ -4,7 +4,7 @@
 
 gridpts <- function(poly,npts,xs,ys)
 {
-	bb <- bbox(poly)
+	bb <- bboxx(bbox(poly))
 	
 	if(!missing(npts))
 	{

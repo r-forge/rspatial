@@ -16,7 +16,7 @@ kernel2d <- function(pts,poly,h0,nx=20,ny=20,kernel='quartic')
 	xrang <- range(poly[,1],na.rm=TRUE)
 	yrang <- range(poly[,2],na.rm=TRUE)
 	
-	bb <- bbox(poly)
+	bb <- bboxx(bbox(poly))
 	a1 <- xrang[1]
 	a2 <- xrang[2]
 	b1 <- yrang[1]

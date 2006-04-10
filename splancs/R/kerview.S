@@ -16,7 +16,7 @@ function(pts,times, k3, map = TRUE, addimg=TRUE, ncol=1)
 	image(k3$xgr, k3$ygr, k3$v[,  , 1], breaks=brks, col=cols, asp=1)
 	map.dev <- -999
 	if(map) {
-		pbox <- bbox(pts3)
+		pbox <- bboxx(bbox(pts3))
 		dstring <- paste(names(dev.cur()), 
 			"(\"-geometry 500x500-5+5\")", sep = "")
 		eval(parse(text = dstring))	

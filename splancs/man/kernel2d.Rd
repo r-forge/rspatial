@@ -1,9 +1,10 @@
 % Copyright Barry Rowlingson  and 
 % Peter Diggle (c) 1991-3; http://www.maths.lancs.ac.uk/~rowlings/Splancs/
-% R port: copyright 1998-2000 by Roger S. Bivand
+% R port: copyright 1998-2006 by Roger S. Bivand
 
 \name{kernel2d}
 \alias{kernel2d}
+\alias{spkernel2d}
 \title{
 Kernel smoothing of a point pattern
 }
@@ -12,13 +13,14 @@ Perform kernel smoothing of a point pattern
 }
 \usage{
 kernel2d(pts,poly,h0,nx=20,ny=20,kernel='quartic')
+spkernel2d(pts, poly, h0, grd, kernel = "quartic")
 }
 \arguments{
 \item{pts}{
-A points data set
+A points data set, or in function spkernel2d an object with a coordinates method from the sp package
 }
 \item{poly}{
-A polygon data set
+A splancs polygon data set
 }
 \item{h0}{
 The kernel width parameter
@@ -31,14 +33,17 @@ Number of points along the y-axis of the returned grid.
 }
 \item{kernel}{
 Type of kernel function to use. Currently only the quartic kernel is implemented.
-}}
+}
+\item{grd}{a GridTopology object from the sp package}
+}
 \value{
-A list with the following components:
+kernel2d returns a list with the following components:
 \item{x}{List of x-coordinates at which the kernel function has been evaluated.}
 \item{y}{List of y-coordinates at which the kernel function has been evaluated.}
 \item{z}{A matrix of dimension \code{nx} by \code{ny} containing the value of
 the kernel function.}
 \item{h0, kernel}{containing the values input to \code{kernel2d}}
+spkernel2d returns a numeric vector with the value of the kernel function stored in the order required by sp package SpatialGridDataFrame objects
 }
 \details{
 The kernel estimate, with a correction for edge effects, is computed for
@@ -56,6 +61,15 @@ image(kernel2d(as.points(bodmin), bodmin$poly, h0=2, nx=100, ny=100),
 add=TRUE, col=terrain.colors(20))
 pointmap(as.points(bodmin), add=TRUE)
 polymap(bodmin$poly, add=TRUE)
+bodmin.xy <- coordinates(bodmin[1:2])
+apply(bodmin$poly, 2, range)
+grd1 <- GridTopology(cellcentre.offset=c(-5.2, -11.5), cellsize=c(0.2, 0.2), cells.dim=c(75,100))
+k100 <- spkernel2d(bodmin.xy, bodmin$poly, h0=1, grd1)
+k150 <- spkernel2d(bodmin.xy, bodmin$poly, h0=1.5, grd1)
+k200 <- spkernel2d(bodmin.xy, bodmin$poly, h0=2, grd1)
+k250 <- spkernel2d(bodmin.xy, bodmin$poly, h0=2.5, grd1)
+kernels <- SpatialGridDataFrame(grd1, data=AttributeList(list(k100=k100, k150=k150, k200=k200, k250=k250)))
+spplot(kernels, checkEmptyRC=FALSE, col.regions=terrain.colors(16), cuts=15)
 }
 
 \references{
