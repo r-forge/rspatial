@@ -2,7 +2,7 @@ addpoints               Add points interactively to a point data set
 amacrines.on            Amacrines on/off data set
 areapl                  Calculate area of polygon
 as.points               Creates data in spatial point format
-bbox                    Generate a bounding box round a point object
+bboxx                   Generate a non-closed bounding polygon
 bodmin                  Bodmin Moors granite tors
 burkitt                 Burkitt's lymphoma in Uganda
 cardiff                 Locations of homes of juvenile offenders
@@ -76,8 +76,8 @@ stvmat                  Variance matrix for space-time clustering
 thin                    Randomly thin a point data set
 tor.shift               Toroidal shift on a point data set
 tribble                 Diggle-Rowlingson Raised Incidence Model
-triblik                 Log-likelihood for the Diggle-Rowlingson
-                        raised incidence model
+triblik                 Log-likelihood for the Diggle-Rowlingson raised
+                        incidence model
 uganda                  Craters in Uganda
 zoom                    Interactively specify a region of a plot for
                         expansion
