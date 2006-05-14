@@ -11,10 +11,10 @@
   \code{getSites6sp} moves one GRASS 6.0 vector point sites file with attribute data through a temporary shapefile to a SpatialPointsDataFrame object; \code{putSites6sp} moves a SpatialPointsDataFrame object through a temporary shapefile to a GRASS vector point sites file.
 }
 \usage{
-putSites6sp(SPDF, vname, factor2char = TRUE) 
-putSites6(df, vname)
-getSites6sp(vname) 
-getSites6(vname)
+putSites6sp(SPDF, vname, factor2char = TRUE, ignore.stderr = FALSE) 
+putSites6(df, vname, ignore.stderr = FALSE)
+getSites6sp(vname, ignore.stderr = FALSE) 
+getSites6(vname, ignore.stderr = FALSE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -22,6 +22,7 @@ getSites6(vname)
   \item{vname}{A GRASS 6.0 vector point sites file name (must not exist already)}
   \item{factor2char}{logical, default TRUE, convert factor columns to character
 }
+  \item{ignore.stderr}{default FALSE, can be set to TRUE to silence \code{system()} output to standard error}
   \item{df}{A data frame with at least columns named x, y and cat (no z support yet)}
 }
 \value{

@@ -9,8 +9,11 @@
   GRASS LOCATION metadata are read into a list in R; helper function getLocationProj returns an spproj-compliant PROJ.4 string of projection information.
 }
 \usage{
-gmeta6()
-getLocationProj()
+gmeta6(ignore.stderr = FALSE)
+getLocationProj(ignore.stderr = FALSE)
+}
+\arguments{
+  \item{ignore.stderr}{default FALSE, can be set to TRUE to silence \code{system()} output to standard error}
 }
 %- maybe also 'usage' for other objects documented here.
 

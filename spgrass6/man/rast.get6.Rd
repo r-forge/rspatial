@@ -12,16 +12,17 @@
   Read GRASS 6 raster files from GRASS 6 as ASCII Arc GRID files into R using readAsciiGrid in the maptools package; write R data as ASCII Arc GRID and read into GRASS 6 using r.in.gdal. Data are read into the SpatialGridDataFrame object introduced in the sp package.
 }
 \usage{
-rast.get6(vname, cat=NULL)
-rast.put6(x, vname, zcol = 1, NODATA=-9999)
-readCELL6sp(vname, cat=NULL)
-readFLOAT6sp(vname)
-writeRast6sp(x, vname, zcol = 1, NODATA=-9999)
+rast.get6(vname, cat=NULL, ignore.stderr = FALSE)
+rast.put6(x, vname, zcol = 1, NODATA=-9999, ignore.stderr = FALSE)
+readCELL6sp(vname, cat=NULL, ignore.stderr = FALSE)
+readFLOAT6sp(vname, ignore.stderr = FALSE)
+writeRast6sp(x, vname, zcol = 1, NODATA=-9999, ignore.stderr = FALSE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{vname}{A vector of GRASS 6.0 raster file names}
   \item{cat}{default NULL; if not NULL, must be a logical vector matching vname, stating which (CELL) rasters to return as factor}
+  \item{ignore.stderr}{default FALSE, can be set to TRUE to silence \code{system()} output to standard error}
   \item{x}{A SpatialGridDataFrame object for export to GRASS as a raster layer}
   \item{zcol}{Attribute column number}
   \item{NODATA}{NODATA value (for DCELL, FCELL with many leading NODATA values, make floating point, eg. -9999.999}
