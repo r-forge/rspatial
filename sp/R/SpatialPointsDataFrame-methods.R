@@ -81,6 +81,7 @@ print.SpatialPointsDataFrame = function(x, ...) {
 
 dim.SpatialPointsDataFrame = function(x) dim(x@data)
 
+if (as.numeric(R.Version()$minor) < 4) {
 as.data.frame.SpatialPointsDataFrame = function(x, row.names, optional)  {
 #	if (length(x@coords.nrs) > 0) {
 #		nc = ncol(x@coords)
@@ -111,6 +112,24 @@ as.data.frame.SpatialPointsDataFrame = function(x, row.names, optional)  {
 		data.frame(ret)
 	} else
 		data.frame(x@data, x@coords)
+}
+} else {
+as.data.frame.SpatialPointsDataFrame = function(x, row.names, optional, ...)  {
+	if (length(x@coords.nrs) > 0) {
+		maxi = max(x@coords.nrs, (ncol(x@data) + ncol(x@coords)))
+		ret = list()
+		for (i in 1:ncol(x@coords))
+			ret[[x@coords.nrs[i]]] = x@coords[,i]
+		names(ret)[x@coords.nrs] = dimnames(x@coords)[[2]]
+		idx.new = (1:maxi)[-(x@coords.nrs)]
+		for (i in 1:ncol(x@data))
+			ret[[idx.new[i]]] = x@data[,i]
+		names(ret)[idx.new] = names(x@data)
+		ret = ret[unlist(lapply(ret, function(x) !is.null(x)))]
+		data.frame(ret)
+	} else
+		data.frame(x@data, x@coords)
+}
 }
 
 setAs("SpatialPointsDataFrame", "data.frame", function(from)

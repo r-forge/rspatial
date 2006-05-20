@@ -60,7 +60,11 @@ points.SpatialPoints = function(x, y = NULL, ...) points(coordinates(x), ...)
 
 setMethod("coordinates", "SpatialPoints", function(obj) obj@coords)
 
+if (as.numeric(R.Version()$minor) < 4) {
 as.data.frame.SpatialPoints = function(x, row.names, optional) data.frame(x@coords)
+} else {
+as.data.frame.SpatialPoints = function(x, row.names, optional, ...) data.frame(x@coords)
+}
 
 setAs("SpatialPoints", "data.frame", function(from) as.data.frame(from))
 

@@ -138,8 +138,13 @@ setMethod("[", "SpatialGrid",
 
 setAs("SpatialPixels", "SpatialGrid", function(from) SpatialGrid(from@grid, from@proj4string))
 
+if (as.numeric(R.Version()$minor) < 4) {
 as.data.frame.SpatialPixels = function(x, row.names, optional)
 	as.data.frame(coordinates(x))
+} else {
+as.data.frame.SpatialPixels = function(x, row.names, optional, ...)
+	as.data.frame(coordinates(x))
+}
 
 as.data.frame.SpatialGrid = as.data.frame.SpatialPixels
 
