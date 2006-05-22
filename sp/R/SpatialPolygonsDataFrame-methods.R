@@ -21,11 +21,7 @@ setMethod("polygons", signature(obj = "SpatialPolygons"),
 names.SpatialPolygonsDataFrame = function(x) names(x@data)
 "names<-.SpatialPolygonsDataFrame" = function(x,value) { names(x@data) = value; x }
 
-if (as.numeric(R.Version()$minor) < 4) {
-as.data.frame.SpatialPolygonsDataFrame = function(x, row.names, optional) x@data
-} else {
 as.data.frame.SpatialPolygonsDataFrame = function(x, row.names, optional, ...) x@data
-}
 
 setAs("SpatialPolygonsDataFrame", "data.frame", function(from)
     as.data.frame.SpatialPolygonsDataFrame(from))

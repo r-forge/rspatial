@@ -1,12 +1,7 @@
 AttributeList = function(x) new("AttributeList", att = x)
 
-if (as.numeric(R.Version()$minor) < 4) {
-as.data.frame.AttributeList = function(x, row.names = NULL, optional = FALSE)
-	as.data.frame(x@att, row.names, optional)
-} else {
 as.data.frame.AttributeList = function(x, row.names=NULL, optional=FALSE, ...)
 	as.data.frame(x@att, row.names, optional, ...)
-}
 
 setAs("AttributeList", "data.frame", function(from) as.data.frame(from))
 

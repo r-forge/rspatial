@@ -82,19 +82,11 @@ setAs("SpatialPixelsDataFrame", "matrix", function(from)
 setAs("SpatialGridDataFrame", "matrix", function(from) 
 	as.matrix.SpatialGridDataFrame(from))
 
-if (as.numeric(R.Version()$minor) < 4) {
-as.data.frame.SpatialPixelsDataFrame = function(x, row.names, optional)
-	as.data.frame(as(x, "SpatialPointsDataFrame"))
-
-as.data.frame.SpatialGridDataFrame = function(x, row.names, optional)
-	as.data.frame(as(x, "SpatialPixelsDataFrame"))
-} else {
 as.data.frame.SpatialPixelsDataFrame = function(x, row.names, optional, ...)
 	as.data.frame(as(x, "SpatialPointsDataFrame"))
 
 as.data.frame.SpatialGridDataFrame = function(x, row.names, optional, ...)
 	as.data.frame(as(x, "SpatialPixelsDataFrame"))
-}
 
 setAs("SpatialPixelsDataFrame", "data.frame", function(from) 
 	as.data.frame.SpatialPixelsDataFrame(from))
