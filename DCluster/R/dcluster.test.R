@@ -96,6 +96,14 @@ whittermore.test<-function(d, model, R, ...)
 }
 
 
+stone.test<-function(d, model, R, ...)
+{
+	ifelse(length(list(...))>0,
+		return(dotest("stone", d, model, R, ...)),
+		return(dotest("stone", d, model, R))
+	)
+}
+
 #
 #This function produces a pretty output of the boot object created by
 #varios tests
