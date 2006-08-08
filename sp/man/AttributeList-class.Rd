@@ -81,8 +81,9 @@ in the data.frame. If not, they will get lost.
 x = AttributeList(list(a = 1:10, b = sample(1:10), c = runif(10)))
 x
 summary(x)
-#x = object.size(AttributeList(list(a = 1:1000000)))
-#y = object.size(data.frame(a = 1:1000000))
-#y / x
+x = object.size(AttributeList(list(a = 1:1000000)))
+x
+y = object.size(data.frame(a = 1:1000000))
+y
 }
 \keyword{classes}
