@@ -13,12 +13,12 @@ gmeta6(ignore.stderr = FALSE)
 getLocationProj(ignore.stderr = FALSE)
 }
 \arguments{
-  \item{ignore.stderr}{default FALSE, can be set to TRUE to silence \code{system()} output to standard error}
+  \item{ignore.stderr}{default FALSE, can be set to TRUE to silence \code{system()} output to standard error; does not apply on Windows platforms}
 }
 %- maybe also 'usage' for other objects documented here.
 
 \value{
-  Returns list of g.gisenv, g.region -3, and g.proj values
+  Returns list of g.gisenv, g.region -g3, and g.proj values
 }
 
 \author{Roger S. Bivand, e-mail: \email{Roger.Bivand@nhh.no.}}
@@ -26,8 +26,7 @@ getLocationProj(ignore.stderr = FALSE)
 \examples{
 if (nchar(Sys.getenv("GISRC")) > 0) {
   G <- gmeta6()
-  str(G)
-  getLocationProj()
+  G
   CRS(getLocationProj())
 }
 }
