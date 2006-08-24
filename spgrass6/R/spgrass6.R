@@ -8,7 +8,9 @@ gmeta6 <- function(ignore.stderr = FALSE) {
 		tx <- system("g.region -g3", 
 		intern=TRUE, ignore.stderr=ignore.stderr))	
 	tx <- gsub("=", ":", tx)
-	res <- read.dcf(textConnection(tx))
+	con <- textConnection(tx)
+	res <- read.dcf(con)
+	close(con)
 	lres <- as.list(res)
 	names(lres) <- colnames(res)
 	lres$n <- as.double(lres$n)
@@ -40,70 +42,16 @@ gmeta6 <- function(ignore.stderr = FALSE) {
 	lres
 }
 
-getSites6 <- function(vname, ignore.stderr = FALSE) {
-# based on suggestions by Miha Staut using v.out.ascii and v.db.select,
-# modified to avoid cygwin problems
-	SPDF <- getSites6sp(vname, ignore.stderr=ignore.stderr)
-	res <- as(SPDF, "data.frame")
-	res
+gmeta2grd <- function(ignore.stderr = FALSE) {
+	G <- gmeta6(ignore.stderr=ignore.stderr)
+	cellcentre.offset <- c(G$w+(G$ewres/2), G$s+(G$nsres/2))
+	cellsize <- c(G$ewres, G$nsres)
+	cells.dim <- c(G$cols, G$rows)
+	grd <- GridTopology(cellcentre.offset=cellcentre.offset, 
+		cellsize=cellsize, cells.dim=cells.dim)
+	grd
 }
 
-getSites6sp <- function(vname, ignore.stderr = FALSE) {
-	pid <- as.integer(round(runif(1, 1, 1000)))
-	gtmpfl1 <- dirname(ifelse(.Platform$OS.type == "windows", 
-		system(paste("g.tempfile pid=", pid, sep=""), 
-		intern=TRUE), system(paste("g.tempfile pid=", pid, sep=""), 
-		intern=TRUE, ignore.stderr=ignore.stderr)))
-	rtmpfl1 <- ifelse(.Platform$OS.type == "windows", 
-		system(paste("cygpath -w", gtmpfl1, sep=" "), intern=TRUE), 
-		gtmpfl1)
-	shname <- substring(vname, 1, ifelse(nchar(vname) > 8, 8, 
-		nchar(vname)))
-	tull <- ifelse(.Platform$OS.type == "windows", system(paste(
-		"v.out.ogr input=", vname, " type=point dsn=", gtmpfl1, 
-		" olayer=", shname, sep="")), 
-		system(paste("v.out.ogr input=", vname, " type=point dsn=", 
-		gtmpfl1, " olayer=", shname, sep=""), 
-		ignore.stderr=ignore.stderr))
-	p4 <- CRS(getLocationProj())
-	shname1 <- paste(shname, "shp", sep=".")
-	res <- readShapePoints(paste(rtmpfl1, shname1, sep=.Platform$file.sep), 
-		proj4string=p4)
-	unlink(paste(rtmpfl1, list.files(rtmpfl1, pattern=shname), 
-		sep=.Platform$file.sep))
-	res
-}
-
-
-putSites6 <- function(df, vname, ignore.stderr = FALSE) {
-# based on suggestions by Miha Staut using v.out.ascii and v.db.select,
-# modified to avoid cygwin problems
-	coordinates(df) <- c("x", "y")
-	putSites6sp(df, vname, ignore.stderr=ignore.stderr)
-}
-
-putSites6sp <- function(SPDF, vname, factor2char = TRUE, ignore.stderr = FALSE) {
-	pid <- as.integer(round(runif(1, 1, 1000)))
-	gtmpfl1 <- dirname(ifelse(.Platform$OS.type == "windows", 
-		system(paste("g.tempfile pid=", pid, sep=""), 
-		intern=TRUE), system(paste("g.tempfile pid=", pid, sep=""), 
-		intern=TRUE, ignore.stderr=ignore.stderr)))
-	rtmpfl1 <- ifelse(.Platform$OS.type == "windows", 
-		system(paste("cygpath -w", gtmpfl1, sep=" "), intern=TRUE), 
-		gtmpfl1)
-	shname <- substring(vname, 1, ifelse(nchar(vname) > 8, 8, 
-		nchar(vname)))
-	writePointsShape(SPDF, paste(rtmpfl1, shname, sep=.Platform$file.sep),
-		factor2char=factor2char)
-	tull <- ifelse(.Platform$OS.type == "windows", system(paste(
-		"v.in.ogr -o dsn=", gtmpfl1, " output=", vname, 
-		" layer=", shname, " type=point", sep="")), 
-		system(paste("v.in.ogr -o dsn=", gtmpfl1, " output=", vname, 
-		" layer=", shname, " type=point", sep=""), 
-		ignore.stderr=ignore.stderr))
-	unlink(paste(rtmpfl1, list.files(rtmpfl1, pattern=shname), 
-		sep=.Platform$file.sep))
-}
 
 
 getLocationProj <- function(ignore.stderr = FALSE) {

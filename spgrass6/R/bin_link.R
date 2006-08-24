@@ -1,3 +1,7 @@
+# Interpreted GRASS 6 interface functions
+# Copyright (c) 2005-6 Roger S. Bivand
+#
+
 readRAST6 <- function(vname, cat=NULL, ignore.stderr = FALSE) {
 	if (!is.null(cat))
 		if(length(vname) != length(cat)) 

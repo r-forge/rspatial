@@ -1,0 +1,61 @@
+% Copyright (C) 2005-6 Roger S. Bivand
+%
+\name{readVECT6}
+\alias{readVECT6}
+\alias{writeVECT6}
+\alias{vInfo}
+\alias{vColumns}
+\alias{vDataCount}
+\alias{vect2neigh}
+\alias{putSites6sp}
+\alias{getSites6sp}
+\alias{putSites6}
+\alias{getSites6}
+%- Also NEED an '\alias' for EACH other topic documented here.
+\title{Read and write GRASS 6 vector object files}
+\description{
+  \code{readVECT6} moves one GRASS 6.0 vector object file with attribute data through a temporary shapefile to a Spatial*DataFrame object of type determined by the GRASS 6.0 vector object; \code{writeVECT6} moves a Spatial*DataFrame object through a temporary shapefile to a GRASS vector object file. \code{vect2neigh} returns neighbour pairs with shared boundary length as described by Markus Neteler, in \url{https://stat.ethz.ch/pipermail/r-sig-geo/2005-October/000616.html}.
+}
+\usage{
+readVECT6(vname, remove.duplicates = TRUE, ignore.stderr = FALSE)
+writeVECT6(SDF, vname, factor2char = TRUE, v.in.ogr_flags="", ignore.stderr = FALSE)
+vInfo(vname, ignore.stderr = FALSE)
+vColumns(vname, ignore.stderr = TRUE)
+vDataCount(vname, ignore.stderr = TRUE)
+vect2neigh(vname, ID=NULL, ignore.stderr = FALSE)
+putSites6sp(SPDF, vname, factor2char = TRUE, ignore.stderr = FALSE) 
+putSites6(df, vname, ignore.stderr = FALSE)
+getSites6sp(vname, ignore.stderr = FALSE) 
+getSites6(vname, ignore.stderr = FALSE)
+}
+%- maybe also 'usage' for other objects documented here.
+\arguments{
+  \item{vname}{A GRASS 6.0 vector file name}
+  \item{remove.duplicates}{In line and area vector objects, multiple geometrical features may be associated with a single cat number, leading to duplication of data rows; this argument attempts to combine the geometrical features so that they match a single data row}
+  \item{ignore.stderr}{default FALSE, can be set to TRUE to silence \code{system} output to standard error; does not apply on Windows platforms}
+  \item{SDF}{A Spatial*DataFrame to be moved to GRASS6 as a vector object, for SpatialPointsDataFrame, SpatialLinesDataFrame, and SpatialPolygonsDataFrame objects}
+  \item{factor2char}{logical, default TRUE, convert factor columns to character
+}
+  \item{v.in.ogr_flags}{String containing additional optional flags and/or options for v.in.ogr, particularly -o and --overwrite}
+  \item{ID}{A valid DB column name for unique identifiers (optional)}
+  \item{SPDF}{A SpatialPointsDataFrame to be moved to GRASS6 as vector points}
+  \item{df}{A data frame with at least columns named x, y and cat (no z support yet)}
+}
+\value{
+   \code{readVECT6} imports a GRASS6 vector object into a Spatial*DataFrame object with the type determined by the type of the GRASS6 vector object; \code{getSites6} returns a data frame. \code{vect2neigh} returns a data frame object with left and right neighbours and boundary lengths, also given class GRASSneigh and spatial.neighbour (as used in spdep). The incantation to retrieve the neighbours list is \code{sn2listw(vect2neigh())$neighbours}, and to retrieve the boundary lengths: \code{sn2listw(vect2neigh())$weights}. The GRASSneigh object has two other useful attributes: external is a vector giving the length of shared boundary between each polygon and the external area, and total giving each polygon's total boundary length.
+}
+
+\author{Roger S. Bivand, e-mail: \email{Roger.Bivand@nhh.no.}}
+
+\examples{
+if (nchar(Sys.getenv("GISRC")) > 0) {
+  system("v.info bugsites")
+  bugs <- readVECT6("bugsites", ignore.stderr=TRUE)
+  summary(bugs)
+  writeVECT6(bugs, "newbugs", ignore.stderr=TRUE)
+  system("v.info newbugs")
+  system("g.remove vect=newbugs")
+}
+}
+\keyword{spatial}
+
