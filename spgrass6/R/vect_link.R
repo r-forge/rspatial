@@ -1,15 +1,16 @@
 # Interpreted GRASS 6 interface functions
 # Copyright (c) 2005-6 Roger S. Bivand
 #
-readVECT6 <- function(vname, remove.duplicates=TRUE, ignore.stderr = FALSE) {
+readVECT6 <- function(vname, type=NULL, remove.duplicates=TRUE, ignore.stderr = FALSE) {
 
 	vinfo <- vInfo(vname)
 	types <- names(vinfo)[which(vinfo > 0)]
-	type <- NULL
-	if (length(grep("points", types)) > 0) type <- "point"
-	if (length(grep("lines", types)) > 0) type <- "line"
-	if (length(grep("areas", types)) > 0) type <- "area"
-	if (is.null(type)) stop("Vector type not found")
+	if (is.null(type)) {
+		if (length(grep("points", types)) > 0) type <- "point"
+		if (length(grep("lines", types)) > 0) type <- "line"
+		if (length(grep("areas", types)) > 0) type <- "area"
+		if (is.null(type)) stop("Vector type not found")
+	}
 
 	pid <- as.integer(round(runif(1, 1, 1000)))
 	cmd <- paste("g.tempfile pid=", pid, sep="")
