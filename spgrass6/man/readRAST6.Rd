@@ -54,12 +54,12 @@ writeRAST6(x, vname, zcol = 1, NODATA=-9999, ignore.stderr = FALSE)
 if (nchar(Sys.getenv("GISRC")) > 0) {
   spear <- readRAST6(c("geology", "elevation.dem"), cat=c(TRUE, FALSE), ignore.stderr=TRUE)
   table(spear$geology)
-  system("r.stats -q -cl geology", ignore.stderr=TRUE)
+  system("r.stats -q -cl geology")
   boxplot(spear$elevation.dem ~ spear$geology)
   spear$sqdem <- sqrt(spear$elevation.dem)
   writeRAST6(spear, "sqdemSP", zcol="sqdem", NODATA=-9999.99, ignore.stderr=TRUE)
-  system("r.info sqdemSP", ignore.stderr=TRUE)
-  system("g.remove rast=sqdemSP", ignore.stderr=TRUE)
+  system("r.info sqdemSP")
+  system("g.remove rast=sqdemSP")
 }
 }
 \keyword{spatial}

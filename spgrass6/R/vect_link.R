@@ -197,7 +197,9 @@ vColumns <- function(vname, ignore.stderr = TRUE) {
 	if(.Platform$OS.type == "windows") vinfo0 <- system(cmd, intern=TRUE)
 	else vinfo0 <- system(cmd, intern=TRUE, ignore.stderr=ignore.stderr)
 	con <- textConnection(vinfo0)
-	res <- read.table(con, header=FALSE, sep="|")
+	if(.Platform$OS.type == "windows") res <- read.table(con, 
+		header=FALSE, sep="|", skip=1)
+	else res <- read.table(con, header=FALSE, sep="|")
 	close(con)
 	names(res) <- c("storageType", "name")
 	res
@@ -233,7 +235,7 @@ putSites6 <- function(df, vname, ignore.stderr = FALSE) {
 }
 
 putSites6sp <- function(SPDF, vname, factor2char = TRUE, ignore.stderr = FALSE) {
-	writeVECT6(SDF, vname, factor2char=factor2char, 
+	writeVECT6(SPDF, vname, factor2char=factor2char, 
 		ignore.stderr=ignore.stderr)
 }
 

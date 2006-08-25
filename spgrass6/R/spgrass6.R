@@ -24,11 +24,19 @@ gmeta6 <- function(ignore.stderr = FALSE) {
 	lres$ewres <- as.double(lres$ewres)
 	lres$ewres3 <- as.double(lres$ewres3)
 	lres$tbres <- as.double(lres$tbres)
-	lres$rows <- as.integer(lres$rows)
-	lres$rows3 <- as.integer(lres$rows3)
-	lres$cols <- as.integer(lres$cols)
-	lres$cols3 <- as.integer(lres$cols3)
-	lres$depths <- as.integer(lres$depths)
+	if (length(lres$rows) == 0) 
+		lres$rows <- abs(as.integer((lres$n-lres$s)/lres$nsres))
+	else lres$rows <- as.integer(lres$rows)
+	if (length(lres$rows3) == 0) lres$rows3 <- lres$rows
+	else lres$rows3 <- as.integer(lres$rows3)
+	if (length(lres$cols) == 0) 
+		lres$cols <- abs(as.integer((lres$e-lres$w)/lres$ewres))
+	else lres$cols <- as.integer(lres$cols)
+	if (length(lres$cols3) == 0) lres$cols3 <- lres$cols
+	else lres$cols3 <- as.integer(lres$cols3)
+	if (length(lres$depths) == 0) 
+		lres$depths <- abs(as.integer((lres$t-lres$b)/lres$tbres))
+	else lres$depths <- as.integer(lres$depths)
 	lres$proj4 <- getLocationProj()
 	tull <- ifelse(.Platform$OS.type == "windows", 
 		gisenv <- system("g.gisenv", intern=TRUE), 

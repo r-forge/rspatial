@@ -54,7 +54,7 @@ if (nchar(Sys.getenv("GISRC")) > 0) {
   vInfo("bugsites", ignore.stderr=TRUE)
   bugs <- readVECT6("bugsites", ignore.stderr=TRUE)
   summary(bugs)
-  writeVECT6(bugs, "newbugs", v.in.ogr_flags="--overwrite", ignore.stderr=TRUE)
+  writeVECT6(bugs, "newbugs", v.in.ogr_flags="-o --overwrite", ignore.stderr=TRUE)
   system("v.info newbugs")
   vInfo("streams", ignore.stderr=TRUE)
   streams <- readVECT6("streams", type="line,boundary", remove.duplicates=FALSE, ignore.stderr=TRUE)
