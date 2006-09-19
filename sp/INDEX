@@ -1,4 +1,3 @@
-AttributeList-class     Class "AttributeList"
 CRS-class               Class "CRS" of coordinate reference system
                         arguments
 DMS-class               Class "DMS" for degree, minute, decimal second
