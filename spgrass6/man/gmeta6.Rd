@@ -33,7 +33,9 @@ if (nchar(Sys.getenv("GISRC")) > 0) {
   grd <- gmeta2grd()
   grd
   ncells <- prod(slot(grd, "cells.dim"))
-  mask_SG <- SpatialGridDataFrame(grd, data=list(k=rep(1, ncells)))
+  if (.sp_lt_0.9()) df <- list(k=rep(1, ncells))
+  else df <- data.frame(k=rep(1, ncells))
+  mask_SG <- SpatialGridDataFrame(grd, data=df)
   summary(mask_SG)
 }
 }

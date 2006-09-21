@@ -55,8 +55,13 @@ readRAST6 <- function(vname, cat=NULL, ignore.stderr = FALSE) {
 			names(lst) <- onames
 			for (i in 1:ncols) lst[[i]] <- resa@data[[i]]
 			lst[[ncols+1]] <- res@data[[1]]
+			if (.sp_lt_0.9()) {
+				df <- AttributeList(lst)
+			} else {
+				df <- data.frame(lst)
+			}
 			resa <- SpatialGridDataFrame(grid=grida, 
-				data=AttributeList(lst), proj4string=p4)
+				data=df, proj4string=p4)
 		}
 	}
 
@@ -126,8 +131,12 @@ readBinGrid <- function(fname, colname=basename(fname),
 		c(lres$ewres, lres$nsres), c(lres$ncols,lres$nrows))
 	df <- list(var1=map)
 	names(df) <- colname
-	res <- SpatialGridDataFrame(grid, data = AttributeList(df), 
-		proj4string=proj4string)
+	if (.sp_lt_0.9()) {
+		df1 <- AttributeList(df)
+	} else {
+		df1 <- data.frame(df)
+	}
+	res <- SpatialGridDataFrame(grid, data = df1, proj4string=proj4string)
 	res
 }
 
