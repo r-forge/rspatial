@@ -7,7 +7,7 @@ C R port: copyright 1998-2000 by Roger S. Bivand
 
       implicit real*8(a-h,o-z)
 
-      include 'bounds.cmn'
+      include 'bounds.h'
 
       dimension x1(n1),y1(n1),x2(n2),y2(n2)
       dimension xp(np+1),yp(np+1),s(ns),h12(ns),h21(ns)

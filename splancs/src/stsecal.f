@@ -7,7 +7,7 @@ C R port: copyright 1998-2000 by Roger S. Bivand
 
       implicit real*8 (a-h,o-z)
 
-      include 'bounds.cmn'
+      include 'bounds.h'
 
       dimension x(n),y(n),s(ns),Covmat(long,long),xp(np+1),yp(np+1)
       dimension Smat(n,ns),Svec(ns),z(n),t(nt),Tmat(n,nt),Tvec(nt)

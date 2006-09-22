@@ -8,7 +8,7 @@ c find the weight for the point at x,y, radius r
 c
       implicit real*8 (a-h,o-z)
 
-      include 'bounds.cmn'
+      include 'bounds.h'
 
       dimension xp(np+1),yp(np+1)
 

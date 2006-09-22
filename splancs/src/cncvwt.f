@@ -10,7 +10,7 @@ c of a circle of radius r is inside the bounding polygon
 c 
 c
       implicit real*8 (a-h,o-z)
-      include 'bounds.cmn'
+      include 'bounds.h'
       dimension xp(np+1),yp(np+1)
       parameter(pi=3.141592654d0)
 c store circle/poly intersections here
