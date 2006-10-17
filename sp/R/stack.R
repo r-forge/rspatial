@@ -15,7 +15,7 @@
 		if (is.character(zcol))
 			names.attr = zcol
 		else {
-			zcol = names.attr = names(data)[zcol]
+			names.attr = names(data)[zcol]
 			zcol = names.attr
 		}
 	} else {
@@ -26,7 +26,11 @@
 	}
 
 	data = stack(as(data, "SpatialPointsDataFrame"), zcol) # replace with data.frame
-	data$ind = factor(as.character(data$ind), levels = zcol, labels = names.attr)
+	#data$ind = factor(as.character(data$ind), levels = zcol, labels = names.attr)
+	# Arien Lam suggested:
+	#data$ind = factor(data$ind, levels = unique(data$ind), labels = names.attr)
+	# better (as it avoids unique()) is:
+	data$ind = factor(data$ind, levels = zcol, labels = names.attr)
 	names(data) = c(coord.names, "z", "name")
 	data
 }
