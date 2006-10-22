@@ -7,11 +7,11 @@
 \title{ image gridded spatial data, or convert to format for image }
 \description{
 Convert gridded data in SpatialGridDataFrame to image format; call
-image on data in SpatialGridDataFrame format
+image on data in SpatialGridDataFrame format. The aspect ratio is set as either 1 for projected data, or stretched by distance from Equator for geographical coordinates.
 }
 \usage{
 image.SpatialGridDataFrame(x, attr = 1, xcol = 1, ycol = 2, 
-	red=NULL, green=NULL, blue=NULL, asp = 1, axes = FALSE, xlim = NULL,
+	red=NULL, green=NULL, blue=NULL, axes = FALSE, xlim = NULL,
 	ylim = NULL, add = FALSE, ...)
 as.image.SpatialGridDataFrame(x, xcol = 1, ycol = 2)
 }
@@ -23,7 +23,7 @@ a column number }
 \item{xcol}{ column number of x-coordinate, in the coordinate matrix }
 \item{ycol}{ column number of y-coordinate, in the coordinate matrix }
 \item{red,green,blue}{columns names or numbers given instead of the \code{attr} argument when the data represent an image encoded in three colour bands on the 0-255 integer scale; all three columns must be given in this case, and the attribute values will be constructed using function \code{rgb} }
-\item{asp}{ aspect ratio of unit x and unit y axis }
+%\item{asp}{ aspect ratio of unit x and unit y axis }
 \item{axes}{ logical; should coordinate axes be drawn? }
 \item{xlim}{ x-axis limits }
 \item{ylim}{ y-axis limits }
