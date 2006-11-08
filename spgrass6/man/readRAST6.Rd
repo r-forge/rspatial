@@ -19,7 +19,7 @@ Read GRASS 6 raster files from GRASS 6 into R SpatialGridDataFrame objects, and 
 
 }
 \usage{
-readRAST6(vname, cat=NULL, ignore.stderr = FALSE)
+readRAST6(vname, cat=NULL, ignore.stderr = FALSE, NODATA=-9999)
 writeRAST6(x, vname, zcol = 1, NODATA=-9999, ignore.stderr = FALSE)
 %rast.get6(vname, cat=NULL, ignore.stderr = FALSE)
 %rast.put6(x, vname, zcol = 1, NODATA=-9999, ignore.stderr = FALSE)
@@ -58,8 +58,15 @@ if (nchar(Sys.getenv("GISRC")) > 0) {
   boxplot(spear$elevation.dem ~ spear$geology)
   spear$sqdem <- sqrt(spear$elevation.dem)
   writeRAST6(spear, "sqdemSP", zcol="sqdem", NODATA=-9999.99, ignore.stderr=TRUE)
-  system("r.info sqdemSP")
+  system("r.info sqdemSP", ignore.stderr=TRUE)
   system("g.remove rast=sqdemSP")
+  system("r.mapcalc \'quads0 = quads - 1\'", ignore.stderr=TRUE)
+  system("r.stats -c quads0", ignore.stderr=TRUE)
+  quads0 <- readRAST6("quads0", ignore.stderr=TRUE)
+  table(quads0$quads0)
+  quads0 <- readRAST6("quads0", ignore.stderr=TRUE, NODATA=0)
+  table(quads0$quads0)
+  system("g.remove rast=quads0")
 }
 }
 \keyword{spatial}

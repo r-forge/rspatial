@@ -1,7 +1,7 @@
 # Interpreted GRASS 6 interface functions
 # Copyright (c) 2005-6 Roger S. Bivand
 #
-readVECT6 <- function(vname, type=NULL, remove.duplicates=TRUE, ignore.stderr = FALSE) {
+readVECT6 <- function(vname, type=NULL, remove.duplicates=TRUE, ignore.stderr = FALSE, with_prj=TRUE) {
 
 	vinfo <- vInfo(vname)
 	types <- names(vinfo)[which(vinfo > 0)]
@@ -25,7 +25,10 @@ readVECT6 <- function(vname, type=NULL, remove.duplicates=TRUE, ignore.stderr = 
 	shname <- substring(vname, 1, ifelse(nchar(vname) > 8, 8, 
 		nchar(vname)))
 
-	cmd <- paste("v.out.ogr -e input=", vname, " type=", type, 
+	if (with_prj) E <- " -e"
+	else E <- ""
+
+	cmd <- paste("v.out.ogr", E, " input=", vname, " type=", type, 
 		" dsn=", gtmpfl1, " olayer=", shname, " format=ESRI_Shapefile", 
 		sep="")
 
@@ -213,16 +216,18 @@ vDataCount <- function(vname, ignore.stderr = TRUE) {
 	n
 }
 
-getSites6 <- function(vname, ignore.stderr = FALSE) {
+getSites6 <- function(vname, ignore.stderr = FALSE, with_prj=TRUE) {
 # based on suggestions by Miha Staut using v.out.ascii and v.db.select,
 # modified to avoid cygwin problems
-	SPDF <- getSites6sp(vname, ignore.stderr=ignore.stderr)
+	SPDF <- getSites6sp(vname, ignore.stderr=ignore.stderr, 
+		with_prj=with_prj)
 	res <- as(SPDF, "data.frame")
 	res
 }
 
-getSites6sp <- function(vname, ignore.stderr = FALSE) {
-	res <- readVECT6(vname=vname, ignore.stderr=ignore.stderr)
+getSites6sp <- function(vname, ignore.stderr = FALSE, with_prj=TRUE) {
+	res <- readVECT6(vname=vname, ignore.stderr=ignore.stderr, 
+		with_prj=with_prj)
 	res
 }
 

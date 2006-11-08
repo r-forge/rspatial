@@ -2,7 +2,7 @@
 # Copyright (c) 2005-6 Roger S. Bivand
 #
 
-readRAST6 <- function(vname, cat=NULL, ignore.stderr = FALSE) {
+readRAST6 <- function(vname, cat=NULL, ignore.stderr = FALSE, NODATA=-9999) {
 	if (!is.null(cat))
 		if(length(vname) != length(cat)) 
 			stop("vname and cat not same length")
@@ -32,7 +32,9 @@ readRAST6 <- function(vname, cat=NULL, ignore.stderr = FALSE) {
 		rtmpfl11 <- paste(rtmpfl1, vname[i], sep=.Platform$file.sep)
 
 		cmd <- paste("r.out.bin -b input=", vname[i], " output=", 
-			gtmpfl11, sep="")
+			gtmpfl11, " null=", NODATA, sep="")
+
+# 061107 Dylan Beaudette NODATA
 
 		tull <- ifelse(.Platform$OS.type == "windows", system(cmd), 
 			system(cmd, ignore.stderr=ignore.stderr))
