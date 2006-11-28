@@ -100,19 +100,22 @@ summary.Spatial = function(object, ...) {
 setMethod("summary", "Spatial", summary.Spatial)
 
 print.summary.Spatial = function(x, ...) {
-	cat(paste("Object of class ", x[["class"]], "\n", sep = ""))
+    cat(paste("Object of class ", x[["class"]], "\n", sep = ""))
     cat("Coordinates:\n")
     print(x[["bbox"]])
     cat(paste("Is projected:", x[["is.projected"]], "\n"))
-    cat(paste("proj4string : [", x[["proj4string"]], "]\n", sep=""))
+#    cat(paste("proj4string : [", x[["proj4string"]], "]\n", sep=""))
+    pst <- paste(strwrap(x[["proj4string"]]), collapse="\n")
+    if (nchar(pst) < 40) cat(paste("proj4string : [", pst, "]\n", sep=""))
+    else cat(paste("proj4string :\n[", pst, "]\n", sep=""))
     if (!is.null(x$npoints)) {
         cat("Number of points: ")
-		cat(x$npoints)
-		cat("\n")
-	}
+        cat(x$npoints)
+        cat("\n")
+    }
     if (!is.null(x$n.polygons)) {
         cat("Number of polygons: ")
-		cat(x$n.polygons)
+        cat(x$n.polygons)
         cat("\n")
     }
 	if (!is.null(x$grid)) {
