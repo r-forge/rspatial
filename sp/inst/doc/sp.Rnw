@@ -487,30 +487,17 @@ SrDf = attr
 polygons(SrDf) = SpP
 @
 
-\section{Interfaces to GIS and external formats}
+\section{Importing and exporting data}
 
-\subsection{Reading grids through rgdal}
-%<<fig=TRUE>>=
-%library(rgdal)
-%x = read.gdal(system.file("external/test.ag", package="sp")[1])
-%class(x)
-%#x=x[x[["band1"]] < 1e30, ] 
-%print(summary(x))
-%image(x)
-%y = read.gdal(system.file("pictures/Rlogo.jpg", package = "rgdal")[1])
-%summary(y)
-%spplot(y, zcol=1:3, names.attr=c("red","green","blue"), col.regions=grey(0:100/100),
-%    main="example of three-layer (RGB) raster image", as.table=TRUE)
-%@
-%
-%<<echo=FALSE,fig=TRUE>>=
-%print(spplot(y, zcol=1:3, names.attr=c("red","green","blue"), col.regions=grey(0:100/100),
-%    main="example of three-layer (RGB) raster image", as.table=TRUE))
-%@
+Data import and export from external data sources and file formats
+is handled inthe \pkg{rgdal} package in the first instance, using the
+available OGR/GDAL drivers for vector and raster data. This keeps the
+range of drivers up to date, and secures code maintenance through working
+closely with the open source geospatial community. Mac OSX users unable
+or unwilling to install \pkg{rgdal} from source after installing its
+external dependencies will find some functions in the \pkg{maptools}
+package to import and export a limited range of formats.
 
-\subsection{Reading ESRI shapefiles}
-points, lines, polygons?
-\subsection{Reading ArcGIS coverages}
 
 \section*{References}
 \begin{description}
