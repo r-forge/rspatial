@@ -47,7 +47,24 @@ gmeta6 <- function(ignore.stderr = FALSE) {
 	glist <- as.list(sapply(gisenv, function(x) x[2]))
 	names(glist) <- sapply(gisenv, function(x) x[1])
 	lres <- c(glist, lres)
+	class(lres) <- "gmeta6"
 	lres
+}
+
+print.gmeta6 <- function(x, ...) {
+    cat("gisdbase   ", x$GISDBASE, "\n")
+    cat("location   ", x$LOCATION_NAME, "\n")
+    cat("mapset     ", x$MAPSET, "\n")
+    cat("rows       ", x$rows, "\n")
+    cat("columns    ", x$cols, "\n")
+    cat("north      ", x$n, "\n")
+    cat("south      ", x$s, "\n")
+    cat("west       ", x$w, "\n")
+    cat("east       ", x$e, "\n")
+    cat("nsres      ", x$nsres, "\n")
+    cat("ewres      ", x$ewres, "\n")
+    cat("projection ", paste(strwrap(x$proj4), collapse="\n"), "\n")
+    invisible(x)
 }
 
 gmeta2grd <- function(ignore.stderr = FALSE) {

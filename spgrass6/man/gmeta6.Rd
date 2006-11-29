@@ -4,6 +4,7 @@
 \alias{gmeta6}
 \alias{getLocationProj}
 \alias{gmeta2grd}
+\alias{print.gmeta6}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{Reads GRASS metadata from the current LOCATION}
 \description{
@@ -13,9 +14,12 @@
 gmeta6(ignore.stderr = FALSE)
 getLocationProj(ignore.stderr = FALSE)
 gmeta2grd(ignore.stderr = FALSE)
+print.gmeta6(x, ...)
 }
 \arguments{
   \item{ignore.stderr}{default FALSE, can be set to TRUE to silence \code{system()} output to standard error; does not apply on Windows platforms}
+  \item{x}{S3 object returned by gmeta6}
+  \item{...}{arguments passed through print method}
 }
 %- maybe also 'usage' for other objects documented here.
 
