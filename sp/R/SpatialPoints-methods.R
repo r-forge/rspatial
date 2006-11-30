@@ -40,8 +40,10 @@ setMethod("coordinates", "matrix",
 {
 	cat("SpatialPoints:\n")
 	print(x@coords)
-	cat("Coordinate Reference System (CRS) arguments:", proj4string(x),
-		"\n")
+	pst <- paste(strwrap(paste(
+		"Coordinate Reference System (CRS) arguments:", 
+		proj4string(x))), collapse="\n")
+	cat(pst, "\n")
 }
 setMethod("show", "SpatialPoints", function(object) print.SpatialPoints(object))
 
