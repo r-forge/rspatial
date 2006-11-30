@@ -24,6 +24,18 @@ SpatialGrid = function(grid, proj4string = CRS(as.character(NA))) {
 
 setMethod("coordinates", "SpatialGrid", function(obj) coordinates(obj@grid))
 
+coordnamesSG = function(x, value) {
+	dimnames(x@bbox)[[1]] = value
+	dimnames(x@coords)[[2]] = value
+	coordnames(x@grid) = value
+	x
+}
+
+setReplaceMethod("coordnames", 
+	signature(x = "SpatialGrid", value = "character"), coordnamesSG)
+setReplaceMethod("coordnames", 
+	signature(x = "SpatialPixels", value = "character"), coordnamesSG)
+
 getGridTopology = function(obj) {
 	if (!is(obj, "SpatialPixels"))
 		stop("object is not or does not extend class SpatialPixels")

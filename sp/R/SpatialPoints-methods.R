@@ -91,6 +91,7 @@ setMethod("coordnames", signature(x = "SpatialPoints"),
 setReplaceMethod("coordnames", 
 	signature(x = "SpatialPoints", value = "character"),
 	function(x, value) {
+		dimnames(x@bbox)[[1]] = value
 		dimnames(x@coords)[[2]] = value
 		x
 	}

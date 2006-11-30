@@ -148,6 +148,7 @@ setMethod("coordnames", signature(x = "Line"),
 setReplaceMethod("coordnames", 
 	signature(x = "SpatialLines", value = "character"),
 	function(x, value) {
+		dimnames(x@bbox)[[1]] = value
 		for (i in seq(along = x@lines))
 			coordnames(x@lines[[i]]) = value
 		x

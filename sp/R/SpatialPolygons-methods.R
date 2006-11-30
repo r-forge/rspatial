@@ -131,6 +131,7 @@ setMethod("coordnames", signature(x = "Polygon"),
 setReplaceMethod("coordnames", 
 	signature(x = "SpatialPolygons", value = "character"),
 	function(x, value) {
+		dimnames(x@bbox)[[1]] = value
 		for (i in seq(along = x@polygons))
 			coordnames(x@polygons[[i]]) = value
 		x
