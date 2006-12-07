@@ -93,7 +93,7 @@ C      CHARACTER*10 TITLE
 C
 C     INITIALIZE AND OUTPUT DATA
 C
-      R1MACH2=10.E300
+      R1MACH2=10.E30
       DO 10 J=1,K
          IWORK(1,J)=1
          WORK(1,J)=0.
