@@ -40,15 +40,6 @@ if (!isGeneric("spsample"))
 if (!isGeneric("summary"))
 	setGeneric("summary", function(object, ...)
 		standardGeneric("summary"))
-if (as.numeric(version$minor) < 3) {
-    if (!isGeneric("transform"))
-	setGeneric("transform", function(x, ...)
-		standardGeneric("transform"))
-} else {
-    if (!isGeneric("transform"))
-	setGeneric("transform", function(`_data`, ...)
-		standardGeneric("transform"))
-}
 
 bbox.default <- function(obj) {
 	is_points <- function(obj) {
