@@ -36,7 +36,7 @@ gwr <- function(formula, data = list(), coords, bandwidth,
 	if (is.null(colnames(coords))) 
 		colnames(coords) <- c("coord.x", "coord.y")
 	mt <- terms(formula, data = data)
-	mf <- lm(formula, data, method="model.frame")
+	mf <- lm(formula, data, method="model.frame", na.action=na.fail)
 	lm <- lm(formula, data, x=TRUE, y=TRUE)
 	if (missing(fit.points)) {
 		fp.given <- FALSE

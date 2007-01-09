@@ -16,7 +16,7 @@ gwr.sel <- function(formula, data = list(), coords, adapt=FALSE,
 	if (missing(coords))
 		stop("Observation coordinates have to be given")
 	mt <- terms(formula, data = data)
-	mf <- lm(formula, data, method="model.frame")
+	mf <- lm(formula, data, method="model.frame", na.action=na.fail)
 #	dist2 <- (as.matrix(dist(coords)))^2
 	y <- model.extract(mf, "response")
 	x <- model.matrix(mt, mf)
