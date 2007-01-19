@@ -129,18 +129,37 @@ print.summary.Spatial = function(x, ...) {
 #		return(1/cos((mean(ylim) * pi)/180))
 #}
 
+
+setParUsrBB <- function(obj=FALSE) {
+    if (!is.logical(obj)) 
+        stop("logical argument required")
+    res <- get("PU", env = get(".spPUBB"))
+    assign("PU", obj, env = get(".spPUBB"))
+    invisible(res)
+}
+
+getParUsrBB <- function() {
+    res <- try(get("PU", env = get(".spPUBB")), silent=TRUE)
+    if (class(res) == "try-error") return(FALSE)
+    else return(res)
+}
+
 plot.Spatial <- function(x, xlim=NULL, ylim=NULL, 
-		asp = ifelse(is.na(proj4string(x)) || is.projected(x), 1.0, 1/cos((mean(ylim) * pi)/180)), 
-		axes = FALSE, bg = par("bg"), ...) {
+		asp = NA, axes = FALSE, bg = par("bg"), ...) {
 	bbox <- bbox(x)
 	if (is.null(xlim)) xlim <- bbox[1,]
 	if (is.null(ylim)) ylim <- bbox[2,]
+	if (is.na(asp)) asp <- ifelse(is.na(proj4string(x)) || is.projected(x),
+		1.0, 1/cos((mean(ylim) * pi)/180))
 	frame() # S-Plus compatible version of plot.new()
-	if (is.R())
+	if (is.R()) {
 		plot.window(xlim = xlim, ylim = ylim, asp = asp, ...)
-	else {
+		if (getParUsrBB()) par(usr=c(t(bbox)))
+	} else {
 		plot.default(x = bbox[1,], y = bbox[2,], type = "n", 
-			xlim = xlim, ylim = ylim, asp = asp, ...)
+			xlim = xlim, ylim = ylim, asp = asp, 
+			ann=FALSE, axes=FALSE, ...)
+		if (getParUsrBB()) par(usr=c(t(bbox)))
 	}
 	pl_reg <- par("usr")
 	rect(xleft=pl_reg[1], ybottom=pl_reg[3], xright=pl_reg[2], 

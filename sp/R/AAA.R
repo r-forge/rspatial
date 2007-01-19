@@ -6,7 +6,13 @@
 #EJP--uncomment, so setMethod("[", etc ) and as(x, "data.frame") will work:
 #.noGenerics <- TRUE 
 
-.onLoad <- function(lib, pkg) require(methods)
+.onLoad <- function(lib, pkg) {
+	require(methods)
+	# place to hide par("usr") override by bbox flag
+	.spPUBB <<- new.env(FALSE, globalenv())
+	assign("PU", FALSE, env = .spPUBB)
+}
+
 
 .onUnload <- function(libpath)
     library.dynam.unload("sp", libpath)

@@ -12,6 +12,8 @@ importFrom(grid, grid.polygon, grid.rect, polygonGrob, gpar,
 
 export(CRS, print.CRS, proj4string, "proj4string<-", is.projected)
 
+export(getParUsrBB, setParUsrBB)
+
 export(bbox, getGridIndex, points2grid, bpy.colors, bubble,
 	mapasp, point.in.polygon, spmap.to.lev, zerodist, remove.duplicates,
 	degAxis)
