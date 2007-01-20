@@ -92,12 +92,14 @@ setMethod("bbox", "Line", bbox.Line)
 
 
 plotSpatialLines <- function(SL, xlim = NULL, ylim = NULL,
-	col = 1, lwd = 1, lty=1, add = FALSE, axes = FALSE, ...) 
+	col = 1, lwd = 1, lty=1, add = FALSE, axes = FALSE, ..., 
+	setParUsrBB=FALSE) 
 {
 #	frame()
 #	plot.window(xlim = xlim, ylim = ylim, asp = asp)
 	if (! add) 
-		plot(as(SL, "Spatial"), xlim = xlim, ylim = ylim, axes = axes, ...)
+		plot(as(SL, "Spatial"), xlim = xlim, ylim = ylim,
+		    axes = axes, ..., setParUsrBB=setParUsrBB)
 	lst <- SL@lines
 	for (i in seq(along=lst)) {
 		sllst = lst[[i]]@Lines

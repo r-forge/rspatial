@@ -8,9 +8,6 @@
 
 .onLoad <- function(lib, pkg) {
 	require(methods)
-	# place to hide par("usr") override by bbox flag
-	.spPUBB <<- new.env(FALSE, globalenv())
-	assign("PU", FALSE, env = .spPUBB)
 }
 
 

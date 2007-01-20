@@ -12,7 +12,7 @@ image on data in SpatialGridDataFrame format. The aspect ratio is set as either 
 \usage{
 \method{image}{SpatialGridDataFrame}(x, attr = 1, xcol = 1, ycol = 2, 
 	red=NULL, green=NULL, blue=NULL, axes = FALSE, xlim = NULL,
-	ylim = NULL, add = FALSE, ...)
+	ylim = NULL, add = FALSE, ..., setParUsrBB=FALSE)
 \method{image}{SpatialPixelsDataFrame}(x, ...) 
 \method{contour}{SpatialGridDataFrame}(x, ...) 
 \method{contour}{SpatialPixelsDataFrame}(x, ...) 
@@ -35,6 +35,7 @@ by \code{plot(as(x, "Spatial"),axes=axes,xlim=xlim,ylim=ylim,asp=asp)}
 which sets up axes and plotting region; if TRUE, the image is added
 to the existing plot. }
 \item{...}{ arguments passed to \link{image}, see examples }
+\item{setParUsrBB}{default FALSE, see \code{\link{Spatial-class}} for further details}
 }
 \value{ \code{as.image.SpatialGridDataFrame} returns the list with
 elements \code{x} and \code{y}, containing the coordinates of the cell
