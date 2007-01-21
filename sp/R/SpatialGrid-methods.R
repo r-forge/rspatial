@@ -1,8 +1,10 @@
-SpatialPixels = function(points, tolerance = sqrt(.Machine$double.eps)) {
+SpatialPixels = function(points, tolerance = sqrt(.Machine$double.eps), 
+		proj4string = CRS(as.character(NA))) {
 	if (!is(points, "SpatialPoints"))
 		stop("points should be of class or extending SpatialPoints")
 	is.gridded = gridded(points)
 	points = as(points, "SpatialPoints")
+	proj4string(points) = proj4string
 	grid = points2grid(points, tolerance)
 	if (!is.gridded) {
 		points@bbox[,1] = points@bbox[,1] - 0.5 * grid@cellsize
@@ -149,6 +151,12 @@ setMethod("[", "SpatialGrid",
 )
 
 setAs("SpatialPixels", "SpatialGrid", function(from) SpatialGrid(from@grid, from@proj4string))
+#setAs("SpatialGrid", "SpatialPixels", 
+#	function(from) {
+#		pts = new("SpatialPoints", coords = coordinates(from),
+#			bbox = from@bbox, proj4string = from@proj4string)
+#		new("SpatialPixels", pts, grid = from@grid, grid.index = 1:NROW(cc))
+#})
 
 as.data.frame.SpatialPixels = function(x, row.names, optional, ...)
 	as.data.frame(coordinates(x))

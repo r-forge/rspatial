@@ -46,8 +46,12 @@ fullgrid = function(obj) return(is(obj, "SpatialGrid"))
 		} else { # convert to Pixels
 			if (is(obj, "SpatialGridDataFrame"))
 				obj = as(obj, "SpatialPixelsDataFrame")
-			else
+			else {
+				cc = coordinates(obj)
 				obj = as(obj, "SpatialPixels")
+				obj@coords = cc
+				obj@grid.index = 1:NROW(cc)
+			}
 		}
 	}
 	obj

@@ -100,7 +100,8 @@ points2grid = function(points, tolerance=sqrt(.Machine$double.eps)) {
 print.GridTopology = function(x, ...) {
 	res = data.frame(rbind(x@cellcentre.offset, x@cellsize, as.numeric(x@cells.dim)))
 	rownames(res) = c("cellcentre.offset", "cellsize", "cells.dim")
-	names(res) = names(x@cellcentre.offset)
+	if (!is.null(names(x@cellcentre.offset)))
+		names(res) = names(x@cellcentre.offset)
 	print(res)
 	invisible(res)
 }
