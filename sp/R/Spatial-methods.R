@@ -141,12 +141,12 @@ plot.Spatial <- function(x, xlim=NULL, ylim=NULL,
 	frame() # S-Plus compatible version of plot.new()
 	if (is.R()) {
 		plot.window(xlim = xlim, ylim = ylim, asp = asp, ...)
-		if (setParUsrBB) par(usr=c(t(bbox)))
+		if (setParUsrBB) par(usr=c(xlim, ylim))
 	} else {
 		plot.default(x = bbox[1,], y = bbox[2,], type = "n", 
 			xlim = xlim, ylim = ylim, asp = asp, 
 			ann=FALSE, axes=FALSE, ...)
-		if (setParUsrBB) par(usr=c(t(bbox)))
+		if (setParUsrBB) par(usr=c(xlim, ylim))
 	}
 	pl_reg <- par("usr")
 	rect(xleft=pl_reg[1], ybottom=pl_reg[3], xright=pl_reg[2], 
