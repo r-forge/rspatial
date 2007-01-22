@@ -47,10 +47,10 @@ fullgrid = function(obj) return(is(obj, "SpatialGrid"))
 			if (is(obj, "SpatialGridDataFrame"))
 				obj = as(obj, "SpatialPixelsDataFrame")
 			else {
-				cc = coordinates(obj)
+				#cc = coordinates(obj)
 				obj = as(obj, "SpatialPixels")
-				obj@coords = cc
-				obj@grid.index = 1:NROW(cc)
+				#obj@coords = cc
+				#obj@grid.index = 1:NROW(cc)
 			}
 		}
 	}

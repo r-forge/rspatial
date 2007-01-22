@@ -20,6 +20,9 @@
 \alias{coordnames<-,GridTopology,character-method}
 \alias{coordnames<-,SpatialGrid,character-method}
 \alias{coordnames<-,SpatialPixels,character-method}
+\alias{coordnames<-,GridTopology,character-method}
+\alias{coordnames<-,SpatialGrid,character-method}
+\alias{coordnames<-,SpatialPixels,character-method}
 \title{ retrieve or assign coordinate names for classes in sp}
 \description{
 retrieve or assign coordinate names for classes in \pkg{sp}
