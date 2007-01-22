@@ -21,7 +21,11 @@ SpatialGrid = function(grid, proj4string = CRS(as.character(NA))) {
 	pts@bbox[,1] = pts@bbox[,1] - 0.5 * grid@cellsize
 	pts@bbox[,2] = pts@bbox[,2] + 0.5 * grid@cellsize
 	proj4string(pts) = proj4string
-	new("SpatialGrid", pts, grid = grid, grid.index = integer(0))
+# RSB
+#	new("SpatialGrid", pts, grid = grid, grid.index = integer(0))
+	new("SpatialGrid", new("SpatialPixels", pts, grid = grid, 
+		grid.index = integer(0)))
+# representation of SG is Spix
 }
 
 setMethod("coordinates", "SpatialGrid", function(obj) coordinates(obj@grid))
@@ -166,9 +170,10 @@ as.data.frame.SpatialGrid = as.data.frame.SpatialPixels
 setAs("SpatialPixels", "data.frame", function(from) as.data.frame.SpatialPixels(from))
 setAs("SpatialGrid", "data.frame", function(from) as.data.frame.SpatialGrid(from))
 
-#setAs("SpatialGrid", "SpatialPixels", function(from)
-#	SpatialPixels(SpatialPoints(coordinates(from), from@proj4string))
-#)
+# uncommented 070122 RSB
+setAs("SpatialGrid", "SpatialPixels", function(from)
+	SpatialPixels(SpatialPoints(coordinates(from), from@proj4string))
+)
 
 setMethod("summary", "SpatialPixels", summary.Spatial)
 setMethod("summary", "SpatialGrid", summary.Spatial)
