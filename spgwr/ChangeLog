@@ -1,3 +1,14 @@
+2007-01-31 15:53  rsbivand
+
+	* DESCRIPTION, INDEX, R/gwr.R, R/gwr.cv.R, R/gwr1.R, R/gwr1.cv.R,
+	  man/gwr.Rd, man/gwr.cv.Rd, man/ggwr.Rd, man/ggwr.sel.Rd:
+	  generalised GWR
+
+2007-01-09 08:58  rsbivand
+
+	* ChangeLog, DESCRIPTION, R/gwr.R, R/gwr.cv.R, inst/ChangeLog:
+	  ChangeLog
+
 2006-05-02 09:08  rsbivand
 
 	* R/gwr.R, man/georgia.Rd, R/gwr1.R, R/gwr1.cv.R: glm extension

@@ -1,4 +1,4 @@
-# Copyright 2001-2005 Roger Bivand and Danlin Yu
+# Copyright 2001-2007 Roger Bivand and Danlin Yu
 # 
 
 gwr.sel <- function(formula, data = list(), coords, adapt=FALSE, 
@@ -6,11 +6,9 @@ gwr.sel <- function(formula, data = list(), coords, adapt=FALSE,
 	if (!is.logical(adapt)) stop("adapt must be logical")
 	if (!is.logical(longlat)) stop("longlat must be logical")
 	if (is(data, "Spatial")) {
-		if (missing(coords)) {
-			if (is(data, "SpatialPolygonsDataFrame")) 
-				coords <- getSpPPolygonsLabptSlots(data)
-			else coords <- coordinates(data)
-		}
+		if (!missing(coords))
+		    warning("data is Spatial* object, ignoring coords argument")
+		coords <- coordinates(data)
 		data <- as(data, "data.frame")
 	}
 	if (missing(coords))

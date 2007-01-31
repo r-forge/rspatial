@@ -37,6 +37,7 @@ for each point. The
 results may be explored to see if coefficient values vary over space.
 }
 \value{
+A list of class \dQuote{gwr}:
   \item{SDF}{a SpatialPointsDataFrame (may be gridded) or SpatialPolygonsDataFrame object (see package "sp") with fit.points, weights, GWR coefficient estimates, R-squared, and coefficient standard errors in its "data" slot.}
   \item{lhat}{Leung et al. L matrix}
   \item{lm}{Ordinary least squares global regression on the same model formula.}  \item{bandwidth}{the bandwidth used.}
@@ -70,17 +71,17 @@ data(georgia)
 g.adapt.gauss <- gwr.sel(PctBach ~ TotPop90 + PctRural + PctEld + PctFB + PctPov + PctBlack, data=gSRDF, adapt=TRUE)
 res.adpt <- gwr(PctBach ~ TotPop90 + PctRural + PctEld + PctFB + PctPov + PctBlack, data=gSRDF, adapt=g.adapt.gauss)
 res.adpt
-pairs(as(res.adpt$SDF, "data.frame")[,c(17,18, 1:9)], pch=".")
+pairs(as(res.adpt$SDF, "data.frame")[,2:8], pch=".")
 brks <- c(-0.25, 0, 0.01, 0.025, 0.075)
 cols <- grey(5:2/6)
 plot(res.adpt$SDF, col=cols[findInterval(res.adpt$SDF$PctBlack, brks, all.inside=TRUE)])
 g.bw.gauss <- gwr.sel(PctBach ~ TotPop90 + PctRural + PctEld + PctFB + PctPov + PctBlack, data=gSRDF)
 res.bw <- gwr(PctBach ~ TotPop90 + PctRural + PctEld + PctFB + PctPov + PctBlack, data=gSRDF, bandwidth=g.bw.gauss)
 res.bw
-pairs(as(res.bw$SDF, "data.frame")[,c(17,18, 1:9)], pch=".")
+pairs(as(res.bw$SDF, "data.frame")[,2:8], pch=".")
 plot(res.bw$SDF, col=cols[findInterval(res.bw$SDF$PctBlack, brks, all.inside=TRUE)])
 g.bw.gauss <- gwr.sel(PctBach ~ TotPop90 + PctRural + PctEld + PctFB + PctPov + PctBlack, data=gSRDF, longlat=TRUE)
-if (require(spgpc)) {
+if (require(maptools) && require(gpclib)) {
   gSR <- as(gSRDF, "SpatialPolygons")
   length(getSpPpolygonsSlot(gSR))
   gSRouter <- unionSpatialPolygons(gSR, IDs=rep("Georgia", 159))

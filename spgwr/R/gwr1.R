@@ -1,4 +1,4 @@
-# Copyright 2006 Roger Bivand
+# Copyright 2006-7 Roger Bivand
 # 
 
 ggwr <- function(formula, data = list(), coords, bandwidth, 
@@ -7,30 +7,15 @@ ggwr <- function(formula, data = list(), coords, bandwidth,
 	this.call <- match.call()
 	p4s <- as.character(NA)
 	Polys <- NULL
-	coords.given <- NULL
-	if (!missing(coords)) coords.given <- TRUE
-	coords.extra <- NULL
-	if (is(data, "SpatialPolygonsDataFrame")) {
+	if (is(data, "Spatial")) {
+		if (!missing(coords))
+		    warning("data is Spatial* object, ignoring coords argument")
+		coords <- coordinates(data)
+		p4s <- proj4string(data)
+		data <- as(data, "data.frame")
+	}
+	if (is(data, "SpatialPolygonsDataFrame")) 
 		Polys <- as(data, "SpatialPolygons")
-		if (missing(coords)) {
-			coords <- getSpPPolygonsLabptSlots(data)
-			coords.given <- FALSE
-		} else {
-			coords.extra <- getSpPPolygonsLabptSlots(data)
-		}
-		p4s <- proj4string(data)
-		data <- as(data, "data.frame")
-	}
-	if (is(data, "SpatialPointsDataFrame")) {
-		if (missing(coords)) {
-			coords <- coordinates(data)
-			coords.given <- FALSE
-		} else {
-			coords.extra <- coordinates(data)
-		}
-		p4s <- proj4string(data)
-		data <- as(data, "data.frame")
-	}
 	if (missing(coords))
 		stop("Observation coordinates have to be given")
 	if (is.null(colnames(coords))) 
@@ -68,14 +53,14 @@ ggwr <- function(formula, data = list(), coords, bandwidth,
 		fit.points <- coords
 		colnames(fit.points) <- colnames(coords)
 	} else fp.given <- TRUE
-	gridded <- FALSE
+	griddedObj <- FALSE
 	if (is(fit.points, "Spatial")) {
 		Polys <- NULL
 		if (is(fit.points, "SpatialPolygonsDataFrame")) {
 			Polys <- Polygons(fit.points)
 			fit.points <- getSpPPolygonsLabptSlots(fit.points)
 		} else {
-			gridded <- gridded(fit.points)
+			griddedObj <- gridded(fit.points)
 			fit.points <- coordinates(fit.points)
 		}
 	}
@@ -97,10 +82,11 @@ ggwr <- function(formula, data = list(), coords, bandwidth,
 	}
 	if (any(bandwidth < 0)) stop("Invalid bandwidth")
 	gwr.b <- matrix(nrow=n, ncol=m)
-	if (!fp.given) response_resids <- numeric(n)
+	response_resids <- numeric(n)
 	colnames(gwr.b) <- colnames(x)
 	lhat <- NA
 	sum.w <- numeric(n)
+	dispersion <- numeric(n)
 	for (i in 1:n) {
 		dxs <- spDistsN1(coords, fit.points[i,], longlat=longlat)
 		if (any(!is.finite(dxs)))
@@ -112,29 +98,33 @@ ggwr <- function(formula, data = list(), coords, bandwidth,
 			family=family)
 		sum.w[i] <- sum(w.i)
 		gwr.b[i,] <- coefficients(lm.i)
-		if (!fp.given) response_resids[i] <- lm.i$residuals[i]
+		response_resids[i] <- lm.i$residuals[i]
+    		df.r <- lm.i$df.residual
+        	if (lm.i$family$family %in% c("poisson", "binomial")) 
+            		dispersion[i] <- 1
+        	else {
+			if (df.r > 0) {
+            			dispersion[i] <- sum((lm.i$weights * 
+			    	    lm.i$residuals^2)[lm.i$weights >  0])/df.r
+        		} else {
+            			dispersion[i] <- NaN
+			}
+        	}
 	}
-	if (!fp.given) df <- data.frame(sum.w=sum.w, gwr.b, 
-				response_resids)
-	else df <- data.frame(sum.w=sum.w, gwr.b)
-	if (coords.given) {
-		if (is.null(coords.extra)) {
-			SDF <- SpatialPointsDataFrame(coords=fit.points,
-				data=df, proj4string=CRS(p4s))
-		} else {
-			SDF <- SpatialPointsDataFrame(coords=coords.extra,
-				data=df, proj4string=CRS(p4s))
-		}		
-	} else {
-		
-		SDF <- SpatialPointsDataFrame(coords=fit.points, 
+	df <- data.frame(sum.w=sum.w, gwr.b, 
+		dispersion=dispersion, response_resids=response_resids)
+
+	SDF <- SpatialPointsDataFrame(coords=fit.points, 
 			data=df, proj4string=CRS(p4s))
-	}
-	if (gridded) gridded(SDF) <- TRUE
-	else if (!is.null(Polys)) {
-		df <- data.frame(SDF@data)
-		rownames(df) <- getSpPPolygonsIDSlots(Polys)
-		SDF <- SpatialPolygonsDataFrame(Sr=Polys, data=df)
+
+	if (griddedObj) {
+		gridded(SDF) <- TRUE
+	} else {
+		if (!is.null(Polys)) {
+			df <- data.frame(SDF@data)
+			rownames(df) <- getSpPPolygonsIDSlots(Polys)
+			SDF <- SpatialPolygonsDataFrame(Sr=Polys, data=df)
+		}
 	}
 	z <- list(SDF=SDF, lhat=lhat, lm=glm_fit, results=NULL, 
 		bandwidth=bw, adapt=adapt, hatmatrix=FALSE, 
