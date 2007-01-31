@@ -71,12 +71,21 @@ readRAST6 <- function(vname, cat=NULL, ignore.stderr = FALSE, NODATA=-9999) {
 		for (i in seq(along=cat)) {
 			if (cat[i] && is.integer(resa@data[[i]])) {
 
+# note --q in 6.3.cvs
 				cmd <- paste("r.stats -l -q", vname[i])
 
 				tull <- ifelse(.Platform$OS.type=="windows",
 				    rSTATS <- system(cmd, intern=TRUE), 
 				    rSTATS <- system(cmd, intern=TRUE, 
 				    ignore.stderr=ignore.stderr))
+				if (length(rSTATS) == 0) {
+				    cmd <- paste("r.stats -l --q", vname[i])
+				    tull <- ifelse(.Platform$OS.type=="windows",
+				    rSTATS <- system(cmd, intern=TRUE),
+				    rSTATS <- system(cmd, intern=TRUE,
+				    ignore.stderr=ignore.stderr))
+				}
+
 				cats <- strsplit(rSTATS, " ")
 				catnos <- sapply(cats, function(x) x[1])
 				catlabs <- sapply(cats, 

@@ -1,3 +1,11 @@
+2007-01-31 11:11  rsbivand
+
+	* DESCRIPTION, R/bin_link.R, R/spgrass6.R: --q in 6.3.cvs trap
+
+2007-01-09 08:49  rsbivand
+
+	* ChangeLog, inst/ChangeLog: ChangeLog
+
 2006-11-29 14:26  rsbivand
 
 	* DESCRIPTION, R/spgrass6.R, man/gmeta6.Rd: print method
