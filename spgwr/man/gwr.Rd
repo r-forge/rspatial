@@ -11,7 +11,7 @@ weighting scheme.
 gwr(formula, data=list(), coords, bandwidth, gweight=gwr.gauss, 
 	adapt=NULL, hatmatrix = FALSE, fit.points, 
 	longlat=FALSE)
-print.gwr(x, ...)
+\method{print}{gwr}(x, \dots)
 }
 
 \arguments{
@@ -75,24 +75,25 @@ pairs(as(res.adpt$SDF, "data.frame")[,2:8], pch=".")
 brks <- c(-0.25, 0, 0.01, 0.025, 0.075)
 cols <- grey(5:2/6)
 plot(res.adpt$SDF, col=cols[findInterval(res.adpt$SDF$PctBlack, brks, all.inside=TRUE)])
-g.bw.gauss <- gwr.sel(PctBach ~ TotPop90 + PctRural + PctEld + PctFB + PctPov + PctBlack, data=gSRDF)
-res.bw <- gwr(PctBach ~ TotPop90 + PctRural + PctEld + PctFB + PctPov + PctBlack, data=gSRDF, bandwidth=g.bw.gauss)
-res.bw
-pairs(as(res.bw$SDF, "data.frame")[,2:8], pch=".")
-plot(res.bw$SDF, col=cols[findInterval(res.bw$SDF$PctBlack, brks, all.inside=TRUE)])
-g.bw.gauss <- gwr.sel(PctBach ~ TotPop90 + PctRural + PctEld + PctFB + PctPov + PctBlack, data=gSRDF, longlat=TRUE)
-if (require(maptools) && require(gpclib)) {
-  gSR <- as(gSRDF, "SpatialPolygons")
-  length(getSpPpolygonsSlot(gSR))
-  gSRouter <- unionSpatialPolygons(gSR, IDs=rep("Georgia", 159))
-  gGrid <- sample.Polygons(getSpPpolygonsSlot(gSRouter)[[1]], 5000,
-    type="regular")
-  gridded(gGrid) <- TRUE
-  summary(gGrid)
-  res.bw <- gwr(PctBach ~ TotPop90 + PctRural + PctEld + PctFB + PctPov + PctBlack, data=gSRDF, bandwidth=g.bw.gauss, fit.points=gGrid, longlat=TRUE)
+\dontrun{
+  g.bw.gauss <- gwr.sel(PctBach ~ TotPop90 + PctRural + PctEld + PctFB + PctPov + PctBlack, data=gSRDF)
+  res.bw <- gwr(PctBach ~ TotPop90 + PctRural + PctEld + PctFB + PctPov + PctBlack, data=gSRDF, bandwidth=g.bw.gauss)
   res.bw
-  spplot(res.bw$SDF, "PctBlack")
-}
+  pairs(as(res.bw$SDF, "data.frame")[,2:8], pch=".")
+  plot(res.bw$SDF, col=cols[findInterval(res.bw$SDF$PctBlack, brks, all.inside=TRUE)])
+  g.bw.gauss <- gwr.sel(PctBach ~ TotPop90 + PctRural + PctEld + PctFB + PctPov + PctBlack, data=gSRDF, longlat=TRUE)
+  if (require(maptools) && require(gpclib)) {
+    gSR <- as(gSRDF, "SpatialPolygons")
+    length(getSpPpolygonsSlot(gSR))
+    gSRouter <- unionSpatialPolygons(gSR, IDs=rep("Georgia", 159))
+    gGrid <- sample.Polygons(getSpPpolygonsSlot(gSRouter)[[1]], 5000,
+      type="regular")
+    gridded(gGrid) <- TRUE
+    summary(gGrid)
+    res.bw <- gwr(PctBach ~ TotPop90 + PctRural + PctEld + PctFB + PctPov + PctBlack, data=gSRDF, bandwidth=g.bw.gauss, fit.points=gGrid, longlat=TRUE)
+    res.bw
+    spplot(res.bw$SDF, "PctBlack")
+}}
 }
 \keyword{spatial}
 

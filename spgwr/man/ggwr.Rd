@@ -54,10 +54,11 @@ bw <- ggwr.sel(SID74 ~ I(NWBIR74/BIR74) + offset(log(BIR74)), data=xx,
 nc <- ggwr(SID74 ~ I(NWBIR74/BIR74) + offset(log(BIR74)), data=xx,
   family=poisson(), longlat=TRUE, bandwidth=bw)
 nc
+\dontrun{
 nc <- ggwr(SID74 ~ I(NWBIR74/10000) + offset(log(BIR74)), data=xx,
   family=poisson(), longlat=TRUE, bandwidth=bw)
 nc
-\dontrun{nc <- ggwr(SID74 ~ I(NWBIR74/10000) + offset(log(BIR74)), data=xx,
+nc <- ggwr(SID74 ~ I(NWBIR74/10000) + offset(log(BIR74)), data=xx,
   family=quasipoisson(), longlat=TRUE, bandwidth=bw)
 nc
 }

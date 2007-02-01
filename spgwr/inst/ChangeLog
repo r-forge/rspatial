@@ -1,8 +1,13 @@
+2007-02-01 15:14  rsbivand
+
+	* DESCRIPTION, man/ggwr.Rd, man/ggwr.sel.Rd, man/gwr.Rd: 0.4-01
+	  release
+
 2007-01-31 15:53  rsbivand
 
 	* DESCRIPTION, INDEX, R/gwr.R, R/gwr.cv.R, R/gwr1.R, R/gwr1.cv.R,
-	  man/gwr.Rd, man/gwr.cv.Rd, man/ggwr.Rd, man/ggwr.sel.Rd:
-	  generalised GWR
+	  man/gwr.Rd, man/gwr.cv.Rd, man/ggwr.Rd, man/ggwr.sel.Rd,
+	  ChangeLog, inst/ChangeLog: generalised GWR
 
 2007-01-09 08:58  rsbivand
 
