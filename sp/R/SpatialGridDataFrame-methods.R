@@ -36,8 +36,15 @@ as.SGDF.SPixDF = function(from) {
 		warning("complete map seems to be NA's -- no selection was made")
 		sel = rep(TRUE, length(sel))
 	}
-   	SpatialPixelsDataFrame(points = coordinates(from)[sel,], 
-		data = from@data[sel,,drop=FALSE], proj4string = CRS(proj4string(from)))
+   	#SpatialPixelsDataFrame(points = coordinates(from)[sel,], 
+	#	data = from@data[sel,,drop=FALSE], proj4string = CRS(proj4string(from)))
+	new("SpatialPixelsDataFrame", 
+		new("SpatialPixels", 
+			new("SpatialPoints", coords = coordinates(from)[sel,], 
+				bbox = from@bbox, proj4string = CRS(proj4string(from))),
+			grid = from@grid, 
+			grid.index = which(sel)),
+		data = from@data[sel,,drop=FALSE])
 }
 setAs("SpatialGridDataFrame", "SpatialPixelsDataFrame", as.SGDF.SPixDF)
 setAs("SpatialGridDataFrame", "SpatialPointsDataFrame", 
