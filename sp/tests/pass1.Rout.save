@@ -1,5 +1,5 @@
 
-R version 2.4.0 Patched (2006-11-25 r39997)
+R version 2.4.1 (2006-12-18)
 Copyright (C) 2006 The R Foundation for Statistical Computing
 ISBN 3-900051-07-0
 
@@ -136,4 +136,17 @@ Data attributes:
 18      (3, 8) 3
 19      (4, 9) 4
 20     (5, 10) 5
+> 
+> grd <- GridTopology(c(1,1), c(1,1), c(10,10))
+> polys <- as.SpatialPolygons.GridTopology(grd)
+> summary(rbind(polys[1:10], polys[11:20], polys[21:30]))
+Object of class SpatialPolygons
+Coordinates:
+   min  max
+r1 0.5 10.5
+r2 7.5 10.5
+Is projected: NA 
+proj4string : [NA]
+> plot(rbind(polys[1:10],polys[21:30]))
+> title("2 x 10 blocks -- test rbind on SpatialPolygons")
 > 
