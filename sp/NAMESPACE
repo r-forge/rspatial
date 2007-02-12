@@ -73,6 +73,8 @@ export(dd2dms, print.DMS, char2dms, as.character.DMS,
 
 export(spDistsN1)
 
+export(rbind.SpatialPointsDataFrame, rbind.SpatialPoints)
+
 exportClasses(CRS, 
 	Spatial, 
 	SpatialPoints, 
