@@ -3,7 +3,7 @@
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{Moran's I for gwr objects}
 \description{
-  The function returns Leung et al. (2000) three moment approximation for Moran's I, for a gwr object calculated with argument hatmatrix=TRUE.
+  The function returns Leung et al. (2000) three moment approximation for Moran's I, for a gwr object calculated with argument hatmatrix=TRUE. This implementation should not be regarded as authoritative, as it involves assumptions about implied methods and about estimated degrees of freedom.
 }
 \usage{
 gwr.morantest(x, listw, zero.policy = FALSE)
