@@ -210,7 +210,7 @@ setMethod("show", "SpatialGrid", function(object) print.SpatialGrid(object))
 
 # make a SpatialPolygons from a SpatialPixels - Kohris Sahlen workshop
 
-as.SpatialPolygons.SpatialPixels <- function(obj, proj4string=CRS(as.character(NA)))
+as.SpatialPolygons.SpatialPixels <- function(obj, proj4string=CRS(proj4string(obj)))
 {
 	obj_crds <- coordinates(obj)
 	IDs <- IDvaluesSpatialPixels(obj)
@@ -232,6 +232,8 @@ as.SpatialPolygons.SpatialPixels <- function(obj, proj4string=CRS(as.character(N
 	res <- as.SpatialPolygons.PolygonsList(Srl, proj4string=proj4string)
 	res
 }
+setAs("SpatialPixels", "SpatialPolygons", function(from) 
+	as.SpatialPolygons.SpatialPixels(from))
 
 IDvaluesSpatialPixels <- function(obj) {
 	if (!is(obj, "SpatialPixels"))
