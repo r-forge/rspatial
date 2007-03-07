@@ -307,14 +307,14 @@ genPolyList <- function(hexGrid) {
 	ret = lapply(1:length(hexGrid$x), f)
 }
 
-as.SpatialPolygons.HexGrid = function(obj) {
-	ret = genPolyList(data.frame(coordinates(obj)))
+as.SpatialPolygons.HexGrid = function(hex) {
+	ret = genPolyList(data.frame(coordinates(hex)))
 	npoly = length(ret)
 	Srl <- vector(mode="list", length=npoly)
 	IDS = paste("ID", 1:npoly, sep="")
 	for (i in 1:npoly)
 		Srl[[i]] = Polygons(list(Polygon(ret[[i]])), IDS[i])
-	res <- as.SpatialPolygons.PolygonsList(Srl, proj4string=CRS(proj4string(obj)))
+	res <- as.SpatialPolygons.PolygonsList(Srl, proj4string=CRS(proj4string(hex)))
 	res
 }
 
