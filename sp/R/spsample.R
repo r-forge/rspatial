@@ -290,12 +290,13 @@ genHexGrid <- function(dx, ll = c(0, 0), ur = c(1, 1)) {
         data.frame(x = x, y = y)
 }
 
-genPolyList <- function(hexGrid) {
+genPolyList <- function(hexGrid, dx) {
 	# EJP; changed:
 	# how to figure out dx from a grid? THK suggested:
         #dx <- hexGrid$x[2] - hexGrid$x[1]
 	# and the following will also not allways work:
-	dx = 2 * min(diff(sort(unique(hexGrid$x))))
+	if (missing(dx))
+		dx = 2 * min(diff(sort(unique(hexGrid$x))))
 	dy <- dx / sqrt(3)
 
 	x.offset <- c(-dx / 2, 0, dx / 2, dx / 2, 0, -dx / 2, -dx / 2)
@@ -307,8 +308,9 @@ genPolyList <- function(hexGrid) {
 	ret = lapply(1:length(hexGrid$x), f)
 }
 
-as.SpatialPolygons.HexGrid = function(hex) {
-	ret = genPolyList(data.frame(coordinates(hex)))
+# EJP, added:
+HexPoints2SpatialPolygons = function(hex, dx) {
+	ret = genPolyList(data.frame(coordinates(hex)), dx = dx)
 	npoly = length(ret)
 	Srl <- vector(mode="list", length=npoly)
 	IDS = paste("ID", 1:npoly, sep="")
@@ -317,7 +319,3 @@ as.SpatialPolygons.HexGrid = function(hex) {
 	res <- as.SpatialPolygons.PolygonsList(Srl, proj4string=CRS(proj4string(hex)))
 	res
 }
-
-# xy <- genHexGrid(0.05)
-# plot(xy, asp = 1, axes = F, pch = 19, xlab = NA, ylab = NA, cex = 0.5)
-# lapply(genPolyList(xy), polygon, xpd = NA, ypd = NA)
