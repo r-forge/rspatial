@@ -37,9 +37,10 @@ bbox=.bboxCalc(LinesList), proj4string=proj4string)
 }
 
 LineLength = function(cc) {
-	dxy = apply(cc, 2, diff)
-	sqrt(sum(apply(dxy, 1, function(x) sum(x ** 2))))
+	dxy = matrix(apply(cc, 2, diff), ncol = 2)
+	sum(sqrt(apply(dxy, 1, function(x) sum(x ** 2))))
 }
+
 # NEW
 .bboxCalc <- function(lst) {
     rx=range(lapply(lst[[1]]@Lines, function(x) range(x@coords[,1]))[[1]])
@@ -182,3 +183,6 @@ getSpatialLinesMidPoints = function(SL) {
 	SpatialPoints(ret, CRS(proj4string(SL)))
 }
 
+LinesLength = function(l) sum(sapply(l@Lines, function(x) LineLength(x@coords)))
+
+SpatialLinesLengths = function(SL) sapply(SL@lines, LinesLength)

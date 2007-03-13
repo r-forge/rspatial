@@ -25,7 +25,7 @@ export(SpatialPoints, SpatialPointsDataFrame)
 #export(AttributeList)
 
 export(Line, Lines, SpatialLines, SpatialLinesDataFrame, as.SpatialLines.SLDF,
-	gridat)
+	gridat, LineLength, LinesLength, SpatialLinesLengths)
 
 
 export(layout.scale.bar, layout.north.arrow, sp.theme,

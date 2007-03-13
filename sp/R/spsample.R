@@ -73,10 +73,8 @@ sample.Spatial = function(x, n, type, bb = bbox(x), offset = runif(nrow(bb)),
 }
 setMethod("spsample", signature(x = "Spatial"), sample.Spatial)
 
-sample.Line = function(x, n, type, offset = runif(1),
-		proj4string=CRS(as.character(NA)), ...) {
+sample.Line = function(x, n, type, offset = runif(1), ...) {
 	if (missing(n)) n <- as.integer(NA)
-#cat("n in sample.Line", n, "\n")
 	cc = coordinates(x)
 	dxy = apply(cc, 2, diff)
 	if (inherits(dxy, "matrix"))
@@ -97,14 +95,45 @@ sample.Line = function(x, n, type, offset = runif(1),
 	int = findInterval(pts, csl, all.inside = TRUE)
 	where = (pts - csl[int])/diff(csl)[int]
 	xy = cc[int,] + where * (cc[int+1,] - cc[int,])
-#	SpatialPoints(xy, CRS(proj4string(x)))
-	SpatialPoints(xy, proj4string=proj4string)
+	SpatialPoints(xy)
 }
 setMethod("spsample", signature(x = "Line"), sample.Line)
 
+sample.Lines = function(x, n, type, offset = runif(.5), ...) {
+	L = x@Lines
+	lengths = sapply(L, function(x) LineLength(x@coords))
+	nrs = round(lengths / sum(lengths) * n)
+	ret = vector("list", sum(nrs > 0))
+	j = 1
+	for (i in 1:length(L)) {
+		if (nrs[i] > 0) {
+			ret[[j]] = spsample(L[[i]], nrs[i], type = type, offset = offset, ...)
+			j = j+1
+		}
+	}
+	do.call("rbind", ret)
+}
+setMethod("spsample", signature(x = "Lines"), sample.Lines)
+
+sample.SpatialLines = function(x, n, type, offset = runif(.5), ...) {
+	lengths = SpatialLinesLengths(x)
+	nrs = round(lengths / sum(lengths) * n)
+	ret = vector("list", sum(nrs > 0))
+	j = 1
+	for (i in 1:length(lengths)) {
+		if (nrs[i] > 0) {
+			ret[[j]] = spsample(x@lines[[i]], nrs[i], type = type, offset = offset, ...)
+			j = j+1
+		}
+	}
+	ret = do.call("rbind", ret)
+	proj4string(ret) = CRS(proj4string(x))
+	ret
+}
+setMethod("spsample", signature(x = "SpatialLines"), sample.Lines)
+
 sample.Polygon = function(x, n, type = "random", bb = bbox(x),
 	offset = runif(2), proj4string=CRS(as.character(NA)), iter=4, ...) {
-#...) {
 	if (missing(n)) n <- as.integer(NA)
 #cat("n in sample.Polygon", n, "\n")
 	area = getPolygonAreaSlot(x)
@@ -146,12 +175,8 @@ sample.Polygon = function(x, n, type = "random", bb = bbox(x),
 setMethod("spsample", signature(x = "Polygon"), sample.Polygon)
 
 sample.Polygons = function(x, n, type = "random", bb = bbox(x),
-		offset = runif(2), 
-#...) {
-proj4string=CRS(as.character(NA)), iter=4, ...) {
-	#stop("not functioning yet...")
+		offset = runif(2), iter=4, ...) {
 	if (missing(n)) n <- as.integer(NA)
-#cat("n in sample.Polygons", n, "\n")
 	area = sapply(getPolygonsPolygonsSlot(x), getPolygonAreaSlot) # also available for Polygons!
 	if (sum(area) == 0.0)
 		# distribute n over the lines, according to their length?
@@ -163,7 +188,7 @@ proj4string=CRS(as.character(NA)), iter=4, ...) {
 	smple <- rep(TRUE, length(pls))
 	if (length(pls) > 1) {
 	    for (i in seq(along=pls)) {
-		bbi <- .bbox2SPts(bbox(pls[[i]]), proj4string=proj4string)
+		bbi <- .bbox2SPts(bbox(pls[[i]]), proj4string=CRS(proj4string(x)))
 		bb_in <- lapply(pls[-i], function(x, pts) 
 			pointsInPolygon(pts, x), pts = bbi)
 		if (holes[i] || any(unlist(bb_in) > 0)) smple[i] <- FALSE
@@ -175,16 +200,15 @@ proj4string=CRS(as.character(NA)), iter=4, ...) {
 	    for (i in seq(along=ptsres)) {
 		if (smple[i]) ptsres[[i]] <- sample.Polygon(
 		    x=pls[[i]], n=round(n*(area[i]/sum_area)), 
-		    type = type, offset = offset, proj4string=proj4string, 
-		    iter=iter)
+		    type = type, offset = offset, iter=iter)
 	    }
 	    crds <- do.call("rbind", lapply(ptsres, function(x) 
 	        if (!is.null(x)) coordinates(x)))
 	    if (is.null(crds)) res <- NULL
 	    else {
-	        pts <- SpatialPoints(crds, proj4string=proj4string)
+	        pts <- SpatialPoints(crds, proj4string=CRS(proj4string(x)))
 	        id = overlay(pts, SpatialPolygons(list(x), 
-		    proj4string=proj4string))
+				proj4string=CRS(proj4string(x))))
 	        Not_NAs <- !is.na(id)
 	        if (!any(Not_NAs)) res <- NULL
 	        else res <- pts[which(Not_NAs)]
@@ -224,6 +248,7 @@ sample.Spatial(as(x, "Spatial"), round(n * bb.area/area), type=type, offset = of
 	if (type == "random")
 	    if (!is.null(res) && n < nrow(res@coords)) 
 		res <- res[sample(nrow(res@coords), n)]
+	proj4string(res) = CRS(proj4string(x))
 	res
 }
 setMethod("spsample", signature(x = "SpatialPolygons"), sample.SpatialPolygons)
@@ -316,6 +341,7 @@ HexPoints2SpatialPolygons = function(hex, dx) {
 	IDS = paste("ID", 1:npoly, sep="")
 	for (i in 1:npoly)
 		Srl[[i]] = Polygons(list(Polygon(ret[[i]])), IDS[i])
-	res <- as.SpatialPolygons.PolygonsList(Srl, proj4string=CRS(proj4string(hex)))
+	res <- as.SpatialPolygons.PolygonsList(Srl, 
+		proj4string=CRS(proj4string(hex)))
 	res
 }
