@@ -45,13 +45,13 @@ export(gridparameters, "gridded<-", gridded, fullgrid, "fullgrid<-",
 #	as.Ring4.matrix)
 
 export(getSLlinesSlot, getLinesLinesSlot, nowrapSpatialLines, 
-	getLinesIDSlot, getSLLinesIDSlots)
+	getLinesIDSlot, getSLLinesIDSlots, getSpatialLinesMidPoints)
 
 export(getPolygonCoordsSlot, getPolygonLabptSlot, getPolygonAreaSlot,
 	getPolygonHoleSlot, getPolygonsPolygonsSlot, getPolygonsplotOrderSlot,
 	getPolygonsLabptSlot, getPolygonsIDSlot, getSpPpolygonsSlot,
 	getSpPplotOrderSlot, getSpPPolygonsLabptSlots, getSpPPolygonsIDSlots,
-	getSpPnParts, getSpPnHoles)
+	getSpPnParts, getSpPnHoles, getSpatialPolygonsLabelPoints)
 
 export(as.SpatialPolygons.PolygonsList, Polygons, Polygon, SpatialPolygons,
 	SpatialPolygonsDataFrame)

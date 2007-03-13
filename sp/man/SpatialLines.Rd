@@ -4,6 +4,7 @@
 \alias{as.SpatialLines.SLDF}
 \alias{getSLlinesSlot}
 \alias{getSLLinesIDSlots}
+\alias{getSpatialLinesMidPoints}
 \title{ create objects of class SpatialLines or SpatialLinesDataFrame}
 \description{ create objects of class \code{SpatialLines} or 
 \code{SpatialLinesDataFrame} from
@@ -14,6 +15,7 @@ SpatialLinesDataFrame(sl, data, match.ID = TRUE)
 as.SpatialLines.SLDF(SLDF)
 getSLlinesSlot(SL)
 getSLLinesIDSlots(SL)
+getSpatialLinesMidPoints(SL)
 }
 \arguments{
 \item{LinesList}{ list with objects of class \link{Lines-class}}
@@ -28,6 +30,7 @@ should equal the number of \code{Lines} elements in \code{sl}}
 \value{
 \code{SpatialLines} returns object of class \code{SpatialLines};
 \code{SpatialLinesDataFrame} returns object of class \code{SpatialLinesDataFrame}
+\code{getSpatialLinesMidPoints} returns an object of class \code{SpatialPoints},each point containing the (weighted) mean of the lines elements; weighted in the sense that mean is called twice.
 }
 \seealso{ \link{SpatialLines-class} }
 

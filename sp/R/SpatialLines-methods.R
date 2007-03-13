@@ -171,3 +171,14 @@ setReplaceMethod("coordnames",
 		x
 	}
 )
+
+getSpatialLinesMidPoints = function(SL) {
+	ret = lapply(SL@lines,
+		function(x) sapply(x@Lines, 
+			function(X) apply(X@coords, 2, mean)
+		)
+	)
+	ret = t(sapply(ret, function(x) apply(x, 1, mean)))
+	SpatialPoints(ret, CRS(proj4string(SL)))
+}
+
