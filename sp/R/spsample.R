@@ -74,6 +74,7 @@ sample.Spatial = function(x, n, type, bb = bbox(x), offset = runif(nrow(bb)),
 setMethod("spsample", signature(x = "Spatial"), sample.Spatial)
 
 sample.Line = function(x, n, type, offset = runif(1), ...) {
+	offset = offset[1]
 	if (missing(n)) n <- as.integer(NA)
 	cc = coordinates(x)
 	dxy = apply(cc, 2, diff)
