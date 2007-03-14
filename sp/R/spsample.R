@@ -99,7 +99,7 @@ sample.Line = function(x, n, type, offset = runif(1), ...) {
 }
 setMethod("spsample", signature(x = "Line"), sample.Line)
 
-sample.Lines = function(x, n, type, offset = runif(.5), ...) {
+sample.Lines = function(x, n, type, offset = runif(1), ...) {
 	L = x@Lines
 	lengths = sapply(L, function(x) LineLength(x@coords))
 	nrs = round(lengths / sum(lengths) * n)
@@ -115,7 +115,7 @@ sample.Lines = function(x, n, type, offset = runif(.5), ...) {
 }
 setMethod("spsample", signature(x = "Lines"), sample.Lines)
 
-sample.SpatialLines = function(x, n, type, offset = runif(.5), ...) {
+sample.SpatialLines = function(x, n, type, offset = runif(1), ...) {
 	lengths = SpatialLinesLengths(x)
 	nrs = round(lengths / sum(lengths) * n)
 	ret = vector("list", sum(nrs > 0))
@@ -130,7 +130,7 @@ sample.SpatialLines = function(x, n, type, offset = runif(.5), ...) {
 	proj4string(ret) = CRS(proj4string(x))
 	ret
 }
-setMethod("spsample", signature(x = "SpatialLines"), sample.Lines)
+setMethod("spsample", signature(x = "SpatialLines"), sample.SpatialLines)
 
 sample.Polygon = function(x, n, type = "random", bb = bbox(x),
 	offset = runif(2), proj4string=CRS(as.character(NA)), iter=4, ...) {
