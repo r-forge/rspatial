@@ -37,6 +37,8 @@ bbox=.bboxCalc(LinesList), proj4string=proj4string)
 }
 
 LineLength = function(cc) {
+	if (is(cc, "Line"))
+		cc = coordinates(cc)
 	dxy = matrix(apply(cc, 2, diff), ncol = 2)
 	sum(sqrt(apply(dxy, 1, function(x) sum(x ** 2))))
 }
@@ -176,13 +178,13 @@ setReplaceMethod("coordnames",
 getSpatialLinesMidPoints = function(SL) {
 	ret = lapply(SL@lines,
 		function(x) sapply(x@Lines, 
-			function(X) apply(X@coords, 2, mean)
+			function(X) apply(X, 2, mean)
 		)
 	)
 	ret = t(sapply(ret, function(x) apply(x, 1, mean)))
 	SpatialPoints(ret, CRS(proj4string(SL)))
 }
 
-LinesLength = function(l) sum(sapply(l@Lines, function(x) LineLength(x@coords)))
+LinesLength = function(Ls) sum(sapply(Ls@Lines, function(x) LineLength(x)))
 
 SpatialLinesLengths = function(SL) sapply(SL@lines, LinesLength)

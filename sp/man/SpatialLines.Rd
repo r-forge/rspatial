@@ -5,6 +5,9 @@
 \alias{getSLlinesSlot}
 \alias{getSLLinesIDSlots}
 \alias{getSpatialLinesMidPoints}
+\alias{LineLength}
+\alias{LinesLength}
+\alias{SpatialLinesLengths}
 \title{ create objects of class SpatialLines or SpatialLinesDataFrame}
 \description{ create objects of class \code{SpatialLines} or 
 \code{SpatialLinesDataFrame} from
@@ -16,6 +19,9 @@ as.SpatialLines.SLDF(SLDF)
 getSLlinesSlot(SL)
 getSLLinesIDSlots(SL)
 getSpatialLinesMidPoints(SL)
+LineLength(cc)
+LinesLength(Ls)
+SpatialLinesLengths(SL)
 }
 \arguments{
 \item{LinesList}{ list with objects of class \link{Lines-class}}
@@ -26,6 +32,8 @@ getSpatialLinesMidPoints(SL)
 should equal the number of \code{Lines} elements in \code{sl}}
 \item{match.ID}{logical: (default TRUE): match SpatialLines member Lines ID slot values with data frame row names, and re-order the data frame rows if necessary}
 \item{SLDF}{SpatialLinesDataFrame object}
+\item{Ls}{Object of class \code{Lines}}
+\item{cc}{Object of class \code{Line}, or two-column matrix with points}
 }
 \value{
 \code{SpatialLines} returns object of class \code{SpatialLines};

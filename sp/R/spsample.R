@@ -73,7 +73,7 @@ sample.Spatial = function(x, n, type, bb = bbox(x), offset = runif(nrow(bb)),
 }
 setMethod("spsample", signature(x = "Spatial"), sample.Spatial)
 
-sample.Line = function(x, n, type, offset = runif(1), ...) {
+sample.Line = function(x, n, type, offset = runif(1), proj4string = CRS(as.character(NA)), ...) {
 	offset = offset[1]
 	if (missing(n)) n <- as.integer(NA)
 	cc = coordinates(x)
@@ -96,7 +96,7 @@ sample.Line = function(x, n, type, offset = runif(1), ...) {
 	int = findInterval(pts, csl, all.inside = TRUE)
 	where = (pts - csl[int])/diff(csl)[int]
 	xy = cc[int,] + where * (cc[int+1,] - cc[int,])
-	SpatialPoints(xy)
+	SpatialPoints(xy, proj4string)
 }
 setMethod("spsample", signature(x = "Line"), sample.Line)
 
@@ -176,7 +176,7 @@ sample.Polygon = function(x, n, type = "random", bb = bbox(x),
 setMethod("spsample", signature(x = "Polygon"), sample.Polygon)
 
 sample.Polygons = function(x, n, type = "random", bb = bbox(x),
-		offset = runif(2), iter=4, ...) {
+		offset = runif(2), proj4string=CRS(as.character(NA)), iter=4, ...) {
 	if (missing(n)) n <- as.integer(NA)
 	area = sapply(getPolygonsPolygonsSlot(x), getPolygonAreaSlot) # also available for Polygons!
 	if (sum(area) == 0.0)
@@ -189,7 +189,7 @@ sample.Polygons = function(x, n, type = "random", bb = bbox(x),
 	smple <- rep(TRUE, length(pls))
 	if (length(pls) > 1) {
 	    for (i in seq(along=pls)) {
-		bbi <- .bbox2SPts(bbox(pls[[i]]), proj4string=CRS(proj4string(x)))
+		bbi <- .bbox2SPts(bbox(pls[[i]]), proj4string=proj4string)
 		bb_in <- lapply(pls[-i], function(x, pts) 
 			pointsInPolygon(pts, x), pts = bbi)
 		if (holes[i] || any(unlist(bb_in) > 0)) smple[i] <- FALSE
@@ -207,9 +207,9 @@ sample.Polygons = function(x, n, type = "random", bb = bbox(x),
 	        if (!is.null(x)) coordinates(x)))
 	    if (is.null(crds)) res <- NULL
 	    else {
-	        pts <- SpatialPoints(crds, proj4string=CRS(proj4string(x)))
+	        pts <- SpatialPoints(crds, proj4string=proj4string)
 	        id = overlay(pts, SpatialPolygons(list(x), 
-				proj4string=CRS(proj4string(x))))
+				proj4string=proj4string))
 	        Not_NAs <- !is.na(id)
 	        if (!any(Not_NAs)) res <- NULL
 	        else res <- pts[which(Not_NAs)]
