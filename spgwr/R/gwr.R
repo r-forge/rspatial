@@ -60,7 +60,8 @@ gwr <- function(formula, data = list(), coords, bandwidth,
 	    longlat=longlat, bandwidth=bandwidth, adapt=adapt, se.fit=se.fit)
 
 	if (!is.null(cl) && length(cl) > 1 && fp.given && !hatmatrix) {
-	    if (length(grep("cluster", class(cl))) > 0 && require(snow)) {
+	    if (length(grep("cluster", class(cl))) > 0 && 
+		.Platform$OS.type == "unix" && require(snow)) {
 		l_fp <- lapply(splitIndices(nrow(fit.points), length(cl)), 
 		    function(i) fit.points[i,])
 		clusterEvalQ(cl, library(spgwr))
