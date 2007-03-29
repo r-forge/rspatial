@@ -38,7 +38,7 @@ A list with two components, called \code{$upper} and \code{$lower}. Each
 component is a vector like \code{s}.
 }
 \details{
-The two point data sets are randomly labelled using \code{rlabel}, then
+The two point data sets are randomly labelled using \code{rLabel}, then
 \code{Khat} is called to estimate the K-function for each resulting set
 at the distances in \code{s}. The difference between these two estimates
 is then calculated. 
@@ -63,7 +63,7 @@ lines(seq(5,80,5), env.lab$upper, lty=2)
 lines(seq(5,80,5), env.lab$lower, lty=2)
 }
 \seealso{
-\code{\link{rlabel}},\code{i\link{khat}}
+\code{\link{rLabel}},\code{i\link{khat}}
 }
 
 \references{

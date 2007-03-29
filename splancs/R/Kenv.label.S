@@ -9,7 +9,7 @@ Kenv.label <- function(pts1,pts2,poly,nsim,s,quiet=FALSE)
 	
 	for(isim in (1:nsim)){
 		if(!quiet)cat('Doing labelling ',isim,'/',nsim,'\n')
-		labpts <- rlabel(pts1,pts2)
+		labpts <- rLabel(pts1,pts2)
 		k1sim <- khat(labpts[[1]],poly,s)
 		k2sim <- khat(labpts[[2]],poly,s)
 		diffk <- k1sim-k2sim

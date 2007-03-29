@@ -34,7 +34,7 @@ points and the resulting set of points returned.
 
 }
 \seealso{
-\code{\link{tor.shift}}
+\code{\link{Shift}}
 }
 
 \references{

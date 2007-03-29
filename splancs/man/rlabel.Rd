@@ -2,16 +2,16 @@
 % Peter Diggle (c) 1991-3; http://www.maths.lancs.ac.uk/~rowlings/Splancs/
 % R port: copyright 1998-2000 by Roger S. Bivand
 
-\name{rlabel}
-\alias{rlabel}
+\name{rLabel}
+\alias{rLabel}
 \title{
 Randomly label two or more point sets
 }
 \description{
-Randomly label two or more point sets.
+Randomly label two or more point sets. (function name changed from rlabel to rLabel to avoid collision with spatstat)
 }
 \usage{
-rlabel(\dots)
+rLabel(\dots)
 }
 \arguments{
 \item{...}{

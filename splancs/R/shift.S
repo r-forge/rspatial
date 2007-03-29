@@ -2,7 +2,7 @@
 # Peter Diggle (c) 1991-3; http://www.maths.lancs.ac.uk/~rowlings/Splancs/
 # R port: copyright 1998-2000 by Roger S. Bivand
 
-shift <- function(pts,xsh=0.0,ysh=0.0)
+Shift <- function(pts,xsh=0.0,ysh=0.0)
 {
 	pts[,1] <- pts[,1]+xsh
 	pts[,2] <- pts[,2]+ysh

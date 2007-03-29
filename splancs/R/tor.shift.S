@@ -14,7 +14,7 @@ tor.shift <- function(pts,xsh=0.0,ysh=0.0,rect)
 	
 	pts[,1] <- pts[,1]-xoff
 	pts[,2] <- pts[,2]-yoff
-	pts <- shift(pts,xsh,ysh)
+	pts <- Shift(pts,xsh,ysh)
 	pts[,1] <- (pts[,1] %% xsc )+xoff
 	pts[,2] <- (pts[,2] %% ysc )+yoff
 	pts

@@ -2,16 +2,16 @@
 % Peter Diggle (c) 1991-3; http://www.maths.lancs.ac.uk/~rowlings/Splancs/
 % R port: copyright 1998-2000 by Roger S. Bivand
 
-\name{shift}
-\alias{shift}
+\name{Shift}
+\alias{Shift}
 \title{
 Shift a point data set
 }
 \description{
-Shift a point data set
+Shift a point data set (function name changed from shift to Shift to avoid collision with spatstat)
 }
 \usage{
-shift(pts,xsh=0.0,ysh=0.0)
+Shift(pts,xsh=0.0,ysh=0.0)
 }
 \arguments{
 \item{pts}{

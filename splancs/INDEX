@@ -59,12 +59,12 @@ pointmap                Graphics
 polymap                 Graphics
 print.ribfit            Display the fit from tribble()
 ranpts                  adjust number of random points in polygon
-rlabel                  Randomly label two or more point sets
+rLabel                  Randomly label two or more point sets
 rtor.shift              Random toroidal shift on a point data set
 sbox                    Generate a box surrounding a point object
 secal                   Standard errors for the difference between two
                         K-functions
-shift                   Shift a point data set
+Shift                   Shift a point data set
 southlancs              Cancer cases in Chorley-Ribble
 splancs                 Return version number and author information
 spoints                 Point Objects

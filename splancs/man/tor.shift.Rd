@@ -40,7 +40,7 @@ points and the resulting set of points returned.
 
 }
 \seealso{
-\code{\link{shift}}
+\code{\link{Shift}}
 }
 
 \references{
