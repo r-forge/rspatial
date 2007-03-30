@@ -11,7 +11,7 @@ Display the fit from tribble()
 Display the fit from \code{tribble}
 }
 \usage{
-print.ribfit(x, ...)
+\method{print}{ribfit}(x, ...)
 }
 \arguments{
 \item{x}{

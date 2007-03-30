@@ -89,7 +89,8 @@ tribble <- function(ccflag,vars=NULL,alphas=NULL,betas=NULL,rho
 		alphas <- l$parfin[1:ndpars]
 		betas <- (l$parfin[(ndpars+1):(ndpars*2)])/disscale
 	}
-	if(l$icode < 0)stop(paste("Error in minimisation algorithm code ",icode))
+	if(l$icode < 0)stop(paste("Error in minimisation algorithm code ",
+          l$icode))
 	rho <- l$parfin[length(l$parfin)]
 	if(ncovars != 0){
 	  thetas <- l$parfin[(1+ndpars*2):(ncovars+ndpars*2)]
@@ -107,11 +108,11 @@ call=match.call())
 	class(res) <- "ribfit"
 
 	if(!is.null(hessian)){
-
-	  hess1 <- hessian.ribfit(res,ccflag=ccflag,vars=vars,covars=covars,which=which)
-	  hess2 <- hessian2.ribfit(res,ccflag=ccflag,vars=vars,covars=covars,which=which)
-	  res$hessian.1 <- hess1
-	  res$hessian.2 <- hess2
+          warning("no hessian functions available")
+#	  hess1 <- hessian.ribfit(res,ccflag=ccflag,vars=vars,covars=covars,which=which)
+#	  hess2 <- hessian2.ribfit(res,ccflag=ccflag,vars=vars,covars=covars,which=which)
+#	  res$hessian.1 <- hess1
+#	  res$hessian.2 <- hess2
 	}
 
 	res

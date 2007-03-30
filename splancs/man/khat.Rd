@@ -14,8 +14,8 @@ Calculates an estimate of the K-function
 }
 \usage{
 khat(pts,poly,s,newstyle=FALSE)
-print.khat(x, ...)
-plot.khat(x, ...)
+\method{print}{khat}(x, ...)
+\method{plot}{khat}(x, ...)
 }
 \arguments{
 \item{pts}{
@@ -50,7 +50,7 @@ In practice an edge-correction is required to avoid biasing the
 estimation due to non-recording of points outside the polygon.
 
 The newstyle argument and khat object were introduced in collaboration 
-with Thomas de Cornulier <oedic@cebc.cnrs.fr> to permit the mapping of 
+with Thomas de Cornulier to permit the mapping of 
 counts or khats for chosen distance values, as in 
 \url{ftp://pbil.univ-lyon1.fr/pub/mac/ADE/ADE4/DocThemPDFUS/Thema81.pdf}, p.18.
 }
