@@ -14,7 +14,7 @@
 gmeta6(ignore.stderr = FALSE)
 getLocationProj(ignore.stderr = FALSE)
 gmeta2grd(ignore.stderr = FALSE)
-print.gmeta6(x, ...)
+\method{print}{gmeta6}(x, ...)
 }
 \arguments{
   \item{ignore.stderr}{default FALSE, can be set to TRUE to silence \code{system()} output to standard error; does not apply on Windows platforms}
