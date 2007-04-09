@@ -150,3 +150,16 @@ getSpatialLinesMidPoints = function(SL) {
 LinesLength = function(Ls) sum(sapply(Ls@Lines, function(x) LineLength(x)))
 
 SpatialLinesLengths = function(SL) sapply(SL@lines, LinesLength)
+
+setAs("Lines", "SpatialPoints", function(from) { 
+		SpatialPoints(do.call("rbind", coordinates(from)))
+	}
+)
+setAs("SpatialLines", "SpatialPoints", function(from) { 
+		SpatialPoints(
+			do.call("rbind", 
+				lapply(from@lines, function(x) as(x, "SpatialPoints"))),
+			CRS(proj4string(from))
+		)
+	}
+)

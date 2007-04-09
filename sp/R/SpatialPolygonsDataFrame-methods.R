@@ -71,3 +71,6 @@ setMethod("summary", "SpatialPolygonsDataFrame", summary.Spatial)
 setMethod("coordinates", "SpatialPolygonsDataFrame", 
 	function(obj) getSpPPolygonsLabptSlots(obj))
 
+setAs("SpatialPolygonsDataFrame", "SpatialLinesDataFrame", 
+	function(from) SpatialLinesDataFrame(as(from, "SpatialLines"),
+		from@data, match.ID = FALSE))
