@@ -187,7 +187,7 @@ Is projected: NA
 proj4string : [NA]
 Number of points: 9
 Data attributes:
-    Lines.NR     Lines.ID    Line.ID     
+    Lines.NR     Lines.ID    Line.NR     
  Min.   :1.000   a:6      Min.   :1.000  
  1st Qu.:1.000   b:3      1st Qu.:1.000  
  Median :1.000            Median :1.000  
@@ -205,11 +205,11 @@ Is projected: NA
 proj4string : [NA]
 Number of points: 9
 Data attributes:
- from@data[spp$Lines.NR, ]    Lines.NR     Lines.ID    Line.ID     
- bar:3                     Min.   :1.000   a:6      Min.   :1.000  
- foo:6                     1st Qu.:1.000   b:3      1st Qu.:1.000  
-                           Median :1.000            Median :1.000  
-                           Mean   :1.333            Mean   :1.333  
-                           3rd Qu.:2.000            3rd Qu.:2.000  
-                           Max.   :2.000            Max.   :2.000  
+   xx       Lines.NR     Lines.ID    Line.NR     
+ bar:3   Min.   :1.000   a:6      Min.   :1.000  
+ foo:6   1st Qu.:1.000   b:3      1st Qu.:1.000  
+         Median :1.000            Median :1.000  
+         Mean   :1.333            Mean   :1.333  
+         3rd Qu.:2.000            3rd Qu.:2.000  
+         Max.   :2.000            Max.   :2.000  
 > 

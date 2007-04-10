@@ -171,7 +171,7 @@ SpatialLines2SpatialPointsDataFrame = function(from) {
 	L2 = rep(IDs, times = sapply(L, length))
 	L3 = rep(1:length(from@lines), times = sapply(L, length))
 	L = unlist(L)
-	SpatialPointsDataFrame(spp, data.frame(Lines.NR = L3, Lines.ID=L2, Line.ID=L), 
+	SpatialPointsDataFrame(spp, data.frame(Lines.NR = L3, Lines.ID=L2, Line.NR=L), 
 		proj4string=CRS(proj4string(from)))
 }
 setAs("SpatialLines", "SpatialPointsDataFrame", function(from)
