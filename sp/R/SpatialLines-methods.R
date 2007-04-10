@@ -163,3 +163,15 @@ setAs("SpatialLines", "SpatialPoints", function(from) {
 		)
 	}
 )
+SpatialLines2SpatialPointsDataFrame = function(from) {
+	spp = as(as(from, "SpatialLines"), "SpatialPoints")
+	L = lapply(from@lines, function(x) {rep(1:length(x@Lines), 
+		times = sapply(x@Lines, function(x) nrow(x@coords)))})
+	IDs = sapply(from@lines, function(x) x@ID)
+	L2 = rep(IDs, times = sapply(L, length))
+	L3 = rep(1:length(from@lines), times = sapply(L, length))
+	L = unlist(L)
+	SpatialPointsDataFrame(spp, data.frame(Lines.NR = L3, Lines.ID=L2, Line.ID=L), proj4string=CRS(proj4string(from)))
+}
+setAs("SpatialLines", "SpatialPointsDataFrame", function(from)
+	SpatialLines2SpatialPointsDataFrame(from))

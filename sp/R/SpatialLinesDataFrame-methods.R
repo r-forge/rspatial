@@ -61,3 +61,10 @@ setMethod("[", "SpatialLinesDataFrame", function(x, i, j, ... , drop = TRUE) {
 
 lines.SpatialLinesDataFrame = function(x, y = NULL, ...) 
 	lines(as(x, "SpatialLines"), ...)
+
+setAs("SpatialLinesDataFrame", "SpatialPointsDataFrame", function(from) {
+		spp = as(as(from, "SpatialLines"), "SpatialPointsDataFrame")
+		spp@data = cbind(from@data[spp$Lines.NR, ], spp@data)
+		spp
+	}
+)
