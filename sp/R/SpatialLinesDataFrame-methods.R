@@ -64,7 +64,8 @@ lines.SpatialLinesDataFrame = function(x, y = NULL, ...)
 
 setAs("SpatialLinesDataFrame", "SpatialPointsDataFrame", function(from) {
 		spp = as(as(from, "SpatialLines"), "SpatialPointsDataFrame")
-		spp@data = cbind(from@data[spp$Lines.NR, ], spp@data)
+		dfl = from@data[spp$Lines.NR, , drop = FALSE]
+		spp@data = cbind(dfl, spp@data)
 		spp
 	}
 )
