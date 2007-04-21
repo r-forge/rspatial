@@ -7,6 +7,8 @@ gwr <- function(formula, data = list(), coords, bandwidth,
 	this.call <- match.call()
 	p4s <- as.character(NA)
 	Polys <- NULL
+	if (is(data, "SpatialPolygonsDataFrame")) 
+		Polys <- as(data, "SpatialPolygons")
 	if (is(data, "Spatial")) {
 		if (!missing(coords))
 		    warning("data is Spatial* object, ignoring coords argument")
@@ -14,8 +16,7 @@ gwr <- function(formula, data = list(), coords, bandwidth,
 		p4s <- proj4string(data)
 		data <- as(data, "data.frame")
 	}
-	if (is(data, "SpatialPolygonsDataFrame")) 
-		Polys <- as(data, "SpatialPolygons")
+
 	if (missing(coords))
 		stop("Observation coordinates have to be given")
 	if (is.null(colnames(coords))) 
@@ -61,7 +62,8 @@ gwr <- function(formula, data = list(), coords, bandwidth,
 
 	if (!is.null(cl) && length(cl) > 1 && fp.given && !hatmatrix) {
 	    if (length(grep("cluster", class(cl))) > 0 && 
-		.Platform$OS.type == "unix" && require(snow)) {
+		.Platform$OS.type == "unix" && exists("splitIndices")) {
+#		&& require(snow)) 
 		l_fp <- lapply(splitIndices(nrow(fit.points), length(cl)), 
 		    function(i) fit.points[i,])
 		clusterEvalQ(cl, library(spgwr))
@@ -88,7 +90,7 @@ gwr <- function(formula, data = list(), coords, bandwidth,
 		    lapply(res, function(x) x$df)))
 		bw <- do.call("c", lapply(res, function(x) x$bw))
 	        results <- NULL
-	    }
+	    } else stop("snow package not loaded")
 	} else { # cl
 
 	    df <- .GWR_int(fit.points=fit.points, coords=coords, 
