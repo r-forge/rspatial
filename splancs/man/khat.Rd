@@ -13,7 +13,7 @@ K-function
 Calculates an estimate of the K-function
 }
 \usage{
-khat(pts,poly,s,newstyle=FALSE)
+khat(pts,poly,s,newstyle=FALSE,checkpoly=TRUE)
 \method{print}{khat}(x, ...)
 \method{plot}{khat}(x, ...)
 }
@@ -22,12 +22,13 @@ khat(pts,poly,s,newstyle=FALSE)
 A points data set
 }
 \item{poly}{
-A polygon containing the points
+A polygon containing the points - must be a perimeter ring of points
 }
 \item{s}{
 A vector of distances at which to calculate the K function
 }
 \item{newstyle}{if TRUE, the function returns a khat object}
+\item{checkpoly}{if TRUE compare polygon area and polygon bounding box and convex hull areas to see whether the polygon object is malformed; may be set to FALSE if the polygon is known to be a ring of points}
 \item{x}{a \code{khat} object}
 \item{...}{other arguments passed to plot and print functions}
 }

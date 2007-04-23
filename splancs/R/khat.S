@@ -2,7 +2,7 @@
 # Peter Diggle (c) 1991-3; http://www.maths.lancs.ac.uk/~rowlings/Splancs/
 # R port: copyright 1998-2002 by Roger S. Bivand
 
-khat <- function(pts, poly, s, newstyle=FALSE)
+khat <- function(pts, poly, s, newstyle=FALSE, checkpoly=TRUE)
 {
 	ptsx <- pts[,1]
 	ptsy <- pts[,2]
@@ -14,6 +14,13 @@ khat <- function(pts, poly, s, newstyle=FALSE)
 	np <- length(poly[,1])
 	polyx <- c(poly[,1],poly[1,1])
 	polyy <- c(poly[,2],poly[1,2])
+	if (checkpoly) {
+	    xar <- areapl(poly)
+	    yar <- areapl(bboxx(bbox(poly)))
+	    zar <- areapl(poly[chull(poly),])
+	    if (xar < (yar/5) || xar < (zar/5)) 
+	        stop("Polygon argument may be malformed")
+	}
 
 	hkhat <- rep(0,times=ns)
 	counts <- matrix(0, nrow=npt, ncol=ns)
