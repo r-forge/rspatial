@@ -101,38 +101,38 @@ exportClasses(DMS)
 
 exportMethods(show, bbox, coordinates, "coordinates<-",
 	coordnames, "coordnames<-", gridded, polygons, "polygons<-",
-	dimensions, coerce, "[", overlay, plot, recenter,
+	dimensions, coerce, "[", "[[", "$", "$<-", overlay, plot, recenter,
 	spplot, spsample, summary)
 
-S3method("[[", SpatialPointsDataFrame)
-S3method("[[<-", SpatialPointsDataFrame)
+#S3method("[[", SpatialPointsDataFrame)
+#S3method("[[<-", SpatialPointsDataFrame)
 
-S3method("[[", SpatialPixelsDataFrame)
-S3method("[[<-", SpatialPixelsDataFrame)
+#S3method("[[", SpatialPixelsDataFrame)
+#S3method("[[<-", SpatialPixelsDataFrame)
 
-S3method("[[", SpatialGridDataFrame)
-S3method("[[<-", SpatialGridDataFrame)
+#S3method("[[", SpatialGridDataFrame)
+#S3method("[[<-", SpatialGridDataFrame)
 
-S3method("[[", SpatialPolygonsDataFrame)
-S3method("[[<-", SpatialPolygonsDataFrame)
+#S3method("[[", SpatialPolygonsDataFrame)
+#S3method("[[<-", SpatialPolygonsDataFrame)
 
-S3method("[[", SpatialLinesDataFrame)
-S3method("[[<-", SpatialLinesDataFrame)
+#S3method("[[", SpatialLinesDataFrame)
+#S3method("[[<-", SpatialLinesDataFrame)
 
-S3method("$", SpatialPointsDataFrame)
-S3method("$", SpatialPixelsDataFrame)
-S3method("$", SpatialGridDataFrame)
-S3method("$", SpatialLinesDataFrame)
-S3method("$", SpatialPolygonsDataFrame)
+#S3method("$", SpatialPointsDataFrame)
+#S3method("$", SpatialPixelsDataFrame)
+#S3method("$", SpatialGridDataFrame)
+#S3method("$", SpatialLinesDataFrame)
+#S3method("$", SpatialPolygonsDataFrame)
 
-S3method("$<-", SpatialPoints)
-S3method("$<-", SpatialPixels)
-S3method("$<-", SpatialGrid)
-S3method("$<-", SpatialPointsDataFrame)
-S3method("$<-", SpatialPixelsDataFrame)
-S3method("$<-", SpatialGridDataFrame)
-S3method("$<-", SpatialLinesDataFrame)
-S3method("$<-", SpatialPolygonsDataFrame)
+#S3method("$<-", SpatialPoints)
+#S3method("$<-", SpatialPixels)
+#S3method("$<-", SpatialGrid)
+#S3method("$<-", SpatialPointsDataFrame)
+#S3method("$<-", SpatialPixelsDataFrame)
+#S3method("$<-", SpatialGridDataFrame)
+#S3method("$<-", SpatialLinesDataFrame)
+#S3method("$<-", SpatialPolygonsDataFrame)
 
 S3method(as.data.frame, SpatialPoints)
 S3method(as.data.frame, SpatialPixels)

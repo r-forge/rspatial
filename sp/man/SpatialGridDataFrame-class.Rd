@@ -3,10 +3,6 @@
 \alias{SpatialGridDataFrame-class}
 \alias{[,SpatialGridDataFrame-method}
 \alias{show,SpatialGridDataFrame-method}
-\alias{[[,SpatialGridDataFrame-method}
-\alias{[[<-,SpatialGridDataFrame-method}
-\alias{$.SpatialGridDataFrame}
-\alias{$<-.SpatialGridDataFrame}
 \alias{cbind.SpatialGridDataFrame}
 % \alias{SpatialGridDataFrame}
 \alias{plot.SpatialGridDataFrame}
@@ -17,6 +13,10 @@
 \alias{coerce,SpatialGridDataFrame,data.frame-method}
 \alias{coerce,SpatialGridDataFrame,matrix-method}
 \alias{as.data.frame.SpatialGridDataFrame}
+\alias{[[<-,SpatialGridDataFrame,ANY,missing-method}
+\alias{[[,SpatialGridDataFrame,ANY,missing-method}
+\alias{$,SpatialGridDataFrame,character-method}
+\alias{$<-,SpatialGridDataFrame,character-method}
 
 \title{Class "SpatialGridDataFrame" }
 \description{  Class for spatial attributes that have spatial locations

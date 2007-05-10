@@ -52,19 +52,25 @@ setMethod("[", "SpatialPolygonsDataFrame", function(x, i, j, ... , drop = TRUE) 
 ### (label points belong to the Polygons objects, not the SpatialPolygons object)
 })
 
-"[[.SpatialPolygonsDataFrame" =  function(x, ...)
-#setMethod("[[", "SpatialPolygonsDataFrame", function(x, ...)
-    x@data[[...]]
-#)
+setMethod("[[", c("SpatialPolygonsDataFrame", "ANY", "missing"), 
+	function(x, i, j) x@data[[i]]
+)
 
-"[[<-.SpatialPolygonsDataFrame" =  function(x, i, j, value) {
-    if (!missing(j))
-        stop("only valid calls are x[[i]] <- value")
-    x@data[[i]] <- value
-    x
-}
-"$.SpatialPolygonsDataFrame" = function(x,name) { x@data[[name]] }
-"$<-.SpatialPolygonsDataFrame" = function(x,i,value) { x@data[[i]]=value; x }
+setReplaceMethod("[[", c("SpatialPolygonsDataFrame","ANY","missing","ANY"),
+	function(x, i, j, value) {
+    	x@data[[i]] <- value
+    	x
+	}
+)
+
+setMethod("$", c("SpatialPolygonsDataFrame","character"), function(x, name) x@data[[name]])
+
+setMethod("$<-", c("SpatialPolygonsDataFrame","character","ANY"), 
+	function(x,name,value) { 
+		x@data[[name]] = value
+		x 
+	}
+)
 
 setMethod("summary", "SpatialPolygonsDataFrame", summary.Spatial)
 

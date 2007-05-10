@@ -8,6 +8,7 @@
 \alias{coerce,SpatialGrid,data.frame-method}
 \alias{coerce,SpatialGrid,SpatialPixels-method}
 \alias{show,SpatialGrid-method}
+\alias{$<-,SpatialGrid,character-method}
 
 \title{Class "SpatialGrid" ~~~ }
 \description{ class for defining a full, rectangular grid of

@@ -190,22 +190,28 @@ setMethod("[", "SpatialPointsDataFrame", function(x, i, j, ..., drop = TRUE) {
 		match.ID = FALSE)
 })
 
-"[[.SpatialPointsDataFrame" =  function(x, ...)
-#setMethod("[[", "SpatialPointsDataFrame", function(x, ...)
-	x@data[[...]]
-#)
+setMethod("[[", c("SpatialPointsDataFrame", "ANY", "missing"), function(x, i, j, ...)
+	x@data[[i]]
+)
 
-"[[<-.SpatialPointsDataFrame" =  function(x, i, j, value) {
-	if (!missing(j))
-		stop("only valid calls are x[[i]] <- value")
-	if (is.character(i) && any(!is.na(match(i, dimnames(coordinates(x))[[2]]))))
-		stop(paste(i, "is already present as a coordinate name!"))
-	x@data[[i]] <- value
-	x
-}
+setReplaceMethod("[[", c("SpatialPointsDataFrame", "ANY", "missing", "ANY"), 
+	function(x, i, j, value) {
+		if (is.character(i) && any(!is.na(match(i, dimnames(coordinates(x))[[2]]))))
+			stop(paste(i, "is already present as a coordinate name!"))
+		x@data[[i]] <- value
+		x
+	}
+)
 
-"$.SpatialPointsDataFrame" = function(x, name) x@data[[name]]
+setMethod("$", c("SpatialPointsDataFrame", "character"), 
+	function(x, name) x@data[[name]]
+)
 
-"$<-.SpatialPointsDataFrame" = function(x, i, value) { x@data[[i]] = value; x }
+setMethod("$<-", c("SpatialPointsDataFrame", "ANY", "ANY"), 
+	function(x, name, value) { 
+		x@data[[name]] = value 
+		x 
+	}
+)
 
 setMethod("summary", "SpatialPointsDataFrame", summary.Spatial)

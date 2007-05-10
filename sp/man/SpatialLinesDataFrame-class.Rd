@@ -3,9 +3,11 @@
 \alias{SpatialLinesDataFrame-class}
 \alias{coerce,SpatialLinesDataFrame,data.frame-method}
 \alias{[,SpatialLinesDataFrame-method}
+\alias{[[,SpatialLinesDataFrame,ANY,missing-method}
+\alias{[[<-,SpatialLinesDataFrame,ANY,missing-method}
+\alias{$,SpatialLinesDataFrame,character-method}
+\alias{$<-,SpatialLinesDataFrame,character-method}
 \alias{summary,SpatialLinesDataFrame-method}
-\alias{$.SpatialLinesDataFrame}
-\alias{$<-.SpatialLinesDataFrame}
 \alias{rbind.SpatialLinesDataFrame}
 \alias{coerce,SpatialLinesDataFrame,SpatialPointsDataFrame-method}
 

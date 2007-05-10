@@ -3,10 +3,6 @@
 \alias{SpatialPixelsDataFrame-class}
 \alias{[,SpatialPixelsDataFrame-method}
 \alias{show,SpatialPixelsDataFrame-method}
-\alias{[[,SpatialPixelsDataFrame-method}
-\alias{[[<-,SpatialPixelsDataFrame-method}
-\alias{$.SpatialPixelsDataFrame}
-\alias{$<-.SpatialPixelsDataFrame}
 % \alias{SpatialPixelsDataFrame}
 \alias{plot.SpatialPixelsDataFrame}
 \alias{print.summary.SpatialPixelsDataFrame}
@@ -17,6 +13,10 @@
 \alias{coerce,SpatialPixelsDataFrame,matrix-method}
 \alias{as.data.frame.SpatialPixelsDataFrame}
 \alias{rbind.SpatialPixelsDataFrame}
+\alias{[[<-,SpatialPixelsDataFrame,ANY,missing-method}
+\alias{[[,SpatialPixelsDataFrame,ANY,missing-method}
+\alias{$<-,SpatialPixelsDataFrame,character-method}
+\alias{$,SpatialPixelsDataFrame,character-method}
 
 \title{Class "SpatialPixelsDataFrame" ~~~ }
 \description{  Class for spatial attributes that have spatial locations

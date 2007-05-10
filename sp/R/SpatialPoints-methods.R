@@ -48,13 +48,13 @@ setMethod("coordinates", "matrix",
 setMethod("show", "SpatialPoints", function(object) print.SpatialPoints(object))
 
 plot.SpatialPoints = function(x, pch = 3, axes = FALSE, add = FALSE, 
-	xlim = NULL, ylim = NULL, ..., setParUsrBB=FALSE) 
+	xlim = NULL, ylim = NULL, ..., setParUsrBB=FALSE, cex = 1, col = 1, lwd = 1, bg = 1) 
 {
 	if (! add)
 		plot(as(x, "Spatial"), axes = axes, xlim = xlim, ylim = ylim, 
 			..., setParUsrBB=setParUsrBB)
 	cc = coordinates(x)
-	points(cc[,1], cc[,2], pch = pch, ...)
+	points(cc[,1], cc[,2], pch = pch, cex = cex, col = col, lwd = lwd, bg = bg)
 }
 setMethod("plot", signature(x = "SpatialPoints", y = "missing"),
 	function(x,y,...) plot.SpatialPoints(x,...))
@@ -101,4 +101,6 @@ setReplaceMethod("coordnames",
 	}
 )
 
-"$<-.SpatialPoints" = function(x,i,value) { SpatialPointsDataFrame(x, data.frame(i = value)) }
+setMethod("$<-", c("SpatialPoints", "character", "ANY"),
+	function(x, name, value) SpatialPointsDataFrame(x, data.frame(name = value)) 
+)

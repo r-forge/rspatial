@@ -3,12 +3,14 @@
 \alias{SpatialPolygonsDataFrame-class}
 \alias{[,SpatialPolygonsDataFrame-method}
 \alias{summary,SpatialPolygonsDataFrame-method}
-\alias{$.SpatialPolygonsDataFrame}
-\alias{$<-.SpatialPolygonsDataFrame}
 \alias{as.data.frame.SpatialPolygonsDataFrame}
 \alias{coerce,SpatialPolygonsDataFrame,data.frame-method}
 \alias{coerce,SpatialPolygonsDataFrame,SpatialLinesDataFrame-method}
 \alias{rbind.SpatialPolygonsDataFrame}
+\alias{[[<-,SpatialPolygonsDataFrame,ANY,missing-method}
+\alias{[[,SpatialPolygonsDataFrame,ANY,missing-method}
+\alias{$,SpatialPolygonsDataFrame,character-method}
+\alias{$<-,SpatialPolygonsDataFrame,character-method}
 
 \alias{getSpPPolygonsIDSlots}
 \alias{getSpPPolygonsLabptSlots}

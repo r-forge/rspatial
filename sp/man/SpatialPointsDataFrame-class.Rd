@@ -2,6 +2,8 @@
 \docType{class}
 \alias{SpatialPointsDataFrame-class}
 \alias{[,SpatialPointsDataFrame-method}
+\alias{[[,SpatialPointsDataFrame,ANY,missing-method}
+\alias{[[<-,SpatialPointsDataFrame,ANY,missing-method}
 \alias{coerce,SpatialPointsDataFrame,data.frame-method}
 \alias{coerce,SpatialPointsDataFrame,SpatialPoints-method}
 \alias{show,SpatialPointsDataFrame-method}
@@ -10,8 +12,6 @@
 % \alias{SpatialPointsDataFrame}
 \alias{[[.SpatialPointsDataFrame}
 \alias{[[<-.SpatialPointsDataFrame}
-\alias{$.SpatialPointsDataFrame}
-\alias{$<-.SpatialPointsDataFrame}
 \alias{as.data.frame.SpatialPointsDataFrame}
 \alias{dim.SpatialPointsDataFrame}
 \alias{print.SpatialPointsDataFrame}
@@ -20,6 +20,8 @@
 \alias{ShowSpatialPointsDataFrame}
 \alias{as.SpatialPoints.SpatialPointsDataFrame}
 \alias{rbind.SpatialPointsDataFrame}
+\alias{$<-,SpatialPointsDataFrame,ANY-method}
+\alias{$,SpatialPointsDataFrame,character-method}
 
 \title{Class "SpatialPointsDataFrame" }
 \description{ Class for spatial attributes that have spatial point locations }
@@ -49,7 +51,10 @@ Class \code{"Spatial"}, by class \code{"SpatialPoints"}.
 \section{Methods}{
   \describe{
     \item{[}{\code{signature(x = "SpatialPointsDataFrame")}: subset rows or
-	columns; in case of row subsetting, the coordinates are also subsetted }
+	columns; in case of row subsetting, the coordinates are also subsetted, return
+	SpatialPointsDataFrame}
+	\item{'[['}{\code{siglist(x = "SpatialPointsDataFrame", i = "ANY", j = "missing")},
+	return column only}
     \item{coerce}{\code{signature(from = "SpatialPointsDataFrame", to = "data.frame")}:   extracts the attribute part }
     \item{coordinates}{\code{signature(obj = "SpatialPointsDataFrame")}: retrieves
 	the coordinates only }

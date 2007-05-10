@@ -45,19 +45,23 @@ setMethod("[", "SpatialLinesDataFrame", function(x, i, j, ... , drop = TRUE) {
         data = x@data[i, j, drop = FALSE], match.ID = FALSE)
 })
 
-"[[.SpatialLinesDataFrame" =  function(x, ...)
-#setMethod("[[", "SpatialLinesDataFrame", function(x, ...)
-    x@data[[...]]
-#)
+setMethod("[[", c("SpatialLinesDataFrame", "ANY", "missing"), function(x, i, j, ...)
+    x@data[[i]]
+)
 
-"[[<-.SpatialLinesDataFrame" =  function(x, i, j, value) {
-    if (!missing(j))
-        stop("only valid calls are x[[i]] <- value")
+setReplaceMethod("[[", c("SpatialLinesDataFrame", "ANY", "missing", "ANY"), function(x, i, j, value) {
     x@data[[i]] <- value
     x
-}
-"$.SpatialLinesDataFrame" = function(x,name) { x@data[[name]] }
-"$<-.SpatialLinesDataFrame" = function(x,i,value) { x@data[[i]]=value; x }
+})
+
+setMethod("$", c("SpatialLinesDataFrame", "character"), function(x, name) x@data[[name]])
+
+setMethod("$<-",c("SpatialLinesDataFrame", "character", "ANY"), 
+	function(x, name, value) { 
+		x@data[[name]] = value
+		x 
+	}
+)
 
 lines.SpatialLinesDataFrame = function(x, y = NULL, ...) 
 	lines(as(x, "SpatialLines"), ...)

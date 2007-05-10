@@ -130,22 +130,17 @@ subs.SpatialPixelsDataFrame <- function(x, i, j, ... , drop = FALSE) {
 	res
 }
 setMethod("[", "SpatialPixelsDataFrame", subs.SpatialPixelsDataFrame)
-#"[.SpatialPixelsDataFrame" <- subs.SpatialPixelsDataFrame
 
-dsubs.SpatialPixelsDataFrame =  function(x, ...) x@data[[...]]
-#setMethod("[[", "SpatialPixelsDataFrame", dsubs.SpatialPixelsDataFrame)
-"[[.SpatialPixelsDataFrame" =  dsubs.SpatialPixelsDataFrame
+setMethod("[[", c("SpatialPixelsDataFrame", "ANY", "missing"), function(x, i, j) x@data[[i]])
 
-"[[<-.SpatialPixelsDataFrame" = 
-#setMethod("[[<-", "SpatialPixelsDataFrame", 
-function(x, i, j, value) {
-	if (!missing(j))
-		stop("only valid calls are x[[i]] <- value")
-	if (is.character(i) && any(!is.na(match(i, dimnames(coordinates(x))[[2]]))))
-		stop(paste(i, "is already present as a coordinate name!"))
-	x@data[[i]] <- value
-	x
-}
+setReplaceMethod("[[", c("SpatialPixelsDataFrame", "ANY", "missing", "ANY"), 
+	function(x, i, j, value) {
+		if (is.character(i) && any(!is.na(match(i, dimnames(coordinates(x))[[2]]))))
+			stop(paste(i, "is already present as a coordinate name"))
+		x@data[[i]] <- value
+		x
+	}
+)
 
 subs.SpatialGridDataFrame <- function(x, i, j, ... , drop = FALSE) {
 	n.args = nargs()
@@ -192,25 +187,31 @@ subs.SpatialGridDataFrame <- function(x, i, j, ... , drop = FALSE) {
 }
 setMethod("[", "SpatialGridDataFrame", subs.SpatialGridDataFrame)
 
-dsubs.SpatialGridDataFrame =  function(x, ...) x@data[[...]]
-#setMethod("[[", "SpatialPixelsDataFrame", dsubs.SpatialPixelsDataFrame)
-"[[.SpatialGridDataFrame" =  dsubs.SpatialPixelsDataFrame
+setMethod("[[", c("SpatialGridDataFrame", "ANY", "missing"), function(x, i, j) x@data[[i]])
 
-"[[<-.SpatialGridDataFrame" = 
-#setMethod("[[<-", "SpatialPixelsDataFrame", 
-function(x, i, j, value) {
-	if (!missing(j))
-		stop("only valid calls are x[[i]] <- value")
-	#if (is.character(i) && any(!is.na(match(i, dimnames(coordinates(x))[[2]]))))
-	#	stop(paste(i, "is already present as a coordinate name!"))
-	x@data[[i]] <- value
-	x
-}
+setReplaceMethod("[[", c("SpatialGridDataFrame", "ANY", "missing", "ANY"),
+	function(x, i, j, value) {
+		#if (is.character(i) && any(!is.na(match(i, dimnames(coordinates(x))[[2]]))))
+		#	stop(paste(i, "is already present as a coordinate name!"))
+		x@data[[i]] <- value
+		x
+	}
+)
 
-"$.SpatialGridDataFrame" = function(x,name) { x@data[[name]] }
-"$.SpatialPixelsDataFrame" = function(x,name) { x@data[[name]] }
-"$<-.SpatialGridDataFrame" = function(x,i,value) { x@data[[i]]=value; x }
-"$<-.SpatialPixelsDataFrame" = function(x,i,value) { x@data[[i]]=value; x }
+setMethod("$", c("SpatialGridDataFrame", "character"), function(x, name) x@data[[name]])
+setMethod("$", c("SpatialPixelsDataFrame", "character"), function(x,name) x@data[[name]])
+setMethod("$<-", c("SpatialGridDataFrame","character", "ANY"), 
+	function(x, name, value) { 
+		x@data[[name]]=value
+		x 
+	}
+)
+setMethod("$<-", c("SpatialPixelsDataFrame", "character", "ANY"),
+	function(x, name, value) { 
+		x@data[[name]]=value
+		x 
+	}
+)
 
 cbind.SpatialGridDataFrame = function(...) { 
 	stop.ifnot.equal = function(a, b) {
