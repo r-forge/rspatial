@@ -56,7 +56,7 @@ setReplaceMethod("[[", c("SpatialLinesDataFrame", "ANY", "missing", "ANY"), func
 
 setMethod("$", c("SpatialLinesDataFrame", "character"), function(x, name) x@data[[name]])
 
-setMethod("$<-",c("SpatialLinesDataFrame", "character", "ANY"), 
+setReplaceMethod("$",c("SpatialLinesDataFrame", "character", "ANY"), 
 	function(x, name, value) { 
 		x@data[[name]] = value
 		x 

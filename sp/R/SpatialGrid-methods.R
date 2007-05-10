@@ -199,14 +199,14 @@ print.SpatialGrid = function(x, ...) {
 }
 setMethod("show", "SpatialGrid", function(object) print.SpatialGrid(object))
 
-setMethod("$<-", c("SpatialGrid", "character", "ANY"),
+setReplaceMethod("$", c("SpatialGrid", "character", "ANY"),
 	function(x,name,value) {
 		df = data.frame(value)
 		names(df) = as.character(substitute(name))
 		SpatialGridDataFrame(x@grid, df) 
 	}
 )
-setMethod("$<-", c("SpatialPixels", "character", "ANY"),
+setReplaceMethod("$", c("SpatialPixels", "character", "ANY"),
 	function(x, name, value) { 
 		df = data.frame(value)
 		names(df) = as.character(substitute(name))

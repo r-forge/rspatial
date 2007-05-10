@@ -65,7 +65,7 @@ setReplaceMethod("[[", c("SpatialPolygonsDataFrame","ANY","missing","ANY"),
 
 setMethod("$", c("SpatialPolygonsDataFrame","character"), function(x, name) x@data[[name]])
 
-setMethod("$<-", c("SpatialPolygonsDataFrame","character","ANY"), 
+setReplaceMethod("$", c("SpatialPolygonsDataFrame","character","ANY"), 
 	function(x,name,value) { 
 		x@data[[name]] = value
 		x 

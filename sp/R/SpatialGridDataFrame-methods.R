@@ -200,13 +200,13 @@ setReplaceMethod("[[", c("SpatialGridDataFrame", "ANY", "missing", "ANY"),
 
 setMethod("$", c("SpatialGridDataFrame", "character"), function(x, name) x@data[[name]])
 setMethod("$", c("SpatialPixelsDataFrame", "character"), function(x,name) x@data[[name]])
-setMethod("$<-", c("SpatialGridDataFrame","character", "ANY"), 
+setReplaceMethod("$", c("SpatialGridDataFrame","character", "ANY"), 
 	function(x, name, value) { 
 		x@data[[name]]=value
 		x 
 	}
 )
-setMethod("$<-", c("SpatialPixelsDataFrame", "character", "ANY"),
+setReplaceMethod("$", c("SpatialPixelsDataFrame", "character", "ANY"),
 	function(x, name, value) { 
 		x@data[[name]]=value
 		x 

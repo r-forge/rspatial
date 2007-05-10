@@ -207,7 +207,7 @@ setMethod("$", c("SpatialPointsDataFrame", "character"),
 	function(x, name) x@data[[name]]
 )
 
-setMethod("$<-", c("SpatialPointsDataFrame", "ANY", "ANY"), 
+setReplaceMethod("$", c("SpatialPointsDataFrame", "character", "ANY"), 
 	function(x, name, value) { 
 		x@data[[name]] = value 
 		x 

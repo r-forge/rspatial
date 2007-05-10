@@ -101,6 +101,6 @@ setReplaceMethod("coordnames",
 	}
 )
 
-setMethod("$<-", c("SpatialPoints", "character", "ANY"),
+setReplaceMethod("$", c("SpatialPoints", "character", "ANY"),
 	function(x, name, value) SpatialPointsDataFrame(x, data.frame(name = value)) 
 )

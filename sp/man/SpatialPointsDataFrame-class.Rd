@@ -20,7 +20,7 @@
 \alias{ShowSpatialPointsDataFrame}
 \alias{as.SpatialPoints.SpatialPointsDataFrame}
 \alias{rbind.SpatialPointsDataFrame}
-\alias{$<-,SpatialPointsDataFrame,ANY-method}
+\alias{$<-,SpatialPointsDataFrame,character-method}
 \alias{$,SpatialPointsDataFrame,character-method}
 
 \title{Class "SpatialPointsDataFrame" }
