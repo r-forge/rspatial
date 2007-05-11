@@ -4,10 +4,14 @@
 	if (is.null(colnames))
 		colnames = paste("coords.x", 1:(dim(coords)[2]), sep = "")
 	dimnames(coords) = list(NULL, colnames) # strip row names
+	new("SpatialPoints", coords = coords, bbox = .bboxCoords(coords),
+		proj4string = proj4string) # transpose bbox?
+}
+
+.bboxCoords = function(coords) {
 	bbox = t(apply(coords, 2, range))
 	dimnames(bbox)[[2]] = c("min", "max")
-	new("SpatialPoints", coords = coords, bbox = as.matrix(bbox),
-		proj4string = proj4string) # transpose bbox?
+	as.matrix(bbox)
 }
 
 .checkNumericCoerce2double = function(obj) {
@@ -82,8 +86,11 @@ setMethod("[", "SpatialPoints", function(x, i, j, ..., drop = TRUE) {
 	drop = FALSE
 	if (any(is.na(i)))
 		stop("NAs not permitted in row index")
-	SpatialPoints(coords=x@coords[i, , drop=drop], 
-		proj4string = CRS(proj4string(x)))
+#	SpatialPoints(coords=x@coords[i, , drop=drop], 
+#		proj4string = CRS(proj4string(x)))
+	x@coords = x@coords[i, , drop = FALSE]
+	x@bbox = .bboxCoords(x@coords)
+	x
 })
 
 setMethod("summary", "SpatialPoints", summary.Spatial)

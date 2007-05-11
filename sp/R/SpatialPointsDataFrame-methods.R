@@ -183,11 +183,15 @@ setMethod("[", "SpatialPointsDataFrame", function(x, i, j, ..., drop = TRUE) {
 	coords.nrs = x@coords.nrs
 	if (!isTRUE(j)) # i.e., we do some sort of column selection
 		coords.nrs = numeric(0) # will move coordinate colums last
-	SpatialPointsDataFrame(coords = x@coords[i, , drop = FALSE],
-		data = x@data[i, j, drop = FALSE], 
-		coords.nrs = coords.nrs, 
-		proj4string = CRS(proj4string(x)), 
-		match.ID = FALSE)
+#	SpatialPointsDataFrame(coords = x@coords[i, , drop = FALSE],
+#		data = x@data[i, j, drop = FALSE], 
+#		coords.nrs = coords.nrs, 
+#		proj4string = CRS(proj4string(x)), 
+#		match.ID = FALSE)
+	x@coords = x@coords[i, , drop = FALSE]
+	x@bbox = .bboxCoords(x@coords)
+	x@data = x@data[i, j, ..., drop = FALSE]
+	x
 })
 
 setMethod("[[", c("SpatialPointsDataFrame", "ANY", "missing"), function(x, i, j, ...)

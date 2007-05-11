@@ -4,7 +4,6 @@ SpatialPolygons <- function(Srl, pO, proj4string=CRS(as.character(NA))) {
 		area <- sapply(Srl, function(x) x@area)
 		pO <- as.integer(order(area, decreasing=TRUE))
 	}
-
 	Sp <- new("Spatial", bbox=bb, proj4string=proj4string)
 	res <- new("SpatialPolygons", Sp, polygons=Srl, plotOrder=as.integer(pO))
 	res
@@ -98,13 +97,11 @@ as.SpatialPolygons.PolygonsList <- function(Srl, proj4string=CRS(as.character(NA
 
 #	n <- length(Srl)
 
-
 	res <- SpatialPolygons(Srl, proj4string=proj4string)
 	res
 }
 
 setMethod("[", "SpatialPolygons", function(x, i, j, ..., drop = TRUE) {
-	if (!missing(j)) stop("only a single index is allowed for [.SpatialPolygons")
 	if (is.logical(i)) {
 		if (length(i) == 1 && i)
 			i = 1:length(x@polygons)
@@ -115,8 +112,11 @@ setMethod("[", "SpatialPolygons", function(x, i, j, ..., drop = TRUE) {
 		stop("NAs not permitted in row index")
 	if (length(unique(i)) != length(i))
 		stop("SpatialPolygons selection: can't find plot order if polygons are replicated")
-	SpatialPolygons(x@polygons[i], pO = order(match(i, x@plotOrder)),
-		CRS(proj4string(x)))
+	#SpatialPolygons(x@polygons[i], pO = order(match(i, x@plotOrder)), CRS(proj4string(x)))
+	x@polygons = x@polygons[i]
+	x@bbox <- .bboxCalcR(x@polygons)
+	x@plotOrder = order(match(i, x@plotOrder))
+	x
 })
 
 setMethod("coordnames", signature(x = "SpatialPolygons"), 

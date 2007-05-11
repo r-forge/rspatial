@@ -123,10 +123,15 @@ setMethod("[", "SpatialPixels",
 				res = SpatialPixels(res, tolerance = tolerance)
 			else
 				gridded(res) = TRUE
-		} else
+		} else {
 			res = new("SpatialPixels", bbox = x@bbox, proj4string = x@proj4string,	
 				coords = x@coords[i, , drop = FALSE], grid = x@grid, 
 				grid.index = x@grid.index[i])
+			#x@coords = x@coords[i, , drop = FALSE]
+			#x@grid.index = x@grid.index[i]
+			#x@bbox = as.matrix(t(apply(x@coords, 2, range)))
+			#res = x
+		}
 		res
 	}
 )

@@ -9,6 +9,8 @@ SpatialLinesDataFrame = function(sl, data, match.ID = TRUE) {
 			stop("row.names of data and Lines IDs do not match")
 		data <- data[mtch, , drop=FALSE]
 	}
+	if (nrow(data) != length(sl@lines))
+		stop("length of data.frame does not match number of Lines elements")
 	new("SpatialLinesDataFrame", sl, data = data)
 }
 
@@ -22,7 +24,7 @@ as.data.frame.SpatialLinesDataFrame = function(x, row.names, optional, ...) x@da
 setAs("SpatialLinesDataFrame", "data.frame", function(from)
     as.data.frame.SpatialLinesDataFrame(from))
 
-setMethod("[", "SpatialLinesDataFrame", function(x, i, j, ... , drop = TRUE) {
+setMethod("[", c("SpatialLinesDataFrame", "ANY", "ANY"), function(x, i, j, ... , drop = TRUE) {
     missing.i = missing(i)
     missing.j = missing(j)
     nargs = nargs() # e.g., a[3,] gives 2 for nargs, a[3] gives 1.
@@ -41,13 +43,14 @@ setMethod("[", "SpatialLinesDataFrame", function(x, i, j, ... , drop = TRUE) {
     if (is.matrix(i))
         stop("matrix argument not supported in SpatialLinesDataFrame selection")
     if (any(is.na(i))) stop("NAs not permitted in row index")
-    SpatialLinesDataFrame(as(x, "SpatialLines")[i, , drop = FALSE],
-        data = x@data[i, j, drop = FALSE], match.ID = FALSE)
+    #SpatialLinesDataFrame(as(x, "SpatialLines")[i, , drop = FALSE],
+    #    data = x@data[i, j, drop = FALSE], match.ID = FALSE)
+	x@lines = x@lines[i]
+	x@data = x@data[i, j, ..., drop = FALSE]
+	x
 })
 
-setMethod("[[", c("SpatialLinesDataFrame", "ANY", "missing"), function(x, i, j, ...)
-    x@data[[i]]
-)
+setMethod("[[", c("SpatialLinesDataFrame", "ANY", "missing"), function(x, i, j, ...) x@data[[i]])
 
 setReplaceMethod("[[", c("SpatialLinesDataFrame", "ANY", "missing", "ANY"), function(x, i, j, value) {
     x@data[[i]] <- value

@@ -104,36 +104,6 @@ exportMethods(show, bbox, coordinates, "coordinates<-",
 	dimensions, coerce, "[", "[[", "$", "$<-", overlay, plot, recenter,
 	spplot, spsample, summary)
 
-#S3method("[[", SpatialPointsDataFrame)
-#S3method("[[<-", SpatialPointsDataFrame)
-
-#S3method("[[", SpatialPixelsDataFrame)
-#S3method("[[<-", SpatialPixelsDataFrame)
-
-#S3method("[[", SpatialGridDataFrame)
-#S3method("[[<-", SpatialGridDataFrame)
-
-#S3method("[[", SpatialPolygonsDataFrame)
-#S3method("[[<-", SpatialPolygonsDataFrame)
-
-#S3method("[[", SpatialLinesDataFrame)
-#S3method("[[<-", SpatialLinesDataFrame)
-
-#S3method("$", SpatialPointsDataFrame)
-#S3method("$", SpatialPixelsDataFrame)
-#S3method("$", SpatialGridDataFrame)
-#S3method("$", SpatialLinesDataFrame)
-#S3method("$", SpatialPolygonsDataFrame)
-
-#S3method("$<-", SpatialPoints)
-#S3method("$<-", SpatialPixels)
-#S3method("$<-", SpatialGrid)
-#S3method("$<-", SpatialPointsDataFrame)
-#S3method("$<-", SpatialPixelsDataFrame)
-#S3method("$<-", SpatialGridDataFrame)
-#S3method("$<-", SpatialLinesDataFrame)
-#S3method("$<-", SpatialPolygonsDataFrame)
-
 S3method(as.data.frame, SpatialPoints)
 S3method(as.data.frame, SpatialPixels)
 S3method(as.data.frame, SpatialGrid)
@@ -173,18 +143,6 @@ S3method("names<-", SpatialPolygonsDataFrame)
 S3method("names<-", SpatialLinesDataFrame)
 S3method("names<-", SpatialPixelsDataFrame)
 S3method("names<-", SpatialGridDataFrame)
-
-# S3method(plot, Spatial)
-# S3method(plot, SpatialPoints)
-# S3method(plot, SpatialPointsDataFrame)
-# S3method(plot, SpatialPixels)
-# S3method(plot, SpatialPixelsDataFrame)
-# S3method(plot, SpatialGrid)
-# S3method(plot, SpatialGridDataFrame)
-# S3method(plot, SpatialPolygons)
-# S3method(plot, SpatialPolygonsDataFrame)
-# S3method(plot, SpatialLines)
-# S3method(plot, SpatialLinesDataFrame)
 
 S3method(points, SpatialPoints)
 S3method(points, SpatialPointsDataFrame)
