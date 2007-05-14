@@ -93,14 +93,10 @@ setMethod("[", "SpatialPoints", function(x, i, j, ..., drop = TRUE) {
 	x
 })
 
-setMethod("summary", "SpatialPoints", summary.Spatial)
-
-print.summary.SpatialPoints = print.summary.Spatial
-
 setMethod("coordnames", signature(x = "SpatialPoints"),
 	function(x) dimnames(x@coords)[[2]])
-setReplaceMethod("coordnames", 
-	signature(x = "SpatialPoints", value = "character"),
+
+setReplaceMethod("coordnames", signature(x = "SpatialPoints", value = "character"),
 	function(x, value) {
 		dimnames(x@bbox)[[1]] = value
 		dimnames(x@coords)[[2]] = value

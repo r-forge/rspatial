@@ -95,8 +95,6 @@ setAs("SpatialPixelsDataFrame", "data.frame", function(from)
 	as.data.frame.SpatialPixelsDataFrame(from))
 setAs("SpatialGridDataFrame", "data.frame", function(from)
 	as.data.frame.SpatialGridDataFrame(from))
-#setAs("SpatialPixelsDataFrame", "AttributeList", function(from) from@data)
-#setAs("SpatialGridDataFrame", "AttributeList", function(from) from@data)
 
 subset.SpatialPixelsDataFrame <- function(x, subset, select, drop = FALSE, ...) {
 	xSP <- coordinates(x)
@@ -130,17 +128,6 @@ subs.SpatialPixelsDataFrame <- function(x, i, j, ... , drop = FALSE) {
 	res
 }
 setMethod("[", "SpatialPixelsDataFrame", subs.SpatialPixelsDataFrame)
-
-setMethod("[[", c("SpatialPixelsDataFrame", "ANY", "missing"), function(x, i, j) x@data[[i]])
-
-setReplaceMethod("[[", c("SpatialPixelsDataFrame", "ANY", "missing", "ANY"), 
-	function(x, i, j, value) {
-		if (is.character(i) && any(!is.na(match(i, dimnames(coordinates(x))[[2]]))))
-			stop(paste(i, "is already present as a coordinate name"))
-		x@data[[i]] <- value
-		x
-	}
-)
 
 subs.SpatialGridDataFrame <- function(x, i, j, ... , drop = FALSE) {
 	n.args = nargs()
@@ -187,32 +174,6 @@ subs.SpatialGridDataFrame <- function(x, i, j, ... , drop = FALSE) {
 }
 setMethod("[", "SpatialGridDataFrame", subs.SpatialGridDataFrame)
 
-setMethod("[[", c("SpatialGridDataFrame", "ANY", "missing"), function(x, i, j) x@data[[i]])
-
-setReplaceMethod("[[", c("SpatialGridDataFrame", "ANY", "missing", "ANY"),
-	function(x, i, j, value) {
-		#if (is.character(i) && any(!is.na(match(i, dimnames(coordinates(x))[[2]]))))
-		#	stop(paste(i, "is already present as a coordinate name!"))
-		x@data[[i]] <- value
-		x
-	}
-)
-
-setMethod("$", c("SpatialGridDataFrame", "character"), function(x, name) x@data[[name]])
-setMethod("$", c("SpatialPixelsDataFrame", "character"), function(x,name) x@data[[name]])
-setReplaceMethod("$", c("SpatialGridDataFrame","character", "ANY"), 
-	function(x, name, value) { 
-		x@data[[name]]=value
-		x 
-	}
-)
-setReplaceMethod("$", c("SpatialPixelsDataFrame", "character", "ANY"),
-	function(x, name, value) { 
-		x@data[[name]]=value
-		x 
-	}
-)
-
 cbind.SpatialGridDataFrame = function(...) { 
 	stop.ifnot.equal = function(a, b) {
 		res = all.equal(getGridTopology(a), getGridTopology(b))
@@ -255,11 +216,6 @@ print.SpatialGridDataFrame = function(x, ...) {
 }
 setMethod("show", "SpatialGridDataFrame", 
 	function(object) print.SpatialGridDataFrame(object))
-
-setMethod("summary", "SpatialPixelsDataFrame", summary.Spatial)
-
-print.summary.SpatialPixelsDataFrame = print.summary.Spatial
-print.summary.SpatialGridDataFrame = print.summary.Spatial
 
 names.SpatialPixelsDataFrame = function(x) names(x@data)
 names.SpatialGridDataFrame = function(x) names(x@data)

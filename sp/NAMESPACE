@@ -39,9 +39,6 @@ export(gridparameters, "gridded<-", gridded, fullgrid, "fullgrid<-",
 	SpatialGridDataFrame, GridTopology, getGridTopology,
 	areaSpatialGrid, gridlines, gridat)
 
-#export(as.SpatialPolygons.Shapelist, as.SpatialPolygons.matrixList, 
-#	as.Ring4.matrix)
-
 export(getSLlinesSlot, getLinesLinesSlot, nowrapSpatialLines, 
 	getLinesIDSlot, getSLLinesIDSlots, getSpatialLinesMidPoints)
 
@@ -53,7 +50,6 @@ export(getPolygonCoordsSlot, getPolygonLabptSlot, getPolygonAreaSlot,
 
 export(as.SpatialPolygons.PolygonsList, Polygons, Polygon, SpatialPolygons,
 	SpatialPolygonsDataFrame)
-#, as.SpatialPolygons.Shapes, as.SpatialPolygons.map, as.SpatialPolygons.pal)
 
 export(ShowSpatialPointsDataFrame)
 
@@ -155,12 +151,6 @@ S3method(print, SpatialPointsDataFrame)
 S3method(print, SpatialPixelsDataFrame)
 S3method(print, summary.Spatial)
 S3method(print, summary.GridTopology)
-S3method(print, summary.SpatialPoints)
-S3method(print, summary.SpatialPixels)
-S3method(print, summary.SpatialGrid)
-S3method(print, summary.SpatialPointsDataFrame)
-S3method(print, summary.SpatialPixelsDataFrame)
-S3method(print, summary.SpatialGridDataFrame)
 
 S3method(stack, SpatialPointsDataFrame)
 S3method(stack, SpatialPixelsDataFrame)
@@ -178,7 +168,7 @@ S3method(as.double, DMS)
 
 export(".__C__CRS")
 export(".__C__SpatialPoints")
-#export(".__C__SpatialPointsDataFrame")
+export(".__C__SpatialPointsDataFrame")
 export(".__C__SpatialPixelsDataFrame")
 export(".__C__Line")
 export(".__C__Lines")

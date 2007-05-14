@@ -182,12 +182,6 @@ setAs("SpatialGrid", "SpatialPixels", function(from)
 	SpatialPixels(SpatialPoints(coordinates(from), from@proj4string))
 )
 
-setMethod("summary", "SpatialPixels", summary.Spatial)
-setMethod("summary", "SpatialGrid", summary.Spatial)
-
-print.summary.SpatialPixels = print.summary.Spatial
-print.summary.SpatialGrid = print.summary.Spatial
-
 print.SpatialPixels = function(x, ...) {
 	cat("Object of class SpatialPixels\n")
 	print(summary(x@grid))

@@ -81,8 +81,6 @@ plotSpatialLines <- function(SL, xlim = NULL, ylim = NULL,
 	}
 }
 
-setMethod("summary", "SpatialLines", summary.Spatial)
-
 setMethod("plot", signature(x = "SpatialLines", y = "missing"),
 	function(x, y, ...) plotSpatialLines(x, ...))
 

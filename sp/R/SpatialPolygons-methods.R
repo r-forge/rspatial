@@ -78,15 +78,14 @@ bbox.Polygons <- function(obj) {
 setMethod("bbox", "Polygons", bbox.Polygons)
 
 bbox.Polygon <- function(obj) {
-    	rx <- range(obj@coords[,1])
-    	ry <- range(obj@coords[,2])
+	rx <- range(obj@coords[,1])
+   	ry <- range(obj@coords[,2])
 	res=rbind(r1=rx,r2=ry)
-    	colnames(res) <- c("min", "max")
+    colnames(res) <- c("min", "max")
 	res
 }
 
 setMethod("bbox", "Polygon", bbox.Polygon)
-
 
 as.SpatialPolygons.PolygonsList <- function(Srl, proj4string=CRS(as.character(NA))) {
 	if (any(sapply(Srl, function(x) !is(x, "Polygons"))))
@@ -152,8 +151,6 @@ setReplaceMethod("coordnames",
 		x
 	}
 )
-
-setMethod("summary", "SpatialPolygons", summary.Spatial)
 
 setMethod("coordinates", "SpatialPolygons", 
 	function(obj) getSpPPolygonsLabptSlots(obj))

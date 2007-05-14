@@ -14,8 +14,6 @@ SpatialLinesDataFrame = function(sl, data, match.ID = TRUE) {
 	new("SpatialLinesDataFrame", sl, data = data)
 }
 
-setMethod("summary", "SpatialLinesDataFrame", summary.Spatial)
-
 names.SpatialLinesDataFrame = function(x) names(x@data)
 "names<-.SpatialLinesDataFrame" = function(x,value) { names(x@data)<-value; x }
 
@@ -49,22 +47,6 @@ setMethod("[", c("SpatialLinesDataFrame", "ANY", "ANY"), function(x, i, j, ... ,
 	x@data = x@data[i, j, ..., drop = FALSE]
 	x
 })
-
-setMethod("[[", c("SpatialLinesDataFrame", "ANY", "missing"), function(x, i, j, ...) x@data[[i]])
-
-setReplaceMethod("[[", c("SpatialLinesDataFrame", "ANY", "missing", "ANY"), function(x, i, j, value) {
-    x@data[[i]] <- value
-    x
-})
-
-setMethod("$", c("SpatialLinesDataFrame", "character"), function(x, name) x@data[[name]])
-
-setReplaceMethod("$",c("SpatialLinesDataFrame", "character", "ANY"), 
-	function(x, name, value) { 
-		x@data[[name]] = value
-		x 
-	}
-)
 
 lines.SpatialLinesDataFrame = function(x, y = NULL, ...) 
 	lines(as(x, "SpatialLines"), ...)

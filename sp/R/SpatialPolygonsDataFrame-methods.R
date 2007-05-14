@@ -55,28 +55,6 @@ setMethod("[", "SpatialPolygonsDataFrame", function(x, i, j, ... , drop = TRUE) 
 ### (label points belong to the Polygons objects, not the SpatialPolygons object)
 })
 
-setMethod("[[", c("SpatialPolygonsDataFrame", "ANY", "missing"), 
-	function(x, i, j) x@data[[i]]
-)
-
-setReplaceMethod("[[", c("SpatialPolygonsDataFrame","ANY","missing","ANY"),
-	function(x, i, j, value) {
-    	x@data[[i]] <- value
-    	x
-	}
-)
-
-setMethod("$", c("SpatialPolygonsDataFrame","character"), function(x, name) x@data[[name]])
-
-setReplaceMethod("$", c("SpatialPolygonsDataFrame","character","ANY"), 
-	function(x,name,value) { 
-		x@data[[name]] = value
-		x 
-	}
-)
-
-setMethod("summary", "SpatialPolygonsDataFrame", summary.Spatial)
-
 setMethod("coordinates", "SpatialPolygonsDataFrame", 
 	function(obj) getSpPPolygonsLabptSlots(obj))
 

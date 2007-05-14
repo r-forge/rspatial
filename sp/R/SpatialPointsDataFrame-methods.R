@@ -124,28 +124,6 @@ text.SpatialPointsDataFrame = function(x, ...) {
     do.call(text, lst)
 }
 
-summary.SpatialPointsDataFrame = function(object, ...) {
-    obj = list()
-	obj[["data"]] = summary(object@data)
-	obj[["coords"]] = summary(object@coords)
-	obj[["proj"]] = proj4string(object)
-    class(obj) = "summary.SpatialPointsDataFrame"
-    obj
-}
-#setMethod("summary", "SpatialPointsDataFrame", summary.SpatialPointsDataFrame)
-
-print.summary.SpatialPointsDataFrame = function(x, ...) {
-	cat("attribute table data:\n")
-	print(x$data)
-	cat("Coordinates:\n")
-	print(x$coords)
-	pst <- paste(strwrap(paste(
-		"Coordinate Reference System (CRS) arguments:", x$proj)),
-		collapse="\n")
-	cat(pst, "\n")
-	cat("\n")
-}
-
 subset.SpatialPointsDataFrame <- function(x, subset, select, 
 		drop = FALSE, ...) {
 	xSP <- coordinates(x)
@@ -159,7 +137,6 @@ subset.SpatialPointsDataFrame <- function(x, subset, select,
 	SPDF
 }
 
-#"[.SpatialPointsDataFrame" <- function(x, i, j, ... , drop = FALSE) {
 setMethod("[", "SpatialPointsDataFrame", function(x, i, j, ..., drop = TRUE) {
 	missing.i = missing(i)
 	missing.j = missing(j)
@@ -193,29 +170,3 @@ setMethod("[", "SpatialPointsDataFrame", function(x, i, j, ..., drop = TRUE) {
 	x@data = x@data[i, j, ..., drop = FALSE]
 	x
 })
-
-setMethod("[[", c("SpatialPointsDataFrame", "ANY", "missing"), function(x, i, j, ...)
-	x@data[[i]]
-)
-
-setReplaceMethod("[[", c("SpatialPointsDataFrame", "ANY", "missing", "ANY"), 
-	function(x, i, j, value) {
-		if (is.character(i) && any(!is.na(match(i, dimnames(coordinates(x))[[2]]))))
-			stop(paste(i, "is already present as a coordinate name!"))
-		x@data[[i]] <- value
-		x
-	}
-)
-
-setMethod("$", c("SpatialPointsDataFrame", "character"), 
-	function(x, name) x@data[[name]]
-)
-
-setReplaceMethod("$", c("SpatialPointsDataFrame", "character", "ANY"), 
-	function(x, name, value) { 
-		x@data[[name]] = value 
-		x 
-	}
-)
-
-setMethod("summary", "SpatialPointsDataFrame", summary.Spatial)

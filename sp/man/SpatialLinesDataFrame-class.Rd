@@ -3,11 +3,6 @@
 \alias{SpatialLinesDataFrame-class}
 \alias{coerce,SpatialLinesDataFrame,data.frame-method}
 \alias{[,SpatialLinesDataFrame-method}
-\alias{[[,SpatialLinesDataFrame,ANY,missing-method}
-\alias{[[<-,SpatialLinesDataFrame,ANY,missing-method}
-\alias{$,SpatialLinesDataFrame,character-method}
-\alias{$<-,SpatialLinesDataFrame,character-method}
-\alias{summary,SpatialLinesDataFrame-method}
 \alias{rbind.SpatialLinesDataFrame}
 \alias{coerce,SpatialLinesDataFrame,SpatialPointsDataFrame-method}
 
@@ -39,7 +34,6 @@ Methods defined with class "SpatialLinesDataFrame" in the signature:
     \item{show}{\code{signature(object = "SpatialLinesDataFrame")}: print method }
     \item{plot}{\code{signature(x = "SpatialLinesDataFrame")}: plot points}
     \item{lines}{\code{signature(object = "SpatialLinesDataFrame")}: add lines to plot}
-    \item{summary}{\code{signature(object = "SpatialLinesDataFrame")}: summarize object}
   }
 }
 \references{ }

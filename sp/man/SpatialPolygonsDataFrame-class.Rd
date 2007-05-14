@@ -2,15 +2,10 @@
 \docType{class}
 \alias{SpatialPolygonsDataFrame-class}
 \alias{[,SpatialPolygonsDataFrame-method}
-\alias{summary,SpatialPolygonsDataFrame-method}
 \alias{as.data.frame.SpatialPolygonsDataFrame}
 \alias{coerce,SpatialPolygonsDataFrame,data.frame-method}
 \alias{coerce,SpatialPolygonsDataFrame,SpatialLinesDataFrame-method}
 \alias{rbind.SpatialPolygonsDataFrame}
-\alias{[[<-,SpatialPolygonsDataFrame,ANY,missing-method}
-\alias{[[,SpatialPolygonsDataFrame,ANY,missing-method}
-\alias{$,SpatialPolygonsDataFrame,character-method}
-\alias{$<-,SpatialPolygonsDataFrame,character-method}
 
 \alias{getSpPPolygonsIDSlots}
 \alias{getSpPPolygonsLabptSlots}
@@ -49,7 +44,6 @@ Class \code{"Spatial"}, by class \code{"SpatialPolygons"}.
 Methods defined with class "SpatialPolygonsDataFrame" in the signature:
   \describe{
     \item{[}{\code{signature(x = "SpatialPolygonsDataFrame")}: select subset of (sets of) polygons; NAs are not permitted in the row index}
-	\item{summary}{\code{\signature(object = "SpatialPolygonsDataFrame")}: summarize object}
   }
 }
 \references{ }
