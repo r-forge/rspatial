@@ -198,20 +198,21 @@ print.SpatialGrid = function(x, ...) {
 }
 setMethod("show", "SpatialGrid", function(object) print.SpatialGrid(object))
 
-setReplaceMethod("$", c("SpatialGrid", "character", "ANY"),
-	function(x,name,value) {
-		df = data.frame(value)
-		names(df) = as.character(substitute(name))
-		SpatialGridDataFrame(x@grid, df) 
-	}
-)
-setReplaceMethod("$", c("SpatialPixels", "character", "ANY"),
-	function(x, name, value) { 
-		df = data.frame(value)
-		names(df) = as.character(substitute(name))
-		SpatialPixelsDataFrame(x, df)
-	}
-)
+#setReplaceMethod("$", c("SpatialGrid", "character", "ANY"),
+#	function(x,name,value) {
+#		df = data.frame(value)
+#		names(df) = as.character(substitute(name))
+#		SpatialGridDataFrame(x@grid, df) 
+#	}
+#)
+
+#setReplaceMethod("$", c("SpatialPixels", "character", "ANY"),
+#	function(x, name, value) { 
+#		df = data.frame(value)
+#		names(df) = as.character(substitute(name))
+#		SpatialPixelsDataFrame(x, df)
+#	}
+#)
 
 # make a SpatialPolygons from a SpatialPixels - Kohris Sahlen workshop
 as.SpatialPolygons.SpatialPixels <- function(obj) {

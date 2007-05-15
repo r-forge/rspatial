@@ -104,6 +104,6 @@ setReplaceMethod("coordnames", signature(x = "SpatialPoints", value = "character
 	}
 )
 
-setReplaceMethod("$", c("SpatialPoints", "character", "ANY"),
-	function(x, name, value) SpatialPointsDataFrame(x, data.frame(name = value)) 
-)
+#setReplaceMethod("$", c("SpatialPoints", "character", "ANY"),
+#	function(x, name, value) SpatialPointsDataFrame(x, data.frame(name = value)) 
+#)
