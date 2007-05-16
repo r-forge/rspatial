@@ -31,7 +31,6 @@ setMethod("coordinates", "SpatialPointsDataFrame", function(obj) obj@coords)
 
 setReplaceMethod("coordinates", signature(object = "data.frame", value = "ANY"),
   function(object, value) {
-#"coordinates<-" = function(object, value) {
 	coord.numbers = NULL
 	#if (!is.list(object))
 	#	stop("coordinates can only be set on objects of class data.frame or list")
@@ -66,9 +65,8 @@ setReplaceMethod("coordinates", signature(object = "data.frame", value = "ANY"),
 			return(SpatialPoints(cc))
 	} else
 		stripped = numeric(0)
-	SpatialPointsDataFrame(data = object, coords = cc, coords.nrs = stripped,
+	SpatialPointsDataFrame(coords = cc, data = object, coords.nrs = stripped,
 		match.ID = FALSE)
-#}
   }
 )
 
