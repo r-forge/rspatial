@@ -216,7 +216,7 @@ setReplaceMethod("$", c("Spatial", "character", "ANY"),
 	function(x, name, value) { 
 		if (!("data" %in% slotNames(x)))
 			stop("no $<- method for object without attributes")
-		print(paste("name is", name))
+#		print(paste("name is", name))
 		x@data[[name]] = value 
 		x 
 	}
