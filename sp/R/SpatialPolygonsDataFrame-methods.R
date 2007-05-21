@@ -47,8 +47,16 @@ setMethod("[", "SpatialPolygonsDataFrame", function(x, i, j, ... , drop = TRUE) 
     if (any(is.na(i))) stop("NAs not permitted in row index")
     #SpatialPolygonsDataFrame(as(x, "SpatialPolygons")[i, , drop = FALSE],
     #    data = x@data[i, j, drop = FALSE], match.ID = FALSE)
-	x@polygons = x@polygons[i]
 	x@data = x@data[i, j, ..., drop = FALSE]
+	if (is.logical(i)) {
+		if (length(i) == 1 && i)
+			i = 1:length(x@polygons)
+		else
+			i <- which(i)
+	}
+	x@polygons = x@polygons[i]
+	x@bbox <- .bboxCalcR(x@polygons)
+	x@plotOrder = order(match(i, x@plotOrder))
 	x
 ###
 ### RSB: do something with labelpoints here? How can I check they are present?
