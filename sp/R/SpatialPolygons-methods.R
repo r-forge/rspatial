@@ -111,11 +111,13 @@ setMethod("[", "SpatialPolygons", function(x, i, j, ..., drop = TRUE) {
 		stop("NAs not permitted in row index")
 	if (length(unique(i)) != length(i))
 		stop("SpatialPolygons selection: can't find plot order if polygons are replicated")
-	#SpatialPolygons(x@polygons[i], pO = order(match(i, x@plotOrder)), CRS(proj4string(x)))
-	x@polygons = x@polygons[i]
-	x@bbox <- .bboxCalcR(x@polygons)
-	x@plotOrder = order(match(i, x@plotOrder))
-	x
+	xx <- SpatialPolygons(x@polygons[i], proj4string=CRS(proj4string(x)))
+	xx
+#	x@polygons = x@polygons[i]
+#	x@bbox <- .bboxCalcR(x@polygons)
+#	area <- sapply(slot(x, "polygons"), function(i) slot(i, "area"))
+#	x@plotOrder <- as.integer(order(area, decreasing=TRUE))
+#	x
 })
 
 setMethod("coordnames", signature(x = "SpatialPolygons"), 

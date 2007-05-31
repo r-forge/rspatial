@@ -4,7 +4,7 @@ SpatialPixels = function(points, tolerance = sqrt(.Machine$double.eps),
 		stop("points should be of class or extending SpatialPoints")
 	is.gridded = gridded(points)
 	points = as(points, "SpatialPoints")
-	proj4string(points) = proj4string
+	if (is.na(proj4string(points))) proj4string(points) = proj4string
 	grid = points2grid(points, tolerance)
 	if (!is.gridded) {
 		points@bbox[,1] = points@bbox[,1] - 0.5 * grid@cellsize
