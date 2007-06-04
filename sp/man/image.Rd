@@ -28,7 +28,7 @@ the column name in the data.frame of \code{data} (as.data.frame(data)), or
 a column number }
 \item{xcol}{ column number of x-coordinate, in the coordinate matrix }
 \item{ycol}{ column number of y-coordinate, in the coordinate matrix }
-\item{col}{a list of colors }
+\item{col}{a vector of colors }
 \item{red,green,blue}{columns names or numbers given instead of the \code{attr} argument when the data represent an image encoded in three colour bands on the 0-255 integer scale; all three columns must be given in this case, and the attribute values will be constructed using function \code{rgb} }
 %\item{asp}{ aspect ratio of unit x and unit y axis }
 \item{axes}{ logical; should coordinate axes be drawn? }

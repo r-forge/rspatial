@@ -5,7 +5,8 @@ image.SpatialPixelsDataFrame = function(x, ...)
 image.SpatialGridDataFrame = function(x, attr = 1, xcol = 1, ycol = 2,
                 col = heat.colors(12), 
 		red=NULL, green=NULL, blue=NULL, axes = FALSE, xlim = NULL, 
-		ylim = NULL, add = FALSE, ..., asp = NA, setParUsrBB=FALSE) {
+		ylim = NULL, add = FALSE, ..., asp = NA, 
+		setParUsrBB=FALSE) {
 
 	if (!add)
 		plot(as(x, "Spatial"),
