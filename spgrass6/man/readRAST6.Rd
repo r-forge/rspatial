@@ -1,4 +1,4 @@
-% Copyright (C) 2005-6 Roger S. Bivand
+% Copyright (C) 2005-7 Roger S. Bivand
 %
 \name{readRAST6}
 \alias{readRAST6}
@@ -47,6 +47,7 @@ writeRAST6(x, vname, zcol = 1, NODATA=-9999, ignore.stderr = FALSE)
 \code{readRAST6} returns a SpatialGridDataFrame objects with an AttributeList in the data slots, and with the projection argument set.
 }
 
+\note{In readRAST6, when any cat= argument values are TRUE, it may appear that a system call to r.stats has failed. This is caused by the existence of older and newer GRASS 6 versions, using -q or --q as quiet flags. If -q fails, --q is tried, so the error message will be seen on newer GRASS 6 installations. If it is found an inconvenience, the ignore.stderr argument should be set to TRUE.}
 
 \author{Roger S. Bivand, e-mail: \email{Roger.Bivand@nhh.no}}
 
