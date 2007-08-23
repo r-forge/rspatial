@@ -1,6 +1,6 @@
 Package: splancs
-Version: 2.01-22
-Date: 2007-04-22
+Version: 2.01-23
+Date: 2007-08-23
 Title: Spatial and Space-Time Point Pattern Analysis
 Author: Barry Rowlingson <b.rowlingson@lancaster.ac.uk> and Peter Diggle,
 	adapted and packaged for R by Roger Bivand, pcp functions by

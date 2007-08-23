@@ -8,7 +8,7 @@
 Calculate area of polygon
 }
 \description{
-Calculate area of polygon
+Calculate area of polygon. If the polygon is self-intersecting, the area will not be correct.
 }
 \usage{
 areapl(poly)
@@ -30,6 +30,16 @@ the original sources can be accessed at:
 \url{http://www.maths.lancs.ac.uk/~rowlings/Splancs/}. See also Bivand, R. and
 Gebhardt, A. 2000 Implementing functions for spatial statistical analysis
 using the R language. Journal of Geographical Systems, 2, 307-317.
+}
+
+\examples{
+x <- c(1,0,0,1,1,1,1,3,3,1)
+y <- c(0,0,1,1,0,0,-1,-1,0,0)
+m <- cbind(x, y)
+plot(m, type="b")
+areapl(m)
+areapl(m[1:5,])
+areapl(m[6:10,])
 }
 
 % Converted by Sd2Rd version 0.3-3.
