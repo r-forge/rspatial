@@ -10,8 +10,8 @@
 }
 \usage{
 classIntervals(var, n, style = "quantile", rtimes = 3, ...)
-plot.classIntervals(x, pal, ...) 
-print.classIntervals(x, digits = getOption("digits"), ..., under="under", over="over", between="-", cutlabels=FALSE) 
+\method{plot}{classIntervals}(x, pal, ...) 
+\method{print}{classIntervals}(x, digits = getOption("digits"), ..., under="under", over="over", between="-", cutlabels=FALSE) 
 nPartitions(x) 
 }
 %- maybe also 'usage' for other objects documented here.
