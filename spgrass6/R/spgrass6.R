@@ -1,12 +1,13 @@
 # Interpreted GRASS 6 interface functions
-# Copyright (c) 2005-6 Roger S. Bivand
+# Copyright (c) 2005-7 Roger S. Bivand
 #
 
 gmeta6 <- function(ignore.stderr = FALSE) {
 	tull <- ifelse(.Platform$OS.type == "windows",
-		tx <- system("g.region -g3", intern=TRUE), 
+		tx <- system(paste(paste("g.region", .addexe(), sep=""),
+                          "-g3"), intern=TRUE), 
 		tx <- system("g.region -g3", 
-		intern=TRUE, ignore.stderr=ignore.stderr))	
+		          intern=TRUE, ignore.stderr=ignore.stderr))	
 	tx <- gsub("=", ":", tx)
 	con <- textConnection(tx)
 	res <- read.dcf(con)
@@ -39,9 +40,10 @@ gmeta6 <- function(ignore.stderr = FALSE) {
 	else lres$depths <- as.integer(lres$depths)
 	lres$proj4 <- getLocationProj()
 	tull <- ifelse(.Platform$OS.type == "windows", 
-		gisenv <- system("g.gisenv", intern=TRUE), 
+		gisenv <- system(paste("g.gisenv", .addexe(), sep=""),
+                              intern=TRUE), 
 		gisenv <- system("g.gisenv", 
-		intern=TRUE, ignore.stderr=ignore.stderr))
+		              intern=TRUE, ignore.stderr=ignore.stderr))
 	gisenv <- gsub("[';]", "", gisenv)
 	gisenv <- strsplit(gisenv, "=")
 	glist <- as.list(sapply(gisenv, function(x) x[2]))
@@ -82,9 +84,10 @@ gmeta2grd <- function(ignore.stderr = FALSE) {
 getLocationProj <- function(ignore.stderr = FALSE) {
 # too strict assumption on g.proj Rohan Sadler 20050928
 	ifelse(.Platform$OS.type == "windows", 
-		projstr <- system("g.proj -j -f", intern=TRUE), 
+		projstr <- system(paste(paste("g.proj", .addexe(), sep=""),
+                               "-j -f"), intern=TRUE), 
 		projstr <- system("g.proj -j -f", intern=TRUE, 
-		ignore.stderr=ignore.stderr))
+		               ignore.stderr=ignore.stderr))
 	if (length(grep("XY location", projstr)) > 0)
 		projstr <- as.character(NA)
 	if (length(grep("latlong", projstr)) > 0)
@@ -110,21 +113,23 @@ readFLOAT6sp <- function(vname, ignore.stderr = FALSE) {
 	p4 <- CRS(getLocationProj())
 	for (i in seq(along=vname)) {
 		gtmpfl1 <- ifelse(.Platform$OS.type == "windows", 
-			system(paste("g.tempfile pid=", pid, sep=""), 
-			intern=TRUE), system(paste("g.tempfile pid=", 
-			pid, sep=""), intern=TRUE, ignore.stderr=ignore.stderr))
-		rtmpfl1 <- ifelse(.Platform$OS.type == "windows", 
+			system(paste(paste("g.tempfile", .addexe(), sep=""),
+                            "pid=", pid, sep=""), intern=TRUE),
+                        system(paste("g.tempfile pid=", pid, sep=""),
+                            intern=TRUE, ignore.stderr=ignore.stderr))
+		rtmpfl1 <- ifelse((.Platform$OS.type == "windows") &&
+                        (Sys.getenv("OSTYPE") == "cygwin"), 
 			system(paste("cygpath -w", gtmpfl1, sep=" "), 
 			intern=TRUE), gtmpfl1)
 		tull <- ifelse(.Platform$OS.type == "windows", system(paste(
-			"r.out.arc input=", vname[i], " output=", 
-			gtmpfl1, sep="")), 
+			paste("r.out.arc", .addexe(), sep=""),
+                        " input=", vname[i], " output=", gtmpfl1, sep="")), 
 			system(paste("r.out.arc input=", vname[i], " output=", 
 			gtmpfl1, sep=""), ignore.stderr=ignore.stderr))
 		res <- readAsciiGrid(rtmpfl1, colname=vname[i], proj4string=p4)
 		tull <- ifelse(.Platform$OS.type == "windows", 
-			whCELL <- system(paste("r.info -t", vname[i]), 
-			intern=TRUE), 
+			whCELL <- system(paste(paste("r.info", .addexe(),
+                                      sep=""), "-t", vname[i]), intern=TRUE), 
 			whCELL <- system(paste("r.info -t", vname[i]), 
 			intern=TRUE, ignore.stderr=ignore.stderr))
 		to_int <- length(which(unlist(strsplit(
@@ -164,14 +169,16 @@ readCELL6sp <- function(vname, cat=NULL, ignore.stderr = FALSE) {
 		for (i in seq(along=cat)) {
 			if (cat[i] && is.integer(res@data[[i]])) {
 # note --q in 6.3.cvs
-				cmd <- paste("r.stats -l -q", vname[i])
+				cmd <- paste(paste("r.stats", .addexe(),
+                                    sep=""), " -l -q", vname[i])
 
 				tull <- ifelse(.Platform$OS.type=="windows",
 				    rSTATS <- system(cmd, intern=TRUE), 
 				    rSTATS <- system(cmd, intern=TRUE, 
 				    ignore.stderr=ignore.stderr))
 				if (length(rSTATS) == 0) {
-				    cmd <- paste("r.stats -l --q", vname[i])
+				    cmd <- paste(paste("r.stats", .addexe(),
+                                        sep=""), "-l --q", vname[i])
 				    tull <- ifelse(.Platform$OS.type=="windows",
 				    rSTATS <- system(cmd, intern=TRUE),
 				    rSTATS <- system(cmd, intern=TRUE,
@@ -206,19 +213,20 @@ rast.put6 <- function(x, vname, zcol = 1, NODATA=-9999, ignore.stderr = FALSE) {
 writeRast6sp <- function(x, vname, zcol = 1, NODATA=-9999, ignore.stderr = FALSE) {
 	pid <- as.integer(round(runif(1, 1, 1000)))
 	gtmpfl1 <- ifelse(.Platform$OS.type == "windows",
+		system(paste(paste("g.tempfile", .addexe(), sep=""),
+                    "pid=", pid, sep=""), intern=TRUE),
 		system(paste("g.tempfile pid=", pid, sep=""), 
-		intern=TRUE),
-		system(paste("g.tempfile pid=", pid, sep=""), 
-		intern=TRUE, ignore.stderr=ignore.stderr))
-	rtmpfl1 <- ifelse(.Platform$OS.type == "windows", 
+		    intern=TRUE, ignore.stderr=ignore.stderr))
+	rtmpfl1 <- ifelse(.Platform$OS.type == "windows" &&
+                (Sys.getenv("OSTYPE") == "cygwin"), 
 		system(paste("cygpath -w", gtmpfl1, sep=" "), intern=TRUE), 
 		gtmpfl1)
 	if (!is.numeric(x@data[[zcol]])) 
 		stop("only numeric columns may be exported")
 	writeAsciiGrid(x, rtmpfl1, attr = zcol, na.value = NODATA)
 	tull <- ifelse(.Platform$OS.type == "windows", 
-		system(paste("r.in.gdal -o input=", gtmpfl1, " output=", 
-			vname, sep="")), 
+		system(paste(paste("r.in.gdal", .addexe(), sep=""),
+                   " -o input=", gtmpfl1, " output=", vname, sep="")), 
 		system(paste("r.in.gdal -o input=", gtmpfl1, " output=", 
 			vname, sep=""), ignore.stderr=ignore.stderr))
 	unlink(rtmpfl1)
@@ -229,4 +237,10 @@ writeRast6sp <- function(x, vname, zcol = 1, NODATA=-9999, ignore.stderr = FALSE
     sI <- sessionInfo(package="sp")
     spver <- sI$otherPkgs$sp$Version
     as.numeric(substring(spver, 1, 3)) < 0.9
+}
+
+.addexe <- function() {
+    res <- ""
+    if (Sys.getenv("OSTYPE") == "msys") res =".exe"
+    res
 }

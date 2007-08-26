@@ -51,12 +51,14 @@ getSites6(vname, ignore.stderr = FALSE, with_prj=TRUE)
 
 \examples{
 if (nchar(Sys.getenv("GISRC")) > 0) {
-  system("v.info bugsites")
+  if (Sys.getenv("OSTYPE") == "msys") system("v.info.exe bugsites")
+  else system("v.info bugsites")
   vInfo("bugsites", ignore.stderr=TRUE)
   bugs <- readVECT6("bugsites", ignore.stderr=TRUE)
   summary(bugs)
   writeVECT6(bugs, "newbugs", v.in.ogr_flags="-o --overwrite", ignore.stderr=TRUE)
-  system("v.info newbugs")
+  if (Sys.getenv("OSTYPE") == "msys") system("v.info.exe newbugs")
+  else system("v.info newbugs")
   vInfo("streams", ignore.stderr=TRUE)
   streams <- readVECT6("streams", type="line,boundary", remove.duplicates=FALSE, ignore.stderr=TRUE)
   summary(streams)

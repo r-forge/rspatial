@@ -1,5 +1,5 @@
 # Interpreted GRASS 6 interface functions
-# Copyright (c) 2005-6 Roger S. Bivand
+# Copyright (c) 2005-7 Roger S. Bivand
 #
 readVECT6 <- function(vname, type=NULL, remove.duplicates=TRUE, ignore.stderr = FALSE, with_prj=TRUE) {
 
@@ -13,12 +13,14 @@ readVECT6 <- function(vname, type=NULL, remove.duplicates=TRUE, ignore.stderr = 
 	}
 
 	pid <- as.integer(round(runif(1, 1, 1000)))
-	cmd <- paste("g.tempfile pid=", pid, sep="")
+	cmd <- paste(paste("g.tempfile", .addexe(), sep=""),
+                    " pid=", pid, sep="")
 
 	gtmpfl1 <- dirname(ifelse(.Platform$OS.type == "windows", 
 		system(cmd, intern=TRUE), system(cmd, 
 		intern=TRUE, ignore.stderr=ignore.stderr)))
-	rtmpfl1 <- ifelse(.Platform$OS.type == "windows", 
+	rtmpfl1 <- ifelse(.Platform$OS.type == "windows" &&
+                (Sys.getenv("OSTYPE") == "cygwin"), 
 		system(paste("cygpath -w", gtmpfl1, sep=" "), intern=TRUE), 
 		gtmpfl1)
 
@@ -28,7 +30,8 @@ readVECT6 <- function(vname, type=NULL, remove.duplicates=TRUE, ignore.stderr = 
 	if (with_prj) E <- " -e"
 	else E <- ""
 
-	cmd <- paste("v.out.ogr", E, " input=", vname, " type=", type, 
+	cmd <- paste(paste("v.out.ogr", .addexe(), sep=""),
+                " ", E, " input=", vname, " type=", type, 
 		" dsn=", gtmpfl1, " olayer=", shname, " format=ESRI_Shapefile", 
 		sep="")
 
@@ -143,12 +146,14 @@ writeVECT6 <- function(SDF, vname, factor2char = TRUE, v.in.ogr_flags="",
 	if (is.null(type)) stop("Unknown data class")
 
 	pid <- as.integer(round(runif(1, 1, 1000)))
-	cmd <- paste("g.tempfile pid=", pid, sep="")
+	cmd <- paste(paste("g.tempfile", .addexe(), sep=""),
+                    " pid=", pid, sep="")
 
 	gtmpfl1 <- dirname(ifelse(.Platform$OS.type == "windows", 
 		system(cmd, intern=TRUE), system(cmd, 
 		intern=TRUE, ignore.stderr=ignore.stderr)))
-	rtmpfl1 <- ifelse(.Platform$OS.type == "windows", 
+	rtmpfl1 <- ifelse(.Platform$OS.type == "windows" &&
+                (Sys.getenv("OSTYPE") == "cygwin"), 
 		system(paste("cygpath -w", gtmpfl1, sep=" "), intern=TRUE), 
 		gtmpfl1)
 
@@ -166,7 +171,8 @@ writeVECT6 <- function(SDF, vname, factor2char = TRUE, v.in.ogr_flags="",
 	if (!is.na(p4s)) tull <- showWKT(p4s, paste(rtmpfl1, 
 		.Platform$file.sep, shname, ".prj", sep=""))
 
-	cmd <- paste("v.in.ogr ", v.in.ogr_flags, " dsn=", gtmpfl1, 
+	cmd <- paste(paste("v.in.ogr", .addexe(), sep=""),
+                    " ", v.in.ogr_flags, " dsn=", gtmpfl1, 
 		" output=", vname, " layer=", shname, sep="")
 
 	tull <- ifelse(.Platform$OS.type == "windows", system(cmd), 
@@ -177,7 +183,8 @@ writeVECT6 <- function(SDF, vname, factor2char = TRUE, v.in.ogr_flags="",
 }
 
 vInfo <- function(vname, ignore.stderr = FALSE) {
-	cmd <- paste("v.info map=", vname, sep="")
+	cmd <- paste(paste("v.info", .addexe(), sep=""),
+                    " map=", vname, sep="")
 	if(.Platform$OS.type == "windows") vinfo0 <- system(cmd, intern=TRUE)
 	else vinfo0 <- system(cmd, intern=TRUE, ignore.stderr=ignore.stderr)
 
@@ -196,7 +203,8 @@ vInfo <- function(vname, ignore.stderr = FALSE) {
 }
 
 vColumns <- function(vname, ignore.stderr = TRUE) {
-	cmd <- paste("v.info -c map=", vname, sep="")
+	cmd <- paste(paste("v.info", .addexe(), sep=""),
+                    " -c map=", vname, sep="")
 	if(.Platform$OS.type == "windows") vinfo0 <- system(cmd, intern=TRUE)
 	else vinfo0 <- system(cmd, intern=TRUE, ignore.stderr=ignore.stderr)
 	con <- textConnection(vinfo0)
@@ -209,7 +217,8 @@ vColumns <- function(vname, ignore.stderr = TRUE) {
 }
 
 vDataCount <- function(vname, ignore.stderr = TRUE) {
-	cmd <- paste("v.db.select -c map=", vname, " column=cat", sep="")
+	cmd <- paste(paste("v.db.select", .addexe(), sep=""),
+                    " -c map=", vname, " column=cat", sep="")
 	if(.Platform$OS.type == "windows") tull <- system(cmd, intern=TRUE)
 	else tull <- system(cmd, intern=TRUE, ignore.stderr=ignore.stderr)
 	n <- length(tull)
@@ -318,14 +327,16 @@ vect2neigh <- function(vname, ID=NULL, ignore.stderr = FALSE) {
 
 	if (!is.null(ID)) {
 		if (!is.character(ID)) stop("ID not character string")
-		cmd <- paste("v.info -c ", vname, sep="")
+		cmd <- paste(paste("v.info", .addexe(), sep=""),
+                    " -c ", vname, sep="")
 		if(.Platform$OS.type == "windows") 
 			tull <- system(cmd, intern=TRUE)
 		else tull <- system(cmd, intern=TRUE, 
 			ignore.stderr=ignore.stderr)
 		if (length(grep(ID, tull)) == 0)
 			stop("ID not found")
-		cmd <- paste("v.db.select -c map=", vname, " column=", 
+		cmd <- paste(paste("v.db.select", .addexe(), sep=""),
+                    " -c map=", vname, " column=", 
 			ID, sep="")
 		if(.Platform$OS.type == "windows") 
 			ID <- as.character(system(cmd, intern=TRUE))
@@ -337,38 +348,45 @@ vect2neigh <- function(vname, ID=NULL, ignore.stderr = FALSE) {
 	
 	pid <- as.integer(round(runif(1, 1, 1000)))
 	vname2 <- paste(vname, pid, sep="")
-	cmd <- paste("g.copy vect=", vname, ",", vname2, sep="")
+	cmd <- paste(paste("g.copy", .addexe(), sep=""),
+                    " vect=", vname, ",", vname2, sep="")
 	if(.Platform$OS.type == "windows") tull <- system(cmd, intern=TRUE)
 	else tull <- system(cmd, intern=TRUE, ignore.stderr=ignore.stderr)
 
 	vname2a <- paste(vname2, "a", sep="")
-	cmd <- paste("v.category ", vname2, " out=", vname2a, 
+	cmd <- paste(paste("v.category", .addexe(), sep=""),
+                    " ", vname2, " out=", vname2a, 
 		"  layer=2 type=boundary option=add", sep="")
 	if(.Platform$OS.type == "windows") tull <- system(cmd, intern=TRUE)
 	else tull <- system(cmd, intern=TRUE, ignore.stderr=ignore.stderr)
 
-	cmd <- paste("v.db.addtable ", vname2a, 
+	cmd <- paste(paste("v.db.addtable", .addexe(), sep=""),
+                    " ", vname2a, 
 	" layer=2 col=\"left integer,right integer,length double precision\"", 
 	sep="")
 	if(.Platform$OS.type == "windows") system(cmd)
 	else system(cmd, ignore.stderr=ignore.stderr)
 
-	cmd <- paste("v.to.db map=", vname2a, 
+	cmd <- paste(paste("v.to.db", .addexe(), sep=""),
+                    " map=", vname2a, 
 		" option=sides col=left,right layer=2", sep="")
 	if(.Platform$OS.type == "windows") system(cmd)
 	else system(cmd, ignore.stderr=ignore.stderr)
 
-	cmd <- paste("v.to.db map=", vname2a, 
+	cmd <- paste(paste("v.to.db", .addexe(), sep=""),
+                    " map=", vname2a, 
 		" option=length col=length layer=2", sep="")
 	if(.Platform$OS.type == "windows") system(cmd)
 	else system(cmd, ignore.stderr=ignore.stderr)
 
-	cmd <- paste("v.db.select ", vname2a, " layer=2", sep="")
+	cmd <- paste(paste("v.db.select", .addexe(), sep=""),
+                    " ", vname2a, " layer=2", sep="")
 
 	if(.Platform$OS.type == "windows") res <- system(cmd, intern=TRUE)
 	else res <- system(cmd, intern=TRUE, ignore.stderr=ignore.stderr)
 
-	cmd <- paste("g.remove vect=", vname2, ",", vname2a, sep="")
+	cmd <- paste(paste("g.remove", .addexe(), sep=""),
+                    " vect=", vname2, ",", vname2a, sep="")
 	if(.Platform$OS.type == "windows") tull <- system(cmd, intern=TRUE)
 	else tull <- system(cmd, intern=TRUE, ignore.stderr=ignore.stderr)
 

@@ -1,5 +1,5 @@
 # Interpreted GRASS 6 interface functions
-# Copyright (c) 2005-6 Roger S. Bivand
+# Copyright (c) 2005-7 Roger S. Bivand
 #
 
 readRAST6 <- function(vname, cat=NULL, ignore.stderr = FALSE, NODATA=-9999) {
@@ -11,7 +11,8 @@ readRAST6 <- function(vname, cat=NULL, ignore.stderr = FALSE, NODATA=-9999) {
 	p4 <- CRS(getLocationProj())
 	for (i in seq(along=vname)) {
 
-		cmd <- paste("r.info -t", vname[i])
+		cmd <- paste(paste("r.info", .addexe(), sep=""),
+                    " -t", vname[i])
 
 		tull <- ifelse(.Platform$OS.type == "windows", 
 			whCELL <- system(cmd, intern=TRUE), 
@@ -20,19 +21,22 @@ readRAST6 <- function(vname, cat=NULL, ignore.stderr = FALSE, NODATA=-9999) {
 		to_int <- length(which(unlist(strsplit(
 			whCELL, "=")) == "CELL")) > 0
 
-		cmd <- paste("g.tempfile pid=", pid, sep="")
+		cmd <- paste(paste("g.tempfile", .addexe(), sep=""),
+                    " pid=", pid, sep="")
 
 		gtmpfl1 <- dirname(ifelse(.Platform$OS.type == "windows", 
 			system(cmd, intern=TRUE), system(cmd, intern=TRUE, 
 			ignore.stderr=ignore.stderr)))
-		rtmpfl1 <- ifelse(.Platform$OS.type == "windows", 
+		rtmpfl1 <- ifelse(.Platform$OS.type == "windows" &&
+                        (Sys.getenv("OSTYPE") == "cygwin"), 
 			system(paste("cygpath -w", gtmpfl1, sep=" "), 
 			intern=TRUE), gtmpfl1)
 		gtmpfl11 <- paste(gtmpfl1, vname[i], sep=.Platform$file.sep)
 		rtmpfl11 <- paste(rtmpfl1, vname[i], sep=.Platform$file.sep)
 
-		cmd <- paste("r.out.bin -b input=", vname[i], " output=", 
-			gtmpfl11, " null=", NODATA, sep="")
+		cmd <- paste(paste("r.out.bin", .addexe(), sep=""),
+                    " -b input=", vname[i], " output=", gtmpfl11,
+                    " null=", NODATA, sep="")
 
 # 061107 Dylan Beaudette NODATA
 
@@ -72,14 +76,17 @@ readRAST6 <- function(vname, cat=NULL, ignore.stderr = FALSE, NODATA=-9999) {
 			if (cat[i] && is.integer(resa@data[[i]])) {
 
 # note --q in 6.3.cvs
-				cmd <- paste("r.stats -l -q", vname[i])
+				cmd <- paste(paste("r.stats", .addexe(),
+                                    sep=""), "-l -q", vname[i])
 
 				tull <- ifelse(.Platform$OS.type=="windows",
 				    rSTATS <- system(cmd, intern=TRUE), 
 				    rSTATS <- system(cmd, intern=TRUE, 
 				    ignore.stderr=ignore.stderr))
-				if (length(rSTATS) == 0) {
-				    cmd <- paste("r.stats -l --q", vname[i])
+				if ((length(rSTATS) == 0)
+                                    || (length(grep("Sorry", rSTATS[1])) > 0)) {
+				    cmd <- paste(paste("r.stats", .addexe(),
+                                        sep=""), "-l --q", vname[i])
 				    tull <- ifelse(.Platform$OS.type=="windows",
 				    rSTATS <- system(cmd, intern=TRUE),
 				    rSTATS <- system(cmd, intern=TRUE,
@@ -156,13 +163,15 @@ writeRAST6 <- function(x, vname, zcol = 1, NODATA=-9999,
 	ignore.stderr = FALSE) {
 
 	pid <- round(runif(1, 1, 1000))
-	cmd <- paste("g.tempfile pid=", pid, sep="")
+	cmd <- paste(paste("g.tempfile", .addexe(), sep=""),
+            " pid=", pid, sep="")
 
 	gtmpfl1 <- dirname(ifelse(.Platform$OS.type == "windows",
 		system(cmd, intern=TRUE),
 		system(cmd, intern=TRUE, ignore.stderr=ignore.stderr)))
 
-	rtmpfl1 <- ifelse(.Platform$OS.type == "windows", 
+	rtmpfl1 <- ifelse(.Platform$OS.type == "windows" &&
+                (Sys.getenv("OSTYPE") == "cygwin"), 
 		system(paste("cygpath -w", gtmpfl1, sep=" "), intern=TRUE), 
 		gtmpfl1)
 
@@ -174,7 +183,8 @@ writeRAST6 <- function(x, vname, zcol = 1, NODATA=-9999,
 	
 	res <- writeBinGrid(x, rtmpfl11, attr = zcol, na.value = NODATA)
 
-	cmd <- paste("r.in.bin ", res$flag, " input=", gtmpfl11, " output=", 
+	cmd <- paste(paste("r.in.bin", .addexe(), sep=""),
+                " ", res$flag, " input=", gtmpfl11, " output=", 
 		vname, " bytes=", res$bytes, " north=", res$north, 
 		" south=", res$south, " east=", res$east, " west=", 
 		res$west, " rows=", res$rows, " cols=", res$cols, " anull=", 
