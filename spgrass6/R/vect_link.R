@@ -45,7 +45,7 @@ readVECT6 <- function(vname, type=NULL, remove.duplicates=TRUE, ignore.stderr = 
 	if (remove.duplicates && type != "point") {
 		dups <- duplicated(slot(res, "data"))
 		if (any(dups)) {
-			ndata <- as(res, "data.frame")[!dups,]
+			ndata <- as(res, "data.frame")[!dups,,drop=FALSE]
 			row.names(ndata) <- ndata$cat
 			if (type == "area") {
 				pls <- slot(res, "polygons")
