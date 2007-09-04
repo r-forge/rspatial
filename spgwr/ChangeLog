@@ -1,3 +1,8 @@
+2007-08-23 11:16  rsbivand
+
+	* ChangeLog, R/gwr.whole.test.R, inst/ChangeLog, man/gw.adapt.Rd:
+	  weights
+
 2007-08-23 09:41  rsbivand
 
 	* ChangeLog, DESCRIPTION, INDEX, R/gwr.R, R/gwr.whole.test.R,

@@ -1,3 +1,8 @@
+2007-08-23 09:37  rsbivand
+
+	* ChangeLog, DESCRIPTION, inst/ChangeLog, man/areapl.Rd,
+	  man/n2dist.Rd: n2dist docs
+
 2007-04-23 06:48  rsbivand
 
 	* DESCRIPTION, INDEX, R/khat.S, man/khat.Rd: wrong polygon on khat
