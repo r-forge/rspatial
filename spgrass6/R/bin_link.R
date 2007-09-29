@@ -132,6 +132,10 @@ readBinGrid <- function(fname, colname=basename(fname),
 	lres$skipbytes <- as.integer(lres$skipbytes)
 	lres$nodata <- ifelse(integer, as.integer(lres$nodata), 
 		as.numeric(lres$nodata))
+	lres$byteorder <- as.character(lres$byteorder)
+	endian <- .Platform$endian
+	if ((endian == "little" && lres$byteorder == "M") ||
+		(endian == "big" && lres$byteorder == "I")) endian <- "swap"
 	con <- file(paste(fname, "wld", sep="."), "r")
 	l6 <- readLines(con, n=6)
 	close(con)
@@ -144,7 +148,8 @@ readBinGrid <- function(fname, colname=basename(fname),
 	what <- ifelse(integer, "integer", "double")
 	n <- lres$nrows * lres$ncols
 	size <- lres$nbits/8
-	map <- readBin(fname, what=what, n=n, size=size, signed=TRUE)
+	map <- readBin(fname, what=what, n=n, size=size, signed=TRUE,
+		endian=endian)
 	is.na(map) <- map == lres$nodata
 	grid = GridTopology(c(lres$w_cc, lres$s_cc), 
 		c(lres$ewres, lres$nsres), c(lres$ncols,lres$nrows))
