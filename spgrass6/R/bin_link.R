@@ -160,7 +160,19 @@ readBinGrid <- function(fname, colname=basename(fname),
 	} else {
 		df1 <- data.frame(df)
 	}
-	res <- SpatialGridDataFrame(grid, data = df1, proj4string=proj4string)
+# long processing time 071006
+        pts = sp:::boguspoints(grid)
+	pts@bbox[,1] = pts@bbox[,1] - 0.5 * grid@cellsize
+	pts@bbox[,2] = pts@bbox[,2] + 0.5 * grid@cellsize
+	res <- new("SpatialGridDataFrame")
+        slot(res, "data") <- df1
+	slot(res, "grid") <- grid
+        slot(res, "grid.index") <- integer(0)
+        slot(res, "coords") <- slot(pts, "coords")
+        slot(res, "bbox") <- slot(pts, "bbox")
+        slot(res, "proj4string") <- proj4string
+
+#	res <- SpatialGridDataFrame(grid, data = df1, proj4string=proj4string)
 	res
 }
 
