@@ -17,7 +17,7 @@
   \code{readVECT6} moves one GRASS 6.0 vector object file with attribute data through a temporary shapefile to a Spatial*DataFrame object of type determined by the GRASS 6.0 vector object; \code{writeVECT6} moves a Spatial*DataFrame object through a temporary shapefile to a GRASS vector object file. \code{vect2neigh} returns neighbour pairs with shared boundary length as described by Markus Neteler, in \url{https://stat.ethz.ch/pipermail/r-sig-geo/2005-October/000616.html}.
 }
 \usage{
-readVECT6(vname, type=NULL, remove.duplicates = TRUE, ignore.stderr = FALSE, with_prj=TRUE)
+readVECT6(vname, type=NULL, remove.duplicates = TRUE, ignore.stderr = FALSE, with_prj=TRUE, with_c=FALSE)
 writeVECT6(SDF, vname, factor2char = TRUE, v.in.ogr_flags="", ignore.stderr = FALSE)
 vInfo(vname, ignore.stderr = FALSE)
 vColumns(vname, ignore.stderr = TRUE)
@@ -35,6 +35,7 @@ getSites6(vname, ignore.stderr = FALSE, with_prj=TRUE)
   \item{remove.duplicates}{In line and area vector objects, multiple geometrical features may be associated with a single cat number, leading to duplication of data rows; this argument attempts to combine the geometrical features so that they match a single data row}
   \item{ignore.stderr}{default FALSE, can be set to TRUE to silence \code{system} output to standard error; does not apply on Windows platforms}
   \item{with_prj}{default TRUE, write ESRI-style PRJ file for transfered data}
+  \item{with_c}{if TRUE, export features with category (labeled) only; by default all features are exported}
   \item{SDF}{A Spatial*DataFrame to be moved to GRASS6 as a vector object, for SpatialPointsDataFrame, SpatialLinesDataFrame, and SpatialPolygonsDataFrame objects}
   \item{factor2char}{logical, default TRUE, convert factor columns to character
 }

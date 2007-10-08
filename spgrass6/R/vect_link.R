@@ -1,7 +1,7 @@
 # Interpreted GRASS 6 interface functions
 # Copyright (c) 2005-7 Roger S. Bivand
 #
-readVECT6 <- function(vname, type=NULL, remove.duplicates=TRUE, ignore.stderr = FALSE, with_prj=TRUE) {
+readVECT6 <- function(vname, type=NULL, remove.duplicates=TRUE, ignore.stderr = FALSE, with_prj=TRUE, with_c=FALSE) {
 
 	vinfo <- vInfo(vname)
 	types <- names(vinfo)[which(vinfo > 0)]
@@ -29,6 +29,7 @@ readVECT6 <- function(vname, type=NULL, remove.duplicates=TRUE, ignore.stderr = 
 
 	if (with_prj) E <- " -e"
 	else E <- ""
+	if (with_c) E <- paste(E, " -c")
 
 	cmd <- paste(paste("v.out.ogr", .addexe(), sep=""),
                 " ", E, " input=", vname, " type=", type, 

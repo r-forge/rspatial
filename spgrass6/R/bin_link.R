@@ -72,26 +72,34 @@ readRAST6 <- function(vname, cat=NULL, ignore.stderr = FALSE, NODATA=-9999) {
 	}
 
 	if (!is.null(cat)) {
+		cmd <- paste("g.version", .addexe())
+		tull <- ifelse(.Platform$OS.type=="windows",
+			Gver <- system(cmd, intern=TRUE), 
+			Gver <- system(cmd, intern=TRUE, 
+			ignore.stderr=ignore.stderr))
+		G63 <- Gver > "GRASS 6.2"
 		for (i in seq(along=cat)) {
 			if (cat[i] && is.integer(resa@data[[i]])) {
 
 # note --q in 6.3.cvs
-				cmd <- paste(paste("r.stats", .addexe(),
+				if (G63) cmd <- paste(paste("r.stats", 
+				    .addexe(), sep=""), "-l --q", vname[i])
+				else cmd <- paste(paste("r.stats", .addexe(),
                                     sep=""), "-l -q", vname[i])
 
 				tull <- ifelse(.Platform$OS.type=="windows",
 				    rSTATS <- system(cmd, intern=TRUE), 
 				    rSTATS <- system(cmd, intern=TRUE, 
 				    ignore.stderr=ignore.stderr))
-				if ((length(rSTATS) == 0)
-                                    || (length(grep("Sorry", rSTATS[1])) > 0)) {
-				    cmd <- paste(paste("r.stats", .addexe(),
-                                        sep=""), "-l --q", vname[i])
-				    tull <- ifelse(.Platform$OS.type=="windows",
-				    rSTATS <- system(cmd, intern=TRUE),
-				    rSTATS <- system(cmd, intern=TRUE,
-				    ignore.stderr=ignore.stderr))
-				}
+#				if ((length(rSTATS) == 0)
+#                                    || (length(grep("Sorry", rSTATS[1])) > 0)) {
+#				    cmd <- paste(paste("r.stats", .addexe(),
+#                                        sep=""), "-l --q", vname[i])
+#				    tull <- ifelse(.Platform$OS.type=="windows",
+#				    rSTATS <- system(cmd, intern=TRUE),
+#				    rSTATS <- system(cmd, intern=TRUE,
+#				    ignore.stderr=ignore.stderr))
+#				}
 
 				cats <- strsplit(rSTATS, " ")
 				catnos <- sapply(cats, function(x) x[1])
@@ -160,19 +168,19 @@ readBinGrid <- function(fname, colname=basename(fname),
 	} else {
 		df1 <- data.frame(df)
 	}
-# long processing time 071006
-        pts = sp:::boguspoints(grid)
-	pts@bbox[,1] = pts@bbox[,1] - 0.5 * grid@cellsize
-	pts@bbox[,2] = pts@bbox[,2] + 0.5 * grid@cellsize
-	res <- new("SpatialGridDataFrame")
-        slot(res, "data") <- df1
-	slot(res, "grid") <- grid
-        slot(res, "grid.index") <- integer(0)
-        slot(res, "coords") <- slot(pts, "coords")
-        slot(res, "bbox") <- slot(pts, "bbox")
-        slot(res, "proj4string") <- proj4string
+# long processing time 071006 - solution centralised in sp
+#        pts = sp:::boguspoints(grid)
+#	pts@bbox[,1] = pts@bbox[,1] - 0.5 * grid@cellsize
+#	pts@bbox[,2] = pts@bbox[,2] + 0.5 * grid@cellsize
+#	res <- new("SpatialGridDataFrame")
+#        slot(res, "data") <- df1
+#	slot(res, "grid") <- grid
+#        slot(res, "grid.index") <- integer(0)
+#        slot(res, "coords") <- slot(pts, "coords")
+#        slot(res, "bbox") <- slot(pts, "bbox")
+#        slot(res, "proj4string") <- proj4string
 
-#	res <- SpatialGridDataFrame(grid, data = df1, proj4string=proj4string)
+	res <- SpatialGridDataFrame(grid, data = df1, proj4string=proj4string)
 	res
 }
 

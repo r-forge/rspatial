@@ -56,8 +56,16 @@ if (nchar(Sys.getenv("GISRC")) > 0) {
   spear <- readRAST6(c("geology", "elevation.dem"), cat=c(TRUE, FALSE),
     ignore.stderr=TRUE)
   table(spear$geology)
-  if (Sys.getenv("OSTYPE") == "msys") system("r.stats.exe -q -cl geology")
-  else system("r.stats -q -cl geology")
+  if (Sys.getenv("OSTYPE") == "msys")
+    Gver <- system("g.version.exe", intern=TRUE)
+  else Gver <- system("g.version", intern=TRUE)
+  if (Gver > "GRASS 6.2") {
+    if (Sys.getenv("OSTYPE") == "msys") system("r.stats.exe --q -cl geology")
+    else system("r.stats --q -cl geology")
+  } else {
+    if (Sys.getenv("OSTYPE") == "msys") system("r.stats.exe -q -cl geology")
+    else system("r.stats -q -cl geology")
+  }
   boxplot(spear$elevation.dem ~ spear$geology)
   spear$sqdem <- sqrt(spear$elevation.dem)
   writeRAST6(spear, "sqdemSP", zcol="sqdem", NODATA=-9999.99, ignore.stderr=TRUE)
