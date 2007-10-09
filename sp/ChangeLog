@@ -1,3 +1,35 @@
+2007-10-09 09:57  rsbivand
+
+	* DESCRIPTION, man/meuse.Rd, man/meuse.grid.Rd, man/meuse.riv.Rd,
+	  tests/fail1.Rout.save, tests/grid.Rout.save,
+	  tests/spplot.Rout.save: docType
+
+2007-10-06 23:46  rsbivand
+
+	* R/SpatialGrid-methods.R: new() mess in SpatialGrid
+
+2007-06-28 10:23  edzer
+
+	* CHANGES, R/Class-SpatialLines.R, R/spsample.R:
+	  Class-SpatialLines.R: removed check that a line needs at least 2
+	  points, otherwise, map2SpatialLines in maptools would need
+	  modification; spsample.R: added correct area computation,
+	  subtracting holes to get better estimate of sampling density.
+
+2007-06-04 14:45  edzer
+
+	* man/image.Rd: added link to r-sig-geo mail for image legend
+
+2007-06-04 14:24  edzer
+
+	* DESCRIPTION, R/SpatialGridDataFrame-methods.R, R/image.R,
+	  man/image.Rd: version update; cbind for SGDF now keeps
+	  proj4string (but does not check equality); typo in Rd
+
+2007-06-04 11:47  rsbivand
+
+	* ChangeLog, inst/ChangeLog: Changelog
+
 2007-06-04 10:28  rsbivand
 
 	* R/image.R, man/image.Rd: image col=
