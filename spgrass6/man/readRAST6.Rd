@@ -19,8 +19,8 @@ Read GRASS 6 raster files from GRASS 6 into R SpatialGridDataFrame objects, and 
 
 }
 \usage{
-readRAST6(vname, cat=NULL, ignore.stderr = FALSE, NODATA=-9999)
-writeRAST6(x, vname, zcol = 1, NODATA=-9999, ignore.stderr = FALSE)
+readRAST6(vname, cat=NULL, ignore.stderr = FALSE, NODATA=NULL)
+writeRAST6(x, vname, zcol = 1, NODATA=NULL, ignore.stderr = FALSE)
 %rast.get6(vname, cat=NULL, ignore.stderr = FALSE)
 %rast.put6(x, vname, zcol = 1, NODATA=-9999, ignore.stderr = FALSE)
 %readCELL6sp(vname, cat=NULL, ignore.stderr = FALSE)
@@ -38,16 +38,15 @@ writeRAST6(x, vname, zcol = 1, NODATA=-9999, ignore.stderr = FALSE)
   \item{ignore.stderr}{default FALSE, can be set to TRUE to silence \code{system()} output to standard error; does not apply on Windows platforms}
   \item{x}{A SpatialGridDataFrame object for export to GRASS as a raster layer}
   \item{zcol}{Attribute column number or name}
-  \item{NODATA}{NODATA value}
+  \item{NODATA}{by default NULL, in which case it is set to one less than \code{floor()}of the data values, otherwise an integer NODATA value (required to be integer by GRASS r.out.bin)}
 %  \item{colname}{alternative name for data column if not file basename}
 %  \item{integer}{logical value: TRUE if the input data is integer}
 }
 
 \value{
-\code{readRAST6} returns a SpatialGridDataFrame objects with an AttributeList in the data slots, and with the projection argument set.
+\code{readRAST6} returns a SpatialGridDataFrame objects with an data.frame in the data slots, and with the projection argument set. Note that the projection argument set is the the GRASS rendering of proj4, and will differ from the WKT/ESRI rendering returned by readVECT6 in form but not meaning. They are exchangeable but not textually identical, usually with the +ellps= term replaced by ellipsoid parameters verbatim.
 }
 
-\note{In readRAST6, when any cat= argument values are TRUE, it may appear that a system call to r.stats has failed. This is caused by the existence of older and newer GRASS 6 versions, using -q or --q as quiet flags. If -q fails, --q is tried, so the error message will be seen on newer GRASS 6 installations. If it is found an inconvenience, the ignore.stderr argument should be set to TRUE.}
 
 \author{Roger S. Bivand, e-mail: \email{Roger.Bivand@nhh.no}}
 
@@ -68,7 +67,7 @@ if (nchar(Sys.getenv("GISRC")) > 0) {
   }
   boxplot(spear$elevation.dem ~ spear$geology)
   spear$sqdem <- sqrt(spear$elevation.dem)
-  writeRAST6(spear, "sqdemSP", zcol="sqdem", NODATA=-9999.99, ignore.stderr=TRUE)
+  writeRAST6(spear, "sqdemSP", zcol="sqdem", ignore.stderr=TRUE)
   if (Sys.getenv("OSTYPE") == "msys")
     system("r.info.exe sqdemSP", ignore.stderr=TRUE)
   else system("r.info sqdemSP", ignore.stderr=TRUE)
@@ -82,7 +81,7 @@ if (nchar(Sys.getenv("GISRC")) > 0) {
   else system("r.stats -c quads0", ignore.stderr=TRUE)
   quads0 <- readRAST6("quads0", ignore.stderr=TRUE)
   table(quads0$quads0)
-  quads0 <- readRAST6("quads0", ignore.stderr=TRUE, NODATA=0)
+  quads0 <- readRAST6("quads0", ignore.stderr=TRUE)
   table(quads0$quads0)
   if (Sys.getenv("OSTYPE") == "msys") system("g.remove.exe rast=quads0")
   else system("g.remove rast=quads0")

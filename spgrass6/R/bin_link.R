@@ -2,7 +2,8 @@
 # Copyright (c) 2005-7 Roger S. Bivand
 #
 
-readRAST6 <- function(vname, cat=NULL, ignore.stderr = FALSE, NODATA=-9999) {
+readRAST6 <- function(vname, cat=NULL, ignore.stderr = FALSE, 
+	NODATA=NULL) {
 	if (!is.null(cat))
 		if(length(vname) != length(cat)) 
 			stop("vname and cat not same length")
@@ -34,9 +35,34 @@ readRAST6 <- function(vname, cat=NULL, ignore.stderr = FALSE, NODATA=-9999) {
 		gtmpfl11 <- paste(gtmpfl1, vname[i], sep=.Platform$file.sep)
 		rtmpfl11 <- paste(rtmpfl1, vname[i], sep=.Platform$file.sep)
 
+# 071009 Markus Neteler's idea to use range
+		if (is.null(NODATA)) {
+		    cmd <- paste(paste("r.info", .addexe(), sep=""),
+                        " -r", vname[i])
+
+		    tull <- ifelse(.Platform$OS.type == "windows", 
+			tx <- system(cmd, intern=TRUE), 
+			tx <- system(cmd, intern=TRUE, 
+			ignore.stderr=ignore.stderr))
+		    tx <- gsub("=", ":", tx)
+		    con <- textConnection(tx)
+		    res <- read.dcf(con)
+		    close(con)
+		    lres <- as.list(res)
+		    names(lres) <- colnames(res)
+		    lres$min <- floor(as.double(lres$min))
+		    vNODATA <- floor(lres$min) - 1
+		} else {
+		    if (!is.finite(NODATA) || !is.numeric(NODATA))
+			stop("invalid NODATA value")
+		    if (NODATA != round(NODATA)) 
+			warning("NODATA rounded to integer")
+		    vNODATA <- round(NODATA)
+		}
+
 		cmd <- paste(paste("r.out.bin", .addexe(), sep=""),
                     " -b input=", vname[i], " output=", gtmpfl11,
-                    " null=", NODATA, sep="")
+                    " null=", vNODATA, sep="")
 
 # 061107 Dylan Beaudette NODATA
 
@@ -176,8 +202,9 @@ readBinGrid <- function(fname, colname=basename(fname),
 	res
 }
 
-writeRAST6 <- function(x, vname, zcol = 1, NODATA=-9999, 
+writeRAST6 <- function(x, vname, zcol = 1, NODATA=NULL, 
 	ignore.stderr = FALSE) {
+
 
 	pid <- round(runif(1, 1, 1000))
 	cmd <- paste(paste("g.tempfile", .addexe(), sep=""),
@@ -215,7 +242,7 @@ writeRAST6 <- function(x, vname, zcol = 1, NODATA=-9999,
 	invisible(res)
 }
 
-writeBinGrid <- function(x, fname, attr = 1, na.value = -9999) { 
+writeBinGrid <- function(x, fname, attr = 1, na.value = NULL) { 
 	if (!gridded(x))
 		stop("can only write SpatialGridDataFrame objects to binary grid")
 	x = as(x, "SpatialGridDataFrame")
@@ -225,12 +252,21 @@ writeBinGrid <- function(x, fname, attr = 1, na.value = -9999) {
 	z = x@data[[attr]]
 	if (is.factor(z)) z <- as.numeric(z)
 	if (!is.numeric(z)) stop("only numeric values may be exported")
-	res <- list()
-	res$anull <- formatC(na.value, format="f")
-	if (is.integer(z)) {
-		na.value <- as.integer(na.value)
-		res$anull <- formatC(as.integer(na.value), format="d")
+	if (is.null(na.value)) {
+		na.value <- floor(min(z, na.rm=TRUE)) - 1
+	} else {
+		if (!is.finite(na.value) || !is.numeric(na.value))
+			stop("invalid NODATA value")
+		if (na.value != round(na.value)) 
+			warning("NODATA rounded to integer")
+		na.value <- round(na.value)
 	}
+	res <- list()
+	res$anull <- formatC(na.value, format="d")
+#	if (is.integer(z)) {
+#		na.value <- as.integer(na.value)
+#		res$anull <- formatC(as.integer(na.value), format="d")
+#	}
 	z[is.na(z)] = na.value
 	if (storage.mode(z) == "integer") {
 		sz <- 4
