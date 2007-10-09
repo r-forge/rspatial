@@ -1,3 +1,20 @@
+2007-10-08 20:26  rsbivand
+
+	* DESCRIPTION, R/bin_link.R, R/vect_link.R, man/readRAST6.Rd,
+	  man/readVECT6.Rd: added -c option to readVECT6
+
+2007-10-06 23:31  rsbivand
+
+	* R/bin_link.R: new() mess in readRAST6
+
+2007-09-29 18:36  rsbivand
+
+	* R/bin_link.R: bin endian
+
+2007-09-04 14:54  rsbivand
+
+	* ChangeLog, DESCRIPTION, inst/ChangeLog: Changelog
+
 2007-09-03 21:03  rsbivand
 
 	* R/vect_link.R: drop bug in readVECT6

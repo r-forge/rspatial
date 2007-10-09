@@ -148,11 +148,7 @@ readFLOAT6sp <- function(vname, ignore.stderr = FALSE) {
 			names(lst) <- onames
 			for (i in 1:ncols) lst[[i]] <- resa@data[[i]]
 			lst[[ncols+1]] <- res@data[[1]]
-			if (.sp_lt_0.9()) {
-				df <- AttributeList(lst)
-			} else {
-				df <- data.frame(lst)
-			}
+			df <- data.frame(lst)
 			resa <- SpatialGridDataFrame(grid=grida, 
 				data=df, proj4string=p4)
 		}
@@ -232,12 +228,6 @@ writeRast6sp <- function(x, vname, zcol = 1, NODATA=-9999, ignore.stderr = FALSE
 	unlink(rtmpfl1)
 }
 
-
-.sp_lt_0.9 <- function() {
-    sI <- sessionInfo(package="sp")
-    spver <- sI$otherPkgs$sp$Version
-    as.numeric(substring(spver, 1, 3)) < 0.9
-}
 
 .addexe <- function() {
     res <- ""
