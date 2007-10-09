@@ -1,3 +1,8 @@
+2007-10-09 10:34  rsbivand
+
+	* ChangeLog, DESCRIPTION, R/bin_link.R, R/spgrass6.R,
+	  inst/ChangeLog: tidy
+
 2007-10-08 20:26  rsbivand
 
 	* DESCRIPTION, R/bin_link.R, R/vect_link.R, man/readRAST6.Rd,
