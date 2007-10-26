@@ -7,8 +7,14 @@
 #model = "permut", "multinom", "poisson", "negbin"
 
 #Returns some of the parameters needed by boot.
-dotest<-function(stat, d, model, R, ...)
+dotest<-function(formula, stat, d, model, R, ..., alternative=NULL)
 {
+	#Check that the formula makes sense, data exists, etc.
+
+	mf<-model.frame(formula, d)
+	d$Observed<- model.response(mf)
+	d$Expected<- exp(model.offset(mf))
+
 	#Type of bootstrap
 	if(model=="permut")
 	{
@@ -39,68 +45,69 @@ dotest<-function(stat, d, model, R, ...)
 	}
 
 	result$statistic<-p$statistic
+	result$alternative<-alternative
 
 	class(result)<-"dcluster"
 	return(result)
 }
 
-achisq.test<-function(d, model, R, ...)
+achisq.test<-function(formula, d, model, R, ...)
 {
 	ifelse(length(list(...))>0,
-		return(dotest("achisq", d, model, R, ...)),
-		return(dotest("achisq", d, model, R))
+		return(dotest(formula,"achisq", d, model, R, ...)),
+		return(dotest(formula,"achisq", d, model, R))
 	)
 }
 
 
-pottwhitt.test<-function(d, model, R, ...)
+pottwhitt.test<-function(formula, d, model, R, ...)
 {
 	ifelse(length(list(...))>0,
-		return(dotest("pottwhitt", d, model, R, ...)),
-		return(dotest("pottwhitt", d, model, R))
+		return(dotest(formula,"pottwhitt", d, model, R, ...)),
+		return(dotest(formula,"pottwhitt", d, model, R))
 	)
 }
 
 
-moranI.test<-function(d, model, R, ...)
+moranI.test<-function(formula, d, model, R, ...)
 {
 	ifelse(length(list(...))>0,
-		return(dotest("moranI", d, model, R, ...)),
-		return(dotest("moranI", d, model, R))
+		return(dotest(formula,"moranI", d, model, R, ...)),
+		return(dotest(formula,"moranI", d, model, R))
 	)
 }
 
-gearyc.test<-function(d, model, R, ...)
+gearyc.test<-function(formula, d, model, R, ...)
 {
 	ifelse(length(list(...))>0,
-		return(dotest("gearyc", d, model, R, ...)),
-		return(dotest("gearyc", d, model, R))
-	)
-}
-
-
-tango.test<-function(d, model, R, ...)
-{
-	ifelse(length(list(...))>0,
-		return(dotest("tango", d, model, R, ...)),
-		return(dotest("tango", d, model, R))
-	)
-}
-
-whittermore.test<-function(d, model, R, ...)
-{
-	ifelse(length(list(...))>0,
-		return(dotest("whittermore", d, model, R, ...)),
-		return(dotest("whittermore", d, model, R))
+		return(dotest(formula,"gearyc", d, model, R, ...)),
+		return(dotest(formula,"gearyc", d, model, R))
 	)
 }
 
 
-stone.test<-function(d, model, R, ...)
+tango.test<-function(formula, d, model, R, ...)
 {
 	ifelse(length(list(...))>0,
-		return(dotest("stone", d, model, R, ...)),
-		return(dotest("stone", d, model, R))
+		return(dotest(formula,"tango", d, model, R, ...)),
+		return(dotest(formula,"tango", d, model, R))
+	)
+}
+
+whittermore.test<-function(formula, d, model, R, ...)
+{
+	ifelse(length(list(...))>0,
+		return(dotest(formula,"whittermore", d, model, R, ...)),
+		return(dotest(formula,"whittermore", d, model, R))
+	)
+}
+
+
+stone.test<-function(formula, d, model, R, ...)
+{
+	ifelse(length(list(...))>0,
+		return(dotest(formula,"stone", d, model, R, ...)),
+		return(dotest(formula,"stone", d, model, R))
 	)
 }
 
@@ -146,7 +153,8 @@ if("dcluster"==cl)
 	"moranI"="Moran's I test of spatial autocorrelation",
 	"gearyc"="Geary's c test of spatial autocorrelation",
 	"whittermore"="Whittermore's test of global clustering",
-	"tango"="Tango's test of global clustering"
+	"tango"="Tango's test of global clustering",
+	"stone"="Stone's Test for raised incidence around locations"
 	)
 
 	#Sampling model
@@ -164,8 +172,31 @@ if("dcluster"==cl)
 		model<-"permutation"
 	}
 	
+	if(is.null(b$alternative))
+	{
 
-	pvalue<-(1+sum(as.numeric(b$t0)<as.numeric(b$t)))/(b$R+1)
+		alt<-switch(test,
+	        "achisq"="greater",
+	        "pottwhitt"="greater",
+	        "moranI"="greater",
+	        "gearyc"="greater",
+	        "whittermore"="two.sided",
+	        "tango"="two.sided",
+		"stone"="greater"
+	        )
+	}
+	else
+	{
+		alt<-b$alternative
+	}
+
+	pvalue<-switch(alt,
+		"less"=(1+sum(as.numeric(b$t0)>as.numeric(b$t)))/(b$R+1),
+		"greater"=(1+sum(as.numeric(b$t0)<as.numeric(b$t)))/(b$R+1),
+		"two.sided"=( 1+ (sum(-abs(as.numeric(b$t0))>as.numeric(b$t))) +  (sum(abs(as.numeric(b$t0))>as.numeric(b$t)))  )/(b$R+1)
+	)
+
+	#pvalue<-(1+sum(as.numeric(b$t0)<as.numeric(b$t)))/(b$R+1)
 
 	cat(title, '\n\n')
 	cat("\tType of boots.:", b$sim,'\n')
