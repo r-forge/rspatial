@@ -33,7 +33,7 @@ a row number of \emph{data}.}
 DCluster
 }
 
-\example{
+\examples{
 library(spdep)
 
 data(nc.sids)
