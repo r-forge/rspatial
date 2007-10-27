@@ -7,13 +7,13 @@
 #model = "permut", "multinom", "poisson", "negbin"
 
 #Returns some of the parameters needed by boot.
-dotest<-function(formula, stat, d, model, R, ..., alternative=NULL)
+dotest<-function(formula, stat, data, model, R, ..., alternative=NULL)
 {
 	#Check that the formula makes sense, data exists, etc.
 
-	mf<-model.frame(formula, d)
-	d$Observed<- model.response(mf)
-	d$Expected<- exp(model.offset(mf))
+	mf<-model.frame(formula, data)
+	data$Observed<- model.response(mf)
+	data$Expected<- exp(model.offset(mf))
 
 	#Type of bootstrap
 	if(model=="permut")
@@ -35,10 +35,10 @@ dotest<-function(formula, stat, d, model, R, ..., alternative=NULL)
 
 	#Do the test!!
 	if(is.null(p$ran.gen))
-		result<-boot(d, statistic=get(p$statistic), R=R, ...)
+		result<-boot(data, statistic=get(p$statistic), R=R, ...)
 	else
 	{
-		result<-boot(d, statistic=get(p$statistic), 
+		result<-boot(data, statistic=get(p$statistic), 
 		  sim=p$sim, ran.gen=get(p$ran.gen), R=R, ...)
 		result$sim<-p$sim
 		result$ran.gen<-p$ran.gen
@@ -51,63 +51,63 @@ dotest<-function(formula, stat, d, model, R, ..., alternative=NULL)
 	return(result)
 }
 
-achisq.test<-function(formula, d, model, R, ...)
+achisq.test<-function(formula, data, model, R, ...)
 {
 	ifelse(length(list(...))>0,
-		return(dotest(formula,"achisq", d, model, R, ...)),
-		return(dotest(formula,"achisq", d, model, R))
+		return(dotest(formula,"achisq", data, model, R, ...)),
+		return(dotest(formula,"achisq", data, model, R))
 	)
 }
 
 
-pottwhitt.test<-function(formula, d, model, R, ...)
+pottwhitt.test<-function(formula, data, model, R, ...)
 {
 	ifelse(length(list(...))>0,
-		return(dotest(formula,"pottwhitt", d, model, R, ...)),
-		return(dotest(formula,"pottwhitt", d, model, R))
+		return(dotest(formula,"pottwhitt", data, model, R, ...)),
+		return(dotest(formula,"pottwhitt", data, model, R))
 	)
 }
 
 
-moranI.test<-function(formula, d, model, R, ...)
+moranI.test<-function(formula, data, model, R, ...)
 {
 	ifelse(length(list(...))>0,
-		return(dotest(formula,"moranI", d, model, R, ...)),
-		return(dotest(formula,"moranI", d, model, R))
+		return(dotest(formula,"moranI", data, model, R, ...)),
+		return(dotest(formula,"moranI", data, model, R))
 	)
 }
 
-gearyc.test<-function(formula, d, model, R, ...)
+gearyc.test<-function(formula, data, model, R, ...)
 {
 	ifelse(length(list(...))>0,
-		return(dotest(formula,"gearyc", d, model, R, ...)),
-		return(dotest(formula,"gearyc", d, model, R))
-	)
-}
-
-
-tango.test<-function(formula, d, model, R, ...)
-{
-	ifelse(length(list(...))>0,
-		return(dotest(formula,"tango", d, model, R, ...)),
-		return(dotest(formula,"tango", d, model, R))
-	)
-}
-
-whittermore.test<-function(formula, d, model, R, ...)
-{
-	ifelse(length(list(...))>0,
-		return(dotest(formula,"whittermore", d, model, R, ...)),
-		return(dotest(formula,"whittermore", d, model, R))
+		return(dotest(formula,"gearyc", data, model, R, ...)),
+		return(dotest(formula,"gearyc", data, model, R))
 	)
 }
 
 
-stone.test<-function(formula, d, model, R, ...)
+tango.test<-function(formula, data, model, R, ...)
 {
 	ifelse(length(list(...))>0,
-		return(dotest(formula,"stone", d, model, R, ...)),
-		return(dotest(formula,"stone", d, model, R))
+		return(dotest(formula,"tango", data, model, R, ...)),
+		return(dotest(formula,"tango", data, model, R))
+	)
+}
+
+whittermore.test<-function(formula, data, model, R, ...)
+{
+	ifelse(length(list(...))>0,
+		return(dotest(formula,"whittermore", data, model, R, ...)),
+		return(dotest(formula,"whittermore", data, model, R))
+	)
+}
+
+
+stone.test<-function(formula, data, model, R, ...)
+{
+	ifelse(length(list(...))>0,
+		return(dotest(formula,"stone", data, model, R, ...)),
+		return(dotest(formula,"stone", data, model, R))
 	)
 }
 
