@@ -24,9 +24,13 @@ achisq.test(formula, data, model, R, ...)
 \arguments{
 \item{formula}{Formula that specifies the underlying model. The observed
 cases are the response and the expected number of cases must be specified
-as an offset in the log scale (see example below).}
+as an offset in the log scale (see example below).  Note that now it
+is not necessary to use Observed and Expected and that any other 
+names can be used to specify the observed and expected cases.
+}
 \item{model}{Parametric model to be used in the bootstrap test. One of
-"param", "multinom", "poisson" or "negbin". See the \bold{DCluster}manpage for details.}
+"param", "multinom", "poisson" or "negbin". See the \bold{DCluster} manpage for
+details.}
 \item{...}{The remaining arguments in 'achisq.stat' not included in
 'achisq.test'. This is done so because achisq.test calls achisq.stat in order to perform the test.}
 \item{R}{Number of replicates used in the test to compute the significance of
