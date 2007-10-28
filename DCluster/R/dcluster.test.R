@@ -118,17 +118,17 @@ stone.test<-function(formula, data, model, R, ...)
 
 
 #This function can be used to display results in a boot object
-dcluster.test<-function(b)
-{
-	a<-b
-	p<-as.character(b$call)
-
-	a$statistic<-p[3]
-	a$ran.gen<-p[6]
-
-	class(a)<-"dcluster"
-	summary(a)
-}
+#dcluster.test<-function(b)
+#{
+#	a<-b
+#	p<-as.character(b$call)
+#
+#	a$statistic<-p[3]
+#	a$ran.gen<-p[6]
+#
+#	class(a)<-"dcluster"
+#	summary(a)
+#}
 
 
 summary.dcluster<-function(object, ...)
@@ -178,10 +178,10 @@ if("dcluster"==cl)
 		alt<-switch(test,
 	        "achisq"="greater",
 	        "pottwhitt"="greater",
-	        "moranI"="greater",
-	        "gearyc"="greater",
-	        "whittermore"="two.sided",
-	        "tango"="two.sided",
+	        "moranI"="two.sided",
+	        "gearyc"="two.sided",
+	        "whittermore"="greater",
+	        "tango"="greater",
 		"stone"="greater"
 	        )
 	}
@@ -193,7 +193,7 @@ if("dcluster"==cl)
 	pvalue<-switch(alt,
 		"less"=(1+sum(as.numeric(b$t0)>as.numeric(b$t)))/(b$R+1),
 		"greater"=(1+sum(as.numeric(b$t0)<as.numeric(b$t)))/(b$R+1),
-		"two.sided"=( 1+ (sum(-abs(as.numeric(b$t0))>as.numeric(b$t))) +  (sum(abs(as.numeric(b$t0))>as.numeric(b$t)))  )/(b$R+1)
+		"two.sided"=( 1+ (sum((-abs(as.numeric(b$t0-mean(b$t))))>as.numeric(b$t-mean(b$t)))) +  (sum(abs(as.numeric(b$t0-mean(b$t)))<as.numeric(b$t-mean(b$t))))  )/(b$R+1)
 	)
 
 	#pvalue<-(1+sum(as.numeric(b$t0)<as.numeric(b$t)))/(b$R+1)
