@@ -83,7 +83,9 @@ summary.Spatial = function(object, ...) {
 	if (is(object, "SpatialGrid"))
 		obj[["grid"]] = gridparameters(object)
 	if ("data" %in% slotNames(object))
-        obj[["data"]] = summary(object@data)
+	    if (ncol(object@data) > 1)
+                obj[["data"]] = summary(object@data)
+            else obj[["data"]] = summary(object@data[[1]])
     class(obj) = "summary.Spatial"
     obj
 }
@@ -220,3 +222,5 @@ setReplaceMethod("$", c("Spatial", "character", "ANY"),
 		x 
 	}
 )
+
+
