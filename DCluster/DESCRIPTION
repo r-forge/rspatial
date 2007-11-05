@@ -1,9 +1,10 @@
 Package: DCluster
-Version: 0.1-5
-Date: 2005-11-16
+Version: 0.1-6
+Date: 2007-11-06
 Title: Functions for the detection of spatial clusters of diseases
-Author: Virgilio GÃ³mez-Rubio, Juan FerrÃ¡ndiz-Ferragud and Antonio LÃ³pez-QuÃ­lez, with contributions by Roger Bivand.
-Maintainer: Virgilio GÃ³mez-Rubio <v.gomezrubio@imperial.ac.uk>
+Encoding: latin1
+Author: Virgilio Gómez-Rubio, Juan Ferrándiz-Ferragud and Antonio López-Quílez, with contributions by Roger Bivand.
+Maintainer: Virgilio Gómez-Rubio <v.gomezrubio@imperial.ac.uk>
 Depends: R (>= 1.6.2), boot, spdep
 Description: A set of functions for the detection of spatial
  clusters of disease using count data. Bootstrap is used to estimate sampling
