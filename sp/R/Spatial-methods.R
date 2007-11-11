@@ -1,3 +1,7 @@
+Spatial <- function(bbox, proj4string = CRS(as.character(NA))) {
+        new("Spatial", bbox=bbox, proj4string=proj4string)
+}
+
 if (!isGeneric("bbox"))
 	setGeneric("bbox", function(obj)
 		standardGeneric("bbox"))
