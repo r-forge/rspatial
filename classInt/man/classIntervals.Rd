@@ -18,7 +18,7 @@ nPartitions(x)
 \arguments{
   \item{var}{a continuous numerical variable}
   \item{n}{number of classes required, if missing, \code{nclass.Sturges} is used}
-  \item{style}{chosen style: one of "fixed", "sd", "equal", "pretty", "quantile", "kmeans", "hclust", "bclust", or "fisher"}
+  \item{style}{chosen style: one of "fixed", "sd", "equal", "pretty", "quantile", "kmeans", "hclust", "bclust", "fisher", or "jenks"}
   \item{rtimes}{number of replications of var to catenate and jitter; may be used with styles "kmeans" or "bclust" in case they have difficulties reaching a classification}
   \item{\dots}{arguments to be passed to the functions called in each style}
   \item{x}{"classIntervals" object for printing or plotting}
@@ -47,6 +47,8 @@ nPartitions(x)
   The "bclust" style uses \code{bclust} to generate the breaks using bagged clustering; it may be anchored using \code{set.seed}; the \code{pars} attribute returns the bclust object generated, and can be used to find other breaks using \code{getBclustClassIntervals}; if \code{bclust} fails, a jittered input vector containing \code{rtimes} replications of \code{var} is tried --- with few unique values in \code{var}, this can prove necessary; arguments to \code{bclust} may be passed through \code{\dots}.
 
   The "fisher" style uses the algorithm proposed by W. D. Fisher (1958) and discussed by Slocum et al. (2005) as the Fisher-Jenks algorithm; added here thanks to Hisaji Ono.
+ 
+  The "jenks" style has been ported from Jenks' Basic code, and has been checked for consistency with ArcView, ArcGIS, and MapInfo (with some remaining differences); added here thanks to Hisaji Ono.
 }
 
 \value{
@@ -67,7 +69,7 @@ nPartitions(x)
 \examples{
 data(jenks71)
 pal1 <- c("wheat1", "red3")
-opar <- par(mfrow=c(3,3))
+opar <- par(mfrow=c(2,3))
 plot(classIntervals(jenks71$jenks71, n=5, style="fixed", fixedBreaks=c(15.57, 25, 50, 75, 100, 155.30)), pal=pal1, main="Fixed")
 plot(classIntervals(jenks71$jenks71, n=5, style="sd"), pal=pal1, main="Pretty standard deviations")
 plot(classIntervals(jenks71$jenks71, n=5, style="equal"), pal=pal1, main="Equal intervals")
@@ -79,6 +81,7 @@ plot(classIntervals(jenks71$jenks71, n=5, style="hclust", method="single"), pal=
 set.seed(1)
 plot(classIntervals(jenks71$jenks71, n=5, style="bclust", verbose=FALSE), pal=pal1, main="Bagged cluster")
 plot(classIntervals(jenks71$jenks71, n=5, style="fisher"), pal=pal1, main="Fisher's method")
+plot(classIntervals(jenks71$jenks71, n=5, style="jenks"), pal=pal1, main="Jenks' method")
 par(opar)
 classIntervals(jenks71$jenks71, n=5, style="fixed", fixedBreaks=c(15.57, 25, 50, 75, 100, 155.30))
 classIntervals(jenks71$jenks71, n=5, style="sd")
@@ -92,6 +95,7 @@ set.seed(1)
 classIntervals(jenks71$jenks71, n=5, style="bclust", verbose=FALSE)
 classIntervals(jenks71$jenks71, n=5, style="bclust", hclust.method="complete", verbose=FALSE)
 classIntervals(jenks71$jenks71, n=5, style="fisher")
+classIntervals(jenks71$jenks71, n=5, style="jenks")
 }
 \keyword{spatial}
 

@@ -158,6 +158,50 @@ classIntervals <- function(var, n, style="quantile", rtimes=3, ...) {
       for (i in n:1) brks <- c(brks, (pars[i,2]+pars[(i-1),1])/2)
       brks <- c(brks, pars[1,2])
       colnames(pars) <- c("min", "max", "class mean", "class sd")
+    } else if (style == "jenks") { # Jenks Optimisation Method
+           d <- sort(var)
+           k <- n
+           #work<-matrix(0,k,length(d))
+           mat1 <- matrix(1, length(d), k)
+           mat2 <- matrix(0, length(d), k)
+           mat2[2:length(d),1:k] <- .Machine$double.xmax #R's max double value?
+           v<-0
+
+           for(l in 2:length(d)){
+             s1=s2=w=0
+             for(m in 1:l){
+               i3 <- l - m + 1
+               val <- d[i3]
+               s2 <- s2 + val * val
+               s1 <- s1 + val
+               w<-w+1
+               v <- s2 - (s1 * s1) / w
+               i4 <- trunc(i3 - 1)
+
+               if(i4 !=0){
+                 for(j in 2:k){
+                   if(mat2[l,j] >= (v + mat2[i4, j - 1])){
+                     mat1[l,j] <- i3
+                     mat2[l,j] <- v + mat2[i4, j - 1]
+                   }
+                 }
+               }
+             }
+             mat1[l,1] <- 1
+             mat2[l,1] <- v
+           }
+
+           kclass<-1:k
+           kclass[k] <- length(d)
+           k <- length(d)
+           last<-length(d)
+           for(j in length(kclass):1){
+             id <- trunc(mat1[k,j]) - 1
+             kclass[j - 1] <- id
+             k <- id #lower
+             last <- k -1 #upper
+           }
+           brks<-d[c(1, kclass)]
     } else stop(paste(style, "unknown"))
   }
   if (is.null(brks)) stop("Null breaks")
