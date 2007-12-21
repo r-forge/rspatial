@@ -1,7 +1,17 @@
+2007-12-21 13:58  rsbivand
+
+	* DESCRIPTION: release
+
+2007-12-20 13:06  edzer
+
+	* man/overlay.Rd: overlay doc warning on r-devel; description was
+	  missing
+
 2007-12-17 12:54  rsbivand
 
 	* R/point.in.polygon.R, man/point.in.polygon.Rd, src/init.c,
-	  src/pip2.c, src/sp.h: bbox in p-in-p
+	  src/pip2.c, src/sp.h, ChangeLog, DESCRIPTION, inst/ChangeLog:
+	  bbox in p-in-p
 
 2007-11-11 19:17  rsbivand
 
