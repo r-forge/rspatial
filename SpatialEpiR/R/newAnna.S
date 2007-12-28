@@ -46,7 +46,8 @@ Edhat <- function(pts1, pts2, poly, s, k) {
       bgu = as.double(bgu),
       bgv = as.double(bgv),
       bgw = as.double(bgw),
-            as.integer(k))
+            as.integer(k),
+		PACKAGE="SpatialEpiR" )
 
   answer <- slist[[15]]
 
@@ -101,7 +102,8 @@ Vdhat <- function(pts1, pts2, poly, s, k) {
                as.double(Z),
                as.double(a),
                as.double(b),
-               as.double(e))
+               as.double(e),
+		PACKAGE="SpatialEpiR" )
 
     answer <- ulist[[12]]
   } else if (k==3) {
@@ -140,7 +142,8 @@ Vdhat <- function(pts1, pts2, poly, s, k) {
                as.double(h),
                as.double(o),
                as.double(p),
-               as.double(q))
+               as.double(q),
+		PACKAGE="SpatialEpiR" )
 
     answer <- tlist[[18]]
   } else stop("This function is only defined for tuplesizes of 2 and 3\n")

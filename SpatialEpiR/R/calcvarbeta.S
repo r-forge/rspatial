@@ -125,7 +125,8 @@ calcvarbeta <- function(pts, poly, cc, h, matched, nsim, covmat=NULL, sztup=NA,
                          as.integer(innermax),
                          as.numeric(tolbeta),
                          as.numeric(tolg),
-                         as.integer(randomseed) )
+                         as.integer(randomseed),
+			 PACKAGE="SpatialEpiR" )
 
   truensim <- sum(outbetamcmc$Isucc)
   cat("\nNOTE: in total",truensim,"of the",nsim,"surfaces converged\n")

@@ -129,7 +129,8 @@ fitsmacc <- function(pts, poly, cc, hvals, matched, covmat = NULL, sztup = NA, e
                              as.integer(outermax),
                              as.integer(innermax),
                              as.double(tolbeta),
-                             as.double(tolg))
+                             as.double(tolg),
+				PACKAGE="SpatialEpiR")
 
   # Unscaling of the estimated beta-values is performed!!
   if (scale) {

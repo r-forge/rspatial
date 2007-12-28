@@ -140,7 +140,8 @@ tolsmacc <- function(pts, poly, cc, h, matched, nsim, surfacels, meansurface, tz
                         as.integer(innermax),
                         as.double(tolbeta),
                         as.double(tolg),
-                        as.integer(randomseed))
+                        as.integer(randomseed),
+				PACKAGE="SpatialEpiR" )
 
   truensim <- sum(outmcmc$Isucc)
   cat("\nNOTE: in total", truensim, "of the", nsim,"surfaces converged\n")

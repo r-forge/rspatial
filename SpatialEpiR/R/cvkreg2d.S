@@ -21,7 +21,8 @@ cvkreg2d <- function(pts, h, y, w = rep(1, length(y))) {
                                 as.single(y),
                                 as.single(w),
                                 as.integer(n),
-                           cv = as.single(0))
+                           cv = as.single(0),
+				PACKAGE="SpatialEpiR")
   ans <- result$cv
   ans
 }

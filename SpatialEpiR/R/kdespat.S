@@ -122,7 +122,8 @@ kdespat <- function(pts, h, poly = NA, kernel = "normal", grid = T, x = NA,
                                     nx = as.integer(nx),
                                      y = as.single(y),
                                     ny = as.integer(ny),
-                                  zmat = zmat)
+                                  zmat = zmat,
+					PACKAGE="SpatialEpiR" )
       }
       if (kernel == "quartic") {
         result <- .Fortran("kdesr5", h = as.single(h),
@@ -133,7 +134,8 @@ kdespat <- function(pts, h, poly = NA, kernel = "normal", grid = T, x = NA,
                                     nx = as.integer(nx),
                                      y = as.single(y),
                                     ny = as.integer(ny),
-                                  zmat = zmat)
+                                  zmat = zmat,
+					PACKAGE="SpatialEpiR" )
       }
       fhat <- result$zmat
       if (edge == T) {
@@ -179,7 +181,8 @@ kdespat <- function(pts, h, poly = NA, kernel = "normal", grid = T, x = NA,
                                     nr = as.integer(nr),
                                      x = as.single(x),
                                      y = as.single(y),
-                                    nx = as.integer(nx))
+                                    nx = as.integer(nx),
+					PACKAGE="SpatialEpiR" )
       }
       if (kernel == "quartic") {
         result <- .Fortran("kdesr6", h = as.single(h),
@@ -188,7 +191,8 @@ kdespat <- function(pts, h, poly = NA, kernel = "normal", grid = T, x = NA,
                                     nr = as.integer(nr),
                                      x = as.single(x),
                                      y = as.single(y),
-                                    nx = as.integer(nx))
+                                    nx = as.integer(nx),
+					PACKAGE="SpatialEpiR" )
       }
       fhat <- result$x
       if (edge == T) {

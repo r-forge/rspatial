@@ -66,7 +66,8 @@ keredgecor <- function(h, poly, x, y, kernel = "normal", rings = 10, denspts = 1
                                 as.integer(Ikernel),
                                 as.integer(rings),
                                 as.integer(denspts),
-                      edgevec = as.numeric(edgevec))
+                      edgevec = as.numeric(edgevec),
+				PACKAGE="SpatialEpiR" )
 
     answer <- outedge$edgevec
   }

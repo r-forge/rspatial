@@ -35,7 +35,8 @@ kerreg2d <- function(pts, h, y, w = rep(1, length(y)), poly = NA, x = pts,
                                x2 = as.single(x2),
                              yans = as.single(yans),
                                 m = as.integer(m),
-                               df = as.single(0))
+                               df = as.single(0),
+				PACKAGE="SpatialEpiR" )
     ans <- list(vals = result$yans, df = result$df)
   }
   if (grid) {
@@ -73,7 +74,8 @@ kerreg2d <- function(pts, h, y, w = rep(1, length(y)), poly = NA, x = pts,
                                 zmat = zmat,
                                lpmat = lpmat,
                                   m1 = as.integer(m1),
-                                  m2 = as.integer(m2))
+                                  m2 = as.integer(m2),
+					PACKAGE="SpatialEpiR" )
     z         <- result$zmat
     z[z == 0] <- NA
     ans       <- list(x = x1, y = x2, z = z)
