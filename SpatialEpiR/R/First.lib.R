@@ -3,8 +3,8 @@
 #
 .First.lib <- function(lib,pkg)
 {
-  cat("\nEpiR alpha-test version\n")
-  library.dynam("EpiR", pkg, lib)
+  cat("\nSPatialEpiR alpha-test version\n")
+  library.dynam("SpatialEpiR", pkg, lib)
   invisible(0)
 }
 
