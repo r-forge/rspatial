@@ -1,0 +1,9 @@
+Package: SpatialEpiR
+Version: 0.0.1
+Title: SpatialEpiR: matched case-control spatial analysis
+Author: M. Jarner, P. Diggle, B. Rowlingson
+Maintainer: Virgilio Gomez-Rubio <v.gomezrubio@imperial.ac.uk>
+Description: This package was originally names EpiR and it 
+  was developed by  M. Jarner, P. Diggle, B. Rowlingson, S. Morris
+  and others. It implements matched case-control spatial point-pattern analysis
+License: GPL Version 2 or later.
