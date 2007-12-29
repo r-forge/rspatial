@@ -22,7 +22,7 @@ siggam <- function(formula, cc, pts, poly, start, prev.sims = NULL)
         h                <- start$h
 
         why              <- cc
-        simcase          <- sample(1:length(why), size = sum(why), replace = F, prob =
+        simcase          <- sample(1:length(why), size = sum(why), replace = FALSE, prob =
                                    null.prob)
         simwhy           <- rep(0, length(why))
         simwhy[simcase]  <- 1

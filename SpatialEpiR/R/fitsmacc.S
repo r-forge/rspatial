@@ -4,8 +4,8 @@
 
 # Last modified: Fri 4-8-00
 
-fitsmacc <- function(pts, poly, cc, hvals, matched, covmat = NULL, sztup = NA, edge = T,
-        scale = F, ngrid = 4000, outermax = 50, innermax = 100, tolbeta = 1e-05,
+fitsmacc <- function(pts, poly, cc, hvals, matched, covmat = NULL, sztup = NA, edge = TRUE,
+        scale = FALSE, ngrid = 4000, outermax = 50, innermax = 100, tolbeta = 1e-05,
         tolg = 0.1, rings = 10, denspts = 10 * rings) {
 
 # This function estimates the parameters and the risk-surface in the GAM described
@@ -157,9 +157,9 @@ fitsmacc <- function(pts, poly, cc, hvals, matched, covmat = NULL, sztup = NA, e
   }
 
   surface     <- kerreg2d(pts, outsmacc$hopt, outsmacc$s, w = w, poly = poly,
-                          grid = T, ngrid = ngrid)
+                          grid = TRUE, ngrid = ngrid)
   ptssurface  <- kerreg2d(pts, outsmacc$hopt, outsmacc$s, w = w,
-                          poly = poly, x = pts, grid = F)
+                          poly = poly, x = pts, grid = FALSE)
   meansurface <- mean(ptssurface$vals)
   test        <- mean((ptssurface$vals - meansurface) * (ptssurface$vals - meansurface))
   result      <- list(s = outsmacc$s, w = outsmacc$w, surface = surface,

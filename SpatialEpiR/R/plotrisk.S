@@ -1,7 +1,7 @@
 # Last modified 10-8-00
 
 plotrisk <- function(risk, zlim, clevels = default, tolvals = c(0.025, 0.975),
-                     toptitle = NA, pval = F) {
+                     toptitle = NA, pval = FALSE) {
 
 # Julia Kelsall
 # Sara Morris (1995)
@@ -22,20 +22,20 @@ plotrisk <- function(risk, zlim, clevels = default, tolvals = c(0.025, 0.975),
 
   default <- c(-20, -15, -10, -8, -6, -5, -4, seq(-3, 3, 0.5), 4, 5, 6, 8, 10, 15, 20)
   if (missing(zlim)) {
-    zl    <- quantile(as.vector(risk$est$z), c(0.25, 0.75), na.rm = T)
+    zl    <- quantile(as.vector(risk$est$z), c(0.25, 0.75), na.rm = TRUE)
     zlim  <- c(2 * zl[1], 10 * zl[2])
   }
   risk$est$z[(risk$est$z) > (zlim[2])] <- zlim[2]
   par(pty = "s", font = 3)
   pointmap(risk$poly, type = "n", cex = 0.7)
-  image(risk$est, add = T, zlim = zlim)
-  polymap(risk$poly, add = T)
-  contour(risk$est, lwd = 0.1, cex = 0.4, levels = clevels, add = T, lty = 2)
+  image(risk$est, add = TRUE, zlim = zlim)
+  polymap(risk$poly, add = TRUE)
+  contour(risk$est, lwd = 0.1, cex = 0.4, levels = clevels, add = TRUE, lty = 2)
   if ((tolvals[1] == 0.025) & (tolvals[2] == 0.975)) {
-    contour(risk, levels = 0.975, cex = 0.001, lwd = 3, add = T, lty = 1)
-    contour(risk, levels = 0.025, cex = 0.001, lwd = 3, add = T, lty = 3)
+    contour(risk, levels = 0.975, cex = 0.001, lwd = 3, add = TRUE, lty = 1)
+    contour(risk, levels = 0.025, cex = 0.001, lwd = 3, add = TRUE, lty = 3)
   } else {
-    contour(risk, levels = tolvals, cex = 0.7, lwd = 3, add = T, lty = 3)
+    contour(risk, levels = tolvals, cex = 0.7, lwd = 3, add = TRUE, lty = 3)
   }
   if (is.na(toptitle)) {
     toptitle <- " "

@@ -15,12 +15,12 @@ tolplot <- function(fitout, tolout, poly, toptext = "") {
   pval       <- tolout$pval
   risklist   <- list(x = gridx, y = gridy, z = tolmat, est = fitsurface,
                      poly = poly, pval = pval)
-  valuerange <- range(fitsurface$z, na.rm = T)
+  valuerange <- range(fitsurface$z, na.rm = TRUE)
 
-  plotrisk(risklist, zlim = valuerange, pval = T, toptitle = toptext)
+  plotrisk(risklist, zlim = valuerange, pval = TRUE, toptitle = toptext)
 
-  subtext    <- paste("range=(", round(range(fitsurface$z, na.rm = T)[1],digits = 2),
-                   ",", round(range(fitsurface$z, na.rm = T)[2],digits = 2),
+  subtext    <- paste("range=(", round(range(fitsurface$z, na.rm = TRUE)[1],digits = 2),
+                   ",", round(range(fitsurface$z, na.rm = TRUE)[2],digits = 2),
                    ")", sep = "")
   title(sub = subtext, cex = 0.8)
 }

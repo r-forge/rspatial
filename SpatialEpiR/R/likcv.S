@@ -23,10 +23,10 @@ likcv <- function(pts1, pts2, h, kernel = "normal") {
   data2x <- pts2[, 1]
   data2y <- pts2[, 2]
   n2     <- length(data2x)
-  fdata1 <- kdespat(pts1, h, kernel = kernel, grid = F, x = data1x, y = data1y)$z
-  fdata2 <- kdespat(pts1, h, kernel = kernel, grid = F, x = data2x, y = data2y)$z
-  gdata1 <- kdespat(pts2, h, kernel = kernel, grid = F, x = data1x, y = data1y)$z
-  gdata2 <- kdespat(pts2, h, kernel = kernel, grid = F, x = data2x, y = data2y)$z
+  fdata1 <- kdespat(pts1, h, kernel = kernel, grid = FALSE, x = data1x, y = data1y)$z
+  fdata2 <- kdespat(pts1, h, kernel = kernel, grid = FALSE, x = data2x, y = data2y)$z
+  gdata1 <- kdespat(pts2, h, kernel = kernel, grid = FALSE, x = data1x, y = data1y)$z
+  gdata2 <- kdespat(pts2, h, kernel = kernel, grid = FALSE, x = data2x, y = data2y)$z
   if (kernel == "normal") {
     hbit <- 1/(2 * pi * h^2)
   }

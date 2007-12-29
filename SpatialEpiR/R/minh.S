@@ -1,6 +1,6 @@
 # Last modified 10-8-00
 
-minh <- function(pts1, pts2, hvals, kernel = "normal", graph = T) {
+minh <- function(pts1, pts2, hvals, kernel = "normal", graph = TRUE) {
 
 # Sara Morris (1996)
 # Runs the function likcv on a vector of h values and singles out the one that
@@ -19,9 +19,9 @@ minh <- function(pts1, pts2, hvals, kernel = "normal", graph = T) {
   }
   if (graph) {
     plot(hvals, lik.cv, type = "b")
-    if ((min(lik.cv, na.rm = T) <= 1) & (max(lik.cv, na.rm = T) >= 1)) abline(h = 1, lty = 2)
+    if ((min(lik.cv, na.rm = TRUE) <= 1) & (max(lik.cv, na.rm = TRUE) >= 1)) abline(h = 1, lty = 2)
   }
-  hmin   <- hvals[lik.cv == min(lik.cv, na.rm = T)]
+  hmin   <- hvals[lik.cv == min(lik.cv, na.rm = TRUE)]
   cat("The minimising h value is ", hmin, "\n")
   answer <- list(hvalues = hvals, cv = lik.cv, hopt = hmin)
   answer

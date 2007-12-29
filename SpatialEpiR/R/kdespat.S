@@ -1,7 +1,7 @@
 # Last modified: 10-8-00
 
-kdespat <- function(pts, h, poly = NA, kernel = "normal", grid = T, x = NA,
-                    y = NA, nx = NA, ny = NA, edge = T, scale = T,
+kdespat <- function(pts, h, poly = NA, kernel = "normal", grid = TRUE, x = NA,
+                    y = NA, nx = NA, ny = NA, edge = TRUE, scale = TRUE,
                     innerpoly = NA, rings = 10, npt = 10*rings) {
 
 # Julia Kelsall (1995)
@@ -52,12 +52,12 @@ kdespat <- function(pts, h, poly = NA, kernel = "normal", grid = T, x = NA,
       stop("\nThere are observations outside the polygon\n")
   }
   if (!pol) {
-    edge  <- F
+    edge  <- FALSE
     # can't do edge corrections if no polygon
-    scale <- F
+    scale <- FALSE
     # can't scale either
     if ((is.na(x[1])) & (is.na(nx))) {
-      grid   <- T
+      grid   <- TRUE
       xrange <- (max(rx) - min(rx) + 4 * h)
       xmin   <- min(rx) - 2 * h
       nx     <- max(20, ceiling(xrange/(h/2)))
@@ -69,8 +69,8 @@ kdespat <- function(pts, h, poly = NA, kernel = "normal", grid = T, x = NA,
     }
   }
   if ((pol) & (is.na(x[1])) & (is.na(nx))) {
-    edge   <- T
-    scale  <- T
+    edge   <- TRUE
+    scale  <- TRUE
     xmin   <- min(poly[, 1])
     xmax   <- max(poly[, 1])
     ymin   <- min(poly[, 2])
@@ -82,7 +82,7 @@ kdespat <- function(pts, h, poly = NA, kernel = "normal", grid = T, x = NA,
     x      <- ((1:nx) - 1/2)/nx * xrange + xmin
     y      <- ((1:ny) - 1/2)/ny * yrange + ymin
   }
-  if (grid == T) {
+  if (grid == TRUE) {
     if (is.na(x[1])) {
       xmin   <- min(poly[, 1])
       xmax   <- max(poly[, 1])
@@ -105,11 +105,12 @@ kdespat <- function(pts, h, poly = NA, kernel = "normal", grid = T, x = NA,
     if (pol & (h == Inf)) {
       ans$z  <- matrix(1/areapl(poly), nrow = nx, ncol = ny)
       xyvec  <- cbind(rep(x, ny), rep(y, rep(nx, ny)))
-      lpmat1 <- matrix(inout(xyvec, poly), nrow = nx, ncol = ny, byrow = F)
+      lpmat1 <- matrix(inout(xyvec, poly), nrow = nx, ncol = ny, byrow = FALSE)
       ans$z[!lpmat1] <- NA
     } else {
-      if (edge == T) {
-        edgexy <- keredgecor(h, poly, x, y, kernel, grid, innerpoly, rings, npt)
+      if (edge == TRUE) {
+#        edgexy <- keredgecor(h, poly, x, y, kernel, grid, innerpoly, rings, npt)
+        edgexy <- keredgecor(h, poly, x, y, kernel, rings, npt)
       }
       zmat <- matrix(0, nrow = nx, ncol = ny)
       storage.mode(zmat) <- "single"
@@ -138,25 +139,25 @@ kdespat <- function(pts, h, poly = NA, kernel = "normal", grid = T, x = NA,
 					PACKAGE="SpatialEpiR" )
       }
       fhat <- result$zmat
-      if (edge == T) {
+      if (edge == TRUE) {
         fhat <- fhat/edgexy
       }
-      if (scale == F) {
+      if (scale == FALSE) {
         ans$z     <- fhat
         ans$scale <- NULL
       } else {
-        scal      <- mean(fhat, na.rm = T) * areapl(poly)
+        scal      <- mean(fhat, na.rm = TRUE) * areapl(poly)
         ans$z     <- fhat/scal
         ans$scale <- scal
       }
-      if (pol & (edge == F)) {
+      if (pol & (edge == FALSE)) {
         xyvec          <- cbind(rep(x, ny), rep(y, rep(nx, ny)))
-        lpmat1         <- matrix(inout(xyvec, poly), nrow = nx, ncol = ny, byrow = F)
+        lpmat1         <- matrix(inout(xyvec, poly), nrow = nx, ncol = ny, byrow = FALSE)
         ans$z[!lpmat1] <- NA
       }
     }
   }
-  if (grid == F) {
+  if (grid == FALSE) {
     nx <- length(x)
     if (!(nx == length(y)))
       stop("\n The vectors x and y are of different lengths\n"
@@ -171,8 +172,9 @@ kdespat <- function(pts, h, poly = NA, kernel = "normal", grid = T, x = NA,
       lpin1         <- inout(cbind(x, y), poly)
       ans$z[!lpin1] <- NA
     } else {
-      if (edge == T) {
-        edgexy <- keredgecor(h, poly, x, y, kernel, grid, innerpoly, rings, npt)
+      if (edge == TRUE) {
+#        edgexy <- keredgecor(h, poly, x, y, kernel, grid, innerpoly, rings, npt)
+        edgexy <- keredgecor(h, poly, x, y, kernel, rings, npt)
       }
       if (kernel == "normal") {
         result <- .Fortran("kdesr3", h = as.single(h),
@@ -195,11 +197,11 @@ kdespat <- function(pts, h, poly = NA, kernel = "normal", grid = T, x = NA,
 					PACKAGE="SpatialEpiR" )
       }
       fhat <- result$x
-      if (edge == T) {
+      if (edge == TRUE) {
         fhat <- fhat/edgexy
       }
       ans$z <- fhat
-      if (pol & (edge == F)) {
+      if (pol & (edge == FALSE)) {
         lpin1         <- inout(cbind(x, y), poly)
         ans$z[!lpin1] <- NA
       }

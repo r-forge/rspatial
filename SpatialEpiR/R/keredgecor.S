@@ -28,18 +28,18 @@ keredgecor <- function(h, poly, x, y, kernel = "normal", rings = 10, denspts = 1
   else if (kernel=="quartic") Ikernel=2
   else stop("The function is only defined for kernel='normal' and kernel='quartic'\n")
 
-  rect <- F
+  rect <- FALSE
   if (length(poly[,1] == 4)) {
     if ((poly[1,1] == poly[2,1]) & (poly[2,2] == poly[3,2]) &
       (poly[3,1] == poly[4,1]) & (poly[4,2] == poly[1,2])) {
-      rect <- T
+      rect <- TRUE
     }
     if ((poly[1,2] == poly[2,2]) & (poly[2,1] == poly[3,1]) &
       (poly[3,2] == poly[4,2]) & (poly[4,1] == poly[1,1])) {
-      rect <- T
+      rect <- TRUE
     }
   }
-  if ((rect == T) && (Ikernel==1)) {   # If rectangular polygon with normal kernel
+  if ((rect == TRUE) && (Ikernel==1)) {   # If rectangular polygon with normal kernel
     xmin   <- min(poly[, 1])          # the analytical solution is used.
     xmax   <- max(poly[, 1])
     ymin   <- min(poly[, 2])

@@ -1,7 +1,7 @@
 # Last modified: wed 9-8-00
 
 tolsmacc <- function(pts, poly, cc, h, matched, nsim, surfacels, meansurface, tzero,
-                     covmat = NULL, sztup = NA, edge = T, scale = F, outermax = 50,
+                     covmat = NULL, sztup = NA, edge = TRUE, scale = FALSE, outermax = 50,
                      innermax = 100, tolbeta = 1e-05, tolg = 0.1, rings = 10,
                      denspts = 10 * rings, randomseed = -3547547) {
 
@@ -147,7 +147,7 @@ tolsmacc <- function(pts, poly, cc, h, matched, nsim, surfacels, meansurface, tz
   cat("\nNOTE: in total", truensim, "of the", nsim,"surfaces converged\n")
   probvec  <- outmcmc$prob
   probvec[(Ipoly < 1)] = NA
-  probmat  <- matrix(probvec, nrow = nx, ncol = ny, byrow = F)
+  probmat  <- matrix(probvec, nrow = nx, ncol = ny, byrow = FALSE)
   ranking  <- sum(outmcmc$test[(outmcmc$Isucc == 1)] > tzero)
   # number of t's larger than tzero
   pvalue   <- (ranking + 1)/(truensim + 1)

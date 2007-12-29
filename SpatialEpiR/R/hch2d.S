@@ -1,6 +1,6 @@
 # Last modified: 10-8-00
 
-hch2d <- function(pts, hvals, y, w = rep(1, length(y)), quiet = T) {
+hch2d <- function(pts, hvals, y, w = rep(1, length(y)), quiet = TRUE) {
 
 # Julia Kelsall and Sara Morris
 # Runs the function cvkreg2d on a vector of h values and singles out the one that
@@ -90,7 +90,7 @@ hch2d <- function(pts, hvals, y, w = rep(1, length(y)), quiet = T) {
     }
   }
   if (any(is.na(cv))) warning("One of CV values is an NA")
-  opt <- (1:nh)[cv == min(cv, na.rm = T)]
+  opt <- (1:nh)[cv == min(cv, na.rm = TRUE)]
   ans <- hvals[sort(opt)]
   if  (length(ans) > 1)
     ans <- (max(ans))

@@ -1,7 +1,7 @@
 # Last modified: Wed 9-8-00
 
 calcvarbeta <- function(pts, poly, cc, h, matched, nsim, covmat=NULL, sztup=NA,
-                        edge=T, scale=F, outermax=50, innermax=100, tolbeta=1e-5,
+                        edge=TRUE, scale=FALSE, outermax=50, innermax=100, tolbeta=1e-5,
                         tolg=1e-1, rings=10, denspts=10*rings, randomseed=-3547547) {
 
   # This function estimates the variances of the linear parameters in the GAM

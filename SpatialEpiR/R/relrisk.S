@@ -1,6 +1,6 @@
 # Last modified: 10-8-00
 
-relrisk <- function(pts1, pts2, poly, h1, h2 = h1, grid = T, ngrid = 500,
+relrisk <- function(pts1, pts2, poly, h1, h2 = h1, grid = TRUE, ngrid = 500,
                     points = NA, kernel = "normal") {
 
 # Julia Kelsall (1995)
@@ -35,17 +35,17 @@ relrisk <- function(pts1, pts2, poly, h1, h2 = h1, grid = T, ngrid = 500,
     x        <- seq(xmin + xlength/(2 * nx), xmax - xlength/(2 * nx), length = nx)
     y        <- seq(ymin + ylength/(2 * ny), ymax - ylength/(2 * ny), length = ny)
 
-    kde1     <- kdespat(pts1, h1, poly, kernel = kernel, grid = T,
-                        x = x, y = y, edge = F, scale = F)
-    kde2     <- kdespat(pts2, h2, poly, kernel = kernel, grid = T,
-                        x = x, y = y, edge = F, scale = F)
+    kde1     <- kdespat(pts1, h1, poly, kernel = kernel, grid = TRUE,
+                        x = x, y = y, edge = FALSE, scale = FALSE)
+    kde2     <- kdespat(pts2, h2, poly, kernel = kernel, grid = TRUE,
+                        x = x, y = y, edge = FALSE, scale = FALSE)
 
     ans      <- list(x = x, y = y, z = logb(kde1$z/kde2$z, base = 2))
   } else {
-    kde1 <- kdespat(pts1, h1, poly, kernel = kernel, grid = F,
-                    x = points[, 1], y = points[, 2], edge = F, scale = F)
-    kde2 <- kdespat(pts2, h2, poly, kernel = kernel, grid = F,
-                    x = points[, 1], y = points[, 2], edge = F, scale = F)
+    kde1 <- kdespat(pts1, h1, poly, kernel = kernel, grid = FALSE,
+                    x = points[, 1], y = points[, 2], edge = FALSE, scale = FALSE)
+    kde2 <- kdespat(pts2, h2, poly, kernel = kernel, grid = FALSE,
+                    x = points[, 1], y = points[, 2], edge = FALSE, scale = FALSE)
     ans  <- list(z=(logb(kde1$z, base = 2) - logb(kde2$z, base = 2)))
   }
   ans

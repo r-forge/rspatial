@@ -111,7 +111,7 @@ fitwam <- function(formula, g1, g2, z, w, fhat, phat, yvec, pts, poly,
   smooth <- kerreg2d(pts, hopt5, yvar, w)
   g2     <- smooth$vals - mean(smooth$vals)
   cat("(vi)", "\n")
-  gsmooth <- kerreg2d(pts, hopt5, yvar, w, poly = poly, grid = T, ngrid=ngrid)
+  gsmooth <- kerreg2d(pts, hopt5, yvar, w, poly = poly, grid = TRUE, ngrid=ngrid)
   fhat    <- g1 + g2
   phat    <- exp(fhat)/(1 + exp(fhat))
   w       <- phat * (1 - phat)
@@ -120,6 +120,6 @@ fitwam <- function(formula, g1, g2, z, w, fhat, phat, yvec, pts, poly,
   ans     <- list(g1 = g1, g2 = g2, zupdate = z, wupdate = w, fupdate = fhat,
                   pupdate = phat, beta = beta, hlast = hopt5,
                   g2est = list(x = gsmooth$x, y = gsmooth$y, z = gsmooth$z - mean(gsmooth$z,
-                  na.rm= T)))
+                  na.rm= TRUE)))
   ans
 }

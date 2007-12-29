@@ -1,7 +1,7 @@
 # Last modified: 10-8-00
 
 kerreg2d <- function(pts, h, y, w = rep(1, length(y)), poly = NA, x = pts,
-                     grid = F, ngrid= 1000) {
+                     grid = FALSE, ngrid= 1000) {
 
 # Julia Kelsall
 # Sara Morris
@@ -61,7 +61,7 @@ kerreg2d <- function(pts, h, y, w = rep(1, length(y)), poly = NA, x = pts,
     xyvec1   <- rep(x1, m2)
     xyvec2   <- rep(x2, rep(m1, m2))
     xyvec    <- cbind(xyvec1, xyvec2)
-    lpmat    <- matrix(inout(xyvec, poly), nrow = m1, ncol = m2, byrow = F)
+    lpmat    <- matrix(inout(xyvec, poly), nrow = m1, ncol = m2, byrow = FALSE)
     storage.mode(lpmat) <- "logical"
     result   <- .Fortran("ker2dg", h = as.single(h),
                                datx1 = as.single(datx1),
