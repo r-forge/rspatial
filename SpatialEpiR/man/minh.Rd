@@ -1,6 +1,7 @@
 \name{likcv}
 
 \alias{likcv}
+\alias{minh}
 
 \title{Calculates the likelihood cross-validation criterion}
 
