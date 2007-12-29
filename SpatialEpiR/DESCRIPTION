@@ -1,5 +1,6 @@
 Package: SpatialEpiR
 Version: 0.0.1
+Depends: splancs
 Title: SpatialEpiR: matched case-control spatial analysis
 Author: M. Jarner, P. Diggle, B. Rowlingson
 Maintainer: Virgilio Gomez-Rubio <v.gomezrubio@imperial.ac.uk>
