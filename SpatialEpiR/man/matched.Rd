@@ -2,6 +2,7 @@
 
 \alias{Edhat}
 \alias{Vdhat}
+\alias{Testdhat}
 
 \title{Difference of the K-function for matched cases and controls}
 
@@ -14,11 +15,16 @@ case-control dataset is calculated. For details see (Chetwynd et al.,
 case-control dataset with tuplesizes 2 or 3 is calculated. A general
 expression for an arbitrary number of controls per case is stated in
 (Chetwynd et al., 2001) but has not been implemented.
+
+'Testdhat' calculates the test statistic in Chetwynd et al. (2001) for a
+matched case-control study and performes a Monte Carlo test of 'no overall
+clustering' by doing 99 random relabellings of the data.
 }
 
 \usage{
 Edhat(pts1, pts2, poly, s, k)
 Vdhat(pts1, pts2, poly, s, k)
+Testdhat(pts1, pts2, poly, s, k, nrelab = 99)
 }
 
 
@@ -31,6 +37,8 @@ contain the second set of controls and so on.}
 \item{s}{A vector of distances for which the K-functions are evaluated.}
 \item{k}{The number of events in a tuple, ie. k-1 is the number of matched
 controls per case.}
+\item{nrelab}{The number of relabellings performed in the Monte Carlo
+test. The default is 99.}
 }
 
 \examples{
