@@ -26,7 +26,7 @@ surface calculated by the function relrisk and poly is a polygon which
 contains the original points.}
 \item{zlim}{The minimum and maximum level for the function image.}
 \item{clevels}{The contour levels to be plotted.}
-\item{tolvals}{The tolerance contours required - default is 95%.}
+\item{tolvals}{The tolerance contours required - default is 95\%.}
 \item{toptitle}{A title for the plot.}
 \item{pval}{Logical value. If true the overall P-value is displayed on the plot.}
 }

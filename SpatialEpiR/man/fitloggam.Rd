@@ -1,7 +1,7 @@
 \name{fitloggam}
 \alias{fitloggam}
 
-\title{}
+\title{Fits a logistic generalised additive model using Kelsall and Diggle(1998)}
 
 \description{
 Fits a logistic generalised additive model following the iterative scheme
@@ -30,7 +30,8 @@ values for h, the bandwidth parameter; eg. exp(seq(log(100),log(4000),length = 1
 \examples{
 data(southlancs)
 
-fitloggam(cc~1, cc=1-southlancs.cc, southlancs.pts, southlancs.bdy)
+fitloggam(cc~1, cc=1-southlancs.cc, hvals=1700, 
+  southlancs.pts, southlancs.bdy)
 }
 
 \references{

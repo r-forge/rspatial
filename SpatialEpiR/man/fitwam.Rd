@@ -2,7 +2,7 @@
 
 \alias{fitwam}
 
-\title{}
+\title{Fit weighted additive model using  Kelsall and Diggle(1998)}
 
 \description{
 Fits a weighted additive model for the specified adjusted dependent

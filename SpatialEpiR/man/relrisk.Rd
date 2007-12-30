@@ -49,7 +49,8 @@ contour(rr$x, rr$y, rr$z, add = TRUE, drawlabels = TRUE)
 
 
 \references{
-Kelsall, J.E. and Diggle, P.J. (1995). Nonparametric-estimation of spatial variation in relative risk. Statistics in Medicine, 14:2335–2342.
+Kelsall, J.E. and Diggle, P.J. (1995). Nonparametric-estimation of spatial
+variation in relative risk. Statistics in Medicine, 14:2335-2342.
 
 Kelsall, J. E. and Diggle, P. J. (1998). Spatial variation in risk of disease:
 A nonparametric binary regression approach. Applied Statistics, 47(4):559-573.

@@ -17,7 +17,7 @@ re-estimated surface is also returned.
 
 
 \usage{
-calcvarbeta <- function(pts, poly, cc, h, matched, nsim, covmat=NULL,
+calcvarbeta(pts, poly, cc, h, matched, nsim, covmat=NULL,
 sztup=NA, edge=TRUE, scale=FALSE, outermax=50, innermax=100, tolbeta=1e-5,
 tolg=1e-1, rings=10, denspts=10*rings, randomseed=-3547547) 
 }
@@ -44,13 +44,13 @@ tolg=1e-1, rings=10, denspts=10*rings, randomseed=-3547547)
 
 \references{
 Jarner, M.F., Diggle, P.J. (2002). EpiS: an S library on risk estimation
-and cluster detection in case–control studies. Technical Report.
+and cluster detection in case-control studies. Technical Report.
 Department of Mathematics and Statistics, University of Lancaster,
 Lancaster. http://www.maths.lancs.ac.uk/Software/epiS/epistech.ps
 
 Jarner,M.J., Diggle,P.J. and Chetwynd,A. (2002). Estimation of spatial
-variation in risk using matched case–control data. Biometrical Journal 
-44:936–945.  
+variation in risk using matched case-control data. Biometrical Journal
+44:936-945.
 
 Kelsall, J. E. and Diggle, P. J. (1998). Spatial variation in risk of
 disease: A nonparametric binary regression approach. Applied Statistics,
