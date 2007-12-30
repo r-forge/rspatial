@@ -1,7 +1,7 @@
 \name{calcvarbeta}
 \alias{calcvarbeta}
 
-\title{}
+\title{Compute variance of linear parameters in a GAM.}
 
 \description{
 This function estimates the variances of the linear parameters in the GAM
