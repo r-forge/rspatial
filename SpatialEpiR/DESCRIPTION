@@ -1,10 +1,14 @@
 Package: SpatialEpiR
 Version: 0.0.1
+Date: 2007-12-31
 Depends: splancs
 Title: SpatialEpiR: matched case-control spatial analysis
+Encoding: latin1
 Author: M. Jarner, P. Diggle, B. Rowlingson
-Maintainer: Virgilio Gomez-Rubio <v.gomezrubio@imperial.ac.uk>
+Maintainer: Virgilio Gómez-Rubio <v.gomezrubio@imperial.ac.uk>
 Description: This package was originally names EpiR and it 
   was developed by  M. Jarner, P. Diggle, B. Rowlingson, S. Morris
   and others. It implements matched case-control spatial point-pattern analysis
 License: GPL Version 2 or later.
+URL: http://www.maths.lancs.ac.uk/Software/epiS
+LazyLoad: yes
