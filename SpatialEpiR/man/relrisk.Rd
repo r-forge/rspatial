@@ -29,6 +29,11 @@ false it is evaluated in the points given in points.}
 \item{points}{A point dataset. If grid=FALSE the estimate is evaluated in these points.}
 \item{kernel}{Choice of kernel (either "normal" or "quartic").}
 }
+
+\seealso{
+plotrisk
+}
+
 \examples{
 
 data(southlancs)
@@ -41,6 +46,7 @@ image(rr)
 contour(rr$x, rr$y, rr$z, add = TRUE, drawlabels = TRUE)
 
 }
+
 
 \references{
 Kelsall, J.E. and Diggle, P.J. (1995). Nonparametric-estimation of spatial variation in relative risk. Statistics in Medicine, 14:2335–2342.
