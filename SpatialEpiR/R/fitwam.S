@@ -37,7 +37,8 @@ fitwam <- function(formula, g1, g2, z, w, fhat, phat, yvec, pts, poly,
   print(formula)
   cat("\n")
   yvar <- z - g2
-  temp <- lm(formula, weights = w)
+#  temp <- lm(formula, weights = w)
+  temp <- lm(formula, weights = w, data=data.frame(w=w, yvar=yvar))
   g1   <- fitted(temp)
   beta <- temp$coeff
   cat("beta is chosen to be ", beta, "\n")
@@ -48,7 +49,8 @@ fitwam <- function(formula, g1, g2, z, w, fhat, phat, yvec, pts, poly,
   g2     <- smooth$vals - mean(smooth$vals)
   cat("(ii)", "\n")
   yvar <- z - g2
-  temp <- lm(formula, weights = w)
+#  temp <- lm(formula, weights = w)
+  temp <- lm(formula, weights = w, data=data.frame(w=w, yvar=yvar))
   g1   <- fitted(temp)
   beta <- temp$coeff
   cat("beta is chosen to be ", beta, "\n")
@@ -64,7 +66,8 @@ fitwam <- function(formula, g1, g2, z, w, fhat, phat, yvec, pts, poly,
   g2     <- smooth$vals - mean(smooth$vals)
   cat("(iii)", "\n")
   yvar <- z - g2
-  temp <- lm(formula, weights = w)
+#  temp <- lm(formula, weights = w)
+  temp <- lm(formula, weights = w, data=data.frame(w=w, yvar=yvar))
   g1   <- fitted(temp)
   beta <- temp$coeff
   cat("beta is chosen to be ", beta, "\n")
@@ -80,7 +83,8 @@ fitwam <- function(formula, g1, g2, z, w, fhat, phat, yvec, pts, poly,
   g2     <- smooth$vals - mean(smooth$vals)
   cat("(iv)", "\n")
   yvar <- z - g2
-  temp <- lm(formula, weights = w)
+#  temp <- lm(formula, weights = w)
+  temp <- lm(formula, weights = w, data=data.frame(w=w, yvar=yvar))
   g1   <- fitted(temp)
   beta <- temp$coeff
   cat("beta is chosen to be ", beta, "\n")
@@ -96,7 +100,8 @@ fitwam <- function(formula, g1, g2, z, w, fhat, phat, yvec, pts, poly,
   g2     <- smooth$vals - mean(smooth$vals)
   cat("(v)", "\n")
   yvar <- z - g2
-  temp <- lm(formula, weights = w)
+#  temp <- lm(formula, weights = w)
+  temp <- lm(formula, weights = w, data=data.frame(w=w, yvar=yvar))
   g1   <- fitted(temp)
   beta <- temp$coeff
   cat("beta is chosen to be ", beta, "\n")
