@@ -1,6 +1,7 @@
 # Last modified: 10-8-00
 
-fitloggam <- function(formula, cc, pts, hvals, poly = unitsq, ngrid=4000) {
+#fitloggam <- function(formula, cc, pts, hvals, poly = unitsq, ngrid=4000) {
+fitloggam <- function(formula, cc, pts, hvals, poly, ngrid=4000) {
 
 # Julia Kelsall
 # Sara Morris  (1995)
