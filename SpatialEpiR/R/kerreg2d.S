@@ -55,7 +55,8 @@ kerreg2d <- function(pts, h, y, w = rep(1, length(y)), poly = NA, x = pts,
     m1       <- ceiling(sqrt((actngrid * x1length)/x2length))
     m2       <- ceiling(sqrt((actngrid * x2length)/x1length))
     zmat     <- matrix(0, m1, m2)
-    storage.mode(zmat) <- "single"
+#    storage.mode(zmat) <- "single"
+    mode(zmat) <- "single"
     x1       <- seq(x1min + x1length/(2 * m1), x1max - x1length/(2 * m1),length = m1)
     x2       <- seq(x2min + x2length/(2 * m2), x2max - x2length/(2*m2),length=m2)
     xyvec1   <- rep(x1, m2)

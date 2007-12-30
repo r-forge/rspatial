@@ -113,7 +113,8 @@ kdespat <- function(pts, h, poly = NA, kernel = "normal", grid = TRUE, x = NA,
         edgexy <- keredgecor(h, poly, x, y, kernel, rings, npt)
       }
       zmat <- matrix(0, nrow = nx, ncol = ny)
-      storage.mode(zmat) <- "single"
+#      storage.mode(zmat) <- "single"
+      mode(zmat) <- "single"
       if (kernel == "normal") {
         result <- .Fortran("kdesr2", h = as.single(h),
                                     rx = as.single(rx),
