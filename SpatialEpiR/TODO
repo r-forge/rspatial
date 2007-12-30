@@ -1,0 +1,8 @@
+(*) calcvarbeta: Fill missing sections in manual page and understand what this 
+	function does.
+
+(*) siggam: Implement a for loop to compute the p-value.
+
+(*) CHeck all functions where the cc argument is used to ensure that
+0's and 1's are always used in the same way for cases and controls
+(or viceversa).
