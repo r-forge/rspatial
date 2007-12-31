@@ -46,7 +46,7 @@ cv[bw]<- -int[bw] -(2/ncases)*sum(rcases/mcases[,1]) + (2/ncontrols)*sum(rcontro
 	print(hbw)
 	}
 
-	return(list(h, cv, int))
+	return(list(h=h, cv=cv, int=int))
 }
 
 
