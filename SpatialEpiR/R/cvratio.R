@@ -1,5 +1,5 @@
 
-cvkernratio<-function(ccpts, ncases, ncontrols, pbdry, h, gt, edge=FALSE)
+cvkernratio<-function(ccpts, ncases, ncontrols, pbdry, h, edge=TRUE)
 {
 	nh<-length(h)
 	cv<-rep(NA, nh)
@@ -11,8 +11,6 @@ cvkernratio<-function(ccpts, ncases, ncontrols, pbdry, h, gt, edge=FALSE)
 	gtfilter<-inpip(as.points(coordinates(gt)), pbdry)
 	cellsize<-prod(gt@cellsize)
 
-	setkernel("gaussian")
-	
 	for(bw in 1:nh)
 	{
 		hbw<-h[bw]
@@ -21,8 +19,10 @@ cvkernratio<-function(ccpts, ncases, ncontrols, pbdry, h, gt, edge=FALSE)
 		for(i in idxcases)
 		{
 			#print(i)
-mcases[i,1]<-lambdahat(ccpts[idxcases[-i],], hbw, matrix(ccpts[i,], ncol=2), pbdry, edge=edge)$lambda/(ncases-1)
-mcases[i,2]<-lambdahat(ccpts[idxcontrols,], hbw, matrix(ccpts[i,], ncol=2), pbdry, edge=edge)$lambda/ncontrols
+#mcases[i,1]<-lambdahat(ccpts[idxcases[-i],], hbw, matrix(ccpts[i,], ncol=2), pbdry, edge=edge)$lambda/(ncases-1)
+mcases[i,1]<-kdespat(ccpts[idxcases[-i],], hbw, poly=pbdry, grid=FALSE, x=ccpts[i,1], y=ccpts[i,2], scale=FALSE)/(ncases-1)
+#mcases[i,2]<-lambdahat(ccpts[idxcontrols,], hbw, matrix(ccpts[i,], ncol=2), pbdry, edge=edge)$lambda/ncontrols
+mcases[i,2]<-kdespat(ccpts[idxcontrols,], hbw, poly=pbdry, grid=FALSE, x=ccpts[i,1], y=ccpts[i,2], scale=FALSE)/ncontrols
 		}
 
 
@@ -30,8 +30,10 @@ mcases[i,2]<-lambdahat(ccpts[idxcontrols,], hbw, matrix(ccpts[i,], ncol=2), pbdr
 		for(i in idxcontrols)
 		{
 			#print(i)
-mcontrols[i-ncases,1]<-lambdahat(ccpts[idxcases,], hbw, matrix(ccpts[i,], ncol=2), pbdry, edge=edge)$lambda/ncases
-mcontrols[i-ncases,2]<-lambdahat(ccpts[idxcontrols[-(i-ncases)],], hbw, matrix(ccpts[i,], ncol=2), pbdry, edge=edge)$lambda/(ncontrols-1)
+#mcontrols[i-ncases,1]<-lambdahat(ccpts[idxcases,], hbw, matrix(ccpts[i,], ncol=2), pbdry, edge=edge)$lambda/ncases
+mcontrols[i-ncases,1]<-kdespat(ccpts[idxcases,], hbw, poly=pbdry, grid=FALSE, x=ccpts[i,1], y=ccpts[i,2], scale=FALSE)/ncases
+#mcontrols[i-ncases,2]<-lambdahat(ccpts[idxcontrols[-(i-ncases)],], hbw, matrix(ccpts[i,], ncol=2), pbdry, edge=edge)$lambda/(ncontrols-1)
+mcontrols[i-ncases,2]<-kdespat(ccpts[idxcontrols[-(i-ncases)],], hbw, poly=pbdry, grid=FALSE, x=ccpts[i,1], y=ccpts[i,2], scale=FALSE)/ncontrols
 		}
 
 
