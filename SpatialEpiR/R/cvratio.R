@@ -1,5 +1,6 @@
 
-cvkernratio<-function(ccpts, ncases, ncontrols, pbdry, h, edge=TRUE)
+cvkernratio<-function(ccpts, ncases, ncontrols, pbdry, h, kernel="normal", 
+   edge=TRUE)
 {
 	nh<-length(h)
 	cv<-rep(NA, nh)
@@ -7,9 +8,6 @@ cvkernratio<-function(ccpts, ncases, ncontrols, pbdry, h, edge=TRUE)
 
 	idxcases<-1:ncases
 	idxcontrols<-ncases+1:ncontrols
-
-	gtfilter<-inpip(as.points(coordinates(gt)), pbdry)
-	cellsize<-prod(gt@cellsize)
 
 	for(bw in 1:nh)
 	{
@@ -20,9 +18,9 @@ cvkernratio<-function(ccpts, ncases, ncontrols, pbdry, h, edge=TRUE)
 		{
 			#print(i)
 #mcases[i,1]<-lambdahat(ccpts[idxcases[-i],], hbw, matrix(ccpts[i,], ncol=2), pbdry, edge=edge)$lambda/(ncases-1)
-mcases[i,1]<-kdespat(ccpts[idxcases[-i],], hbw, poly=pbdry, grid=FALSE, x=ccpts[i,1], y=ccpts[i,2], scale=FALSE)/(ncases-1)
+mcases[i,1]<-kdespat(ccpts[idxcases[-i],], hbw, poly=pbdry, grid=FALSE, x=ccpts[i,1], y=ccpts[i,2], scale=FALSE, kernel=kernel, edge=edge)$z/(ncases-1)
 #mcases[i,2]<-lambdahat(ccpts[idxcontrols,], hbw, matrix(ccpts[i,], ncol=2), pbdry, edge=edge)$lambda/ncontrols
-mcases[i,2]<-kdespat(ccpts[idxcontrols,], hbw, poly=pbdry, grid=FALSE, x=ccpts[i,1], y=ccpts[i,2], scale=FALSE)/ncontrols
+mcases[i,2]<-kdespat(ccpts[idxcontrols,], hbw, poly=pbdry, grid=FALSE, x=ccpts[i,1], y=ccpts[i,2], scale=FALSE, kernel=kernel, edge=edge)$z/ncontrols
 		}
 
 
@@ -31,9 +29,9 @@ mcases[i,2]<-kdespat(ccpts[idxcontrols,], hbw, poly=pbdry, grid=FALSE, x=ccpts[i
 		{
 			#print(i)
 #mcontrols[i-ncases,1]<-lambdahat(ccpts[idxcases,], hbw, matrix(ccpts[i,], ncol=2), pbdry, edge=edge)$lambda/ncases
-mcontrols[i-ncases,1]<-kdespat(ccpts[idxcases,], hbw, poly=pbdry, grid=FALSE, x=ccpts[i,1], y=ccpts[i,2], scale=FALSE)/ncases
+mcontrols[i-ncases,1]<-kdespat(ccpts[idxcases,], hbw, poly=pbdry, grid=FALSE, x=ccpts[i,1], y=ccpts[i,2], scale=FALSE, kernel=kernel, edge=edge)$z/ncases
 #mcontrols[i-ncases,2]<-lambdahat(ccpts[idxcontrols[-(i-ncases)],], hbw, matrix(ccpts[i,], ncol=2), pbdry, edge=edge)$lambda/(ncontrols-1)
-mcontrols[i-ncases,2]<-kdespat(ccpts[idxcontrols[-(i-ncases)],], hbw, poly=pbdry, grid=FALSE, x=ccpts[i,1], y=ccpts[i,2], scale=FALSE)/ncontrols
+mcontrols[i-ncases,2]<-kdespat(ccpts[idxcontrols[-(i-ncases)],], hbw, poly=pbdry, grid=FALSE, x=ccpts[i,1], y=ccpts[i,2], scale=FALSE, kernel=kernel, edge=edge)$z/ncontrols
 		}
 
 
@@ -41,14 +39,14 @@ mcontrols[i-ncases,2]<-kdespat(ccpts[idxcontrols[-(i-ncases)],], hbw, poly=pbdry
 		rcontrols<-log(mcontrols[,1]/mcontrols[,2])
 
 #		int[bw]<-computeint(ccpts[idxcases,], ccpts[idxcontrols,], pbdry, hbw, gt, gtfilter, cellsize)
-		int[bw]<-computeint2(ccpts[idxcases,], ccpts[idxcontrols,], pbdry, hbw)
+		int[bw]<-computeint2(ccpts[idxcases,], ccpts[idxcontrols,], pbdry, hbw, kernel=kernel, edge=edge)
 
 cv[bw]<- -int[bw] -(2/ncases)*sum(rcases/mcases[,1]) + (2/ncontrols)*sum(rcontrols/mcontrols[,2])
 
 	print(hbw)
 	}
 
-	return(list(int, cv))
+	return(list(h, cv, int))
 }
 
 
@@ -119,7 +117,7 @@ mcontrols[i-ncases,2]<-lambdahat(ccpts[idxcontrols[-(i-ncases)],], hbw, matrix(c
 #Compute the integral using adapt
 
 
-logr<-function(pts, cases, controls, pbdry, bw, edge=FALSE)
+logr<-function(pts, cases, controls, pbdry, bw, kernel="normal", edge=TRUE)
 {
 
 	pts<-matrix(pts, ncol=2)
@@ -130,8 +128,13 @@ logr<-function(pts, cases, controls, pbdry, bw, edge=FALSE)
 	}
 	else
 	{
-        kcases<-lambdahat(cases, bw, pts, pbdry, edge=edge)$lambda/nrow(cases)
-        kcontrols<-lambdahat(controls, bw, pts, pbdry, edge=edge)$lambda/nrow(controls)
+        #kcases<-lambdahat(cases, bw, pts, pbdry, edge=edge)$lambda/nrow(cases)
+        kcases<-kdespat(cases, bw, poly=pbdry, grid=FALSE, x=pts[,1], 
+		y=pts[,2], scale=FALSE, kernel=kernel, edge=edge)$z/nrow(cases)
+        #kcontrols<-lambdahat(controls, bw, pts, pbdry, edge=edge)$lambda/nrow(controls)
+        kcontrols<-kdespat(controls, bw, poly=pbdry, grid=FALSE, 
+		x=pts[,1], y=pts[,2], scale=FALSE, kernel=kernel, 
+		edge=edge)$z/nrow(controls)
 
         kratio<- log(kcases/kcontrols)
 	}
@@ -142,10 +145,10 @@ logr<-function(pts, cases, controls, pbdry, bw, edge=FALSE)
 
 
 
-computeint2<-function(cases, controls, pbdry, bw)
+computeint2<-function(cases, controls, pbdry, bw, kernel="normal", edge="TRUE")
 {
 	int<-adapt(2, apply(pbdry,2,min),  apply(pbdry,2,max), functn=logr,
-		cases=cases, controls=controls, pbdry=pbdry, bw=bw)
+		cases=cases, controls=controls, pbdry=pbdry, bw=bw, kernel=kernel, edge=edge)
 
         return(int$value)
 }
