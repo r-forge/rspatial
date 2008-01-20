@@ -1,6 +1,15 @@
+2008-01-20 21:10  rsbivand
+
+	* DESCRIPTION, R/gridded.R, man/SpatialPoints-class.Rd,
+	  man/overlay.Rd: coerce
+
+2007-12-21 14:03  rsbivand
+
+	* tests/fail1.Rout.save: release
+
 2007-12-21 13:58  rsbivand
 
-	* DESCRIPTION: release
+	* DESCRIPTION, ChangeLog, inst/ChangeLog: release
 
 2007-12-20 13:06  edzer
 
