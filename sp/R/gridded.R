@@ -40,6 +40,11 @@ setAs("SpatialPoints", "SpatialPixels", function(from) {
     from
 })
 
+setAs("SpatialPointsDataFrame", "SpatialPixelsDataFrame", function(from) {
+    gridded(from) <- TRUE
+    from
+})
+
 
 setMethod("gridded", "Spatial", function(obj) is(obj, "SpatialPixels"))
 

@@ -5,6 +5,7 @@
 \alias{coerce,SpatialPoints,matrix-method}
 \alias{coerce,SpatialPoints,data.frame-method} % here???
 \alias{coerce,SpatialPoints,SpatialPixels-method} % here???
+\alias{coerce,SpatialPointsDataFrame,SpatialPixelsDataFrame-method} % here???
 %\alias{coerce,SpatialPoints,data.frame-method}
 %\alias{coerce,data.frame,SpatialPoints-method}
 %\alias{coerce,matrix,SpatialPoints-method}
@@ -42,6 +43,7 @@ Class \code{"Spatial"}, directly.
     \item{coerce}{\code{signature(from = "SpatialPoints", to = "data.frame")}: 
 	retrieves the data part}
     \item{coerce}{\code{signature(from = "SpatialPoints", to = "SpatialPixels")}: equivalent to assigning gridded TRUE for a copy of the object}
+    \item{coerce}{\code{signature(from = "SpatialPointsDataFrame", to = "SpatialPixelsDataFrame")}: equivalent to assigning gridded TRUE for a copy of the object}
     \item{coerce}{\code{signature(from = "data.frame", to = "SpatialPoints")}: sets
 	coordinates, which may be in a data frame }
     \item{coerce}{\code{signature(from = "matrix", to = "SpatialPoints")}: set
