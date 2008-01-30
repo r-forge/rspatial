@@ -4,9 +4,11 @@ spkernel2d <- function(pts, poly, h0, grd, kernel = "quartic") {
     nptsk <- nrow(pts)
     npoly <- length(poly[, 1])
     poly <- rbind(poly, c(poly[1, 1], poly[1, 2]))
-    a1 <- slot(grd, "cellcentre.offset")[1]
+#    a1 <- slot(grd, "cellcentre.offset")[1]
+    a1 <- slot(grd, "cellcentre.offset")[1] - (slot(grd, "cellsize")[1])/2
     a2 <- a1 + slot(grd, "cellsize")[1] * slot(grd, "cells.dim")[1]
-    b1 <-  slot(grd, "cellcentre.offset")[2]
+#    b1 <-  slot(grd, "cellcentre.offset")[2]
+    b1 <-  slot(grd, "cellcentre.offset")[2] - (slot(grd, "cellsize")[2])/2
     b2 <- b1 + slot(grd, "cellsize")[2] * slot(grd, "cells.dim")[2]
     nx <- slot(grd, "cells.dim")[1]
     ny <- slot(grd, "cells.dim")[2]
