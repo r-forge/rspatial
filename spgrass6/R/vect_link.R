@@ -137,8 +137,8 @@ readVECT6 <- function(vname, type=NULL, remove.duplicates=TRUE, ignore.stderr = 
     return(retval)
 }
 
-writeVECT6 <- function(SDF, vname, factor2char = TRUE, v.in.ogr_flags="",
-	ignore.stderr = FALSE) {
+writeVECT6 <- function(SDF, vname, #factor2char = TRUE, 
+	v.in.ogr_flags="", ignore.stderr = FALSE) {
 
 	type <- NULL
 	if (class(SDF) == "SpatialPointsDataFrame") type <- "point"
@@ -161,16 +161,18 @@ writeVECT6 <- function(SDF, vname, factor2char = TRUE, v.in.ogr_flags="",
 	shname <- substring(vname, 1, ifelse(nchar(vname) > 8, 8, 
 		nchar(vname)))
 
-	switch(type,
-		point = writePointsShape(SDF, paste(rtmpfl1, shname, 
-			sep=.Platform$file.sep), factor2char=factor2char),
-		line = writeLinesShape(SDF, paste(rtmpfl1, shname, 
-			sep=.Platform$file.sep), factor2char=factor2char),
-		boundary = writePolyShape(SDF, paste(rtmpfl1, shname, 
-			sep=.Platform$file.sep), factor2char=factor2char))
-	p4s <- proj4string(SDF)
-	if (!is.na(p4s)) tull <- showWKT(p4s, paste(rtmpfl1, 
-		.Platform$file.sep, shname, ".prj", sep=""))
+#	switch(type,
+##		point = writePointsShape(SDF, paste(rtmpfl1, shname, 
+#			sep=.Platform$file.sep), factor2char=factor2char),
+#		line = writeLinesShape(SDF, paste(rtmpfl1, shname, 
+#			sep=.Platform$file.sep), factor2char=factor2char),
+#		boundary = writePolyShape(SDF, paste(rtmpfl1, shname, 
+#			sep=.Platform$file.sep), factor2char=factor2char))
+#	p4s <- proj4string(SDF)
+#	if (!is.na(p4s)) tull <- showWKT(p4s, paste(rtmpfl1, 
+#		.Platform$file.sep, shname, ".prj", sep=""))
+
+	writeOGR(SDF, dsn=rtmpfl1, layer=shname, driver="ESRI Shapefile")
 
 	cmd <- paste(paste("v.in.ogr", .addexe(), sep=""),
                     " ", v.in.ogr_flags, " dsn=", gtmpfl1, 
@@ -249,8 +251,9 @@ putSites6 <- function(df, vname, ignore.stderr = FALSE) {
 	putSites6sp(df, vname, ignore.stderr=ignore.stderr)
 }
 
-putSites6sp <- function(SPDF, vname, factor2char = TRUE, ignore.stderr = FALSE) {
-	writeVECT6(SPDF, vname, factor2char=factor2char, 
+putSites6sp <- function(SPDF, vname, #factor2char = TRUE, 
+	ignore.stderr = FALSE) {
+	writeVECT6(SPDF, vname, #factor2char=factor2char, 
 		ignore.stderr=ignore.stderr)
 }
 

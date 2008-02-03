@@ -18,12 +18,12 @@
 }
 \usage{
 readVECT6(vname, type=NULL, remove.duplicates = TRUE, ignore.stderr = FALSE, with_prj=TRUE, with_c=FALSE)
-writeVECT6(SDF, vname, factor2char = TRUE, v.in.ogr_flags="", ignore.stderr = FALSE)
+writeVECT6(SDF, vname,  v.in.ogr_flags="", ignore.stderr = FALSE)
 vInfo(vname, ignore.stderr = FALSE)
 vColumns(vname, ignore.stderr = TRUE)
 vDataCount(vname, ignore.stderr = TRUE)
 vect2neigh(vname, ID=NULL, ignore.stderr = FALSE)
-putSites6sp(SPDF, vname, factor2char = TRUE, ignore.stderr = FALSE) 
+putSites6sp(SPDF, vname,  ignore.stderr = FALSE) 
 putSites6(df, vname, ignore.stderr = FALSE)
 getSites6sp(vname, ignore.stderr = FALSE, with_prj=TRUE) 
 getSites6(vname, ignore.stderr = FALSE, with_prj=TRUE)
@@ -37,8 +37,6 @@ getSites6(vname, ignore.stderr = FALSE, with_prj=TRUE)
   \item{with_prj}{default TRUE, write ESRI-style PRJ file for transfered data}
   \item{with_c}{if TRUE, export features with category (labeled) only; by default all features are exported}
   \item{SDF}{A Spatial*DataFrame to be moved to GRASS6 as a vector object, for SpatialPointsDataFrame, SpatialLinesDataFrame, and SpatialPolygonsDataFrame objects}
-  \item{factor2char}{logical, default TRUE, convert factor columns to character
-}
   \item{v.in.ogr_flags}{String containing additional optional flags and/or options for v.in.ogr, particularly -o and --overwrite}
   \item{ID}{A valid DB column name for unique identifiers (optional)}
   \item{SPDF}{A SpatialPointsDataFrame to be moved to GRASS6 as vector points}
@@ -47,7 +45,9 @@ getSites6(vname, ignore.stderr = FALSE, with_prj=TRUE)
 \value{
    \code{readVECT6} imports a GRASS6 vector object into a Spatial*DataFrame object with the type determined by the type of the GRASS6 vector object; \code{getSites6} returns a data frame. \code{vect2neigh} returns a data frame object with left and right neighbours and boundary lengths, also given class GRASSneigh and spatial.neighbour (as used in spdep). The incantation to retrieve the neighbours list is \code{sn2listw(vect2neigh())$neighbours}, and to retrieve the boundary lengths: \code{sn2listw(vect2neigh())$weights}. The GRASSneigh object has two other useful attributes: external is a vector giving the length of shared boundary between each polygon and the external area, and total giving each polygon's total boundary length.
 }
-
+\note{
+Please note that the OGR drivers used may not handle missing data gracefully, and be prepared to have to correct for this manually. For example use of the \code{\link[rgdal]{readOGR}} PostGIS driver directly may perform better than moving the data through the DBF driver used in this function - or a PostgreSQL driver used directly or through ODBC may be a solution. Do not rely on missing values of vector data moving smoothly across the interface.
+}
 \author{Roger S. Bivand, e-mail: \email{Roger.Bivand@nhh.no.}}
 
 \examples{

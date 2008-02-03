@@ -126,7 +126,9 @@ readFLOAT6sp <- function(vname, ignore.stderr = FALSE) {
                         " input=", vname[i], " output=", gtmpfl1, sep="")), 
 			system(paste("r.out.arc input=", vname[i], " output=", 
 			gtmpfl1, sep=""), ignore.stderr=ignore.stderr))
-		res <- readAsciiGrid(rtmpfl1, colname=vname[i], proj4string=p4)
+		res <- readGDAL(rtmpfl1)
+		names(res) <- vname[i]
+		proj4string(res) <- p4
 		tull <- ifelse(.Platform$OS.type == "windows", 
 			whCELL <- system(paste(paste("r.info", .addexe(),
                                       sep=""), "-t", vname[i]), intern=TRUE), 
@@ -219,7 +221,7 @@ writeRast6sp <- function(x, vname, zcol = 1, NODATA=-9999, ignore.stderr = FALSE
 		gtmpfl1)
 	if (!is.numeric(x@data[[zcol]])) 
 		stop("only numeric columns may be exported")
-	writeAsciiGrid(x, rtmpfl1, attr = zcol, na.value = NODATA)
+	writeGDAL(x[zcol], rtmpfl1, drivername="AAIGrid", mvFlag = NODATA)
 	tull <- ifelse(.Platform$OS.type == "windows", 
 		system(paste(paste("r.in.gdal", .addexe(), sep=""),
                    " -o input=", gtmpfl1, " output=", vname, sep="")), 

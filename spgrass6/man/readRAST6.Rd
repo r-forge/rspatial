@@ -17,7 +17,7 @@ Read GRASS 6 raster files from GRASS 6 into R SpatialGridDataFrame objects, and 
 }
 
 
-}
+
 \usage{
 readRAST6(vname, cat=NULL, ignore.stderr = FALSE, NODATA=NULL)
 writeRAST6(x, vname, zcol = 1, NODATA=NULL, ignore.stderr = FALSE)

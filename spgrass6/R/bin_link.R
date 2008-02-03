@@ -99,7 +99,7 @@ readRAST6 <- function(vname, cat=NULL, ignore.stderr = FALSE,
 			Gver <- system(cmd, intern=TRUE), 
 			Gver <- system(cmd, intern=TRUE, 
 			ignore.stderr=ignore.stderr))
-		G63 <- Gver > "GRASS 6.2"
+		G63 <- !(Gver < "GRASS 6.3") #Gver > "GRASS 6.2"
 		for (i in seq(along=cat)) {
 			if (cat[i] && is.integer(resa@data[[i]])) {
 

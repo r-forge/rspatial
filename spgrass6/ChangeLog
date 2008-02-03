@@ -1,3 +1,8 @@
+2007-10-09 17:51  rsbivand
+
+	* ChangeLog, R/bin_link.R, inst/ChangeLog, man/readRAST6.Rd: NODATA
+	  r.info
+
 2007-10-09 11:56  rsbivand
 
 	* ChangeLog, inst/ChangeLog, man/gmeta6.Rd: tidy
