@@ -1,3 +1,9 @@
+2008-02-03 12:25  rsbivand
+
+	* ChangeLog, DESCRIPTION, R/bin_link.R, R/spgrass6.R,
+	  R/vect_link.R, inst/ChangeLog, man/readRAST6.Rd,
+	  man/readVECT6.Rd: version test
+
 2007-10-09 17:51  rsbivand
 
 	* ChangeLog, R/bin_link.R, inst/ChangeLog, man/readRAST6.Rd: NODATA
