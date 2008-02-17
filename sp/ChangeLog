@@ -1,3 +1,21 @@
+2008-02-17 19:28  rsbivand
+
+	* DESCRIPTION, R/spsample.R: spsample polygon
+
+2008-01-29 09:08  rsbivand
+
+	* DESCRIPTION, R/SpatialPoints-methods.R,
+	  R/SpatialPointsDataFrame-methods.R, man/SpatialPoints.Rd,
+	  tests/grid.Rout.save: SP bbox
+
+2008-01-21 20:14  rsbivand
+
+	* R/gridded.R, man/SpatialPoints-class.Rd: gridded
+
+2008-01-20 21:39  rsbivand
+
+	* ChangeLog, R/Spatial-methods.R, inst/ChangeLog: summary
+
 2008-01-20 21:10  rsbivand
 
 	* DESCRIPTION, R/gridded.R, man/SpatialPoints-class.Rd,
