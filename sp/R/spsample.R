@@ -213,7 +213,10 @@ sample.Polygons = function(x, n, type = "random", bb = bbox(x),
 	        Not_NAs <- !is.na(id)
 	        if (!any(Not_NAs)) res <- NULL
 	        else res <- pts[which(Not_NAs)]
-	        if (type == "random" && nrow(res@coords) < n) res <- NULL
+# Patrick Girardoux 080217
+#	        if (type == "random" && nrow(res@coords) < n) res <- NULL
+	        if(!is.null(res))
+	            if (type == "random" && nrow(res@coords) < n) res <- NULL
 	    }
 	    its <- its+1
 	}
