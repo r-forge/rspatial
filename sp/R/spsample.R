@@ -38,6 +38,7 @@ sample.Spatial = function(x, n, type, bb = bbox(x), offset = runif(nrow(bb)),
 		cellsize, ...) {
 
 	if (missing(n)) n <- as.integer(NA)
+	n <- ceiling(n)
 #cat("n in sample.Spatial", n, "\n")
 	if (type == "random")
 		xy = apply(bb, 1, function(x) runif(n) * diff(x) + x[1])
@@ -69,6 +70,9 @@ sample.Spatial = function(x, n, type, bb = bbox(x), offset = runif(nrow(bb)),
 		} else if (type != "regular")
 			stop(paste("sampling type", type, "not recognized"))
 	}
+# Patrick Girardoux 080217
+	if (!is.na(n) && n == 1 && !is.matrix(xy)) 
+		xy <- matrix(xy, ncol=nrow(bb))
 	SpatialPoints(xy, CRS(proj4string(x)))
 }
 setMethod("spsample", signature(x = "Spatial"), sample.Spatial)
