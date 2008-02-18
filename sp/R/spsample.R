@@ -46,10 +46,10 @@ sample.Spatial = function(x, n, type, bb = bbox(x), offset = runif(nrow(bb)),
 		xy = hexGrid(bb, n = n, offset = offset, cellsize = cellsize)
 	else {
 		if (is.na(n))
-			xy = makegrid(bb, nsig = 20, cellsize = cellsize, offset = offset)
+			xy = makegrid(bb, nsig = 20, cellsize = cellsize, 
+				offset = offset)
 		else
-			xy = makegrid(bb, n = n, nsig = 20, cellsize = cellsize, 
-					offset = offset)
+			xy = makegrid(bb, n = n, nsig = 20, cellsize = cellsize,				offset = offset)
 		cellsize = attr(xy, "cellsize")
 		if (type == "stratified") {
 			n = nrow(xy)
@@ -71,7 +71,7 @@ sample.Spatial = function(x, n, type, bb = bbox(x), offset = runif(nrow(bb)),
 			stop(paste("sampling type", type, "not recognized"))
 	}
 # Patrick Girardoux 080217
-	if (!is.na(n) && n == 1 && !is.matrix(xy)) 
+	if (!is.na(n) && n == 1 && !is.matrix(xy) && is.vector(xy)) 
 		xy <- matrix(xy, ncol=nrow(bb))
 	SpatialPoints(xy, CRS(proj4string(x)))
 }
