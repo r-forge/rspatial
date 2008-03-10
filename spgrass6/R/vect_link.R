@@ -46,6 +46,10 @@ readVECT6 <- function(vname, type=NULL, remove.duplicates=TRUE, ignore.stderr = 
 	if (remove.duplicates && type != "point") {
 		dups <- duplicated(slot(res, "data"))
 		if (any(dups)) {
+			if (length(grep("line", type)) > 0) type <- "line"
+			if (length(grep("area", type)) > 0) type <- "area"
+			if (type != "area" && type != "line")
+			    stop("try remove.duplicates=FALSE")
 			ndata <- as(res, "data.frame")[!dups,,drop=FALSE]
 			row.names(ndata) <- ndata$cat
 			if (type == "area") {
@@ -75,10 +79,19 @@ readVECT6 <- function(vname, type=NULL, remove.duplicates=TRUE, ignore.stderr = 
 					}
 					srl <- c(srl, plijp)
 				}
-				npls[[i]] <- Polygons(srl, ID=IDss[i])
+				if (type == "area") {
+				    npls[[i]] <- Polygons(srl, ID=IDss[i])
+				} else if (type == "line") {
+				    npls[[i]] <- Lines(srl, ID=IDss[i])
+				}
 			}
-			SP <- SpatialPolygons(npls, proj4string=CRS(p4s))
-			res <- SpatialPolygonsDataFrame(SP, ndata)
+			if (type == "area") {
+			    SP <- SpatialPolygons(npls, proj4string=CRS(p4s))
+			    res <- SpatialPolygonsDataFrame(SP, ndata)
+			} else if (type == "line") {
+			    SP <- SpatialLines(npls, proj4string=CRS(p4s))
+			    res <- SpatialLinesDataFrame(SP, ndata)
+			}
 		}
 
 	}
