@@ -321,6 +321,11 @@ hexGrid = function(bb, n, offset, cellsize) {
 	} else
 		dx = cellsize
 	xy = genHexGrid(dx, bb[,1], bb[,2])
+
+#		also suggested by Don MacQueen, macq@llnl.gov, Fri Mar 14 16:00:07 CET 2008:
+	xy[,1] <- xy[,1] + offset[1] * dx 
+	xy[,2] <- xy[,2] + offset[2] * dx * sqrt(3)/2
+
 	attr(xy, "cellsize") = dx
 	xy
 }
