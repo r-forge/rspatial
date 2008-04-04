@@ -1,3 +1,7 @@
+2008-03-10 21:46  rsbivand
+
+	* DESCRIPTION, R/vect_link.R: duplicate check lines
+
 2008-02-03 12:25  rsbivand
 
 	* ChangeLog, DESCRIPTION, R/bin_link.R, R/spgrass6.R,
