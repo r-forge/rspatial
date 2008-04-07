@@ -54,7 +54,7 @@ writeRAST6(x, vname, zcol = 1, NODATA=NULL, ignore.stderr = FALSE)
 if (nchar(Sys.getenv("GISRC")) > 0) {
   spear <- readRAST6(c("geology", "elevation.dem"), cat=c(TRUE, FALSE),
     ignore.stderr=TRUE)
-  table(spear$geology)
+  print(table(spear$geology))
   if (Sys.getenv("OSTYPE") == "msys")
     Gver <- system("g.version.exe", intern=TRUE)
   else Gver <- system("g.version", intern=TRUE)
@@ -80,9 +80,9 @@ if (nchar(Sys.getenv("GISRC")) > 0) {
     system("r.stats.exe -c quads0", ignore.stderr=TRUE)
   else system("r.stats -c quads0", ignore.stderr=TRUE)
   quads0 <- readRAST6("quads0", ignore.stderr=TRUE)
-  table(quads0$quads0)
+  print(table(quads0$quads0))
   quads0 <- readRAST6("quads0", ignore.stderr=TRUE)
-  table(quads0$quads0)
+  print(table(quads0$quads0))
   if (Sys.getenv("OSTYPE") == "msys") system("g.remove.exe rast=quads0")
   else system("g.remove rast=quads0")
 }

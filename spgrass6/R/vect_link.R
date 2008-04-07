@@ -194,7 +194,8 @@ writeVECT6 <- function(SDF, vname, #factor2char = TRUE,
 
 	tull <- ifelse(.Platform$OS.type == "windows", system(cmd), 
 		system(cmd, ignore.stderr=ignore.stderr))
-	unlink(paste(rtmpfl1, list.files(rtmpfl1, pattern=shname), 
+	if (.Platform$OS.type != "windows") 
+            unlink(paste(rtmpfl1, list.files(rtmpfl1, pattern=shname), 
 		sep=.Platform$file.sep))
 
 }

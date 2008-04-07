@@ -47,6 +47,8 @@ getSites6(vname, ignore.stderr = FALSE, with_prj=TRUE)
 }
 \note{
 Please note that the OGR drivers used may not handle missing data gracefully, and be prepared to have to correct for this manually. For example use of the \code{\link[rgdal]{readOGR}} PostGIS driver directly may perform better than moving the data through the DBF driver used in this function - or a PostgreSQL driver used directly or through ODBC may be a solution. Do not rely on missing values of vector data moving smoothly across the interface.
+
+Please also note that, on Windows and Cygwin systems, the temporary shapefiles are not removed by the interface functions, nor can GRASS remove them on termination - they must for the time being be removed manually. Windows believes that the GDAL/OGR library is still using them.
 }
 \author{Roger S. Bivand, e-mail: \email{Roger.Bivand@nhh.no.}}
 
@@ -54,15 +56,17 @@ Please note that the OGR drivers used may not handle missing data gracefully, an
 if (nchar(Sys.getenv("GISRC")) > 0) {
   if (Sys.getenv("OSTYPE") == "msys") system("v.info.exe bugsites")
   else system("v.info bugsites")
-  vInfo("bugsites", ignore.stderr=TRUE)
+  print(vInfo("bugsites", ignore.stderr=TRUE))
   bugs <- readVECT6("bugsites", ignore.stderr=TRUE)
-  summary(bugs)
+  print(summary(bugs))
   writeVECT6(bugs, "newbugs", v.in.ogr_flags="-o --overwrite", ignore.stderr=TRUE)
   if (Sys.getenv("OSTYPE") == "msys") system("v.info.exe newbugs")
   else system("v.info newbugs")
-  vInfo("streams", ignore.stderr=TRUE)
+  nbugs <- readVECT6("newbugs", ignore.stderr=TRUE)
+  print(summary(nbugs))
+  print(vInfo("streams", ignore.stderr=TRUE))
   streams <- readVECT6("streams", type="line,boundary", remove.duplicates=FALSE, ignore.stderr=TRUE)
-  summary(streams)
+  print(summary(streams))
 }
 }
 \keyword{spatial}
