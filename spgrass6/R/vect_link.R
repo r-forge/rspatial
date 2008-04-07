@@ -1,5 +1,5 @@
 # Interpreted GRASS 6 interface functions
-# Copyright (c) 2005-7 Roger S. Bivand
+# Copyright (c) 2005-8 Roger S. Bivand
 #
 readVECT6 <- function(vname, type=NULL, remove.duplicates=TRUE, ignore.stderr = FALSE, with_prj=TRUE, with_c=FALSE) {
 
@@ -41,7 +41,8 @@ readVECT6 <- function(vname, type=NULL, remove.duplicates=TRUE, ignore.stderr = 
 
 	res <- readOGR(dsn=rtmpfl1, layer=shname, verbose=!ignore.stderr)
 
-	unlink(paste(rtmpfl1, list.files(rtmpfl1, pattern=shname), 
+	if (.Platform$OS.type != "windows") 
+            unlink(paste(rtmpfl1, list.files(rtmpfl1, pattern=shname), 
 		sep=.Platform$file.sep))
 	if (remove.duplicates && type != "point") {
 		dups <- duplicated(slot(res, "data"))
