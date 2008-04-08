@@ -1,3 +1,16 @@
+2008-04-07 19:20  rsbivand
+
+	* R/vect_link.R, man/gmeta6.Rd, man/readRAST6.Rd, man/readVECT6.Rd:
+	  cygwin unlink
+
+2008-04-07 10:58  rsbivand
+
+	* DESCRIPTION, R/vect_link.R: cygwin unlink
+
+2008-04-04 11:50  rsbivand
+
+	* ChangeLog, inst/ChangeLog: cl
+
 2008-03-10 21:46  rsbivand
 
 	* DESCRIPTION, R/vect_link.R: duplicate check lines
