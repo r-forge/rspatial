@@ -234,5 +234,7 @@ writeRast6sp <- function(x, vname, zcol = 1, NODATA=-9999, ignore.stderr = FALSE
 .addexe <- function() {
     res <- ""
     if (Sys.getenv("OSTYPE") == "msys") res =".exe"
+    if (nchar(Sys.getenv("OSTYPE")) == 0 &&
+        nchar(Sys.getenv("WINGISRC")) > 0) res =".exe"
     res
 }

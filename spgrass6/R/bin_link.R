@@ -94,7 +94,7 @@ readRAST6 <- function(vname, cat=NULL, ignore.stderr = FALSE,
 	}
 
 	if (!is.null(cat)) {
-		cmd <- paste("g.version", .addexe())
+		cmd <- paste("g.version", .addexe(), sep="")
 		tull <- ifelse(.Platform$OS.type=="windows",
 			Gver <- system(cmd, intern=TRUE), 
 			Gver <- system(cmd, intern=TRUE, 
