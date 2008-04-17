@@ -1,5 +1,5 @@
 # Interpreted GRASS 6 interface functions
-# Copyright (c) 2005-7 Roger S. Bivand
+# Copyright (c) 2005-8 Roger S. Bivand
 #
 
 gmeta6 <- function(ignore.stderr = FALSE) {

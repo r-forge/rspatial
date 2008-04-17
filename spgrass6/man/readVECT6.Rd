@@ -57,7 +57,6 @@ Please also note that, on Windows and Cygwin systems, the temporary shapefiles a
 
 \examples{
 if (nchar(Sys.getenv("GISRC")) > 0) {
-  if (Sys.getenv("OSTYPE") == "cygwin") cygwin_clean_temp()
   if (Sys.getenv("OSTYPE") == "msys" || nchar(Sys.getenv("WINGISRC")) > 0)
     system("v.info.exe bugsites")
   else system("v.info bugsites")
