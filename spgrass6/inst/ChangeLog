@@ -1,184 +1,201 @@
-2008-04-07 19:20  rsbivand
+2008-04-17 22:41  rsbivand
+
+	* DESCRIPTION, R/spgrass6.R, R/zzz.R, man/readVECT6.Rd: .First.lib
+
+2008-04-16 00:03  rsbivand
+
+	* DESCRIPTION, R/bin_link.R, R/spgrass6.R, man/readRAST6.Rd,
+	  man/readVECT6.Rd: native Win release
+
+2008-04-08 10:42  rsbivand
+
+	* ChangeLog, DESCRIPTION, inst/ChangeLog: cygwin unlink
+
+2008-04-08 10:14  rsbivand
+
+	* R/vect_link.R, man/readVECT6.Rd: cygwin unlink
+
+2008-04-07 18:20  rsbivand
 
 	* R/vect_link.R, man/gmeta6.Rd, man/readRAST6.Rd, man/readVECT6.Rd:
 	  cygwin unlink
 
-2008-04-07 10:58  rsbivand
+2008-04-07 09:58  rsbivand
 
 	* DESCRIPTION, R/vect_link.R: cygwin unlink
 
-2008-04-04 11:50  rsbivand
+2008-04-04 10:50  rsbivand
 
 	* ChangeLog, inst/ChangeLog: cl
 
-2008-03-10 21:46  rsbivand
+2008-03-10 20:46  rsbivand
 
 	* DESCRIPTION, R/vect_link.R: duplicate check lines
 
-2008-02-03 12:25  rsbivand
+2008-02-03 11:25  rsbivand
 
 	* ChangeLog, DESCRIPTION, R/bin_link.R, R/spgrass6.R,
 	  R/vect_link.R, inst/ChangeLog, man/readRAST6.Rd,
 	  man/readVECT6.Rd: version test
 
-2007-10-09 17:51  rsbivand
+2007-10-09 16:51  rsbivand
 
 	* ChangeLog, R/bin_link.R, inst/ChangeLog, man/readRAST6.Rd: NODATA
 	  r.info
 
-2007-10-09 11:56  rsbivand
+2007-10-09 10:56  rsbivand
 
 	* ChangeLog, inst/ChangeLog, man/gmeta6.Rd: tidy
 
-2007-10-09 10:34  rsbivand
+2007-10-09 09:34  rsbivand
 
 	* ChangeLog, DESCRIPTION, R/bin_link.R, R/spgrass6.R,
 	  inst/ChangeLog: tidy
 
-2007-10-08 20:26  rsbivand
+2007-10-08 19:26  rsbivand
 
 	* DESCRIPTION, R/bin_link.R, R/vect_link.R, man/readRAST6.Rd,
 	  man/readVECT6.Rd: added -c option to readVECT6
 
-2007-10-06 23:31  rsbivand
+2007-10-06 22:31  rsbivand
 
 	* R/bin_link.R: new() mess in readRAST6
 
-2007-09-29 18:36  rsbivand
+2007-09-29 17:36  rsbivand
 
 	* R/bin_link.R: bin endian
 
-2007-09-04 14:54  rsbivand
+2007-09-04 13:54  rsbivand
 
 	* ChangeLog, DESCRIPTION, inst/ChangeLog: Changelog
 
-2007-09-03 21:03  rsbivand
+2007-09-03 20:03  rsbivand
 
 	* R/vect_link.R: drop bug in readVECT6
 
-2007-08-26 19:45  rsbivand
+2007-08-26 18:45  rsbivand
 
 	* DESCRIPTION, R/bin_link.R, R/spgrass6.R, R/vect_link.R,
 	  man/gmeta6.Rd, man/readRAST6.Rd, man/readVECT6.Rd: msys support
 	  for QGIS 0.8.1
 
-2007-08-16 09:37  rsbivand
+2007-08-16 08:37  rsbivand
 
 	* DESCRIPTION, man/readRAST6.Rd: readRAST6
 
-2007-06-05 15:36  rsbivand
+2007-06-05 14:36  rsbivand
 
 	* inst/doc/OSGeo_vol1_GRASS-R.pdf: OSGeo note
 
-2007-06-05 15:32  rsbivand
+2007-06-05 14:32  rsbivand
 
 	* R/bin_link.R: con correction
 
-2007-04-06 20:42  rsbivand
+2007-04-06 19:42  rsbivand
 
 	* DESCRIPTION, man/gmeta6.Rd: tidy
 
-2007-01-31 11:11  rsbivand
+2007-01-31 10:11  rsbivand
 
 	* DESCRIPTION, R/bin_link.R, R/spgrass6.R, ChangeLog,
 	  inst/ChangeLog: --q in 6.3.cvs trap
 
-2007-01-09 08:49  rsbivand
+2007-01-09 07:49  rsbivand
 
 	* ChangeLog, inst/ChangeLog: ChangeLog
 
-2006-11-29 14:26  rsbivand
+2006-11-29 13:26  rsbivand
 
 	* DESCRIPTION, R/spgrass6.R, man/gmeta6.Rd: print method
 
-2006-11-08 09:29  rsbivand
+2006-11-08 08:29  rsbivand
 
 	* DESCRIPTION, R/bin_link.R, R/vect_link.R, man/readRAST6.Rd,
 	  man/readVECT6.Rd: NODATA
 
-2006-09-21 21:46  rsbivand
+2006-09-21 20:46  rsbivand
 
 	* DESCRIPTION, R/bin_link.R, R/spgrass6.R, man/gmeta6.Rd: R 2.4.0
 
-2006-08-25 19:54  rsbivand
+2006-08-25 18:54  rsbivand
 
 	* R/spgrass6.R, R/vect_link.R, man/readRAST6.Rd, man/readVECT6.Rd,
 	  man/spgrass6.Rd: Windows touches
 
-2006-08-25 12:04  rsbivand
+2006-08-25 11:04  rsbivand
 
 	* DESCRIPTION, R/vect_link.R, inst/doc/spgrass6_0.3.pdf,
 	  man/readVECT6.Rd: more changes
 
-2006-08-24 21:31  rsbivand
+2006-08-24 20:31  rsbivand
 
 	* DESCRIPTION, R/bin_link.R, R/spgrass6.R, R/vect_link.R,
 	  man/gmeta6.Rd, man/putSites6sp.Rd, man/rast.get6.Rd,
 	  man/readRAST6.Rd, man/readVECT6.Rd: vect upgrade
 
-2006-08-22 21:31  rsbivand
+2006-08-22 20:31  rsbivand
 
 	* DESCRIPTION, R/bin_link.R, R/spgrass6.R, man/gmeta6.Rd,
 	  man/putSites6sp.Rd, man/rast.get6.Rd: added binary raster
 	  transfer
 
-2006-05-14 21:36  rsbivand
+2006-05-14 20:36  rsbivand
 
 	* DESCRIPTION, R/spgrass6.R, man/gmeta6.Rd, man/putSites6sp.Rd,
 	  man/rast.get6.Rd: ignore.stderr fixes
 
-2005-10-21 11:18  rsbivand
+2005-10-21 10:18  rsbivand
 
 	* DESCRIPTION, R/spgrass6.R, man/rast.get6.Rd, man/readCELL6sp.Rd:
 	  simplify functions
 
-2005-09-29 20:02  rsbivand
+2005-09-29 19:02  rsbivand
 
 	* DESCRIPTION, R/spgrass6.R, man/getSites6.Rd, man/gmeta6.Rd,
 	  man/putSites6.Rd, man/putSites6sp.Rd, man/readCELL6.Rd,
 	  man/readCELL6sp.Rd: fix for cygwin
 
-2005-06-21 10:32  rsbivand
+2005-06-21 09:32  rsbivand
 
 	* DESCRIPTION, man/getSites6.Rd, man/gmeta6.Rd, man/putSites6.Rd,
 	  man/readCELL6.Rd: up to AttributeList
 
-2005-05-27 09:25  rsbivand
+2005-05-27 08:25  rsbivand
 
 	* DESCRIPTION, R/spgrass6.R, man/readCELL6.Rd: removing GDAL
 	  dependency
 
-2005-05-17 19:36  rsbivand
+2005-05-17 18:36  rsbivand
 
 	* DESCRIPTION: DESC
 
-2005-05-07 22:05  rsbivand
+2005-05-07 21:05  rsbivand
 
 	* R/spgrass6.R: spweb
 
-2005-04-27 16:05  rsbivand
+2005-04-27 15:05  rsbivand
 
 	* DESCRIPTION, R/spgrass6.R, man/readCELL6.Rd: introduce sp
 	  dependency
 
-2005-04-25 11:19  rsbivand
+2005-04-25 10:19  rsbivand
 
 	* DESCRIPTION, R/spgrass6.R, man/readCELL6.Rd: rasters
 
-2005-04-07 10:17  rsbivand
+2005-04-07 09:17  rsbivand
 
 	* R/spgrass6.R, man/readCELL6.Rd: merging changes
 
-2005-03-11 11:13  rsbivand
+2005-03-11 10:13  rsbivand
 
 	* DESCRIPTION: fix URL
 
-2005-03-11 11:04  rsbivand
+2005-03-11 10:04  rsbivand
 
 	* DESCRIPTION, R/spgrass6.R, man/getSites6.Rd, man/gmeta6.Rd,
 	  man/putSites6.Rd: Initial import.
 
-2005-03-11 11:04  rsbivand
+2005-03-11 10:04  rsbivand
 
 	* DESCRIPTION, R/spgrass6.R, man/getSites6.Rd, man/gmeta6.Rd,
 	  man/putSites6.Rd: Initial revision
