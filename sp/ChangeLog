@@ -1,3 +1,17 @@
+2008-05-02 12:03  rsbivand
+
+	* ChangeLog, DESCRIPTION, R/image.R, inst/ChangeLog: fixed rgb()
+	  for NAs in image methods
+
+2008-04-08 08:33  edzer
+
+	* DESCRIPTION: data update
+
+2008-04-06 22:59  edzer
+
+	* R/overlay.R: modified overlay for polygons and points, if fn is
+	  given; r-sig-geo report by Andrew Hoskins, 04/03/2008
+
 2008-04-03 19:57  rsbivand
 
 	* DESCRIPTION, R/SpatialPolygons-displayMethods.R, R/image.R: col
