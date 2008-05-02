@@ -1,6 +1,48 @@
+2008-04-03 19:57  rsbivand
+
+	* DESCRIPTION, R/SpatialPolygons-displayMethods.R, R/image.R: col
+	  for hatching
+
+2008-03-19 10:16  edzer
+
+	* DESCRIPTION: email change of maintainer
+
+2008-03-14 17:11  edzer
+
+	* DESCRIPTION: date
+
+2008-03-14 17:10  edzer
+
+	* R/spsample.R: offset to hexGrid sampling
+
+2008-03-14 16:07  edzer
+
+	* R/spsample.R: repaired bug in computing dx in hexGrid, found by
+	  Don MacQueen
+
+2008-03-07 12:26  edzer
+
+	* NAMESPACE, R/zerodist.R, man/zerodist.Rd: added zerodist2
+	  function, to find common points among two objects
+
+2008-03-07 09:49  rsbivand
+
+	* DESCRIPTION, R/CRS-methods.R, man/CRS-class.Rd: CRS
+
+2008-02-19 09:21  rsbivand
+
+	* man/Polygons-class.Rd: tidy empty sections
+
+2008-02-18 21:10  rsbivand
+
+	* DESCRIPTION, R/spsample.R, man/GridTopology-class.Rd,
+	  man/Polygon-class.Rd, man/Spatial-class.Rd, man/bubble.Rd,
+	  man/is.projected.Rd, man/panel.Rd, man/spplot.Rd: final
+	  sample.Spatial and empty help sections
+
 2008-02-17 21:27  rsbivand
 
-	* R/spsample.R: spsample polygon
+	* R/spsample.R, ChangeLog, inst/ChangeLog: spsample polygon
 
 2008-02-17 19:34  rsbivand
 
