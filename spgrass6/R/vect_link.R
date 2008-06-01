@@ -1,8 +1,21 @@
 # Interpreted GRASS 6 interface functions
 # Copyright (c) 2005-8 Roger S. Bivand
 #
-readVECT6 <- function(vname, type=NULL, remove.duplicates=TRUE, ignore.stderr = FALSE, with_prj=TRUE, with_c=FALSE) {
+readVECT6 <- function(vname, type=NULL, plugin=FALSE, remove.duplicates=TRUE, ignore.stderr = FALSE, with_prj=TRUE, with_c=FALSE, mapset=NULL) {
 
+    if (is.null(plugin)) {
+        ogrD <- ogrDrivers()$name
+	plugin <- "GRASS" %in% ogrD
+    }
+    if (plugin) {
+        ogrD <- ogrDrivers()$name
+	if (!("GRASS" %in% ogrD)) stop("no GRASS plugin driver")
+        gg <- gmeta6()
+        if (is.null(mapset)) mapset <- gg$MAPSET
+        dsn <- paste(gg$GISDBASE, gg$LOCATION_NAME, mapset,
+            "vector", vname, "head", sep="/")
+        res <- readOGR(dsn, layer="1", verbose=!ignore.stderr)
+    } else {
 	vinfo <- vInfo(vname)
 	types <- names(vinfo)[which(vinfo > 0)]
 	if (is.null(type)) {
@@ -96,7 +109,8 @@ readVECT6 <- function(vname, type=NULL, remove.duplicates=TRUE, ignore.stderr = 
 		}
 
 	}
-	res
+    }
+    res
 }
 
 # Function mixedorder copied from gtools 2.2.3 LGPL Gregory R. Warnes

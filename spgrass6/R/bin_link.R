@@ -3,11 +3,25 @@
 #
 
 readRAST6 <- function(vname, cat=NULL, ignore.stderr = FALSE, 
-	NODATA=NULL) {
+	NODATA=NULL, plugin=FALSE, mapset=NULL) {
 	if (!is.null(cat))
 		if(length(vname) != length(cat)) 
 			stop("vname and cat not same length")
-
+    if (is.null(plugin)) {
+        ogrD <- gdalDrivers()$name
+	plugin <- "GRASS" %in% ogrD
+    }
+    if (plugin) {
+        ogrD <- gdalDrivers()$name
+	if (!("GRASS" %in% ogrD)) stop("no GRASS plugin driver")
+        if (length(vname) > 1) stop("single raster required for plugin")
+        if (!is.null(cat) && cat[1]) warning("cat not used for plugin")
+        gg <- gmeta6()
+        if (is.null(mapset)) mapset <- gg$MAPSET
+        fname <- paste(gg$GISDBASE, gg$LOCATION_NAME, mapset,
+            "cellhd", vname[1], sep="/")
+        resa <- readGDAL(fname, silent=ignore.stderr)
+    } else {
 	pid <- as.integer(round(runif(1, 1, 1000)))
 	p4 <- CRS(getLocationProj())
 	for (i in seq(along=vname)) {
@@ -137,7 +151,8 @@ readRAST6 <- function(vname, cat=NULL, ignore.stderr = FALSE,
 			}
 		}
 	} 
-	resa
+    }
+    resa
 }
 
 readBinGrid <- function(fname, colname=basename(fname), 
