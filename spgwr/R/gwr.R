@@ -182,12 +182,12 @@ gwr <- function(formula, data = list(), coords, bandwidth,
 	#The sigma2 in the GWR book is a maximum likelihood estimate
 	#It should be: sigma2 <- rss/n instead of sigma2 <- rss/delta1
 	#For this reason, a corrected AICb.b, AICh.b, AICc.b are therefore provided
-	#followed by creating the sigam sqare used in the book, termed here sigma2.b
+	#followed by creating the sigma sqare used in the book, termed here sigma2.b
 	#All the above unncessary calculation is then commented out.
 	
 		sigma2.b <- rss / n
 		AICb.b <- 2*n*log(sqrt(sigma2.b)) + n*log(2*pi) + 
-			(n * (n + v1) / (n - 2 - v1))
+			(n * ((n + v1) / (n - 2 - v1)))
 # NOTE 2* and sqrt() inserted for legibility
 		AICh.b <- 2*n*log(sqrt(sigma2.b)) + n*log(2*pi) + n + v1
 		AICc.b <- 2*n*log(sqrt(sigma2.b)) + n * 
