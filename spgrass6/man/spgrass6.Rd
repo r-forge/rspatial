@@ -42,7 +42,7 @@ Maintainer: Roger Bivand <Roger.Bivand@nhh.no>
 
 \examples{
 if (nchar(Sys.getenv("GISRC")) > 0) {
-  soilsph <- readRAST6("soils.ph", ignore.stderr=TRUE)
+  soilsph <- readRAST6("soils.ph", ignore.stderr=TRUE, plugin=FALSE)
   summary(soilsph)
   grd <- gmeta2grd(ignore.stderr=TRUE)
   grd
@@ -50,12 +50,12 @@ if (nchar(Sys.getenv("GISRC")) > 0) {
   smple <- overlay(soilsph, spsample(soilsph, 200, "random"))
   summary(smple)
   writeVECT6(smple, "sp_dem", v.in.ogr_flags="--overwrite", ignore.stderr=TRUE)
-  bugsDF <- readVECT6("bugsites", ignore.stderr=TRUE)
+  bugsDF <- readVECT6("bugsites", ignore.stderr=TRUE, mapset="PERMANENT")
   summary(bugsDF)
   vInfo("streams", ignore.stderr=TRUE)
   vColumns("streams", ignore.stderr=TRUE)
   vDataCount("streams", ignore.stderr=TRUE)
-  streams <- readVECT6("streams", type="line,boundary", remove.duplicates=FALSE, ignore.stderr=TRUE)
+  streams <- readVECT6("streams", type="line,boundary", remove.duplicates=FALSE, ignore.stderr=TRUE, plugin=FALSE)
   summary(streams)
 }
 }

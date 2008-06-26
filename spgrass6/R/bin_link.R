@@ -3,13 +3,32 @@
 #
 
 readRAST6 <- function(vname, cat=NULL, ignore.stderr = FALSE, 
-	NODATA=NULL, plugin=FALSE, mapset=NULL) {
+	NODATA=NULL, plugin=NULL, mapset=NULL) {
 	if (!is.null(cat))
 		if(length(vname) != length(cat)) 
 			stop("vname and cat not same length")
+    if (length(vname) > 1) plugin <- FALSE
     if (is.null(plugin)) {
         ogrD <- gdalDrivers()$name
 	plugin <- "GRASS" %in% ogrD
+        gg <- gmeta6()
+        if (is.null(mapset)) mapset <- gg$MAPSET
+        fname <- paste(gg$GISDBASE, gg$LOCATION_NAME, mapset,
+            "cellhd", vname[1], sep="/")
+        fninfo <- GDALinfo(fname)
+        chks <- logical(4)
+        names(chks) <- c("cols", "rows", "origin.northing", "origin.easting")
+        chks[1] <- isTRUE(all.equal(abs((gg$w-gg$e)/gg$ewres), fninfo[2],
+            tol=2e-7, check.attributes=FALSE))
+        chks[2] <- isTRUE(all.equal(abs((gg$n-gg$s)/gg$nsres), fninfo[1],
+            tol=2e-7, check.attributes=FALSE))
+        chks[3] <- isTRUE(all.equal(gg$n, fninfo[5], check.attributes=FALSE))
+        chks[4] <- isTRUE(all.equal(gg$w, fninfo[4], check.attributes=FALSE))
+        if (any(!chks)) {
+            print(chks)
+            warning("set plugin=FALSE - raster/current window mismatch\n  or plugin=TRUE to override; continuing with plugin=FALSE") 
+            plugin <- FALSE
+        }
     }
     if (plugin) {
         ogrD <- gdalDrivers()$name
@@ -21,18 +40,7 @@ readRAST6 <- function(vname, cat=NULL, ignore.stderr = FALSE,
         fname <- paste(gg$GISDBASE, gg$LOCATION_NAME, mapset,
             "cellhd", vname[1], sep="/")
         resa <- readGDAL(fname, silent=ignore.stderr)
-	tt <- logical(6)
-	names(tt) <- c("w", "e", "s", "n", "ewres", "nsres")
-	bb <- bbox(resa)
-	tt[1] <- all.equal(bb[1,1], gg$w)
-	tt[2] <- all.equal(bb[1,2], gg$e)
-	tt[3] <- all.equal(bb[2,1], gg$s)
-	tt[4] <- all.equal(bb[2,2], gg$n)
-	tt[5] <- all.equal(slot(slot(elev, "grid"), "cellsize")[1], gg$ewres)
-	tt[6] <- all.equal(slot(slot(elev, "grid"), "cellsize")[2], gg$nsres)
-	if (any(!tt)) {
-	    warning("Region extents and/or resolution of raster differ from current window")
-    }
+	names(resa) <- make.names(vname)
 	
     } else {
 	pid <- as.integer(round(runif(1, 1, 1000)))

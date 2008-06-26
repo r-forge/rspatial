@@ -19,7 +19,7 @@ Read GRASS 6 raster files from GRASS 6 into R SpatialGridDataFrame objects, and 
 
 
 \usage{
-readRAST6(vname, cat=NULL, ignore.stderr = FALSE, NODATA=NULL, plugin=FALSE, mapset=NULL)
+readRAST6(vname, cat=NULL, ignore.stderr = FALSE, NODATA=NULL, plugin=NULL, mapset=NULL)
 writeRAST6(x, vname, zcol = 1, NODATA=NULL, ignore.stderr = FALSE)
 %rast.get6(vname, cat=NULL, ignore.stderr = FALSE)
 %rast.put6(x, vname, zcol = 1, NODATA=-9999, ignore.stderr = FALSE)
@@ -36,7 +36,7 @@ writeRAST6(x, vname, zcol = 1, NODATA=NULL, ignore.stderr = FALSE)
 %  \item{proj4string}{A CRS object setting the projection arguments of the Spatial Grid returned}
   \item{cat}{default NULL; if not NULL, must be a logical vector matching vname, stating which (CELL) rasters to return as factor}
   \item{ignore.stderr}{default FALSE, can be set to TRUE to silence \code{system()} output to standard error; does not apply on Windows platforms}
-  \item{plugin}{default FALSE, should be set to NULL for auto-detection, and TRUE if the plugin is available; if the plugin is used, no further arguments other than mapset are respected}
+  \item{plugin}{default NULL for auto-detection, changes to FALSE if vname is longer than 1; set to TRUE if the plugin is available and the raster should be read in its original region and resolution; if the plugin is used, no further arguments other than mapset are respected; if NULL, a sanity check will be run on raster and current region, and the function will revert to FALSE if mismatch is found}
   \item{mapset}{if plugin is TRUE, the mapset of the file to be imported may be changed from the current mapset by passing a character string}
   \item{x}{A SpatialGridDataFrame object for export to GRASS as a raster layer}
   \item{zcol}{Attribute column number or name}

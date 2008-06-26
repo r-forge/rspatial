@@ -65,7 +65,7 @@ if (nchar(Sys.getenv("GISRC")) > 0) {
     system("v.info.exe bugsites")
   else system("v.info bugsites")
   print(vInfo("bugsites", ignore.stderr=TRUE))
-  bugs <- readVECT6("bugsites", ignore.stderr=TRUE)
+  bugs <- readVECT6("bugsites", ignore.stderr=TRUE, mapset="PERMANENT")
   print(summary(bugs))
   if ("GRASS" \%in\% ogrDrivers()$name) {
     bugs1 <- readVECT6("bugsites", plugin=TRUE, ignore.stderr=TRUE,
@@ -79,7 +79,7 @@ if (nchar(Sys.getenv("GISRC")) > 0) {
   nbugs <- readVECT6("newbugs", ignore.stderr=TRUE)
   print(summary(nbugs))
   print(vInfo("streams", ignore.stderr=TRUE))
-  streams <- readVECT6("streams", type="line,boundary", remove.duplicates=FALSE, ignore.stderr=TRUE)
+  streams <- readVECT6("streams", type="line,boundary", remove.duplicates=FALSE, ignore.stderr=TRUE, plugin=FALSE)
   print(summary(streams))
 }
 }
