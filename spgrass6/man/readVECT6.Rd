@@ -18,7 +18,7 @@
   \code{readVECT6} moves one GRASS 6.0 vector object file with attribute data through a temporary shapefile to a Spatial*DataFrame object of type determined by the GRASS 6.0 vector object; \code{writeVECT6} moves a Spatial*DataFrame object through a temporary shapefile to a GRASS vector object file. \code{vect2neigh} returns neighbour pairs with shared boundary length as described by Markus Neteler, in \url{https://stat.ethz.ch/pipermail/r-sig-geo/2005-October/000616.html}. \code{cygwin_clean_temp} can be called to try to clean the GRASS mapset-specific temporary directory under cygwin.
 }
 \usage{
-readVECT6(vname, type=NULL, plugin=FALSE, remove.duplicates = TRUE, ignore.stderr = FALSE, with_prj=TRUE, with_c=FALSE, mapset=NULL)
+readVECT6(vname, type=NULL, plugin=NULL, remove.duplicates = TRUE, ignore.stderr = FALSE, with_prj=TRUE, with_c=FALSE, mapset=NULL)
 writeVECT6(SDF, vname,  v.in.ogr_flags="", ignore.stderr = FALSE)
 vInfo(vname, ignore.stderr = FALSE)
 vColumns(vname, ignore.stderr = TRUE)
@@ -34,7 +34,7 @@ cygwin_clean_temp(verbose=TRUE, ignore.stderr = FALSE)
 \arguments{
   \item{vname}{A GRASS 6.0 vector file name}
   \item{type}{override type detection when multiple types are non-zero, passed to v.out.ogr}
-  \item{plugin}{default FALSE, should be set to NULL for auto-detection, and TRUE if the plugin is available; if the plugin is used, no further arguments other than mapset are respected}
+  \item{plugin}{default NULL for auto-detection, may be set to FALSE to avoid or TRUE if the plugin is known to be available; if the plugin is used, no further arguments other than mapset are respected}
   \item{remove.duplicates}{In line and area vector objects, multiple geometrical features may be associated with a single cat number, leading to duplication of data rows; this argument attempts to combine the geometrical features so that they match a single data row}
   \item{ignore.stderr}{default FALSE, can be set to TRUE to silence \code{system} output to standard error; does not apply on Windows platforms}
   \item{with_prj}{default TRUE, write ESRI-style PRJ file for transfered data}

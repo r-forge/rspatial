@@ -21,6 +21,19 @@ readRAST6 <- function(vname, cat=NULL, ignore.stderr = FALSE,
         fname <- paste(gg$GISDBASE, gg$LOCATION_NAME, mapset,
             "cellhd", vname[1], sep="/")
         resa <- readGDAL(fname, silent=ignore.stderr)
+	tt <- logical(6)
+	names(tt) <- c("w", "e", "s", "n", "ewres", "nsres")
+	bb <- bbox(resa)
+	tt[1] <- all.equal(bb[1,1], gg$w)
+	tt[2] <- all.equal(bb[1,2], gg$e)
+	tt[3] <- all.equal(bb[2,1], gg$s)
+	tt[4] <- all.equal(bb[2,2], gg$n)
+	tt[5] <- all.equal(slot(slot(elev, "grid"), "cellsize")[1], gg$ewres)
+	tt[6] <- all.equal(slot(slot(elev, "grid"), "cellsize")[2], gg$nsres)
+	if (any(!tt)) {
+	    warning("Region extents and/or resolution of raster differ from current window")
+    }
+	
     } else {
 	pid <- as.integer(round(runif(1, 1, 1000)))
 	p4 <- CRS(getLocationProj())

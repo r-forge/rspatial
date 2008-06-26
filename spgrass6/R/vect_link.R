@@ -1,7 +1,7 @@
 # Interpreted GRASS 6 interface functions
 # Copyright (c) 2005-8 Roger S. Bivand
 #
-readVECT6 <- function(vname, type=NULL, plugin=FALSE, remove.duplicates=TRUE, ignore.stderr = FALSE, with_prj=TRUE, with_c=FALSE, mapset=NULL) {
+readVECT6 <- function(vname, type=NULL, plugin=NULL, remove.duplicates=TRUE, ignore.stderr = FALSE, with_prj=TRUE, with_c=FALSE, mapset=NULL) {
 
     if (is.null(plugin)) {
         ogrD <- ogrDrivers()$name
