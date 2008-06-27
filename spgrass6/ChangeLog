@@ -1,3 +1,21 @@
+2008-06-27 08:15  rsbivand
+
+	* R/: bin_link.R, zzz.R: preparing for plugin=NULL default
+
+2008-06-26 21:51  rsbivand
+
+	* R/bin_link.R, man/readRAST6.Rd, man/readVECT6.Rd,
+	  man/spgrass6.Rd: shifting plugin to autodetect
+
+2008-06-26 20:44  rsbivand
+
+	* DESCRIPTION, R/bin_link.R, R/vect_link.R, man/readVECT6.Rd:
+	  shifting plugin use to autodetect
+
+2008-06-01 20:26  rsbivand
+
+	* ChangeLog, inst/ChangeLog: changelog
+
 2008-06-01 20:24  rsbivand
 
 	* DESCRIPTION, R/bin_link.R, R/vect_link.R, man/readRAST6.Rd,

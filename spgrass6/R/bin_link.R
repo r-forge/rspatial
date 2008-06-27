@@ -7,27 +7,32 @@ readRAST6 <- function(vname, cat=NULL, ignore.stderr = FALSE,
 	if (!is.null(cat))
 		if(length(vname) != length(cat)) 
 			stop("vname and cat not same length")
-    if (length(vname) > 1) plugin <- FALSE
     if (is.null(plugin)) {
         ogrD <- gdalDrivers()$name
 	plugin <- "GRASS" %in% ogrD
-        gg <- gmeta6()
-        if (is.null(mapset)) mapset <- gg$MAPSET
-        fname <- paste(gg$GISDBASE, gg$LOCATION_NAME, mapset,
-            "cellhd", vname[1], sep="/")
-        fninfo <- GDALinfo(fname)
-        chks <- logical(4)
-        names(chks) <- c("cols", "rows", "origin.northing", "origin.easting")
-        chks[1] <- isTRUE(all.equal(abs((gg$w-gg$e)/gg$ewres), fninfo[2],
-            tol=2e-7, check.attributes=FALSE))
-        chks[2] <- isTRUE(all.equal(abs((gg$n-gg$s)/gg$nsres), fninfo[1],
-            tol=2e-7, check.attributes=FALSE))
-        chks[3] <- isTRUE(all.equal(gg$n, fninfo[5], check.attributes=FALSE))
-        chks[4] <- isTRUE(all.equal(gg$w, fninfo[4], check.attributes=FALSE))
-        if (any(!chks)) {
-            print(chks)
-            warning("set plugin=FALSE - raster/current window mismatch\n  or plugin=TRUE to override; continuing with plugin=FALSE") 
-            plugin <- FALSE
+        if (length(vname) > 1) plugin <- FALSE
+        if (plugin) {
+            gg <- gmeta6()
+            if (is.null(mapset)) mapset <- gg$MAPSET
+            fname <- paste(gg$GISDBASE, gg$LOCATION_NAME, mapset,
+                "cellhd", vname[1], sep="/")
+            fninfo <- GDALinfo(fname)
+            chks <- logical(4)
+            names(chks) <- c("cols", "rows", "origin.northing",
+                "origin.easting")
+            chks[1] <- isTRUE(all.equal(abs((gg$w-gg$e)/gg$ewres), fninfo[2],
+                tol=2e-7, check.attributes=FALSE))
+            chks[2] <- isTRUE(all.equal(abs((gg$n-gg$s)/gg$nsres), fninfo[1],
+                tol=2e-7, check.attributes=FALSE))
+            chks[3] <- isTRUE(all.equal(gg$n, fninfo[5],
+                check.attributes=FALSE))
+            chks[4] <- isTRUE(all.equal(gg$w, fninfo[4],
+                check.attributes=FALSE))
+            if (any(!chks)) {
+                print(chks)
+                warning("set plugin=FALSE - raster/current window mismatch\n  or plugin=TRUE to override; continuing with plugin=FALSE") 
+                plugin <- FALSE
+            }
         }
     }
     if (plugin) {
