@@ -1,3 +1,12 @@
+2008-07-01 19:34  rsbivand
+
+	* DESCRIPTION: release 0.9-26
+
+2008-05-03 12:29  rsbivand
+
+	* NAMESPACE, R/GridTopology-methods.R, man/SpatialGrid.Rd: added
+	  fuzz to points2grid
+
 2008-05-02 12:03  rsbivand
 
 	* ChangeLog, DESCRIPTION, R/image.R, inst/ChangeLog: fixed rgb()
