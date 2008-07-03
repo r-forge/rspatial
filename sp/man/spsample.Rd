@@ -25,7 +25,7 @@ a polygon, or on a spatial line, using regular or random sampling
 methods }
 \usage{
 spsample(x, n, type, ...)
-sample.Spatial(x, n, type, bb = bbox(x), offset = runif(nrow(bb)), cellsize, nclusters = 1,...)
+sample.Spatial(x, n, type, bb = bbox(x), offset = runif(nrow(bb)), cellsize, ..., nclusters = 1)
 sample.Line(x, n, type, offset = runif(1), proj4string=CRS(as.character(NA)), ...)
 sample.Polygon(x, n, type = "random", bb = bbox(x), offset = runif(2), proj4string=CRS(as.character(NA)), iter = 4, ...)
 sample.Polygons(x, n, type = "random", bb = bbox(x), offset = runif(2), proj4string=CRS(as.character(NA)), iter = 4, ...)
