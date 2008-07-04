@@ -83,6 +83,10 @@ points2grid = function(points, tolerance=sqrt(.Machine$double.eps), round=NULL, 
 				    warning(paste("grid has empty column/rows in dimension", i))
 				    hh <- hist(difx_in, plot=FALSE)
 				    hh1 <- which.max(hh$counts)
+				    if (hh$counts[hh1] < sum(hh$counts)/2)
+				     stop(paste("dimension", i,
+				     ": coordinate intervals are not constant",
+				     "after allowing for numeric fuzz"))
 				    hh1a <- difx_in >= hh$breaks[hh1]
 				    hh1b <- difx_in <= hh$breaks[(hh1+1)]
 				    difx <- mean(difx_in[hh1a & hh1b])
