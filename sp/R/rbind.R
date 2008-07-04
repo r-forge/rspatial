@@ -45,12 +45,13 @@ rbind.SpatialPixelsDataFrame = function(...) {
 	sp
 }
 
-rbind.SpatialPolygons = function(...) {
+rbind.SpatialPolygons = function(..., makeUniqueIDs = FALSE) {
 	dots = list(...)
 	checkCRSequal(dots)
 	# checkIDSclash(dots)
 	pl = do.call("c", lapply(dots, function(x) slot(x, "polygons")))
-	pl = makeUniqueIDs(pl)
+	if (makeUniqueIDs)
+		pl = makeUniqueIDs(pl)
 	SpatialPolygons(pl, proj4string = CRS(proj4string(dots[[1]])))
 }
 
@@ -62,11 +63,12 @@ rbind.SpatialPolygonsDataFrame <- function(...) {
 }
 
 
-rbind.SpatialLines = function(...) {
+rbind.SpatialLines = function(..., makeUniqueIDs = FALSE) {
 	dots = list(...)
 	checkCRSequal(dots)
 	ll = do.call("c", lapply(dots, function(x) slot(x, "lines")))
-	ll = makeUniqueIDs(ll)
+	if (makeUniqueIDs)
+		ll = makeUniqueIDs(ll)
 	SpatialLines(ll, proj4string = CRS(proj4string(dots[[1]])))
 }
 
