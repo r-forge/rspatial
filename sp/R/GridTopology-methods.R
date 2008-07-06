@@ -72,7 +72,7 @@ points2grid = function(points, tolerance=sqrt(.Machine$double.eps), round=NULL, 
 			xx = ru.difx / min(ru.difx)
 			err2 = max(abs(floor(xx) - xx)) # is it an integer multiple?
 			if (err2 > tolerance) {
-				cat(paste("suggested tolerance minimum:", err2))
+			  cat(paste("suggested tolerance minimum:", err2, "\n"))
        			stop(paste("dimension", i,": coordinate intervals are not constant"))
 			} else if (fuzz) {
 				o <- kmeans(difx, 2)
@@ -102,6 +102,8 @@ points2grid = function(points, tolerance=sqrt(.Machine$double.eps), round=NULL, 
 		ret@cellcentre.offset[i] = min(sux)
     		ret@cells.dim[i] = as.integer(round(diff(range(sux))/ret@cellsize[i]) + 1) 
 			#was: length(sux), but this will not cope with empty rows.
+		if (ret@cells.dim[i] > nr/2) 
+		warning(paste("grid topology may be corrupt in dimwnsion", i))
 	}
 	nm = dimnames(cc)[[2]]
 	names(ret@cellsize) = nm
