@@ -1,3 +1,8 @@
+2008-06-23 10:28  rsbivand
+
+	* ChangeLog, DESCRIPTION, R/gwr.R, R/gwr.cv.R, R/zzz.R,
+	  inst/ChangeLog, man/gwr.Rd, man/gwr.cv.Rd: 0.5-3 release
+
 2008-06-19 06:09  rsbivand
 
 	* R/: gwr.R, gwr1.R: spurious gwr.e
