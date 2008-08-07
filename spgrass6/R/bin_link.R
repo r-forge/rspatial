@@ -90,7 +90,9 @@ readRAST6 <- function(vname, cat=NULL, ignore.stderr = FALSE,
 		    close(con)
 		    lres <- as.list(res)
 		    names(lres) <- colnames(res)
-		    if (lres$min == "NULL") vNODATA <- as.integer(999)
+		    if (!is.numeric(lres$min) || 
+			!is.finite(as.double(lres$min))) 
+			    vNODATA <- as.integer(999)
 		    else {
 			lres$min <- floor(as.double(lres$min))
 		        vNODATA <- floor(lres$min) - 1
