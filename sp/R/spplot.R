@@ -1,4 +1,4 @@
-sp.polygons = function(obj, col = 1, ...) {
+sp.polygons = function(obj, col = 1, fill = 0, ...) {
 	sp.polygon3 = function(x, col, ...) { 
 		cc = slot(x, "coords")
 		grid.polygon(cc[,1], cc[,2], default.units = "native", 
@@ -13,11 +13,13 @@ sp.polygons = function(obj, col = 1, ...) {
 		obj = as(obj, "SpatialPolygons")
 	pls = slot(obj, "polygons")
    	pO <- slot(obj, "plotOrder")
-   	for (i in pO) {
-   		Srs <- slot(pls[[i]], "Polygons")
-   		pOi <- slot(pls[[i]], "plotOrder")
-   		for (j in pOi)
-			sp.polygon3(Srs[[j]], col = col, ...)
+	if (length(fill) != length(pO)) 
+		fill <- rep(fill[1], length(pO))
+	for (i in pO) {
+		Srs <- slot(pls[[i]], "Polygons")
+		pOi <- slot(pls[[i]], "plotOrder")
+		for (j in pOi)
+			sp.polygon3(Srs[[j]], col = col, fill = fill[i], ...)
 	}
 }
 
