@@ -613,3 +613,4 @@ addNAemptyRowsCols = function(obj) {
 		obj = as(obj, "SpatialPointsDataFrame")
 	obj
 }
+
