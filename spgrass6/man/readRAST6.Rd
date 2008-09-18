@@ -1,4 +1,4 @@
-% Copyright (C) 2005-7 Roger S. Bivand
+% Copyright (C) 2005-8 Roger S. Bivand
 %
 \name{readRAST6}
 \alias{readRAST6}
@@ -19,7 +19,7 @@ Read GRASS 6 raster files from GRASS 6 into R SpatialGridDataFrame objects, and 
 
 
 \usage{
-readRAST6(vname, cat=NULL, ignore.stderr = FALSE, NODATA=NULL, plugin=NULL, mapset=NULL)
+readRAST6(vname, cat=NULL, ignore.stderr = FALSE, NODATA=NULL, plugin=NULL, mapset=NULL, useGDAL=FALSE)
 writeRAST6(x, vname, zcol = 1, NODATA=NULL, ignore.stderr = FALSE)
 %rast.get6(vname, cat=NULL, ignore.stderr = FALSE)
 %rast.put6(x, vname, zcol = 1, NODATA=-9999, ignore.stderr = FALSE)
@@ -38,6 +38,7 @@ writeRAST6(x, vname, zcol = 1, NODATA=NULL, ignore.stderr = FALSE)
   \item{ignore.stderr}{default FALSE, can be set to TRUE to silence \code{system()} output to standard error; does not apply on Windows platforms}
   \item{plugin}{default NULL for auto-detection, changes to FALSE if vname is longer than 1; set to TRUE if the plugin is available and the raster should be read in its original region and resolution; if the plugin is used, no further arguments other than mapset are respected; if NULL, a sanity check will be run on raster and current region, and the function will revert to FALSE if mismatch is found}
   \item{mapset}{if plugin is TRUE, the mapset of the file to be imported may be changed from the current mapset by passing a character string}
+  \item{useGDAL}{default FALSE using r.out.bin, if TRUE use r.out.gdal, GTiff, and \code{readGDAL}}
   \item{x}{A SpatialGridDataFrame object for export to GRASS as a raster layer}
   \item{zcol}{Attribute column number or name}
   \item{NODATA}{by default NULL, in which case it is set to one less than \code{floor()}of the data values, otherwise an integer NODATA value (required to be integer by GRASS r.out.bin)}
@@ -55,7 +56,9 @@ writeRAST6(x, vname, zcol = 1, NODATA=NULL, ignore.stderr = FALSE)
 \examples{
 if (nchar(Sys.getenv("GISRC")) > 0) {
   spear <- readRAST6(c("geology", "elevation.dem"), cat=c(TRUE, FALSE),
-    ignore.stderr=TRUE)
+    ignore.stderr=TRUE, useGDAL=FALSE)
+  spear <- readRAST6(c("geology", "elevation.dem"), cat=c(TRUE, FALSE),
+    ignore.stderr=TRUE, useGDAL=TRUE)
   print(table(spear$geology))
   if (Sys.getenv("OSTYPE") == "msys" || nchar(Sys.getenv("WINGISRC")) > 0)
     Gver <- system("g.version.exe", intern=TRUE)

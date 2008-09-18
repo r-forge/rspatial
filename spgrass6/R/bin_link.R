@@ -1,9 +1,9 @@
 # Interpreted GRASS 6 interface functions
-# Copyright (c) 2005-7 Roger S. Bivand
+# Copyright (c) 2005-8 Roger S. Bivand
 #
 
 readRAST6 <- function(vname, cat=NULL, ignore.stderr = FALSE, 
-	NODATA=NULL, plugin=NULL, mapset=NULL) {
+	NODATA=NULL, plugin=NULL, mapset=NULL, useGDAL=FALSE) {
 	if (!is.null(cat))
 		if(length(vname) != length(cat)) 
 			stop("vname and cat not same length")
@@ -50,6 +50,12 @@ readRAST6 <- function(vname, cat=NULL, ignore.stderr = FALSE,
     } else {
 	pid <- as.integer(round(runif(1, 1, 1000)))
 	p4 <- CRS(getLocationProj())
+	cmd <- paste("g.version", .addexe(), sep="")
+	tull <- ifelse(.Platform$OS.type=="windows",
+		Gver <- system(cmd, intern=TRUE), 
+		Gver <- system(cmd, intern=TRUE, 
+		ignore.stderr=ignore.stderr))
+	G63 <- !(Gver < "GRASS 6.3") #Gver > "GRASS 6.2"
 	for (i in seq(along=vname)) {
 
 		cmd <- paste(paste("r.info", .addexe(), sep=""),
@@ -104,18 +110,32 @@ readRAST6 <- function(vname, cat=NULL, ignore.stderr = FALSE,
 			warning("NODATA rounded to integer")
 		    vNODATA <- round(NODATA)
 		}
-
-		cmd <- paste(paste("r.out.bin", .addexe(), sep=""),
-                    " -b input=", vname[i], " output=", gtmpfl11,
-                    " null=", vNODATA, sep="")
+		if (useGDAL && G63) {
+		    type <- ifelse (to_int, "Int32", "Float64")
+		    cmd <- paste(paste("r.out.gdal", .addexe(), sep=""),
+                        " --quiet input=", vname[i], " output=", gtmpfl11,
+                        " type=", type, " nodata=", vNODATA, sep="")
 
 # 061107 Dylan Beaudette NODATA
 
-		tull <- ifelse(.Platform$OS.type == "windows", system(cmd), 
+		    tull <- ifelse(.Platform$OS.type == "windows", system(cmd), 
 			system(cmd, ignore.stderr=ignore.stderr))
 
-		res <- readBinGrid(rtmpfl11, colname=vname[i], proj4string=p4,
-			integer=to_int)
+		    res <- readGDAL(rtmpfl11, p4s=getLocationProj())
+		    names(res) <- vname[i]
+		} else {
+		    cmd <- paste(paste("r.out.bin", .addexe(), sep=""),
+                        " -b input=", vname[i], " output=", gtmpfl11,
+                        " null=", vNODATA, sep="")
+
+# 061107 Dylan Beaudette NODATA
+
+		    tull <- ifelse(.Platform$OS.type == "windows", system(cmd), 
+			system(cmd, ignore.stderr=ignore.stderr))
+
+		    res <- readBinGrid(rtmpfl11, colname=vname[i], 
+			proj4string=p4,	integer=to_int)
+		}
 
 		unlink(paste(rtmpfl1, list.files(rtmpfl1, pattern=vname[i]), 
 			sep=.Platform$file.sep))
@@ -139,12 +159,6 @@ readRAST6 <- function(vname, cat=NULL, ignore.stderr = FALSE,
 	}
 
 	if (!is.null(cat)) {
-		cmd <- paste("g.version", .addexe(), sep="")
-		tull <- ifelse(.Platform$OS.type=="windows",
-			Gver <- system(cmd, intern=TRUE), 
-			Gver <- system(cmd, intern=TRUE, 
-			ignore.stderr=ignore.stderr))
-		G63 <- !(Gver < "GRASS 6.3") #Gver > "GRASS 6.2"
 		for (i in seq(along=cat)) {
 			if (cat[i] && is.integer(resa@data[[i]])) {
 
