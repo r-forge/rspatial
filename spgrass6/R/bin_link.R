@@ -111,7 +111,7 @@ readRAST6 <- function(vname, cat=NULL, ignore.stderr = FALSE,
 		    vNODATA <- round(NODATA)
 		}
 		if (useGDAL && G63) {
-		    type <- ifelse (to_int, "Int32", "Float64")
+		    type <- ifelse (to_int, "Int32", "Float32")
 		    cmd <- paste(paste("r.out.gdal", .addexe(), sep=""),
                         " --quiet input=", vname[i], " output=", gtmpfl11,
                         " type=", type, " nodata=", vNODATA, sep="")
@@ -263,7 +263,7 @@ readBinGrid <- function(fname, colname=basename(fname),
 }
 
 writeRAST6 <- function(x, vname, zcol = 1, NODATA=NULL, 
-	ignore.stderr = FALSE) {
+	ignore.stderr = FALSE, useGDAL=FALSE) {
 
 
 	pid <- round(runif(1, 1, 1000))
@@ -284,18 +284,51 @@ writeRAST6 <- function(x, vname, zcol = 1, NODATA=NULL,
 	rtmpfl11 <- paste(rtmpfl1, fid, sep=.Platform$file.sep)
 	if (!is.numeric(x@data[[zcol]])) 
 		stop("only numeric columns may be exported")
-	
-	res <- writeBinGrid(x, rtmpfl11, attr = zcol, na.value = NODATA)
+	cmd <- paste("g.version", .addexe(), sep="")
+	tull <- ifelse(.Platform$OS.type=="windows",
+		Gver <- system(cmd, intern=TRUE), 
+		Gver <- system(cmd, intern=TRUE, 
+		ignore.stderr=ignore.stderr))
+	G63 <- !(Gver < "GRASS 6.3") #Gver > "GRASS 6.2"
+	if (useGDAL && G63) {
+	    if (is.factor(x@data[[zcol]])) 
+		x@data[[zcol]] <- as.numeric(x@data[[zcol]])
+	    if (!is.numeric(x@data[[zcol]])) 
+		stop("only numeric values may be exported")
+	    if (is.null(NODATA)) {
+		NODATA <- floor(min(x@data[[zcol]], na.rm=TRUE)) - 1
+	    } else {
+		if (!is.finite(NODATA) || !is.numeric(NODATA))
+			stop("invalid NODATA value")
+		if (NODATA != round(NODATA)) 
+			warning("NODATA rounded to integer")
+		NODATA <- round(NODATA)
+	    }
+#	    if (is.null(NODATA)) NODATA <- NA
+	    sm <- storage.mode(x[[zcol]])
+	    type <- ifelse(sm == "integer", "Int32", "Float32")
+	    res <- writeGDAL(x[zcol], fname=rtmpfl11, type=type, 
+		mvFlag = NODATA)
 
-	cmd <- paste(paste("r.in.bin", .addexe(), sep=""),
+	    cmd <- paste(paste("r.in.gdal", .addexe(), sep=""),
+                " input=", gtmpfl11, " output=", vname, sep="")
+	
+	    tull <- ifelse(.Platform$OS.type == "windows", 
+		system(cmd), system(cmd, ignore.stderr=ignore.stderr))
+
+	} else {
+	    res <- writeBinGrid(x, rtmpfl11, attr = zcol, na.value = NODATA)
+
+	    cmd <- paste(paste("r.in.bin", .addexe(), sep=""),
                 " ", res$flag, " input=", gtmpfl11, " output=", 
 		vname, " bytes=", res$bytes, " north=", res$north, 
 		" south=", res$south, " east=", res$east, " west=", 
 		res$west, " rows=", res$rows, " cols=", res$cols, " anull=", 
 		res$anull, sep="")
 	
-	tull <- ifelse(.Platform$OS.type == "windows", 
+	    tull <- ifelse(.Platform$OS.type == "windows", 
 		system(cmd), system(cmd, ignore.stderr=ignore.stderr))
+	}
 
 	unlink(paste(rtmpfl1, list.files(rtmpfl1, pattern=fid), 
 		sep=.Platform$file.sep))

@@ -20,7 +20,7 @@ Read GRASS 6 raster files from GRASS 6 into R SpatialGridDataFrame objects, and 
 
 \usage{
 readRAST6(vname, cat=NULL, ignore.stderr = FALSE, NODATA=NULL, plugin=NULL, mapset=NULL, useGDAL=FALSE)
-writeRAST6(x, vname, zcol = 1, NODATA=NULL, ignore.stderr = FALSE)
+writeRAST6(x, vname, zcol = 1, NODATA=NULL, ignore.stderr = FALSE, useGDAL=FALSE)
 %rast.get6(vname, cat=NULL, ignore.stderr = FALSE)
 %rast.put6(x, vname, zcol = 1, NODATA=-9999, ignore.stderr = FALSE)
 %readCELL6sp(vname, cat=NULL, ignore.stderr = FALSE)
@@ -38,7 +38,7 @@ writeRAST6(x, vname, zcol = 1, NODATA=NULL, ignore.stderr = FALSE)
   \item{ignore.stderr}{default FALSE, can be set to TRUE to silence \code{system()} output to standard error; does not apply on Windows platforms}
   \item{plugin}{default NULL for auto-detection, changes to FALSE if vname is longer than 1; set to TRUE if the plugin is available and the raster should be read in its original region and resolution; if the plugin is used, no further arguments other than mapset are respected; if NULL, a sanity check will be run on raster and current region, and the function will revert to FALSE if mismatch is found}
   \item{mapset}{if plugin is TRUE, the mapset of the file to be imported may be changed from the current mapset by passing a character string}
-  \item{useGDAL}{default FALSE using r.out.bin, if TRUE use r.out.gdal, GTiff, and \code{readGDAL}}
+  \item{useGDAL}{default FALSE using r.out.bin or r.in.bin, if TRUE use r.out.gdal or r.in.gdal, GTiff, and \code{readGDAL} or \code{writeGDAL}}
   \item{x}{A SpatialGridDataFrame object for export to GRASS as a raster layer}
   \item{zcol}{Attribute column number or name}
   \item{NODATA}{by default NULL, in which case it is set to one less than \code{floor()}of the data values, otherwise an integer NODATA value (required to be integer by GRASS r.out.bin)}
@@ -80,6 +80,13 @@ if (nchar(Sys.getenv("GISRC")) > 0) {
     print(summary(dem1))
   }
   writeRAST6(spear, "sqdemSP", zcol="sqdem", ignore.stderr=TRUE)
+  if (Sys.getenv("OSTYPE") == "msys" || nchar(Sys.getenv("WINGISRC")) > 0)
+    system("r.info.exe sqdemSP", ignore.stderr=TRUE)
+  else system("r.info sqdemSP", ignore.stderr=TRUE)
+  if (Sys.getenv("OSTYPE") == "msys" || nchar(Sys.getenv("WINGISRC")) > 0)
+    system("g.remove.exe rast=sqdemSP")
+  else system("g.remove rast=sqdemSP")
+  writeRAST6(spear, "sqdemSP", zcol="sqdem", ignore.stderr=TRUE, useGDAL=TRUE)
   if (Sys.getenv("OSTYPE") == "msys" || nchar(Sys.getenv("WINGISRC")) > 0)
     system("r.info.exe sqdemSP", ignore.stderr=TRUE)
   else system("r.info sqdemSP", ignore.stderr=TRUE)
