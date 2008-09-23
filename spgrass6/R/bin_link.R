@@ -121,7 +121,8 @@ readRAST6 <- function(vname, cat=NULL, ignore.stderr = FALSE,
 		    tull <- ifelse(.Platform$OS.type == "windows", system(cmd), 
 			system(cmd, ignore.stderr=ignore.stderr))
 
-		    res <- readGDAL(rtmpfl11, p4s=getLocationProj())
+		    res <- readGDAL(rtmpfl11, p4s=getLocationProj(), 
+			silent=ignore.stderr)
 		    names(res) <- vname[i]
 		} else {
 		    cmd <- paste(paste("r.out.bin", .addexe(), sep=""),
@@ -246,17 +247,6 @@ readBinGrid <- function(fname, colname=basename(fname),
 	df <- list(var1=map)
 	names(df) <- colname
 	df1 <- data.frame(df)
-# long processing time 071006 - solution centralised in sp
-#        pts = sp:::boguspoints(grid)
-#	pts@bbox[,1] = pts@bbox[,1] - 0.5 * grid@cellsize
-#	pts@bbox[,2] = pts@bbox[,2] + 0.5 * grid@cellsize
-#	res <- new("SpatialGridDataFrame")
-#        slot(res, "data") <- df1
-#	slot(res, "grid") <- grid
-#        slot(res, "grid.index") <- integer(0)
-#        slot(res, "coords") <- slot(pts, "coords")
-#        slot(res, "bbox") <- slot(pts, "bbox")
-#        slot(res, "proj4string") <- proj4string
 
 	res <- SpatialGridDataFrame(grid, data = df1, proj4string=proj4string)
 	res
