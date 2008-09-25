@@ -563,9 +563,7 @@ colorkey.factor = function(f, colorkey = list()) {
 	lf = levels(f)
 	colorkey=append(colorkey, list(labels=list(at=at.labels,labels=lf), 
 		height=min(1, .05 * length(lf))))
-	ret = list(at = at, colorkey = colorkey)
-	print(ret)
-	ret
+	list(at = at, colorkey = colorkey)
 }
 
 "spplot.locator" <- function(n = 512, type = "n", ...) { 
