@@ -103,7 +103,7 @@ to zero, the algorithm taken here (generating points in a square area,
 selecting those inside the polygon) may be very resource intensive. When numbers of points per polygon are small and type="random", the number searched for is inflated to ensure hits, and the points returned sampled among these. }
 
 \references{Chapter 3 in B.D. Ripley, 1981. Spatial Statistics, Wiley}
-\author{Edzer J. Pebesma, \email{e.pebesma@geo.uu.nl}}
+\author{Edzer J. Pebesma, \email{edzer.pebesma@uni-muenster.de}}
 
 \seealso{\link{overlay-methods}, \link{point.in.polygon}, \link{sample}}
 \examples{
