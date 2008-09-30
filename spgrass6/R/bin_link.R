@@ -98,23 +98,23 @@ readRAST6 <- function(vname, cat=NULL, ignore.stderr = FALSE,
 		    names(lres) <- colnames(res)
 		    if (!is.numeric(lres$min) || 
 			!is.finite(as.double(lres$min))) 
-			    vNODATA <- as.integer(999)
+			    NODATA <- as.integer(999)
 		    else {
 			lres$min <- floor(as.double(lres$min))
-		        vNODATA <- floor(lres$min) - 1
+		        NODATA <- floor(lres$min) - 1
 		    }
 		} else {
 		    if (!is.finite(NODATA) || !is.numeric(NODATA))
 			stop("invalid NODATA value")
 		    if (NODATA != round(NODATA)) 
 			warning("NODATA rounded to integer")
-		    vNODATA <- round(NODATA)
+		    NODATA <- round(NODATA)
 		}
 		if (useGDAL && G63) {
 		    type <- ifelse (to_int, "Int32", "Float32")
 		    cmd <- paste(paste("r.out.gdal", .addexe(), sep=""),
                         " --quiet input=", vname[i], " output=", gtmpfl11,
-                        " type=", type, " nodata=", vNODATA, sep="")
+                        " type=", type, " nodata=", NODATA, sep="")
 
 # 061107 Dylan Beaudette NODATA
 
@@ -127,7 +127,7 @@ readRAST6 <- function(vname, cat=NULL, ignore.stderr = FALSE,
 		} else {
 		    cmd <- paste(paste("r.out.bin", .addexe(), sep=""),
                         " -b input=", vname[i], " output=", gtmpfl11,
-                        " null=", vNODATA, sep="")
+                        " null=", NODATA, sep="")
 
 # 061107 Dylan Beaudette NODATA
 
