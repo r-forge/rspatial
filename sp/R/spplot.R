@@ -1,8 +1,8 @@
-sp.polygons = function(obj, col = 1, fill = 0, ...) {
-	sp.polygon3 = function(x, col, ...) { 
+sp.polygons = function(obj, col = 1, fill="transparent", ...) {
+	sp.polygon3 = function(x, col, fill, ...) { 
 		cc = slot(x, "coords")
 		grid.polygon(cc[,1], cc[,2], default.units = "native", 
-			gp = gpar(col = col, ...))
+			gp = gpar(col = col, fill = fill, ...))
 		panel.lines(cc, col = col, ...)
 	}
 	if (is.character(obj))

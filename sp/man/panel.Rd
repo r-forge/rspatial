@@ -20,7 +20,7 @@ SpatialPolygonsRescale(obj, offset, scale = 1, fill = "black", col = "black",
 	plot.grid = TRUE, ...)
 sp.lines(obj, col = 1, ...)
 sp.points(obj, pch = 3, ...)
-sp.polygons(obj, col = 1, ...)
+sp.polygons(obj, col = 1, fill = "transparent", ...)
 sp.grid(obj, col = 1, alpha = 1,...)
 sp.text(loc, txt, ...)
 }
