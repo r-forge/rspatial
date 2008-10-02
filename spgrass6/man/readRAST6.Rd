@@ -20,7 +20,7 @@ Read GRASS 6 raster files from GRASS 6 into R SpatialGridDataFrame objects, and 
 
 \usage{
 readRAST6(vname, cat=NULL, ignore.stderr = FALSE, NODATA=NULL, plugin=NULL, mapset=NULL, useGDAL=FALSE)
-writeRAST6(x, vname, zcol = 1, NODATA=NULL, ignore.stderr = FALSE, useGDAL=FALSE)
+writeRAST6(x, vname, zcol = 1, NODATA=NULL, ignore.stderr = FALSE, useGDAL=FALSE, overwrite=FALSE)
 %rast.get6(vname, cat=NULL, ignore.stderr = FALSE)
 %rast.put6(x, vname, zcol = 1, NODATA=-9999, ignore.stderr = FALSE)
 %readCELL6sp(vname, cat=NULL, ignore.stderr = FALSE)
@@ -42,6 +42,7 @@ writeRAST6(x, vname, zcol = 1, NODATA=NULL, ignore.stderr = FALSE, useGDAL=FALSE
   \item{x}{A SpatialGridDataFrame object for export to GRASS as a raster layer}
   \item{zcol}{Attribute column number or name}
   \item{NODATA}{by default NULL, in which case it is set to one less than \code{floor()}of the data values, otherwise an integer NODATA value (required to be integer by GRASS r.out.bin)}
+  \item{overwrite}{default FALSE, if TRUE inserts \code{--overwrite} to allow existing GRASS rasters to be overwritten}
 %  \item{colname}{alternative name for data column if not file basename}
 %  \item{integer}{logical value: TRUE if the input data is integer}
 }

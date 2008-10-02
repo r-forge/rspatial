@@ -253,7 +253,7 @@ readBinGrid <- function(fname, colname=basename(fname),
 }
 
 writeRAST6 <- function(x, vname, zcol = 1, NODATA=NULL, 
-	ignore.stderr = FALSE, useGDAL=FALSE) {
+	ignore.stderr = FALSE, useGDAL=FALSE, overwrite=FALSE) {
 
 
 	pid <- round(runif(1, 1, 1000))
@@ -300,7 +300,8 @@ writeRAST6 <- function(x, vname, zcol = 1, NODATA=NULL,
 	    res <- writeGDAL(x[zcol], fname=rtmpfl11, type=type, 
 		mvFlag = NODATA)
 
-	    cmd <- paste(paste("r.in.gdal", .addexe(), sep=""),
+	    cmd <- paste(paste("r.in.gdal", .addexe(), sep=""), 
+		ifelse(overwrite, " --overwrite", ""),
                 " input=", gtmpfl11, " output=", vname, sep="")
 	
 	    tull <- ifelse(.Platform$OS.type == "windows", 
@@ -310,7 +311,8 @@ writeRAST6 <- function(x, vname, zcol = 1, NODATA=NULL,
 	    res <- writeBinGrid(x, rtmpfl11, attr = zcol, na.value = NODATA)
 
 	    cmd <- paste(paste("r.in.bin", .addexe(), sep=""),
-                " ", res$flag, " input=", gtmpfl11, " output=", 
+                " ", res$flag, ifelse(overwrite, " --overwrite", ""),
+		" input=", gtmpfl11, " output=", 
 		vname, " bytes=", res$bytes, " north=", res$north, 
 		" south=", res$south, " east=", res$east, " west=", 
 		res$west, " rows=", res$rows, " cols=", res$cols, " anull=", 
