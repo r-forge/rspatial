@@ -66,6 +66,11 @@ setIs("SpatialPixelsDataFrame", "SpatialPointsDataFrame",
 	}, replace = function(obj, value) stop("no replace function for this coercion")
 )
 
+as.SpatialPolygonsDataFrame.SpatialPixelsDataFrame = function(from)
+	SpatialPolygonsDataFrame(as(from, "SpatialPolygons"), from@data, FALSE)
+setAs("SpatialPixelsDataFrame", "SpatialPolygonsDataFrame",
+	as.SpatialPolygonsDataFrame.SpatialPixelsDataFrame)
+
 as.matrix.SpatialPixelsDataFrame = function(x, ...) {
 	# fullgrid(x) = TRUE
 	x = as(x, "SpatialGridDataFrame")
