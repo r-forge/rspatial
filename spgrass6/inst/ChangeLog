@@ -1,3 +1,23 @@
+2008-11-13 11:28  rsbivand
+
+	* DESCRIPTION, R/zzz.R: banner version and location
+
+2008-10-17 09:01  rsbivand
+
+	* DESCRIPTION, man/readVECT6.Rd: vector NA
+
+2008-10-02 16:44  rsbivand
+
+	* R/bin_link.R, man/readRAST6.Rd: overwrite
+
+2008-09-30 13:24  rsbivand
+
+	* DESCRIPTION, R/bin_link.R: NODATA fix?
+
+2008-09-23 19:54  rsbivand
+
+	* ChangeLog, R/bin_link.R, inst/ChangeLog: GDAL readRAST6
+
 2008-09-23 11:01  rsbivand
 
 	* R/bin_link.R, man/readRAST6.Rd, DESCRIPTION: writeRAST6 GDAL

@@ -14,9 +14,18 @@ if(!exists("Sys.setenv", envir = baseenv()))
   .GRASS_old.GRASS_MESSAGE_FORMAT <- Sys.getenv("GRASS_MESSAGE_FORMAT")
   Sys.setenv("GRASS_MESSAGE_FORMAT"="text")
 
-  gv <- Sys.getenv("GRASS_VERSION")
-  if (nchar(gv) == 0) gv <- "(GRASS not running)"
-  loc <- Sys.getenv("LOCATION_NAME")
+  gisrc <- Sys.getenv("GISRC")
+  if (nchar(gisrc) == 0) gv <- "(GRASS not running)"
+  else {
+    gv <- Sys.getenv("GRASS_VERSION")
+    if (nchar(gv) == 0) {
+      tull <- ifelse(.Platform$OS.type == "windows",
+        gv <- system(paste("g.version", .addexe(), sep=""), intern=TRUE), 
+        gv <- system("g.version", intern=TRUE, ignore.stderr=FALSE))
+    }
+    loc <- Sys.getenv("LOCATION_NAME")
+    if(nchar(loc) == 0) loc <- read.dcf(gisrc)[1,"LOCATION_NAME"]
+  }
 
   Smess <- paste('GRASS GIS interface loaded ',
     'with GRASS version: ', gv, '\n',
