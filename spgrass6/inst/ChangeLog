@@ -1,6 +1,16 @@
+2008-11-13 12:34  rsbivand
+
+	* DESCRIPTION, R/spgrass6.R, man/readRAST6.Rd, man/readVECT6.Rd:
+	  cygwin needs .exe from GRASS 6.3
+
+2008-11-13 12:08  rsbivand
+
+	* R/zzz.R: cygwin refresh - no temp flush
+
 2008-11-13 11:28  rsbivand
 
-	* DESCRIPTION, R/zzz.R: banner version and location
+	* DESCRIPTION, R/zzz.R, ChangeLog, inst/ChangeLog: banner version
+	  and location
 
 2008-10-17 09:01  rsbivand
 
