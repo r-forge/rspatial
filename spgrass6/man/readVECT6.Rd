@@ -59,7 +59,7 @@ Please also note that, on Windows and Cygwin systems, the temporary shapefiles a
 
 \examples{
 if (nchar(Sys.getenv("GISRC")) > 0) {
-  if (Sys.getenv("OSTYPE") == "msys" || nchar(Sys.getenv("WINGISRC")) > 0)
+  if ((Sys.getenv("OSTYPE") == "msys" || nchar(Sys.getenv("WINGISRC")) > 0) || Sys.getenv("OSTYPE") == "cygwin")
     system("v.info.exe bugsites")
   else system("v.info bugsites")
   print(vInfo("bugsites", ignore.stderr=TRUE))
@@ -71,7 +71,7 @@ if (nchar(Sys.getenv("GISRC")) > 0) {
     print(summary(bugs1))
   }
   writeVECT6(bugs, "newbugs", v.in.ogr_flags="-o --overwrite", ignore.stderr=TRUE)
-  if (Sys.getenv("OSTYPE") == "msys" || nchar(Sys.getenv("WINGISRC")) > 0)
+  if ((Sys.getenv("OSTYPE") == "msys" || nchar(Sys.getenv("WINGISRC")) > 0) || Sys.getenv("OSTYPE") == "cygwin")
     system("v.info.exe newbugs")
   else system("v.info newbugs")
   nbugs <- readVECT6("newbugs", ignore.stderr=TRUE)
