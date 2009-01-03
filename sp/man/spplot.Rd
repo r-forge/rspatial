@@ -201,10 +201,22 @@ spplot(meuse, c("ffreq"), sp.layout=list(l2,l3,l4,l5), col.regions= "black",
 	pch=c(1,2,3), key.space=list(x=0.1,y=.95,corner=c(0,1)))
 spplot(meuse, c("zinc", "lead"), sp.layout=list(l2,l3,l4,l5, which = 2),
 	key.space=list(x=0.1,y=.95,corner=c(0,1)))
+# plotting factors:
+meuse$f = factor(sample(letters[6:10], 155, replace=TRUE),levels=letters[1:10])
+meuse$g = factor(sample(letters[1:5], 155, replace=TRUE),levels=letters[1:10])
+spplot(meuse, c("f","g"), col.regions=bpy.colors(10))
 
 if (require(RColorBrewer)) {
 	spplot(meuse, c("ffreq"), sp.layout=list(l2,l3,l4,l5),
 		col.regions=brewer.pal(3, "Set1"))
 }
+
+data(meuse.grid)
+gridded(meuse.grid)=~x+y
+meuse.grid$g = factor(sample(letters[1:5], 3103, replace=TRUE),levels=letters[1:10])
+meuse.grid$f = factor(sample(letters[6:10], 3103, replace=TRUE),levels=letters[1:10])
+spplot(meuse.grid, c("f","g"))
+spplot(meuse.grid, c("f","g"), col.regions=bpy.colors(10))
+
 }
 \keyword{dplot}
