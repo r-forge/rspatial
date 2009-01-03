@@ -141,6 +141,9 @@ spplot.grid = function(obj, zcol = names(obj), ..., names.attr,
 		sp.layout = sp.layout, xlim = xlim, ylim = ylim), list(...))
 	# deal with factor variables:
 	if (all(unlist(lapply(obj@data[zcol], is.factor)))) {
+		if (!is.null(args$col.regions) &&
+				nlevels(obj@data[[zcol[1]]]) != length(args$col.regions))
+			stop("length of col.regions should match number of factor levels")
 		args$data[[zcol2]] = as.numeric(args$data[[zcol2]])
 		if (is.null(args$colorkey) || (is.logical(args$colorkey) && args$colorkey)
 				|| (is.list(args$colorkey) && is.null(args$colorkey$at) && 
@@ -149,7 +152,6 @@ spplot.grid = function(obj, zcol = names(obj), ..., names.attr,
 				args$colorkey = list()
 			ck = args$colorkey
 			args$colorkey = NULL
-			#args = append(args, colorkey.factor(sdf[[zcol2]], ck))
 			args = append(args, colorkey.factor(obj[[zcol[1]]], ck))
 		}
 	}
@@ -196,6 +198,9 @@ spplot.polygons = function(obj, zcol = names(obj), ..., names.attr,
 		panel, xlab = xlab, ylab = ylab, scales = scales,
 		sp.layout = sp.layout, xlim = xlim, ylim = ylim), list(...))
 	if (all(unlist(lapply(obj@data[zcol], is.factor)))) {
+		if (!is.null(args$col.regions) &&
+				nlevels(obj@data[[zcol[1]]]) != length(args$col.regions))
+			stop("length of col.regions should match number of factor levels")
 		args$data[[zcol2]] = as.numeric(args$data[[zcol2]])
 		if (is.null(args$colorkey) || (is.logical(args$colorkey) && args$colorkey)
 				|| (is.list(args$colorkey) && is.null(args$colorkey$at) && 
@@ -204,16 +209,10 @@ spplot.polygons = function(obj, zcol = names(obj), ..., names.attr,
 				args$colorkey = list()
 			ck = args$colorkey
 			args$colorkey = NULL
-			# args = append(args, colorkey.factor(sdf[[zcol2]], ck))
 			args = append(args, colorkey.factor(obj[[zcol[1]]], ck))
 		}
 	}
 	do.call("levelplot", args)
-
-	#levelplot(formula, as(sdf, "data.frame"), aspect = aspect,
-	#	grid.polygons = grid.polygons, panel = panel, xlab = xlab, ylab =
-	#	ylab, scales = scales, sp.layout = sp.layout, xlim = xlim, ylim =
-	#	ylim, ...)
 }
 
 setMethod("spplot", signature("SpatialPolygonsDataFrame"), spplot.polygons)
