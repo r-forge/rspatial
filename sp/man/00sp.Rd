@@ -54,12 +54,8 @@ spatial data sets is that their coordinate reference system is compatible
 
 This CRS can be a character string describing a reference system in
 a way understood by the PROJ.4 projection library, or a (character)
-missing value. The package spproj needs to be available if one wants to
-work with (non-missing valued) coordinate reference systems; this
-packages needs, but does not contain the PROJ.4 external library, and
-is therefore not available for Windows R versions on CRAN\footnote{a
-binary is available from \url{http://www.sourceforge.net/projects/r-spatial/}}
-
+missing value. An interface to the PROJ.4 library is available only if
+the R package rgdal is present.
 }
 
 \section{Class structure}{
