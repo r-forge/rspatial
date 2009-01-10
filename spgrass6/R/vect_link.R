@@ -1,5 +1,5 @@
 # Interpreted GRASS 6 interface functions
-# Copyright (c) 2005-8 Roger S. Bivand
+# Copyright (c) 2005-9 Roger S. Bivand
 #
 readVECT6 <- function(vname, type=NULL, plugin=NULL, remove.duplicates=TRUE, ignore.stderr = FALSE, with_prj=TRUE, with_c=FALSE, mapset=NULL) {
 
@@ -11,7 +11,7 @@ readVECT6 <- function(vname, type=NULL, plugin=NULL, remove.duplicates=TRUE, ign
         ogrD <- ogrDrivers()$name
 	if (!("GRASS" %in% ogrD)) stop("no GRASS plugin driver")
         gg <- gmeta6()
-        if (is.null(mapset)) mapset <- gg$MAPSET
+        if (is.null(mapset)) mapset <- .g_findfile(vname[1], type="vector")
         dsn <- paste(gg$GISDBASE, gg$LOCATION_NAME, mapset,
             "vector", vname, "head", sep="/")
         res <- readOGR(dsn, layer="1", verbose=!ignore.stderr)

@@ -1,19 +1,20 @@
 # Interpreted GRASS 6 interface functions
-# Copyright (c) 2005-8 Roger S. Bivand
+# Copyright (c) 2005-9 Roger S. Bivand
 #
 
 readRAST6 <- function(vname, cat=NULL, ignore.stderr = FALSE, 
-	NODATA=NULL, plugin=NULL, mapset=NULL, useGDAL=FALSE) {
+	NODATA=NULL, plugin=NULL, mapset=NULL, useGDAL=TRUE) {
 	if (!is.null(cat))
 		if(length(vname) != length(cat)) 
 			stop("vname and cat not same length")
+    if (!is.null(plugin) && plugin && length(vname) > 1) plugin <- FALSE
     if (is.null(plugin)) {
         ogrD <- gdalDrivers()$name
 	plugin <- "GRASS" %in% ogrD
         if (length(vname) > 1) plugin <- FALSE
         if (plugin) {
             gg <- gmeta6()
-            if (is.null(mapset)) mapset <- gg$MAPSET
+            if (is.null(mapset)) mapset <- .g_findfile(vname[1], type="cell")
             fname <- paste(gg$GISDBASE, gg$LOCATION_NAME, mapset,
                 "cellhd", vname[1], sep="/")
             fninfo <- GDALinfo(fname)
@@ -41,7 +42,7 @@ readRAST6 <- function(vname, cat=NULL, ignore.stderr = FALSE,
         if (length(vname) > 1) stop("single raster required for plugin")
         if (!is.null(cat) && cat[1]) warning("cat not used for plugin")
         gg <- gmeta6()
-        if (is.null(mapset)) mapset <- gg$MAPSET
+        if (is.null(mapset)) mapset <- .g_findfile(vname[1], type="cell")
         fname <- paste(gg$GISDBASE, gg$LOCATION_NAME, mapset,
             "cellhd", vname[1], sep="/")
         resa <- readGDAL(fname, silent=ignore.stderr)
@@ -253,7 +254,7 @@ readBinGrid <- function(fname, colname=basename(fname),
 }
 
 writeRAST6 <- function(x, vname, zcol = 1, NODATA=NULL, 
-	ignore.stderr = FALSE, useGDAL=FALSE, overwrite=FALSE) {
+	ignore.stderr = FALSE, useGDAL=TRUE, overwrite=FALSE) {
 
 
 	pid <- round(runif(1, 1, 1000))

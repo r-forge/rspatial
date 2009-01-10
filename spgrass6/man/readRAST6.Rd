@@ -19,8 +19,8 @@ Read GRASS 6 raster files from GRASS 6 into R SpatialGridDataFrame objects, and 
 
 
 \usage{
-readRAST6(vname, cat=NULL, ignore.stderr = FALSE, NODATA=NULL, plugin=NULL, mapset=NULL, useGDAL=FALSE)
-writeRAST6(x, vname, zcol = 1, NODATA=NULL, ignore.stderr = FALSE, useGDAL=FALSE, overwrite=FALSE)
+readRAST6(vname, cat=NULL, ignore.stderr = FALSE, NODATA=NULL, plugin=NULL, mapset=NULL, useGDAL=TRUE)
+writeRAST6(x, vname, zcol = 1, NODATA=NULL, ignore.stderr = FALSE, useGDAL=TRUE, overwrite=FALSE)
 %rast.get6(vname, cat=NULL, ignore.stderr = FALSE)
 %rast.put6(x, vname, zcol = 1, NODATA=-9999, ignore.stderr = FALSE)
 %readCELL6sp(vname, cat=NULL, ignore.stderr = FALSE)
@@ -36,9 +36,9 @@ writeRAST6(x, vname, zcol = 1, NODATA=NULL, ignore.stderr = FALSE, useGDAL=FALSE
 %  \item{proj4string}{A CRS object setting the projection arguments of the Spatial Grid returned}
   \item{cat}{default NULL; if not NULL, must be a logical vector matching vname, stating which (CELL) rasters to return as factor}
   \item{ignore.stderr}{default FALSE, can be set to TRUE to silence \code{system()} output to standard error; does not apply on Windows platforms}
-  \item{plugin}{default NULL for auto-detection, changes to FALSE if vname is longer than 1; set to TRUE if the plugin is available and the raster should be read in its original region and resolution; if the plugin is used, no further arguments other than mapset are respected; if NULL, a sanity check will be run on raster and current region, and the function will revert to FALSE if mismatch is found}
-  \item{mapset}{if plugin is TRUE, the mapset of the file to be imported may be changed from the current mapset by passing a character string}
-  \item{useGDAL}{default FALSE using r.out.bin or r.in.bin, if TRUE use r.out.gdal or r.in.gdal, GTiff, and \code{readGDAL} or \code{writeGDAL}}
+  \item{plugin}{default NULL does auto-detection, changes to FALSE if vname is longer than 1, and a sanity check will be run on raster and current region, and the function will revert to FALSE if mismatch is found; if TRUE, the plugin is available and the raster should be read in its original region and resolution; if the plugin is used, no further arguments other than mapset are respected}
+  \item{mapset}{default NULL, if plugin is TRUE, the mapset of the file to be imported will be autodetected; if not NULL and if plugin is TRUE, a character string overriding the autodetected mapset, otherwise ignored}
+  \item{useGDAL}{default TRUE use r.out.gdal or plugin and \code{readGDAL} if autodetected or plugin=TRUE; or for writing \code{writeGDAL}, GTiff, and r.in.gdal, if FALSE using r.out.bin or r.in.bin}
   \item{x}{A SpatialGridDataFrame object for export to GRASS as a raster layer}
   \item{zcol}{Attribute column number or name}
   \item{NODATA}{by default NULL, in which case it is set to one less than \code{floor()}of the data values, otherwise an integer NODATA value (required to be integer by GRASS r.out.bin)}
@@ -57,9 +57,11 @@ writeRAST6(x, vname, zcol = 1, NODATA=NULL, ignore.stderr = FALSE, useGDAL=FALSE
 \examples{
 if (nchar(Sys.getenv("GISRC")) > 0) {
   spear <- readRAST6(c("geology", "elevation.dem"), cat=c(TRUE, FALSE),
-    ignore.stderr=TRUE, useGDAL=FALSE)
+    ignore.stderr=TRUE, plugin=NULL)
   spear <- readRAST6(c("geology", "elevation.dem"), cat=c(TRUE, FALSE),
-    ignore.stderr=TRUE, useGDAL=TRUE)
+    ignore.stderr=TRUE, useGDAL=FALSE, plugin=FALSE)
+  spear <- readRAST6(c("geology", "elevation.dem"), cat=c(TRUE, FALSE),
+    ignore.stderr=TRUE, useGDAL=TRUE, plugin=FALSE)
   print(table(spear$geology))
   if ((Sys.getenv("OSTYPE") == "msys" || nchar(Sys.getenv("WINGISRC")) > 0) || Sys.getenv("OSTYPE") == "cygwin")
     Gver <- system("g.version.exe", intern=TRUE)
@@ -102,7 +104,7 @@ if (nchar(Sys.getenv("GISRC")) > 0) {
   else system("r.stats -c quads0", ignore.stderr=TRUE)
   quads0 <- readRAST6("quads0", ignore.stderr=TRUE)
   print(table(quads0$quads0))
-  quads0 <- readRAST6("quads0", ignore.stderr=TRUE)
+  quads0 <- readRAST6("quads0", ignore.stderr=TRUE, plugin=FALSE)
   print(table(quads0$quads0))
   if ((Sys.getenv("OSTYPE") == "msys" || nchar(Sys.getenv("WINGISRC")) > 0) || Sys.getenv("OSTYPE") == "cygwin")
     system("g.remove.exe rast=quads0")

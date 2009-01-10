@@ -63,22 +63,19 @@ if (nchar(Sys.getenv("GISRC")) > 0) {
     system("v.info.exe bugsites")
   else system("v.info bugsites")
   print(vInfo("bugsites", ignore.stderr=TRUE))
-  bugs <- readVECT6("bugsites", ignore.stderr=TRUE, mapset="PERMANENT")
+  bugs <- readVECT6("bugsites", ignore.stderr=TRUE, plugin=NULL)
   print(summary(bugs))
-  if ("GRASS" \%in\% ogrDrivers()$name) {
-    bugs1 <- readVECT6("bugsites", plugin=TRUE, ignore.stderr=TRUE,
-      mapset="PERMANENT")
-    print(summary(bugs1))
-  }
+  bugs1 <- readVECT6("bugsites", ignore.stderr=TRUE, plugin=FALSE)
+  print(summary(bugs1))
   writeVECT6(bugs, "newbugs", v.in.ogr_flags="-o --overwrite", ignore.stderr=TRUE)
   if ((Sys.getenv("OSTYPE") == "msys" || nchar(Sys.getenv("WINGISRC")) > 0) || Sys.getenv("OSTYPE") == "cygwin")
     system("v.info.exe newbugs")
   else system("v.info newbugs")
   nbugs <- readVECT6("newbugs", ignore.stderr=TRUE)
   print(summary(nbugs))
-  print(vInfo("streams", ignore.stderr=TRUE))
-  streams <- readVECT6("streams", type="line,boundary", remove.duplicates=FALSE, ignore.stderr=TRUE, plugin=FALSE)
-  print(summary(streams))
+  print(vInfo("roads", ignore.stderr=TRUE))
+  roads <- readVECT6("roads", ignore.stderr=TRUE)
+  print(summary(roads))
 }
 }
 \keyword{spatial}

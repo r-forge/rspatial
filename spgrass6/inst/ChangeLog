@@ -1,3 +1,7 @@
+2008-11-13 13:35  rsbivand
+
+	* ChangeLog, inst/CITATION, inst/ChangeLog: citations
+
 2008-11-13 12:34  rsbivand
 
 	* DESCRIPTION, R/spgrass6.R, man/readRAST6.Rd, man/readVECT6.Rd:

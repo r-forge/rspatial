@@ -108,6 +108,22 @@ getLocationProj <- function(ignore.stderr = FALSE) {
 	uprojargs
 }
 
+.g_findfile <- function(vname, type) {
+    cmd <- paste("g.findfile", .addexe(), " element=", type, " file=", 
+        vname[1], sep="")
+    ms <- system(cmd, intern=TRUE)
+    tx <- gsub("=", ":", ms)
+    con <- textConnection(tx)
+    res <- read.dcf(con)
+    close(con)
+    lres <- as.list(res)
+    names(lres) <- colnames(res)
+    if (nchar(lres$name) == 0) 
+        stop(paste(vname[1], "- file not found"))
+    mapset <- gsub("'", "", lres$mapset)
+    mapset    
+}
+
 readFLOAT6sp <- function(vname, ignore.stderr = FALSE) {
 	pid <- as.integer(round(runif(1, 1, 1000)))
 	p4 <- CRS(getLocationProj())
