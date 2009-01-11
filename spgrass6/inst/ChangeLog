@@ -1,3 +1,7 @@
+2009-01-11 16:39  rsbivand
+
+	* R/bin_link.R: tidying readRAST6 messages
+
 2009-01-10 20:43  rsbivand
 
 	* ChangeLog, DESCRIPTION, R/bin_link.R, R/spgrass6.R,

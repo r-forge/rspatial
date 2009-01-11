@@ -30,9 +30,12 @@ readRAST6 <- function(vname, cat=NULL, ignore.stderr = FALSE,
             chks[4] <- isTRUE(all.equal(gg$w, fninfo[4],
                 check.attributes=FALSE))
             if (any(!chks)) {
+              plugin <- FALSE
+              if (!ignore.stderr) {
+                cat("raster/current region mismatch detected in components:\n")
                 print(chks)
-                warning("set plugin=FALSE - raster/current window mismatch\n  or plugin=TRUE to override; continuing with plugin=FALSE") 
-                plugin <- FALSE
+		cat("set plugin=TRUE to override; continuing with plugin=FALSE\n") 
+              }
             }
         }
     }
@@ -114,7 +117,8 @@ readRAST6 <- function(vname, cat=NULL, ignore.stderr = FALSE,
 		if (useGDAL && G63) {
 		    type <- ifelse (to_int, "Int32", "Float32")
 		    cmd <- paste(paste("r.out.gdal", .addexe(), sep=""),
-                        " --quiet input=", vname[i], " output=", gtmpfl11,
+# 090111 fix for CPL error message
+                        " -c --quiet input=", vname[i], " output=", gtmpfl11,
                         " type=", type, " nodata=", NODATA, sep="")
 
 # 061107 Dylan Beaudette NODATA
