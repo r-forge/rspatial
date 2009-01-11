@@ -1,6 +1,10 @@
+2009-01-11 21:47  rsbivand
+
+	* DESCRIPTION, inst/ChangeLog: tidying readRAST6 messages
+
 2009-01-11 20:41  rsbivand
 
-	* R/bin_link.R: tidying readRAST6 messages
+	* R/bin_link.R, ChangeLog: tidying readRAST6 messages
 
 2009-01-11 16:39  rsbivand
 
