@@ -32,7 +32,7 @@ readRAST6 <- function(vname, cat=NULL, ignore.stderr = FALSE,
             if (any(!chks)) {
               plugin <- FALSE
               if (!ignore.stderr) {
-                cat("raster/current region mismatch detected in components:\n")
+                cat("raster map/current region mismatch detected in components:\n")
                 print(chks)
 		cat("set plugin=TRUE to override; continuing with plugin=FALSE\n") 
               }
