@@ -1,3 +1,12 @@
+2008-10-02 17:04  rsbivand
+
+	* R/gwr.R: correcting DF order
+
+2008-08-07 18:59  rsbivand
+
+	* ChangeLog, DESCRIPTION, INDEX, R/gwr1.R, inst/ChangeLog,
+	  man/ggwr.Rd: ggwr residual types
+
 2008-06-23 10:28  rsbivand
 
 	* ChangeLog, DESCRIPTION, R/gwr.R, R/gwr.cv.R, R/zzz.R,
