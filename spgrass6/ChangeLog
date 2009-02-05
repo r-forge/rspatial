@@ -1,6 +1,11 @@
+2009-02-05 19:35  rsbivand
+
+	* DESCRIPTION, inst/CITATION: tidy
+
 2009-01-11 21:47  rsbivand
 
-	* DESCRIPTION, inst/ChangeLog: tidying readRAST6 messages
+	* DESCRIPTION, inst/ChangeLog, ChangeLog: tidying readRAST6
+	  messages
 
 2009-01-11 20:41  rsbivand
 
