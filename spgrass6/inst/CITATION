@@ -9,12 +9,12 @@ citEntry(entry = "Manual",
          title = "{spgrass6}: Interface between GRASS 6 and R",
          author = personList(as.person("Roger Bivand")),
          year = year,
-         note = vers,
+         note = note,
          url = "http://CRAN.R-project.org/package=spgrass6",
 
          textVersion = paste("Roger Bivand (", year, 
              "). spgrass6: Interface between GRASS 6 and R. ",
-             vers, ".", sep=""))
+             note, ".", sep=""))
 
 citEntry(entry = "Article",
          title = "Using the {R}--{GRASS} Interface: Current Status",
