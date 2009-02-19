@@ -265,7 +265,10 @@ spplot.points = function(obj, zcol = names(obj), ..., names.attr,
 setMethod("spplot", signature("SpatialPointsDataFrame"), spplot.points)
 
 create.z = function(df, zcol) {
-	if (is.numeric(df[[zcol[1]]]))
+	if (is.logical(df[[zcol[1]]])) {
+		z = stack(df[zcol])[[1]]
+		z = as.factor(z)
+	} else if (is.numeric(df[[zcol[1]]]))
 		z = stack(df[zcol])[[1]]
 	else if (is.factor(df[[zcol[1]]])) {
 		lev = levels(df[[zcol[1]]])
