@@ -34,7 +34,7 @@ zerodist <- function(obj, zero = 0.0, unique.ID = FALSE) {
 		ncol = 2, byrow = TRUE) + 1
 	if (unique.ID) {
 		id = 1:nrow(cc)
-		id[zd[,1]] = m$id[zd[,2]]
+		id[zd[,1]] = id[zd[,2]]
 		return(id)
 	} else
 		return(zd)
