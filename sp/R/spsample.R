@@ -198,7 +198,7 @@ sample.Polygons = function(x, n, type = "random", bb = bbox(x),
 		bbi <- .bbox2SPts(bbox(pls[[i]]), proj4string=proj4string)
 		bb_in <- lapply(pls[-i], function(x, pts) 
 			pointsInPolygon(pts, x), pts = bbi)
-		if (holes[i] || any(unlist(bb_in) != 0 & unlist(bb_in) != 3))
+		if (holes[i] || any(unlist(bb_in) == 1))
                     smple[i] <- FALSE
 	    }
 	}
