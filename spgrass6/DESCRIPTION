@@ -1,6 +1,6 @@
 Package: spgrass6
-Version: 0.5-18
-Date: 2009-02-05
+Version: 0.5-19
+Date: 2009-02-14
 Title: Interface between GRASS 6 geographical information system and R
 Author: Roger Bivand
 Maintainer: Roger Bivand <Roger.Bivand@nhh.no>

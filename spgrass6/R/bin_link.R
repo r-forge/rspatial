@@ -60,6 +60,14 @@ readRAST6 <- function(vname, cat=NULL, ignore.stderr = FALSE,
 		Gver <- system(cmd, intern=TRUE, 
 		ignore.stderr=ignore.stderr))
 	G63 <- !(Gver < "GRASS 6.3") #Gver > "GRASS 6.2"
+# 090311 fix for -c flag
+        cmd <- paste("r.out.gdal", .addexe(), " --interface-description",
+                sep="")
+	tull <- ifelse(.Platform$OS.type=="windows",
+		CflagXML <- system(cmd, intern=TRUE), 
+		CflagXML <- system(cmd, intern=TRUE, 
+		ignore.stderr=ignore.stderr))
+        Cflag <- length(grep("flag name=\"c\"", CflagXML)) > 0
 	for (i in seq(along=vname)) {
 
 		cmd <- paste(paste("r.info", .addexe(), sep=""),
@@ -118,7 +126,9 @@ readRAST6 <- function(vname, cat=NULL, ignore.stderr = FALSE,
 		    type <- ifelse (to_int, "Int32", "Float32")
 		    cmd <- paste(paste("r.out.gdal", .addexe(), sep=""),
 # 090111 fix for CPL error message
-                        " -c --quiet input=", vname[i], " output=", gtmpfl11,
+                        ifelse(Cflag, " -c", ""), 
+# 090311 fix for -c flag
+                        " --quiet input=", vname[i], " output=", gtmpfl11,
                         " type=", type, " nodata=", NODATA, sep="")
 
 # 061107 Dylan Beaudette NODATA
@@ -163,6 +173,8 @@ readRAST6 <- function(vname, cat=NULL, ignore.stderr = FALSE,
 				data=df, proj4string=p4)
 		}
 	}
+
+	closeAllConnections()
 
 	if (!is.null(cat)) {
 		for (i in seq(along=cat)) {

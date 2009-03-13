@@ -1,6 +1,14 @@
+2009-03-13 08:54  rsbivand
+
+	* R/bin_link.R, inst/CITATION: readRAST6 checks
+
+2009-02-05 19:38  rsbivand
+
+	* inst/CITATION: tidy
+
 2009-02-05 19:35  rsbivand
 
-	* DESCRIPTION, inst/CITATION: tidy
+	* DESCRIPTION, inst/CITATION, ChangeLog: tidy
 
 2009-01-11 21:47  rsbivand
 
