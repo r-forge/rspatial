@@ -65,14 +65,18 @@ readVECT6 <- function(vname, type=NULL, plugin=NULL, remove.duplicates=TRUE, ign
 			if (type != "area" && type != "line")
 			    stop("try remove.duplicates=FALSE")
 			ndata <- as(res, "data.frame")[!dups,,drop=FALSE]
-			row.names(ndata) <- ndata$cat
+                        cand <- as.character(ndata$cat)
+                        cand[is.na(cand)] <- "na"
+			row.names(ndata) <- cand
 			if (type == "area") {
 				pls <- slot(res, "polygons")
 			} else if (type == "line") {
 				pls <- slot(res, "lines")
 			}
 			p4s <- proj4string(res)
-			IDs <- res$cat
+			IDs <- as.character(res$cat)
+			IDs[is.na(IDs)] <- "na"
+#			IDs <- res$cat
 			tab <- table(factor(IDs))
 			n <- length(tab)
 			if (n + sum(dups) != length(pls))
