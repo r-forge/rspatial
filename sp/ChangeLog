@@ -1,3 +1,15 @@
+2009-03-31 14:12  rsbivand
+
+	* DESCRIPTION, R/overlay.R: overlay points on grid rownames problem
+
+2009-03-05 10:54  edzer
+
+	* man/mapasp.Rd: missing bracket
+
+2009-02-26 18:03  rsbivand
+
+	* ChangeLog, inst/ChangeLog: spsample and gridded polygons
+
 2009-02-26 17:33  rsbivand
 
 	* R/spsample.R: spsample and gridded polygons
