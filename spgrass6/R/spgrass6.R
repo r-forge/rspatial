@@ -255,3 +255,6 @@ writeRast6sp <- function(x, vname, zcol = 1, NODATA=-9999, ignore.stderr = FALSE
     if (Sys.getenv("OSTYPE") == "cygwin") res =".exe"
     res
 }
+
+assign("addEXE", .addexe(), envir=.GRASS_CACHE)
+

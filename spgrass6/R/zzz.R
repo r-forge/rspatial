@@ -40,9 +40,11 @@ if(!exists("Sys.setenv", envir = baseenv()))
       sep="")
   packageStartupMessage(Smess, appendLF = FALSE)
   require("rgdal")
+  require("XML")
 }
 
 .Last.lib <- function(lib, pkg) {
+    rm(.GRASS_CACHE)
     Sys.setenv("GRASS_PAGER"=.GRASS_old.GRASS_PAGER)
     Sys.setenv("GRASS_MESSAGE_FORMAT"=.GRASS_old.GRASS_MESSAGE_FORMAT)
 }

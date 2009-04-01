@@ -1,6 +1,17 @@
+2009-04-01 21:47  rsbivand
+
+	* DESCRIPTION, R/AAA.R, R/initGRASS.R, R/spgrass6.R, R/xml1.R,
+	  R/zzz.R, man/execGRASS.Rd, man/initGRASS.Rd: adding initGRASS and
+	  execGRASS functionality
+
+2009-03-13 15:42  rsbivand
+
+	* R/vect_link.R: readVECT6 NA cat values
+
 2009-03-13 08:54  rsbivand
 
-	* R/bin_link.R, inst/CITATION: readRAST6 checks
+	* R/bin_link.R, inst/CITATION, ChangeLog, DESCRIPTION,
+	  inst/ChangeLog: readRAST6 checks
 
 2009-02-05 19:38  rsbivand
 
