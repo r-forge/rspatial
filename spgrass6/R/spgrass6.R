@@ -3,11 +3,13 @@
 #
 
 gmeta6 <- function(ignore.stderr = FALSE) {
-	tull <- ifelse(.Platform$OS.type == "windows",
-		tx <- system(paste(paste("g.region", .addexe(), sep=""),
-                          "-g3"), intern=TRUE), 
-		tx <- system("g.region -g3", 
-		          intern=TRUE, ignore.stderr=ignore.stderr))	
+        tx <- execGRASS("g.region", flags=c("g", "3"), intern=TRUE,
+            ignore.stderr=ignore.stderr)
+#	tull <- ifelse(.Platform$OS.type == "windows",
+#		tx <- system(paste(paste("g.region", .addexe(), sep=""),
+#                          "-g3"), intern=TRUE), 
+#		tx <- system("g.region -g3", 
+#		          intern=TRUE, ignore.stderr=ignore.stderr))	
 	tx <- gsub("=", ":", tx)
 	con <- textConnection(tx)
 	res <- read.dcf(con)
@@ -39,11 +41,13 @@ gmeta6 <- function(ignore.stderr = FALSE) {
 		lres$depths <- abs(as.integer((lres$t-lres$b)/lres$tbres))
 	else lres$depths <- as.integer(lres$depths)
 	lres$proj4 <- getLocationProj()
-	tull <- ifelse(.Platform$OS.type == "windows", 
-		gisenv <- system(paste("g.gisenv", .addexe(), sep=""),
-                              intern=TRUE), 
-		gisenv <- system("g.gisenv", 
-		              intern=TRUE, ignore.stderr=ignore.stderr))
+        gisenv <- execGRASS("g.gisenv", intern=TRUE,
+            ignore.stderr=ignore.stderr)
+#	tull <- ifelse(.Platform$OS.type == "windows", 
+#		gisenv <- system(paste("g.gisenv", .addexe(), sep=""),
+#                              intern=TRUE), 
+#		gisenv <- system("g.gisenv", 
+#		              intern=TRUE, ignore.stderr=ignore.stderr))
 	gisenv <- gsub("[';]", "", gisenv)
 	gisenv <- strsplit(gisenv, "=")
 	glist <- as.list(sapply(gisenv, function(x) x[2]))
@@ -83,11 +87,13 @@ gmeta2grd <- function(ignore.stderr = FALSE) {
 
 getLocationProj <- function(ignore.stderr = FALSE) {
 # too strict assumption on g.proj Rohan Sadler 20050928
-	ifelse(.Platform$OS.type == "windows", 
-		projstr <- system(paste(paste("g.proj", .addexe(), sep=""),
-                               "-j -f"), intern=TRUE), 
-		projstr <- system("g.proj -j -f", intern=TRUE, 
-		               ignore.stderr=ignore.stderr))
+#	ifelse(.Platform$OS.type == "windows", 
+#		projstr <- system(paste(paste("g.proj", .addexe(), sep=""),
+#                               "-j -f"), intern=TRUE), 
+#		projstr <- system("g.proj -j -f", intern=TRUE, 
+#		               ignore.stderr=ignore.stderr))
+        projstr <- execGRASS("g.proj", flags=c("j", "f"), intern=TRUE, 
+            ignore.stderr=ignore.stderr)
 	if (length(grep("XY location", projstr)) > 0)
 		projstr <- as.character(NA)
 	if (length(grep("latlong", projstr)) > 0)
@@ -109,9 +115,11 @@ getLocationProj <- function(ignore.stderr = FALSE) {
 }
 
 .g_findfile <- function(vname, type) {
-    cmd <- paste("g.findfile", .addexe(), " element=", type, " file=", 
-        vname[1], sep="")
-    ms <- system(cmd, intern=TRUE)
+#    cmd <- paste("g.findfile", .addexe(), " element=", type, " file=", 
+#        vname[1], sep="")
+#    ms <- system(cmd, intern=TRUE)
+    ms <- execGRASS("g.findfile", parameters=list(element=type, file=vname[1]),
+        intern=TRUE)
     tx <- gsub("=", ":", ms)
     con <- textConnection(tx)
     res <- read.dcf(con)
@@ -125,6 +133,7 @@ getLocationProj <- function(ignore.stderr = FALSE) {
 }
 
 readFLOAT6sp <- function(vname, ignore.stderr = FALSE) {
+        .Deprecated("readRAST6", package="spgrass6")
 	pid <- as.integer(round(runif(1, 1, 1000)))
 	p4 <- CRS(getLocationProj())
 	for (i in seq(along=vname)) {
@@ -175,6 +184,7 @@ readFLOAT6sp <- function(vname, ignore.stderr = FALSE) {
 }
 
 readCELL6sp <- function(vname, cat=NULL, ignore.stderr = FALSE) {
+        .Deprecated("readRAST6", package="spgrass6")
 	if (!is.null(cat))
 		if(length(vname) != length(cat)) 
 			stop("vname and cat not same length")
@@ -216,15 +226,18 @@ readCELL6sp <- function(vname, cat=NULL, ignore.stderr = FALSE) {
 }
 
 rast.get6 <- function(vname, cat=NULL, ignore.stderr = FALSE) {
+        .Deprecated("readRAST6", package="spgrass6")
 	readCELL6sp(vname=vname, cat=cat, ignore.stderr=ignore.stderr)
 }
 
 rast.put6 <- function(x, vname, zcol = 1, NODATA=-9999, ignore.stderr = FALSE) {
+        .Deprecated("writeRAST6", package="spgrass6")
 	writeRast6sp(x=x, vname=vname, zcol=zcol, NODATA=NODATA, ignore.stderr=ignore.stderr)
 }
 
 
 writeRast6sp <- function(x, vname, zcol = 1, NODATA=-9999, ignore.stderr = FALSE) {
+        .Deprecated("writeRAST6", package="spgrass6")
 	pid <- as.integer(round(runif(1, 1, 1000)))
 	gtmpfl1 <- ifelse(.Platform$OS.type == "windows",
 		system(paste(paste("g.tempfile", .addexe(), sep=""),
