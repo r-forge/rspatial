@@ -1,8 +1,13 @@
+2009-04-02 11:04  rsbivand
+
+	* DESCRIPTION, R/AAA.R, R/initGRASS.R, R/spgrass6.R, R/zzz.R:
+	  checking Windows initGRASS
+
 2009-04-01 21:47  rsbivand
 
 	* DESCRIPTION, R/AAA.R, R/initGRASS.R, R/spgrass6.R, R/xml1.R,
-	  R/zzz.R, man/execGRASS.Rd, man/initGRASS.Rd: adding initGRASS and
-	  execGRASS functionality
+	  R/zzz.R, man/execGRASS.Rd, man/initGRASS.Rd, ChangeLog,
+	  inst/ChangeLog: adding initGRASS and execGRASS functionality
 
 2009-03-13 15:42  rsbivand
 
