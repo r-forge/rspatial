@@ -246,7 +246,6 @@ writeRast6sp <- function(x, vname, zcol = 1, NODATA=-9999, ignore.stderr = FALSE
 	unlink(rtmpfl1)
 }
 
-
 .addexe <- function() {
     res <- ""
     if (Sys.getenv("OSTYPE") == "msys") res =".exe"
@@ -256,5 +255,4 @@ writeRast6sp <- function(x, vname, zcol = 1, NODATA=-9999, ignore.stderr = FALSE
     res
 }
 
-assign("addEXE", .addexe(), envir=.GRASS_CACHE)
 

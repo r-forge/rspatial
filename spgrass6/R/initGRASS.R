@@ -52,6 +52,7 @@ initGRASS <- function(gisBase, home, SG, gisDbase, location, mapset,
             append=TRUE)
         gisrc <- system(paste("g.dirseps.exe -g",
             shQuote(Sys.getenv("WINGISRC"))), intern=TRUE)
+        assign("addEXE", .addexe(), envir=.GRASS_CACHE)
         Sys.setenv(GISRC=gisrc)
         if (!missing(gisDbase)) {
             dir.create(gisDbase)

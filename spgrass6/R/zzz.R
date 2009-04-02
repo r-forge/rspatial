@@ -41,6 +41,11 @@ if(!exists("Sys.setenv", envir = baseenv()))
   packageStartupMessage(Smess, appendLF = FALSE)
   require("rgdal")
   require("XML")
+  
+#  .GRASS_CACHE <- new.env(FALSE, parent=globalenv())
+  assign("cmdCACHE", list(), envir=.GRASS_CACHE)
+  assign("addEXE", .addexe(), envir=.GRASS_CACHE)
+
 }
 
 .Last.lib <- function(lib, pkg) {
