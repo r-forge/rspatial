@@ -13,7 +13,10 @@ parseGRASS <- function(cmd) {
     if (is.null(res)) {
         cmd0 <- paste(paste(cmd, get("addEXE", envir=.GRASS_CACHE), sep=""),
             "--interface-description")
-        tr <- try(xmlTreeParse(system(cmd0, intern=TRUE)))
+        tr <- try(system(cmd0, intern=TRUE))
+	if (class(tr) == "try-error") stop(paste(cmd, "not found"))
+        tr <- try(xmlTreeParse(tr))
+	if (inherits(tr, "try-error")) stop(paste(cmd, "not parsed"))
         tr1 <- xmlChildren(xmlRoot(tr))
         res <- vector(mode="list", length=7)
         names(res) <- c("cmd", "description", "keywords", "parameters", "flags",
