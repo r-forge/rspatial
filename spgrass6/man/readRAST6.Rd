@@ -63,18 +63,8 @@ if (nchar(Sys.getenv("GISRC")) > 0) {
   spear <- readRAST6(c("geology", "elevation.dem"), cat=c(TRUE, FALSE),
     ignore.stderr=TRUE, useGDAL=TRUE, plugin=FALSE)
   print(table(spear$geology))
-  if ((Sys.getenv("OSTYPE") == "msys" || nchar(Sys.getenv("WINGISRC")) > 0) || Sys.getenv("OSTYPE") == "cygwin")
-    Gver <- system("g.version.exe", intern=TRUE)
-  else Gver <- system("g.version", intern=TRUE)
-  if (Gver > "GRASS 6.2") {
-    if ((Sys.getenv("OSTYPE") == "msys" || nchar(Sys.getenv("WINGISRC")) > 0) || Sys.getenv("OSTYPE") == "cygwin")
-      system("r.stats.exe --q -cl geology")
-    else system("r.stats --q -cl geology")
-  } else {
-    if ((Sys.getenv("OSTYPE") == "msys" || nchar(Sys.getenv("WINGISRC")) > 0) || Sys.getenv("OSTYPE") == "cygwin")
-      system("r.stats.exe -q -cl geology")
-    else system("r.stats -q -cl geology")
-  }
+  execGRASS("r.stats", flags=c("c", "l", "quiet"), 
+    parameters=list(input="geology"), ignore.stderr=TRUE)
   boxplot(spear$elevation.dem ~ spear$geology)
   spear$sqdem <- sqrt(spear$elevation.dem)
   if ("GRASS" \%in\% gdalDrivers()$name) {
@@ -83,32 +73,20 @@ if (nchar(Sys.getenv("GISRC")) > 0) {
     print(summary(dem1))
   }
   writeRAST6(spear, "sqdemSP", zcol="sqdem", ignore.stderr=TRUE)
-  if ((Sys.getenv("OSTYPE") == "msys" || nchar(Sys.getenv("WINGISRC")) > 0) || Sys.getenv("OSTYPE") == "cygwin")
-    system("r.info.exe sqdemSP", ignore.stderr=TRUE)
-  else system("r.info sqdemSP", ignore.stderr=TRUE)
-  if ((Sys.getenv("OSTYPE") == "msys" || nchar(Sys.getenv("WINGISRC")) > 0) || Sys.getenv("OSTYPE") == "cygwin")
-    system("g.remove.exe rast=sqdemSP")
-  else system("g.remove rast=sqdemSP")
+  execGRASS("r.info", parameters=list(map="sqdemSP"), ignore.stderr=TRUE)
+  execGRASS("g.remove", parameters=list(rast="sqdemSP"), ignore.stderr=TRUE)
   writeRAST6(spear, "sqdemSP", zcol="sqdem", ignore.stderr=TRUE, useGDAL=TRUE)
-  if ((Sys.getenv("OSTYPE") == "msys" || nchar(Sys.getenv("WINGISRC")) > 0) || Sys.getenv("OSTYPE") == "cygwin")
-    system("r.info.exe sqdemSP", ignore.stderr=TRUE)
-  else system("r.info sqdemSP", ignore.stderr=TRUE)
-  if ((Sys.getenv("OSTYPE") == "msys" || nchar(Sys.getenv("WINGISRC")) > 0) || Sys.getenv("OSTYPE") == "cygwin")
-    system("g.remove.exe rast=sqdemSP")
-  else system("g.remove rast=sqdemSP")
-  if ((Sys.getenv("OSTYPE") == "msys" || nchar(Sys.getenv("WINGISRC")) > 0) || Sys.getenv("OSTYPE") == "cygwin")
-    system("r.mapcalc.exe quads0 = quads - 1", ignore.stderr=TRUE)
-  else system("r.mapcalc \'quads0 = quads - 1\'", ignore.stderr=TRUE)
-  if ((Sys.getenv("OSTYPE") == "msys" || nchar(Sys.getenv("WINGISRC")) > 0) || Sys.getenv("OSTYPE") == "cygwin")
-    system("r.stats.exe -c quads0", ignore.stderr=TRUE)
-  else system("r.stats -c quads0", ignore.stderr=TRUE)
+  execGRASS("r.info", parameters=list(map="sqdemSP"), ignore.stderr=TRUE)
+  execGRASS("g.remove", parameters=list(rast="sqdemSP"), ignore.stderr=TRUE)
+  execGRASS("r.mapcalculator", parameters=list(outfile="quads0", amap="quads",
+      formula="\'A - 1\'"), ignore.stderr=TRUE)
+  execGRASS("r.stats", flags="c", parameters=list(input="quads0"),
+    ignore.stderr=TRUE)
   quads0 <- readRAST6("quads0", ignore.stderr=TRUE)
   print(table(quads0$quads0))
   quads0 <- readRAST6("quads0", ignore.stderr=TRUE, plugin=FALSE)
   print(table(quads0$quads0))
-  if ((Sys.getenv("OSTYPE") == "msys" || nchar(Sys.getenv("WINGISRC")) > 0) || Sys.getenv("OSTYPE") == "cygwin")
-    system("g.remove.exe rast=quads0")
-  else system("g.remove rast=quads0")
+  execGRASS("g.remove", parameters=list(rast="quads0"), ignore.stderr=TRUE)
 }
 }
 \keyword{spatial}

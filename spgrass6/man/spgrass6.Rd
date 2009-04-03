@@ -49,7 +49,7 @@ if (nchar(Sys.getenv("GISRC")) > 0) {
   set.seed(1)
   smple <- overlay(soilsph, spsample(soilsph, 200, "random"))
   summary(smple)
-  writeVECT6(smple, "sp_dem", v.in.ogr_flags="--overwrite", ignore.stderr=TRUE)
+  writeVECT6(smple, "sp_dem", v.in.ogr_flags="overwrite", ignore.stderr=TRUE)
   bugsDF <- readVECT6("bugsites", ignore.stderr=TRUE, mapset="PERMANENT")
   summary(bugsDF)
   vInfo("streams", ignore.stderr=TRUE)

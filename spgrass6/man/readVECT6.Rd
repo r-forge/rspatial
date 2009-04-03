@@ -41,7 +41,7 @@ cygwin_clean_temp(verbose=TRUE, ignore.stderr = FALSE)
   \item{with_c}{if TRUE, export features with category (labeled) only; by default all features are exported}
   \item{mapset}{if plugin is TRUE, the mapset of the file to be imported may be changed from the current mapset by passing a character string}
   \item{SDF}{A Spatial*DataFrame to be moved to GRASS6 as a vector object, for SpatialPointsDataFrame, SpatialLinesDataFrame, and SpatialPolygonsDataFrame objects}
-  \item{v.in.ogr_flags}{String containing additional optional flags and/or options for v.in.ogr, particularly -o and --overwrite}
+  \item{v.in.ogr_flags}{Character vector containing additional optional flags and/or options for v.in.ogr, particularly "o" and "overwrite"}
   \item{ID}{A valid DB column name for unique identifiers (optional)}
   \item{SPDF}{A SpatialPointsDataFrame to be moved to GRASS6 as vector points}
   \item{df}{A data frame with at least columns named x, y and cat (no z support yet)}
@@ -59,18 +59,15 @@ Please also note that, on Windows and Cygwin systems, the temporary shapefiles a
 
 \examples{
 if (nchar(Sys.getenv("GISRC")) > 0) {
-  if ((Sys.getenv("OSTYPE") == "msys" || nchar(Sys.getenv("WINGISRC")) > 0) || Sys.getenv("OSTYPE") == "cygwin")
-    system("v.info.exe bugsites")
-  else system("v.info bugsites")
+  execGRASS("v.info", parameters=list(map="bugsites"))
   print(vInfo("bugsites", ignore.stderr=TRUE))
   bugs <- readVECT6("bugsites", ignore.stderr=TRUE, plugin=NULL)
   print(summary(bugs))
   bugs1 <- readVECT6("bugsites", ignore.stderr=TRUE, plugin=FALSE)
   print(summary(bugs1))
-  writeVECT6(bugs, "newbugs", v.in.ogr_flags="-o --overwrite", ignore.stderr=TRUE)
-  if ((Sys.getenv("OSTYPE") == "msys" || nchar(Sys.getenv("WINGISRC")) > 0) || Sys.getenv("OSTYPE") == "cygwin")
-    system("v.info.exe newbugs")
-  else system("v.info newbugs")
+  writeVECT6(bugs, "newbugs", v.in.ogr_flags=c("o", "overwrite"),
+    ignore.stderr=TRUE)
+  execGRASS("v.info", parameters=list(map="newbugs"))
   nbugs <- readVECT6("newbugs", ignore.stderr=TRUE)
   print(summary(nbugs))
   print(vInfo("roads", ignore.stderr=TRUE))

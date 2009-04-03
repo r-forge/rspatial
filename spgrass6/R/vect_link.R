@@ -187,12 +187,14 @@ writeVECT6 <- function(SDF, vname, #factor2char = TRUE,
 	if (is.null(type)) stop("Unknown data class")
 
 	pid <- as.integer(round(runif(1, 1, 1000)))
-	cmd <- paste(paste("g.tempfile", .addexe(), sep=""),
-                    " pid=", pid, sep="")
+#	cmd <- paste(paste("g.tempfile", .addexe(), sep=""),
+#                    " pid=", pid, sep="")
 
-	gtmpfl1 <- dirname(ifelse(.Platform$OS.type == "windows", 
-		system(cmd, intern=TRUE), system(cmd, 
-		intern=TRUE, ignore.stderr=ignore.stderr)))
+#	gtmpfl1 <- dirname(ifelse(.Platform$OS.type == "windows", 
+#		system(cmd, intern=TRUE), system(cmd, 
+#		intern=TRUE, ignore.stderr=ignore.stderr)))
+	gtmpfl1 <- dirname(execGRASS("g.tempfile", parameters=list(pid=pid),
+            intern=TRUE, ignore.stderr=ignore.stderr))
 	rtmpfl1 <- ifelse(.Platform$OS.type == "windows" &&
                 (Sys.getenv("OSTYPE") == "cygwin"), 
 		system(paste("cygpath -w", gtmpfl1, sep=" "), intern=TRUE), 
@@ -214,12 +216,17 @@ writeVECT6 <- function(SDF, vname, #factor2char = TRUE,
 
 	writeOGR(SDF, dsn=rtmpfl1, layer=shname, driver="ESRI Shapefile")
 
-	cmd <- paste(paste("v.in.ogr", .addexe(), sep=""),
-                    " ", v.in.ogr_flags, " dsn=", gtmpfl1, 
-		" output=", vname, " layer=", shname, sep="")
+#	cmd <- paste(paste("v.in.ogr", .addexe(), sep=""),
+#                    " ", v.in.ogr_flags, " dsn=", gtmpfl1, 
+#		" output=", vname, " layer=", shname, sep="")
 
-	tull <- ifelse(.Platform$OS.type == "windows", system(cmd), 
-		system(cmd, ignore.stderr=ignore.stderr))
+#	tull <- ifelse(.Platform$OS.type == "windows", system(cmd), 
+#		system(cmd, ignore.stderr=ignore.stderr))
+
+	execGRASS("v.in.ogr", flags=v.in.ogr_flags,
+	    parameters=list(dsn=gtmpfl1, output=vname, layer=shname),
+	    ignore.stderr=ignore.stderr)
+
 	if (.Platform$OS.type != "windows") 
             unlink(paste(rtmpfl1, list.files(rtmpfl1, pattern=shname), 
 		sep=.Platform$file.sep))
@@ -270,8 +277,13 @@ vDataCount <- function(vname, ignore.stderr = TRUE) {
 #                    " -c map=", vname, " column=cat", sep="")
 #	if(.Platform$OS.type == "windows") tull <- system(cmd, intern=TRUE)
 #	else tull <- system(cmd, intern=TRUE, ignore.stderr=ignore.stderr)
-        tull <- execGRASS("v.db.select", flags="c", parameters=list(map=vname,
-            columns="cat"), intern=TRUE, ignore.stderr=ignore.stderr)
+        column <- "column" %in% parseGRASS("v.db.select")$pnames
+        if (column) tull <- execGRASS("v.db.select", flags="c",
+            parameters=list(map=vname, column="cat"), intern=TRUE,
+            ignore.stderr=ignore.stderr)
+        else tull <- execGRASS("v.db.select", flags="c",
+            parameters=list(map=vname, columns="cat"), intern=TRUE,
+            ignore.stderr=ignore.stderr)
 	n <- length(tull)
 	n
 }
