@@ -3,7 +3,23 @@ parseGRASS <- function(cmd) {
       "d.what.vect.exe", "d.zoom.exe", "g.parser.exe", "gis.m.bat",
       "i.spectral.bat", "mkftcap.bat", "r.mapcalc.exe", "r.tileset.bat",
       "r3.mapcalc.exe", "v.in.gpsbabel.bat", "v.proj.exe")
-
+    WN_bat <- c("d.correlate", "d.font.freetype", "d.m", "d.monsize",
+     "d.mvmon", "d.out.file", "d.out.gpsdrive", "d.out.png", "d.paint.labels",
+     "d.polar", "d.rast.edit", "d.rast.leg", "d.redraw", "d.resize",
+     "d.shadedmap", "d.slide.show", "d.split", "d.text.freetype",
+     "d.vect.thematic", "db.dropcol", "db.in.ogr", "db.test", "g.manual",
+     "g.mlist", "g.mremove", "gis.m", "i.fusion.brovey", "i.image.mosaic",
+     "i.in.spotvgt", "i.landsat.rgb", "i.oif", "i.spectral", "i.tasscap",
+     "m.proj", "mkftcap", "nviz", "p.out.vrml", "r.blend", "r.cats",
+     "r.fillnulls", "r.in.aster", "r.in.srtm", "r.in.wms", "r.li.setup",
+     "r.mapcalculator", "r.mask", "r.out.gdal.sh", "r.out.xyz", "r.plane",
+     "r.reclass.area", "r.regression.line", "r.shaded.relief", "r.tileset",
+     "r.univar.sh", "r3.mapcalculator", "v.build.all", "v.centroids",
+     "v.convert.all", "v.db.addcol", "v.db.addtable", "v.db.dropcol",
+     "v.db.droptable", "v.db.join", "v.db.reconnect.all", "v.db.renamecol",
+     "v.db.univar", "v.db.update", "v.dissolve", "v.in.e00", "v.in.garmin",
+     "v.in.gns", "v.in.gpsbabel", "v.in.mapgen", "v.in.sites.all", "v.in.wfs",
+     "v.rast.stats", "v.report", "v.univar.sh", "v.what.vect")
     if ((Sys.getenv("OS") == "Windows_NT") && (Sys.getenv("OSTYPE") == "")) {
         if (cmd %in% bin_out_win)
             stop(paste("No interface description:", cmd))
@@ -11,17 +27,20 @@ parseGRASS <- function(cmd) {
     cmdCACHE <- get("cmdCACHE", envir=.GRASS_CACHE)
     res <- cmdCACHE[[cmd]]
     if (is.null(res)) {
-        cmd0 <- paste(paste(cmd, get("addEXE", envir=.GRASS_CACHE), sep=""),
+        ext <- get("addEXE", envir=.GRASS_CACHE)
+        if (cmd %in% WN_bat) ext <- ".bat"
+        cmd0 <- paste(paste(cmd, ext, sep=""),
             "--interface-description")
         tr <- try(system(cmd0, intern=TRUE))
 	if (class(tr) == "try-error") stop(paste(cmd, "not found"))
         tr <- try(xmlTreeParse(tr))
 	if (inherits(tr, "try-error")) stop(paste(cmd, "not parsed"))
         tr1 <- xmlChildren(xmlRoot(tr))
-        res <- vector(mode="list", length=7)
+        res <- vector(mode="list", length=8)
         names(res) <- c("cmd", "description", "keywords", "parameters", "flags",
-            "pnames", "fnames")
+            "pnames", "fnames", "ext")
         res$cmd <- cmd
+        res$ext <- ext
         res$description <- xmlValue(tr1[[1]])
         res$keywords <- xmlValue(tr1[[2]])
         o0 <- names(tr1)
@@ -60,6 +79,7 @@ parseGRASS <- function(cmd) {
 
 print.GRASS_interface_desc <- function(x, ...) {
     cat("Command:", x$cmd, "\n")
+    if (length(x$ext) > 0) cat("Extension:", x$ext, "\n")
     cat("Description:", x$description, "\n")
     cat("Keywords:", x$keywords, "\n")
     cat("Parameters:\n")
@@ -76,7 +96,7 @@ doGRASS <- function(cmd, flags=NULL, parameters=NULL) {
     if (!is.null(flags)) stopifnot(is.character(flags))
     if (!is.null(parameters)) stopifnot(is.list(parameters))
     pcmd <- parseGRASS(cmd)
-    cmd <- paste(cmd, get("addEXE", envir=.GRASS_CACHE), sep="")
+    cmd <- paste(cmd, pcmd$ext, sep="")
     res <- cmd
     if (!is.null(flags)) {
         fm <- match(flags, pcmd$fnames)

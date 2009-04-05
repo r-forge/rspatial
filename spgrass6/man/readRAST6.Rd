@@ -78,6 +78,15 @@ if (nchar(Sys.getenv("GISRC")) > 0) {
   writeRAST6(spear, "sqdemSP", zcol="sqdem", ignore.stderr=TRUE, useGDAL=TRUE)
   execGRASS("r.info", parameters=list(map="sqdemSP"), ignore.stderr=TRUE)
   execGRASS("g.remove", parameters=list(rast="sqdemSP"), ignore.stderr=TRUE)
+  execGRASS("r.mapcalculator", parameters=list(outfile="quads0", amap="quads",
+      formula=shQuote('A - 1')), ignore.stderr=TRUE)
+  execGRASS("r.stats", flags="c", parameters=list(input="quads0"),
+    ignore.stderr=TRUE)
+  quads0 <- readRAST6("quads0", ignore.stderr=TRUE)
+  print(table(quads0$quads0))
+  quads0 <- readRAST6("quads0", ignore.stderr=TRUE, plugin=FALSE)
+  print(table(quads0$quads0))
+  execGRASS("g.remove", parameters=list(rast="quads0"), ignore.stderr=TRUE)
 }
 }
 \keyword{spatial}
