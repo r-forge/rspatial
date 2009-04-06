@@ -28,7 +28,7 @@ parseGRASS <- function(cmd) {
     res <- cmdCACHE[[cmd]]
     if (is.null(res)) {
         ext <- get("addEXE", envir=.GRASS_CACHE)
-        if (cmd %in% WN_bat) ext <- ".bat"
+        if ((.Platform$OS.type == "windows" && nchar(Sys.getenv("OSTYPE")) == 0) && cmd %in% WN_bat) ext <- ".bat"
         cmd0 <- paste(paste(cmd, ext, sep=""),
             "--interface-description")
         tr <- try(system(cmd0, intern=TRUE))

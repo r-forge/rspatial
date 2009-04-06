@@ -1,3 +1,21 @@
+2009-04-03 21:30  rsbivand
+
+	* R/xml1.R, man/readRAST6.Rd: Windows Native cleanup
+
+2009-04-03 13:35  rsbivand
+
+	* R/bin_link.R, R/vect_link.R, man/readRAST6.Rd, man/readVECT6.Rd,
+	  man/spgrass6.Rd: implementing via execGRASS phase 2
+
+2009-04-02 22:26  rsbivand
+
+	* DESCRIPTION, R/spgrass6.R, R/vect_link.R: execGRASS conversion
+	  phase 1
+
+2009-04-02 11:09  rsbivand
+
+	* ChangeLog, DESCRIPTION, inst/ChangeLog: tidy
+
 2009-04-02 11:04  rsbivand
 
 	* DESCRIPTION, R/AAA.R, R/initGRASS.R, R/spgrass6.R, R/zzz.R:
