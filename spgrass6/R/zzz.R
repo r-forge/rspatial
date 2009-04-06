@@ -47,8 +47,8 @@ if(!exists("Sys.setenv", envir = baseenv()))
   SYS <- ""
   if (.Platform$OS.type == "windows") {
     if (Sys.getenv("OSTYPE") == "msys") SYS <- "msys"
-    if (nchar(Sys.getenv("OSTYPE")) == 0) SYS <- "WinNat"
-    if (Sys.getenv("OSTYPE") == "cygwin") SYS <- "cygwin"
+    else if (nchar(Sys.getenv("OSTYPE")) == 0) SYS <- "WinNat"
+    else if (Sys.getenv("OSTYPE") == "cygwin") SYS <- "cygwin"
   } else if (.Platform$OS.type == "unix") SYS <- "unix"
   assign("SYS", SYS, envir=.GRASS_CACHE)
   assign("addEXE", .addexe(), envir=.GRASS_CACHE)
