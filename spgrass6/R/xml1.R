@@ -28,7 +28,7 @@ parseGRASS <- function(cmd) {
                     intern=TRUE))
                 assign("WN_bat", WN_bat, envir=.GRASS_CACHE)
             }
-
+        }
         if ((get("SYS", envir=.GRASS_CACHE) == "WinNat") && cmd %in% WN_bat)
             ext <- ".bat"
         else if ((get("SYS", envir=.GRASS_CACHE) == "msys") && cmd %in% WN_bat)
