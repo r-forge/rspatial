@@ -1,3 +1,43 @@
+2009-04-06 22:26  rsbivand
+
+	* R/xml1.R, R/zzz.R, man/readRAST6.Rd: QGIS/cygwin cleanup
+
+2009-04-06 20:21  rsbivand
+
+	* R/zzz.R: bat check fix
+
+2009-04-06 19:45  rsbivand
+
+	* R/xml1.R: bat check fix
+
+2009-04-06 19:41  rsbivand
+
+	* R/xml1.R: bat check fix
+
+2009-04-06 19:40  rsbivand
+
+	* R/zzz.R: Windows Native cleanup
+
+2009-04-06 19:10  rsbivand
+
+	* R/: xml1.R: bat check fix
+
+2009-04-06 19:03  rsbivand
+
+	* R/: xml1.R, zzz.R: bat check fix
+
+2009-04-06 18:37  rsbivand
+
+	* R/: initGRASS.R, spgrass6.R, xml1.R, zzz.R: bat check fix
+
+2009-04-06 11:17  rsbivand
+
+	* ChangeLog, R/xml1.R, inst/ChangeLog: bat check fix
+
+2009-04-05 21:41  rsbivand
+
+	* DESCRIPTION, R/xml1.R, man/readRAST6.Rd: Windows Native cleanup
+
 2009-04-03 21:30  rsbivand
 
 	* R/xml1.R, man/readRAST6.Rd: Windows Native cleanup
