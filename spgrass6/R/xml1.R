@@ -10,14 +10,14 @@ parseGRASS <- function(cmd) {
     if (is.null(res)) {
         ext <- get("addEXE", envir=.GRASS_CACHE)
         if ((get("SYS", envir=.GRASS_CACHE) == "WinNat") && 
-            (nchar(WN_bat <- get("WN_bat", envir=.GRASS_CACHE)) == 0)) {
+            (any(nchar(WN_bat <- get("WN_bat", envir=.GRASS_CACHE)) == 0))) {
             WN_bat <- sub(".bat", "", list.files(paste(Sys.getenv("GISBASE"),
                 "bin", sep="/"), pattern=".bat$"))
             assign("WN_bat", WN_bat, envir=.GRASS_CACHE)
         }
         if ((get("SYS", envir=.GRASS_CACHE) == "cygwin") ||
             (get("SYS", envir=.GRASS_CACHE) == "msys")) {
-            if (nchar(WN_bat <- get("WN_bat", envir=.GRASS_CACHE)) == 0) {
+            if (any(nchar(WN_bat <- get("WN_bat", envir=.GRASS_CACHE)) == 0)) {
                 WN_bat <- list.files(paste(Sys.getenv("GISBASE"),
                     "scripts", sep="/"))
                 assign("WN_bat", WN_bat, envir=.GRASS_CACHE)
