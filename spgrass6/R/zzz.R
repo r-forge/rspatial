@@ -51,7 +51,9 @@ if(!exists("Sys.setenv", envir = baseenv()))
     else if (Sys.getenv("OSTYPE") == "cygwin") SYS <- "cygwin"
   } else if (.Platform$OS.type == "unix") SYS <- "unix"
   assign("SYS", SYS, envir=.GRASS_CACHE)
-  assign("addEXE", .addexe(), envir=.GRASS_CACHE)
+  res <- ""
+  if (SYS == "msys" || SYS == "WinNat" || SYS == "cygwin") res =".exe"
+  assign("addEXE", res, envir=.GRASS_CACHE)
   assign("WN_bat", "", envir=.GRASS_CACHE)
 }
 
