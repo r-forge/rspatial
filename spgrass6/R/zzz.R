@@ -52,6 +52,7 @@ if(!exists("Sys.setenv", envir = baseenv()))
   } else if (.Platform$OS.type == "unix") SYS <- "unix"
   assign("SYS", SYS, envir=.GRASS_CACHE)
   assign("addEXE", .addexe(), envir=.GRASS_CACHE)
+  assign("WN_bat", "", envir=.GRASS_CACHE)
 }
 
 .Last.lib <- function(lib, pkg) {
