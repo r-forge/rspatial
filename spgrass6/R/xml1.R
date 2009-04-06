@@ -9,11 +9,13 @@ parseGRASS <- function(cmd) {
     res <- cmdCACHE[[cmd]]
     if (is.null(res)) {
         ext <- get("addEXE", envir=.GRASS_CACHE)
-        if ((get("SYS", envir=.GRASS_CACHE) == "WinNat") && 
-            (any(nchar(WN_bat <- get("WN_bat", envir=.GRASS_CACHE)) == 0))) {
-            WN_bat <- sub(".bat", "", list.files(paste(Sys.getenv("GISBASE"),
-                "bin", sep="/"), pattern=".bat$"))
-            assign("WN_bat", WN_bat, envir=.GRASS_CACHE)
+        if (get("SYS", envir=.GRASS_CACHE) == "WinNat") {
+            if (any(nchar(WN_bat <- get("WN_bat", envir=.GRASS_CACHE)) == 0)) {
+                WN_bat <- sub(".bat", "", 
+                list.files(paste(Sys.getenv("GISBASE"), "bin", sep="/"),
+                    pattern=".bat$"))
+                assign("WN_bat", WN_bat, envir=.GRASS_CACHE)
+            }
         } else if (get("SYS", envir=.GRASS_CACHE) == "cygwin") {
             if (any(nchar(WN_bat <- get("WN_bat", envir=.GRASS_CACHE)) == 0)) {
                 WN_bat <- list.files(system(paste("cygpath -w",
@@ -23,30 +25,37 @@ parseGRASS <- function(cmd) {
             }
         } else if (get("SYS", envir=.GRASS_CACHE) == "msys") {
             if (any(nchar(WN_bat <- get("WN_bat", envir=.GRASS_CACHE)) == 0)) {
-                WN_bat <- list.files(system(paste("cygpath -w",
-                    paste(Sys.getenv("GISBASE"), "scripts", sep="/")),
-                    intern=TRUE))
+                WN_bat <- list.files(paste(Sys.getenv("GISBASE"), "scripts",
+                    sep="/"))
                 assign("WN_bat", WN_bat, envir=.GRASS_CACHE)
             }
         }
+        prep <- ""
         if ((get("SYS", envir=.GRASS_CACHE) == "WinNat") && cmd %in% WN_bat)
             ext <- ".bat"
-        else if ((get("SYS", envir=.GRASS_CACHE) == "msys") && cmd %in% WN_bat)
-            ext <- ""
-        else if ((get("SYS", envir=.GRASS_CACHE) == "cygwin") &&
-            cmd %in% WN_bat) ext <- ""
-
-        cmd0 <- paste(paste(cmd, ext, sep=""), "--interface-description")
+        else if ((get("SYS", envir=.GRASS_CACHE) == "msys") &&
+            cmd %in% WN_bat) {
+                ext <- ""
+                prep <- paste("sh.exe ", Sys.getenv("GISBASE"),
+                    "/scripts/", sep="")
+        } else if ((get("SYS", envir=.GRASS_CACHE) == "cygwin") &&
+            cmd %in% WN_bat) {
+                ext <- ""
+                prep <- paste("sh.exe ", Sys.getenv("GISBASE"),
+                    "/scripts/", sep="")
+        }
+        cmd0 <- paste(paste(prep, cmd, ext, sep=""), "--interface-description")
         tr <- try(system(cmd0, intern=TRUE))
 	if (class(tr) == "try-error") stop(paste(cmd, "not found"))
         tr <- try(xmlTreeParse(tr))
 	if (inherits(tr, "try-error")) stop(paste(cmd, "not parsed"))
         tr1 <- xmlChildren(xmlRoot(tr))
-        res <- vector(mode="list", length=8)
+        res <- vector(mode="list", length=9)
         names(res) <- c("cmd", "description", "keywords", "parameters", "flags",
-            "pnames", "fnames", "ext")
+            "pnames", "fnames", "ext", "prep")
         res$cmd <- cmd
         res$ext <- ext
+        res$prep <- prep
         res$description <- xmlValue(tr1[[1]])
         res$keywords <- xmlValue(tr1[[2]])
         o0 <- names(tr1)
@@ -85,7 +94,8 @@ parseGRASS <- function(cmd) {
 
 print.GRASS_interface_desc <- function(x, ...) {
     cat("Command:", x$cmd, "\n")
-    if (length(x$ext) > 0) cat("Extension:", x$ext, "\n")
+    if (nchar(x$ext) > 0) cat("Extension:", x$ext, "\n")
+    if (nchar(x$prep) > 0) cat("Shell prefix:", x$ext, "\n")
     cat("Description:", x$description, "\n")
     cat("Keywords:", x$keywords, "\n")
     cat("Parameters:\n")
@@ -102,7 +112,7 @@ doGRASS <- function(cmd, flags=NULL, parameters=NULL) {
     if (!is.null(flags)) stopifnot(is.character(flags))
     if (!is.null(parameters)) stopifnot(is.list(parameters))
     pcmd <- parseGRASS(cmd)
-    cmd <- paste(cmd, pcmd$ext, sep="")
+    cmd <- paste(pcmd$prep, cmd, pcmd$ext, sep="")
     res <- cmd
     if (!is.null(flags)) {
         fm <- match(flags, pcmd$fnames)

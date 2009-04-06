@@ -17,6 +17,20 @@ if(!exists("Sys.setenv", envir = baseenv()))
 
   gisrc <- Sys.getenv("GISRC")
   loc <- Sys.getenv("LOCATION_NAME")
+
+  assign("cmdCACHE", list(), envir=.GRASS_CACHE)
+  SYS <- ""
+  if (.Platform$OS.type == "windows") {
+    if (Sys.getenv("OSTYPE") == "msys") SYS <- "msys"
+    else if (nchar(Sys.getenv("OSTYPE")) == 0) SYS <- "WinNat"
+    else if (Sys.getenv("OSTYPE") == "cygwin") SYS <- "cygwin"
+  } else if (.Platform$OS.type == "unix") SYS <- "unix"
+  assign("SYS", SYS, envir=.GRASS_CACHE)
+  res <- ""
+  if (SYS == "msys" || SYS == "WinNat" || SYS == "cygwin") res =".exe"
+  assign("addEXE", res, envir=.GRASS_CACHE)
+  assign("WN_bat", "", envir=.GRASS_CACHE)
+
   if (nchar(gisrc) == 0) gv <- "(GRASS not running)"
   else {
     gv <- Sys.getenv("GRASS_VERSION")
@@ -43,18 +57,6 @@ if(!exists("Sys.setenv", envir = baseenv()))
   require("XML")
   
 #  .GRASS_CACHE <- new.env(FALSE, parent=globalenv())
-  assign("cmdCACHE", list(), envir=.GRASS_CACHE)
-  SYS <- ""
-  if (.Platform$OS.type == "windows") {
-    if (Sys.getenv("OSTYPE") == "msys") SYS <- "msys"
-    else if (nchar(Sys.getenv("OSTYPE")) == 0) SYS <- "WinNat"
-    else if (Sys.getenv("OSTYPE") == "cygwin") SYS <- "cygwin"
-  } else if (.Platform$OS.type == "unix") SYS <- "unix"
-  assign("SYS", SYS, envir=.GRASS_CACHE)
-  res <- ""
-  if (SYS == "msys" || SYS == "WinNat" || SYS == "cygwin") res =".exe"
-  assign("addEXE", res, envir=.GRASS_CACHE)
-  assign("WN_bat", "", envir=.GRASS_CACHE)
 }
 
 .Last.lib <- function(lib, pkg) {
