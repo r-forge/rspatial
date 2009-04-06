@@ -3,34 +3,34 @@ parseGRASS <- function(cmd) {
       "d.what.vect.exe", "d.zoom.exe", "g.parser.exe", "gis.m.bat",
       "i.spectral.bat", "mkftcap.bat", "r.mapcalc.exe", "r.tileset.bat",
       "r3.mapcalc.exe", "v.in.gpsbabel.bat", "v.proj.exe")
-    WN_bat <- c("d.correlate", "d.font.freetype", "d.m", "d.monsize",
-     "d.mvmon", "d.out.file", "d.out.gpsdrive", "d.out.png", "d.paint.labels",
-     "d.polar", "d.rast.edit", "d.rast.leg", "d.redraw", "d.resize",
-     "d.shadedmap", "d.slide.show", "d.split", "d.text.freetype",
-     "d.vect.thematic", "db.dropcol", "db.in.ogr", "db.test", "g.manual",
-     "g.mlist", "g.mremove", "gis.m", "i.fusion.brovey", "i.image.mosaic",
-     "i.in.spotvgt", "i.landsat.rgb", "i.oif", "i.spectral", "i.tasscap",
-     "m.proj", "mkftcap", "nviz", "p.out.vrml", "r.blend", "r.cats",
-     "r.fillnulls", "r.in.aster", "r.in.srtm", "r.in.wms", "r.li.setup",
-     "r.mapcalculator", "r.mask", "r.out.gdal.sh", "r.out.xyz", "r.plane",
-     "r.reclass.area", "r.regression.line", "r.shaded.relief", "r.tileset",
-     "r.univar.sh", "r3.mapcalculator", "v.build.all", "v.centroids",
-     "v.convert.all", "v.db.addcol", "v.db.addtable", "v.db.dropcol",
-     "v.db.droptable", "v.db.join", "v.db.reconnect.all", "v.db.renamecol",
-     "v.db.univar", "v.db.update", "v.dissolve", "v.in.e00", "v.in.garmin",
-     "v.in.gns", "v.in.gpsbabel", "v.in.mapgen", "v.in.sites.all", "v.in.wfs",
-     "v.rast.stats", "v.report", "v.univar.sh", "v.what.vect")
-    if ((Sys.getenv("OS") == "Windows_NT") && (Sys.getenv("OSTYPE") == "")) {
-        if (cmd %in% bin_out_win)
+    if ((get("SYS", envir=.GRASS_CACHE) == "WinNat") && cmd %in% bin_out_win)
             stop(paste("No interface description:", cmd))
-    }
     cmdCACHE <- get("cmdCACHE", envir=.GRASS_CACHE)
     res <- cmdCACHE[[cmd]]
     if (is.null(res)) {
         ext <- get("addEXE", envir=.GRASS_CACHE)
-        if ((.Platform$OS.type == "windows" && nchar(Sys.getenv("OSTYPE")) == 0) && cmd %in% WN_bat) ext <- ".bat"
-        cmd0 <- paste(paste(cmd, ext, sep=""),
-            "--interface-description")
+        if ((get("SYS", envir=.GRASS_CACHE) == "WinNat") && 
+            is.null(WN_bat <- get("WN_bat", envir=.GRASS_CACHE))) {
+            WN_bat <- sub(".bat", "", list.files(paste(Sys.getenv("GISBASE"),
+                "bin", sep="/"), pattern=".bat$"))
+            assign("WN_bat", WN_bat, envir=.GRASS_CACHE)
+        }
+        if ((get("SYS", envir=.GRASS_CACHE) == "cygwin") ||
+            (get("SYS", envir=.GRASS_CACHE) == "msys")) {
+            if (is.null(WN_bat <- get("WN_bat", envir=.GRASS_CACHE))) {
+                WN_bat <- list.files(paste(Sys.getenv("GISBASE"),
+                    "scripts", sep="/"))
+                assign("WN_bat", WN_bat, envir=.GRASS_CACHE)
+            }
+        }
+        if ((get("SYS", envir=.GRASS_CACHE) == "WinNat") && cmd %in% WN_bat)
+            ext <- ".bat"
+        else if ((get("SYS", envir=.GRASS_CACHE) == "msys") && cmd %in% WN_bat)
+            ext <- ""
+        else if ((get("SYS", envir=.GRASS_CACHE) == "cygwin") &&
+            cmd %in% WN_bat) ext <- ""
+
+        cmd0 <- paste(paste(cmd, ext, sep=""), "--interface-description")
         tr <- try(system(cmd0, intern=TRUE))
 	if (class(tr) == "try-error") stop(paste(cmd, "not found"))
         tr <- try(xmlTreeParse(tr))

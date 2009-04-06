@@ -3,12 +3,7 @@ initGRASS <- function(gisBase, home, SG, gisDbase, location, mapset,
     if (nchar(Sys.getenv("GISRC")) > 0 && !override)
       stop("A GRASS location is already in use; to override, set override=TRUE")
 
-    if (.Platform$OS.type == "windows") {
-        if (Sys.getenv("OSTYPE") == "msys") SYS <- "msys"
-        if (nchar(Sys.getenv("OSTYPE")) == 0) SYS <- "WinNat"
-        if (Sys.getenv("OSTYPE") == "cygwin") SYS <- "cygwin"
-    } else if (.Platform$OS.type == "unix") SYS <- "unix"
-     
+    SYS <- get("SYS", envir=.GRASS_CACHE) 
     if (SYS == "WinNat") {
 # grass63.bat
         Sys.setenv(GRASSDIR=gisBase)

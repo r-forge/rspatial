@@ -261,10 +261,8 @@ writeRast6sp <- function(x, vname, zcol = 1, NODATA=-9999, ignore.stderr = FALSE
 
 .addexe <- function() {
     res <- ""
-    if (Sys.getenv("OSTYPE") == "msys") res =".exe"
-    if (nchar(Sys.getenv("OSTYPE")) == 0 &&
-        nchar(Sys.getenv("WINGISRC")) > 0) res =".exe"
-    if (Sys.getenv("OSTYPE") == "cygwin") res =".exe"
+    SYS <- get("SYS", envir=.GRASS_CACHE)
+    if (SYS == "msys" || SYS == "WinNat" || SYS == "cygwin") res =".exe"
     res
 }
 

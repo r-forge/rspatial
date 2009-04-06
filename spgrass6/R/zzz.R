@@ -44,8 +44,14 @@ if(!exists("Sys.setenv", envir = baseenv()))
   
 #  .GRASS_CACHE <- new.env(FALSE, parent=globalenv())
   assign("cmdCACHE", list(), envir=.GRASS_CACHE)
+  SYS <- ""
+  if (.Platform$OS.type == "windows") {
+    if (Sys.getenv("OSTYPE") == "msys") SYS <- "msys"
+    if (nchar(Sys.getenv("OSTYPE")) == 0) SYS <- "WinNat"
+    if (Sys.getenv("OSTYPE") == "cygwin") SYS <- "cygwin"
+  } else if (.Platform$OS.type == "unix") SYS <- "unix"
+  assign("SYS", SYS, envir=.GRASS_CACHE)
   assign("addEXE", .addexe(), envir=.GRASS_CACHE)
-
 }
 
 .Last.lib <- function(lib, pkg) {
