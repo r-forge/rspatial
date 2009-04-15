@@ -1,3 +1,11 @@
+2009-04-15 16:43  rsbivand
+
+	* DESCRIPTION, R/vect_link.R, man/readVECT6.Rd: v.in.ogr flags NULL
+
+2009-04-06 22:30  rsbivand
+
+	* ChangeLog, inst/ChangeLog: bat check fix
+
 2009-04-06 22:26  rsbivand
 
 	* R/xml1.R, R/zzz.R, man/readRAST6.Rd: QGIS/cygwin cleanup

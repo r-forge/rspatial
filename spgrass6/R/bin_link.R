@@ -305,7 +305,7 @@ readBinGrid <- function(fname, colname=basename(fname),
 }
 
 writeRAST6 <- function(x, vname, zcol = 1, NODATA=NULL, 
-	ignore.stderr = FALSE, useGDAL=TRUE, overwrite=FALSE) {
+	ignore.stderr = FALSE, useGDAL=TRUE, flags=NULL) {
 
 
 	pid <- as.integer(round(runif(1, 1, 1000)))
@@ -363,8 +363,8 @@ writeRAST6 <- function(x, vname, zcol = 1, NODATA=NULL,
 #	    tull <- ifelse(.Platform$OS.type == "windows", 
 #		system(cmd), system(cmd, ignore.stderr=ignore.stderr))
 
-	    if (overwrite) flags <- "overwrite"
-            else flags <- NULL
+#	    if (overwrite) flags <- "overwrite"
+#            else flags <- NULL
 	    execGRASS("r.in.gdal", flags=flags, parameters=list(input=gtmpfl11,
 		output=vname), ignore.stderr=ignore.stderr)
 
@@ -382,9 +382,9 @@ writeRAST6 <- function(x, vname, zcol = 1, NODATA=NULL,
 #	    tull <- ifelse(.Platform$OS.type == "windows", 
 #		system(cmd), system(cmd, ignore.stderr=ignore.stderr))
 
-	    if (overwrite) flags <- c(res$flag, "overwrite")
-		
-	    execGRASS("r.in.bin", flags=flags, parameters=list(input=gtmpfl11,
+	    flags <- c(res$flag, flags)
+	    
+	    execGRASS("r.in.bin", flags=res$flag, parameters=list(input=gtmpfl11,
 		output=vname, bytes=as.integer(res$bytes), 
 		north=as.numeric(res$north), south=as.numeric(res$south), 
 		east=as.numeric(res$east), west=as.numeric(res$west), 
