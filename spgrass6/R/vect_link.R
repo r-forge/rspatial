@@ -178,7 +178,7 @@ readVECT6 <- function(vname, type=NULL, plugin=NULL, remove.duplicates=TRUE, ign
 }
 
 writeVECT6 <- function(SDF, vname, #factor2char = TRUE, 
-	v.in.ogr_flags="", ignore.stderr = FALSE) {
+	v.in.ogr_flags=NULL, ignore.stderr = FALSE) {
 
 	type <- NULL
 	if (class(SDF) == "SpatialPointsDataFrame") type <- "point"

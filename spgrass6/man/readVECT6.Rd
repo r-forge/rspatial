@@ -19,7 +19,7 @@
 }
 \usage{
 readVECT6(vname, type=NULL, plugin=NULL, remove.duplicates = TRUE, ignore.stderr = FALSE, with_prj=TRUE, with_c=FALSE, mapset=NULL)
-writeVECT6(SDF, vname,  v.in.ogr_flags="", ignore.stderr = FALSE)
+writeVECT6(SDF, vname,  v.in.ogr_flags=NULL, ignore.stderr = FALSE)
 vInfo(vname, ignore.stderr = FALSE)
 vColumns(vname, ignore.stderr = TRUE)
 vDataCount(vname, ignore.stderr = TRUE)
