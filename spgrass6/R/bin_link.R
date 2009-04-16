@@ -305,7 +305,7 @@ readBinGrid <- function(fname, colname=basename(fname),
 }
 
 writeRAST6 <- function(x, vname, zcol = 1, NODATA=NULL, 
-	ignore.stderr = FALSE, useGDAL=TRUE, flags=NULL) {
+	ignore.stderr = FALSE, useGDAL=TRUE, overwrite=FALSE, flags=NULL) {
 
 
 	pid <- as.integer(round(runif(1, 1, 1000)))
@@ -328,6 +328,8 @@ writeRAST6 <- function(x, vname, zcol = 1, NODATA=NULL,
 	rtmpfl11 <- paste(rtmpfl1, fid, sep=.Platform$file.sep)
 	if (!is.numeric(x@data[[zcol]])) 
 		stop("only numeric columns may be exported")
+	if (overwrite && !("overwrite" %in% flags))
+		flags <- c(flags, "overwrite")
 #	cmd <- paste("g.version", .addexe(), sep="")
 #	tull <- ifelse(.Platform$OS.type=="windows",
 #		Gver <- system(cmd, intern=TRUE), 
@@ -363,8 +365,6 @@ writeRAST6 <- function(x, vname, zcol = 1, NODATA=NULL,
 #	    tull <- ifelse(.Platform$OS.type == "windows", 
 #		system(cmd), system(cmd, ignore.stderr=ignore.stderr))
 
-#	    if (overwrite) flags <- "overwrite"
-#            else flags <- NULL
 	    execGRASS("r.in.gdal", flags=flags, parameters=list(input=gtmpfl11,
 		output=vname), ignore.stderr=ignore.stderr)
 
