@@ -1,7 +1,9 @@
 # Interpreted GRASS 6 interface functions
 # Copyright (c) 2005-9 Roger S. Bivand
 #
-readVECT6 <- function(vname, type=NULL, plugin=NULL, remove.duplicates=TRUE, ignore.stderr = FALSE, with_prj=TRUE, with_c=FALSE, mapset=NULL) {
+readVECT6 <- function(vname, type=NULL, plugin=NULL, remove.duplicates=TRUE, 
+	ignore.stderr = FALSE, with_prj=TRUE, with_c=FALSE, mapset=NULL, 
+	pointDropZ=FALSE) {
 
     if (is.null(plugin)) {
         ogrD <- ogrDrivers()$name
@@ -14,7 +16,8 @@ readVECT6 <- function(vname, type=NULL, plugin=NULL, remove.duplicates=TRUE, ign
         if (is.null(mapset)) mapset <- .g_findfile(vname[1], type="vector")
         dsn <- paste(gg$GISDBASE, gg$LOCATION_NAME, mapset,
             "vector", vname, "head", sep="/")
-        res <- readOGR(dsn, layer="1", verbose=!ignore.stderr)
+        res <- readOGR(dsn, layer="1", verbose=!ignore.stderr, 
+	    pointDropZ=pointDropZ)
     } else {
 	vinfo <- vInfo(vname)
 	types <- names(vinfo)[which(vinfo > 0)]
@@ -60,7 +63,8 @@ readVECT6 <- function(vname, type=NULL, plugin=NULL, remove.duplicates=TRUE, ign
             type=type, dsn=gtmpfl1, olayer=shname, format="ESRI_Shapefile"),
             ignore.stderr=ignore.stderr)
 
-	res <- readOGR(dsn=rtmpfl1, layer=shname, verbose=!ignore.stderr)
+	res <- readOGR(dsn=rtmpfl1, layer=shname, verbose=!ignore.stderr, 
+	    pointDropZ=pointDropZ)
 
 	if (.Platform$OS.type != "windows") 
             unlink(paste(rtmpfl1, list.files(rtmpfl1, pattern=shname), 

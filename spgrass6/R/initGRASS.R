@@ -2,6 +2,7 @@ initGRASS <- function(gisBase, home, SG, gisDbase, location, mapset,
     override=FALSE) {
     if (nchar(Sys.getenv("GISRC")) > 0 && !override)
       stop("A GRASS location is already in use; to override, set override=TRUE")
+    if (!file.exists(gisBase)) stop(paste(gisBase, "not found"))
 
     SYS <- get("SYS", envir=.GRASS_CACHE) 
     if (SYS == "WinNat") {
