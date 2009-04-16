@@ -1,3 +1,12 @@
+2009-04-16 10:33  rsbivand
+
+	* DESCRIPTION, R/bin_link.R, man/readRAST6.Rd: writeRAST6 arguments
+
+2009-04-15 21:03  rsbivand
+
+	* ChangeLog, R/bin_link.R, inst/ChangeLog, man/readRAST6.Rd: fixing
+	  rough edges in input/output
+
 2009-04-15 16:43  rsbivand
 
 	* DESCRIPTION, R/vect_link.R, man/readVECT6.Rd: v.in.ogr flags NULL
