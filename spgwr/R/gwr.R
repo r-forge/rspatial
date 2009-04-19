@@ -190,7 +190,9 @@ gwr <- function(formula, data = list(), coords, bandwidth,
 			(n * ((n + v1) / (n - 2 - v1)))
 # NOTE 2* and sqrt() inserted for legibility
 		AICh.b <- 2*n*log(sqrt(sigma2.b)) + n*log(2*pi) + n + v1
-		AICc.b <- 2*n*log(sqrt(sigma2.b)) + n * 
+# added ommitted n*log(2*pi) term in AICc.b
+# bug resolved by Christian Salas 090418
+		AICc.b <- 2*n*log(sqrt(sigma2.b)) + n*log(2*pi) + n * 
 			((delta1/delta2)*(n + nu1))/((delta1^2/delta2)-2)
 		results <- list(v1=v1, v2=v2, delta1=delta1, delta2=delta2, 
 			sigma2=sigma2, sigma2.b=sigma2.b, AICb=AICb.b, 
