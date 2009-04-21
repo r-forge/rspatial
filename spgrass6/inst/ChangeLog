@@ -1,3 +1,15 @@
+2009-04-21 08:36  rsbivand
+
+	* R/vect_link.R: guard against rgdal < 0.6-8
+
+2009-04-16 18:04  rsbivand
+
+	* R/initGRASS.R, R/vect_link.R, man/readVECT6.Rd: tidy
+
+2009-04-16 11:38  rsbivand
+
+	* ChangeLog, inst/ChangeLog: writeRAST6 arguments
+
 2009-04-16 10:33  rsbivand
 
 	* DESCRIPTION, R/bin_link.R, man/readRAST6.Rd: writeRAST6 arguments

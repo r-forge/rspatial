@@ -124,6 +124,7 @@ readRAST6 <- function(vname, cat=NULL, ignore.stderr = FALSE,
 		    close(con)
 		    lres <- as.list(res)
 		    names(lres) <- colnames(res)
+		    lres <- lapply(lres, as.numeric)
 		    if (!is.numeric(lres$min) || 
 			!is.finite(as.double(lres$min))) 
 			    NODATA <- as.integer(999)
