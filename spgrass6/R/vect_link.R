@@ -16,8 +16,12 @@ readVECT6 <- function(vname, type=NULL, plugin=NULL, remove.duplicates=TRUE,
         if (is.null(mapset)) mapset <- .g_findfile(vname[1], type="vector")
         dsn <- paste(gg$GISDBASE, gg$LOCATION_NAME, mapset,
             "vector", vname, "head", sep="/")
-        res <- readOGR(dsn, layer="1", verbose=!ignore.stderr, 
-	    pointDropZ=pointDropZ)
+        if (packageDescription("rgdal")$Version > "0.6-7") {
+	    res <- readOGR(dsn, layer="1", verbose=!ignore.stderr, 
+	        pointDropZ=pointDropZ)
+        } else {
+	    res <- readOGR(dsn, layer="1", verbose=!ignore.stderr)
+        }
     } else {
 	vinfo <- vInfo(vname)
 	types <- names(vinfo)[which(vinfo > 0)]
@@ -63,8 +67,11 @@ readVECT6 <- function(vname, type=NULL, plugin=NULL, remove.duplicates=TRUE,
             type=type, dsn=gtmpfl1, olayer=shname, format="ESRI_Shapefile"),
             ignore.stderr=ignore.stderr)
 
-	res <- readOGR(dsn=rtmpfl1, layer=shname, verbose=!ignore.stderr, 
-	    pointDropZ=pointDropZ)
+        if (packageDescription("rgdal")$Version > "0.6-7") {
+	    res <- readOGR(dsn=rtmpfl1, layer=shname, verbose=!ignore.stderr, 
+	        pointDropZ=pointDropZ)
+        } else {
+	    res <- readOGR(dsn=rtmpfl1, layer=shname, verbose=!ignore.stderr)           }
 
 	if (.Platform$OS.type != "windows") 
             unlink(paste(rtmpfl1, list.files(rtmpfl1, pattern=shname), 
