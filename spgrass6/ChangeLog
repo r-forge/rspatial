@@ -1,3 +1,8 @@
+2009-04-21 21:11  rsbivand
+
+	* ChangeLog, R/bin_link.R, inst/ChangeLog: NODATA 999 test bug
+	  fixed
+
 2009-04-21 08:36  rsbivand
 
 	* R/vect_link.R: guard against rgdal < 0.6-8
