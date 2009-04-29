@@ -1,6 +1,11 @@
+2009-04-29 13:37  rsbivand
+
+	* DESCRIPTION, R/spdists.R: typos in spDistsN1 messages
+
 2009-04-23 13:06  rsbivand
 
-	* NAMESPACE: adding dim for remaining Spatial*DataFrame classes
+	* NAMESPACE, ChangeLog, inst/ChangeLog: adding dim for remaining
+	  Spatial*DataFrame classes
 
 2009-04-23 12:57  rsbivand
 
