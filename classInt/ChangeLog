@@ -1,3 +1,20 @@
+2009-05-12 10:33  rsbivand
+
+	* DESCRIPTION, R/classInt.R, man/classIntervals.Rd: correction to
+	  jenks style intervals
+
+2008-01-18 22:40  rsbivand
+
+	* DESCRIPTION: jenks
+
+2007-11-21 19:13  rsbivand
+
+	* DESCRIPTION, R/classInt.R, man/classIntervals.Rd: Jenks
+
+2007-09-04 14:49  rsbivand
+
+	* ChangeLog: Changelog
+
 2007-08-24 09:20  rsbivand
 
 	* DESCRIPTION, man/classIntervals.Rd: methods Rd
