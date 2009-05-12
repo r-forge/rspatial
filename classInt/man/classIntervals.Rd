@@ -9,7 +9,7 @@
   The function provides a uniform interface to finding class intervals for continuous numerical variables, for example for choosing colours or symbols for plotting. Class intervals are non-overlapping, and the classes are left-closed --- see \code{findInterval}. Argument values to the style chosen are passed through the dot arguments.
 }
 \usage{
-classIntervals(var, n, style = "quantile", rtimes = 3, ...)
+classIntervals(var, n, style = "quantile", rtimes = 3, ..., oldJenks=FALSE)
 \method{plot}{classIntervals}(x, pal, ...) 
 \method{print}{classIntervals}(x, digits = getOption("digits"), ..., under="under", over="over", between="-", cutlabels=FALSE) 
 nPartitions(x) 
@@ -20,6 +20,7 @@ nPartitions(x)
   \item{n}{number of classes required, if missing, \code{nclass.Sturges} is used}
   \item{style}{chosen style: one of "fixed", "sd", "equal", "pretty", "quantile", "kmeans", "hclust", "bclust", "fisher", or "jenks"}
   \item{rtimes}{number of replications of var to catenate and jitter; may be used with styles "kmeans" or "bclust" in case they have difficulties reaching a classification}
+  \item{oldJenks}{revert to older \code{style=\dQuote{jenks}} intervals not using interval midpoints (revised 12 May 2009, malfunction reported by Richard Dunlap)}
   \item{\dots}{arguments to be passed to the functions called in each style}
   \item{x}{"classIntervals" object for printing or plotting}
   \item{under}{character string value for "under" in printed table labels}
@@ -96,6 +97,10 @@ classIntervals(jenks71$jenks71, n=5, style="bclust", verbose=FALSE)
 classIntervals(jenks71$jenks71, n=5, style="bclust", hclust.method="complete", verbose=FALSE)
 classIntervals(jenks71$jenks71, n=5, style="fisher")
 classIntervals(jenks71$jenks71, n=5, style="jenks")
+x <- c(0, 0, 0, 1, 2, 50)
+classIntervals(x, n=3, style="fisher")
+classIntervals(x, n=3, style="jenks")
+classIntervals(x, n=3, style="jenks", oldJenks=TRUE)
 }
 \keyword{spatial}
 

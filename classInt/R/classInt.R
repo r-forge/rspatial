@@ -49,7 +49,7 @@ plot.classIntervals <- function(x, pal, ...) {
         border="transparent")
 }
 
-classIntervals <- function(var, n, style="quantile", rtimes=3, ...) {
+classIntervals <- function(var, n, style="quantile", rtimes=3, ..., oldJenks=FALSE) {
   if (is.factor(var)) stop("var is categorical")
   if (!is.numeric(var)) stop("var is not numeric")
   ovar <- var
@@ -201,8 +201,16 @@ classIntervals <- function(var, n, style="quantile", rtimes=3, ...) {
              k <- id #lower
              last <- k -1 #upper
            }
-           brks<-d[c(1, kclass)]
-    } else stop(paste(style, "unknown"))
+           if (oldJenks) {
+               brks<-d[c(1, kclass)]
+           } else {
+# correction contributed by Richard Dunlap 090512
+               tempbrks  <- d[c(1, kclass)]
+               tempbrks2 <- d[c(1, kclass) + 1]
+               brks <- c(tempbrks[1], ((tempbrks + tempbrks2)/2)[2:n], 
+                   tempbrks[n+1])
+           }
+      } else stop(paste(style, "unknown"))
   }
   if (is.null(brks)) stop("Null breaks")
   res <- list(var=ovar, brks=brks)
