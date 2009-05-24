@@ -25,7 +25,7 @@ parseGRASS(cmd)
   \item{...}{other arguments to print method}
 }
 \details{
-  \code{parseGRASS} checks to see whether the GRASS command has been parsed already and cached in this session; if not, it reads the interface description, parses it and caches it for future use. \code{doGRASS} assembles a proposed GRASS command with flags and parameters as a string, wrapping \code{parseGRASS}, and \code{execGRASS} is a wrapper for \code{doGRASS}, running the command through \code{system}. The command string is termed proposed, because not all of the particular needs of commands are provided by the interface description, and no check is made for the existence of input objects.
+  \code{parseGRASS} checks to see whether the GRASS command has been parsed already and cached in this session; if not, it reads the interface description, parses it and caches it for future use. \code{doGRASS} assembles a proposed GRASS command with flags and parameters as a string, wrapping \code{parseGRASS}, and \code{execGRASS} is a wrapper for \code{doGRASS}, running the command through \code{system}. The command string is termed proposed, because not all of the particular needs of commands are provided by the interface description, and no check is made for the existence of input objects. Support for multiple parameter values added with help from Patrick Caldon.
 }
 \value{
   \code{parseGRASS} returns a \code{GRASS_interface_desc} object, \code{doGRASS} returns a character string with a proposed GRASS command, and \code{execGRASS} returns what \code{system} returns, particularly depending on the \code{intern} argument.
@@ -40,6 +40,9 @@ if (nchar(Sys.getenv("GISRC")) > 0) {
   print(parseGRASS("r.slope.aspect"))
   pars <- list(elevation="elevation.dem", slope="slope", aspect="aspect")
   doGRASS("r.slope.aspect", flags=c("overwrite"), parameters=pars)
+  print(parseGRASS("r.buffer"))
+  pars <- list(input="bugsites", output="bmap", distances=seq(1000,15000,1000))
+  doGRASS("r.buffer", flags=c("overwrite"), parameters=pars)
 }
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the

@@ -127,6 +127,8 @@ doGRASS <- function(cmd, flags=NULL, parameters=NULL) {
     }
     pt <- do.call("rbind", pcmd$parameters)
     req <- pt[pt[, "required"] != "no", "name"]
+# patch for multiple values Patrick Caldon 090524
+    mult <- pt[pt[, "multiple"] != "no", "name"]
     if (length(req) > 0 && is.null(parameters)) {
         print(pcmd)
         stop("No parameters given where some are required")
@@ -146,8 +148,11 @@ doGRASS <- function(cmd, flags=NULL, parameters=NULL) {
             }
         }
         pmv <- pt[pm, "type"]
+# patch for multiple values Patrick Caldon 090524
+        pmmult <- match(mult, parnms)
         for (i in seq(along=parameters)) {
-            if (length(parameters[i]) > 1)
+# patch for multiple values Patrick Caldon 090524
+             if (length(parameters[[i]]) > 1 && !(i %in% pmmult))
                 stop(paste("Parameter <", names(parameters)[i],
                     "> has multiple values", sep=""))
             if (pmv[i] == "string") {
@@ -163,7 +168,9 @@ doGRASS <- function(cmd, flags=NULL, parameters=NULL) {
                     stop(paste("Parameter <", names(parameters)[i],
                     "> does not have integer value", sep=""))
             } else warning("unknown parameter type")
-            res <- paste(res, paste(names(parameters)[i], parameters[[i]],
+# patch for multiple values Patrick Caldon 090524
+            param <- paste(parameters[[i]], collapse=",")
+            res <- paste(res, paste(names(parameters)[i], param,
                 sep="="))
         }
     }
