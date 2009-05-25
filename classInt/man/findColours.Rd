@@ -6,7 +6,7 @@
   This helper function is a wrapper for \code{findCols} to extract classes from a "classInterval" object and assign colours from a palette created by \code{colorRampPalette} from the two or more colours given in the \code{pal} argument. It also returns two attributes for use in constructing a legend.
 }
 \usage{
-findColours(clI, pal, under="under", over="over", between="-", digits = getOption("digits"), cutlabels=FALSE)
+findColours(clI, pal, under="under", over="over", between="-", digits = getOption("digits"), cutlabels=TRUE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{

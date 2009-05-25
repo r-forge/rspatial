@@ -1,3 +1,17 @@
+2009-05-25 12:20  rsbivand
+
+	* DESCRIPTION, R/classInt.R, man/classIntervals.Rd,
+	  man/findColours.Rd: representation update 2
+
+2009-05-25 08:17  rsbivand
+
+	* DESCRIPTION, R/classInt.R, man/classIntervals.Rd: representation
+	  overhaul 1
+
+2009-05-12 10:33  rsbivand
+
+	* ChangeLog: tidy
+
 2009-05-12 10:33  rsbivand
 
 	* DESCRIPTION, R/classInt.R, man/classIntervals.Rd: correction to
