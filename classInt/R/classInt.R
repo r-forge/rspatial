@@ -269,16 +269,16 @@ tableClassIntervals <- function(cols, brks, under="under", over="over",
    sep <- " "
    if (cutlabels) {
       sep <- ""
-      between=","
+      between=", "
    }
-   if (cutlabels) nres[1] <- paste("(", x[1], between, x[2], "]", sep=sep)
+   if (cutlabels) nres[1] <- paste("[", x[1], between, x[2], "]", sep=sep)
    else nres[1] <- paste(under, x[2], sep=sep)
    for (i in 2:(lx - 2)) {
       if (cutlabels) nres[i] <- paste("(", x[i], between, x[i + 1], "]",
          sep=sep)
       else nres[i] <- paste(x[i], between, x[i + 1], sep=sep)
    }
-   if (cutlabels) nres[lx - 1] <- paste("(", x[lx - 1], between, x[lx], ")",
+   if (cutlabels) nres[lx - 1] <- paste("(", x[lx - 1], between, x[lx], "]",
      sep=sep)
    else nres[lx - 1] <- paste(over, x[lx - 1], sep=sep)
    tab <- table(factor(cols, levels=1:(lx - 1)))
@@ -286,7 +286,7 @@ tableClassIntervals <- function(cols, brks, under="under", over="over",
    tab
 }
 
-print.classIntervals <- function(x, digits = getOption("digits"), ..., under="under", over="over", between="-", cutlabels=FALSE) {
+print.classIntervals <- function(x, digits = getOption("digits"), ..., under="under", over="over", between="-", cutlabels=TRUE) {
    if (class(x) != "classIntervals") stop("Class interval object required")
    cat("style: ", attr(x, "style"), "\n", sep="")
    nP <- nPartitions(x)

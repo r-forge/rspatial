@@ -11,7 +11,7 @@
 \usage{
 classIntervals(var, n, style = "quantile", rtimes = 3, ..., oldJenks=FALSE)
 \method{plot}{classIntervals}(x, pal, ...) 
-\method{print}{classIntervals}(x, digits = getOption("digits"), ..., under="under", over="over", between="-", cutlabels=FALSE) 
+\method{print}{classIntervals}(x, digits = getOption("digits"), ..., under="under", over="over", between="-", cutlabels=TRUE) 
 nPartitions(x) 
 }
 %- maybe also 'usage' for other objects documented here.
@@ -27,7 +27,7 @@ nPartitions(x)
   \item{over}{character string value for "over" in printed table labels}
   \item{between}{character string value for "between" in printed table labels}
   \item{digits}{minimal number of significant digits in printed table labels}
-  \item{cutlabels}{use cut-style labels in printed table labels}
+  \item{cutlabels}{default TRUE, use cut-style labels in printed table labels}
   \item{pal}{a character vector of at least two colour names for colour coding the class intervals in an ECDF plot; \code{colorRampPalette} is used internally to create the correct number of colours}
 }
 \details{

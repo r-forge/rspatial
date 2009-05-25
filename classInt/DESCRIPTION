@@ -1,6 +1,6 @@
 Package: classInt
-Version: 0.1-10
-Date: 2009-05-12
+Version: 0.1-11
+Date: 2009-05-25
 Title: Choose univariate class intervals
 Author: Roger Bivand <Roger.Bivand@nhh.no> 
 Maintainer: Roger Bivand <Roger.Bivand@nhh.no>
