@@ -291,7 +291,6 @@ print.gwr <- function(x, ...) {
 # bug report: Ilka Afonso Reis, July 2005
 		rss <- sum(ei * w.i * ei)
 #		if (!GWR_args$fp.given && GWR_args$hatmatrix) {
-		df[i, (m+3)] <- ei[i]
 		df[i, (m+2)] <- 1 - (rss / sum(yiybar * w.i * yiybar))
 #                } else is.na(df[i, (m+(2:3))]) <- TRUE
 	        if (GWR_args$se.fit) {
@@ -300,6 +299,9 @@ print.gwr <- function(x, ...) {
 		    inv.Z <- chol2inv(lm.i$qr$qr[p1, p1, drop=FALSE])
 		    df[i,(m+4):(2*m + 3)] <- sqrt(diag(inv.Z) * (rss/(n-p)))
 		}
+# assigning residual bug Torleif Markussen Lunde 090529
+		if (!GWR_args$fp.given) df[i, (m+3)] <- ei[i]
+
 		if (!GWR_args$fp.given && GWR_args$hatmatrix) 
 			lhat[i,] <- t(x[i,]) %*% inv.Z %*% t(x) %*% diag(w.i)
 	    }
