@@ -1,6 +1,7 @@
 2009-05-31 20:24  rsbivand
 
-	* DESCRIPTION, R/gwr.R, man/gwr.Rd: adding prediction to gwr()
+	* DESCRIPTION, R/gwr.R, man/gwr.Rd, ChangeLog, inst/ChangeLog:
+	  adding prediction to gwr()
 
 2009-05-29 15:54  rsbivand
 
