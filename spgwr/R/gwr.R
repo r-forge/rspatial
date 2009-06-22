@@ -3,7 +3,8 @@
 
 gwr <- function(formula, data = list(), coords, bandwidth, 
 	gweight=gwr.Gauss, adapt=NULL, hatmatrix=FALSE, fit.points, 
-	longlat=FALSE, se.fit=FALSE, weights, cl=NULL, predictions=FALSE) {
+	longlat=FALSE, se.fit=FALSE, weights, cl=NULL, predictions=FALSE,
+        fittedGWRobject=NULL, se.fit.CCT=TRUE) {
 	this.call <- match.call()
 	p4s <- as.character(NA)
 	Polys <- NULL
@@ -49,6 +50,7 @@ gwr <- function(formula, data = list(), coords, bandwidth,
 	lm$y <- y
 	if (missing(fit.points)) {
 		fp.given <- FALSE
+		fittedGWRobject <- NULL
 		fit.points <- coords
 		colnames(fit.points) <- colnames(coords)
                 if (predictions) predx <- x
@@ -100,7 +102,7 @@ gwr <- function(formula, data = list(), coords, bandwidth,
 
 	GWR_args <- list(fp.given=fp.given, hatmatrix=hatmatrix, 
 	    longlat=longlat, bandwidth=bandwidth, adapt=adapt, se.fit=se.fit,
-	    predictions=predictions)
+	    predictions=predictions, se.fit.CCT=se.fit.CCT)
 
 	if (!is.null(cl) && length(cl) > 1 && fp.given && !hatmatrix) {
 	    if (length(grep("cluster", class(cl))) > 0 && 
@@ -140,7 +142,7 @@ gwr <- function(formula, data = list(), coords, bandwidth,
 		GWR_args=GWR_args)
 	    if (!fp.given && hatmatrix) lhat <- df$lhat
 	    bw <- df$bw
-	    df <- as.data.frame(df$df)
+#	    df <- as.data.frame(df$df)
 	    results <- NULL
 
 	} # cl
@@ -162,13 +164,13 @@ gwr <- function(formula, data = list(), coords, bandwidth,
 	
 	#effective d.f. is n - 2*v1 + v2
 	
-		edf <- n - 2*v1 + v2
+		edf <- dp.n - 2*v1 + v2
 	
 	#Follow Leung et al. EPA 2000 page 15, the estimate of sigma square
 	#can be obtained through rss and delta1 (which is actually edf)
 	#Calculate rss:
 	
-		B1 <- t(diag(n)-lhat)%*%(diag(n)-lhat)
+		B1 <- t(diag(dp.n)-lhat)%*%(diag(dp.n)-lhat)
 		rss <- c(t(y)%*%B1%*%y)
 		delta1 <- sum (diag (B1))
 		sigma2 <- rss/delta1 #line 77
@@ -208,21 +210,66 @@ gwr <- function(formula, data = list(), coords, bandwidth,
 	#followed by creating the sigma sqare used in the book, termed here sigma2.b
 	#All the above unncessary calculation is then commented out.
 	
-		sigma2.b <- rss / n
-		AICb.b <- 2*n*log(sqrt(sigma2.b)) + n*log(2*pi) + 
-			(n * ((n + v1) / (n - 2 - v1)))
+		sigma2.b <- rss / dp.n
+		AICb.b <- 2*dp.n*log(sqrt(sigma2.b)) + dp.n*log(2*pi) + 
+			(dp.n * ((n + v1) / (dp.n - 2 - v1)))
 # NOTE 2* and sqrt() inserted for legibility
-		AICh.b <- 2*n*log(sqrt(sigma2.b)) + n*log(2*pi) + n + v1
+		AICh.b <- 2*dp.n*log(sqrt(sigma2.b)) + dp.n*log(2*pi) + dp.n + v1
 # added omitted n*log(2*pi) term in AICc.b
 # bug resolved by Christian Salas 090418
-		AICc.b <- 2*n*log(sqrt(sigma2.b)) + n*log(2*pi) + n * 
-			((delta1/delta2)*(n + nu1))/((delta1^2/delta2)-2)
+		AICc.b <- 2*dp.n*log(sqrt(sigma2.b)) + dp.n*log(2*pi) + dp.n * 
+			((delta1/delta2)*(dp.n + nu1))/((delta1^2/delta2)-2)
 		results <- list(v1=v1, v2=v2, delta1=delta1, delta2=delta2, 
 			sigma2=sigma2, sigma2.b=sigma2.b, AICb=AICb.b, 
 			AICh=AICh.b, AICc=AICc.b, edf=edf, rss=rss, nu1=nu1,
-                        odelta2=odelta2, n=n)
+                        odelta2=odelta2, n=dp.n)
 	}
 #	df <- data.frame(sum.w=sum.w, gwr.b, gwr.R2, gwr.se, gwr.e)
+        if (se.fit) {
+            EDFS <- NULL
+            normSigmaS <- NULL
+            EDF <- NULL
+            normSigma <- NULL
+	    if (fp.given && !is.null(fittedGWRobject)) {
+                if (fittedGWRobject$hatmatrix) {
+		    EDF <- fittedGWRobject$results$edf
+                    normSigma <- sqrt(fittedGWRobject$results$rss/EDF)
+		    EDFS <- fittedGWRobject$results$n - 
+                        fittedGWRobject$results$v1
+                    normSigmaS <- sqrt(fittedGWRobject$results$rss/EDFS)
+	        } 
+	    }
+	    if (!fp.given && hatmatrix) {
+                EDFS <- results$n - results$v1
+                normSigmaS <- sqrt(results$rss/EDFS)
+                EDF <- results$edf
+                normSigma <- sqrt(results$rss/EDF)
+            }
+            localSigma <- sqrt(df$df[, "localrss"]/(nrow(x)-ncol(x)))
+            ses <- grep("_se", colnames(df$df))
+            senms <- colnames(df$df)[ses]
+            betase <- df$df[, ses]
+            df$df[, ses] <- NA
+            if (predictions) {
+                pred.se <- df$df[, "pred.se"]
+		df$df[, "pred.se"] <- NA
+            }
+            if (!is.null(EDF)) {
+                betaseEDF <- normSigma * sqrt(betase)
+                colnames(betaseEDF) <- paste(senms, "EDF", sep="_")
+                df$df[, ses] <- normSigmaS * sqrt(betase)
+                df$df <- cbind(df$df, betaseEDF)
+                if (predictions) {
+                    pred.se_EDF <- normSigma * sqrt(pred.se)
+                    df$df[, "pred.se"] <- normSigmaS * sqrt(pred.se)
+                    df$df <- cbind(df$df, pred.se_EDF)
+                }
+            } else {
+                warning("standard errors set to NA, normalised RSS not available")
+            }
+        }
+
+	df <- as.data.frame(df$df)
 	if (predictions) fit.points <- fit.points[,1:2]
 	SDF <- SpatialPointsDataFrame(coords=fit.points, 
 		data=df, proj4string=CRS(p4s))
@@ -289,37 +336,70 @@ print.gwr <- function(x, ...) {
                 predx <- fit.points[, -c(1,2)]
                 fit.points <- fit.points[, c(1,2)]
             }
+            
 	    n <- nrow(fit.points)
  	    m <- NCOL(x)
-            if (!GWR_args$fp.given) {
-	      if (GWR_args$se.fit) {
-		df <- matrix(nrow=n, ncol=(2*m + 3))
-	        colnames(df) <- c("sum.w", colnames(x), "R2", "gwr.e", 
-		    paste(colnames(x), "se", sep="_"))
-	      } else {
-		df <- matrix(nrow=n, ncol=(m + 3))
-	    	colnames(df) <- c("sum.w", colnames(x), "R2", "gwr.e")
-	      }
+            x1 <- matrix(1, nrow=nrow(x), ncol=1)
+	    sum.w <- numeric(n)
+            betas <- matrix(nrow=n, ncol=m)
+	    colnames(betas) <- colnames(x)
+            R2 <- matrix(nrow=n, ncol=2)
+            colnames(R2) <- c("glocal_R2", "local_R2")
+            localrss <- numeric(n)
+            if(!GWR_args$fp.given) {
+		gwr.e <- numeric(n)
+	    } else {
+		gwr.e <- NULL
+	    }
+	    if (GWR_args$se.fit) {
+                betase <- matrix(nrow=n, ncol=m)
+		colnames(betase) <- paste(colnames(x), "se", sep="_")
             } else {
-	      if (GWR_args$se.fit) {
-		df <- matrix(nrow=n, ncol=(2*m + 2))
-	        colnames(df) <- c("sum.w", colnames(x), "R2", 
-		    paste(colnames(x), "se", sep="_"))
-	      } else {
-		df <- matrix(nrow=n, ncol=(m + 2))
-	    	colnames(df) <- c("sum.w", colnames(x), "R2")
-	      }
+                betase <- NULL
             }
             if (GWR_args$predictions) {
-              if (GWR_args$se.fit) {
-                pdf <- matrix(nrow=n, ncol=2)
-	        colnames(pdf) <- c("pred", "pred.se")
-              } else {
-                pdf <- matrix(nrow=n, ncol=1)
-		colnames(pdf) <- c("pred")
-              }
-              df <- cbind(df, pdf)
+                pred <- numeric(n)
+                if (GWR_args$se.fit) {
+                    pred.se <- numeric(n)
+                } else {
+                    pred.se <- NULL
+                }
+            } else {
+                pred <- NULL
+		pred.se <- NULL
             }
+
+#            if (!GWR_args$fp.given) {
+#	      if (GWR_args$se.fit) {
+#		df <- matrix(nrow=n, ncol=(2*m + 3))
+#	        colnames(df) <- c("sum.w", colnames(x), "R2", "gwr.e", 
+#		    paste(colnames(x), "se", sep="_"))
+#	      } else {
+#		df <- matrix(nrow=n, ncol=(m + 3))
+#	    	colnames(df) <- c("sum.w", colnames(x), "R2", "gwr.e")
+#	      }
+#            } else {
+#	      if (GWR_args$se.fit) {
+#		df <- matrix(nrow=n, ncol=(2*m + 2))
+#	        colnames(df) <- c("sum.w", colnames(x), "R2", 
+#		    paste(colnames(x), "se", sep="_"))
+#	      } else {
+#		df <- matrix(nrow=n, ncol=(m + 2))
+#	    	colnames(df) <- c("sum.w", colnames(x), "R2")
+#	      }
+#            }
+#            if (GWR_args$predictions) {
+#              if (GWR_args$se.fit) {
+#                pdf <- matrix(nrow=n, ncol=2)
+#	        colnames(pdf) <- c("pred", "pred.se")
+#              } else {
+#                pdf <- matrix(nrow=n, ncol=1)
+#		colnames(pdf) <- c("pred")
+#              }
+#              df <- cbind(df, pdf)
+#            }
+
+
 	    if (!GWR_args$fp.given && GWR_args$hatmatrix) 
 	        lhat <- matrix(nrow=n, ncol=n)
 	    if (is.null(GWR_args$adapt)) {
@@ -342,44 +422,60 @@ print.gwr <- function(x, ...) {
 		if (any(w.i < 0 | is.na(w.i)))
         		stop(paste("Invalid weights for i:", i))
 		lm.i <- lm.wfit(x, y, w.i)
-		df[i, 1] <- sum(w.i)
-		df[i, 2:(m+1)] <- coefficients(lm.i)
+		sum.w[i] <- sum(w.i)
+		betas[i,] <- coefficients(lm.i)
 # prediction fitted values at fit point
                 if (GWR_args$predictions) {
-                    pri <- sum(coefficients(lm.i) * predx[i,])
-		    if (GWR_args$se.fit) {
-                        df[i, (ncol(df)-1)] <- pri
-                    } else {
-                        df[i, ncol(df)] <- pri
-                    }
+                    pred[i] <- sum(coefficients(lm.i) * predx[i,])
                 }
 		ei <- residuals(lm.i)
 # use of diag(w.i) dropped to avoid forming n by n matrix
 # bug report: Ilka Afonso Reis, July 2005
 		rss <- sum(ei * w.i * ei)
+		localrss[i] <- rss
 #		if (!GWR_args$fp.given && GWR_args$hatmatrix) {
-		df[i, (m+2)] <- 1 - (rss / sum(yiybar * w.i * yiybar))
+		R2[i, 1] <- 1 - (rss / sum(yiybar * w.i * yiybar))
+                lm.iy <- lm.wfit(x1, y, w.i)
+		eiy <- residuals(lm.iy)
+		yss <- sum(eiy * w.i * eiy)
+		R2[i, 2] <- 1 - (rss / yss)
+
 #                } else is.na(df[i, (m+(2:3))]) <- TRUE
 	        if (GWR_args$se.fit) {
 		    p <- lm.i$rank
 		    p1 <- 1:p
 		    inv.Z <- chol2inv(lm.i$qr$qr[p1, p1, drop=FALSE])
-                    offset <- ifelse(GWR_args$fp.given, 2, 3)
-		    df[i,(m+(offset+1)):(2*m + offset)] <- sqrt(diag(inv.Z) * 
-			(rss/(n-p)))
+#                    offset <- ifelse(GWR_args$fp.given, 2, 3)
+# p. 55 CC definition (ought to be diag(sqrt(w.i))
+                    if (GWR_args$se.fit.CCT) {
+                        C <- inv.Z %*% t(x) %*% diag(w.i)
+                        CC <- C %*% t(C)
+# only return coefficient covariance matrix diagonal
+                        betase[i,] <- diag(CC)
+                    } else {
+                        betase[i,] <- diag(inv.Z)
+                    }
+#		    df[i,(m+(offset+1)):(2*m + offset)] <- diag(inv.Z)
+#		    df[i,(m+(offset+1)):(2*m + offset)] <- sqrt(diag(inv.Z) * 
+#			(rss/(n-p)))
 # prediction "standard errors"
+# only return raw values for post-processing
                     if (GWR_args$predictions) {
-                        prise <- sqrt(c((rss/(n-p)) * 
-                            (t(predx[i,]) %*% inv.Z %*% predx[i,])))
-                        df[i, ncol(df)] <- prise
+                        if (GWR_args$se.fit.CCT) {
+                            pred.se[i] <- t(predx[i,]) %*% CC %*% predx[i,]
+                        } else {
+                            pred.se[i] <- t(predx[i,]) %*% inv.Z %*% predx[i,]
+                        }
 		    }
 		}
 # assigning residual bug Torleif Markussen Lunde 090529
-		if (!GWR_args$fp.given) df[i, (m+3)] <- ei[i]
+		if (!GWR_args$fp.given) gwr.e[i] <- ei[i]
 
 		if (!GWR_args$fp.given && GWR_args$hatmatrix) 
 			lhat[i,] <- t(x[i,]) %*% inv.Z %*% t(x) %*% diag(w.i)
 	    }
+	    df <- cbind(sum.w, betas, R2, gwr.e, localrss, betase, pred,
+		pred.se)
 	    if (!GWR_args$fp.given && GWR_args$hatmatrix) 
 		return(list(df=df, lhat=lhat, bw=bw))
 	    else return(list(df=df, bw=bw))
