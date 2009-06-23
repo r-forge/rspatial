@@ -32,9 +32,6 @@ gwr <- function(formula, data = list(), coords, bandwidth,
     	mt <- attr(mf, "terms")
 	dp.n <- length(model.extract(mf, "response"))
 
-#	mt <- terms(formula, data = data)
-#	mf <- lm(formula, data, method="model.frame", na.action=na.fail)
-
     	weights <- as.vector(model.extract(mf, "weights"))
 # set up default weights
     	if (!is.null(weights) && !is.numeric(weights)) 
@@ -89,7 +86,6 @@ gwr <- function(formula, data = list(), coords, bandwidth,
             fit.points <- cbind(fit.points, predx)
         }
 #	if (is.null(fit.points)) fit.points <- coords
-	yiybar <- (y - mean(y))
 	m <- NCOL(x)
 	if (NROW(x) != NROW(coords))
 		stop("Input data and coordinates have different dimensions")
@@ -123,13 +119,13 @@ gwr <- function(formula, data = list(), coords, bandwidth,
 		}
 
 		clusterExport_l(cl, list("GWR_args", "coords", "gweight", "y",
-		    "x", "yiybar", "weights"))
+		    "x", "weights"))
 
 		res <- parLapply(cl, l_fp, function(fp) .GWR_int(fit.points=fp,
-		    coords=coords, gweight=gweight, y=y, x=x, yiybar=yiybar,
+		    coords=coords, gweight=gweight, y=y, x=x,
 		    weights=weights, GWR_args=GWR_args))
 		clusterEvalQ(cl, rm(list=c("GWR_args", "coords", "gweight", "y",
-		    "x", "yiybar", "weights")))
+		    "x", "weights")))
 		df <- as.data.frame(do.call("rbind", 
 		    lapply(res, function(x) x$df)))
 		bw <- do.call("c", lapply(res, function(x) x$bw))
@@ -138,7 +134,7 @@ gwr <- function(formula, data = list(), coords, bandwidth,
 	} else { # cl
 
 	    df <- .GWR_int(fit.points=fit.points, coords=coords, 
-		gweight=gweight, y=y, x=x, yiybar=yiybar, weights=weights,
+		gweight=gweight, y=y, x=x, weights=weights,
 		GWR_args=GWR_args)
 	    if (!fp.given && hatmatrix) lhat <- df$lhat
 	    bw <- df$bw
@@ -330,7 +326,7 @@ print.gwr <- function(x, ...) {
 	invisible(x)
 }
 
-.GWR_int <- function(fit.points, coords, gweight, y, x, yiybar, weights, 
+.GWR_int <- function(fit.points, coords, gweight, y, x, weights, 
 	GWR_args) {
 	    if (GWR_args$predictions) {
                 predx <- fit.points[, -c(1,2)]
@@ -343,9 +339,9 @@ print.gwr <- function(x, ...) {
 	    sum.w <- numeric(n)
             betas <- matrix(nrow=n, ncol=m)
 	    colnames(betas) <- colnames(x)
-            R2 <- matrix(nrow=n, ncol=2)
-            colnames(R2) <- c("glocal_R2", "local_R2")
+            local_R2 <- numeric(n)
             localrss <- numeric(n)
+            localmss <- numeric(n)
             if(!GWR_args$fp.given) {
 		gwr.e <- numeric(n)
 	    } else {
@@ -368,37 +364,6 @@ print.gwr <- function(x, ...) {
                 pred <- NULL
 		pred.se <- NULL
             }
-
-#            if (!GWR_args$fp.given) {
-#	      if (GWR_args$se.fit) {
-#		df <- matrix(nrow=n, ncol=(2*m + 3))
-#	        colnames(df) <- c("sum.w", colnames(x), "R2", "gwr.e", 
-#		    paste(colnames(x), "se", sep="_"))
-#	      } else {
-#		df <- matrix(nrow=n, ncol=(m + 3))
-#	    	colnames(df) <- c("sum.w", colnames(x), "R2", "gwr.e")
-#	      }
-#            } else {
-#	      if (GWR_args$se.fit) {
-#		df <- matrix(nrow=n, ncol=(2*m + 2))
-#	        colnames(df) <- c("sum.w", colnames(x), "R2", 
-#		    paste(colnames(x), "se", sep="_"))
-#	      } else {
-#		df <- matrix(nrow=n, ncol=(m + 2))
-#	    	colnames(df) <- c("sum.w", colnames(x), "R2")
-#	      }
-#            }
-#            if (GWR_args$predictions) {
-#              if (GWR_args$se.fit) {
-#                pdf <- matrix(nrow=n, ncol=2)
-#	        colnames(pdf) <- c("pred", "pred.se")
-#              } else {
-#                pdf <- matrix(nrow=n, ncol=1)
-#		colnames(pdf) <- c("pred")
-#              }
-#              df <- cbind(df, pdf)
-#            }
-
 
 	    if (!GWR_args$fp.given && GWR_args$hatmatrix) 
 	        lhat <- matrix(nrow=n, ncol=n)
@@ -424,40 +389,36 @@ print.gwr <- function(x, ...) {
 		lm.i <- lm.wfit(x, y, w.i)
 		sum.w[i] <- sum(w.i)
 		betas[i,] <- coefficients(lm.i)
+		fi <- fitted(lm.i)
+		ei <- residuals(lm.i)
 # prediction fitted values at fit point
                 if (GWR_args$predictions) {
-                    pred[i] <- sum(coefficients(lm.i) * predx[i,])
+                    pred[i] <- fi[i]
                 }
-		ei <- residuals(lm.i)
 # use of diag(w.i) dropped to avoid forming n by n matrix
 # bug report: Ilka Afonso Reis, July 2005
-		rss <- sum(ei * w.i * ei)
-		localrss[i] <- rss
-#		if (!GWR_args$fp.given && GWR_args$hatmatrix) {
-		R2[i, 1] <- 1 - (rss / sum(yiybar * w.i * yiybar))
-                lm.iy <- lm.wfit(x1, y, w.i)
-		eiy <- residuals(lm.iy)
-		yss <- sum(eiy * w.i * eiy)
-		R2[i, 2] <- 1 - (rss / yss)
+		rss <- sum(w.i * ei^2)
 
-#                } else is.na(df[i, (m+(2:3))]) <- TRUE
+		localrss[i] <- rss
+                fibar <- sum(w.i * fi/sum(w.i))
+		mss <- sum(w.i * (fi - fibar)^2)
+		localmss[i] <- mss
+		local_R2[i] <- mss / (rss + mss)
+
 	        if (GWR_args$se.fit) {
 		    p <- lm.i$rank
 		    p1 <- 1:p
 		    inv.Z <- chol2inv(lm.i$qr$qr[p1, p1, drop=FALSE])
-#                    offset <- ifelse(GWR_args$fp.given, 2, 3)
-# p. 55 CC definition (ought to be diag(sqrt(w.i))
+# p. 55 CC definition 
                     if (GWR_args$se.fit.CCT) {
                         C <- inv.Z %*% t(x) %*% diag(w.i)
                         CC <- C %*% t(C)
-# only return coefficient covariance matrix diagonal
+# only return coefficient covariance matrix diagonal raw values
+# for post-processing
                         betase[i,] <- diag(CC)
                     } else {
                         betase[i,] <- diag(inv.Z)
                     }
-#		    df[i,(m+(offset+1)):(2*m + offset)] <- diag(inv.Z)
-#		    df[i,(m+(offset+1)):(2*m + offset)] <- sqrt(diag(inv.Z) * 
-#			(rss/(n-p)))
 # prediction "standard errors"
 # only return raw values for post-processing
                     if (GWR_args$predictions) {
@@ -474,8 +435,8 @@ print.gwr <- function(x, ...) {
 		if (!GWR_args$fp.given && GWR_args$hatmatrix) 
 			lhat[i,] <- t(x[i,]) %*% inv.Z %*% t(x) %*% diag(w.i)
 	    }
-	    df <- cbind(sum.w, betas, R2, gwr.e, localrss, betase, pred,
-		pred.se)
+	    df <- cbind(sum.w, betas, betase, local_R2, gwr.e, pred,
+		pred.se, localrss, localmss)
 	    if (!GWR_args$fp.given && GWR_args$hatmatrix) 
 		return(list(df=df, lhat=lhat, bw=bw))
 	    else return(list(df=df, bw=bw))
