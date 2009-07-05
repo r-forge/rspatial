@@ -83,11 +83,13 @@ sample.Line = function(x, n, type, offset = runif(1), proj4string = CRS(as.chara
 	offset = offset[1]
 	if (missing(n)) n <- as.integer(NA)
 	cc = coordinates(x)
-	dxy = apply(cc, 2, diff)
-	if (inherits(dxy, "matrix"))
-		lengths = apply(dxy, 1, function(x) sqrt(sum(x ** 2)))
-	else # cc has 2 rows:
-		lengths = sqrt(sum(dxy ** 2))
+	cc <- coordinates(remove.duplicates(SpatialPoints(cc)))
+#	dxy = apply(cc, 2, diff)
+#	if (inherits(dxy, "matrix"))
+#		lengths = apply(dxy, 1, function(x) sqrt(sum(x ** 2)))
+#	else # cc has 2 rows:
+#		lengths = sqrt(sum(dxy ** 2))
+        lengths = LineLength(cc, longlat=FALSE)
 	csl = c(0, cumsum(lengths))
 	maxl = csl[length(csl)]
 	if (type == "random")
@@ -95,7 +97,7 @@ sample.Line = function(x, n, type, offset = runif(1), proj4string = CRS(as.chara
 	else if (type == "stratified")
 		pts = ((1:n) - runif(n))/n * maxl
 	else if (type == "regular")
-		pts = ((1:n) - offset)/n * maxl
+		pts = ((1:n) - (1-offset))/n * maxl
 	else
 		stop(paste("type", type, "not available for Line"))
 	# find coordinates:
@@ -109,6 +111,8 @@ setMethod("spsample", signature(x = "Line"), sample.Line)
 sample.Lines = function(x, n, type, offset = runif(1), ...) {
 	L = x@Lines
 	lengths = sapply(L, function(x) LineLength(x@coords))
+        if (sum(lengths) < .Machine$double.eps)
+	    stop("Lines object of no length")
 	nrs = round(lengths / sum(lengths) * n)
 	ret = vector("list", sum(nrs > 0))
 	j = 1
@@ -123,7 +127,9 @@ sample.Lines = function(x, n, type, offset = runif(1), ...) {
 setMethod("spsample", signature(x = "Lines"), sample.Lines)
 
 sample.SpatialLines = function(x, n, type, offset = runif(1), ...) {
-	lengths = SpatialLinesLengths(x)
+	lengths = SpatialLinesLengths(x, longlat=FALSE)
+        if (sum(lengths) < .Machine$double.eps)
+	    stop("SpatialLines object of no length")
 	nrs = round(lengths / sum(lengths) * n)
 	ret = vector("list", sum(nrs > 0))
 	j = 1

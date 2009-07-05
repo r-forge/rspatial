@@ -21,11 +21,25 @@ SpatialLines <- function(LinesList, proj4string=CRS(as.character(NA))) {
 	res
 }
 
-LineLength = function(cc) {
+LineLength = function(cc, longlat=FALSE) {
 	if (is(cc, "Line"))
 		cc = coordinates(cc)
-	dxy = matrix(apply(cc, 2, diff), ncol = 2)
-	sum(sqrt(apply(dxy, 1, function(x) sum(x ** 2))))
+        
+	if (!is.matrix(cc)) stop("cc must be a matrix")
+	if (ncol(cc) != 2) stop("cc must have two columns")
+	if (!is.numeric(cc)) stop("cc must be numeric")
+	x <- as.double(cc[,1])
+	y <- as.double(cc[,2])
+	n  <- as.integer(length(x))
+	if (n == 1) return(0)
+	lengths <- vector(mode="double", length=(n-1))
+	lonlat <- as.integer(longlat)
+	res <- .C("sp_lengths", x, y, n, lengths, lonlat, PACKAGE = "sp")[[4]]
+	if (any(!is.finite(res))) stop("non-finite line lengths")
+        res
+
+#	dxy = matrix(apply(cc, 2, diff), ncol = 2)
+#	sum(sqrt(apply(dxy, 1, function(x) sum(x ** 2))))
 }
 
 bbox.Lines <- function(obj) {
@@ -149,9 +163,20 @@ getSpatialLinesMidPoints = function(SL) {
 	SpatialPoints(ret, CRS(proj4string(SL)))
 }
 
-LinesLength = function(Ls) sum(sapply(Ls@Lines, function(x) LineLength(x)))
+LinesLength = function(Ls, longlat=FALSE) sum(sapply(Ls@Lines, LineLength, longlat))
 
-SpatialLinesLengths = function(SL) sapply(SL@lines, LinesLength)
+SpatialLinesLengths = function(SL, longlat) {
+        if (missing(longlat)) {
+            proj <- is.projected(SL)
+            if (is.na(proj)) {
+                longlat <- FALSE
+            } else {
+                longlat <- !proj
+            }
+        }
+        if (!is.logical(longlat)) stop("longlat should be logical")
+	sapply(SL@lines, LinesLength, longlat=longlat)
+}
 
 setAs("Lines", "SpatialPoints", function(from) { 
 		SpatialPoints(do.call("rbind", coordinates(from)))
