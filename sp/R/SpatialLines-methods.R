@@ -21,7 +21,7 @@ SpatialLines <- function(LinesList, proj4string=CRS(as.character(NA))) {
 	res
 }
 
-LineLength = function(cc, longlat=FALSE) {
+LineLength = function(cc, longlat=FALSE, sum=TRUE) {
 	if (is(cc, "Line"))
 		cc = coordinates(cc)
         
@@ -36,7 +36,8 @@ LineLength = function(cc, longlat=FALSE) {
 	lonlat <- as.integer(longlat)
 	res <- .C("sp_lengths", x, y, n, lengths, lonlat, PACKAGE = "sp")[[4]]
 	if (any(!is.finite(res))) stop("non-finite line lengths")
-        res
+        if (sum) res <- sum(res)
+	res
 
 #	dxy = matrix(apply(cc, 2, diff), ncol = 2)
 #	sum(sqrt(apply(dxy, 1, function(x) sum(x ** 2))))

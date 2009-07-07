@@ -19,7 +19,7 @@ as.SpatialLines.SLDF(SLDF)
 getSLlinesSlot(SL)
 getSLLinesIDSlots(SL)
 getSpatialLinesMidPoints(SL)
-LineLength(cc, longlat=FALSE)
+LineLength(cc, longlat=FALSE, sum=TRUE)
 LinesLength(Ls, longlat=FALSE)
 SpatialLinesLengths(SL, longlat)
 }
@@ -35,6 +35,7 @@ should equal the number of \code{Lines} elements in \code{sl}}
 \item{Ls}{Object of class \code{Lines}}
 \item{cc}{Object of class \code{Line}, or two-column matrix with points}
 \item{longlat}{if FALSE, Euclidean distance, if TRUE Great Circle distance in kilometers}
+\item{sum}{default return scalar length of sum of segments in Line, if FALSE, return vector of segment lengths}
 }
 \value{
 \code{SpatialLines} returns object of class \code{SpatialLines};

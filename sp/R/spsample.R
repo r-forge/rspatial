@@ -84,7 +84,7 @@ sample.Line = function(x, n, type, offset = runif(1), proj4string = CRS(as.chara
 	if (missing(n)) n <- as.integer(NA)
 	if (!is.finite(n) || n < 1) return(NULL)
 	cc = coordinates(x)
-        lengths = LineLength(cc, longlat=FALSE)
+        lengths = LineLength(cc, longlat=FALSE, sum=FALSE)
         if (any(abs(lengths) < .Machine$double.eps)) {
 	    wl <- which(abs(lengths) < .Machine$double.eps)
             cc <- cc[-(wl),]
