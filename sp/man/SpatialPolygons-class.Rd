@@ -8,6 +8,8 @@
 \alias{rbind.SpatialPolygons}
 \alias{coerce,Polygons,Lines-method}
 \alias{coerce,SpatialPolygons,SpatialLines-method}
+\alias{row.names.SpatialPolygons}
+
 
 \title{Class "SpatialPolygons"}
 \description{  class to hold polygon topology (without attributes) }
@@ -58,6 +60,7 @@ Methods defined with class "SpatialPolygons" in the signature:
 grd <- GridTopology(c(1,1), c(1,1), c(10,10))
 polys <- as.SpatialPolygons.GridTopology(grd)
 plot(polys)
-text(coordinates(polys), labels=sapply(slot(polys, "polygons"), function(i) slot(i, "ID")), cex=0.6)
+#text(coordinates(polys), labels=sapply(slot(polys, "polygons"), function(i) slot(i, "ID")), cex=0.6)
+text(coordinates(polys), labels=row.names(polys))
 }
 \keyword{classes}

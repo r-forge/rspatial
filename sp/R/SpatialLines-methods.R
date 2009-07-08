@@ -109,9 +109,21 @@ lines.Lines = function(x, y = NULL, ...) invisible(lapply(x@Lines,
 lines.SpatialLines = function(x, y = NULL, ...) invisible(lapply(x@lines, 
 	function(x, ...) lines(x, ...), ...))
 
+row.names.SpatialLines <- function(x) {
+    sapply(slot(x, "lines"), slot, "ID")
+}
+
 #"[.SpatialLines" =  function(x, i, j, ..., drop = T) {
 setMethod("[", "SpatialLines", 
 	function(x, i, j, ..., drop = TRUE) {
+	if (is.logical(i)) {
+		if (length(i) == 1 && i)
+			i = 1:length(x@lines)
+		else
+			i <- which(i)
+	} else if (is.character(i)) {
+                i <- match(i, row.names(x))
+        }
         if (any(is.na(i))) stop("NAs not permitted in row index")
 		#SpatialLines(x@lines[i], CRS(proj4string(x)))
 		x@lines = x@lines[i]

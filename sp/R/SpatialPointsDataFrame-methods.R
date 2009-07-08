@@ -137,6 +137,10 @@ subset.SpatialPointsDataFrame <- function(x, subset, select,
 	SPDF
 }
 
+row.names.SpatialPointsDataFrame <- function(x) {
+    dimnames(slot(x, "coords"))[[1]]
+}
+
 setMethod("[", "SpatialPointsDataFrame", function(x, i, j, ..., drop = TRUE) {
 	missing.i = missing(i)
 	missing.j = missing(j)
