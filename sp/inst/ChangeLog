@@ -1,3 +1,13 @@
+2009-07-09 14:03  rsbivand
+
+	* DESCRIPTION, R/spdists.R, man/spDistsN1.Rd: adding SpatialPoints*
+	  to spDistsN1
+
+2009-07-08 12:38  rsbivand
+
+	* ChangeLog, inst/ChangeLog: added row.names methods and [ on
+	  character
+
 2009-07-08 12:33  rsbivand
 
 	* DESCRIPTION, NAMESPACE, R/SpatialLines-methods.R,
