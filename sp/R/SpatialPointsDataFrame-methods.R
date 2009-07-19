@@ -80,7 +80,7 @@ print.SpatialPointsDataFrame = function(x, ...) {
 
 dim.SpatialPointsDataFrame = function(x) dim(x@data)
 
-as.data.frame.SpatialPointsDataFrame = function(x, row.names, optional, ...)  {
+as.data.frame.SpatialPointsDataFrame = function(x, ...)  {
 	if (length(x@coords.nrs) > 0) {
 		maxi = max(x@coords.nrs, (ncol(x@data) + ncol(x@coords)))
 		ret = list()
