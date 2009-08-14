@@ -1,7 +1,12 @@
+2009-08-14 18:09  rsbivand
+
+	* DESCRIPTION, R/bin_link.R, R/vect_link.R: adding @ detection for
+	  plugin
+
 2009-05-24 11:28  rsbivand
 
-	* DESCRIPTION, R/xml1.R, man/execGRASS.Rd: added multiple parameter
-	  support
+	* DESCRIPTION, R/xml1.R, man/execGRASS.Rd, ChangeLog,
+	  inst/ChangeLog: added multiple parameter support
 
 2009-04-21 21:11  rsbivand
 

@@ -13,9 +13,17 @@ readVECT6 <- function(vname, type=NULL, plugin=NULL, remove.duplicates=TRUE,
         ogrD <- ogrDrivers()$name
 	if (!("GRASS" %in% ogrD)) stop("no GRASS plugin driver")
         gg <- gmeta6()
-        if (is.null(mapset)) mapset <- .g_findfile(vname[1], type="vector")
+        if (is.null(mapset)) {
+            c_at <- strsplit(vname[1], "@")[[1]]
+            if (length(c_at) == 1) {
+                mapset <- .g_findfile(vname[1], type="vector")
+            } else if (length(c_at) == 1) {
+                mapset <- c_at[2]
+                vname[1] <- c_at[1]
+            } else stop("malformed vector name")
+        }
         dsn <- paste(gg$GISDBASE, gg$LOCATION_NAME, mapset,
-            "vector", vname, "head", sep="/")
+            "vector", vname[1], "head", sep="/")
         if (packageDescription("rgdal")$Version > "0.6-7") {
 	    res <- readOGR(dsn, layer="1", verbose=!ignore.stderr, 
 	        pointDropZ=pointDropZ)

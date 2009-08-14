@@ -14,7 +14,15 @@ readRAST6 <- function(vname, cat=NULL, ignore.stderr = FALSE,
         if (length(vname) > 1) plugin <- FALSE
         if (plugin) {
             gg <- gmeta6()
-            if (is.null(mapset)) mapset <- .g_findfile(vname[1], type="cell")
+            if (is.null(mapset)) {
+                c_at <- strsplit(vname[1], "@")[[1]]
+                if (length(c_at) == 1) {
+                    mapset <- .g_findfile(vname[1], type="cell")
+                } else if (length(c_at) == 1) {
+                    mapset <- c_at[2]
+                    vname[1] <- c_at[1]
+                } else stop("malformed raster name")
+            }
             fname <- paste(gg$GISDBASE, gg$LOCATION_NAME, mapset,
                 "cellhd", vname[1], sep="/")
             fninfo <- GDALinfo(fname)
@@ -45,7 +53,15 @@ readRAST6 <- function(vname, cat=NULL, ignore.stderr = FALSE,
         if (length(vname) > 1) stop("single raster required for plugin")
         if (!is.null(cat) && cat[1]) warning("cat not used for plugin")
         gg <- gmeta6()
-        if (is.null(mapset)) mapset <- .g_findfile(vname[1], type="cell")
+        if (is.null(mapset)) {
+            c_at <- strsplit(vname[1], "@")[[1]]
+            if (length(c_at) == 1) {
+                mapset <- .g_findfile(vname[1], type="cell")
+            } else if (length(c_at) == 1) {
+                mapset <- c_at[2]
+                vname[1] <- c_at[1]
+            } else stop("malformed raster name")
+        }
         fname <- paste(gg$GISDBASE, gg$LOCATION_NAME, mapset,
             "cellhd", vname[1], sep="/")
         resa <- readGDAL(fname, silent=ignore.stderr)
