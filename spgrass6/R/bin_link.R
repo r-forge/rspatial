@@ -18,7 +18,7 @@ readRAST6 <- function(vname, cat=NULL, ignore.stderr = FALSE,
                 c_at <- strsplit(vname[1], "@")[[1]]
                 if (length(c_at) == 1) {
                     mapset <- .g_findfile(vname[1], type="cell")
-                } else if (length(c_at) == 1) {
+                } else if (length(c_at) == 2) {
                     mapset <- c_at[2]
                     vname[1] <- c_at[1]
                 } else stop("malformed raster name")
@@ -57,7 +57,7 @@ readRAST6 <- function(vname, cat=NULL, ignore.stderr = FALSE,
             c_at <- strsplit(vname[1], "@")[[1]]
             if (length(c_at) == 1) {
                 mapset <- .g_findfile(vname[1], type="cell")
-            } else if (length(c_at) == 1) {
+            } else if (length(c_at) == 2) {
                 mapset <- c_at[2]
                 vname[1] <- c_at[1]
             } else stop("malformed raster name")

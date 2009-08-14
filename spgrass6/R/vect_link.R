@@ -17,7 +17,7 @@ readVECT6 <- function(vname, type=NULL, plugin=NULL, remove.duplicates=TRUE,
             c_at <- strsplit(vname[1], "@")[[1]]
             if (length(c_at) == 1) {
                 mapset <- .g_findfile(vname[1], type="vector")
-            } else if (length(c_at) == 1) {
+            } else if (length(c_at) == 2) {
                 mapset <- c_at[2]
                 vname[1] <- c_at[1]
             } else stop("malformed vector name")

@@ -1,7 +1,11 @@
+2009-08-14 18:20  rsbivand
+
+	* R/: bin_link.R, vect_link.R: adding @ detection for plugin
+
 2009-08-14 18:09  rsbivand
 
-	* DESCRIPTION, R/bin_link.R, R/vect_link.R: adding @ detection for
-	  plugin
+	* DESCRIPTION, R/bin_link.R, R/vect_link.R, ChangeLog,
+	  inst/ChangeLog: adding @ detection for plugin
 
 2009-05-24 11:28  rsbivand
 
