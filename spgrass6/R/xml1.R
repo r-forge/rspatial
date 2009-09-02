@@ -65,8 +65,20 @@ parseGRASS <- function(cmd) {
         for (i in seq(along=pseq)) {
             obj <- tr1[[pseq[i]]]
             pv <- xmlAttrs(obj)
-            pv <- c(pv, xmlValue(xmlChildren(obj)[[1]]))
-            names(pv) <- c(names(xmlAttrs(obj)), "desc")
+            pvCh <- xmlChildren(obj)
+            pv <- c(pv, xmlValue(pvCh[["description"]]))
+            kd <- pvCh[["keydesc"]]
+            if (is.null(kd)) {
+                nkd <- as.integer(NA)
+                strkd <- as.character(NA)
+            } else {
+                kda <- xmlApply(kd, xmlValue)
+                nkd <- length(kda)
+                strkd <- paste(sapply(kda, c), collapse=",")
+            }
+            pv <- c(pv, nkd, strkd)
+            names(pv) <- c(names(xmlAttrs(obj)), "desc",
+                "keydesc_count", "keydesc")
             ps[[i]] <- pv
         }
         res$parameters <- ps
@@ -99,9 +111,14 @@ print.GRASS_interface_desc <- function(x, ...) {
     cat("Description:", x$description, "\n")
     cat("Keywords:", x$keywords, "\n")
     cat("Parameters:\n")
-    for (i in x$parameters) cat("  name: ", i["name"], ", type: ",
-        i["type"], ", required: ", i["required"], ", multiple: ",
-        i["multiple"], "\n [", i["desc"], "]\n", sep="")
+    for (i in x$parameters) {
+        cat("  name: ", i["name"], ", type: ",
+            i["type"], ", required: ", i["required"], ", multiple: ",
+            i["multiple"], "\n", sep="")
+        if (!is.na(i["keydesc"])) cat("  keydesc: ", i["keydesc"],
+            ", keydesc_count: ", i["keydesc_count"], "\n", sep="")
+        cat("[", i["desc"], "]\n", sep="")
+    }
     cat("Flags:\n")
     for (i in x$flags) cat("  name: ", i["name"], " [",
         i["desc"], "]\n", sep="")
@@ -128,7 +145,11 @@ doGRASS <- function(cmd, flags=NULL, parameters=NULL) {
     pt <- do.call("rbind", pcmd$parameters)
     req <- pt[pt[, "required"] != "no", "name"]
 # patch for multiple values Patrick Caldon 090524
-    mult <- pt[pt[, "multiple"] != "no", "name"]
+#    mult <- pt[pt[, "multiple"] != "no", "name"]
+# patch to accept no or multiple keydesc_count 090902
+    mults <- pt[, "multiple"] != "no" | (!is.na(pt[, "keydesc_count"]) &
+        pt[, "keydesc_count"] > 1)
+    mult <- pt[mults, "name"]
     if (length(req) > 0 && is.null(parameters)) {
         print(pcmd)
         stop("No parameters given where some are required")
