@@ -19,6 +19,7 @@ if(!exists("Sys.setenv", envir = baseenv()))
   loc <- Sys.getenv("LOCATION_NAME")
 
   assign("cmdCACHE", list(), envir=.GRASS_CACHE)
+  assign("override_encoding", "", envir=.GRASS_CACHE)
   SYS <- ""
   if (.Platform$OS.type == "windows") {
     if (Sys.getenv("OSTYPE") == "msys") SYS <- "msys"

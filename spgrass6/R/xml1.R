@@ -47,6 +47,12 @@ parseGRASS <- function(cmd) {
         cmd0 <- paste(paste(prep, cmd, ext, sep=""), "--interface-description")
         tr <- try(system(cmd0, intern=TRUE))
 	if (class(tr) == "try-error") stop(paste(cmd, "not found"))
+        enc <- get("override_encoding", envir=.GRASS_CACHE)
+        if (nchar(enc) > 0) {
+          if (length(grep("UTF-8", tr[1])) > 0) {
+            tr[1] <- sub("UTF-8", enc, tr[1])
+          }        
+        }
         tr <- try(xmlTreeParse(tr))
 	if (inherits(tr, "try-error")) stop(paste(cmd, "not parsed"))
         tr1 <- xmlChildren(xmlRoot(tr))
@@ -104,6 +110,15 @@ parseGRASS <- function(cmd) {
     res
 } 
 
+setXMLencoding <- function(enc) {
+  if (!is.character(enc) || length(enc) > 1)
+    stop("enc must be a character string")
+  invisible(assign("override_encoding", enc, envir=.GRASS_CACHE))
+}
+
+getXMLencoding <- function() {
+ get("override_encoding", envir=.GRASS_CACHE)
+}
 print.GRASS_interface_desc <- function(x, ...) {
     cat("Command:", x$cmd, "\n")
     if (nchar(x$ext) > 0) cat("Extension:", x$ext, "\n")

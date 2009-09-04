@@ -24,6 +24,7 @@ initGRASS(gisBase, home, SG, gisDbase, location, mapset, override = FALSE)
 \value{
   The function runs \code{gmeta6} before returning the current values of the running GRASS session that it provides.
 }
+\note{If any package command fails with a UTF-8 error from the XML package, try using \code{setXMLencoding} to work around the problem that GRASS modules declare --interface-description output as UTF-8 without ensuring that it is (French is of 6.4.0 RC5 latin1).}
 
 \author{Roger S. Bivand, e-mail: \email{Roger.Bivand@nhh.no}}
 
