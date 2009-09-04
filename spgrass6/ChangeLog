@@ -1,6 +1,17 @@
+2009-09-04 23:53  rsbivand
+
+	* DESCRIPTION, R/xml1.R, R/zzz.R, man/execGRASS.Rd,
+	  man/initGRASS.Rd: fixing UTF-8
+
+2009-09-02 15:42  rsbivand
+
+	* DESCRIPTION, R/xml1.R: fix to get round parameters needing
+	  multiple values having multiple=no in description
+
 2009-08-14 18:20  rsbivand
 
-	* R/: bin_link.R, vect_link.R: adding @ detection for plugin
+	* R/bin_link.R, R/vect_link.R, ChangeLog, inst/ChangeLog: adding @
+	  detection for plugin
 
 2009-08-14 18:09  rsbivand
 
