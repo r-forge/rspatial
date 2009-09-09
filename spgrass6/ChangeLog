@@ -1,3 +1,7 @@
+2009-09-05 00:15  rsbivand
+
+	* ChangeLog, inst/ChangeLog: fixing UTF-8
+
 2009-09-04 23:53  rsbivand
 
 	* DESCRIPTION, R/xml1.R, R/zzz.R, man/execGRASS.Rd,
