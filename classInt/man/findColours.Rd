@@ -24,7 +24,7 @@ findColours(clI, pal, under="under", over="over", between="-", digits = getOptio
 }
 \author{Roger Bivand <Roger.Bivand@nhh.no}
 
-\seealso{\code{\link{classIntervals}}, \code{\link{findInterval}}, \code{\link{findCols}}, \code{\link[grDevices]{colorRampPalette}}}
+\seealso{\code{\link{classIntervals}}, \code{\link{findInterval}}, \code{\link{findCols}}, \code{\link[grDevices]{colorRamp}}}
 \examples{
 data(jenks71)
 mypal <- c("wheat1", "red3")

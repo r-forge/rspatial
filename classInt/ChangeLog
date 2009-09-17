@@ -1,7 +1,12 @@
+2009-09-17 10:19  rsbivand
+
+	* DESCRIPTION, man/classIntervals.Rd, man/findColours.Rd: fix
+	  documentation links
+
 2009-05-25 12:20  rsbivand
 
 	* DESCRIPTION, R/classInt.R, man/classIntervals.Rd,
-	  man/findColours.Rd: representation update 2
+	  man/findColours.Rd, ChangeLog: representation update 2
 
 2009-05-25 08:17  rsbivand
 
