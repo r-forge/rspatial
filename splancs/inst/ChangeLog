@@ -1,3 +1,15 @@
+2009-09-17 09:34  rsbivand
+
+	* DESCRIPTION: fix licence
+
+2008-01-30 17:29  rsbivand
+
+	* DESCRIPTION, R/spkernel2d.R: grd in spkernel2d
+
+2007-09-04 14:55  rsbivand
+
+	* ChangeLog, INDEX, inst/ChangeLog: Changelog
+
 2007-08-23 09:37  rsbivand
 
 	* ChangeLog, DESCRIPTION, inst/ChangeLog, man/areapl.Rd,
