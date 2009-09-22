@@ -1,7 +1,11 @@
+2009-09-22 18:02  rsbivand
+
+	* DESCRIPTION, R/spplot.R: adding auto.key to fill.call.groups()
+
 2009-09-17 10:35  rsbivand
 
-	* DESCRIPTION, man/SpatialPointsDataFrame-class.Rd, man/spplot.Rd:
-	  fix documentation links
+	* DESCRIPTION, man/SpatialPointsDataFrame-class.Rd, man/spplot.Rd,
+	  ChangeLog, inst/ChangeLog: fix documentation links
 
 2009-08-24 15:23  edzer
 
