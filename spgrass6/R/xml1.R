@@ -158,18 +158,19 @@ doGRASS <- function(cmd, flags=NULL, parameters=NULL) {
         res <- paste(res, paste("-", flags, collapse=" ", sep=""))
     }
     pt <- do.call("rbind", pcmd$parameters)
-    req <- pt[pt[, "required"] != "no", "name"]
+    if (!is.null(pt)) {
+      req <- pt[pt[, "required"] != "no", "name"]
 # patch for multiple values Patrick Caldon 090524
-#    mult <- pt[pt[, "multiple"] != "no", "name"]
+#      mult <- pt[pt[, "multiple"] != "no", "name"]
 # patch to accept no or multiple keydesc_count 090902
-    mults <- pt[, "multiple"] != "no" | (!is.na(pt[, "keydesc_count"]) &
+      mults <- pt[, "multiple"] != "no" | (!is.na(pt[, "keydesc_count"]) &
         pt[, "keydesc_count"] > 1)
-    mult <- pt[mults, "name"]
-    if (length(req) > 0 && is.null(parameters)) {
+      mult <- pt[mults, "name"]
+      if (length(req) > 0 && is.null(parameters)) {
         print(pcmd)
         stop("No parameters given where some are required")
-    }
-    if (!is.null(parameters)) {
+      }
+      if (!is.null(parameters)) {
         parnms <- names(parameters)
         pm <- match(parnms, pcmd$pnames)
         if (any(is.na(pm))) {
@@ -209,6 +210,7 @@ doGRASS <- function(cmd, flags=NULL, parameters=NULL) {
             res <- paste(res, paste(names(parameters)[i], param,
                 sep="="))
         }
+      }
     }
     res
 }
