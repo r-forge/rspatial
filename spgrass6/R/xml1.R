@@ -159,6 +159,7 @@ doGRASS <- function(cmd, flags=NULL, parameters=NULL) {
     }
     pt <- do.call("rbind", pcmd$parameters)
     if (!is.null(pt)) {
+# g.version no parameters exception caught by Rainer M Krug 090923
       req <- pt[pt[, "required"] != "no", "name"]
 # patch for multiple values Patrick Caldon 090524
 #      mult <- pt[pt[, "multiple"] != "no", "name"]
