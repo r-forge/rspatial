@@ -1,6 +1,11 @@
+2009-09-24 12:57  rsbivand
+
+	* R/image.R, man/image.Rd: bug fix image2Grid
+
 2009-09-22 18:02  rsbivand
 
-	* DESCRIPTION, R/spplot.R: adding auto.key to fill.call.groups()
+	* DESCRIPTION, R/spplot.R, ChangeLog, inst/ChangeLog: adding
+	  auto.key to fill.call.groups()
 
 2009-09-17 10:35  rsbivand
 
