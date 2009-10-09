@@ -32,11 +32,11 @@ plot(outer(stkh$ks, stkh$kt), st.R,xlab='K(s)K(t)',ylab='R')
 abline(h=0)
 title('Residual Plot')
 if(length(stmc)>1){
- hist(stmc,nclass=50,include.lowest=TRUE,xlab='Test statistic',main="")
+ hist(c(stmc$t0, stmc$t) ,nclass=50,include.lowest=TRUE,xlab='Test statistic',main="")
  y.75 <- par()$usr[4]*.75
  y.8 <- par()$usr[4]*.8
- lines(rep(stmc[1],2),c(0,y.75),lwd=2)
- text(stmc[1],y.8,'Data Statistic')
+ lines(rep(stmc$t0,2),c(0,y.75),lwd=2)
+ text(stmc$t0,y.8,'Data Statistic')
  title('MC results')
 }else{
  plot(c(0,1),c(0,1),type='n',axes=FALSE,xlab='',ylab='')

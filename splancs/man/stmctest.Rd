@@ -1,6 +1,6 @@
 % Copyright Barry Rowlingson  and 
 % Peter Diggle (c) 1991-3; http://www.maths.lancs.ac.uk/~rowlings/Splancs/
-% R port: copyright 1998-2000 by Roger S. Bivand
+% R port: copyright 1998-2009 by Roger S. Bivand
 
 \name{stmctest}
 \alias{stmctest}
@@ -11,7 +11,7 @@ Monte-Carlo test of space-time clustering
 Perform a Monte-Carlo test of space-time clustering.
 }
 \usage{
-stmctest(pts, times, poly, tlimits, s, tt, nsim, quiet=FALSE)
+stmctest(pts, times, poly, tlimits, s, tt, nsim, quiet=FALSE, returnSims=FALSE)
 }
 \arguments{
 \item{pts}{
@@ -39,10 +39,16 @@ The number of simulations to do.
 If \code{quiet=TRUE} then no output is produced, otherwise the function
 prints the number of simulations completed so far, and also how the
 test statistic for the data ranks with the simulations.
-}}
+}
+\item{returnSims}{default FALSE, if TRUE, return the \code{stkhat} output for the observed data and each simulation as attributes \code{obs} and \code{sims}}
+}
 \value{
-A vector of length \code{nsim+1}. The first element is the test statistic
-for the data, and the remaining elements are those for the simulations.
+A list with components:
+
+\item{t0}{The observed value of the statistic}
+\item{t}{A single column matrix with \code{nsim} values each of which is a simulated value of the statistic}
+%A vector of length \code{nsim+1}. The first element is the test statistic
+%for the data, and the remaining elements are those for the simulations.
 }
 \details{
 The function  uses a sum of residuals as a test statistic, 
@@ -63,10 +69,22 @@ the original sources can be accessed at:
 Gebhardt, A. 2000 Implementing functions for spatial statistical analysis
 using the R language. Journal of Geographical Systems, 2, 307-317.
 }
+
+\note{The example of using returned simulated values is included only to show how the values might be used, not to indicate that this constitutes a way of examining which observed values of the space-time measure are exceptional.}
+
 \examples{
 example(stkhat)
 bur1mc <- stmctest(burpts, burkitt$t, burbdy, c(400, 5800),
-  seq(1,40,2), seq(100, 1500, 100), nsim=49, quiet=TRUE)
+  seq(1,40,2), seq(100, 1500, 100), nsim=49, quiet=TRUE, returnSims=TRUE)
+plot(density(bur1mc$t), xlim=range(c(bur1mc$t0, bur1mc$t)))
+abline(v=bur1mc$t0)
+r0 <- attr(bur1mc, "obs")$kst-outer(attr(bur1mc, "obs")$ks, attr(bur1mc, "obs")$kt)
+rsimlist <- lapply(attr(bur1mc, "sims"), function(x) x$kst - outer(x$ks, x$kt))
+rarray <- array(do.call("cbind", rsimlist), dim=c(20, 15, 49))
+rmin <- apply(rarray, c(1,2), min)
+rmax <- apply(rarray, c(1,2), max)
+r0 < rmin
+r0 > rmax
 }
 % Converted by Sd2Rd version 0.3-3.
 \keyword{spatial}

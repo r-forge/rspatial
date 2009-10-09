@@ -1,6 +1,11 @@
+2009-10-09 21:05  rsbivand
+
+	* DESCRIPTION, R/stdiagn.S, R/stmctest.S, man/stmctest.Rd: stmctest
+	  modifications
+
 2009-09-17 09:34  rsbivand
 
-	* DESCRIPTION: fix licence
+	* DESCRIPTION, ChangeLog, inst/ChangeLog: fix licence
 
 2008-01-30 17:29  rsbivand
 
