@@ -41,7 +41,7 @@ void kn_poisson(double *Observed, double * Expected, int n, double fractpop, dou
 	/*Maximum number of regions to which the 'cluster' is extended*/
 	aux=fractpop*E;
 	maxregion=0;
-	while(aux>csumexp[maxregion]){maxregion++;}
+	while(aux>csumexp[maxregion+1]){maxregion++;}
 	
 	/*When all regions are considered the likelihood ratio is 1*/
 	if(maxregion>=(n-1))
