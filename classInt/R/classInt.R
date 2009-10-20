@@ -50,9 +50,12 @@ plot.classIntervals <- function(x, pal, ...) {
 }
 
 # change contributed by Richard Dunlap 090512
-# Added intervalClosure argument to allow specification of whether partition intervals are closed on the left or the right
-# Added dataPrecision argument to allow rounding of interval boundaries to the precision -- the argument equals the number of
-# decimal places in the data.  Negative numbers retain the usual convention for rounding.
+# Added intervalClosure argument to allow specification of whether
+# partition intervals are closed on the left or the right
+# Added dataPrecision argument to allow rounding of interval boundaries
+# to the precision -- the argument equals the number of
+# decimal places in the data.  Negative numbers retain the usual
+# convention for rounding.
 classIntervals <- function(var, n, style="quantile", rtimes=3, ..., intervalClosure="left", dataPrecision=NULL) {
   if (is.factor(var)) stop("var is categorical")
   if (!is.numeric(var)) stop("var is not numeric")
@@ -164,7 +167,8 @@ classIntervals <- function(var, n, style="quantile", rtimes=3, ..., intervalClos
       colnames(pars) <- c("min", "max", "class mean", "class sd")
     } else if (style == "jenks") { # Jenks Optimisation Method
 # change contributed by Richard Dunlap 090512
-# This version of the Jenks code assumes intervals are closed on the right -- force it.
+# This version of the Jenks code assumes intervals are closed on
+# the right -- force it.
     	   intervalClosure = "right"
            d <- sort(var)
            k <- n
@@ -209,7 +213,8 @@ classIntervals <- function(var, n, style="quantile", rtimes=3, ..., intervalClos
              last <- k -1 #upper
            }
 # change uncontributed by Richard Dunlap 090512           
-# with the specification of intervalClosure for the presentation layer, don't need to change this
+# with the specification of intervalClosure for the presentation layer,
+# don't need to change this
            brks<-d[c(1, kclass)]
 
       } else stop(paste(style, "unknown"))
@@ -221,7 +226,8 @@ classIntervals <- function(var, n, style="quantile", rtimes=3, ..., intervalClos
   attr(res, "nobs") <- nobs
   attr(res, "call") <- match.call()
 # change contributed by Richard Dunlap 090512
-# Add intervalClosure and dataPrecision to the attributes so they're available to the print method
+# Add intervalClosure and dataPrecision to the attributes so they're
+# available to the print method
   attr(res, "intervalClosure") <- intervalClosure
   attr(res, "dataPrecision") <- dataPrecision
   class(res) <- "classIntervals"
@@ -255,13 +261,16 @@ findColours <- function(clI, pal, under="under", over="over", between="-",
   res <- palette[cols]
   attr(res, "palette") <- palette
   tab <- tableClassIntervals(cols=cols, brks=clI$brks, under=under, over=over,
-    between=between, digits=digits, cutlabels=cutlabels)
+    between=between, digits=digits, cutlabels=cutlabels,
+    intervalClosure=attr(clI, "intervalClosure"),
+    dataPrecision=attr(clI, "dataPrecision"))
   attr(res, "table") <- tab
   res
 }
 
 # change contributed by Richard Dunlap 090512
-# Looks for intervalClosure attribute to allow specification of whether partition intervals are closed on the left or the right
+# Looks for intervalClosure attribute to allow specification of
+# whether partition intervals are closed on the left or the right
 findCols <- function(clI)  {
   if (class(clI) != "classIntervals") stop("Class interval object required")
   if (is.null(clI$brks)) stop("Null breaks")
@@ -275,7 +284,8 @@ findCols <- function(clI)  {
 }
 
 # change contributed by Richard Dunlap 090512
-# Added intervalClosure argument to allow specification of whether partition intervals are closed on the left or the right
+# Added intervalClosure argument to allow specification of whether
+# partition intervals are closed on the left or the right
 # Added dataPrecision for rounding of the interval endpoints
 tableClassIntervals <- function(cols, brks, under="under", over="over",
    between="-", digits = getOption("digits"), cutlabels=TRUE, intervalClosure="left", dataPrecision=NULL) {
@@ -296,7 +306,8 @@ tableClassIntervals <- function(cols, brks, under="under", over="over",
    	right = "]"
    }   
    
-#The two global endpoints are going through roundEndpoint to get formatting right, nothing more
+#The two global endpoints are going through roundEndpoint to get
+# formatting right, nothing more
    if (cutlabels) nres[1] <- paste("[", roundEndpoint(brks[1], intervalClosure, dataPrecision), between, roundEndpoint(brks[2], intervalClosure, dataPrecision), right, sep=sep)
    else nres[1] <- paste(under, roundEndpoint(brks[2], intervalClosure, dataPrecision), sep=sep)
    for (i in 2:(lx - 2)) {
@@ -339,8 +350,8 @@ print.classIntervals <- function(x, digits = getOption("digits"), ..., under="un
    cols <- findCols(x)
 # change contributed by Richard Dunlap 090512
 # passes the intervalClosure argument to tableClassIntervals
-   tab <- tableClassIntervals(cols=cols, brks=x$brks, digits=digits,
-      cutlabels=cutlabels, intervalClosure=attr(x, "intervalClosure"), dataPrecision=attr(x, "dataPrecision"))
+   tab <- tableClassIntervals(cols=cols, brks=x$brks, under=under, over=over,
+    between=between, digits=digits, cutlabels=cutlabels, intervalClosure=attr(x, "intervalClosure"), dataPrecision=attr(x, "dataPrecision"))
    print(tab, digits=digits, ...)
    invisible(tab)
 }
