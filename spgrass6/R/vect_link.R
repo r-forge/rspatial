@@ -41,14 +41,9 @@ readVECT6 <- function(vname, type=NULL, plugin=NULL, remove.duplicates=TRUE,
 	}
 
 	pid <- as.integer(round(runif(1, 1, 1000)))
-#	cmd <- paste(paste("g.tempfile", .addexe(), sep=""),
-#                    " pid=", pid, sep="")
 
 	gtmpfl1 <- dirname(execGRASS("g.tempfile", parameters=list(pid=pid),
             intern=TRUE, ignore.stderr=ignore.stderr))
-#ifelse(.Platform$OS.type == "windows", 
-#		system(cmd, intern=TRUE), system(cmd, 
-#		intern=TRUE, ignore.stderr=ignore.stderr)))
 	rtmpfl1 <- ifelse(.Platform$OS.type == "windows" &&
                 (Sys.getenv("OSTYPE") == "cygwin"), 
 		system(paste("cygpath -w", gtmpfl1, sep=" "), intern=TRUE), 
@@ -57,17 +52,6 @@ readVECT6 <- function(vname, type=NULL, plugin=NULL, remove.duplicates=TRUE,
 	shname <- substring(vname, 1, ifelse(nchar(vname) > 8, 8, 
 		nchar(vname)))
 
-#	if (with_prj) E <- " -e"
-#	else E <- ""
-#	if (with_c) E <- paste(E, " -c")
-
-#	cmd <- paste(paste("v.out.ogr", .addexe(), sep=""),
-#                " ", E, " input=", vname, " type=", type, 
-#		" dsn=", gtmpfl1, " olayer=", shname, " format=ESRI_Shapefile", 
-#		sep="")
-
-#	tull <- ifelse(.Platform$OS.type == "windows", system(cmd), 
-#		system(cmd, ignore.stderr=ignore.stderr))
         flags <- NULL
         if (with_prj) flags <- "e"
         if (with_c) flags <- c(flags, "c")
@@ -103,7 +87,6 @@ readVECT6 <- function(vname, type=NULL, plugin=NULL, remove.duplicates=TRUE,
 			p4s <- proj4string(res)
 			IDs <- as.character(res$cat)
 			IDs[is.na(IDs)] <- "na"
-#			IDs <- res$cat
 			tab <- table(factor(IDs))
 			n <- length(tab)
 			if (n + sum(dups) != length(pls))
@@ -206,12 +189,6 @@ writeVECT6 <- function(SDF, vname, #factor2char = TRUE,
 	if (is.null(type)) stop("Unknown data class")
 
 	pid <- as.integer(round(runif(1, 1, 1000)))
-#	cmd <- paste(paste("g.tempfile", .addexe(), sep=""),
-#                    " pid=", pid, sep="")
-
-#	gtmpfl1 <- dirname(ifelse(.Platform$OS.type == "windows", 
-#		system(cmd, intern=TRUE), system(cmd, 
-#		intern=TRUE, ignore.stderr=ignore.stderr)))
 	gtmpfl1 <- dirname(execGRASS("g.tempfile", parameters=list(pid=pid),
             intern=TRUE, ignore.stderr=ignore.stderr))
 	rtmpfl1 <- ifelse(.Platform$OS.type == "windows" &&
@@ -222,25 +199,9 @@ writeVECT6 <- function(SDF, vname, #factor2char = TRUE,
 	shname <- substring(vname, 1, ifelse(nchar(vname) > 8, 8, 
 		nchar(vname)))
 
-#	switch(type,
-##		point = writePointsShape(SDF, paste(rtmpfl1, shname, 
-#			sep=.Platform$file.sep), factor2char=factor2char),
-#		line = writeLinesShape(SDF, paste(rtmpfl1, shname, 
-#			sep=.Platform$file.sep), factor2char=factor2char),
-#		boundary = writePolyShape(SDF, paste(rtmpfl1, shname, 
-#			sep=.Platform$file.sep), factor2char=factor2char))
-#	p4s <- proj4string(SDF)
-#	if (!is.na(p4s)) tull <- showWKT(p4s, paste(rtmpfl1, 
-#		.Platform$file.sep, shname, ".prj", sep=""))
 
 	writeOGR(SDF, dsn=rtmpfl1, layer=shname, driver="ESRI Shapefile")
 
-#	cmd <- paste(paste("v.in.ogr", .addexe(), sep=""),
-#                    " ", v.in.ogr_flags, " dsn=", gtmpfl1, 
-#		" output=", vname, " layer=", shname, sep="")
-
-#	tull <- ifelse(.Platform$OS.type == "windows", system(cmd), 
-#		system(cmd, ignore.stderr=ignore.stderr))
 
 	execGRASS("v.in.ogr", flags=v.in.ogr_flags,
 	    parameters=list(dsn=gtmpfl1, output=vname, layer=shname),
@@ -253,21 +214,13 @@ writeVECT6 <- function(SDF, vname, #factor2char = TRUE,
 }
 
 vInfo <- function(vname, ignore.stderr = FALSE) {
-#	cmd <- paste(paste("v.info", .addexe(), sep=""),
-#                    " map=", vname, sep="")
-#	if(.Platform$OS.type == "windows") vinfo0 <- system(cmd, intern=TRUE)
-#	else vinfo0 <- system(cmd, intern=TRUE, ignore.stderr=ignore.stderr)
-	vinfo0 <- execGRASS("v.info", parameters=list(map=vname), intern=TRUE,
-            ignore.stderr=ignore.stderr)
+	vinfo0 <- execGRASS("v.info", flags="t", parameters=list(map=vname),
+            intern=TRUE, ignore.stderr=ignore.stderr)
 
-	m0 <- grep("Number of points", vinfo0)
-	m1 <- grep("Number of centroids", vinfo0)
-	if (length(m0) == 0 || length(m1) == 0) 
-		stop("Vector information not found")
+# fix to avoid locale problems 091022
 
-	vinfo1 <- vinfo0[m0:m1]
-	vinfo2 <- c(substring(vinfo1, 16, 45), substring(vinfo1, 56, 78))
-	con <- textConnection(vinfo2)
+        vinfo1 <- gsub("=", ":", vinfo0)
+	con <- textConnection(vinfo1)
 	res <- drop(read.dcf(con))
 	close(con)
 	storage.mode(res) <- "integer"
@@ -275,16 +228,9 @@ vInfo <- function(vname, ignore.stderr = FALSE) {
 }
 
 vColumns <- function(vname, ignore.stderr = TRUE) {
-#	cmd <- paste(paste("v.info", .addexe(), sep=""),
-#                    " -c map=", vname, sep="")
-#	if(.Platform$OS.type == "windows") vinfo0 <- system(cmd, intern=TRUE)
-#	else vinfo0 <- system(cmd, intern=TRUE, ignore.stderr=ignore.stderr)
 	vinfo0 <- execGRASS("v.info", flags="c", parameters=list(map=vname),
             intern=TRUE, ignore.stderr=ignore.stderr)       
 	con <- textConnection(vinfo0)
-#	if(.Platform$OS.type == "windows") res <- read.table(con, 
-#		header=FALSE, sep="|", skip=1)
-#	else 
         res <- read.table(con, header=FALSE, sep="|")
 	close(con)
 	names(res) <- c("storageType", "name")
@@ -292,10 +238,6 @@ vColumns <- function(vname, ignore.stderr = TRUE) {
 }
 
 vDataCount <- function(vname, ignore.stderr = TRUE) {
-#	cmd <- paste(paste("v.db.select", .addexe(), sep=""),
-#                    " -c map=", vname, " column=cat", sep="")
-#	if(.Platform$OS.type == "windows") tull <- system(cmd, intern=TRUE)
-#	else tull <- system(cmd, intern=TRUE, ignore.stderr=ignore.stderr)
         column <- "column" %in% parseGRASS("v.db.select")$pnames
         if (column) tull <- execGRASS("v.db.select", flags="c",
             parameters=list(map=vname, column="cat"), intern=TRUE,
