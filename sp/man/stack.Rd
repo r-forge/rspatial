@@ -12,7 +12,8 @@ spmap.to.lev(data, zcol = 1:n, n = 2, names.attr)
 \method{stack}{SpatialGridDataFrame}(x, select, ...)
 }
 \arguments{
-\item{data}{ object of class (or extending) SpatialDataFrame }
+\item{data}{ object of class (or extending) SpatialPointsDataFrame or
+SpatialGridDataFrame }
 \item{zcol}{ z-coordinate column name(s), or a column number (range) (after
 removing the spatial coordinate columns: 1 refers to the first non-coordinate
 column, etc. ) }
