@@ -20,6 +20,9 @@ dimensions,Spatial-method
                         retrieve spatial dimensions from spatial data
 DMS-class               Class "DMS" for degree, minute, decimal second
                         values
+flipHorizontal          rearrange data in SpatialPointsDataFrame or
+                        SpatialGridDataFrame for plotting with spplot
+                        (levelplot/xyplot wrapper)
 gridded-methods         specify spatial data as being gridded, or find
                         out whether they are
 gridlines               Create N-S and E-W grid lines over a geographic

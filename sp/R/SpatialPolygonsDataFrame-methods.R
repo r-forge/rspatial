@@ -31,6 +31,10 @@ row.names.SpatialPolygonsDataFrame <- function(x) {
     sapply(slot(x, "polygons"), slot, "ID")
 }
 
+"row.names<-.SpatialPolygonsDataFrame" <- function(x, value) {
+    spChFIDs(x, value)
+}
+
 setMethod("[", "SpatialPolygonsDataFrame", function(x, i, j, ... , drop = TRUE) {
     missing.i = missing(i)
     missing.j = missing(j)
