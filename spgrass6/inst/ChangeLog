@@ -1,6 +1,12 @@
+2009-11-08 08:04  rsbivand
+
+	* DESCRIPTION, R/bin_link.R, R/vect_link.R, R/xml1.R,
+	  man/readRAST6.Rd: protecting spaces in parameter values
+
 2009-10-22 20:53  rsbivand
 
-	* DESCRIPTION, R/vect_link.R: fixing locale problem
+	* DESCRIPTION, R/vect_link.R, ChangeLog, inst/ChangeLog: fixing
+	  locale problem
 
 2009-09-23 11:27  rsbivand
 
