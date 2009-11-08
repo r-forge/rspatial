@@ -80,7 +80,7 @@ if (nchar(Sys.getenv("GISRC")) > 0) {
   execGRASS("r.info", parameters=list(map="sqdemSP"), ignore.stderr=TRUE)
   execGRASS("g.remove", parameters=list(rast="sqdemSP"), ignore.stderr=TRUE)
   execGRASS("r.mapcalculator", parameters=list(outfile="quads0",
-    amap="quads", formula=shQuote('A - 1')), ignore.stderr=TRUE)
+    amap="quads", formula='A - 1'), ignore.stderr=TRUE)
   execGRASS("r.stats", flags="c", parameters=list(input="quads0"),
     ignore.stderr=TRUE)
   quads0 <- readRAST6("quads0", ignore.stderr=TRUE)

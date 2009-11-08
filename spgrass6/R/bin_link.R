@@ -70,34 +70,14 @@ readRAST6 <- function(vname, cat=NULL, ignore.stderr = FALSE,
     } else {
 	pid <- as.integer(round(runif(1, 1, 1000)))
 	p4 <- CRS(getLocationProj())
-#	cmd <- paste("g.version", .addexe(), sep="")
-#	tull <- ifelse(.Platform$OS.type=="windows",
-#		Gver <- system(cmd, intern=TRUE), 
-#		Gver <- system(cmd, intern=TRUE, 
-#		ignore.stderr=ignore.stderr))
         Gver <- execGRASS("g.version", intern=TRUE, 
 		ignore.stderr=ignore.stderr)
 	G63 <- !(Gver < "GRASS 6.3") #Gver > "GRASS 6.2"
-# 090311 fix for -c flag
-#        cmd <- paste("r.out.gdal", .addexe(), " --interface-description",
-#                sep="")
-#	tull <- ifelse(.Platform$OS.type=="windows",
-#		CflagXML <- system(cmd, intern=TRUE), 
-#		CflagXML <- system(cmd, intern=TRUE, 
-#		ignore.stderr=ignore.stderr))       
-#        Cflag <- length(grep("flag name=\"c\"", CflagXML)) > 0
 
 # 090311 fix for -c flag
         Cflag <- "c" %in% parseGRASS("r.out.gdal")$fnames
 	for (i in seq(along=vname)) {
 
-#		cmd <- paste(paste("r.info", .addexe(), sep=""),
-#                    " -t", vname[i])
-
-#		tull <- ifelse(.Platform$OS.type == "windows", 
-#			whCELL <- system(cmd, intern=TRUE), 
-#			whCELL <- system(cmd, intern=TRUE, 
-#			ignore.stderr=ignore.stderr))
 
 		whCELL <- execGRASS("r.info", flags="t",
 		    parameters=list(map=vname[i]), intern=TRUE, 
@@ -106,12 +86,6 @@ readRAST6 <- function(vname, cat=NULL, ignore.stderr = FALSE,
 		to_int <- length(which(unlist(strsplit(
 			whCELL, "=")) == "CELL")) > 0
 
-#		cmd <- paste(paste("g.tempfile", .addexe(), sep=""),
-#                    " pid=", pid, sep="")
-
-#		gtmpfl1 <- dirname(ifelse(.Platform$OS.type == "windows", 
-#			system(cmd, intern=TRUE), system(cmd, intern=TRUE, 
-#			ignore.stderr=ignore.stderr)))
 		gtmpfl1 <- dirname(execGRASS("g.tempfile",
 		    parameters=list(pid=pid), intern=TRUE,
 		    ignore.stderr=ignore.stderr))
@@ -120,17 +94,12 @@ readRAST6 <- function(vname, cat=NULL, ignore.stderr = FALSE,
 			system(paste("cygpath -w", gtmpfl1, sep=" "), 
 			intern=TRUE), gtmpfl1)
 		gtmpfl11 <- paste(gtmpfl1, vname[i], sep=.Platform$file.sep)
+#                if (length(grep(" ", gtmpfl11)) > 0) 
+#                    gtmpfl11 <- paste("\"", gtmpfl11, "\"", sep="")
 		rtmpfl11 <- paste(rtmpfl1, vname[i], sep=.Platform$file.sep)
 
 # 071009 Markus Neteler's idea to use range
 		if (is.null(NODATA)) {
-#		    cmd <- paste(paste("r.info", .addexe(), sep=""),
-#                        " -r", vname[i])
-
-#		    tull <- ifelse(.Platform$OS.type == "windows", 
-#			tx <- system(cmd, intern=TRUE), 
-#			tx <- system(cmd, intern=TRUE, 
-#			ignore.stderr=ignore.stderr))
 		    tx <- execGRASS("r.info", flags="r",
 		        parameters=list(map=vname[i]), intern=TRUE, 
 		        ignore.stderr=ignore.stderr)
@@ -157,17 +126,6 @@ readRAST6 <- function(vname, cat=NULL, ignore.stderr = FALSE,
 		}
 		if (useGDAL && G63) {
 		    type <- ifelse (to_int, "Int32", "Float32")
-#		    cmd <- paste(paste("r.out.gdal", .addexe(), sep=""),
-# 090111 fix for CPL error message
-#                        ifelse(Cflag, " -c", ""), 
-# 090311 fix for -c flag
-#                        " --quiet input=", vname[i], " output=", gtmpfl11,
-#                        " type=", type, " nodata=", NODATA, sep="")
-
-# 061107 Dylan Beaudette NODATA
-
-#		    tull <- ifelse(.Platform$OS.type == "windows", system(cmd), 
-#			system(cmd, ignore.stderr=ignore.stderr))
 
                     if (Cflag) execGRASS("r.out.gdal", flags=c("c", "quiet"),
 			parameters=list(input=vname[i], output=gtmpfl11,
@@ -180,14 +138,7 @@ readRAST6 <- function(vname, cat=NULL, ignore.stderr = FALSE,
 			silent=ignore.stderr)
 		    names(res) <- vname[i]
 		} else {
-#		    cmd <- paste(paste("r.out.bin", .addexe(), sep=""),
-#                        " -b input=", vname[i], " output=", gtmpfl11,
-#                        " null=", NODATA, sep="")
-
 # 061107 Dylan Beaudette NODATA
-
-#		    tull <- ifelse(.Platform$OS.type == "windows", system(cmd), 
-#			system(cmd, ignore.stderr=ignore.stderr))
 
 		    execGRASS("r.out.bin", flags="b", 
 			parameters=list(input=vname[i], output=gtmpfl11, 
@@ -224,33 +175,10 @@ readRAST6 <- function(vname, cat=NULL, ignore.stderr = FALSE,
 		for (i in seq(along=cat)) {
 			if (cat[i] && is.integer(resa@data[[i]])) {
 
-# note --q in 6.3.cvs
-				
-				
-#				if (G63) cmd <- paste(paste("r.stats", 
-#				    .addexe(), sep=""), "-l --q", vname[i])
-#				else cmd <- paste(paste("r.stats", .addexe(),
-#                                    sep=""), "-l -q", vname[i])
-#
-#				tull <- ifelse(.Platform$OS.type=="windows",
-#				    rSTATS <- system(cmd, intern=TRUE), 
-#				    rSTATS <- system(cmd, intern=TRUE, 
-#				    ignore.stderr=ignore.stderr))
-
 				rSTATS <- execGRASS("r.stats",
 				    flags=c("l", "quiet"),
 				    parameters=list(input=vname[i]),
 				    intern=TRUE, ignore.stderr=ignore.stderr)
-
-#				if ((length(rSTATS) == 0)
-#                                    || (length(grep("Sorry", rSTATS[1])) > 0)) {
-#				    cmd <- paste(paste("r.stats", .addexe(),
-#                                        sep=""), "-l --q", vname[i])
-#				    tull <- ifelse(.Platform$OS.type=="windows",
-#				    rSTATS <- system(cmd, intern=TRUE),
-#				    rSTATS <- system(cmd, intern=TRUE,
-#				    ignore.stderr=ignore.stderr))
-#				}
 
 				cats <- strsplit(rSTATS, " ")
 				catnos <- sapply(cats, function(x) x[1])
@@ -326,12 +254,6 @@ writeRAST6 <- function(x, vname, zcol = 1, NODATA=NULL,
 
 
 	pid <- as.integer(round(runif(1, 1, 1000)))
-#	cmd <- paste(paste("g.tempfile", .addexe(), sep=""),
-#            " pid=", pid, sep="")
-#
-#	gtmpfl1 <- dirname(ifelse(.Platform$OS.type == "windows",
-#		system(cmd, intern=TRUE),
-#		system(cmd, intern=TRUE, ignore.stderr=ignore.stderr)))
 	gtmpfl1 <- dirname(execGRASS("g.tempfile", parameters=list(pid=pid),
 	    intern=TRUE, ignore.stderr=ignore.stderr))
 
@@ -347,11 +269,6 @@ writeRAST6 <- function(x, vname, zcol = 1, NODATA=NULL,
 		stop("only numeric columns may be exported")
 	if (overwrite && !("overwrite" %in% flags))
 		flags <- c(flags, "overwrite")
-#	cmd <- paste("g.version", .addexe(), sep="")
-#	tull <- ifelse(.Platform$OS.type=="windows",
-#		Gver <- system(cmd, intern=TRUE), 
-#		Gver <- system(cmd, intern=TRUE, 
-#		ignore.stderr=ignore.stderr))
         Gver <- execGRASS("g.version", intern=TRUE, 
 		ignore.stderr=ignore.stderr)
 	G63 <- !(Gver < "GRASS 6.3") #Gver > "GRASS 6.2"
@@ -369,35 +286,16 @@ writeRAST6 <- function(x, vname, zcol = 1, NODATA=NULL,
 			warning("NODATA rounded to integer")
 		NODATA <- round(NODATA)
 	    }
-#	    if (is.null(NODATA)) NODATA <- NA
 	    sm <- storage.mode(x[[zcol]])
 	    type <- ifelse(sm == "integer", "Int32", "Float32")
 	    res <- writeGDAL(x[zcol], fname=rtmpfl11, type=type, 
 		mvFlag = NODATA)
-
-#	    cmd <- paste(paste("r.in.gdal", .addexe(), sep=""), 
-#		ifelse(overwrite, " --overwrite", ""),
-#                " input=", gtmpfl11, " output=", vname, sep="")
-#	
-#	    tull <- ifelse(.Platform$OS.type == "windows", 
-#		system(cmd), system(cmd, ignore.stderr=ignore.stderr))
 
 	    execGRASS("r.in.gdal", flags=flags, parameters=list(input=gtmpfl11,
 		output=vname), ignore.stderr=ignore.stderr)
 
 	} else {
 	    res <- writeBinGrid(x, rtmpfl11, attr = zcol, na.value = NODATA)
-
-#	    cmd <- paste(paste("r.in.bin", .addexe(), sep=""),
-#                " ", res$flag, ifelse(overwrite, " --overwrite", ""),
-#		" input=", gtmpfl11, " output=", 
-#		vname, " bytes=", res$bytes, " north=", res$north, 
-#		" south=", res$south, " east=", res$east, " west=", 
-#		res$west, " rows=", res$rows, " cols=", res$cols, " anull=", 
-#		res$anull, sep="")
-#	
-#	    tull <- ifelse(.Platform$OS.type == "windows", 
-#		system(cmd), system(cmd, ignore.stderr=ignore.stderr))
 
 	    flags <- c(res$flag, flags)
 	    
@@ -436,10 +334,6 @@ writeBinGrid <- function(x, fname, attr = 1, na.value = NULL) {
 	}
 	res <- list()
 	res$anull <- formatC(na.value, format="d")
-#	if (is.integer(z)) {
-#		na.value <- as.integer(na.value)
-#		res$anull <- formatC(as.integer(na.value), format="d")
-#	}
 	z[is.na(z)] = na.value
 	if (storage.mode(z) == "integer") {
 		sz <- 4

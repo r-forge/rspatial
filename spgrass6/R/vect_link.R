@@ -356,68 +356,110 @@ vect2neigh <- function(vname, ID=NULL, ignore.stderr = FALSE) {
 
 	if (!is.null(ID)) {
 		if (!is.character(ID)) stop("ID not character string")
-		cmd <- paste(paste("v.info", .addexe(), sep=""),
-                    " -c ", vname, sep="")
-		if(.Platform$OS.type == "windows") 
-			tull <- system(cmd, intern=TRUE)
-		else tull <- system(cmd, intern=TRUE, 
+#		cmd <- paste(paste("v.info", .addexe(), sep=""),
+#                    " -c ", vname, sep="")
+#		if(.Platform$OS.type == "windows") 
+#			tull <- system(cmd, intern=TRUE)
+#		else tull <- system(cmd, intern=TRUE, 
+#			ignore.stderr=ignore.stderr)
+                tull <- execGRASS("v.info", flags="c",
+                        parameters=list(map=vname), intern=TRUE, 
 			ignore.stderr=ignore.stderr)
 		if (length(grep(ID, tull)) == 0)
 			stop("ID not found")
-		cmd <- paste(paste("v.db.select", .addexe(), sep=""),
-                    " -c map=", vname, " column=", 
-			ID, sep="")
-		if(.Platform$OS.type == "windows") 
-			ID <- as.character(system(cmd, intern=TRUE))
-		else ID <- as.character(system(cmd, intern=TRUE, 
-			ignore.stderr=ignore.stderr))
+#		cmd <- paste(paste("v.db.select", .addexe(), sep=""),
+#                    " -c map=", vname, " column=", 
+#			ID, sep="")
+#		if(.Platform$OS.type == "windows") 
+#			ID <- as.character(system(cmd, intern=TRUE))
+#		else ID <- as.character(system(cmd, intern=TRUE, 
+#			ignore.stderr=ignore.stderr))
+                ID <- execGRASS("v.db.select", flags="c", 
+                        parameters=list(map=vname, columns=ID), intern=TRUE, 
+			ignore.stderr=ignore.stderr) 
 		if (length(unique(ID)) != n) 
 			stop("fewer than n unique ID values")
 	}
 	
 	pid <- as.integer(round(runif(1, 1, 1000)))
 	vname2 <- paste(vname, pid, sep="")
-	cmd <- paste(paste("g.copy", .addexe(), sep=""),
-                    " vect=", vname, ",", vname2, sep="")
-	if(.Platform$OS.type == "windows") tull <- system(cmd, intern=TRUE)
-	else tull <- system(cmd, intern=TRUE, ignore.stderr=ignore.stderr)
+#	cmd <- paste(paste("g.copy", .addexe(), sep=""),
+#                    " vect=", vname, ",", vname2, sep="")
+#	if(.Platform$OS.type == "windows") tull <- system(cmd, intern=TRUE)
+#	else tull <- system(cmd, intern=TRUE, ignore.stderr=ignore.stderr)
+        tull <- execGRASS("g.copy", parameters=list(vect=paste(vname, 
+            vname2, sep=",")), intern=TRUE, ignore.stderr=ignore.stderr)
 
 	vname2a <- paste(vname2, "a", sep="")
-	cmd <- paste(paste("v.category", .addexe(), sep=""),
-                    " ", vname2, " out=", vname2a, 
-		"  layer=2 type=boundary option=add", sep="")
-	if(.Platform$OS.type == "windows") tull <- system(cmd, intern=TRUE)
-	else tull <- system(cmd, intern=TRUE, ignore.stderr=ignore.stderr)
+#	cmd <- paste(paste("v.category", .addexe(), sep=""),
+#                    " ", vname2, " out=", vname2a, 
+#		"  layer=2 type=boundary option=add", sep="")
+#	if(.Platform$OS.type == "windows") tull <- system(cmd, intern=TRUE)
+#	else tull <- system(cmd, intern=TRUE, ignore.stderr=ignore.stderr)
+        tull <- execGRASS("v.category", parameters=list(input=vname2,
+                output=vname2a, layer=as.integer(2), type="boundary",
+                option="add"), intern=TRUE, ignore.stderr=ignore.stderr)
 
-	cmd <- paste(paste("v.db.addtable", .addexe(), sep=""),
-                    " ", vname2a, 
-	" layer=2 col=\"left integer,right integer,length double precision\"", 
-	sep="")
-	if(.Platform$OS.type == "windows") system(cmd)
-	else system(cmd, ignore.stderr=ignore.stderr)
+#	cmd <- paste(paste("v.db.addtable", .addexe(), sep=""),
+#                    " ", vname2a, 
+#	" layer=2 col=\"left integer,right integer,length double precision\"", 
+#	sep="")
+#	if(.Platform$OS.type == "windows") system(cmd)
+#	else system(cmd, ignore.stderr=ignore.stderr)
+        execGRASS("v.db.addtable", parameters=list(map=vname2a, 
+                layer=as.integer(2),
+                columns="left integer,right integer,length double precision"),
+                ignore.stderr=ignore.stderr)
 
-	cmd <- paste(paste("v.to.db", .addexe(), sep=""),
-                    " map=", vname2a, 
-		" option=sides col=left,right layer=2", sep="")
-	if(.Platform$OS.type == "windows") system(cmd)
-	else system(cmd, ignore.stderr=ignore.stderr)
+# Using vector map name extended by layer number as table name: landuse175a_2
+#Creating table with columns (cat integer, left integer,right integer,length
+# double precision)
+# The table <landuse175a_2> is now part of vector map <landuse175a> and may
+# be deleted or overwritten by GRASS modules
+# Select privileges were granted on the table
+# Reading features...
+# 
+# and: no such driver available
+# WARNING: Unable to start driver <and>
+# ERROR: Unable to open database <C:\Documents> by driver <and>
+# Current attribute table links:
+# layer <1> table <landuse175a> in database <C:\Documents and Settings\s1155\My Documents\GIS DataBase/Spearfish60/s1155/dbf/> through driver <dbf> with key <cat>
+# layer <2> table <landuse175a_2> in database <C:\Documents> through driver <and> with key <cat>
+# Vector map <landuse175a@s1155> is connected by:
 
-	cmd <- paste(paste("v.to.db", .addexe(), sep=""),
-                    " map=", vname2a, 
-		" option=length col=length layer=2", sep="")
-	if(.Platform$OS.type == "windows") system(cmd)
-	else system(cmd, ignore.stderr=ignore.stderr)
 
-	cmd <- paste(paste("v.db.select", .addexe(), sep=""),
-                    " ", vname2a, " layer=2", sep="")
+#	cmd <- paste(paste("v.to.db", .addexe(), sep=""),
+#                    " map=", vname2a, 
+#		" option=sides col=left,right layer=2", sep="")
+#	if(.Platform$OS.type == "windows") system(cmd)
+#	else system(cmd, ignore.stderr=ignore.stderr)
+        execGRASS("v.to.db", parameters=list(map=vname2a, option="sides",
+                columns="left,right", layer=as.integer(2)),
+                ignore.stderr=ignore.stderr)
 
-	if(.Platform$OS.type == "windows") res <- system(cmd, intern=TRUE)
-	else res <- system(cmd, intern=TRUE, ignore.stderr=ignore.stderr)
+#	cmd <- paste(paste("v.to.db", .addexe(), sep=""),
+#                    " map=", vname2a, 
+#		" option=length col=length layer=2", sep="")
+#	if(.Platform$OS.type == "windows") system(cmd)
+#	else system(cmd, ignore.stderr=ignore.stderr)
+        execGRASS("v.to.db", parameters=list(map=vname2a, option="length",
+                columns="length", layer=as.integer(2)),
+                ignore.stderr=ignore.stderr)
 
-	cmd <- paste(paste("g.remove", .addexe(), sep=""),
-                    " vect=", vname2, ",", vname2a, sep="")
-	if(.Platform$OS.type == "windows") tull <- system(cmd, intern=TRUE)
-	else tull <- system(cmd, intern=TRUE, ignore.stderr=ignore.stderr)
+#	cmd <- paste(paste("v.db.select", .addexe(), sep=""),
+#                    " ", vname2a, " layer=2", sep="")
+#
+#	if(.Platform$OS.type == "windows") res <- system(cmd, intern=TRUE)
+#	else res <- system(cmd, intern=TRUE, ignore.stderr=ignore.stderr)
+        res <- execGRASS("v.db.select", parameters=list(map=vname2a,
+                layer=as.integer(2)), intern=TRUE, ignore.stderr=ignore.stderr)
+
+#	cmd <- paste(paste("g.remove", .addexe(), sep=""),
+#                    " vect=", vname2, ",", vname2a, sep="")
+#	if(.Platform$OS.type == "windows") tull <- system(cmd, intern=TRUE)
+#	else tull <- system(cmd, intern=TRUE, ignore.stderr=ignore.stderr)
+        tull <- execGRASS("g.remove", parameters=list(vect=paste(vname2,
+                vname2a, sep=",")), intern=TRUE, ignore.stderr=ignore.stderr)
 
 	con <- textConnection(res)
 	t2 <- read.table(con, sep="|", header=TRUE, row.names=1)
