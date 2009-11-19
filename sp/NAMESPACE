@@ -47,6 +47,7 @@ export(getSLlinesSlot, getLinesLinesSlot,
 export(nowrapSpatialLines, getSpatialLinesMidPoints)
 
 export(spChFIDs)
+exportMethods(spChFIDs)
 
 export(getPolygonCoordsSlot, getPolygonLabptSlot, getPolygonAreaSlot,
 	getPolygonHoleSlot, getPolygonsPolygonsSlot, getPolygonsplotOrderSlot,
