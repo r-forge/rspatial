@@ -86,6 +86,7 @@ SpatialPolygons         create objects of class SpatialPolygons or
 SpatialPolygons-class   Class "SpatialPolygons"
 SpatialPolygonsDataFrame-class
                         Class "SpatialPolygonsDataFrame"
+spChFIDs-methods        change feature IDs in spatial objects
 spDistsN1               Euclidean or Great Circle distance between
                         points
 spmap.to.lev            rearrange data in SpatialPointsDataFrame or
