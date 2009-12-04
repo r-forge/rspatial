@@ -213,7 +213,7 @@ setReplaceMethod("[[", c("Spatial", "ANY", "missing", "ANY"),
 	}
 )
 
-setMethod("$", "Spatial",
+setMethod("$", "Spatial", 
 	function(x, name) {
 		if (!("data" %in% slotNames(x)))
 			stop("no $ method for object without attributes")

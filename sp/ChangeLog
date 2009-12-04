@@ -1,6 +1,18 @@
+2009-12-04 18:43  rsbivand
+
+	* DESCRIPTION, R/Spatial-methods.R: signature of S4 methods
+	  compliance
+
+2009-12-04 18:32  edzer
+
+	* INDEX, R/Spatial-methods.R, man/Spatial-class.Rd: change to $ and
+	  $<- signatures; should not break functionality needed to pass
+	  check on R base svn r50609
+
 2009-12-03 13:14  rsbivand
 
-	* DESCRIPTION, R/chfids.R: spChFIDs speed-up in R
+	* DESCRIPTION, R/chfids.R, ChangeLog, inst/ChangeLog: spChFIDs
+	  speed-up in R
 
 2009-11-20 10:43  edzer
 
