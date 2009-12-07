@@ -1,5 +1,5 @@
 initGRASS <- function(gisBase, home, SG, gisDbase, location, mapset,
-    override=FALSE) {
+    override=FALSE, use_g.dirseps.exe=TRUE) {
     if (nchar(Sys.getenv("GISRC")) > 0 && !override)
       stop("A GRASS location is already in use; to override, set override=TRUE")
     if (!file.exists(gisBase)) stop(paste(gisBase, "not found"))
@@ -46,15 +46,16 @@ initGRASS <- function(gisBase, home, SG, gisDbase, location, mapset,
             append=TRUE)
         cat("MAPSET: <UNKNOWN>", "\n", file=Sys.getenv("WINGISRC"),
             append=TRUE)
-        gisrc <- system(paste("g.dirseps.exe -g",
-            shQuote(Sys.getenv("WINGISRC"))), intern=TRUE)
+        gisrc <- ifelse (use_g.dirseps.exe, system(paste("g.dirseps.exe -g",
+            shQuote(Sys.getenv("WINGISRC"))), intern=TRUE),
+            Sys.getenv("WINGISRC"))
         assign("addEXE", .addexe(), envir=.GRASS_CACHE)
         Sys.setenv(GISRC=gisrc)
         if (!missing(gisDbase)) {
             dir.create(gisDbase)
         } else gisDbase <- tempdir()
-        gisDbase <- system(paste("g.dirseps.exe -g",
-            shQuote(gisDbase)), intern=TRUE)
+        gisDbase <- ifelse (use_g.dirseps.exe, system(paste("g.dirseps.exe -g",
+            shQuote(gisDbase)), intern=TRUE), gisDbase)
     } else if (SYS == "unix") {
         Sys.setenv(GISBASE=gisBase)
         if (missing(home)) home <- Sys.getenv("HOME")
