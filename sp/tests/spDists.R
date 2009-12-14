@@ -11,3 +11,7 @@ out2 = out2[1:155,155+1:nrow(y)]
 # should be equal:
 sum(out2 - out)
 summary(as.vector(out2 - out))
+
+out = spDists(meuse.grid,meuse)
+sum(out2 - t(out))
+summary(as.vector(out2 - t(out)))

@@ -32,3 +32,10 @@ Type 'q()' to quit R.
    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
       0       0       0       0       0       0 
 > 
+> out = spDists(meuse.grid,meuse)
+> sum(out2 - t(out))
+[1] 0
+> summary(as.vector(out2 - t(out)))
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+      0       0       0       0       0       0 
+> 
