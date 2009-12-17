@@ -254,7 +254,7 @@ as.SpatialPolygons.SpatialPixels <- function(obj) {
 		y <- c(yi-cS2y, yi+cS2y, yi+cS2y, yi-cS2y, yi-cS2y)
 		Srl[[i]] <- Polygons(list(Polygon(coords=cbind(x, y))), ID=IDs[i])
 	}
-	res <- as.SpatialPolygons.PolygonsList(Srl, proj4string=CRS(proj4string(obj)))
+	res <- SpatialPolygons(Srl, proj4string=CRS(proj4string(obj)))
 	res
 }
 setAs("SpatialPixels", "SpatialPolygons", function(from) as.SpatialPolygons.SpatialPixels(from))
