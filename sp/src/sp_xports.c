@@ -263,7 +263,7 @@ SEXP SP_PREFIX(SpatialPolygons_validate_c)(SEXP obj) {
 
     int pc=0;
     int i, n;
-    SEXP pls, ans, IDs;
+    SEXP pls, ans;
     char *cls="Polygons";
 
     PROTECT(pls = GET_SLOT(obj, install("polygons"))); pc++;
@@ -422,7 +422,7 @@ double     SP_PREFIX(Area2)( tPointd a, tPointd b, tPointd c )
 
 
 SEXP SP_PREFIX(comment2comm)(SEXP obj) {
-    SEXP ans, comment, comm;
+    SEXP ans, comment;
     int pc=0, ns, i, j, jj, k;
     char buf[BUFSIZE], s[15];
     int *c, *nss, *co, *coo;
