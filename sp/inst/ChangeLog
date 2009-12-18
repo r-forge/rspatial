@@ -1,3 +1,13 @@
+2009-12-18 10:32  rsbivand
+
+	* inst/include/sp_xports.c, src/sp_xports.c, DESCRIPTION: handling
+	  infinite label point for defect polygons
+
+2009-12-17 20:13  rsbivand
+
+	* inst/include/sp_xports.c, src/sp_xports.c: adding C API files for
+	  *Polygon* classes
+
 2009-12-17 18:38  rsbivand
 
 	* DESCRIPTION, R/Class-SpatialPolygons.R, R/GridTopology-methods.R,
@@ -5,8 +15,9 @@
 	  R/SpatialPolygonsDataFrame-methods.R, R/chfids.R, R/recenter.R,
 	  R/spsample.R, inst/include/sp.h, inst/include/sp_xports.c,
 	  man/spChFIDs-methods.Rd, src/Rcentroid.c, src/init.c, src/sp.h,
-	  src/sp_xports.c, tests/fail1.Rout.save, tests/pass1.Rout.save:
-	  adding C API files for *Polygon* classes
+	  src/sp_xports.c, tests/fail1.Rout.save, tests/pass1.Rout.save,
+	  ChangeLog, inst/ChangeLog: adding C API files for *Polygon*
+	  classes
 
 2009-12-14 09:41  edzer
 
