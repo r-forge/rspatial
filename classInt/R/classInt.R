@@ -49,6 +49,18 @@ plot.classIntervals <- function(x, pal, ...) {
         border="transparent")
 }
 
+classIntervals2shingle <- function(x) {
+	res <- x$var
+	nl <- length(x$brks) - 1
+	lres <- vector(mode="list", length=nl)
+	for (i in 1:nl) lres[[i]] <- x$brks[c(i, i+1)]
+	class(lres) <- "shingleLevel"
+	attr(res, "levels") <- lres
+	class(res) <- "shingle"
+	res
+}
+
+
 # change contributed by Richard Dunlap 090512
 # Added intervalClosure argument to allow specification of whether
 # partition intervals are closed on the left or the right

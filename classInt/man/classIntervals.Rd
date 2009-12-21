@@ -3,10 +3,11 @@
 \alias{print.classIntervals}
 \alias{plot.classIntervals}
 \alias{nPartitions}
+\alias{classIntervals2shingle}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{Choose univariate class intervals}
 \description{
-  The function provides a uniform interface to finding class intervals for continuous numerical variables, for example for choosing colours or symbols for plotting. Class intervals are non-overlapping, and the classes are left-closed --- see \code{findInterval}. Argument values to the style chosen are passed through the dot arguments.
+  The function provides a uniform interface to finding class intervals for continuous numerical variables, for example for choosing colours or symbols for plotting. Class intervals are non-overlapping, and the classes are left-closed --- see \code{findInterval}. Argument values to the style chosen are passed through the dot arguments. \code{classIntervals2shingle} converts a \code{classIntervals} object into a shingle.
 }
 \usage{
 classIntervals(var, n, style = "quantile", rtimes = 3, ...,
@@ -14,6 +15,7 @@ classIntervals(var, n, style = "quantile", rtimes = 3, ...,
 \method{plot}{classIntervals}(x, pal, ...) 
 \method{print}{classIntervals}(x, digits = getOption("digits"), ..., under="under", over="over", between="-", cutlabels=TRUE) 
 nPartitions(x) 
+classIntervals2shingle(x)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -24,7 +26,7 @@ nPartitions(x)
   \item{intervalClosure}{default "left",  allows specification of whether partition intervals are closed on the left or the right (added by Richard Dunlap)}
   \item{dataPrecision}{default NULL, permits rounding of the interval endpoints (added by Richard Dunlap)}
   \item{\dots}{arguments to be passed to the functions called in each style}
-  \item{x}{"classIntervals" object for printing or plotting}
+  \item{x}{"classIntervals" object for printing, conversion to shingle, or plotting}
   \item{under}{character string value for "under" in printed table labels}
   \item{over}{character string value for "over" in printed table labels}
   \item{between}{character string value for "between" in printed table labels}
@@ -70,7 +72,7 @@ nPartitions(x)
 
 \note{From version 0.1-11, the default representation has been changed to use \code{cutlabels=TRUE}, and representation within intervals has been corrected, thanks to Richard Dunlap.}
 
-\seealso{\code{\link{pretty}}, \code{\link[stats]{quantile}}, \code{\link[stats]{kmeans}}, \code{\link[stats]{hclust}}, \code{\link[e1071]{bclust}}, \code{\link{findInterval}}, \code{\link[grDevices]{colorRamp}}, \code{\link[grDevices]{nclass}}}
+\seealso{\code{\link{pretty}}, \code{\link[stats]{quantile}}, \code{\link[stats]{kmeans}}, \code{\link[stats]{hclust}}, \code{\link[e1071]{bclust}}, \code{\link{findInterval}}, \code{\link[grDevices]{colorRamp}}, \code{\link[grDevices]{nclass}}, \code{\link[lattice]{shingle}}}
 \examples{
 data(jenks71)
 pal1 <- c("wheat1", "red3")

@@ -1,3 +1,12 @@
+2009-12-21 10:09  rsbivand
+
+	* DESCRIPTION, R/classInt.R, man/classIntervals.Rd: classInterval
+	  to shingle
+
+2009-10-20 10:22  rsbivand
+
+	* ChangeLog, inst/ChangeLog: argument passing
+
 2009-10-20 10:19  rsbivand
 
 	* DESCRIPTION, R/classInt.R, man/classIntervals.Rd: argument
