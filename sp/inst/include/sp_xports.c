@@ -14,7 +14,7 @@ SEXP SP_PREFIX(Polygon_c)(SEXP coords, SEXP n, SEXP hole) {
 
     SP_PREFIX(spRFindCG_c)(n, coords, &xc, &yc, &area);
 
-    if (area < DOUBLE_EPS) {
+    if (abs(area) < DOUBLE_EPS) {
         if (!R_FINITE(xc) || !R_FINITE(xc)) {
             if (nn == 1) {
                 xc = NUMERIC_POINTER(coords)[0];
@@ -22,9 +22,11 @@ SEXP SP_PREFIX(Polygon_c)(SEXP coords, SEXP n, SEXP hole) {
             } else if (nn == 2) {
               xc = (NUMERIC_POINTER(coords)[0]+NUMERIC_POINTER(coords)[1])/2.0;
               yc = (NUMERIC_POINTER(coords)[2]+NUMERIC_POINTER(coords)[3])/2.0;
-            } else if (nn == 3) {
-              xc = (NUMERIC_POINTER(coords)[0]+NUMERIC_POINTER(coords)[1])/2.0;
-              yc = (NUMERIC_POINTER(coords)[3]+NUMERIC_POINTER(coords)[4])/2.0;
+            } else if (nn > 2) {
+              xc = (NUMERIC_POINTER(coords)[0] +
+                NUMERIC_POINTER(coords)[(nn-1)])/2.0;
+              yc = (NUMERIC_POINTER(coords)[nn] +
+                NUMERIC_POINTER(coords)[nn+(nn-1)])/2.0;
             }
         }
     }
