@@ -1,7 +1,21 @@
+2010-01-07 13:07  rsbivand
+
+	* DESCRIPTION, inst/include/sp_xports.c, src/sp_xports.c: added
+	  centroid protection
+
+2009-12-18 22:53  rsbivand
+
+	* man/: SpatialLines-class.Rd, SpatialLinesDataFrame-class.Rd,
+	  SpatialPixels-class.Rd, SpatialPixelsDataFrame-class.Rd,
+	  SpatialPoints-class.Rd, SpatialPointsDataFrame-class.Rd,
+	  SpatialPolygons-class.Rd, SpatialPolygonsDataFrame-class.Rd:
+	  rbind documentation improvements
+
 2009-12-18 10:32  rsbivand
 
-	* inst/include/sp_xports.c, src/sp_xports.c, DESCRIPTION: handling
-	  infinite label point for defect polygons
+	* inst/include/sp_xports.c, src/sp_xports.c, DESCRIPTION,
+	  ChangeLog, inst/ChangeLog: handling infinite label point for
+	  defect polygons
 
 2009-12-17 20:13  rsbivand
 
