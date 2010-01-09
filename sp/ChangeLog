@@ -1,3 +1,12 @@
+2010-01-09 11:21  rsbivand
+
+	* DESCRIPTION, R/SpatialPolygonsDataFrame-methods.R:
+	  SpatialPolygonsDataFrame [ speedup
+
+2010-01-08 14:38  rsbivand
+
+	* ChangeLog, inst/ChangeLog: identical points fix for sp_lengths
+
 2010-01-08 14:31  rsbivand
 
 	* R/SpatialGrid-methods.R, R/SpatialPoints-methods.R, src/gcdist.c:
