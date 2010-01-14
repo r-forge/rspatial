@@ -1,7 +1,21 @@
+2010-01-14 14:43  rsbivand
+
+	* src/gcdist.c: 0/360 longlat GC distance
+
+2010-01-13 22:38  edzer
+
+	* tests/: fail1.Rout.save, grid.Rout.save: consequence of earlier
+	  typo correction
+
+2010-01-12 13:08  edzer
+
+	* R/GridTopology-methods.R, R/spdists.R, man/spDistsN1.Rd: mostly
+	  cosmetic updates.
+
 2010-01-09 11:21  rsbivand
 
-	* DESCRIPTION, R/SpatialPolygonsDataFrame-methods.R:
-	  SpatialPolygonsDataFrame [ speedup
+	* DESCRIPTION, R/SpatialPolygonsDataFrame-methods.R, ChangeLog,
+	  inst/ChangeLog: SpatialPolygonsDataFrame [ speedup
 
 2010-01-08 14:38  rsbivand
 
