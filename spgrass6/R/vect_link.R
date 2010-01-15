@@ -9,6 +9,7 @@ readVECT6 <- function(vname, type=NULL, plugin=NULL, remove.duplicates=TRUE,
         ogrD <- ogrDrivers()$name
 	plugin <- "GRASS" %in% ogrD
     }
+    sss <- strsplit(packageDescription("rgdal")$Version, "-")[[1]]
     if (plugin) {
         ogrD <- ogrDrivers()$name
 	if (!("GRASS" %in% ogrD)) stop("no GRASS plugin driver")
@@ -24,7 +25,7 @@ readVECT6 <- function(vname, type=NULL, plugin=NULL, remove.duplicates=TRUE,
         }
         dsn <- paste(gg$GISDBASE, gg$LOCATION_NAME, mapset,
             "vector", vname[1], "head", sep="/")
-        if (packageDescription("rgdal")$Version > "0.6-7") {
+        if (sss[1] >= "0.6" && as.integer(sss[2]) > 7) {
 	    res <- readOGR(dsn, layer="1", verbose=!ignore.stderr, 
 	        pointDropZ=pointDropZ)
         } else {
@@ -59,7 +60,7 @@ readVECT6 <- function(vname, type=NULL, plugin=NULL, remove.duplicates=TRUE,
             type=type, dsn=gtmpfl1, olayer=shname, format="ESRI_Shapefile"),
             ignore.stderr=ignore.stderr)
 
-        if (packageDescription("rgdal")$Version > "0.6-7") {
+        if (sss[1] >= "0.6" && as.integer(sss[2]) > 7) {
 	    res <- readOGR(dsn=rtmpfl1, layer=shname, verbose=!ignore.stderr, 
 	        pointDropZ=pointDropZ)
         } else {
