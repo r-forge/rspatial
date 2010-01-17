@@ -3,7 +3,7 @@ Version: 0.9-56
 Date: 2010-01-09
 Title: classes and methods for spatial data
 Author: Edzer Pebesma <edzer.pebesma@uni-muenster.de>, Roger Bivand <Roger.Bivand@nhh.no> and others
-Maintainer: Edzer J. Pebesma <edzer.pebesma@uni-muenster.de>
+Maintainer: Edzer Pebesma <edzer.pebesma@uni-muenster.de>
 Depends: R (>= 2.4.0), methods
 Suggests: RColorBrewer
 Imports: utils, lattice, grid
