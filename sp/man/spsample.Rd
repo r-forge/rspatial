@@ -109,8 +109,8 @@ selecting those inside the polygon) may be very resource intensive. When numbers
 
 \references{Chapter 3 in B.D. Ripley, 1981. Spatial Statistics, Wiley
 
-Fibonacci sampling:  Alvaro Gonzalez, 2010.  Measurement of Areas on a
-Sphere Using Fibonacci and Latitude–Longitude Lattices.  Mathematical
+Fibonacci sampling:  Alvaro Gonzalez, 2010. Measurement of Areas on a
+Sphere Using Fibonacci and Latitude-Longitude Lattices. Mathematical
 Geosciences 42(1), p. 49-64 }
 
 \author{Edzer Pebesma, \email{edzer.pebesma@uni-muenster.de}}

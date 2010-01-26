@@ -1,3 +1,12 @@
+2010-01-26 20:53  rsbivand
+
+	* man/spsample.Rd: change non-ASCII hyphen in man file
+
+2010-01-26 19:04  rsbivand
+
+	* ChangeLog, inst/ChangeLog: hole logic fix; thanks to Javier Munoz
+	  for report
+
 2010-01-26 19:01  rsbivand
 
 	* DESCRIPTION, R/SpatialPolygons-methods.R,
