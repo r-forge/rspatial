@@ -180,7 +180,8 @@ SEXP SP_PREFIX(Polygons_c)(SEXP pls, SEXP ID) {
 
     PROTECT(Area = NEW_NUMERIC(1)); pc++;
     NUMERIC_POINTER(Area)[0] = 0.0;
-    for (i=0; i<nps; i++) NUMERIC_POINTER(Area)[0] += fabs(areas[i]);
+    for (i=0; i<nps; i++) 
+        NUMERIC_POINTER(Area)[0] += holes[i] ? 0.0 : fabs(areas[i]);
     SET_SLOT(ans, install("area"), Area);
 
     PROTECT(plotOrder = NEW_INTEGER(nps)); pc++;
