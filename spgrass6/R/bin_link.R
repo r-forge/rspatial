@@ -33,7 +33,8 @@ readRAST6 <- function(vname, cat=NULL, ignore.stderr = FALSE,
                 tol=2e-7, check.attributes=FALSE))
             chks[2] <- isTRUE(all.equal(abs((gg$n-gg$s)/gg$nsres), fninfo[1],
                 tol=2e-7, check.attributes=FALSE))
-            chks[3] <- isTRUE(all.equal(gg$n, fninfo[5],
+# changed from gg$n 100129, thanks to Rainer Krug
+            chks[3] <- isTRUE(all.equal(gg$s, fninfo[5],
                 check.attributes=FALSE))
             chks[4] <- isTRUE(all.equal(gg$w, fninfo[4],
                 check.attributes=FALSE))

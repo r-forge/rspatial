@@ -1,6 +1,11 @@
+2010-01-29 13:57  rsbivand
+
+	* DESCRIPTION, R/bin_link.R: plugin n/s bug fix
+
 2010-01-15 16:51  rsbivand
 
-	* DESCRIPTION, R/vect_link.R: rgdal version checking
+	* DESCRIPTION, R/vect_link.R, ChangeLog, inst/ChangeLog: rgdal
+	  version checking
 
 2009-12-07 18:14  rsbivand
 
