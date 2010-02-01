@@ -36,6 +36,7 @@ is.projected            Sets or retrieves projection attributes on
 Line                    create objects of class Line or Lines
 Line-class              Class "Line"
 Lines-class             Class "Lines"
+loadMeuse               load the Meuse data set
 mapasp                  Calculate aspect ratio for plotting geographic
                         maps
 meuse                   Meuse river data set
