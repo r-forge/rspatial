@@ -1,4 +1,6 @@
 loadMeuse = function(gridded = TRUE) {
+   meuse = NULL
+   meuse.grid = NULL
    data(meuse)
    coordinates(meuse) <<- ~x+y
    data(meuse.grid)
