@@ -25,7 +25,7 @@ This data set gives locations and topsoil heavy metal concentrations, along with
 	\item{om}{organic matter, kg (100 kg)-1 soil (percent)}
 	\item{ffreq}{flooding frequency class: 1 = once in two years; 2 = once in ten years; 3 = one in 50 years}
 	\item{soil}{soil type according to the 1:50 000 soil map of the Netherlands. 1 = Rd10A (Calcareous weakly-developed meadow soils, light sandy clay); 2 = Rd90C/VII (Non-calcareous weakly-developed meadow soils, heavy sandy clay to light clay); 3 = Bkd26/VII (Red Brick soil, fine-sandy, silty light clay)}
-	\item{lime}{lime class: 0 = absent, 1 = present by field test with 5% HCl}
+	\item{lime}{lime class: 0 = absent, 1 = present by field test with 5\% HCl}
 	\item{landuse}{landuse class: Aa  Agriculture/unspecified = , Ab = Agr/sugar beetsm, Ag = Agr/small grains, Ah = Agr/??, Am = Agr/maize, B = woods, Bw  = trees in pasture, DEN = ??, Fh = tall fruit trees, Fl = low fruit trees; Fw = fruit trees in pasture, Ga = home gardens, SPO = sport field, STA = stable yard, Tv = ??
 , W = pasture}
 	\item{dist.m}{distance to river Meuse in metres, as obtained during the field survey}
