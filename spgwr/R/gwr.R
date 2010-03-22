@@ -133,7 +133,8 @@ gwr <- function(formula, data = list(), coords, bandwidth,
 		    weights=weights, yhat=yhat, GWR_args=GWR_args))
 		clusterEvalQ(cl, rm(list=c("GWR_args", "coords", "gweight", "y",
 		    "x", "weights", "yhat")))
-		df <- as.data.frame(do.call("rbind", 
+                df <- list()
+		df$df <- as.data.frame(do.call("rbind", 
 		    lapply(res, function(x) x$df)))
 		bw <- do.call("c", lapply(res, function(x) x$bw))
 	        results <- NULL
