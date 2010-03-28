@@ -1,6 +1,12 @@
+2010-03-28 15:43  rsbivand
+
+	* DESCRIPTION, R/bin_link.R, man/readRAST6.Rd: argument to control
+	  connection closing in readRAST6
+
 2010-01-29 13:57  rsbivand
 
-	* DESCRIPTION, R/bin_link.R: plugin n/s bug fix
+	* DESCRIPTION, R/bin_link.R, ChangeLog, inst/ChangeLog: plugin n/s
+	  bug fix
 
 2010-01-15 16:51  rsbivand
 

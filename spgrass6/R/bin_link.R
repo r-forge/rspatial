@@ -1,9 +1,9 @@
 # Interpreted GRASS 6 interface functions
-# Copyright (c) 2005-9 Roger S. Bivand
+# Copyright (c) 2005-2010 Roger S. Bivand
 #
 
 readRAST6 <- function(vname, cat=NULL, ignore.stderr = FALSE, 
-	NODATA=NULL, plugin=NULL, mapset=NULL, useGDAL=TRUE) {
+	NODATA=NULL, plugin=NULL, mapset=NULL, useGDAL=TRUE, close_OK=TRUE) {
 	if (!is.null(cat))
 		if(length(vname) != length(cat)) 
 			stop("vname and cat not same length")
@@ -170,7 +170,7 @@ readRAST6 <- function(vname, cat=NULL, ignore.stderr = FALSE,
 		}
 	}
 
-	closeAllConnections()
+	if (close_OK) closeAllConnections()
 
 	if (!is.null(cat)) {
 		for (i in seq(along=cat)) {
