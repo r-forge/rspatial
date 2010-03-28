@@ -1,7 +1,12 @@
+2010-03-28 17:37  rsbivand
+
+	* R/bin_link.R: detect DCELL in readRAST6
+
 2010-03-28 15:43  rsbivand
 
-	* DESCRIPTION, R/bin_link.R, man/readRAST6.Rd: argument to control
-	  connection closing in readRAST6
+	* DESCRIPTION, R/bin_link.R, man/readRAST6.Rd, ChangeLog,
+	  inst/ChangeLog: argument to control connection closing in
+	  readRAST6
 
 2010-01-29 13:57  rsbivand
 
