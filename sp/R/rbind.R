@@ -27,7 +27,7 @@ rbind.SpatialPoints <- function(...) {
 
 rbind.SpatialPointsDataFrame <- function(...) {
 	dots = list(...)
-	names(dots) <- NULL
+        names(dots) <- NULL # bugfix Clement Calenge 100417
 	sp = do.call("rbind", lapply(dots, function(x) as(x, "SpatialPoints")))
 	df = do.call("rbind", lapply(dots, function(x) x@data))
 	SpatialPointsDataFrame(sp, df, coords.nrs = dots[[1]]@coords.nrs)
@@ -62,7 +62,7 @@ rbind.SpatialPolygons = function(..., makeUniqueIDs = FALSE) {
 
 rbind.SpatialPolygonsDataFrame <- function(...) {
 	dots = list(...)
-	names(dots) <- NULL
+        names(dots) <- NULL # bugfix Clement Calenge 100417
 	pl = do.call("rbind", lapply(dots, function(x) as(x, "SpatialPolygons")))
 	df = do.call("rbind", lapply(dots, function(x) x@data))
 	SpatialPolygonsDataFrame(pl, df)
@@ -81,7 +81,7 @@ rbind.SpatialLines = function(..., makeUniqueIDs = FALSE) {
 
 rbind.SpatialLinesDataFrame <- function(...) {
 	dots = list(...)
-	names(dots) <- NULL
+        names(dots) <- NULL # bugfix Clement Calenge 100417
 	ll = do.call("rbind", lapply(dots, function(x) as(x, "SpatialLines")))
 	df = do.call("rbind", lapply(dots, function(x) x@data))
 	SpatialLinesDataFrame(ll, df)
