@@ -249,4 +249,4 @@ dim.SpatialPixelsDataFrame = function(x) dim(x@data)
 
 dim.SpatialGridDataFrame = function(x) dim(x@data)
 
-
+setMethod("split", "SpatialPixelsDataFrame", split.data.frame)
