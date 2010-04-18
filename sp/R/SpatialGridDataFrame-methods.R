@@ -119,8 +119,8 @@ subset.SpatialPixelsDataFrame <- function(x, subset, select, drop = FALSE, ...) 
 
 subs.SpatialPixelsDataFrame <- function(x, i, j, ... , drop = FALSE) {
 	n.args = nargs()
-	if (!missing(drop))
-		stop("don't supply drop: it needs to be FALSE anyway")
+	if (drop)
+		stop("argument drop needs to be FALSE")
 	if (missing(i) && missing(j))
 		return(x)
 	if (missing(j)) {
@@ -146,8 +146,8 @@ setMethod("[", "SpatialPixelsDataFrame", subs.SpatialPixelsDataFrame)
 subs.SpatialGridDataFrame <- function(x, i, j, ... , drop = FALSE) {
 	n.args = nargs()
 	dots = list(...)
-	if (!missing(drop))
-		stop("don't supply drop: it needs to be FALSE anyway")
+	if (drop)
+		stop("argument drop needs to be FALSE")
 	missing.i = missing(i)
 	missing.j = missing(j)
 	if (length(dots) > 0) {
