@@ -198,9 +198,13 @@ doGRASS <- function(cmd, flags=NULL, parameters=NULL) {
                     stop(paste("Parameter <", names(parameters)[i],
                     "> does not have string value", sep=""))
 # string space protection 091108 Martin Mainzer
-                if (length(grep(" ", parameters[[i]])) > 0) 
+                if (length(grep(" ", parameters[[i]])) > 0) {
+# extra protection against existing escaping of quotes 100422
+                  if (length(grep("\"", parameters[[i]])) == 0) {
                     parameters[[i]] <- paste("\"", parameters[[i]], "\"",
                         sep="")
+                  }
+                }
             } else if (pmv[i] == "float") {
                 if (!is.numeric(parameters[[i]]))
                     stop(paste("Parameter <", names(parameters)[i],
