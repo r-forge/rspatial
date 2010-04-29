@@ -23,7 +23,7 @@ writeVECT6(SDF, vname,  v.in.ogr_flags=NULL, ignore.stderr = FALSE)
 vInfo(vname, ignore.stderr = FALSE)
 vColumns(vname, ignore.stderr = TRUE)
 vDataCount(vname, ignore.stderr = TRUE)
-vect2neigh(vname, ID=NULL, ignore.stderr = FALSE)
+vect2neigh(vname, ID=NULL, ignore.stderr = FALSE, remove=TRUE, vname2=NULL)
 putSites6sp(SPDF, vname,  ignore.stderr = FALSE) 
 putSites6(df, vname, ignore.stderr = FALSE)
 getSites6sp(vname, ignore.stderr = FALSE, with_prj=TRUE) 
@@ -44,6 +44,8 @@ cygwin_clean_temp(verbose=TRUE, ignore.stderr = FALSE)
   \item{SDF}{A Spatial*DataFrame to be moved to GRASS6 as a vector object, for SpatialPointsDataFrame, SpatialLinesDataFrame, and SpatialPolygonsDataFrame objects}
   \item{v.in.ogr_flags}{Character vector containing additional optional flags and/or options for v.in.ogr, particularly "o" and "overwrite"}
   \item{ID}{A valid DB column name for unique identifiers (optional)}
+  \item{remove}{default TRUE, remove copied vectors created in \code{vect2neigh}}
+  \item{vname2}{If on a previous run, remove was FALSE, the name of the temporary vector may be given to circumvent its generation}
   \item{SPDF}{A SpatialPointsDataFrame to be moved to GRASS6 as vector points}
   \item{df}{A data frame with at least columns named x, y and cat (no z support yet)}
   \item{verbose}{TRUE, can be set to false}

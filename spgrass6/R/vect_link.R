@@ -346,16 +346,19 @@ putSites6sp <- function(SPDF, vname, #factor2char = TRUE,
 ##isn't always that precise ...
 #
 
-vect2neigh <- function(vname, ID=NULL, ignore.stderr = FALSE) {
+vect2neigh <- function(vname, ID=NULL, ignore.stderr = FALSE, remove=TRUE,
+    vname2=NULL) {
 
-	vinfo <- vInfo(vname)
-	types <- names(vinfo)[which(vinfo > 0)]
-	if (length(grep("areas", types)) == 0) 
+
+    vinfo <- vInfo(vname)
+    types <- names(vinfo)[which(vinfo > 0)]
+    if (length(grep("areas", types)) == 0) 
 		stop("Vector object not of area type")
 
-	n <- vDataCount(vname, ignore.stderr=ignore.stderr)
+    n <- vDataCount(vname, ignore.stderr=ignore.stderr)
 
-	if (!is.null(ID)) {
+
+    if (!is.null(ID)) {
 		if (!is.character(ID)) stop("ID not character string")
 #		cmd <- paste(paste("v.info", .addexe(), sep=""),
 #                    " -c ", vname, sep="")
@@ -380,7 +383,8 @@ vect2neigh <- function(vname, ID=NULL, ignore.stderr = FALSE) {
 			ignore.stderr=ignore.stderr) 
 		if (length(unique(ID)) != n) 
 			stop("fewer than n unique ID values")
-	}
+    }
+    if (is.null(vname2)) {
 	
 	pid <- as.integer(round(runif(1, 1, 1000)))
 	vname2 <- paste(vname, pid, sep="")
@@ -390,8 +394,9 @@ vect2neigh <- function(vname, ID=NULL, ignore.stderr = FALSE) {
 #	else tull <- system(cmd, intern=TRUE, ignore.stderr=ignore.stderr)
         tull <- execGRASS("g.copy", parameters=list(vect=paste(vname, 
             vname2, sep=",")), intern=TRUE, ignore.stderr=ignore.stderr)
-
-	vname2a <- paste(vname2, "a", sep="")
+    }
+    vname2a <- paste(vname2, "a", sep="")
+    if (is.null(vname2)) {
 #	cmd <- paste(paste("v.category", .addexe(), sep=""),
 #                    " ", vname2, " out=", vname2a, 
 #		"  layer=2 type=boundary option=add", sep="")
@@ -452,42 +457,58 @@ vect2neigh <- function(vname, ID=NULL, ignore.stderr = FALSE) {
 #
 #	if(.Platform$OS.type == "windows") res <- system(cmd, intern=TRUE)
 #	else res <- system(cmd, intern=TRUE, ignore.stderr=ignore.stderr)
-        res <- execGRASS("v.db.select", parameters=list(map=vname2a,
+    }
+    res <- execGRASS("v.db.select", parameters=list(map=vname2a,
                 layer=as.integer(2)), intern=TRUE, ignore.stderr=ignore.stderr)
 
 #	cmd <- paste(paste("g.remove", .addexe(), sep=""),
 #                    " vect=", vname2, ",", vname2a, sep="")
 #	if(.Platform$OS.type == "windows") tull <- system(cmd, intern=TRUE)
 #	else tull <- system(cmd, intern=TRUE, ignore.stderr=ignore.stderr)
-        tull <- execGRASS("g.remove", parameters=list(vect=paste(vname2,
-                vname2a, sep=",")), intern=TRUE, ignore.stderr=ignore.stderr)
+    if (remove) tull <- execGRASS("g.remove",
+            parameters=list(vect=paste(vname2, vname2a, sep=",")),
+            intern=TRUE, ignore.stderr=ignore.stderr)
 
-	con <- textConnection(res)
-	t2 <- read.table(con, sep="|", header=TRUE, row.names=1)
-	close(con)
-	t3 <- t2[t2$left == -1,]
-	t4 <- tapply(t3$length, t3$right, sum)
-	external <- numeric(n)
-	external[as.integer(names(t4))] <- t4
-	t5 <- t2[!t2$left == -1,]
-	tmp <- t5$left
-	t5$left <- t5$right
-	t5$right <- tmp
-	t6 <- rbind(t2, t5)
-	total <- c(tapply(t6$length, t6$right, sum))
-	res <- t6[!t6$left == -1,]
-	res <- aggregate(res[3], by=list(left=res$left, right=res$right), sum)
-	res$left <- as.integer(as.character(res$left))
-	res$right <- as.integer(as.character(res$right))
-	o <- order(res$left, res$right)
-	res <- res[o,]
-	attr(res, "external") <- external
-	attr(res, "total") <- total
-	attr(res, "region.id") <- ID
-	attr(res, "n") <- n
-	class(res) <- c(class(res), "GRASSneigh", "spatial.neighbour")
+    con <- textConnection(res)
+    t2 <- read.table(con, sep="|", header=TRUE, row.names=1)
+    close(con)
+    t3 <- t2[t2$left == -1,]
+    t4 <- tapply(t3$length, t3$right, sum)
+    external <- numeric(n)
+    external[as.integer(names(t4))] <- t4
+    t5 <- t2[!t2$left == -1,]
+    tmp <- t5$left
+    t5$left <- t5$right
+    t5$right <- tmp
+    t6 <- rbind(t2, t5)
+    total <- c(tapply(t6$length, t6$right, sum))
+    res <- t6[!t6$left == -1,]
+#       avoid integer overflow in by=
+#	res <- aggregate(res[3], by=list(left=res$left, right=res$right), sum)
+#        dups <- duplicated(res[,1:2])
+#        resd <- res[dups,]
+#        resda <- aggregate(resd[3], by=list(left=resd$left,
+#            right=resd$right), sum)
+#        resnd <- res[!dups,]
+#        res <- rbind(resda, resnd)
+    zz <- paste(res$left, res$right, sep=":")
+    uzz <- unique(zz)
+    mo <- match(zz, uzz)
+    smo <- c(tapply(res[,3], mo, sum))
+    names(smo) <- NULL
+    suzz <- strsplit(uzz, ":")
+    lsuzz <- as.integer(sapply(suzz, "[", 1))
+    rsuzz <- as.integer(sapply(suzz, "[", 2))
+    reso <- data.frame(left=lsuzz, right=rsuzz, length=smo)
+    o <- order(reso$left, reso$right)
+    reso <- reso[o,]
+    attr(reso, "external") <- external
+    attr(reso, "total") <- total
+    attr(reso, "region.id") <- ID
+    attr(reso, "n") <- n
+    class(reso) <- c(class(reso), "GRASSneigh", "spatial.neighbour")
 
-	res
+    reso
 }
 
 cygwin_clean_temp <- function(verbose=TRUE, ignore.stderr = FALSE) {
