@@ -13,13 +13,13 @@ image.SpatialGridDataFrame = function(x, attr = 1, xcol = 1, ycol = 2,
 		plot(as(x, "Spatial"),
 			xlim = xlim, ylim = ylim, axes = axes, asp = asp, ..., 
 			setParUsrBB=setParUsrBB)
-        if (exists(rasterImage) && useRasterImage) {
+        if (exists("rasterImage") && useRasterImage) {
             bb <- bbox(x)
             scl <- function(x) (x - min(x, na.rm  = TRUE)) /
                 diff(range(x, na.rm = TRUE))
         }
 	if (is.null(red)) {
-            if (exists(rasterImage) && useRasterImage) {
+            if (exists("rasterImage") && useRasterImage) {
                 x <- x[attr]
                 NAs <- is.na(x[[1]])
                 m <-  scl(t(matrix(x[[1]], x@grid@cells.dim[1],
@@ -39,7 +39,7 @@ image.SpatialGridDataFrame = function(x, attr = 1, xcol = 1, ycol = 2,
 		stop("all colour bands must be given")
 # modified to handle NAs in input (typical for coercion of Spatial Pixels
 # to Spatial Grid)
-            if (exists(rasterImage) && useRasterImage) {
+            if (exists("rasterImage") && useRasterImage) {
                 xd <- x@data[, c(red, green, blue)]
                 NAs <- is.na(xd[, 1]) | is.na(xd[, 2]) | is.na(xd[, 3])
                 if (any(NAs))
