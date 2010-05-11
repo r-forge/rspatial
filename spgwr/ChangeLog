@@ -1,3 +1,11 @@
+2010-05-11 19:03  rsbivand
+
+	* DESCRIPTION, R/gwr.R: adding quasi-global R2
+
+2010-04-03 21:23  rsbivand
+
+	* ChangeLog, inst/ChangeLog: maptools gpclib changes
+
 2010-04-03 20:58  rsbivand
 
 	* DESCRIPTION, man/gw.cov.Rd, man/gwr.Rd: maptools gpclib changes

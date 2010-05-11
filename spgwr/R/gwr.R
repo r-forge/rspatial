@@ -47,6 +47,7 @@ gwr <- function(formula, data = list(), coords, bandwidth,
 	lm <- lm.wfit(x, y, w=weights)
 	lm$x <- x
 	lm$y <- y
+        gTSS <- c(cov.wt(matrix(y, ncol=1))$cov*(length(y)-1))
 	if (hatmatrix) se.fit <- TRUE
 	if (hatmatrix) predictions <- TRUE
 
@@ -327,7 +328,8 @@ gwr <- function(formula, data = list(), coords, bandwidth,
         timings[["final_postprocess"]] <- proc.time() - .ptime_start
 	z <- list(SDF=SDF, lhat=lhat, lm=lm, results=results, 
 		bandwidth=bw, adapt=adapt, hatmatrix=hatmatrix, 
-		gweight=deparse(substitute(gweight)), this.call=this.call,
+		gweight=deparse(substitute(gweight)), gTSS=gTSS,
+                this.call=this.call,
                 timings=do.call("rbind", timings)[, c(1, 3)])
 	class(z) <- "gwr"
 	invisible(z)
@@ -368,6 +370,7 @@ print.gwr <- function(x, ...) {
                     x$results$AICb, "\n")
 		cat("AIC (GWR p. 96, eq. 4.22):", x$results$AICh, "\n")
 		cat("Residual sum of squares:", x$results$rss, "\n")
+                cat("Quasi-global R2:", (1 - (x$results$rss/x$gTSS)), "\n")
 	}
 	invisible(x)
 }
