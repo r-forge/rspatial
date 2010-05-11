@@ -47,7 +47,7 @@ gwr <- function(formula, data = list(), coords, bandwidth,
 	lm <- lm.wfit(x, y, w=weights)
 	lm$x <- x
 	lm$y <- y
-        gTSS <- c(cov.wt(matrix(y, ncol=1))$cov*(length(y)-1))
+        gTSS <- c(cov.wt(matrix(y, ncol=1), wt=weights, method="ML")$cov*dp.n)
 	if (hatmatrix) se.fit <- TRUE
 	if (hatmatrix) predictions <- TRUE
 
