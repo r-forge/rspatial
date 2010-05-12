@@ -98,6 +98,11 @@ gwr <- function(formula, data = list(), coords, bandwidth,
 		stop("Input data and coordinates have different dimensions")
 	if (missing(bandwidth) && is.null(adapt))
 	    stop("Bandwidth must be given for non-adaptive weights")
+        if (!is.null(adapt)) {
+            stopifnot(is.numeric(adapt))
+            stopifnot((adapt >= 0))
+            stopifnot((adapt <= 1))
+        }
 	if (missing(bandwidth)) bandwidth <- NULL
 	lhat <- NA
         yhat <- NULL
