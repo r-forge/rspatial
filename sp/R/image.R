@@ -7,7 +7,7 @@ image.SpatialGridDataFrame = function(x, attr = 1, xcol = 1, ycol = 2,
 		red=NULL, green=NULL, blue=NULL, axes = FALSE, xlim = NULL, 
 		ylim = NULL, add = FALSE, ..., asp = NA, 
 		setParUsrBB=FALSE, interpolate = FALSE, angle = 0,
-                useRasterImage=FALSE) {
+                useRasterImage=TRUE) {
 
 	if (!add)
 		plot(as(x, "Spatial"),

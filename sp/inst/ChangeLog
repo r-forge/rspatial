@@ -1,6 +1,12 @@
+2010-05-17 12:41  rsbivand
+
+	* DESCRIPTION, R/image.R, man/image.Rd: use rasterImage where
+	  available
+
 2010-05-06 16:19  rsbivand
 
-	* DESCRIPTION, R/image.R, man/image.Rd: adding rasterImage support
+	* DESCRIPTION, R/image.R, man/image.Rd, ChangeLog, inst/ChangeLog:
+	  adding rasterImage support
 
 2010-04-26 12:30  edzer
 
