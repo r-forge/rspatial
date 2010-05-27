@@ -72,10 +72,16 @@ setReplaceMethod("coordinates", signature(object = "data.frame", value = "ANY"),
   }
 )
 
-print.SpatialPointsDataFrame = function(x, ...) {
-	cc = substring(paste(as.data.frame(t(signif(coordinates(x))))),2,999)
-	# could be done in S-Plus by unpaste(x, "c")[[2]]
-	print(data.frame("coordinates" = cc, x@data), ...)
+.asWKT = FALSE
+print.SpatialPointsDataFrame = function(x, ..., digits = 6, asWKT = .asWKT) {
+	#EJP, Fri May 21 12:40:59 CEST 2010
+	if (asWKT)
+		print(data.frame(asWKTSpatialPoints(x, digits), x@data), ...)
+	else { # old style
+		cc = substring(paste(as.data.frame(
+			t(signif(coordinates(x), digits)))),2,999)
+		print(data.frame("coordinates" = cc, x@data), ...)
+	}
 }
 
 dim.SpatialPointsDataFrame = function(x) dim(x@data)
