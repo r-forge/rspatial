@@ -195,9 +195,10 @@ setAs("SpatialGrid", "SpatialPixels", function(from)
 	SpatialPixels(SpatialPoints(coordinates(from), from@proj4string))
 )
 # added EJP, 100521
-setAs("SpatialGrid", "SpatialPoints", function(from)
-	SpatialPoints(coordinates(from), from@proj4string)
-)
+## outcommented 100607 as it breaks the ASDAR scripts in csdacm.R
+#setAs("SpatialGrid", "SpatialPoints", function(from)
+#	SpatialPoints(coordinates(from), from@proj4string)
+#)
 
 print.SpatialPixels = function(x, ...) {
 	cat("Object of class SpatialPixels\n")
