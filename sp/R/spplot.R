@@ -588,7 +588,7 @@ longlat.scales = function(obj, scales, xlim, ylim) {
 
 bbexpand = function(x, fraction) {
 	r = diff(x)
-	c(x - fraction * r, x + fraction * r)
+	c(x[1] - fraction * r, x[2] + fraction * r)
 }
 
 colorkey.factor = function(f, colorkey = list()) {
