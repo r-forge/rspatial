@@ -101,26 +101,7 @@ readRAST6 <- function(vname, cat=NULL, ignore.stderr = FALSE,
 #                    gtmpfl11 <- paste("\"", gtmpfl11, "\"", sep="")
 		rtmpfl11 <- paste(rtmpfl1, vname[i], sep=.Platform$file.sep)
 
-# 071009 Markus Neteler's idea to use range
-		if (is.null(NODATA)) {
-		    tx <- execGRASS("r.info", flags="r",
-		        parameters=list(map=vname[i]), intern=TRUE, 
-		        ignore.stderr=ignore.stderr)
-		    tx <- gsub("=", ":", tx)
-		    con <- textConnection(tx)
-		    res <- read.dcf(con)
-		    close(con)
-		    lres <- as.list(res)
-		    names(lres) <- colnames(res)
-		    lres <- lapply(lres, as.numeric)
-		    if (!is.numeric(lres$min) || 
-			!is.finite(as.double(lres$min))) 
-			    NODATA <- as.integer(999)
-		    else {
-			lres$min <- floor(as.double(lres$min))
-		        NODATA <- floor(lres$min) - 1
-		    }
-		} else {
+                if (!is.null(NODATA)) {
 		    if (!is.finite(NODATA) || !is.numeric(NODATA))
 			stop("invalid NODATA value")
 		    if (NODATA != round(NODATA)) 
@@ -130,20 +111,38 @@ readRAST6 <- function(vname, cat=NULL, ignore.stderr = FALSE,
 		if (useGDAL && G63) {
 		    type <- ifelse (to_int, "Int32",
                         ifelse(Dcell, "Float64", "Float32"))
-
-                    if (Cflag) execGRASS("r.out.gdal", flags=c("c", "quiet"),
-			parameters=list(input=vname[i], output=gtmpfl11,
-			type=type, nodata=NODATA), ignore.stderr=ignore.stderr)
-		    else execGRASS("r.out.gdal", flags=c("quiet"),
-			parameters=list(input=vname[i], output=gtmpfl11,
-			type=type, nodata=NODATA), ignore.stderr=ignore.stderr)
+                    flags <- c("quiet")
+                    if (Cflag) flags <- c("c", flags)
+                    paras <- list(input=vname[i], output=gtmpfl11, type=type)
+                    if (!is.null(NODATA)) paras <- c(paras, nodata=NODATA)
+                    execGRASS("r.out.gdal", flags=flags,
+			parameters=paras, ignore.stderr=ignore.stderr)
 
 		    res <- readGDAL(rtmpfl11, p4s=getLocationProj(), 
 			silent=ignore.stderr)
 		    names(res) <- vname[i]
 		} else {
 # 061107 Dylan Beaudette NODATA
-
+# 071009 Markus Neteler's idea to use range
+	  	    if (is.null(NODATA)) {
+		      tx <- execGRASS("r.info", flags="r",
+		        parameters=list(map=vname[i]), intern=TRUE, 
+		        ignore.stderr=ignore.stderr)
+		      tx <- gsub("=", ":", tx)
+		      con <- textConnection(tx)
+		      res <- read.dcf(con)
+		      close(con)
+		      lres <- as.list(res)
+		      names(lres) <- colnames(res)
+		      lres <- lapply(lres, as.numeric)
+		      if (!is.numeric(lres$min) || 
+			!is.finite(as.double(lres$min))) 
+			    NODATA <- as.integer(999)
+		      else {
+			lres$min <- floor(as.double(lres$min))
+		        NODATA <- floor(lres$min) - 1
+		      }
+                    }
 		    execGRASS("r.out.bin", flags="b", 
 			parameters=list(input=vname[i], output=gtmpfl11, 
 			null=as.integer(NODATA)), ignore.stderr=ignore.stderr)
