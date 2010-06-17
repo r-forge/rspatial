@@ -15,15 +15,18 @@ bboxx(obj)
 }
 \arguments{
 \item{obj}{
-An object: either a Spatial object or a points data set
+A matrix with two rows and two columns reporting the bounding box of an object
 }}
+
+\details{
+The object used by \code{bboxx} may easily be created by using the \pkg{sp} \code{bbox} method on an object of interest, such as a points data set.
+}
+
 \value{
 A points data set of four points giving the non-closed coordinates of the bounding box
-
-
 }
 \seealso{
-\code{\link{sbox}}
+\code{\link{sbox}}, \code{\link[sp]{bbox}}
 }
 
 \references{

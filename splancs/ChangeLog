@@ -1,7 +1,11 @@
+2010-06-17 16:40  rsbivand
+
+	* DESCRIPTION, man/bbox.Rd: bboxx docs
+
 2009-10-09 21:05  rsbivand
 
-	* DESCRIPTION, R/stdiagn.S, R/stmctest.S, man/stmctest.Rd: stmctest
-	  modifications
+	* DESCRIPTION, R/stdiagn.S, R/stmctest.S, man/stmctest.Rd,
+	  ChangeLog, inst/ChangeLog: stmctest modifications
 
 2009-09-17 09:34  rsbivand
 
