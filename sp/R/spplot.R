@@ -154,7 +154,8 @@ spplot.grid = function(obj, zcol = names(obj), ..., names.attr,
 			ck = args$colorkey
 			args$colorkey = NULL
 			args = append(args, colorkey.factor(obj[[zcol[1]]], ck))
-		}
+		} else
+			args = append(args, colorkey.factor(obj[[zcol[1]]], ck, FALSE))
 	}
 	do.call("levelplot", args)
 }
@@ -211,7 +212,8 @@ spplot.polygons = function(obj, zcol = names(obj), ..., names.attr,
 			ck = args$colorkey
 			args$colorkey = NULL
 			args = append(args, colorkey.factor(obj[[zcol[1]]], ck))
-		}
+		} else
+			args = append(args, colorkey.factor(obj[[zcol[1]]], ck, FALSE))
 	}
 	do.call("levelplot", args)
 }
@@ -591,13 +593,16 @@ bbexpand = function(x, fraction) {
 	c(x[1] - fraction * r, x[2] + fraction * r)
 }
 
-colorkey.factor = function(f, colorkey = list()) {
+colorkey.factor = function(f, colorkey = list(), doColorkey = TRUE) {
 	lf = levels(f)
 	at = seq(0.5, nlevels(f)+0.501)
 	at.labels = seq(1, nlevels(f))
-	colorkey=append(colorkey, list(labels=list(at=at.labels, labels=lf), 
-		height=min(1, .05 * length(lf))))
-	list(at = at, colorkey = colorkey)
+	if (doColorkey) {
+		colorkey=append(colorkey, list(labels=list(at=at.labels, labels=lf), 
+			height=min(1, .05 * length(lf))))
+		list(at = at, colorkey = colorkey)
+	} else
+		list(at = at)
 }
 
 "spplot.locator" <- function(n = 512, type = "n", ...) { 
