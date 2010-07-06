@@ -85,7 +85,9 @@ plotSpatialLines <- function(SL, xlim = NULL, ylim = NULL,
 		for (j in seq(along=sllst)) {
 			crds <- coordinates(sllst[[j]])
 			if (length(col) != length(lst)) 
-				col <- rep(col[1], length(lst))
+				# Michael Sumner, Jul 6 2010; 
+				# col <- rep(col[1], length(lst))
+ 				col <- rep(col, length = length(lst))
 			if (length(lwd) != length(lst)) 
 				lwd <- rep(lwd[1], length(lst))
 			if (length(lty) != length(lst)) 
@@ -221,3 +223,26 @@ SpatialLines2SpatialPointsDataFrame = function(from) {
 setAs("SpatialLines", "SpatialPointsDataFrame", function(from)
 	SpatialLines2SpatialPointsDataFrame(from)
 )
+
+asWKTSpatialLines = function(x, digits = 6) {
+	ids = sapply(x@lines, function(x)slot(x,"ID"))
+	df = data.frame(geometry = paste("MULTILINESTRING((",
+		apply(
+		signif(sapply(coordinates(x), function(x) x[[1]][1,]),digits=digits),
+		2, paste, collapse=" ")," ...))",sep=""))
+	row.names(df) = ids
+	df
+}
+print.SpatialLines = function(x, ..., digits = 6, asWKT=FALSE) {
+	cat("SpatialLines:\n")
+	if (asWKT) 
+		print(asWKTSpatialLines(x, digits))
+	else
+		show(x)
+	pst <- paste(strwrap(paste(
+		"Coordinate Reference System (CRS) arguments:", 
+		proj4string(x))), collapse="\n")
+	cat(pst, "\n")
+}
+#setMethod("show", "SpatialLines", function(object) print.SpatialLines(object))
+length.SpatialLines = function(x) { length(x@lines) }
