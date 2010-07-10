@@ -1,6 +1,24 @@
+2010-07-10 19:31  rsbivand
+
+	* DESCRIPTION: tidy
+
+2010-06-12 06:45  rsbivand
+
+	* DESCRIPTION, R/bin_link.R: NODATA problem in readRAST6
+
+2010-04-29 09:07  rsbivand
+
+	* DESCRIPTION, R/vect_link.R, man/readVECT6.Rd: integer overflow in
+	  vect2neigh
+
+2010-04-23 05:57  rsbivand
+
+	* DESCRIPTION, R/xml1.R: extra quote protection in doGRASS
+
 2010-03-28 17:37  rsbivand
 
-	* R/bin_link.R: detect DCELL in readRAST6
+	* R/bin_link.R, ChangeLog, inst/ChangeLog: detect DCELL in
+	  readRAST6
 
 2010-03-28 15:43  rsbivand
 
