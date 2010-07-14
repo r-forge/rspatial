@@ -1,3 +1,12 @@
+2010-07-14 16:30  rsbivand
+
+	* R/SpatialLines-methods.R, man/Line.Rd, man/nowrapSpatialLines.Rd,
+	  man/recenter-methods.Rd: coerce ID to character in Lines
+
+2010-07-12 21:59  rsbivand
+
+	* ChangeLog, inst/ChangeLog: tidy
+
 2010-07-07 23:41  edzer
 
 	* DESCRIPTION: increased version number.

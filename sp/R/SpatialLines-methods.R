@@ -5,11 +5,16 @@ Line <- function(coords) {
 	new("Line", coords = coords)
 }
 
-Lines <- function(slinelist, ID=as.character(NA)) {
+Lines <- function(slinelist, ID) {
 	if (is(slinelist, "Line"))
 		slinelist = list(slinelist)
 	if (any(sapply(slinelist, function(x) !is(x, "Line"))))
 		stop("slinelist not a list of Line objects")
+	if (missing(ID)) stop("Single ID required")
+	if (length(ID) != 1) stop("Single ID required")
+        ID <- as.character(ID)
+        stopifnot(nchar(ID) > 0)
+
 	new("Lines", Lines = slinelist, ID=ID)
 }
 
