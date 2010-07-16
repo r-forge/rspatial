@@ -1,7 +1,13 @@
+2010-07-16 16:07  rsbivand
+
+	* R/: point.in.polygon.R, spsample.R: two changes: pointsInPolygons
+	  and sample.Polygons hole logic
+
 2010-07-14 16:30  rsbivand
 
 	* R/SpatialLines-methods.R, man/Line.Rd, man/nowrapSpatialLines.Rd,
-	  man/recenter-methods.Rd: coerce ID to character in Lines
+	  man/recenter-methods.Rd, ChangeLog, inst/ChangeLog: coerce ID to
+	  character in Lines
 
 2010-07-12 21:59  rsbivand
 
