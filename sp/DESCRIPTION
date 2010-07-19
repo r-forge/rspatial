@@ -1,10 +1,10 @@
 Package: sp
-Version: 0.9-66
-Date: 2010-07-07
+Version: 0.9-67
+Date: 2010-07-19
 Title: classes and methods for spatial data
 Author: Edzer Pebesma <edzer.pebesma@uni-muenster.de>, Roger Bivand <Roger.Bivand@nhh.no> and others
 Maintainer: Edzer Pebesma <edzer.pebesma@uni-muenster.de>
-Depends: R (>= 2.9.1), methods
+Depends: R (>= 2.11.0), methods
 Suggests: RColorBrewer
 Imports: utils, lattice, grid
 Description: A package that provides classes and methods for spatial
