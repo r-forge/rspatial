@@ -21,13 +21,17 @@ image.SpatialGridDataFrame = function(x, attr = 1, xcol = 1, ycol = 2,
 	if (is.null(red)) {
             if (exists("rasterImage") && useRasterImage) {
                 x <- x[attr]
-                NAs <- is.na(x[[1]])
-                m <-  scl(t(matrix(x[[1]], x@grid@cells.dim[1],
-                    x@grid@cells.dim[2])))
+#                NAs <- is.na(x[[1]])
+                if (length(na.omit(unique(x[[1]]))) == 1)
+                    m <-  t(matrix(x[[1]], x@grid@cells.dim[1],
+                        x@grid@cells.dim[2]))
+                else
+                    m <-  scl(t(matrix(x[[1]], x@grid@cells.dim[1],
+                        x@grid@cells.dim[2])))
                 m <- matrix(col[as.vector(m) * (length(col)-1) + 1], 
                     nrow(m), ncol(m))
                 ## if missing, set to white
-                m[is.na(m)] <- rgb(1, 1, 1)
+                m[is.na(m)] <- rgb(1, 1, 1, 0)
                 rasterImage(m, bb[1,1], bb[2,1], bb[1,2], bb[2,2],
                     interpolate = interpolate, angle = angle)
             } else {
