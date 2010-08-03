@@ -97,7 +97,13 @@ Rlogo <- SpatialGridDataFrame(grid = grid, data = df)
 summary(Rlogo)
 system.time(image(Rlogo, red="band1", green="band2", blue="band3"))
 system.time(image(Rlogo, red="band1", green="band2", blue="band3",
- useRasterImage=TRUE))
+ useRasterImage=FALSE))
+is.na(Rlogo$band1) <- Rlogo$band1 == 255
+is.na(Rlogo$band2) <- Rlogo$band2 == 255
+is.na(Rlogo$band3) <- Rlogo$band3 == 255
+Rlogo$i7 <- 7
+image(Rlogo, "i7")
+image(Rlogo, red="band1", green="band2", blue="band3", add=TRUE)
 }
 
 \keyword{spatial}
