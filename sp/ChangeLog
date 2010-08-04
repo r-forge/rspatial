@@ -1,7 +1,33 @@
+2010-08-04 15:51  rsbivand
+
+	* DESCRIPTION, R/image.R, man/image.Rd: rasterImage SDI detection
+
+2010-08-03 14:13  rsbivand
+
+	* R/image.R, man/image.Rd: rasterImage fix for transparency and
+	  single unique value rasters
+
+2010-08-02 18:39  rsbivand
+
+	* DESCRIPTION, R/image.R: rasterImage fix for transparency and
+	  single unique value rasters
+
+2010-07-29 00:30  edzer
+
+	* man/: Line.Rd, Lines-class.Rd, SpatialLines-class.Rd: extended ID
+	  documentation; added examples; suggestion Michael Friendly on
+	  r-sig-geo
+
+2010-07-19 21:07  rsbivand
+
+	* DESCRIPTION, NAMESPACE, R/SpatialPolygons-displayMethods.R,
+	  R/spplot.R: including polypath from graphics if available, and
+	  panel.levelplot.raster
+
 2010-07-16 16:07  rsbivand
 
-	* R/: point.in.polygon.R, spsample.R: two changes: pointsInPolygons
-	  and sample.Polygons hole logic
+	* R/point.in.polygon.R, R/spsample.R, ChangeLog, inst/ChangeLog:
+	  two changes: pointsInPolygons and sample.Polygons hole logic
 
 2010-07-14 16:30  rsbivand
 
