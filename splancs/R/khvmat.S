@@ -5,6 +5,10 @@
 khvmat <- function(pts1,pts2,poly,s)
 {
 #	mathlib.dynam("splancs","khvmat.o")
+        storage.mode(poly) <- "double"
+        storage.mode(pts1) <- "double"
+        storage.mode(pts2) <- "double"
+        storage.mode(s) <- "double"
 	ns <- length(s)
 
 	np <- npts(poly)
@@ -22,15 +26,15 @@ khvmat <- function(pts1,pts2,poly,s)
         cmat <- matrix(0,ncol=ns,nrow=ns)
 
 slist <- .Fortran("khvmat",
-                as.double(x),
-                as.double(y),
+                x,
+                y,
                 as.integer(n),
                 as.integer(n1),
                 as.integer(n2),
-                as.double(xp),
-                as.double(yp),
+                xp,
+                yp,
                 as.integer(np),
-                as.double(s),
+                s,
                 as.integer(ns),
 		as.double(table),
 		as.double(bvec),

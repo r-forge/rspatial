@@ -6,6 +6,11 @@ stvmat <- function(pts,times,poly,tlim,s,tm)
 {
 #	mathlib.dynam('splancs','stsecal.o')
 # full spacetime variance/covariance matrix
+        storage.mode(pts) <- "double"
+        storage.mode(times) <- "double"
+        storage.mode(poly) <- "double"
+        storage.mode(s) <- "double"
+        storage.mode(tm) <- "double"
 	tlow <- min(tlim)
         tupp <- max(tlim)
 
@@ -34,13 +39,13 @@ stvmat <- function(pts,times,poly,tlim,s,tm)
         cmat <- matrix(0,ncol=long,nrow=long)
 
 slist <- .Fortran("stsecal",
-                as.double(x),
-                as.double(y),
+                x,
+                y,
                 as.integer(n),
-                as.double(xp),
-                as.double(yp),
+                xp,
+                yp,
                 as.integer(np),
-                as.double(s),
+                s,
                 as.integer(ns),
 		as.double(smat),
 		as.double(svec),

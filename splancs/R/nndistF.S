@@ -5,19 +5,22 @@
 nndistF <- function(pts1,pts2)
 {
 #	library.dynam("splancs","nndist.o")
+        storage.mode(pts1) <- "double"
+        storage.mode(pts2) <- "double"
 	npts1 <- npts(pts1)
 	npts2 <- npts(pts2)
 
 # reserve an array for the result
 	dists <- rep(0,npts2)
+        storage.mode(dists) <- "double"
 
-	nnlist <- .Fortran("nndisf",as.double(pts1[,1]),
-				 as.double(pts1[,2]),
+	nnlist <- .Fortran("nndisf", pts1[,1],
+				 pts1[,2],
 	                         as.integer(npts1),
-	                         as.double(pts2[,1]),
-	                         as.double(pts2[,2]),
+	                         pts2[,1],
+	                         pts2[,2],
 	                         as.integer(npts2),
-	                         as.double(dists),
+	                         dists,
 				PACKAGE="splancs")
 	nnlist[[7]]
 }

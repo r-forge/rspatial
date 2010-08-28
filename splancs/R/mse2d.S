@@ -5,6 +5,8 @@
 mse2d <- function(pts,poly,nsmse,range)
 {
 #	library.dynam("splancs","twodimmse.o")
+        storage.mode(poly) <- "double"
+        storage.mode(pts) <- "double"
 	ptsx <- pts[,1]
 	ptsy <- pts[,2]
 	nptsm <- npts(pts)
@@ -17,19 +19,21 @@ mse2d <- function(pts,poly,nsmse,range)
 	hsmse <- range/nsmse
 	amse <- rep(0,nsmse)
 	t <- rep(0,nsmse)
+        storage.mode(amse) <- "double"
+        storage.mode(t) <- "double"
 	
 	mselist <- .Fortran("mse2d",
-		as.double(ptsx),
-		as.double(ptsy),
+		ptsx,
+		ptsy,
 		as.integer(nptsm),
-		as.double(a1),
-		as.double(a2),
-		as.double(b1),
-		as.double(b2),
+		a1,
+		a2,
+		b1,
+		b2,
 		as.integer(nsmse),
 		as.double(hsmse),
-		as.double(amse),
-		as.double(t),
+		amse,
+		t,
 		PACKAGE="splancs")
 		
 	list(mse=mselist[[10]],h=mselist[[11]])

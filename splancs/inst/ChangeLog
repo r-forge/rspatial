@@ -1,6 +1,12 @@
+2010-08-28 17:32  rsbivand
+
+	* R/: area.S, inout.S, k12hat.S, kernel2d.S, kernel3d.S, khat.S,
+	  khvc.S, khvmat.S, mse2d.S, n2dist.S, nndistF.S, nndistG.S,
+	  spkernel2d.R, stkhat.S, stvmat.S: as.double to storage.mode
+
 2010-06-17 16:40  rsbivand
 
-	* DESCRIPTION, man/bbox.Rd: bboxx docs
+	* DESCRIPTION, man/bbox.Rd, ChangeLog, inst/ChangeLog: bboxx docs
 
 2009-10-09 21:05  rsbivand
 

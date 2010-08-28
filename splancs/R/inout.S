@@ -4,6 +4,8 @@
 
 inout <- function (pts, poly, bound = NULL, quiet=TRUE) 
 {
+    storage.mode(poly) <- "double"
+    storage.mode(pts) <- "double"
     xp <- c(poly[, 1], poly[1, 1])
     yp <- c(poly[, 2], poly[1, 2])
     np <- length(xp)
@@ -18,8 +20,8 @@ inout <- function (pts, poly, bound = NULL, quiet=TRUE)
 		   stop("bound must be NULL, TRUE, or FALSE")
 	   result <- integer(length=nptsi)
 	   bb <- as.vector(apply(sbox(as.points(xp, yp)), 2, range))
-	   za <- .C("ptinpoly1", as.integer(result), as.double(pts[, 1]),
-		as.double(pts[, 2]), as.double(xp), as.double(yp),
+	   za <- .C("ptinpoly1", as.integer(result), pts[, 1],
+		pts[, 2], xp, yp,
 		as.integer(np), as.double(bb), as.integer(nptsi),
 		PACKAGE="splancs")
 
@@ -35,8 +37,8 @@ inout <- function (pts, poly, bound = NULL, quiet=TRUE)
 	   if(bound) z[which(za[[1]] <= 0)] <- TRUE
 	   else z[which(za[[1]] < 0)] <- TRUE
     } else {
-        piplist <- .Fortran("inpip", as.double(pts[, 1]), as.double(pts[,2]), 
-            as.integer(nptsi), as.double(xp), as.double(yp), 
+        piplist <- .Fortran("inpip", pts[, 1], pts[,2], 
+            as.integer(nptsi), xp, yp, 
             as.integer(np), as.logical(ind),
 		PACKAGE="splancs")
         z <- piplist[[7]]

@@ -6,6 +6,11 @@ stkhat <- function(pts, times, poly, tlimits, s, tm)
 {
 #	mathlib.dynam('splancs','stkhat.o')
 # space-time khat function
+        storage.mode(poly) <- "double"
+        storage.mode(pts) <- "double"
+        storage.mode(s) <- "double"
+        storage.mode(times) <- "double"
+        storage.mode(tm) <- "double"
 	tlow <- min(tlimits)
 	thigh <- max(tlimits)
 	s <- sort(s)
@@ -22,24 +27,26 @@ stkhat <- function(pts, times, poly, tlimits, s, tm)
 	hs <- rep(0, ns)
 	ht <- rep(0, nt)
 	hst <- matrix(0, ns, nt)
+	storage.mode(hs) <- "double"
+	storage.mode(ht) <- "double"
 	storage.mode(hst) <- "double"
 	ktlist <- .Fortran("stkhat",
-		as.double(x1),
-		as.double(y1),
-		as.double(t1),
+		x1,
+		y1,
+		t1,
 		as.integer(n1),
-		as.double(xc),
-		as.double(yc),
+		xc,
+		yc,
 		as.integer(nc),
-		as.double(s),
+		s,
 		as.integer(ns),
-		as.double(tm),
+		tm,
 		as.integer(nt),
 		as.double(tlow),
 		as.double(thigh),
-		hs = as.double(hs),
-		ht = as.double(ht),
-		hst = (hst),
+		hs = hs,
+		ht = ht,
+		hst = hst,
 		PACKAGE="splancs")
 
 	list(s=s,t=tm,ks = ktlist$hs, kt = ktlist$ht, kst = ktlist$hst)

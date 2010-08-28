@@ -5,6 +5,10 @@
 khvc <- function(pts1,pts2,poly,s)
 {
 #	mathlib.dynam('splancs','khvc.o')
+        storage.mode(poly) <- "double"
+        storage.mode(pts1) <- "double"
+        storage.mode(pts2) <- "double"
+        storage.mode(s) <- "double"
 	anslist <- list(0,0,0,0)
         names(anslist) <- c('varmat','k11','k12','k22')
 	ns <- length(s)
@@ -26,15 +30,15 @@ khvc <- function(pts1,pts2,poly,s)
 	v22 <- vector(mode='numeric',length=ns)
 
 slist <- .Fortran("khvc",
-                as.double(x),
-                as.double(y),
+                x,
+                y,
                 as.integer(n),
                 as.integer(n1),
                 as.integer(n2),
-                as.double(xp),
-                as.double(yp),
+                xp,
+                yp,
                 as.integer(np),
-                as.double(s),
+                s,
                 as.integer(ns),
 		as.double(table),
 		as.double(bvec),

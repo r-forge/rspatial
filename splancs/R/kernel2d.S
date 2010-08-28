@@ -11,6 +11,8 @@ kernel2d <- function(pts,poly,h0,nx=20,ny=20,kernel='quartic')
 	nptsk <- npts(pts)
 	npoly <- length(poly[,1])
 	poly <- rbind(poly,c(poly[1,1],poly[1,2]))
+        storage.mode(poly) <- "double"
+        storage.mode(pts) <- "double"
 	
 	
 	xrang <- range(poly[,1],na.rm=TRUE)
@@ -26,17 +28,20 @@ kernel2d <- function(pts,poly,h0,nx=20,ny=20,kernel='quartic')
 	xgrid <- rep(0,nx)
 	ygrid <- rep(0,ny)
 	zgrid <- matrix(0,nx,ny)
+        storage.mode(xgrid) <- "double"
+        storage.mode(ygrid) <- "double"
+        storage.mode(zgrid) <- "double"
 	if(kernel=='quartic')
 	{
 		cat('Doing quartic kernel\n')
 #		library.dynam('splancs','krnqrt.o')
 		storage.mode(zgrid) <- "double"
 		klist <- .Fortran("krnqrt",
-			as.double(pts[,1]),
-			as.double(pts[,2]),
+			pts[,1],
+			pts[,2],
 			as.integer(nptsk),
-			as.double(poly[,1]),
-			as.double(poly[,2]),
+			poly[,1],
+			poly[,2],
 			as.integer(npoly),
 			as.double(h0),
 			as.double(a1),
@@ -45,9 +50,9 @@ kernel2d <- function(pts,poly,h0,nx=20,ny=20,kernel='quartic')
 			as.double(b2),
 			as.integer(nx),
 			as.integer(ny),
-			xgrid=as.double(xgrid),
-			ygrid=as.double(ygrid),
-			zgrid=(zgrid),
+			xgrid=xgrid,
+			ygrid=ygrid,
+			zgrid=zgrid,
 			PACKAGE="splancs")
 		klist$zgrid[klist$zgrid<0] <- NA
 		res <- list(x=klist$xgrid,y=klist$ygrid,z=klist$zgrid,

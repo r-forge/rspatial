@@ -4,6 +4,9 @@
 
 khat <- function(pts, poly, s, newstyle=FALSE, checkpoly=TRUE)
 {
+        storage.mode(poly) <- "double"
+        storage.mode(pts) <- "double"
+        storage.mode(s) <- "double"
 	ptsx <- pts[,1]
 	ptsy <- pts[,2]
 	npt <- npts(pts)
@@ -26,19 +29,21 @@ khat <- function(pts, poly, s, newstyle=FALSE, checkpoly=TRUE)
 	counts <- matrix(0, nrow=npt, ncol=ns)
 	mode(counts) <- "integer"
 	hkhats <- matrix(0, nrow=npt, ncol=ns)
+        storage.mode(hkhat) <- "double"
+        storage.mode(hkhats) <- "double"
 
 	klist <- .Fortran("trykh",
-		as.double(ptsx),
-		as.double(ptsy),
+		ptsx,
+		ptsy,
 		as.integer(npt),
-		as.double(polyx),
-		as.double(polyy),
+		polyx,
+		polyy,
 		as.integer(np),
-		as.double(s),
+		s,
 		as.integer(ns),
-		as.double(hkhat),
+		hkhat,
 		as.integer(counts),
-		as.double(hkhats),
+		hkhats,
 		as.integer(npt*ns),
 		PACKAGE="splancs")
 	if (newstyle) {

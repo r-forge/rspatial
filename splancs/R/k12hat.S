@@ -5,6 +5,9 @@
 k12hat <- function(pts1,pts2,poly, s)
 {
 #	mathlib.dynam("splancs","k12hat.o")
+        storage.mode(poly) <- "double"
+        storage.mode(pts1) <- "double"
+        storage.mode(pts2) <- "double"
 	ptsx1 <- pts1[,1]
 	ptsy1 <- pts1[,2]
 	npt1 <- npts(pts1)
@@ -23,14 +26,14 @@ k12hat <- function(pts1,pts2,poly, s)
 	h21 <- h12
 
 	klist <- .Fortran("k12hat",
-		as.double(ptsx1),
-		as.double(ptsy1),
+		ptsx1,
+		ptsy1,
 		as.integer(npt1),
-		as.double(ptsx2),
-		as.double(ptsy2),
+		ptsx2,
+		ptsy2,
 		as.integer(npt2),
-		as.double(polyx),
-		as.double(polyy),
+		polyx,
+		polyy,
 		as.integer(np),
 		as.double(s),
 		as.integer(ns),

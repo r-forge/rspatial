@@ -5,12 +5,14 @@
 nndistG <- function(pts)
 {
 #	library.dynam("splancs","nndist.o")
+        storage.mode(pts) <- "double"
 	nptsg <- npts(pts)
 	neighs <- rep(0,nptsg)
 	dists <- rep(0,nptsg)
-	nnlist <- .Fortran("nndisg",as.double(t(pts[,1:2])),
+        storage.mode(dists) <- "double"
+	nnlist <- .Fortran("nndisg", t(pts[,1:2]),
 	                         as.integer(nptsg),
-	                         as.double(dists),
+	                         dists,
 				 as.integer(neighs),
 				PACKAGE="splancs")
 	list(dists=nnlist[[3]],neighs=nnlist[[4]])

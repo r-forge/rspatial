@@ -13,16 +13,20 @@ function(pts,times, xgr, ygr, zgr, hxy, hz)
 	nz <- length(zgr)
 	mat3 <- array(data = 0, dim = c(nx, ny, nz))
 	storage.mode(mat3) <- "double"
+        storage.mode(pts3) <- "double"
+        storage.mode(xgr) <- "double"
+        storage.mode(ygr) <- "double"
+        storage.mode(zgr) <- "double"
 	ans <- .Fortran("kern3d",
-		as.double(pts3[, 1]),
-		as.double(pts3[, 2]),
-		as.double(pts3[, 3]),
+		pts3[, 1],
+		pts3[, 2],
+		pts3[, 3],
 		as.integer(length(pts3[, 3])),
-		as.double(xgr),
+		xgr,
 		as.integer(length(xgr)),
-		as.double(ygr),
+		ygr,
 		as.integer(length(ygr)),
-		as.double(zgr),
+		zgr,
 		as.integer(length(zgr)),
 		as.double(hxy),
 		as.double(hz),
