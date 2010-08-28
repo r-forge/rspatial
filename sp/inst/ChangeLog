@@ -1,6 +1,12 @@
+2010-08-28 16:24  rsbivand
+
+	* R/: SpatialPolygons-internals.R, spdists.R, surfaceArea.R:
+	  as.double to storage.mode
+
 2010-08-04 15:51  rsbivand
 
-	* DESCRIPTION, R/image.R, man/image.Rd: rasterImage SDI detection
+	* DESCRIPTION, R/image.R, man/image.Rd, ChangeLog, inst/ChangeLog:
+	  rasterImage SDI detection
 
 2010-08-03 14:13  rsbivand
 
