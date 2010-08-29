@@ -61,14 +61,14 @@ initGRASS <- function(gisBase, home, SG, gisDbase, location, mapset,
         if (missing(home)) home <- Sys.getenv("HOME")
         ePATH <- Sys.getenv("PATH")
         if (length(grep(basename(Sys.getenv("GISBASE")), ePATH)) < 1) {
-            Sys.setenv(PATH=paste(Sys.getenv("PATH"), ":", 
-            Sys.getenv("GISBASE"), "/bin:", Sys.getenv("GISBASE"),
-            "/scripts", sep=""))
+            Sys.setenv(PATH=paste(Sys.getenv("GISBASE"), "/bin:",
+            Sys.getenv("GISBASE"), "/scripts",
+            ifelse(nchar(ePATH) == 0, "", ":"), ePATH, sep=""))
         }
         eLDPATH <- Sys.getenv("LD_LIBRARY_PATH")
         if (length(grep(basename(Sys.getenv("GISBASE")), eLDPATH)) < 1) {
-            Sys.setenv(LD_LIBRARY_PATH=paste(Sys.getenv("LD_LIBRARY_PATH"),
-                ":", Sys.getenv("GISBASE"), "/lib", sep=""))
+            Sys.setenv(LD_LIBRARY_PATH=paste(Sys.getenv("GISBASE"), "/lib:",
+            ifelse(nchar(eLDPATH) == 0, "", ":"), eLDPATH, sep=""))
         }
         Sys.setenv(GISRC=paste(home, "/.grassrc6", sep=""))
         if (file.exists(Sys.getenv("GISRC")) && !override)

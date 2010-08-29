@@ -1,6 +1,10 @@
+2010-08-29 19:51  rsbivand
+
+	* DESCRIPTION, R/initGRASS.R: add GRASS LD/PATH first not last
+
 2010-07-10 19:31  rsbivand
 
-	* DESCRIPTION: tidy
+	* DESCRIPTION, ChangeLog, inst/ChangeLog: tidy
 
 2010-06-12 06:45  rsbivand
 
