@@ -16,6 +16,15 @@ SpatialPixels = function(points, tolerance = sqrt(.Machine$double.eps),
 
 setMethod("coordinates", "SpatialPixels", function(obj) obj@coords)
 
+row.names.SpatialPixels <- function(x) {
+    dimnames(slot(x, "coords"))[[1]]
+}
+
+row.names.SpatialGrid <- function(x) {
+	warning("row.names order might be wrong!")
+	1:prod(x@grid@cells.dim)
+}
+
 SpatialGrid = function(grid, proj4string = CRS(as.character(NA))) {
 	pts = boguspoints(grid)
 	pts@bbox[,1] = pts@bbox[,1] - 0.5 * grid@cellsize
