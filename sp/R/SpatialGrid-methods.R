@@ -17,11 +17,14 @@ SpatialPixels = function(points, tolerance = sqrt(.Machine$double.eps),
 setMethod("coordinates", "SpatialPixels", function(obj) obj@coords)
 
 row.names.SpatialPixels <- function(x) {
-    dimnames(slot(x, "coords"))[[1]]
+    ret = dimnames(slot(x, "coords"))[[1]]
+	if (is.null(ret))
+		ret = seq_len(nrow(x@coords))
+	ret
 }
 
 row.names.SpatialGrid <- function(x) {
-	warning("row.names order might be wrong!")
+	warning("row.names order might not reflect grid sequence!")
 	1:prod(x@grid@cells.dim)
 }
 
