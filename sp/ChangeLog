@@ -1,3 +1,7 @@
+2010-09-20 08:22  rsbivand
+
+	* ChangeLog, NAMESPACE, tests/fail1.Rout.save: test save
+
 2010-09-19 21:16  edzer
 
 	* R/Spatial-methods.R, R/SpatialGrid-methods.R,
