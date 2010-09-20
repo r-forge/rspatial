@@ -1,7 +1,26 @@
+2010-09-20 08:22  rsbivand
+
+	* ChangeLog, NAMESPACE, tests/fail1.Rout.save: test save
+
+2010-09-19 21:16  edzer
+
+	* R/Spatial-methods.R, R/SpatialGrid-methods.R,
+	  R/SpatialPoints-methods.R, R/projected.R, man/is.projected.Rd:
+	  row.names no longer returns NULL for points and pixels.
+	  is.projected, proj4string and proj4string<- are now S4 generics
+
+2010-09-16 22:13  edzer
+
+	* NAMESPACE, R/SpatialGrid-methods.R,
+	  R/SpatialGridDataFrame-methods.R, R/spplot.R, man/zerodist.Rd:
+	  added row.names methods for SpatialGrid and SpatialGridDataFrame;
+	  cleaned up levelplot panel and opan stuff; zerodist was not
+	  touched afaics
+
 2010-08-28 16:24  rsbivand
 
-	* R/: SpatialPolygons-internals.R, spdists.R, surfaceArea.R:
-	  as.double to storage.mode
+	* R/SpatialPolygons-internals.R, R/spdists.R, R/surfaceArea.R,
+	  ChangeLog, inst/ChangeLog: as.double to storage.mode
 
 2010-08-04 15:51  rsbivand
 
