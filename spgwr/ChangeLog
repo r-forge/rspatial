@@ -1,6 +1,11 @@
+2010-10-05 22:18  rsbivand
+
+	* DESCRIPTION, data/gSRouter.rda, man/georgia.Rd, man/gw.cov.Rd,
+	  man/gwr.Rd: removing gpclib request
+
 2010-08-28 16:51  rsbivand
 
-	* R/gwe.R: as.double to storage.mode
+	* R/gwe.R, ChangeLog, inst/ChangeLog: as.double to storage.mode
 
 2010-05-12 17:41  rsbivand
 
