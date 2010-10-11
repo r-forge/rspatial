@@ -4,7 +4,7 @@ Date: 2010-10-11
 Title: classes and methods for spatial data
 Author: Edzer Pebesma <edzer.pebesma@uni-muenster.de>, Roger Bivand <Roger.Bivand@nhh.no> and others
 Maintainer: Edzer Pebesma <edzer.pebesma@uni-muenster.de>
-Depends: R (>= 2.11.0), methods
+Depends: R (>= 2.10.0), methods
 Suggests: lattice, RColorBrewer, rgdal
 Imports: utils, lattice, grid
 Description: A package that provides classes and methods for spatial
