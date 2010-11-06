@@ -109,6 +109,8 @@ setMethod("[", "SpatialPoints", function(x, i, j, ..., drop = TRUE) {
 	if (!missing(j))
 		warning("j index ignored")
 	drop = FALSE
+	if (is(i, "Spatial"))
+		i = !is.na(overlay(x, i))
 	if (any(is.na(i)))
 		stop("NAs not permitted in row index")
 #	SpatialPoints(coords=x@coords[i, , drop=drop], 

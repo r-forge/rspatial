@@ -175,6 +175,8 @@ setMethod("[", "SpatialPointsDataFrame", function(x, i, j, ..., drop = TRUE) {
 		i = TRUE
 	if (is.matrix(i))
 		stop("matrix argument not supported in SpatialPointsDataFrame selection")
+	if (is(i, "Spatial"))
+		i = !is.na(overlay(x, i))
 	if (any(is.na(i))) 
 		stop("NAs not permitted in row index")
 	#coords.nrs = x@coords.nrs
