@@ -194,3 +194,6 @@ setMethod("[", "SpatialPointsDataFrame", function(x, i, j, ..., drop = TRUE) {
 })
 
 setMethod("split", "SpatialPointsDataFrame", split.data.frame)
+
+setMethod("geometry", "SpatialPointsDataFrame",
+	function(obj) as(obj, "SpatialPoints"))

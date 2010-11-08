@@ -109,7 +109,7 @@ exportClasses(Polygon, Polygons, SpatialPolygons, SpatialPolygonsDataFrame)
 exportClasses(DMS)
 
 exportMethods(show, bbox, coordinates, "coordinates<-",
-	coordnames, "coordnames<-", gridded, polygons, "polygons<-",
+	coordnames, "coordnames<-", geometry, gridded, polygons, "polygons<-",
 	dimensions, coerce, "[", "[[", "$", "$<-", overlay, plot, recenter,
 	spplot, spsample, summary, surfaceArea, split)
 

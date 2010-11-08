@@ -107,3 +107,6 @@ setAs("SpatialPolygonsDataFrame", "SpatialLinesDataFrame",
 dim.SpatialPolygonsDataFrame = function(x) dim(x@data)
 
 setMethod("split", "SpatialPolygonsDataFrame", split.data.frame)
+
+setMethod("geometry", "SpatialPolygonsDataFrame",
+	function(obj) as(obj, "SpatialPolygons"))
