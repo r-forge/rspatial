@@ -95,7 +95,7 @@ row.names.SpatialPolygons <- function(x) {
 
 setMethod("[", "SpatialPolygons", function(x, i, j, ..., drop = TRUE) {
 	if (is(i, "Spatial"))
-		i = !is.na(overlay(x, i))
+		i = !is.na(over(x, i))
 	if (is.logical(i)) {
 		if (length(i) == 1 && i)
 			i = 1:length(x@polygons)
@@ -176,3 +176,7 @@ as.SpatialLines.SpatialPolygons = function(from)
 setAs("SpatialPolygons", "SpatialLines", as.SpatialLines.SpatialPolygons)
 
 length.SpatialPolygons = function(x) { length(x@polygons) }
+
+names.SpatialPolygons = function(x) { 
+	unlist(lapply(x@polygons, function(X) X@ID)) 
+}

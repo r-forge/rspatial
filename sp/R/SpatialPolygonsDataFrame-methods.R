@@ -1,4 +1,8 @@
 SpatialPolygonsDataFrame <- function(Sr, data, match.ID = TRUE) {
+	if (is.character(match.ID)) {
+		row.names(data) = data[match.ID[1]]
+		match.ID = TRUE
+	}
 	if (match.ID) {
 #		Sr_IDs <- sapply(slot(Sr, "polygons"),
 #                    function(i) slot(i, "ID"))
@@ -63,6 +67,8 @@ setMethod("[", "SpatialPolygonsDataFrame", function(x, i, j, ... , drop = TRUE) 
         i = TRUE 
     if (is.matrix(i))
         stop("matrix argument not supported in SpatialPolygonsDataFrame selection")
+	if (is(i, "Spatial"))
+		i = !is.na(over(x, i))
     if (any(is.na(i))) stop("NAs not permitted in row index")
     #SpatialPolygonsDataFrame(as(x, "SpatialPolygons")[i, , drop = FALSE],
     #    data = x@data[i, j, drop = FALSE], match.ID = FALSE)

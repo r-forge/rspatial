@@ -110,7 +110,7 @@ exportClasses(DMS)
 
 exportMethods(show, bbox, coordinates, "coordinates<-",
 	coordnames, "coordnames<-", geometry, gridded, polygons, "polygons<-",
-	dimensions, coerce, "[", "[[", "$", "$<-", overlay, plot, recenter,
+	dimensions, coerce, "[", "[[", "$", "$<-", over, overlay, plot, recenter,
 	spplot, spsample, summary, surfaceArea, split)
 
 S3method(as.data.frame, SpatialPoints)
@@ -156,6 +156,8 @@ S3method(names, SpatialPixelsDataFrame)
 S3method(names, SpatialGridDataFrame)
 S3method(names, SpatialLinesDataFrame)
 S3method(names, SpatialPolygonsDataFrame)
+S3method(names, SpatialLines)
+S3method(names, SpatialPolygons)
 
 S3method(row.names, SpatialPoints)
 S3method(row.names, SpatialLines)

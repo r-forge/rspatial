@@ -24,7 +24,7 @@ row.names.SpatialPixels <- function(x) {
 }
 
 row.names.SpatialGrid <- function(x) {
-	warning("row.names order might not reflect grid sequence!")
+	#warning("row.names order might not reflect grid sequence!")
 	1:prod(x@grid@cells.dim)
 }
 

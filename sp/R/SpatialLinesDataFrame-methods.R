@@ -1,4 +1,8 @@
 SpatialLinesDataFrame = function(sl, data, match.ID = TRUE) {
+    if (is.character(match.ID)) {
+        row.names(data) = data[match.ID[1]]
+        match.ID = TRUE
+    }
 	if (match.ID) {
 		Sl_IDs <- sapply(slot(sl, "lines"), function(x) slot(x, "ID"))
 		data_IDs <- row.names(data)
