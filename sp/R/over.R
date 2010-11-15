@@ -24,29 +24,32 @@
 	.split(data, r, n)
 }
 
-overPointsPolygons = function(x, y, returnList = FALSE, fn = NULL) {
-	id = pointsInSpatialPolygons(geometry(x), geometry(y))
-	if (!is.null(fn)) {
-		data.frame(t(data.frame(lapply(split(y@data, id), fn))))
-	} else
-		id
+.invert = function(lst, nr, nc) {
+	stopifnot(nr == length(lst))
+	m = matrix(FALSE, nr, nc)
+	for (i in 1:nr)
+		m[i,lst[[i]]] = TRUE
+	print(i)
+	lapply(1:nc, function(x) which(m[,x]))
 }
 
 '%ov%' = function(x,y) over(x,y)
 
 setMethod("over",
 	signature(x = "SpatialPoints", y = "SpatialPolygons"), 
-		function(x, y, returnList = FALSE, fn = NULL)
-#			factor(as.factor(overPointsPolygons(x, y)), levels = 1:length(y),
-#				labels = names(y))
-	pointsInSpatialPolygons(x, y)
+		function(x, y, returnList = FALSE, fn = NULL) {
+			r = pointsInSpatialPolygons(x, y, returnList)
+			if (returnList)
+				r = .invert(r, length(y), length(x))
+			r
+		}
 )
 setMethod("over",
 	signature(x = "SpatialPoints", y = "SpatialPolygonsDataFrame"), 
 		function(x, y, returnList = FALSE, fn = NULL) {
 			r = pointsInSpatialPolygons(x, geometry(y))
 			#.overDF(r, y@data, length(x), returnList, fn)
-			ret = y@data[r,]
+			ret = y@data[r,,drop=FALSE]
 			row.names(ret) = row.names(x)
 			ret
 		}
@@ -55,11 +58,11 @@ setMethod("over",
 setMethod("over",
 	signature(x = "SpatialPolygons", y = "SpatialPoints"), 
 		function(x, y, returnList = FALSE, fn = NULL) {
-			r = pointsInSpatialPolygons(geometry(y), geometry(x))
-			ret = sapply(1:length(x), function(X) which(X == r))
+			r = pointsInSpatialPolygons(geometry(y), geometry(x), TRUE)
 			if (!returnList)
-				ret = unlist(lapply(ret, function(X) X[1]))
-        	ret
+				unlist(lapply(r, function(x) x[1]))
+			else
+				r
 		}
 )
 setMethod("over",
@@ -92,7 +95,7 @@ setMethod("over", signature("SpatialPoints", "SpatialGridDataFrame"),
 		#row.names(ret) = row.names(x)
 		#ret
 		idx = over(x, geometry(y))
-		ret = y@data[idx,]
+		ret = y@data[idx,,drop=FALSE]
 		row.names(ret) = row.names(x)
 		ret
 	}
@@ -109,7 +112,7 @@ setMethod("over", signature("SpatialPoints", "SpatialPixels"),
 setMethod("over", signature("SpatialPoints", "SpatialPixelsDataFrame"), 
 	function(x, y, returnList = FALSE, fn = NULL) {
 		idx = over(x, geometry(y))
-		ret = y@data[idx,]
+		ret = y@data[idx,,drop=FALSE]
 		row.names(ret) = row.names(x)
 		ret
 	}
