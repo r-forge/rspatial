@@ -225,9 +225,9 @@ doGRASS <- function(cmd, flags=NULL, parameters=NULL) {
 }
 
 execGRASS <- function(cmd, flags=NULL, parameters=NULL, intern=FALSE,
-    ignore.stderr=FALSE) {
+    ignore.stderr=FALSE, ...) {
     syscmd <- doGRASS(cmd, flags=flags, parameters=parameters)
-    res <- system(syscmd, intern=intern, ignore.stderr=ignore.stderr)
+    res <- system(syscmd, intern=intern, ignore.stderr=ignore.stderr, ...)
     if (intern) return(res)
     invisible(res)
 }

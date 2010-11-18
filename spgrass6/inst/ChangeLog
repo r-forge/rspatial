@@ -1,6 +1,11 @@
+2010-11-18 09:13  rsbivand
+
+	* DESCRIPTION, R/xml1.R, man/execGRASS.Rd: adding ... to execGRASS
+
 2010-08-29 19:51  rsbivand
 
-	* DESCRIPTION, R/initGRASS.R: add GRASS LD/PATH first not last
+	* DESCRIPTION, R/initGRASS.R, ChangeLog, inst/ChangeLog: add GRASS
+	  LD/PATH first not last
 
 2010-07-10 19:31  rsbivand
 
