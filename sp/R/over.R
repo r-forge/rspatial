@@ -1,43 +1,57 @@
-.aggregateAttr = function(lst, fn = NULL, n) {
-	if (is.null(fn))
-		fn = function(x) { x[1,,drop=FALSE] }
-	ix = as.integer(names(lst))
-	ret = do.call(rbind, lapply(lst, fn))
-	ret[is.nan(ret)] = NA
-	#row.names(ret) = levels(r)
-	ret[match(1:n, ix),,drop=FALSE]
-}
-
-.split = function(df, idx, n) {
-	spl = split(df, idx)
-	ix = as.integer(names(spl))
-	ret = sapply(1:n, function(x) list())
-	ret[ix] = spl
+.overDF = function(r, data, n, returnList, fn) {
+	ret = lapply(1:n, function(x) data[r[[x]],,drop=FALSE])
+	if (!returnList) {
+		if (is.null(fn))
+			fn = function(x) { x[1,,drop=FALSE] }
+		ret = do.call(rbind, lapply(ret, fn))
+		# ret[match(1:n, ix),,drop=FALSE]
+		ret[is.nan(ret)] = NA
+	} else
+		stopifnot(is.null(fn))
 	ret
 }
 
-.overDF = function(r, data, n, returnList, fn) {
-	if (!returnList)
-		return(.aggregateAttr(split(data, r), fn, n))
-	else 
-		stopifnot(is.null(fn))
-	.split(data, r, n)
+#.invert = function(lst, nr, nc) {
+#	stopifnot(nr == length(lst))
+#	m = matrix(FALSE, nr, nc)
+#	for (i in 1:nr)
+#		m[i,lst[[i]]] = TRUE
+#	lapply(1:nc, function(x) which(m[,x]))
+#}
+
+.invert = function(x, nr, nc) { 
+	stopifnot(nr == length(x)) # obsolete argument!
+	ret = cbind(rep(1:nr, times = sapply(x, length)), unlist(x))
+	ret = split(ret[,1], ret[,2])
+	lst = lapply(1:nc, function(x) integer(0))
+	idx = as.integer(names(ret))
+	lst[idx] = ret
+	lst
 }
 
-.invert = function(lst, nr, nc) {
-	stopifnot(nr == length(lst))
-	m = matrix(FALSE, nr, nc)
-	for (i in 1:nr)
-		m[i,lst[[i]]] = TRUE
-	print(i)
-	lapply(1:nc, function(x) which(m[,x]))
-}
+'%over%' = function(x,y) over(x,y)
 
-'%ov%' = function(x,y) over(x,y)
-
+setMethod("over",
+	signature(x = "SpatialPoints", y = "SpatialPoints"), 
+		function(x, y, returnList = FALSE, fn = NULL) {
+			stopifnot(identical(proj4string(x),proj4string(y)))
+			zd = zerodist2(x, y)
+			if (returnList) {
+				ret = lapply(1:length(x), integer(0))
+				s = split(zd[,2],zd[,1])
+				ix = as.integer(names(s))
+				ret[ix] = s
+			} else {
+				ret = rep(as.integer(NA), length(x))
+				ret[zd[,1]] = zd[,2]
+			}
+			ret
+		}
+)
 setMethod("over",
 	signature(x = "SpatialPoints", y = "SpatialPolygons"), 
 		function(x, y, returnList = FALSE, fn = NULL) {
+			stopifnot(identical(proj4string(x),proj4string(y)))
 			r = pointsInSpatialPolygons(x, y, returnList)
 			if (returnList)
 				r = .invert(r, length(y), length(x))
@@ -47,10 +61,13 @@ setMethod("over",
 setMethod("over",
 	signature(x = "SpatialPoints", y = "SpatialPolygonsDataFrame"), 
 		function(x, y, returnList = FALSE, fn = NULL) {
-			r = pointsInSpatialPolygons(x, geometry(y))
-			#.overDF(r, y@data, length(x), returnList, fn)
-			ret = y@data[r,,drop=FALSE]
-			row.names(ret) = row.names(x)
+			stopifnot(identical(proj4string(x),proj4string(y)))
+			r = pointsInSpatialPolygons(x, geometry(y), returnList=TRUE)
+			r = .invert(r, length(y), length(x))
+			ret = .overDF(r, y@data, length(x), returnList, fn)
+			#ret = y@data[r,,drop=FALSE]
+			if (!returnList)
+				row.names(ret) = row.names(x)
 			ret
 		}
 )
@@ -58,6 +75,7 @@ setMethod("over",
 setMethod("over",
 	signature(x = "SpatialPolygons", y = "SpatialPoints"), 
 		function(x, y, returnList = FALSE, fn = NULL) {
+			stopifnot(identical(proj4string(x),proj4string(y)))
 			r = pointsInSpatialPolygons(geometry(y), geometry(x), TRUE)
 			if (!returnList)
 				unlist(lapply(r, function(x) x[1]))
@@ -68,15 +86,19 @@ setMethod("over",
 setMethod("over",
 	signature(x = "SpatialPolygons", y = "SpatialPointsDataFrame"), 
 		function(x, y, returnList = FALSE, fn = NULL) {
-			r = over(y, x)
+			stopifnot(identical(proj4string(x),proj4string(y)))
+			# r = over(y, x)
+			r = over(x, geometry(y), returnList = TRUE)
 			ret = .overDF(r, y@data, length(x), returnList, fn)
-			row.names(ret) = row.names(x)
+			if (!returnList)
+				row.names(ret) = row.names(x)
 			ret
 		}
 )
 setMethod("over",
 	signature(x = "SpatialPolygons", y = "SpatialGridDataFrame"), 
 		function(x, y, returnList = FALSE, fn = NULL) {
+			stopifnot(identical(proj4string(x),proj4string(y)))
 			over(x, as(y, "SpatialPixelsDataFrame"), returnList = returnList,
 				fn = fn)
 		}
@@ -84,12 +106,14 @@ setMethod("over",
 
 setMethod("over", signature("SpatialPoints", "SpatialGrid"), 
 	function(x, y, returnList = FALSE, fn = NULL) {
+		stopifnot(identical(proj4string(x),proj4string(y)))
 		getGridIndex(coordinates(x), y@grid, all.inside = FALSE)
 	}
 )
 
 setMethod("over", signature("SpatialPoints", "SpatialGridDataFrame"), 
 	function(x, y, returnList = FALSE, fn = NULL) {
+		stopifnot(identical(proj4string(x),proj4string(y)))
 		#idx = over(geometry(y), x)
 		#ret = .overDF(idx, y@data, length(x), returnList, fn)
 		#row.names(ret) = row.names(x)
@@ -103,6 +127,7 @@ setMethod("over", signature("SpatialPoints", "SpatialGridDataFrame"),
 
 setMethod("over", signature("SpatialPoints", "SpatialPixels"), 
 	function(x, y, returnList = FALSE, fn = NULL) {
+		stopifnot(identical(proj4string(x),proj4string(y)))
 		idx = getGridIndex(coordinates(x), y@grid, all.inside = FALSE)
 		idx = match(idx, y@grid.index)
 		idx
@@ -111,6 +136,7 @@ setMethod("over", signature("SpatialPoints", "SpatialPixels"),
 
 setMethod("over", signature("SpatialPoints", "SpatialPixelsDataFrame"), 
 	function(x, y, returnList = FALSE, fn = NULL) {
+		stopifnot(identical(proj4string(x),proj4string(y)))
 		idx = over(x, geometry(y))
 		ret = y@data[idx,,drop=FALSE]
 		row.names(ret) = row.names(x)
