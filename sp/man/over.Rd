@@ -1,7 +1,9 @@
 \name{over-methods}
 \docType{methods}
 \alias{over}
+\alias{\%over\%}
 \alias{over-methods}
+\alias{over,SpatialPoints,SpatialPoints-method}
 \alias{over,SpatialPoints,SpatialPolygons-method}
 \alias{over,SpatialPoints,SpatialPolygonsDataFrame-method}
 \alias{over,SpatialGridDataFrame,SpatialPolygonsDataFrame-method}
@@ -16,13 +18,13 @@
 \alias{over,SpatialPoints,SpatialPixels-method}
 \alias{over,SpatialPoints,SpatialPixelsDataFrame-method}
 \alias{over,SpatialPolygons,SpatialGridDataFrame-method}
-
 \title{ consistent spatial overlay for points, grids and polygons }
 \description{ consistent spatial overlay for points, grids and polygons:
 retrieves the indexes or attributes from one geometry at the spatial
 locations of another }
 \usage{
 over(x, y, returnList = FALSE, fn = NULL)
+x %over% y
 }
 \arguments{
 \item{x}{geometry (locations) of the queries}

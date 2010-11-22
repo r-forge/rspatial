@@ -16,7 +16,7 @@ pol = SpatialPolygons(list(
 	Polygons(list(Polygon(cbind(xpol,ypol-1))), ID="x3"),
 	Polygons(list(Polygon(cbind(xpol+1,ypol))), ID="x4")
 	))
-z = data.frame(z = c(10, 15, 25, 3), f = c("z", "q", "r", "z"), 
+z = data.frame(z = c(10, 15, 25, 3), zz = 1:4, f = c("z", "q", "r", "z"), 
 	row.names = c("x9", "x2", "x3", "x4"))
 poldf = SpatialPolygonsDataFrame(pol, z)
 plot(pol, xlim = c(-1.5, 2))

@@ -30,6 +30,10 @@
 }
 
 setMethod("coordinates", "SpatialPointsDataFrame", function(obj) obj@coords)
+setMethod("addAttrToGeom", signature(x = "SpatialPoints", y = "data.frame"),
+	function(x, y, match.ID, ...) 
+		SpatialPointsDataFrame(x, y, match.ID = match.ID, ...)
+)
 
 #setReplaceMethod("coordinates", signature(object = "data.frame", value = "numeric"),
 #	coordinates.num)

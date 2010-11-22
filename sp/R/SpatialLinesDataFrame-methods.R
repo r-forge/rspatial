@@ -23,6 +23,11 @@ names.SpatialLinesDataFrame = function(x) names(x@data)
 
 as.data.frame.SpatialLinesDataFrame = function(x, row.names, optional, ...) x@data
 
+setMethod("addAttrToGeom", signature(x = "SpatialLines", y = "data.frame"),
+	function(x, y, match.ID, ...)
+		SpatialLinesDataFrame(x, y, match.ID = match.ID, ...)
+)
+
 setAs("SpatialLinesDataFrame", "data.frame", function(from)
     as.data.frame.SpatialLinesDataFrame(from))
 

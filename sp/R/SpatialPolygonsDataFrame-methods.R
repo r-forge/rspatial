@@ -33,6 +33,11 @@ setReplaceMethod("polygons", signature(object = "data.frame", value = "SpatialPo
 setMethod("polygons", signature(obj = "SpatialPolygons"),
 	function(obj) as(obj, "SpatialPolygons"))
 
+setMethod("addAttrToGeom", signature(x = "SpatialPolygons", y = "data.frame"),
+	function(x, y, match.ID, ...) 
+		SpatialPolygonsDataFrame(x, y, match.ID = match.ID, ...)
+)
+
 names.SpatialPolygonsDataFrame = function(x) names(x@data)
 "names<-.SpatialPolygonsDataFrame" = function(x,value) { names(x@data) = value; x }
 

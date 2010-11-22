@@ -34,7 +34,7 @@ Type 'q()' to quit R.
 + 	Polygons(list(Polygon(cbind(xpol,ypol-1))), ID="x3"),
 + 	Polygons(list(Polygon(cbind(xpol+1,ypol))), ID="x4")
 + 	))
-> z = data.frame(z = c(10, 15, 25, 3), f = c("z", "q", "r", "z"), 
+> z = data.frame(z = c(10, 15, 25, 3), zz = 1:4, f = c("z", "q", "r", "z"), 
 + 	row.names = c("x9", "x2", "x3", "x4"))
 > poldf = SpatialPolygonsDataFrame(pol, z)
 > plot(pol, xlim = c(-1.5, 2))
@@ -43,19 +43,19 @@ Type 'q()' to quit R.
 > over(pts, pol)
 [1] NA NA  2  4  4
 > over(pts, poldf)
-   z    f
-a NA <NA>
-b NA <NA>
-c 15    q
-d  3    z
-e  3    z
+   z zz    f
+a NA NA <NA>
+b NA NA <NA>
+c 15  2    q
+d  3  4    z
+e  3  4    z
 > over(pts, poldf[1:2], fn = mean)
-   z    f
-a NA <NA>
-b NA <NA>
-c 15    q
-d  3    z
-e  3    z
+   z zz
+a NA NA
+b NA NA
+c 15  2
+d  3  4
+e  3  4
 > 
 > #rbind(poldf, over(pts, poldf[1:2], fn = mean))
 > 
@@ -100,42 +100,42 @@ proj4string : [NA]
 > over(sg, pol)
 [1] NA NA NA  2  4 NA
 > over(sg, poldf)
-   z    f
-1 NA <NA>
-2 NA <NA>
-3 NA <NA>
-4 15    q
-5  3    z
-6 NA <NA>
+   z zz    f
+1 NA NA <NA>
+2 NA NA <NA>
+3 NA NA <NA>
+4 15  2    q
+5  3  4    z
+6 NA NA <NA>
 > over(sg, poldf[1:2])
-   z    f
-1 NA <NA>
-2 NA <NA>
-3 NA <NA>
-4 15    q
-5  3    z
-6 NA <NA>
+   z zz
+1 NA NA
+2 NA NA
+3 NA NA
+4 15  2
+5  3  4
+6 NA NA
 > 
 > spix = as(sg, "SpatialPixels")
 > spixdf = as(sgdf, "SpatialPixelsDataFrame")
 > over(spix, pol)
 [1] NA NA NA  2  4 NA
 > over(spix, poldf)
-   z    f
-1 NA <NA>
-2 NA <NA>
-3 NA <NA>
-4 15    q
-5  3    z
-6 NA <NA>
+   z zz    f
+1 NA NA <NA>
+2 NA NA <NA>
+3 NA NA <NA>
+4 15  2    q
+5  3  4    z
+6 NA NA <NA>
 > over(spix, poldf[1:2])
-   z    f
-1 NA <NA>
-2 NA <NA>
-3 NA <NA>
-4 15    q
-5  3    z
-6 NA <NA>
+   z zz
+1 NA NA
+2 NA NA
+3 NA NA
+4 15  2
+5  3  4
+6 NA NA
 > 
 > over(pol, sg)
 [1] NA  4 NA  5

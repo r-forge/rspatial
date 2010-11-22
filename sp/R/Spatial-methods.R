@@ -2,6 +2,9 @@ Spatial <- function(bbox, proj4string = CRS(as.character(NA))) {
         new("Spatial", bbox=bbox, proj4string=proj4string)
 }
 
+if (!isGeneric("addAttrToGeom"))
+	setGeneric("addAttrToGeom", function(x, y, match.ID, ...)
+		standardGeneric("addAttrToGeom"))
 if (!isGeneric("bbox"))
 	setGeneric("bbox", function(obj)
 		standardGeneric("bbox"))

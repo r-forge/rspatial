@@ -10,8 +10,22 @@ SpatialPixelsDataFrame = function(points, data,
 	new("SpatialPixelsDataFrame", points, data = data)
 }
 
-SpatialGridDataFrame = function(grid, data, proj4string = CRS(as.character(NA)))
-	new("SpatialGridDataFrame", SpatialGrid(grid, proj4string), data = data)
+SpatialGridDataFrame = function(grid, data, 
+		proj4string = CRS(as.character(NA))) {
+	if (!is(grid, "SpatialGrid"))
+		grid = SpatialGrid(grid, proj4string)
+	new("SpatialGridDataFrame", grid, data = data)
+}
+
+setMethod("addAttrToGeom", signature(x = "SpatialPixels", y = "data.frame"),
+	function(x, y, match.ID, ...)
+		SpatialPixelsDataFrame(x, y, ...)
+)
+
+setMethod("addAttrToGeom", signature(x = "SpatialGrid", y = "data.frame"),
+	function(x, y, match.ID, ...)
+		SpatialGridDataFrame(x, y, ...)
+)
 
 as.SPixDF.SGDF = function(from) {
    	data = list()
