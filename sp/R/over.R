@@ -4,9 +4,9 @@
 		if (is.null(fn))
 			fn = function(x, ...) { x[1,,drop=FALSE] }
 		ret = do.call(rbind, lapply(ret, fn, ...))
-		ret = as.data.frame(ret)
 		# ret[match(1:n, ix),,drop=FALSE]
 		ret[is.nan(ret)] = NA
+		ret = as.data.frame(ret)
 	} else
 		stopifnot(is.null(fn))
 	ret
