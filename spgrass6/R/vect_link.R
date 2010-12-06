@@ -1,9 +1,14 @@
 # Interpreted GRASS 6 interface functions
 # Copyright (c) 2005-9 Roger S. Bivand
 #
-readVECT6 <- function(vname, type=NULL, plugin=NULL, remove.duplicates=TRUE, 
+readVECT6 <- function(vname, layer, type=NULL, plugin=NULL,
+        remove.duplicates=TRUE, 
 	ignore.stderr = FALSE, with_prj=TRUE, with_c=FALSE, mapset=NULL, 
 	pointDropZ=FALSE) {
+
+    G7 <- execGRASS("g.version", intern=TRUE) > "GRASS 7"
+    if (missing(layer)) layer <- 1L
+    if (G7) layer <- as.character(layer)
 
     if (is.null(plugin)) {
         ogrD <- ogrDrivers()$name
@@ -26,10 +31,11 @@ readVECT6 <- function(vname, type=NULL, plugin=NULL, remove.duplicates=TRUE,
         dsn <- paste(gg$GISDBASE, gg$LOCATION_NAME, mapset,
             "vector", vname[1], "head", sep="/")
         if (sss[1] >= "0.6" && as.integer(sss[2]) > 7) {
-	    res <- readOGR(dsn, layer="1", verbose=!ignore.stderr, 
-	        pointDropZ=pointDropZ)
+	    res <- readOGR(dsn, layer=as.character(layer),
+                verbose=!ignore.stderr, pointDropZ=pointDropZ)
         } else {
-	    res <- readOGR(dsn, layer="1", verbose=!ignore.stderr)
+	    res <- readOGR(dsn, layer=as.character(layer),
+                verbose=!ignore.stderr)
         }
     } else {
 	vinfo <- vInfo(vname)
@@ -57,8 +63,8 @@ readVECT6 <- function(vname, type=NULL, plugin=NULL, remove.duplicates=TRUE,
         if (with_prj) flags <- "e"
         if (with_c) flags <- c(flags, "c")
         execGRASS("v.out.ogr", flags=flags, parameters=list(input=vname,
-            type=type, dsn=gtmpfl1, olayer=shname, format="ESRI_Shapefile"),
-            ignore.stderr=ignore.stderr)
+            type=type, layer=layer, dsn=gtmpfl1, olayer=shname,
+            format="ESRI_Shapefile"), ignore.stderr=ignore.stderr)
 
         if (sss[1] >= "0.6" && as.integer(sss[2]) > 7) {
 	    res <- readOGR(dsn=rtmpfl1, layer=shname, verbose=!ignore.stderr, 
@@ -214,9 +220,12 @@ writeVECT6 <- function(SDF, vname, #factor2char = TRUE,
 
 }
 
-vInfo <- function(vname, ignore.stderr = FALSE) {
-	vinfo0 <- execGRASS("v.info", flags="t", parameters=list(map=vname),
-            intern=TRUE, ignore.stderr=ignore.stderr)
+vInfo <- function(vname, layer, ignore.stderr = FALSE) {
+        G7 <- execGRASS("g.version", intern=TRUE) > "GRASS 7"
+        if (missing(layer)) layer <- 1L
+        if (G7) layer <- as.character(layer)
+	vinfo0 <- execGRASS("v.info", flags="t", parameters=list(map=vname,
+            layer=layer), intern=TRUE, ignore.stderr=ignore.stderr)
 
 # fix to avoid locale problems 091022
 
@@ -228,9 +237,12 @@ vInfo <- function(vname, ignore.stderr = FALSE) {
 	res
 }
 
-vColumns <- function(vname, ignore.stderr = TRUE) {
-	vinfo0 <- execGRASS("v.info", flags="c", parameters=list(map=vname),
-            intern=TRUE, ignore.stderr=ignore.stderr)       
+vColumns <- function(vname, layer, ignore.stderr = TRUE) {
+        G7 <- execGRASS("g.version", intern=TRUE) > "GRASS 7"
+        if (missing(layer)) layer <- 1L
+        if (G7) layer <- as.character(layer)
+	vinfo0 <- execGRASS("v.info", flags="c", parameters=list(map=vname,
+            layer=layer), intern=TRUE, ignore.stderr=ignore.stderr)       
 	con <- textConnection(vinfo0)
         res <- read.table(con, header=FALSE, sep="|")
 	close(con)
@@ -238,14 +250,16 @@ vColumns <- function(vname, ignore.stderr = TRUE) {
 	res
 }
 
-vDataCount <- function(vname, ignore.stderr = TRUE) {
+vDataCount <- function(vname, layer, ignore.stderr = TRUE) {
         column <- "column" %in% parseGRASS("v.db.select")$pnames
+        G7 <- execGRASS("g.version", intern=TRUE) > "GRASS 7"
+        if (missing(layer)) layer <- 1L
+        if (G7) layer <- as.character(layer)
+        parms <- list(map=vname, layer=layer, columns="cat")
         if (column) tull <- execGRASS("v.db.select", flags="c",
-            parameters=list(map=vname, column="cat"), intern=TRUE,
-            ignore.stderr=ignore.stderr)
+            parameters=parms, intern=TRUE, ignore.stderr=ignore.stderr)
         else tull <- execGRASS("v.db.select", flags="c",
-            parameters=list(map=vname, columns="cat"), intern=TRUE,
-            ignore.stderr=ignore.stderr)
+            parameters=parms, intern=TRUE, ignore.stderr=ignore.stderr)
 	n <- length(tull)
 	n
 }

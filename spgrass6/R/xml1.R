@@ -94,7 +94,9 @@ parseGRASS <- function(cmd) {
         for (i in seq(along=fseq)) {
             obj <- tr1[[fseq[i]]]
             fv <- xmlAttrs(obj)
-            fv <- c(fv, xmlValue(xmlChildren(obj)[[1]]))
+# find description, don't assume first place 101206
+            di <- match("description", sapply(xmlChildren(obj), xmlName))
+            fv <- c(fv, xmlValue(xmlChildren(obj)[[di]]))
             names(fv) <- c(names(xmlAttrs(obj)), "desc")
             fs[[i]] <- fv
         }

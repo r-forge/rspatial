@@ -11,9 +11,9 @@
 \alias{readFLOAT6sp}
 \alias{writeRast6sp}
 %- Also NEED an '\alias' for EACH other topic documented here.
-\title{Read and write GRASS 6 raster files}
+\title{Read and write GRASS 6+ raster files}
 \description{
-Read GRASS 6 raster files from GRASS 6 into R SpatialGridDataFrame objects, and write single columns of R SpatialGridDataFrame objects to GRASS 6. \code{readRAST6} and \code{writeRAST6} use temporary binary files and r.out.bin and r.in.bin rather than the temporary ASCII files used in earlier implementations. The earlier versions may still be used in a transition period. 
+Read GRASS 6+ raster files from GRASS 6+ into R SpatialGridDataFrame objects, and write single columns of R SpatialGridDataFrame objects to GRASS 6+. \code{readRAST6} and \code{writeRAST6} use temporary binary files and r.out.bin and r.in.bin rather than the temporary ASCII files used in earlier implementations. The earlier versions may still be used in a transition period. 
 }
 
 
@@ -80,8 +80,13 @@ if (nchar(Sys.getenv("GISRC")) > 0) {
   writeRAST6(spear, "sqdemSP", zcol="sqdem", ignore.stderr=TRUE, useGDAL=TRUE)
   execGRASS("r.info", parameters=list(map="sqdemSP"), ignore.stderr=TRUE)
   execGRASS("g.remove", parameters=list(rast="sqdemSP"), ignore.stderr=TRUE)
-  execGRASS("r.mapcalculator", parameters=list(outfile="quads0",
-    amap="quads", formula='A - 1'), ignore.stderr=TRUE)
+  if (execGRASS("g.version", intern=TRUE) > "GRASS 7") {
+    execGRASS("r.mapcalc", parameters=list(expression="quads0 = quads - 1"),
+      ignore.stderr=TRUE)
+  } else {
+    execGRASS("r.mapcalculator", parameters=list(outfile="quads0",
+      amap="quads", formula='A - 1'), ignore.stderr=TRUE)
+  }
   execGRASS("r.stats", flags="c", parameters=list(input="quads0"),
     ignore.stderr=TRUE)
   quads0 <- readRAST6("quads0", ignore.stderr=TRUE)

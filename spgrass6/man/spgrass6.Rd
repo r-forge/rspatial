@@ -3,22 +3,22 @@
 \alias{spgrass6}
 \docType{package}
 \title{
-Interface between GRASS 6.0 geographical information system and R
+Interface between GRASS geographical information system and R
 }
 \description{
-Interpreted interface between GRASS 6.0 geographical
-information system and R, based on starting R from within the
-GRASS environment. The interface uses classes defined in the sp package
+Interpreted interface between GRASS geographical
+information system, versions 6 and 7, and R, based on starting R from within the
+GRASS environment, or on running R stand-alone and creating a throw-away GRASS environment from within R. The interface uses classes defined in the sp package
 to hold spatial data.
 }
 
 \details{
 Index:
 \preformatted{
-readRAST6               read GRASS 6 raster files
-writeRAST6              write GRASS 6 raster files
-readVECT6               read GRASS 6 vector object files
-writeVECT6              write GRASS 6 vector object files
+readRAST6               read GRASS raster files
+writeRAST6              write GRASS raster files
+readVECT6               read GRASS vector object files
+writeVECT6              write GRASS vector object files
 gmeta6                  read GRASS metadata from the current LOCATION
 getLocationProj         return a PROJ.4 string of projection information
 gmeta2grd               create a GridTopology object from the GRASS region
