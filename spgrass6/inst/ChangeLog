@@ -1,7 +1,12 @@
+2010-12-06 16:24  rsbivand
+
+	* DESCRIPTION, R/xml1.R: adaptation for GRASS 7
+
 2010-12-06 13:53  rsbivand
 
 	* DESCRIPTION, R/vect_link.R, R/xml1.R, man/readRAST6.Rd,
-	  man/readVECT6.Rd, man/spgrass6.Rd: adaptation for GRASS 7
+	  man/readVECT6.Rd, man/spgrass6.Rd, ChangeLog, inst/ChangeLog:
+	  adaptation for GRASS 7
 
 2010-11-18 09:13  rsbivand
 

@@ -95,9 +95,12 @@ parseGRASS <- function(cmd) {
             obj <- tr1[[fseq[i]]]
             fv <- xmlAttrs(obj)
 # find description, don't assume first place 101206
-            di <- match("description", sapply(xmlChildren(obj), xmlName))
+            nobj <- sapply(xmlChildren(obj), xmlName)
+            di <- match("description", nobj)
             fv <- c(fv, xmlValue(xmlChildren(obj)[[di]]))
-            names(fv) <- c(names(xmlAttrs(obj)), "desc")
+            suppr_req <- as.character("suppress_required" %in% nobj)
+            fv <- c(fv, suppr_req)
+            names(fv) <- c(names(xmlAttrs(obj)), "desc", "suppr_req")
             fs[[i]] <- fv
         }
         res$flags <- fs
@@ -138,7 +141,7 @@ print.GRASS_interface_desc <- function(x, ...) {
     }
     cat("Flags:\n")
     for (i in x$flags) cat("  name: ", i["name"], " [",
-        i["desc"], "]\n", sep="")
+        i["desc"], "] {", i["suppr_req"], "}\n", sep="")
     invisible(x)
 }
 
@@ -148,12 +151,15 @@ doGRASS <- function(cmd, flags=NULL, parameters=NULL) {
     pcmd <- parseGRASS(cmd)
     cmd <- paste(pcmd$prep, cmd, pcmd$ext, sep="")
     res <- cmd
+    suppress_required <- FALSE
     if (!is.null(flags)) {
         fm <- match(flags, pcmd$fnames)
         if (any(is.na(fm))) {
             print(pcmd)
             stop(paste("Invalid flag value:", flags[is.na(fm)]))
         }
+        suppr_req <- as.logical(sapply(pcmd$flags, "[", "suppr_req"))
+        if (!suppress_required && any(suppr_req)) suppress_required <- TRUE
         dble_dash <- c("verbose", "overwrite", "quiet")
         dbm <- na.omit(match(dble_dash, flags))
         if (length(dbm) > 0) flags[dbm] <- paste("-", flags[dbm], sep="")
@@ -169,7 +175,7 @@ doGRASS <- function(cmd, flags=NULL, parameters=NULL) {
       mults <- pt[, "multiple"] != "no" | (!is.na(pt[, "keydesc_count"]) &
         pt[, "keydesc_count"] > 1)
       mult <- pt[mults, "name"]
-      if (length(req) > 0 && is.null(parameters)) {
+      if (!suppress_required && length(req) > 0 && is.null(parameters)) {
         print(pcmd)
         stop("No parameters given where some are required")
       }
@@ -180,7 +186,7 @@ doGRASS <- function(cmd, flags=NULL, parameters=NULL) {
             print(pcmd)
             stop(paste("Invalid parameter name:", parnms[is.na(pm)]))
         }
-        if (length(req) > 0) {
+        if (!suppress_required && length(req) > 0) {
             pmr <- match(req, parnms)
             if (any(is.na(pmr))) {
                 print(pcmd)
