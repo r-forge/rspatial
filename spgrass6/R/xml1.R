@@ -159,7 +159,7 @@ doGRASS <- function(cmd, flags=NULL, parameters=NULL) {
             stop(paste("Invalid flag value:", flags[is.na(fm)]))
         }
         suppr_req <- as.logical(sapply(pcmd$flags, "[", "suppr_req"))
-        if (!suppress_required && any(suppr_req)) suppress_required <- TRUE
+        if (!suppress_required && any(suppr_req[fm])) suppress_required <- TRUE
         dble_dash <- c("verbose", "overwrite", "quiet")
         dbm <- na.omit(match(dble_dash, flags))
         if (length(dbm) > 0) flags[dbm] <- paste("-", flags[dbm], sep="")

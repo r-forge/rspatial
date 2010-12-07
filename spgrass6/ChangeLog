@@ -1,6 +1,11 @@
-2010-12-06 16:24  rsbivand
+2010-12-07 10:34  rsbivand
 
 	* DESCRIPTION, R/xml1.R: adaptation for GRASS 7
+
+2010-12-06 16:24  rsbivand
+
+	* DESCRIPTION, R/xml1.R, ChangeLog, inst/ChangeLog: adaptation for
+	  GRASS 7
 
 2010-12-06 13:53  rsbivand
 
