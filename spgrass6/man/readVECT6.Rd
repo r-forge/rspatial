@@ -18,8 +18,11 @@
   \code{readVECT6} moves one GRASS 6+ vector object file with attribute data through a temporary shapefile to a Spatial*DataFrame object of type determined by the GRASS 6+ vector object; \code{writeVECT6} moves a Spatial*DataFrame object through a temporary shapefile to a GRASS vector object file. \code{vect2neigh} returns neighbour pairs with shared boundary length as described by Markus Neteler, in \url{https://stat.ethz.ch/pipermail/r-sig-geo/2005-October/000616.html}. \code{cygwin_clean_temp} can be called to try to clean the GRASS mapset-specific temporary directory under cygwin.
 }
 \usage{
-readVECT6(vname, layer, type=NULL, plugin=NULL, remove.duplicates = TRUE, ignore.stderr = FALSE, with_prj=TRUE, with_c=FALSE, mapset=NULL, pointDropZ=FALSE)
-writeVECT6(SDF, vname,  v.in.ogr_flags=NULL, ignore.stderr = FALSE)
+readVECT6(vname, layer, type=NULL, plugin=NULL, remove.duplicates = TRUE,
+ ignore.stderr = FALSE, with_prj=TRUE, with_c=FALSE, mapset=NULL,
+ pointDropZ=FALSE, driver="ESRI Shapefile")
+writeVECT6(SDF, vname,  v.in.ogr_flags=NULL, ignore.stderr = FALSE,
+ driver="ESRI Shapefile")
 vInfo(vname, layer, ignore.stderr = FALSE)
 vColumns(vname, layer, ignore.stderr = TRUE)
 vDataCount(vname, layer, ignore.stderr = TRUE)
@@ -42,6 +45,7 @@ cygwin_clean_temp(verbose=TRUE, ignore.stderr = FALSE)
   \item{with_c}{if TRUE, export features with category (labeled) only; by default all features are exported}
   \item{mapset}{if plugin is TRUE, the mapset of the file to be imported may be changed from the current mapset by passing a character string}
   \item{pointDropZ}{default FALSE, if TRUE, discard third coordinates for point geometries; third coordinates are alway discarded for line and polygon geometries}
+  \item{driver}{default \code{"ESRI Shapefile"}; a valid OGR writable driver name to define the file format for intermediate files}
   \item{SDF}{A Spatial*DataFrame to be moved to GRASS6 as a vector object, for SpatialPointsDataFrame, SpatialLinesDataFrame, and SpatialPolygonsDataFrame objects}
   \item{v.in.ogr_flags}{Character vector containing additional optional flags and/or options for v.in.ogr, particularly "o" and "overwrite"}
   \item{ID}{A valid DB column name for unique identifiers (optional)}

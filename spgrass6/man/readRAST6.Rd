@@ -1,4 +1,4 @@
-% Copyright (C) 2005-8 Roger S. Bivand
+% Copyright (C) 2005-2010 Roger S. Bivand
 %
 \name{readRAST6}
 \alias{readRAST6}
@@ -19,8 +19,8 @@ Read GRASS 6+ raster files from GRASS 6+ into R SpatialGridDataFrame objects, an
 
 
 \usage{
-readRAST6(vname, cat=NULL, ignore.stderr = FALSE, NODATA=NULL, plugin=NULL, mapset=NULL, useGDAL=TRUE, close_OK=TRUE)
-writeRAST6(x, vname, zcol = 1, NODATA=NULL, ignore.stderr = FALSE, useGDAL=TRUE, overwrite=FALSE, flags=NULL)
+readRAST6(vname, cat=NULL, ignore.stderr = FALSE, NODATA=NULL, plugin=NULL, mapset=NULL, useGDAL=TRUE, close_OK=TRUE, drivername="GTiff")
+writeRAST6(x, vname, zcol = 1, NODATA=NULL, ignore.stderr = FALSE, useGDAL=TRUE, overwrite=FALSE, flags=NULL, drivername="GTiff")
 %rast.get6(vname, cat=NULL, ignore.stderr = FALSE)
 %rast.put6(x, vname, zcol = 1, NODATA=-9999, ignore.stderr = FALSE)
 %readCELL6sp(vname, cat=NULL, ignore.stderr = FALSE)
@@ -40,6 +40,7 @@ writeRAST6(x, vname, zcol = 1, NODATA=NULL, ignore.stderr = FALSE, useGDAL=TRUE,
   \item{mapset}{default NULL, if plugin is TRUE, the mapset of the file to be imported will be autodetected; if not NULL and if plugin is TRUE, a character string overriding the autodetected mapset, otherwise ignored}
   \item{useGDAL}{default TRUE use r.out.gdal or plugin and \code{readGDAL} if autodetected or plugin=TRUE; or for writing \code{writeGDAL}, GTiff, and r.in.gdal, if FALSE using r.out.bin or r.in.bin}
   \item{close_OK}{default TRUE - clean up possible open connections used for reading metadata; may be set to FALSE to avoid the side-effect of other user-opened connections being broken}
+  \item{drivername}{default \code{"GTiff"}; a valid GDAL writable driver name to define the file format for intermediate files}
   \item{x}{A SpatialGridDataFrame object for export to GRASS as a raster layer}
   \item{zcol}{Attribute column number or name}
   \item{NODATA}{by default NULL, in which case it is set to one less than \code{floor()}of the data values, otherwise an integer NODATA value (required to be integer by GRASS r.out.bin)}

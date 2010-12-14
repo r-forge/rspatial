@@ -1,6 +1,12 @@
+2010-12-14 12:08  rsbivand
+
+	* DESCRIPTION, R/bin_link.R, R/vect_link.R, man/readRAST6.Rd,
+	  man/readVECT6.Rd: adding driver choice for intermediate files
+
 2010-12-07 10:34  rsbivand
 
-	* DESCRIPTION, R/xml1.R: adaptation for GRASS 7
+	* DESCRIPTION, R/xml1.R, ChangeLog, inst/ChangeLog: adaptation for
+	  GRASS 7
 
 2010-12-06 16:24  rsbivand
 
