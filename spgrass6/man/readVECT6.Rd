@@ -45,7 +45,7 @@ cygwin_clean_temp(verbose=TRUE, ignore.stderr = FALSE)
   \item{with_c}{if TRUE, export features with category (labeled) only; by default all features are exported}
   \item{mapset}{if plugin is TRUE, the mapset of the file to be imported may be changed from the current mapset by passing a character string}
   \item{pointDropZ}{default FALSE, if TRUE, discard third coordinates for point geometries; third coordinates are alway discarded for line and polygon geometries}
-  \item{driver}{default \code{"ESRI Shapefile"}; a valid OGR writable driver name to define the file format for intermediate files}
+  \item{driver}{default \code{"ESRI Shapefile"}; a valid OGR writable driver name to define the file format for intermediate files, one of \code{c("GML", "SQLite"), c("ESRI_Shapefile", "MapInfo_File")}}
   \item{SDF}{A Spatial*DataFrame to be moved to GRASS6 as a vector object, for SpatialPointsDataFrame, SpatialLinesDataFrame, and SpatialPolygonsDataFrame objects}
   \item{v.in.ogr_flags}{Character vector containing additional optional flags and/or options for v.in.ogr, particularly "o" and "overwrite"}
   \item{ID}{A valid DB column name for unique identifiers (optional)}

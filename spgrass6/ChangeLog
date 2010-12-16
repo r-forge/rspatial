@@ -1,7 +1,14 @@
+2010-12-16 10:53  rsbivand
+
+	* DESCRIPTION, R/vect_link.R, man/readVECT6.Rd: adding only ESRI
+	  Shapefile, MapInfo File, GML, SQLite as valid intermediate vector
+	  drivers
+
 2010-12-14 12:08  rsbivand
 
 	* DESCRIPTION, R/bin_link.R, R/vect_link.R, man/readRAST6.Rd,
-	  man/readVECT6.Rd: adding driver choice for intermediate files
+	  man/readVECT6.Rd, ChangeLog, inst/ChangeLog: adding driver choice
+	  for intermediate files
 
 2010-12-07 10:34  rsbivand
 

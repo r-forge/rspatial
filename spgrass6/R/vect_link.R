@@ -47,12 +47,12 @@ readVECT6 <- function(vname, layer, type=NULL, plugin=NULL,
         ogrDGRASSs <- strsplit(ogrDGRASS, ": ")
         if (!(driver %in% sapply(ogrDGRASSs, "[", 2)))
             stop(paste("Requested driver", driver, "not available in GRASS"))
-        vDrivers <- c("ESRI_Shapefile", "MapInfo_File", "TIGER", "S57",
-            "DGN", "Memory", "BNA", "CSV", "GML", "GPX", "KML", "GeoJSON",
-            "Interlis_1", "Interlis_2", "GMT", "SQLite", "ODBC",
-            "PostgreSQL", "MySQL")
-        if (!(gsub(" ", "_", driver) %in% vDrivers))
-            stop(paste("Requested driver", driver, "not valid for v.out.ogr"))
+        fDrivers <- c("GML", "SQLite")
+        dDrivers <- c("ESRI_Shapefile", "MapInfo_File")
+        if (!(gsub(" ", "_", driver) %in% c(fDrivers, dDrivers)))
+            stop(paste("Requested driver", driver, "not supported"))
+        is_dDriver <- TRUE
+        if (gsub(" ", "_", driver) %in% fDrivers) is_dDriver <- FALSE
 	vinfo <- vInfo(vname)
 	types <- names(vinfo)[which(vinfo > 0)]
 	if (is.null(type)) {
@@ -77,24 +77,28 @@ readVECT6 <- function(vname, layer, type=NULL, plugin=NULL,
         flags <- NULL
         if (with_prj) flags <- "e"
         if (with_c) flags <- c(flags, "c")
+        if (is_dDriver){
+            GDSN <- gtmpfl1
+            RDSN <- rtmpfl1
+            LAYER <- shname
+        } else {
+            GDSN <- paste(gtmpfl1, shname, sep=.Platform$file.sep)
+            RDSN <- paste(rtmpfl1, shname, sep=.Platform$file.sep)
+            LAYER <- shname
+        }
         execGRASS("v.out.ogr", flags=flags, parameters=list(input=vname,
-            type=type, layer=layer, dsn=gtmpfl1, olayer=shname,
+            type=type, layer=layer, dsn=GDSN, olayer=LAYER,
             format=gsub(" ", "_", driver)), ignore.stderr=ignore.stderr)
 
         if (sss[1] >= "0.6" && as.integer(sss[2]) > 7) {
-	    res <- readOGR(dsn=rtmpfl1, layer=shname, verbose=!ignore.stderr, 
+	    res <- readOGR(dsn=RDSN, layer=LAYER, verbose=!ignore.stderr, 
 	        pointDropZ=pointDropZ)
         } else {
 	    res <- readOGR(dsn=rtmpfl1, layer=shname, verbose=!ignore.stderr)           }
 
-        if (sss[1] >= "0.6") {
-            if (sss[1] < "0.7" && as.integer(sss[2]) < 32) {
-	        if (.Platform$OS.type != "windows") 
-                    unlink(paste(rtmpfl1, list.files(rtmpfl1, pattern=shname), 
-		        sep=.Platform$file.sep))
-            } else {
-                rgdal:::ogrDeleteLayer(dsn=rtmpfl1, layer=shname)
-            }
+	if (.Platform$OS.type != "windows") {
+            unlink(paste(rtmpfl1, list.files(rtmpfl1, pattern=shname), 
+	        sep=.Platform$file.sep))
         }
         
 	if (remove.duplicates && type != "point") {
@@ -219,6 +223,12 @@ writeVECT6 <- function(SDF, vname, #factor2char = TRUE,
         ogrDGRASSs <- strsplit(ogrDGRASS, ": ")
         if (!(driver %in% sapply(ogrDGRASSs, "[", 2)))
             stop(paste("Requested driver", driver, "not available in GRASS"))
+        fDrivers <- c("GML", "SQLite")
+        dDrivers <- c("ESRI_Shapefile", "MapInfo_File")
+        if (!(gsub(" ", "_", driver) %in% c(fDrivers, dDrivers)))
+            stop(paste("Requested driver", driver, "not supported"))
+        is_dDriver <- TRUE
+        if (gsub(" ", "_", driver) %in% fDrivers) is_dDriver <- FALSE
         sss <- strsplit(packageDescription("rgdal")$Version, "-")[[1]]
 	type <- NULL
 	if (class(SDF) == "SpatialPointsDataFrame") type <- "point"
@@ -237,22 +247,26 @@ writeVECT6 <- function(SDF, vname, #factor2char = TRUE,
 	shname <- substring(vname, 1, ifelse(nchar(vname) > 8, 8, 
 		nchar(vname)))
 
+        if (is_dDriver){
+            GDSN <- gtmpfl1
+            RDSN <- rtmpfl1
+            LAYER <- shname
+        } else {
+            GDSN <- paste(gtmpfl1, shname, sep=.Platform$file.sep)
+            RDSN <- paste(rtmpfl1, shname, sep=.Platform$file.sep)
+            LAYER <- shname
+        }
 
-	writeOGR(SDF, dsn=rtmpfl1, layer=shname, driver=driver)
+	writeOGR(SDF, dsn=RDSN, layer=LAYER, driver=driver)
 
 
 	execGRASS("v.in.ogr", flags=v.in.ogr_flags,
-	    parameters=list(dsn=gtmpfl1, output=vname, layer=shname),
+	    parameters=list(dsn=GDSN, output=vname, layer=LAYER),
 	    ignore.stderr=ignore.stderr)
 
-        if (sss[1] >= "0.6") {
-            if (sss[1] < "0.7" && as.integer(sss[2]) < 32) {
-	        if (.Platform$OS.type != "windows") 
-                    unlink(paste(rtmpfl1, list.files(rtmpfl1, pattern=shname), 
-		        sep=.Platform$file.sep))
-            } else {
-                rgdal:::ogrDeleteLayer(dsn=rtmpfl1, layer=shname)
-            }
+	if (.Platform$OS.type != "windows") {
+            unlink(paste(rtmpfl1, list.files(rtmpfl1, pattern=shname), 
+	        sep=.Platform$file.sep))
         }
 
 }
