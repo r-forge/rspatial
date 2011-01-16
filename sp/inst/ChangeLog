@@ -1,3 +1,11 @@
+2011-01-16 13:54  rsbivand
+
+	* man/spDistsN1.Rd: clarify longlat in spDistsN1.Rd
+
+2010-12-19 13:09  edzer
+
+	* inst/: ChangeLog, doc/over.Rnw: added example
+
 2010-12-18 17:19  edzer
 
 	* inst/doc/over.Rnw: made over pass R < 2.12
