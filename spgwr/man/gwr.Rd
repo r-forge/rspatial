@@ -27,7 +27,7 @@ gwr(formula, data=list(), coords, bandwidth, gweight=gwr.Gauss,
   \item{adapt}{either NULL (default) or a proportion between 0 and 1 of observations to include in weighting scheme (k-nearest neighbours)}
   \item{hatmatrix}{if TRUE, return the hatmatrix as a component of the result, ignored if \code{fit.points} given}
   \item{fit.points}{an object containing the coordinates of fit points; often an object from package \pkg{sp}; if missing, the coordinates given through the data argument object, or the coords argument are used}
-  \item{longlat}{if TRUE, use distances on an ellipse with WGS84 parameters}
+  \item{longlat}{if TRUE, use distances on an ellipse with WGS84 parameters, using \code{\link[sp]{spDistsN1}}, and is measured in kilometers}
   \item{se.fit}{if TRUE, return local coefficient standard errors - if \code{hatmatrix} is TRUE and no fit.points are given, two effective degrees of freedom sigmas will be used to generate alternative coefficient standard errors}
   \item{weights}{case weights used as in weighted least squares, beware of scaling issues, probably unsafe}
   \item{cl}{if NULL, ignored, otherwise \code{cl} must be an object describing a \dQuote{cluster} created using \code{makeCluster} in the snow package. The cluster will then be used to hand off the calculation of local coefficients to cluster nodes, if fit points have been given as an argument, and \code{hatmatrix=FALSE}}

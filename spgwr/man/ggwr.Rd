@@ -26,7 +26,7 @@ c("working", "deviance", "pearson", "response"))
   \item{fit.points}{an object containing the coordinates of fit points; often an object from package \pkg{sp}; if missing, the coordinates given through the data argument object, or the coords argument are used}
   \item{family}{a description of the error distribution and link function to
           be used in the model, see \code{glm}}
-  \item{longlat}{if TRUE, use distances on an ellipse with WGS84 parameters}
+  \item{longlat}{if TRUE, use distances on an ellipse with WGS84 parameters, using \code{\link[sp]{spDistsN1}}, and is measured in kilometers}
   \item{type}{the type of residuals which should be returned. The alternatives are: "working" (default), "pearson", "deviance" and "response"}
 }
 
