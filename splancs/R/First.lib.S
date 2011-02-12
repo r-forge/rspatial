@@ -4,8 +4,12 @@
 
 .First.lib <- function(lib,pkg)
 {
-	cat("\nSpatial Point Pattern Analysis Code in S-Plus\n")
-	cat("\n Version 2 - Spatial and Space-Time analysis\n")
+#	cat("\nSpatial Point Pattern Analysis Code in S-Plus\n")
+#	cat("\n Version 2 - Spatial and Space-Time analysis\n")
+        Smess <- "\nSpatial Point Pattern Analysis Code in S-Plus\n"
+        Smess <- paste(Smess,
+            "\n Version 2 - Spatial and Space-Time analysis\n")
+        packageStartupMessage(Smess)
 	library.dynam("splancs", pkg, lib)
 	invisible(0)
 }

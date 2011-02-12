@@ -50,7 +50,7 @@ gw.adapt <- function(dp, fp, quant, longlat=FALSE) {
 
 
 gw.cov <- function(x, vars, fp, adapt=NULL, bw, gweight=gwr.bisquare, 
-		cor=TRUE, var.term=FALSE, longlat=FALSE) {
+		cor=TRUE, var.term=FALSE, longlat=NULL) {
 	p4s <- as.character(NA)
 	Polys <- NULL
 	fp.missing <- missing(fp)
@@ -60,12 +60,21 @@ gw.cov <- function(x, vars, fp, adapt=NULL, bw, gweight=gwr.bisquare,
 		dp <- coordinates(x)
 		p4s <- proj4string(x)
 		data <- as(x, "data.frame")
+                if ((is.null(longlat) || !is.logical(longlat)) 
+	            && !is.na(is.projected(x)) && !is.projected(x)) {
+                    longlat <- TRUE
+                } else longlat <- FALSE
 	} else if (is(x, "SpatialPointsDataFrame")) {
 		gridded <- gridded(x)
 		dp <- coordinates(x)
 		p4s <- proj4string(x)
 		data <- as(x, "data.frame")
+                if ((is.null(longlat) || !is.logical(longlat)) 
+	            && !is.na(is.projected(x)) && !is.projected(x)) {
+                    longlat <- TRUE
+                } else longlat <- FALSE
 	} else stop("x must be a Spatial Polygons or Points DataFrame")
+        if (is.null(longlat) || !is.logical(longlat)) longlat <- FALSE
 	x <- as.matrix(data[, vars])
 	if (any(is.na(x))) stop("x contains NAs")
 	nc <- ncol(x)

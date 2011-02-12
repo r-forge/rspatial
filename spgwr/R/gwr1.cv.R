@@ -3,15 +3,20 @@
 
 ggwr.sel <- function(formula, data = list(), coords, 
 	adapt=FALSE, gweight=gwr.Gauss, family=gaussian, verbose=TRUE, 
-	longlat=FALSE, RMSE=FALSE, tol=.Machine$double.eps^0.25) {
+	longlat=NULL, RMSE=FALSE, tol=.Machine$double.eps^0.25) {
 	if (!is.logical(adapt)) stop("adapt must be logical")
 	if (!is.logical(longlat)) stop("longlat must be logical")
 	if (is(data, "Spatial")) {
 		if (!missing(coords))
 		    warning("data is Spatial* object, ignoring coords argument")
 		coords <- coordinates(data)
+                if ((is.null(longlat) || !is.logical(longlat)) 
+	            && !is.na(is.projected(data)) && !is.projected(data)) {
+                    longlat <- TRUE
+                } else longlat <- FALSE
 		data <- as(data, "data.frame")
 	}
+        if (is.null(longlat) || !is.logical(longlat)) longlat <- FALSE
 	if (missing(coords))
 		stop("Observation coordinates have to be given")
     	mf <- match.call(expand.dots = FALSE)
