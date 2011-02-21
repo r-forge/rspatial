@@ -14,22 +14,18 @@
 <a href="http://www.r-project.org/">R</a> is a language for statistical
 computing. As such it has a strong capacity for storing, handling
 and manipulating numerical or categorical data. R has dedicated data
-structures and methods for specific kinds of data, e.g. time series
-data, but, as of yet, not for spatial data.  Although one could argue
+structures and methods for specific kinds of data, now including spatial data.  Although one could argue
 that spatial data are just regular data with coordinates, life is much
 easier when they are structured. A large number of <a target="_top"
-href="http://www.r-project.org/Rgeo/">packages</a> provide spatial
+href="http://cran.r-project.org/web/views/Spatial.html">packages</a> provide spatial
 statistical methods or interfaces to GIS, and many of them provide data
-structures and e.g. plotting methods for spatial data. There is however
-little coordination between them, and only very few provide functionality
-for more than one spatial data type.
+structures and e.g. plotting methods for spatial data.
 
 <h2>A package called sp</h2>
-This web site is currently dedicated to package <tt>sp</tt>, a 
+This web site is based on package <tt>sp</tt>, a 
 package that provides classes and methods for spatial data (points,
 lines, polygons, grids), and to new or existing spatial statistics R
-packages that use sp, depend on sp, or will become dependent on sp,
-such as maptools, rgdal, splancs, spgrass6, gstat, spgwr, ...
+packages that use or depend on sp, such as splancs, spgrass6, spgwr, ...
 
 <h2>Why do we need a package of spatial data classes?</h2>
 There are several reasons for providing this package of classes for spatial data:
@@ -43,8 +39,8 @@ many-to-many links.  </li>
 <li>the package provides methods (functions) for plotting,
 printing and summarizing spatial objects, or combining them (e.g. overlay)</li>
 <li>packages with interfaces to GIS and geographic projection code 
-support the new classes; some of this functionality is demonstrated <a href="xtra/xtra.RHnw.html">here</a>. <b>Note that this functionality is now released on CRAN, in packages rgdal, maptools, and spgrass6.</b></li>
-<li>the new package provides Lattice plots, conditioning plots, and
+support the new classes</li>
+<li>the package provides Lattice plots, conditioning plots, and
 plot methods that combine points, lines, polygons and grids, scale bars,
 north arrows etc. (see the <a href="gallery/">gallery</a>)</li>
 <li>the package uses S4 classes, allowing for the validation of
@@ -52,6 +48,6 @@ internal consistency</li>
 </ul>
 
 <hr>
-Last modified: February 05, 2007 by Roger Bivand
+Last modified: February 21, 2011 by Roger Bivand
 
 </body> </html>
