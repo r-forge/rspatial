@@ -1,0 +1,31 @@
+echo "<html>"
+echo "<title>R sp graphics example figures</title>"
+echo "<body>"
+echo "<h1>R sp graphics example figures</h1>"
+echo "(png graphs were made using the GDD driver in package GDD)"
+cat rgallery.html
+echo "<ul>"
+for f
+do
+ echo "<li>"
+ echo "<a href=\"#"$f"\">" $f "</a>:"
+ grep '##' $f | sed 's/##//g' 
+ echo "</li>"
+done
+echo "</ul>"
+echo "Click the graph to get the pdf version"
+for f
+do
+ echo "<h2><a name=\""$f"\">" $f "</a>"
+ grep '##' $f | sed 's/##//g' 
+ echo "</h2>"
+ g=`basename $f .R`
+ #echo $g
+ echo "<a href=\"fig/"$g".pdf\"><img src=\"fig/"$g".png\"></a><br>"
+ echo "View: <a href=\"fig/"$g".pdf\">[Pdf]</a> <a href=\"fig/"$g".ps\">[PostScript]</a>"
+ echo "<pre>"
+ cat $f
+ echo "</pre>"
+done
+echo "</body>"
+echo "</html>"
