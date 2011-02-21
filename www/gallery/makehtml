@@ -2,7 +2,6 @@ echo "<html>"
 echo "<title>R sp graphics example figures</title>"
 echo "<body>"
 echo "<h1>R sp graphics example figures</h1>"
-echo "(png graphs were made using the GDD driver in package GDD)"
 cat rgallery.html
 echo "<ul>"
 for f
