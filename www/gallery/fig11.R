@@ -6,7 +6,7 @@ gridded(meuse.grid) = TRUE
 data(meuse)
 coordinates(meuse) = ~x+y
 data(meuse.riv)
-meuse.sl = SpatialLines(list(Lines(list(Line(meuse.riv)))))
+meuse.sl = SpatialLines(list(Lines(list(Line(meuse.riv)), ID="1")))
 
 ## image plot with points and lines
 image(meuse.grid["dist"], 

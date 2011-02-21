@@ -2,8 +2,7 @@
 <title>R sp graphics example figures</title>
 <body>
 <h1>R sp graphics example figures</h1>
-(png graphs were made using the png driver under linux; this uses
-anti-aliasing from the cairo device)
+(png graphs were made using the GDD driver in package GDD)
 <p>
 For a general gallery on R graphics, see:
 <a href="http://addictedtor.free.fr/graphiques" target="_blank">
@@ -456,7 +455,7 @@ gridded(meuse.grid) = TRUE
 data(meuse)
 coordinates(meuse) = ~x+y
 data(meuse.riv)
-meuse.sl = SpatialLines(list(Lines(list(Line(meuse.riv)))))
+meuse.sl = SpatialLines(list(Lines(list(Line(meuse.riv)), ID="1")))
 
 ## image plot with points and lines
 image(meuse.grid["dist"], 
