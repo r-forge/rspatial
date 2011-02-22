@@ -1,0 +1,5 @@
+svn up
+sh svn2cl.sh
+cat oChangeLog >> ChangeLog
+cp ChangeLog inst
+
