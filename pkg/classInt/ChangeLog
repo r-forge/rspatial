@@ -1,77 +1,68 @@
-2009-12-21 10:09  rsbivand
+2011-02-22 16:24  rsbivand
 
-	* DESCRIPTION, R/classInt.R, man/classIntervals.Rd: classInterval
-	  to shingle
+	* oChangeLog, svn2cl.xsl: tidy
 
-2009-10-20 10:22  rsbivand
+2011-02-22 16:18  rsbivand
 
-	* ChangeLog, inst/ChangeLog: argument passing
+	* .: tidy
 
-2009-10-20 10:19  rsbivand
+2009-12-21 09:10  rsbivand
 
-	* DESCRIPTION, R/classInt.R, man/classIntervals.Rd: argument
-	  passing
+	* classInterval to shingle
 
-2009-09-17 10:19  rsbivand
+2009-10-20 08:22  rsbivand
 
-	* DESCRIPTION, man/classIntervals.Rd, man/findColours.Rd,
-	  ChangeLog: fix documentation links
+	* argument passing
 
-2009-05-25 12:20  rsbivand
+2009-09-17 08:20  rsbivand
 
-	* DESCRIPTION, R/classInt.R, man/classIntervals.Rd,
-	  man/findColours.Rd, ChangeLog: representation update 2
+	* fix documentation links
 
-2009-05-25 08:17  rsbivand
+2009-05-25 10:20  rsbivand
 
-	* DESCRIPTION, R/classInt.R, man/classIntervals.Rd: representation
-	  overhaul 1
+	* representation update 2
 
-2009-05-12 10:33  rsbivand
+2009-05-25 06:17  rsbivand
 
-	* ChangeLog: tidy
+	* representation overhaul 1
 
-2009-05-12 10:33  rsbivand
+2009-05-12 08:33  rsbivand
 
-	* DESCRIPTION, R/classInt.R, man/classIntervals.Rd: correction to
-	  jenks style intervals
+	* tidy
 
-2008-01-18 22:40  rsbivand
+2009-05-12 08:33  rsbivand
 
-	* DESCRIPTION: jenks
+	* correction to jenks style intervals
 
-2007-11-21 19:13  rsbivand
+2008-01-18 21:40  rsbivand
 
-	* DESCRIPTION, R/classInt.R, man/classIntervals.Rd: Jenks
+	* jenks
 
-2007-09-04 14:49  rsbivand
+2007-11-21 18:13  rsbivand
 
-	* ChangeLog: Changelog
+	* Jenks
 
-2007-08-24 09:20  rsbivand
+2007-09-04 12:55  rsbivand
 
-	* DESCRIPTION, man/classIntervals.Rd: methods Rd
+	* Changelog
 
-2006-12-07 19:19  rsbivand
+2007-08-24 07:20  rsbivand
 
-	* DESCRIPTION, src/fish1.f: E300
+	* methods Rd
 
-2006-03-20 09:30  rsbivand
+2006-12-07 18:19  rsbivand
 
-	* DESCRIPTION, NAMESPACE, R/classInt.R, man/classIntervals.Rd,
-	  man/findColours.Rd, src/fish1.f: 1-5
+	* E300
 
-2006-03-10 14:13  rsbivand
+2006-03-20 08:31  rsbivand
 
-	* DESCRIPTION, NAMESPACE, R/classInt.R, data/jenks71.rda,
-	  man/classIntervals.Rd, man/findColours.Rd, man/findCols.Rd,
-	  man/getBclustClassIntervals.Rd, man/jenks.tests.Rd,
-	  man/jenks71.Rd: Initial revision
+	* 1-5
 
-2006-03-10 14:13  rsbivand
+2006-03-10 13:13  rsbivand
 
-	* DESCRIPTION, NAMESPACE, R/classInt.R, data/jenks71.rda,
-	  man/classIntervals.Rd, man/findColours.Rd, man/findCols.Rd,
-	  man/getBclustClassIntervals.Rd, man/jenks.tests.Rd,
-	  man/jenks71.Rd: initial import
+	* Initial revision
+
+1999-12-15 10:41  
+
+	* New repository initialized by cvs2svn.
 

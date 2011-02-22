@@ -1,5 +1,6 @@
 svn up
 sh svn2cl.sh
-cat oChangeLog >> ChangeLog
+# cat oChangeLog >> ChangeLog
+# appending oChangeLog does not seem necessary
 cp ChangeLog inst
 
