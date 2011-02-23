@@ -21,7 +21,7 @@ Objects can be created by calls of the form \code{CRS("projargs")}, where "proja
     \item{show}{\code{signature(object = "CRS")}: print projection arguments in object }
   }
 }
-\references{\url{http://proj.maptools.org/}}
+\references{\url{http://trac.osgeo.org/proj/}}
 \author{Roger Bivand \email{Roger.Bivand@nhh.no}}
 
 \note{
