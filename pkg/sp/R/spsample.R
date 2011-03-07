@@ -215,7 +215,8 @@ sample.Polygons = function(x, n, type = "random", bb = bbox(x),
 # added condition 100716
                 zzz <- do.call("rbind", bb_in)
 		if (holes[i] || (any(unlist(bb_in) == 1) &&
-                    !(sum(zzz[,i]) %% 2) == 0)) smple[i] <- FALSE
+                    !(sum(zzz[i,]) %% 2) == 0)) smple[i] <- FALSE
+# was [,i], changed to [i,] 110307 Aman Verma
 	    }
 	}
 	sum_area <- sum(area[smple])
