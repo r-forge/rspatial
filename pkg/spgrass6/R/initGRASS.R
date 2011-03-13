@@ -111,13 +111,13 @@ initGRASS <- function(gisBase, home, SG, gisDbase, location, mapset,
         if (mSG) gt <- gridparameters(SG)
         cat("proj:       0\n", file=pfile)
         cat("zone:       0\n", file=pfile, append=TRUE)
-        cat("north:      ", ifelse(mSG, bb["y", "max"], 1), "\n",
+        cat("north:      ", ifelse(mSG, bb[2, "max"], 1), "\n",
             sep="", file=pfile, append=TRUE)
-        cat("south:      ", ifelse(mSG, bb["y", "min"], 0), "\n",
+        cat("south:      ", ifelse(mSG, bb[2, "min"], 0), "\n",
             sep="", file=pfile, append=TRUE)
-        cat("east:       ", ifelse(mSG, bb["x", "max"], 1), "\n",
+        cat("east:       ", ifelse(mSG, bb[1, "max"], 1), "\n",
             sep="", file=pfile, append=TRUE)
-        cat("west:       ", ifelse(mSG, bb["x", "min"], 0), "\n",
+        cat("west:       ", ifelse(mSG, bb[1, "min"], 0), "\n",
             sep="", file=pfile, append=TRUE)
         cat("cols:       ", ifelse(mSG, gt$cells.dim[1], 1), "\n",
             sep="", file=pfile, append=TRUE)
