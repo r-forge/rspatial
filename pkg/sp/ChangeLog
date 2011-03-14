@@ -1,3 +1,16 @@
+2011-03-14 08:48  rsbivand
+
+	* man/gridded-methods.Rd: TRUE to value in usage in
+	  gridded-methods.Rd
+
+2011-03-13 20:10  rsbivand
+
+	* INDEX: remove INDEX
+
+2011-03-13 20:03  rsbivand
+
+	* ChangeLog, inst/ChangeLog: hypot for pythag in C code
+
 2011-03-13 20:01  rsbivand
 
 	* src/gcdist.c: hypot for pythag in C code
