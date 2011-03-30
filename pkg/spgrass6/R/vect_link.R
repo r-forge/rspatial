@@ -449,6 +449,7 @@ vect2neigh <- function(vname, ID=NULL, ignore.stderr = FALSE, remove=TRUE,
 		if (length(unique(ID)) != n) 
 			stop("fewer than n unique ID values")
     }
+    vname2_was_null <- FALSE
     if (is.null(vname2)) {
 	
 	pid <- as.integer(round(runif(1, 1, 1000)))
@@ -459,9 +460,10 @@ vect2neigh <- function(vname, ID=NULL, ignore.stderr = FALSE, remove=TRUE,
 #	else tull <- system(cmd, intern=TRUE, ignore.stderr=ignore.stderr)
         tull <- execGRASS("g.copy", parameters=list(vect=paste(vname, 
             vname2, sep=",")), intern=TRUE, ignore.stderr=ignore.stderr)
+        vname2_was_null <- TRUE
     }
     vname2a <- paste(vname2, "a", sep="")
-    if (is.null(vname2)) {
+    if (vname2_was_null) {
 #	cmd <- paste(paste("v.category", .addexe(), sep=""),
 #                    " ", vname2, " out=", vname2a, 
 #		"  layer=2 type=boundary option=add", sep="")
