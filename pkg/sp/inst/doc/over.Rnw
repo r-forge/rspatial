@@ -32,9 +32,7 @@ University of Muenster, Weseler Strasse 253, 48151 M\"{u}nster, Germany.
 \tableofcontents
 
 \section{Introduction}
-According to the free e-book
-\href{http://www.map-reading.com/}{Reading topographic maps} by
-Robert Davidson, 
+According to the free e-book by Davidson (2008),
 \begin{quotation} 
 {\em An overlay is a clear sheet of plastic or semi-transparent paper. It
 is used to display supplemental map and tactical information related
@@ -74,8 +72,8 @@ geometry (as in the case of the polygon-polygon intersection).
 
 This vignette will explain how the {\tt over} method in package
 {\tt sp} can be used to compute map overlays, meaning that instead
-of to overlaying maps visually, the the information that comes from
-combining two map layers is retrieved.
+of overlaying maps visually, the digital information that comes
+from combining two digitall map layers is retrieved.
 
 \section{Geometry overlays}
 We will use the word {\em geometry} to denote the purely spatial
@@ -93,8 +91,8 @@ will retrieve the geometry (location) indexes of B at the locations
 of A. More in particular, it returns an integer vector of length
 {\tt length(A)} that has {\tt NA} values for locations in {\tt A}
 not matching with locations in {\tt B} (e.g. those points outside
-a set of polygons). Selecting points {\em inside} some geometry {\tt B} 
-is done by
+a set of polygons). Selecting points {\em inside} some geometry (e.g.
+a set of polygons) {\tt B} is done by
 <<eval=FALSE>>=
 A[B]
 @
@@ -141,6 +139,33 @@ pts[pol]
 over(pol, pts)
 over(pol, pts, returnList = TRUE)
 row.names(pol[pts])
+@
+
+\section{Geometry overlays with {\tt rgeos}}
+
+\begin{figure}
+<<fig=TRUE>>=
+plot(pol, xlim = c(-1.1, 2.1), ylim = c(-1.1, 1.6), border=2:6, axes=TRUE)
+text(c(-1,0.1,0.1,1.1,0.45), c(0,0,-1,0,0.1), c("x1", "x2", "x3", "x4", "x5"))
+l1 = Lines(Line(coordinates(pts)), "L1")
+l2 = Lines(Line(rbind(c(1,1.5), c(1.5,1.5))), "L2")
+L = SpatialLines(list(l1,l2))
+lines(L, col = 'green')
+@
+\caption{ Toy data: two lines and (overlapping) polygons (x1-x5) }
+\label{fig:toy}
+\end{figure}
+
+<<>>=
+library(rgeos)
+over(pol, pol)
+over(pol, pol,returnList = TRUE)
+over(pol, L)
+over(L, pol)
+over(L, pol, returnList = TRUE)
+over(L, L)
+over(pts, L)
+over(L, pts)
 @
 
 \section{Extraction, aggregation of attributes}
@@ -214,7 +239,7 @@ x 400 m grid}
 \end{figure}
 
 \section{More tests, and their output}
-<<>>=
+<<keep.source=TRUE>>=
 gt = GridTopology(c(.5,.5), c(1,1), c(3,2))
 sg = SpatialGrid(gt)
 df6 = data.frame(z = 6:1, f = c("a", "a", "b", "b", "c", "c"))
@@ -272,6 +297,9 @@ over(spix, spixdf)
 \begin{itemize}
 \item O'Sullivan, D., Unwin, D. (2003) Geographical Information
 Analysis. Wiley, NJ.
+\item
+Davidson, R., 2008.  Reading topographic maps. Free e-book from:
+http://www.map-reading.com/
 \end{itemize}
 
 \end{document}
@@ -279,9 +307,9 @@ Analysis. Wiley, NJ.
 \begin{table}
 \begin{tabular}{|l|cccc|} \hline 
               & y: points & y: lines & y: polygons & y: pixels/grids \\ \hline
-x: points        &   x    &          &      x      &      x       \\
-x: lines         &        &          &             &              \\
-x: polygons      &   x    &          &             &      x       \\
+x: points        &   x    &    x     &      x      &      x       \\
+x: lines         &   x    &    x     &      x      &              \\
+x: polygons      &   x    &    x     &      x      &      x       \\
 x: pixels/grids  &   x    &          &      x      &      x       \\ \hline
 \end{tabular}
 \caption{ \code{over} methods implemented for different \code{x} 
