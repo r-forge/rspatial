@@ -1,6 +1,6 @@
 Package: sp
-Version: 0.9-80
-Date: 2011-04-15
+Version: 0.9-81
+Date: 2011-05-09
 Title: classes and methods for spatial data
 Author: Edzer Pebesma <edzer.pebesma@uni-muenster.de>, Roger Bivand <Roger.Bivand@nhh.no> and others
 Maintainer: Edzer Pebesma <edzer.pebesma@uni-muenster.de>
