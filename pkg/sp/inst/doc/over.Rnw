@@ -282,9 +282,9 @@ http://www.map-reading.com/
 \begin{tabular}{|l|cccc|} \hline 
               & y: points & y: lines & y: polygons & y: pixels/grids \\ \hline
 x: points        &   x    &    x     &      x      &      x       \\
-x: lines         &   x    &    x     &      x      &              \\
+x: lines         &   x    &    x     &      x      &      x       \\
 x: polygons      &   x    &    x     &      x      &      x       \\
-x: pixels/grids  &   x    &          &      x      &      x       \\ \hline
+x: pixels/grids  &   x    &    x     &      x      &      x       \\ \hline
 \end{tabular}
 \caption{ \code{over} methods implemented for different \code{x} 
 and \code{y} arguments.  }
