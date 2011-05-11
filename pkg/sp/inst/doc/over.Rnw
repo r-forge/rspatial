@@ -141,7 +141,18 @@ over(pol, pts, returnList = TRUE)
 row.names(pol[pts])
 @
 
-\section{Geometry overlays with {\tt rgeos}}
+\section{Lines, and Polygon-Polygon overlays with {\tt rgeos}}
+
+Rgeos provides functions to compute geometry intersections, i.e.
+for any set of (points, lines, polygons) to determine whether they
+have one ore more points in common. The \code{over} methods not
+provided by package \code{sp} can thus be completed; it involves
+{\em any} \code{over} methods where a \code{SpatialLines*} object
+is involved (either as \code{x} or \code{y}), and the method where
+\code{x} and \code{y} are both of class \code{SpatialPolygons*}.
+For this purpose, objects of class \code{SpatialPixels*} or
+\code{SpatialGrid*} are converted to \code{SpatialPolygons}. For
+the toy example extended with lines, see figure \ref{fig:lines}.
 
 \begin{figure}
 <<fig=TRUE>>=
@@ -153,7 +164,7 @@ L = SpatialLines(list(l1,l2))
 lines(L, col = 'green')
 @
 \caption{ Toy data: two lines and (overlapping) polygons (x1-x5) }
-\label{fig:toy}
+\label{fig:lines}
 \end{figure}
 
 <<>>=
@@ -167,6 +178,23 @@ over(L, L)
 over(pts, L)
 over(L, pts)
 @
+
+Another example overlays a line with a grid, shown in figure \ref{fig:grid}.
+\begin{figure}
+<<fig=TRUE>>=
+data(meuse.grid)
+gridded(meuse.grid) = ~x+y
+Pt = list(x = c(178274.9,181639.6), y = c(329760.4,333343.7))
+sl = SpatialLines(list(Lines(Line(cbind(Pt$x,Pt$y)), "L1")))
+image(meuse.grid)
+xo = over(sl, geometry(meuse.grid), returnList = TRUE)
+image(meuse.grid[xo[[1]], ],col=grey(0.5),add=T)
+lines(sl)
+@
+\caption{ Overlay of line with grid, identifying cells crossed (or touched)
+by the line }
+\label{fig:grid}
+\end{figure}
 
 \section{Extraction, aggregation of attributes}
 
@@ -238,60 +266,6 @@ x 400 m grid}
 \label{fig:agg}
 \end{figure}
 
-\section{More tests, and their output}
-<<keep.source=TRUE>>=
-gt = GridTopology(c(.5,.5), c(1,1), c(3,2))
-sg = SpatialGrid(gt)
-df6 = data.frame(z = 6:1, f = c("a", "a", "b", "b", "c", "c"))
-sgdf = SpatialGridDataFrame(gt, df6)
-over(sg, pol)
-over(sg, poldf)
-over(sg, poldf[1:2])
-
-spix = as(sg, "SpatialPixels")
-spixdf = as(sgdf, "SpatialPixelsDataFrame")
-over(spix, pol)
-over(spix, poldf)
-over(spix, poldf[1:2])
-
-over(pol, sg)
-over(pol, sgdf)
-over(pol, sgdf[1], fn = mean)
-
-over(pol, spix)
-over(pol, spixdf)
-over(pol, spixdf[1], fn = mean)
-
-over(pts, sg)
-over(pts, spix)
-over(pts, sgdf)
-over(pts, spixdf)
-
-#over(pts, sg, returnList=TRUE)
-#over(pts, spix, returnList=TRUE)
-#over(pts, sgdf, returnList=TRUE)
-#over(pts, spixdf, returnList=TRUE)
-
-over(sg, sg)
-over(sg, spix)
-over(sg, sgdf)
-over(sg, spixdf)
-
-#over(sg, sg, returnList=TRUE)
-#over(sg, spix, returnList=TRUE)
-#over(sg, sgdf, returnList=TRUE)
-#over(sg, spixdf, returnList=TRUE)
-
-over(spix, sg)
-over(spix, spix)
-over(spix, sgdf)
-over(spix, spixdf)
-
-#over(spix, sg, returnList=TRUE)
-#over(spix, spix, returnList=TRUE)
-#over(spix, sgdf, returnList=TRUE)
-#over(spix, spixdf, returnList=TRUE)
-@
 
 \section*{References}
 \begin{itemize}
