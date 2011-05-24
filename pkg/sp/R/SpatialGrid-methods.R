@@ -1,11 +1,13 @@
 SpatialPixels = function(points, tolerance = sqrt(.Machine$double.eps), 
-		proj4string = CRS(as.character(NA)), round=NULL) {
+		proj4string = CRS(as.character(NA)), round = NULL, grid = NULL) {
 	if (!is(points, "SpatialPoints"))
 		stop("points should be of class or extending SpatialPoints")
 	is.gridded = gridded(points)
 #	points = as(points, "SpatialPoints")
-	if (is.na(proj4string(points))) proj4string(points) = proj4string
-	grid = points2grid(points, tolerance, round)
+	if (is.na(proj4string(points))) 
+		proj4string(points) = proj4string
+	if (is.null(grid))
+		grid = points2grid(points, tolerance, round)
 	if (!is.gridded) {
 		points@bbox[,1] = points@bbox[,1] - 0.5 * grid@cellsize
 		points@bbox[,2] = points@bbox[,2] + 0.5 * grid@cellsize
