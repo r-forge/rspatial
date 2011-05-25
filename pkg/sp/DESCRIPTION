@@ -3,6 +3,8 @@ Version: 0.9-82
 Date: 2011-05-10
 Title: classes and methods for spatial data
 Author: Edzer Pebesma <edzer.pebesma@uni-muenster.de>, Roger Bivand <Roger.Bivand@nhh.no> and others
+Author@R: c(person("Edzer", "Pebesma", email = "edzer.pebesma@uni-muenster.de"),
+	person("Roger", "Bivand", email = "Roger.Bivand@nhh.no"))
 Maintainer: Edzer Pebesma <edzer.pebesma@uni-muenster.de>
 Depends: R (>= 2.10.0), methods
 Suggests: lattice, RColorBrewer, rgdal, rgeos (>= 0.1-5)

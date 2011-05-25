@@ -134,7 +134,7 @@ subset.SpatialPixels <- function(x, subset, select, drop = FALSE, ...) {
 }
 
 setMethod("[", "SpatialPixels",
-	function(x, i, j, ..., drop = TRUE) {
+	function(x, i, j, ..., drop = FALSE) {
 #		if (!missing(drop))
 #			stop("don't supply drop: it needs to be FALSE anyway")
 		if (!missing(j))
