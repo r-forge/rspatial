@@ -370,8 +370,12 @@ print.classIntervals <- function(x, digits = getOption("digits"), ..., under="un
 
 nPartitions <- function(x) {
   n <- attr(x, "nobs")
-  k <- length(x$brks)-1
-  (factorial(n - 1))/(factorial(n - k) * factorial(k - 1))
+  if (n > 170) ret <- Inf
+  else {
+      k <- length(x$brks)-1
+      ret <- (factorial(n - 1))/(factorial(n - k) * factorial(k - 1))
+  }
+  ret
 }
 
 getBclustClassIntervals <- function(clI, k) {

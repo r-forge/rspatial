@@ -70,7 +70,7 @@ classIntervals2shingle(x)
 
 \author{Roger Bivand <Roger.Bivand@nhh.no>}
 
-\note{From version 0.1-11, the default representation has been changed to use \code{cutlabels=TRUE}, and representation within intervals has been corrected, thanks to Richard Dunlap.}
+\note{From version 0.1-11, the default representation has been changed to use \code{cutlabels=TRUE}, and representation within intervals has been corrected, thanks to Richard Dunlap. From version 0.1-15, the print method drops the calculation of the possible number of combinations of observations into classes, which generated warnings for n > 170.}
 
 \seealso{\code{\link{pretty}}, \code{\link[stats]{quantile}}, \code{\link[stats]{kmeans}}, \code{\link[stats]{hclust}}, \code{\link[e1071]{bclust}}, \code{\link{findInterval}}, \code{\link[grDevices]{colorRamp}}, \code{\link[grDevices]{nclass}}, \code{\link[lattice]{shingle}}}
 \examples{
