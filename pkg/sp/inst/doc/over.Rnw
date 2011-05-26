@@ -73,13 +73,15 @@ geometry (as in the case of the polygon-polygon intersection).
 This vignette will explain how the {\tt over} method in package
 {\tt sp} can be used to compute map overlays, meaning that instead
 of overlaying maps visually, the digital information that comes
-from combining two digitall map layers is retrieved.
+from combining two digital map layers is retrieved.
 
 \section{Geometry overlays}
 We will use the word {\em geometry} to denote the purely spatial
-characteristics, meaning that attributes (properties of a particular
-geometry) are ignored. With {\em location} we denote a point, line,
-polygon or grid cell.
+characteristics, meaning that attributes (qualities, properties of
+something at a particular location) are ignored. With {\em location}
+we denote a point, line, polygon or grid cell. Section \ref{attr}
+will discuss how to retrieve and possibly aggregate or summarize
+attributes found there.
 
 Given two geometries, {\tt A} and {\tt B}, the following equivalent
 commands
@@ -87,11 +89,13 @@ commands
 A %over% B
 over(A, B)
 @
-will retrieve the geometry (location) indexes of B at the locations
-of A. More in particular, it returns an integer vector of length
-{\tt length(A)} that has {\tt NA} values for locations in {\tt A}
+retrieve the geometry (location) indices of \code{B} at the locations
+of \code{A}. More in particular, an integer vector of length
+{\tt length(A)} is returned, with {\tt NA} values for locations in {\tt A}
 not matching with locations in {\tt B} (e.g. those points outside
-a set of polygons). Selecting points {\em inside} some geometry (e.g.
+a set of polygons). 
+
+Selecting points of \code{A} {\em inside} some geometry \code{B} (e.g.
 a set of polygons) {\tt B} is done by
 <<eval=FALSE>>=
 A[B]
@@ -121,21 +125,34 @@ pol = SpatialPolygons(list(
 @
 and shown in figure \ref{fig:toy}.
 \begin{figure}
-<<fig=TRUE>>=
+<<fig=TRUE,echo=FALSE>>=
 plot(pol, xlim = c(-1.1, 2.1), ylim = c(-1.1, 1.6), border=2:6, axes=TRUE)
 points(pts, col='red')
-text(c(-1,0.1,0.1,1.1,0.45), c(0,0,-1,0,0.1), c("x1", "x2", "x3", "x4", "x5"))
+text(c(-1,0.1,0.1,1.1,0.45), c(0,0,-1.05,0,0.1), 
+	c("x1", "x2", "x3", "x4", "x5"))
 text(coordinates(pts), pos=1, row.names(pts))
 @
 \caption{ Toy data: points (a-d), and (overlapping) polygons (x1-x5) }
 \label{fig:toy}
 \end{figure}
 
+Now, the polygons \code{pol} in which points \code{pts} lie are
 <<>>=
 over(pts, pol)
+@
+As points \code{b} and \code{c} fall in two overlapping polygons, we can
+retrieve the complete information as a list:
+<<>>=
 over(pts, pol, returnList = TRUE)
+@
+and the appropriate points falling in any of the polygons are selected by
+<<>>=
 pts[pol]
-
+@
+The reverse, identical sequence of commands for 
+selecting polygons \code{pol} that have 
+(one or more) points of \code{pts} in them is done by
+<<>>=
 over(pol, pts)
 over(pol, pts, returnList = TRUE)
 row.names(pol[pts])
@@ -143,30 +160,35 @@ row.names(pol[pts])
 
 \section{Lines, and Polygon-Polygon overlays with {\tt rgeos}}
 
-Rgeos provides functions to compute geometry intersections, i.e.
-for any set of (points, lines, polygons) to determine whether they
-have one ore more points in common. The \code{over} methods not
-provided by package \code{sp} can thus be completed; it involves
-{\em any} \code{over} methods where a \code{SpatialLines*} object
-is involved (either as \code{x} or \code{y}), and the method where
-\code{x} and \code{y} are both of class \code{SpatialPolygons*}.
-For this purpose, objects of class \code{SpatialPixels*} or
-\code{SpatialGrid*} are converted to \code{SpatialPolygons}. For
-the toy example extended with lines, see figure \ref{fig:lines}.
+Package \code{sp} provides many of the \code{over} methods,
+but not all.  Package \code{rgeos} provides functions to compute
+geometry intersections, i.e.  for any set of (points, lines,
+polygons) to determine whether they have one ore more points in
+common. The \code{over} methods not provided by package \code{sp}
+can thus be completed; it involves {\em any} \code{over} methods
+where a \code{SpatialLines} object is involved (either as \code{x}
+or \code{y}), and the method where \code{x} and \code{y} are both
+of class \code{SpatialPolygons}. For this purpose, objects of
+class \code{SpatialPixels} or \code{SpatialGrid} are converted to
+\code{SpatialPolygons}. For the toy example extended with lines,
+see figure \ref{fig:lines}.
 
 \begin{figure}
-<<fig=TRUE>>=
+<<fig=TRUE,echo=FALSE>>=
 plot(pol, xlim = c(-1.1, 2.1), ylim = c(-1.1, 1.6), border=2:6, axes=TRUE)
-text(c(-1,0.1,0.1,1.1,0.45), c(0,0,-1,0,0.1), c("x1", "x2", "x3", "x4", "x5"))
+text(c(-1,0.1,0.1,1.1,0.45), c(0,0,-1.05,0,0.1), c("x1", "x2", "x3", "x4", "x5"))
 l1 = Lines(Line(coordinates(pts)), "L1")
 l2 = Lines(Line(rbind(c(1,1.5), c(1.5,1.5))), "L2")
 L = SpatialLines(list(l1,l2))
 lines(L, col = 'green')
+text(c(0.52, 1.52), c(1.5, 1.5), c("L1", "L2"))
 @
 \caption{ Toy data: two lines and (overlapping) polygons (x1-x5) }
 \label{fig:lines}
 \end{figure}
 
+The set of \code{over} operations on the polygons, lines and points 
+is shown below (note that lists and vectors are named in this case):
 <<>>=
 library(rgeos)
 over(pol, pol)
@@ -197,6 +219,7 @@ by the line }
 \end{figure}
 
 \section{Extraction, aggregation of attributes}
+\label{attr}
 
 This section will demonstrate how, using \code{over}, attribute
 values of argument \code{y} at locations of \code{x} can be
