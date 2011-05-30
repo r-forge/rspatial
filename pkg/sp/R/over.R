@@ -40,7 +40,8 @@
 '%over%' = function(x,y) over(x,y)
 
 # when changing this function, we also might want to change
-# overGeomGeomDF in rgeos!!!
+# overGeomGeomDF in rgeos,
+# ... and overDFGenericST in spacetime.
 overDFGeneric = function(x, y, returnList = FALSE, fn = NULL, ...) {
 	stopifnot(identical(proj4string(x),proj4string(y)))
 	r = over(x, geometry(y), returnList = TRUE)
