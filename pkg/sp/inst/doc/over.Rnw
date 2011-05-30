@@ -72,8 +72,10 @@ geometry (as in the case of the polygon-polygon intersection).
 
 This vignette will explain how the {\tt over} method in package
 {\tt sp} can be used to compute map overlays, meaning that instead
-of overlaying maps visually, the digital information that comes
-from combining two digital map layers is retrieved.
+of overlaying maps visually, the digital information that comes from
+combining two digital map layers is retrieved. From there, methods to
+{\em aggregate} (compute summary statistics; Heuvelink and Pebesma,
+1999) over a spatial domain will be developed and demonstrated.
 
 \section{Geometry overlays}
 We will use the word {\em geometry} to denote the purely spatial
@@ -290,11 +292,12 @@ gt = GridTopology(off, c(400,400), c(8,11))
 SG = SpatialGrid(gt)
 agg = aggregate(meuse.grid[3], SG)
 @
-Figure \ref{fig:agg} shows the result of this aggregation (colors)
-and the points (+) of the original grid. Function \code{aggregate}
-aggregates its first argument over the geometries of the second
-argument, and returns a geometry with attributes.  The default
-aggregation function (\code{mean}) can be overridden.
+Figure \ref{fig:agg} shows the result of this aggregation
+(\code{agg}, in colors) and the points (+) of the original grid
+(\code{meuse.grid}). Function \code{aggregate} aggregates its first
+argument over the geometries of the second argument, and returns
+a geometry with attributes.  The default aggregation function
+(\code{mean}) can be overridden.
 
 \begin{figure}[htb]
 <<fig=TRUE,echo=FALSE>>=
@@ -306,6 +309,16 @@ x 400 m grid}
 \label{fig:agg}
 \end{figure}
 
+An example of the aggregated values of \code{meuse.grid} along
+(or under) the line shown in Figure \ref{fig:line} are
+<<>>=
+sl.agg = aggregate(meuse.grid, sl)
+class(sl.agg)
+as.data.frame(sl.agg)
+@
+Function \code{aggregate} returns a spatial object of the same
+class of \code{sl} (\code{SpatialLines}), and \code{as.data.frame}
+shows the attribute table as a \code{data.frame}.
 
 \section*{References}
 \begin{itemize}
@@ -313,7 +326,11 @@ x 400 m grid}
 Analysis. Wiley, NJ.
 \item
 Davidson, R., 2008.  Reading topographic maps. Free e-book from:
-http://www.map-reading.com/
+\url{http://www.map-reading.com/}
+\item
+Heuvelink, G.B.M., and E.J. Pebesma, 1999.  Spatial aggregation
+and soil process modelling Geoderma 89, 1-2, 47-65.
+\url{http://dx.doi.org/10.1016/S0016-7061(98)00077-9}
 \end{itemize}
 
 \end{document}
