@@ -25,8 +25,7 @@
 #		m[i,lst[[i]]] = TRUE
 #	lapply(1:nc, function(x) which(m[,x]))
 #}
-# but the following does this more efficient:
-
+# but the following does this more efficient, memory-wise:
 .invert = function(x, nr, nc) { 
 	stopifnot(nr == length(x)) # obsolete argument!
 	ret = cbind(rep(1:nr, times = sapply(x, length)), unlist(x))
@@ -121,42 +120,49 @@ setMethod("over",
 setMethod("over", signature("SpatialPoints", "SpatialGrid"), 
 	function(x, y, returnList = FALSE, fn = NULL, ...) {
 		stopifnot(identical(proj4string(x),proj4string(y)))
-		stopifnot(returnList == FALSE)
-		getGridIndex(coordinates(x), y@grid, all.inside = FALSE)
+		idx = getGridIndex(coordinates(x), y@grid, all.inside = FALSE)
+		.index2list(idx, returnList)
 	}
 )
 
 setMethod("over", signature("SpatialPoints", "SpatialGridDataFrame"), 
 	function(x, y, returnList = FALSE, fn = NULL, ...) {
 		stopifnot(identical(proj4string(x),proj4string(y)))
-		stopifnot(returnList == FALSE)
 		idx = over(x, geometry(y))
 		ret = y@data[idx,,drop=FALSE]
 		row.names(ret) = row.names(x)
-		ret
+		.index2list(ret, returnList)
 	}
 )
 
 setMethod("over", signature("SpatialPoints", "SpatialPixels"), 
 	function(x, y, returnList = FALSE, fn = NULL, ...) {
 		stopifnot(identical(proj4string(x),proj4string(y)))
-		stopifnot(returnList == FALSE)
 		idx = getGridIndex(coordinates(x), y@grid, all.inside = FALSE)
 		idx = match(idx, y@grid.index)
-		idx
+		.index2list(idx, returnList)
 	}
 )
 
 setMethod("over", signature("SpatialPoints", "SpatialPixelsDataFrame"), 
 	function(x, y, returnList = FALSE, fn = NULL, ...) {
 		stopifnot(identical(proj4string(x),proj4string(y)))
-		stopifnot(returnList == FALSE)
 		idx = over(x, geometry(y))
 		ret = y@data[idx,,drop=FALSE]
 		row.names(ret) = row.names(x)
-		ret
+		.index2list(ret, returnList)
 	}
 )
+
+.index2list = function(x, returnList) {
+	if (returnList) {
+		l = lapply(1:length(x), function(x) { integer(0) })
+		notNA = !is.na(x)
+		l[notNA] = x[notNA]
+		l
+	} else
+		x
+}
 
 aggregate.Spatial = function(x, by, FUN = mean, ...) {
 	by0 = by

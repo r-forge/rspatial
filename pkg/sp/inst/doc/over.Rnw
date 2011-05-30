@@ -24,7 +24,7 @@
 \author{Edzer Pebesma\footnote{Institute for Geoinformatics,
 University of Muenster, Weseler Strasse 253, 48151 M\"{u}nster, Germany.
 {\tt edzer.pebesma@uni-muenster.de}}}
-\date{Nov 2010}
+\date{\today}
 
 \begin{document}
 
@@ -95,14 +95,14 @@ of \code{A}. More in particular, an integer vector of length
 not matching with locations in {\tt B} (e.g. those points outside
 a set of polygons). 
 
-Selecting points of \code{A} {\em inside} some geometry \code{B} (e.g.
-a set of polygons) {\tt B} is done by
+Selecting points of \code{A} {\em inside} or {\em on} some geometry
+\code{B} (e.g.  a set of polygons) {\tt B} is done by
 <<eval=FALSE>>=
-A[B]
+A[B,]
 @
-which is equivalent to
+which is short for
 <<eval=FALSE>>=
-A[!is.na(over(A,B))]
+A[!is.na(over(A,B)),]
 @
 We will now illustrate this with toy data created by
 <<keep.source=TRUE>>=
@@ -158,20 +158,80 @@ over(pol, pts, returnList = TRUE)
 row.names(pol[pts])
 @
 
+\section{Using \code{over} to extract attributes}
+\label{attr}
+
+This section shows how \code{over(x,y)} is used to extract attribute
+values of argument \code{y} at locations of \code{x}.  The return
+value is either an (aggregated) data frame, or a list.
+
+We now create an example \code{SpatialPointsDataFrame} and a
+\code{SpatialPolygonsDataFrame} using the toy data created earlier:
+<<>>=
+zdf = data.frame(z1 = 1:4, z2=4:1, f = c("a", "a", "b", "b"),
+	row.names = c("a", "b", "c", "d"))
+zdf
+ptsdf = SpatialPointsDataFrame(pts, zdf)
+
+zpl = data.frame(z = c(10, 15, 25, 3, 0), zz=1:5, 
+	f = c("z", "q", "r", "z", "q"), row.names = c("x1", "x2", "x3", "x4", "x5"))
+zpl
+poldf = SpatialPolygonsDataFrame(pol, zpl)
+@
+
+In the simplest example 
+<<>>=
+over(pts, poldf)
+@
+a \code{data.frame} is created with each row corresponding to
+the first element of the \code{poldf} attributes at locations
+in \code{pts}.
+
+As an alternative, we can pass a user-defined function to process
+the table (selecting those columns to which the function makes sense):
+<<>>=
+over(pts, poldf[1:2], fn = mean)
+@
+
+To obtain the complete list of table entries at each point of \code{pts}, 
+we use the \code{returnList} argument:
+<<>>=
+over(pts, poldf, returnList = TRUE)
+@
+
+The same actions can be done when the arguments are reversed:
+<<>>=
+over(pol, ptsdf)
+over(pol, ptsdf[1:2], fn = mean)
+@
+
 \section{Lines, and Polygon-Polygon overlays with {\tt rgeos}}
 
-Package \code{sp} provides many of the \code{over} methods,
-but not all.  Package \code{rgeos} provides functions to compute
+Package \code{sp} provides many of the \code{over} methods, but
+not all.  Package \code{rgeos} provides functions to compute
 geometry intersections, i.e.  for any set of (points, lines,
 polygons) to determine whether they have one ore more points in
 common. The \code{over} methods not provided by package \code{sp}
 can thus be completed; it involves {\em any} \code{over} methods
 where a \code{SpatialLines} object is involved (either as \code{x}
-or \code{y}), and the method where \code{x} and \code{y} are both
-of class \code{SpatialPolygons}. For this purpose, objects of
-class \code{SpatialPixels} or \code{SpatialGrid} are converted to
-\code{SpatialPolygons}. For the toy example extended with lines,
-see figure \ref{fig:lines}.
+or \code{y}), and the method where \code{x} and \code{y} are both of
+class \code{SpatialPolygons} (table \ref{tab}). For this purpose,
+objects of class \code{SpatialPixels} or \code{SpatialGrid} are
+converted to \code{SpatialPolygons}. For the toy example extended
+with lines, see figure \ref{fig:lines}.
+
+\begin{table}
+\begin{tabular}{|l|cccc|} \hline 
+              & y: points & y: lines & y: polygons & y: pixels/grids \\ \hline
+x: points        &   s    &    r     &      s      &      s       \\
+x: lines         &   r    &    r     &      r      &      r       \\
+x: polygons      &   s    &    r     &      r      &      s       \\
+x: pixels/grids  &   s    &    r     &      s      &      s       \\ \hline
+\end{tabular}
+\caption{ \code{over} methods implemented for different \code{x} 
+and \code{y} arguments (x: sp; r: rgeos).  }
+\label{tab}
+\end{table}
 
 \begin{figure}
 <<fig=TRUE,echo=FALSE>>=
@@ -218,54 +278,8 @@ by the line }
 \label{fig:grid}
 \end{figure}
 
-\section{Extraction, aggregation of attributes}
-\label{attr}
 
-This section will demonstrate how, using \code{over}, attribute
-values of argument \code{y} at locations of \code{x} can be
-extracted, and either aggregated to a data frame, or reported as
-a list.
-
-\subsection{Extracting attribute values}
-This example creates a \code{SpatialPointsDataFrame} and a
-\code{SpatialPolygonsDataFrame} for the toy data created earlier:
-<<>>=
-zdf = data.frame(z1 = 1:4, z2=4:1, f = c("a", "a", "b", "b"),
-	row.names = c("a", "b", "c", "d"))
-zdf
-ptsdf = SpatialPointsDataFrame(pts, zdf)
-
-zpl = data.frame(z = c(10, 15, 25, 3, 0), zz=1:5, 
-	f = c("z", "q", "r", "z", "q"), row.names = c("x1", "x2", "x3", "x4", "x5"))
-zpl
-poldf = SpatialPolygonsDataFrame(pol, zpl)
-@
-
-The first example creates a data.frame, where for each element in \code{pts}
-the {\em first} element of the corresponding attribute table record of the
-second argument is taken:
-<<>>=
-over(pts, poldf)
-@
-
-As an alternative, we can pass a user-defined function to process the table:
-<<>>=
-over(pts, poldf[1:2], fn = mean)
-@
-
-To obtain the list of table entries for each point, use the
-\code{returnList} argument:
-<<>>=
-over(pts, poldf, returnList = TRUE)
-@
-
-The same actions can be done when the arguments are reversed:
-<<>>=
-over(pol, ptsdf)
-over(pol, ptsdf[1:2], fn = mean)
-@
-
-\subsection{Aggregation}
+\section{Aggregation}
 In the following example, the values of a fine grid with 40 m x 40
 m cells are aggregated to a course grid with 400 m x 400 m cells.
 <<>>=
@@ -277,7 +291,10 @@ SG = SpatialGrid(gt)
 agg = aggregate(meuse.grid[3], SG)
 @
 Figure \ref{fig:agg} shows the result of this aggregation (colors)
-and the points (+) of the original grid. 
+and the points (+) of the original grid. Function \code{aggregate}
+aggregates its first argument over the geometries of the second
+argument, and returns a geometry with attributes.  The default
+aggregation function (\code{mean}) can be overridden.
 
 \begin{figure}[htb]
 <<fig=TRUE,echo=FALSE>>=
@@ -300,15 +317,3 @@ http://www.map-reading.com/
 \end{itemize}
 
 \end{document}
-
-\begin{table}
-\begin{tabular}{|l|cccc|} \hline 
-              & y: points & y: lines & y: polygons & y: pixels/grids \\ \hline
-x: points        &   x    &    x     &      x      &      x       \\
-x: lines         &   x    &    x     &      x      &      x       \\
-x: polygons      &   x    &    x     &      x      &      x       \\
-x: pixels/grids  &   x    &    x     &      x      &      x       \\ \hline
-\end{tabular}
-\caption{ \code{over} methods implemented for different \code{x} 
-and \code{y} arguments.  }
-\end{table}
