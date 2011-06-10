@@ -1,3 +1,13 @@
+2011-06-10 22:20  rsbivand
+
+	* R/SpatialPolygonsDataFrame-methods.R:
+	  SPDF sizes sanity check
+
+2011-06-10 22:05  rsbivand
+
+	* ChangeLog,
+	  inst/ChangeLog: sp comment buffer overflow fix
+
 2011-06-10 22:03  rsbivand
 
 	* DESCRIPTION,
