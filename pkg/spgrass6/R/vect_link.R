@@ -412,7 +412,7 @@ putSites6sp <- function(SPDF, vname, #factor2char = TRUE,
 #
 
 vect2neigh <- function(vname, ID=NULL, ignore.stderr = FALSE, remove=TRUE,
-    vname2=NULL) {
+    vname2=NULL, units="k") {
 
 
     vinfo <- vInfo(vname)
@@ -516,7 +516,7 @@ vect2neigh <- function(vname, ID=NULL, ignore.stderr = FALSE, remove=TRUE,
 #	if(.Platform$OS.type == "windows") system(cmd)
 #	else system(cmd, ignore.stderr=ignore.stderr)
         execGRASS("v.to.db", parameters=list(map=vname2a, option="length",
-                columns="length", layer=as.integer(2)),
+                columns="length", layer=as.integer(2), units=units),
                 ignore.stderr=ignore.stderr)
 
 #	cmd <- paste(paste("v.db.select", .addexe(), sep=""),
