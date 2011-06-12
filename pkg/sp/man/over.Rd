@@ -39,13 +39,13 @@ x \%over\% y
 \item{...}{arguments passed on to function fn or FUN}
 }
 \value{ 
-an object of length \code{length(x)}, or a data.frame with number
-of rows equal to \code{length(x)}. If \code{returnList} is FALSE,
-a vector with indices of \code{y} for each geometry (point, grid
-cell centre, polygon or lines) in \code{x}.  if \code{returnList} is
-TRUE, a list of length \code{length(x)}, with list element \code{i}
-the vector of indices of the geometries in \code{y} that correspond
-to the $i$-th geometry in \code{x}.
+an object of length \code{length(x)}, or a data.frame with
+number of rows equal to \code{length(x)}. If \code{returnList}
+is FALSE, a vector with the (first) index of \code{y} for each
+geometry (point, grid cell centre, polygon or lines) in \code{x}.
+if \code{returnList} is TRUE, a list of length \code{length(x)}, with
+list element \code{i} the vector of all indices of the geometries
+in \code{y} that correspond to the $i$-th geometry in \code{x}.
 
 Function aggregate.Spatial aggregates the attribute values
 of \code{x} over the geometry of \code{by}, using aggregation
@@ -97,6 +97,11 @@ points outside the grid }
 polygon vertex are considered to be inside the polygon.
 
 These methods assume that pixels and grid cells are never
-overlapping.  }
+overlapping.  
+
+Methods that involve \code{SpatialLines} objects, or pairs of
+\code{SpatialPolygons} require, and are implemented in, package
+rgeos.}
+
 \seealso{\link{overlay}, \link{point.in.polygon}}
 \keyword{methods}
