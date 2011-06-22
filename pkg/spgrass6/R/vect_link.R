@@ -43,7 +43,7 @@ readVECT6 <- function(vname, layer, type=NULL, plugin=NULL,
 	if (!(driver %in% ogrD))
             stop(paste("Requested driver", driver, "not available in rgdal"))
         ogrDGRASS <- execGRASS("v.in.ogr", flags="f", intern=TRUE,
-            ignore.stderr=ignore.stderr)
+            ignore.stderr=TRUE)
         ogrDGRASSs <- strsplit(ogrDGRASS, ": ")
         if (!(driver %in% sapply(ogrDGRASSs, "[", 2)))
             stop(paste("Requested driver", driver, "not available in GRASS"))
@@ -71,7 +71,8 @@ readVECT6 <- function(vname, layer, type=NULL, plugin=NULL,
 		system(paste("cygpath -w", gtmpfl1, sep=" "), intern=TRUE), 
 		gtmpfl1)
 
-	shname <- substring(vname, 1, ifelse(nchar(vname) > 8, 8, 
+	if (driver == "ESRI Shapefile") 
+	        shname <- substring(vname, 1, ifelse(nchar(vname) > 8, 8, 
 		nchar(vname)))
 
         flags <- NULL
@@ -244,7 +245,8 @@ writeVECT6 <- function(SDF, vname, #factor2char = TRUE,
 		system(paste("cygpath -w", gtmpfl1, sep=" "), intern=TRUE), 
 		gtmpfl1)
 
-	shname <- substring(vname, 1, ifelse(nchar(vname) > 8, 8, 
+	if (driver == "ESRI Shapefile") 
+                shname <- substring(vname, 1, ifelse(nchar(vname) > 8, 8, 
 		nchar(vname)))
 
         if (is_dDriver){
