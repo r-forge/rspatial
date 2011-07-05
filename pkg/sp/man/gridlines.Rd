@@ -33,6 +33,20 @@ coordinates(meuse) = ~x+y
 plot(meuse)
 plot(gridlines(meuse), add=TRUE)
 title("default gridlines within Meuse bounding box")
+
+if (require(rgdal)) {
+proj4string(meuse) <- CRS("+init=epsg:28992")
+meuse_ll <- spTransform(meuse, CRS("+proj=longlat +datum=WGS84"))
+grd <- gridlines(meuse_ll)
+grd_x <- spTransform(grd, CRS("+init=epsg:28992"))
+plot(meuse)
+plot(grd_x, add=TRUE, lty=2)
+grdat_ll <- gridat(meuse_ll)
+grdat_x <- spTransform(grdat_ll, CRS("+init=epsg:28992"))
+text(coordinates(grdat_x), labels=parse(text=grdat_x$labels),
+  pos=grdat_x$pos, offset=grdat_x$offset)
+}
+
 }
 
 \keyword{spatial}
