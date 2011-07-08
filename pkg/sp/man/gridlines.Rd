@@ -6,7 +6,7 @@
 \description{ Create N-S and E-W grid lines over a geographic region; \code{gridat} permits the construction of points and labels for non-projected grid annotation }
 \usage{
 gridlines(x, easts = pretty(bbox(x)[1,]), norths = pretty(bbox(x)[2,]), ndiscr = 20) 
-gridat(x, easts = pretty(bbox(x)[1,]), norths = pretty(bbox(x)[2,]), offset=0.5)
+gridat(x, easts = pretty(bbox(x)[1,]), norths = pretty(bbox(x)[2,]), offset=0.5, side="WS")
 }
 \arguments{
   \item{x}{object deriving from class \link{Spatial-class}}
@@ -15,6 +15,7 @@ gridat(x, easts = pretty(bbox(x)[1,]), norths = pretty(bbox(x)[2,]), offset=0.5)
   \item{ndiscr}{integer; number of points used to discretize the line, could
   be set to 2, unless the grid is (re)projected}
   \item{offset}{offset value to be returned, see \link{text}}
+  \item{side}{default \dQuote{WS}, if \dQuote{EN} labels placed on the top and right borders}
 }
 
 \value{ \code{gridlines} returns an object of class \link{SpatialLines-class}, with lines as specified;
@@ -42,6 +43,12 @@ grd_x <- spTransform(grd, CRS("+init=epsg:28992"))
 plot(meuse)
 plot(grd_x, add=TRUE, lty=2)
 grdat_ll <- gridat(meuse_ll)
+grdat_x <- spTransform(grdat_ll, CRS("+init=epsg:28992"))
+text(coordinates(grdat_x), labels=parse(text=grdat_x$labels),
+  pos=grdat_x$pos, offset=grdat_x$offset)
+plot(meuse)
+plot(grd_x, add=TRUE, lty=2)
+grdat_ll <- gridat(meuse_ll, side="EN")
 grdat_x <- spTransform(grdat_ll, CRS("+init=epsg:28992"))
 text(coordinates(grdat_x), labels=parse(text=grdat_x$labels),
   pos=grdat_x$pos, offset=grdat_x$offset)
