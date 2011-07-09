@@ -241,6 +241,14 @@ setAs("SpatialGrid", "SpatialPixels", function(from)
 #setAs("SpatialGrid", "SpatialPoints", function(from)
 #	SpatialPoints(coordinates(from), from@proj4string)
 #)
+#xxxx
+setAs("SpatialGrid", "SpatialPoints", function(from)
+	as(as(from, "SpatialPixels"), "SpatialPoints")
+)
+#setIs("SpatialGrid", "SpatialPoints", coerce = function(from)
+#	as(as(from, "SpatialPixels"), "SpatialPoints"), 
+#	replace = function(obj, value) stop("no replace function for this coercion")
+#)
 
 print.SpatialPixels = function(x, ...) {
 	cat("Object of class SpatialPixels\n")
