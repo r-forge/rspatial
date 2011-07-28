@@ -26,6 +26,9 @@ kullnagar.stat<-function(data, fractpop, use.poisson=TRUE, log.v=FALSE)
 {
 
 	n<-length(data[[1]])
+# 110728 RSB/TNT
+        if (storage.mode(data$Observed) != "double")
+                data$Observed <- as.double(data$Observed)
 
 	if(use.poisson)
 	{
