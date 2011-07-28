@@ -1,7 +1,7 @@
 \name{kn.iscluster}
 
 \alias{kn.iscluster}
-
+\alias{kn.gumbel.iscluster}
 \title{Clustering function for Kulldorff and Nagarwalla's statistic}
 
 \description{
@@ -16,7 +16,10 @@ See \emph{opgam.iscluster.default} for more details.
 
 
 \usage{
-kn.iscluster(data, idx, idxorder, alpha, fractpop, use.poisson=TRUE, model="poisson", R, mle)
+kn.iscluster(data, idx, idxorder, alpha, fractpop, use.poisson=TRUE,
+ model="poisson", R, mle)
+kn.gumbel.iscluster(data, idx, idxorder, alpha, fractpop, use.poisson=TRUE,
+ model="poisson", R, mle)
 }
 
 
