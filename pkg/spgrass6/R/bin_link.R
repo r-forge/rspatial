@@ -325,7 +325,7 @@ writeRAST6 <- function(x, vname, zcol = 1, NODATA=NULL,
 
 	    flags <- c(res$flag, flags)
 	    
-	    execGRASS("r.in.bin", flags=res$flag,
+	    execGRASS("r.in.bin", flags=flags,
                 parameters=list(input=gtmpfl11,
 		output=vname, bytes=as.integer(res$bytes), 
 		north=as.numeric(res$north), south=as.numeric(res$south), 
