@@ -114,6 +114,8 @@ initGRASS <- function(gisBase, home, SG, gisDbase, location, mapset,
             append=TRUE)
     } else stop(paste("Platform variant", SYS, "not supported"))
     set.GIS_LOCK(pid)
+    assign("INIT_USED", TRUE, envir=.GRASS_CACHE)
+    assign("GIS_LOCK", pid, envir=.GRASS_CACHE)
     system(paste(paste("g.gisenv", get("addEXE", envir=.GRASS_CACHE), sep=""),
         shQuote(paste("set=GISDBASE=", gisDbase))))
     if (missing(location)) location <- basename(tempfile())

@@ -13,4 +13,4 @@ Depends: R (>= 2.4), sp (>= 0.9), rgdal (>= 0.6-7), XML
 SystemRequirements: GRASS (>= 6.3)
 License: GPL (>= 2)
 URL: http://grass.osgeo.org/
-Collate: AAA.R spgrass6.R bin_link.R vect_link.R initGRASS.R xml1.R zzz.R
+Collate: AAA.R spgrass6.R bin_link.R vect_link.R initGRASS.R xml1.R

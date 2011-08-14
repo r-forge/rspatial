@@ -7,11 +7,11 @@
 \alias{vColumns}
 \alias{vDataCount}
 \alias{vect2neigh}
-\alias{putSites6sp}
-\alias{getSites6sp}
-\alias{putSites6}
-\alias{getSites6}
-\alias{cygwin_clean_temp}
+%\alias{putSites6sp}
+%\alias{getSites6sp}
+%\alias{putSites6}
+%\alias{getSites6}
+%\alias{cygwin_clean_temp}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{Read and write GRASS 6+ vector object files}
 \description{
@@ -28,11 +28,11 @@ vColumns(vname, layer, ignore.stderr = TRUE)
 vDataCount(vname, layer, ignore.stderr = TRUE)
 vect2neigh(vname, ID=NULL, ignore.stderr = FALSE, remove=TRUE, vname2=NULL,
  units="k")
-putSites6sp(SPDF, vname,  ignore.stderr = FALSE) 
-putSites6(df, vname, ignore.stderr = FALSE)
-getSites6sp(vname, ignore.stderr = FALSE, with_prj=TRUE) 
-getSites6(vname, ignore.stderr = FALSE, with_prj=TRUE)
-cygwin_clean_temp(verbose=TRUE, ignore.stderr = FALSE)
+%putSites6sp(SPDF, vname,  ignore.stderr = FALSE) 
+%putSites6(df, vname, ignore.stderr = FALSE)
+%getSites6sp(vname, ignore.stderr = FALSE, with_prj=TRUE) 
+%getSites6(vname, ignore.stderr = FALSE, with_prj=TRUE)
+%cygwin_clean_temp(verbose=TRUE, ignore.stderr = FALSE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -53,9 +53,9 @@ cygwin_clean_temp(verbose=TRUE, ignore.stderr = FALSE)
   \item{remove}{default TRUE, remove copied vectors created in \code{vect2neigh}}
   \item{vname2}{If on a previous run, remove was FALSE, the name of the temporary vector may be given to circumvent its generation}
   \item{units}{default \dQuote{k}; see GRASS \code{v.to.db} manual page for alternatives}
-  \item{SPDF}{A SpatialPointsDataFrame to be moved to GRASS6 as vector points}
-  \item{df}{A data frame with at least columns named x, y and cat (no z support yet)}
-  \item{verbose}{TRUE, can be set to false}
+%  \item{SPDF}{A SpatialPointsDataFrame to be moved to GRASS6 as vector points}
+%  \item{df}{A data frame with at least columns named x, y and cat (no z support yet)}
+%  \item{verbose}{TRUE, can be set to false}
 }
 \value{
    \code{readVECT6} imports a GRASS6+ vector object into a Spatial*DataFrame object with the type determined by the type of the GRASS6 vector object; \code{getSites6} returns a data frame. \code{vect2neigh} returns a data frame object with left and right neighbours and boundary lengths, also given class GRASSneigh and spatial.neighbour (as used in spdep). The incantation to retrieve the neighbours list is \code{sn2listw(vect2neigh())$neighbours}, and to retrieve the boundary lengths: \code{sn2listw(vect2neigh())$weights}. The GRASSneigh object has two other useful attributes: external is a vector giving the length of shared boundary between each polygon and the external area, and total giving each polygon's total boundary length.

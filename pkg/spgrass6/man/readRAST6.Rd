@@ -1,15 +1,15 @@
-% Copyright (C) 2005-2010 Roger S. Bivand
+% Copyright (C) 2005-2011 Roger S. Bivand
 %
 \name{readRAST6}
 \alias{readRAST6}
-\alias{readBinGrid}
+%\alias{readBinGrid}
 \alias{writeRAST6}
-\alias{writeBinGrid}
-\alias{rast.get6}
-\alias{rast.put6}
-\alias{readCELL6sp}
-\alias{readFLOAT6sp}
-\alias{writeRast6sp}
+%\alias{writeBinGrid}
+%\alias{rast.get6}
+%\alias{rast.put6}
+%\alias{readCELL6sp}
+%\alias{readFLOAT6sp}
+%\alias{writeRast6sp}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{Read and write GRASS 6+ raster files}
 \description{
