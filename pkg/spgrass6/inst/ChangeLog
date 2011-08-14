@@ -1,3 +1,13 @@
+2011-08-14 22:40  rsbivand
+
+	* R/AAA.R,
+	  R/initGRASS.R: GIS_LOCK manipulation
+
+2011-08-14 22:02  rsbivand
+
+	* ChangeLog,
+	  inst/ChangeLog: add NAMESPACE
+
 2011-08-14 22:01  rsbivand
 
 	* NAMESPACE:
