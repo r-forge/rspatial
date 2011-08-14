@@ -67,7 +67,10 @@ if(!exists("Sys.setenv", envir = baseenv())) Sys.setenv <- Sys.putenv
 
 .onUnload <- function(lib, pkg) {
 #.Last.lib <- function(lib, pkg) {
-    if (get("INIT_USED", envir=.GRASS_CACHE)) unset.GIS_LOCK()
+    if (get("INIT_USED", envir=.GRASS_CACHE)) {
+        unlink_.gislock()
+        unset.GIS_LOCK()
+    }
     Sys.setenv("GRASS_PAGER"=get(".GRASS_old.GRASS_PAGER", envir=.GRASS_CACHE))
     Sys.setenv("GRASS_MESSAGE_FORMAT"=get(".GRASS_old.GRASS_MESSAGE_FORMAT",
         envir=.GRASS_CACHE))

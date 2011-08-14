@@ -14,6 +14,12 @@ unset.GIS_LOCK <- function() {
     Sys.unsetenv("GIS_LOCK")
 }
 
+unlink_.gislock <- function() {
+    gl <- paste(Sys.getenv("GISDBASE"), Sys.getenv("LOCATION_NAME"),
+        Sys.getenv("MAPSET"), ".gislock", sep="/")
+    if (file.exists(gl)) unlink(gl)
+}
+
 initGRASS <- function(gisBase, home, SG, gisDbase, location, mapset,
     override=FALSE, use_g.dirseps.exe=TRUE, pid) {
     if (nchar(Sys.getenv("GISRC")) > 0 && !override)
