@@ -1,7 +1,34 @@
+# GIS_LOCK 110814 RSB, suggested by Brian Oney
+get.GIS_LOCK <- function() {
+    Sys.getenv("GIS_LOCK")
+}
+
+set.GIS_LOCK <- function(pid) {
+    if (missing(pid)) pid <- round(runif(1, 1, 1000))
+    pid <- as.integer(pid)
+    stopifnot(!is.na(pid))
+    Sys.setenv(GIS_LOCK=pid)
+}
+
+unset.GIS_LOCK <- function() {
+    Sys.unsetenv("GIS_LOCK")
+}
+
 initGRASS <- function(gisBase, home, SG, gisDbase, location, mapset,
-    override=FALSE, use_g.dirseps.exe=TRUE) {
+    override=FALSE, use_g.dirseps.exe=TRUE, pid) {
     if (nchar(Sys.getenv("GISRC")) > 0 && !override)
       stop("A GRASS location is already in use; to override, set override=TRUE")
+
+    if (nchar(get.GIS_LOCK()) > 0) {
+      if(!override)
+        stop("A GIS_LOCK environment variable is present; to override, set override=TRUE")
+      else unset.GIS_LOCK()
+    }
+
+    if (missing(pid)) pid <- round(runif(1, 1, 1000))
+    pid <- as.integer(pid)
+    stopifnot(!is.na(pid))
+
     if (!file.exists(gisBase)) stop(paste(gisBase, "not found"))
 
     SYS <- get("SYS", envir=.GRASS_CACHE) 
@@ -52,8 +79,10 @@ initGRASS <- function(gisBase, home, SG, gisDbase, location, mapset,
         assign("addEXE", .addexe(), envir=.GRASS_CACHE)
         Sys.setenv(GISRC=gisrc)
         if (!missing(gisDbase)) {
-            dir.create(gisDbase)
-        } else gisDbase <- tempdir()
+            if (!file.exists(gisDbase)) dir.create(gisDbase)
+        } else {
+            gisDbase <- tempdir()
+        }
         gisDbase <- ifelse (use_g.dirseps.exe, system(paste("g.dirseps.exe -g",
             shQuote(gisDbase)), intern=TRUE), gisDbase)
     } else if (SYS == "unix") {
@@ -74,19 +103,22 @@ initGRASS <- function(gisBase, home, SG, gisDbase, location, mapset,
         if (file.exists(Sys.getenv("GISRC")) && !override)
             stop("A GISRC file already exists; to override, set override=TRUE")
         if (!missing(gisDbase)) {
-            dir.create(gisDbase)
-        } else gisDbase <- tempdir()
+            if (!file.exists(gisDbase)) dir.create(gisDbase)
+        } else {
+            gisDbase <- tempdir()
+        }
         cat("GISDBASE:", gisDbase, "\n", file=Sys.getenv("GISRC"))
         cat("LOCATION_NAME: <UNKNOWN>", "\n", file=Sys.getenv("GISRC"),
             append=TRUE)
         cat("MAPSET: <UNKNOWN>", "\n", file=Sys.getenv("GISRC"),
             append=TRUE)
     } else stop(paste("Platform variant", SYS, "not supported"))
+    set.GIS_LOCK(pid)
     system(paste(paste("g.gisenv", get("addEXE", envir=.GRASS_CACHE), sep=""),
         shQuote(paste("set=GISDBASE=", gisDbase))))
     if (missing(location)) location <- basename(tempfile())
     loc_path <- paste(gisDbase, location, sep="/")
-    dir.create(loc_path)
+    if (!file.exists(loc_path)) dir.create(loc_path)
     if (!file.exists(paste(loc_path, "PERMANENT", sep="/")))
         dir.create(paste(loc_path, "PERMANENT", sep="/"))
     if (missing(mapset)) mapset <- basename(tempfile())

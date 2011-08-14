@@ -1,12 +1,18 @@
 \name{initGRASS}
 \alias{initGRASS}
+\alias{get.GIS_LOCK}
+\alias{set.GIS_LOCK}
+\alias{unset.GIS_LOCK}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{Initiate GRASS session}
 \description{
   Run GRASS interface in an R session not started within GRASS. The function initializes environment variables used by GRASS, the .gisrc used by GRASS for further environment variables, and a temporary location.
 }
 \usage{
-initGRASS(gisBase, home, SG, gisDbase, location, mapset, override = FALSE, use_g.dirseps.exe = TRUE)
+initGRASS(gisBase, home, SG, gisDbase, location, mapset, override = FALSE, use_g.dirseps.exe = TRUE, pid)
+get.GIS_LOCK()
+set.GIS_LOCK(pid)
+unset.GIS_LOCK()
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -17,7 +23,9 @@ initGRASS(gisBase, home, SG, gisDbase, location, mapset, override = FALSE, use_g
   \item{location}{if missing, \code{basename(tempfile())} will be used; GRASS location directory for the working session}
   \item{mapset}{if missing, \code{basename(tempfile())} will be used; GRASS mapset directory for the working session}
   \item{override}{default FALSE, set to TRUE if accidental trashing of GRASS .gisrc files and locations is not a problem}
-  \item{use_g.dirseps.exe}{default TRUE; when TRUE appears to work for WinGRASS Native binaries, when FALSE for QGIS GRASS binaries; ignored on other platforms.}}
+  \item{use_g.dirseps.exe}{default TRUE; when TRUE appears to work for WinGRASS Native binaries, when FALSE for QGIS GRASS binaries; ignored on other platforms.}
+  \item{pid}{default \code{as.integer(round(runif(1, 1, 1000)))}, integer used to identify GIS_LOCK}
+}
 \details{
   The function establishes an out-of-GRASS working environment providing GRASS commands with the environment variable support required, and may also provide a temporary location for use until the end of the running R session if the \code{home} argument is set to \code{tempdir()}, and the \code{gisDbase} argument is not given. Running \code{gmeta6} shows where the location is, should it be desired to archive it before leaving R.
 }
