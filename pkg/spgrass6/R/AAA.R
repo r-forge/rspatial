@@ -59,8 +59,8 @@ if(!exists("Sys.setenv", envir = baseenv())) Sys.setenv <- Sys.putenv
     ifelse(nchar(loc) == 0, '', paste('and location: ', loc, '\n', sep="")),
       sep="")
   packageStartupMessage(Smess, appendLF = FALSE)
-  require("rgdal")
-  require("XML")
+#  require("rgdal")
+#  require("XML")
   
 #  .GRASS_CACHE <- new.env(FALSE, parent=globalenv())
 }
