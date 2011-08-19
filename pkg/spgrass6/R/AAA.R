@@ -37,6 +37,10 @@ if(!exists("Sys.setenv", envir = baseenv())) Sys.setenv <- Sys.putenv
   assign("addEXE", res, envir=.GRASS_CACHE)
   assign("WN_bat", "", envir=.GRASS_CACHE)
 
+  assign("ignore.stderr", FALSE, envir=.GRASS_CACHE)
+  assign("useGDAL", TRUE, envir=.GRASS_CACHE)
+
+
   if (nchar(gisrc) == 0) gv <- "(GRASS not running)"
   else {
     gv <- Sys.getenv("GRASS_VERSION")

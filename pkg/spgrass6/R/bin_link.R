@@ -2,13 +2,20 @@
 # Copyright (c) 2005-2010 Roger S. Bivand
 #
 
-readRAST6 <- function(vname, cat=NULL, ignore.stderr = FALSE, 
-	NODATA=NULL, plugin=NULL, mapset=NULL, useGDAL=TRUE, close_OK=TRUE,
+readRAST6 <- function(vname, cat=NULL, ignore.stderr = NULL, 
+	NODATA=NULL, plugin=NULL, mapset=NULL, useGDAL=NULL, close_OK=TRUE,
         drivername="GTiff") {
 	if (!is.null(cat))
 		if(length(vname) != length(cat)) 
 			stop("vname and cat not same length")
+    
     if (!is.null(plugin) && plugin && length(vname) > 1) plugin <- FALSE
+    if (is.null(ignore.stderr))
+        ignore.stderr <- get("ignore.stderr", env = .GRASS_CACHE)
+    stopifnot(is.logical(ignore.stderr))
+    if (is.null(useGDAL))
+        useGDAL <- get("useGDAL", env = .GRASS_CACHE)
+    stopifnot(is.logical(useGDAL))
     gdalD <- gdalDrivers()$name
     if (is.null(plugin)) {
 	plugin <- "GRASS" %in% gdalD
@@ -264,10 +271,16 @@ readBinGrid <- function(fname, colname=basename(fname),
 }
 
 writeRAST6 <- function(x, vname, zcol = 1, NODATA=NULL, 
-	ignore.stderr = FALSE, useGDAL=TRUE, overwrite=FALSE, flags=NULL,
+	ignore.stderr = NULL, useGDAL=NULL, overwrite=FALSE, flags=NULL,
         drivername="GTiff") {
 
 
+        if (is.null(ignore.stderr))
+            ignore.stderr <- get("ignore.stderr", env = .GRASS_CACHE)
+        stopifnot(is.logical(ignore.stderr))
+        if (is.null(useGDAL))
+            useGDAL <- get("useGDAL", env = .GRASS_CACHE)
+        stopifnot(is.logical(useGDAL))
 	pid <- as.integer(round(runif(1, 1, 1000)))
 	gtmpfl1 <- dirname(execGRASS("g.tempfile", parameters=list(pid=pid),
 	    intern=TRUE, ignore.stderr=ignore.stderr))

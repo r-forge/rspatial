@@ -7,6 +7,8 @@ export(execGRASS, doGRASS, parseGRASS, getXMLencoding, setXMLencoding)
 export(initGRASS, get.GIS_LOCK, set.GIS_LOCK, unset.GIS_LOCK, unlink_.gislock)
 export(readRAST6, writeRAST6)
 export(readVECT6, writeVECT6, vInfo, vColumns, vDataCount, vect2neigh)
+export(set.ignore.stderrOption, get.ignore.stderrOption, set.useGDALOption,
+ get.useGDALOption)
 
 S3method(print, gmeta6)
 S3method(print, GRASS_interface_desc)

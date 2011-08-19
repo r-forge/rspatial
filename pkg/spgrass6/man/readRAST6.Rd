@@ -19,8 +19,8 @@ Read GRASS 6+ raster files from GRASS 6+ into R SpatialGridDataFrame objects, an
 
 
 \usage{
-readRAST6(vname, cat=NULL, ignore.stderr = FALSE, NODATA=NULL, plugin=NULL, mapset=NULL, useGDAL=TRUE, close_OK=TRUE, drivername="GTiff")
-writeRAST6(x, vname, zcol = 1, NODATA=NULL, ignore.stderr = FALSE, useGDAL=TRUE, overwrite=FALSE, flags=NULL, drivername="GTiff")
+readRAST6(vname, cat=NULL, ignore.stderr = NULL, NODATA=NULL, plugin=NULL, mapset=NULL, useGDAL=NULL, close_OK=TRUE, drivername="GTiff")
+writeRAST6(x, vname, zcol = 1, NODATA=NULL, ignore.stderr = NULL, useGDAL=NULL, overwrite=FALSE, flags=NULL, drivername="GTiff")
 %rast.get6(vname, cat=NULL, ignore.stderr = FALSE)
 %rast.put6(x, vname, zcol = 1, NODATA=-9999, ignore.stderr = FALSE)
 %readCELL6sp(vname, cat=NULL, ignore.stderr = FALSE)
@@ -35,10 +35,10 @@ writeRAST6(x, vname, zcol = 1, NODATA=NULL, ignore.stderr = FALSE, useGDAL=TRUE,
 %  \item{fname}{file name}
 %  \item{proj4string}{A CRS object setting the projection arguments of the Spatial Grid returned}
   \item{cat}{default NULL; if not NULL, must be a logical vector matching vname, stating which (CELL) rasters to return as factor}
-  \item{ignore.stderr}{default FALSE, can be set to TRUE to silence \code{system()} output to standard error; does not apply on Windows platforms}
+  \item{ignore.stderr}{default NULL, taking the value set by \code{set.ignore.stderrOption}, can be set to TRUE to silence \code{system()} output to standard error; does not apply on Windows platforms}
   \item{plugin}{default NULL does auto-detection, changes to FALSE if vname is longer than 1, and a sanity check will be run on raster and current region, and the function will revert to FALSE if mismatch is found; if TRUE, the plugin is available and the raster should be read in its original region and resolution; if the plugin is used, no further arguments other than mapset are respected}
   \item{mapset}{default NULL, if plugin is TRUE, the mapset of the file to be imported will be autodetected; if not NULL and if plugin is TRUE, a character string overriding the autodetected mapset, otherwise ignored}
-  \item{useGDAL}{default TRUE use r.out.gdal or plugin and \code{readGDAL} if autodetected or plugin=TRUE; or for writing \code{writeGDAL}, GTiff, and r.in.gdal, if FALSE using r.out.bin or r.in.bin}
+  \item{useGDAL}{default NULL, taking the value set by \code{set.useGDALOption}; use r.out.gdal or plugin and \code{readGDAL} if autodetected or plugin=TRUE; or for writing \code{writeGDAL}, GTiff, and r.in.gdal, if FALSE using r.out.bin or r.in.bin}
   \item{close_OK}{default TRUE - clean up possible open connections used for reading metadata; may be set to FALSE to avoid the side-effect of other user-opened connections being broken}
   \item{drivername}{default \code{"GTiff"}; a valid GDAL writable driver name to define the file format for intermediate files}
   \item{x}{A SpatialGridDataFrame object for export to GRASS as a raster layer}
@@ -59,42 +59,43 @@ writeRAST6(x, vname, zcol = 1, NODATA=NULL, ignore.stderr = FALSE, useGDAL=TRUE,
 
 \examples{
 if (nchar(Sys.getenv("GISRC")) > 0) {
+  ois <- get.ignore.stderrOption()
+  set.ignore.stderrOption(TRUE)
+  get.useGDALOption()
   spear <- readRAST6(c("geology", "elevation.dem"), cat=c(TRUE, FALSE),
-    ignore.stderr=TRUE, plugin=NULL)
+    plugin=NULL)
   spear <- readRAST6(c("geology", "elevation.dem"), cat=c(TRUE, FALSE),
-    ignore.stderr=TRUE, useGDAL=FALSE, plugin=FALSE)
+    useGDAL=FALSE, plugin=FALSE)
   spear <- readRAST6(c("geology", "elevation.dem"), cat=c(TRUE, FALSE),
-    ignore.stderr=TRUE, useGDAL=TRUE, plugin=FALSE)
+    useGDAL=TRUE, plugin=FALSE)
   print(table(spear$geology))
   execGRASS("r.stats", flags=c("c", "l", "quiet"), 
-    parameters=list(input="geology"), ignore.stderr=TRUE)
+    parameters=list(input="geology"))
   boxplot(spear$elevation.dem ~ spear$geology)
   spear$sqdem <- sqrt(spear$elevation.dem)
   if ("GRASS" \%in\% gdalDrivers()$name) {
-    dem1 <- readRAST6("elevation.dem", plugin=TRUE, ignore.stderr=TRUE,
-      mapset="PERMANENT")
+    dem1 <- readRAST6("elevation.dem", plugin=TRUE, mapset="PERMANENT")
     print(summary(dem1))
   }
-  writeRAST6(spear, "sqdemSP", zcol="sqdem", ignore.stderr=TRUE)
-  execGRASS("r.info", parameters=list(map="sqdemSP"), ignore.stderr=TRUE)
-  execGRASS("g.remove", parameters=list(rast="sqdemSP"), ignore.stderr=TRUE)
-  writeRAST6(spear, "sqdemSP", zcol="sqdem", ignore.stderr=TRUE, useGDAL=TRUE)
-  execGRASS("r.info", parameters=list(map="sqdemSP"), ignore.stderr=TRUE)
-  execGRASS("g.remove", parameters=list(rast="sqdemSP"), ignore.stderr=TRUE)
+  writeRAST6(spear, "sqdemSP", zcol="sqdem")
+  execGRASS("r.info", parameters=list(map="sqdemSP"))
+  execGRASS("g.remove", parameters=list(rast="sqdemSP"))
+  writeRAST6(spear, "sqdemSP", zcol="sqdem", useGDAL=TRUE)
+  execGRASS("r.info", parameters=list(map="sqdemSP"))
+  execGRASS("g.remove", parameters=list(rast="sqdemSP"))
   if (execGRASS("g.version", intern=TRUE) > "GRASS 7") {
-    execGRASS("r.mapcalc", parameters=list(expression="quads0 = quads - 1"),
-      ignore.stderr=TRUE)
+    execGRASS("r.mapcalc", parameters=list(expression="quads0 = quads - 1"))
   } else {
     execGRASS("r.mapcalculator", parameters=list(outfile="quads0",
-      amap="quads", formula='A - 1'), ignore.stderr=TRUE)
+      amap="quads", formula='A - 1'))
   }
-  execGRASS("r.stats", flags="c", parameters=list(input="quads0"),
-    ignore.stderr=TRUE)
-  quads0 <- readRAST6("quads0", ignore.stderr=TRUE)
+  execGRASS("r.stats", flags="c", parameters=list(input="quads0"))
+  quads0 <- readRAST6("quads0")
   print(table(quads0$quads0))
-  quads0 <- readRAST6("quads0", ignore.stderr=TRUE, plugin=FALSE)
+  quads0 <- readRAST6("quads0", plugin=FALSE)
   print(table(quads0$quads0))
-  execGRASS("g.remove", parameters=list(rast="quads0"), ignore.stderr=TRUE)
+  execGRASS("g.remove", parameters=list(rast="quads0"))
+  set.ignore.stderrOption(ois)
 }
 }
 \keyword{spatial}
