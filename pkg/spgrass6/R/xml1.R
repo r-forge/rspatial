@@ -155,9 +155,14 @@ print.GRASS_interface_desc <- function(x, ...) {
     invisible(x)
 }
 
-doGRASS <- function(cmd, flags=NULL, parameters=NULL) {
+doGRASS <- function(cmd, flags=NULL, ..., parameters=NULL) {
     if (!is.null(flags)) stopifnot(is.character(flags))
     if (!is.null(parameters)) stopifnot(is.list(parameters))
+    dlist <- list(...)
+    if (!is.null(parameters) && (length(dlist) > 0))
+        stop(paste("Use either GRASS parameters as R arguments,",
+        "or as a parameter argument list object, but not both", sep="\n"))
+    if (is.null(parameters) && (length(dlist) > 0)) parameters <- dlist
     pcmd <- parseGRASS(cmd)
     cmd <- paste(pcmd$prep, cmd, pcmd$ext, sep="")
     res <- cmd
@@ -186,7 +191,7 @@ doGRASS <- function(cmd, flags=NULL, parameters=NULL) {
         pt[, "keydesc_count"] > 1)
       mult <- pt[mults, "name"]
       parameters <- insert_required(pcmd=pcmd, parameters=parameters,
-          pt=pt, req=req)
+          pt=pt, req=req, suppress_required=suppress_required)
       if (!suppress_required && length(req) > 0 && is.null(parameters)) {
         print(pcmd)
         stop("No parameters given where some are required with defaults declared")
@@ -245,17 +250,21 @@ doGRASS <- function(cmd, flags=NULL, parameters=NULL) {
         }
       }
     }
+    if ((!is.null(pt) && is.null(parameters)) && is.null(flags))
+        if (get.stop_on_no_flags_parasOption())
+            stop("No flags or parameters provided")
+        else warning("No flags or parameters provided")
     res
 }
 
-insert_required <- function(pcmd, parameters, pt, req) {
+insert_required <- function(pcmd, parameters, pt, req, suppress_required) {
     defs <- pt[match(req, pt[, "name"]), "default"]
     nadefs <- which(is.na(defs))
     nms <- pt[match(req, pt[, "name"]), "name"]
     nadefnms <- nms[nadefs]
     pnms <- names(parameters)
     nadefnms1 <- nadefnms[is.na(match(nadefnms, pnms))]
-    if (length(nadefnms1)) {
+    if (!suppress_required && length(nadefnms1) > 0) {
         print(pcmd)
         stop(paste("required parameters with no defaults missing:",
         paste(nadefnms1, collapse=" ")))
@@ -273,16 +282,27 @@ insert_required <- function(pcmd, parameters, pt, req) {
                 string = defdefs[i])
         }
     }
+    if (length(parameters) == 0) parameters <- NULL
     parameters
 }
 
-execGRASS <- function(cmd, flags=NULL, parameters=NULL, intern=FALSE,
-    ignore.stderr=NULL, ...) {
+execGRASS <- function(cmd, flags=NULL, ..., parameters=NULL, intern=FALSE,
+    ignore.stderr=NULL, Sys_ignore.stdout=FALSE, Sys_wait=TRUE,
+    Sys_input=NULL, Sys_show.output.on.console=TRUE, Sys_minimized=FALSE,
+    Sys_invisible=TRUE) {
     if (is.null(ignore.stderr))
         ignore.stderr <- get("ignore.stderr", env = .GRASS_CACHE)
     stopifnot(is.logical(ignore.stderr))
-    syscmd <- doGRASS(cmd, flags=flags, parameters=parameters)
-    res <- system(syscmd, intern=intern, ignore.stderr=ignore.stderr, ...)
+    syscmd <- doGRASS(cmd, flags=flags, ..., parameters=parameters)
+    if (get("SYS", envir=.GRASS_CACHE) == "unix") {
+        res <- system(syscmd, intern=intern, ignore.stderr=ignore.stderr,
+            ignore.stdout=Sys_ignore.stdout, wait=Sys_wait, input=Sys_input)
+    } else {
+        res <- system(syscmd, intern=intern, ignore.stderr=ignore.stderr,
+            ignore.stdout=Sys_ignore.stdout, wait=Sys_wait, input=Sys_input,
+            show.output.on.console=Sys_show.output.on.console, 
+            minimized=Sys_minimized, invisible=Sys_invisible)
+    }
     if (intern) return(res)
     invisible(res)
 }

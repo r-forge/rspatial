@@ -5,6 +5,12 @@
 \alias{getLocationProj}
 \alias{gmeta2grd}
 \alias{print.gmeta6}
+\alias{get.ignore.stderrOption}
+\alias{get.stop_on_no_flags_parasOption}
+\alias{get.useGDALOption}
+\alias{set.ignore.stderrOption}
+\alias{set.stop_on_no_flags_parasOption}
+\alias{set.useGDALOption}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{Reads GRASS metadata from the current LOCATION}
 \description{
@@ -15,11 +21,18 @@ gmeta6(ignore.stderr = FALSE)
 getLocationProj(ignore.stderr = FALSE)
 gmeta2grd(ignore.stderr = FALSE)
 \method{print}{gmeta6}(x, ...)
+get.ignore.stderrOption()
+get.stop_on_no_flags_parasOption()
+get.useGDALOption()
+set.ignore.stderrOption(value)
+set.stop_on_no_flags_parasOption(value)
+set.useGDALOption(value)
 }
 \arguments{
   \item{ignore.stderr}{default FALSE, can be set to TRUE to silence \code{system()} output to standard error; does not apply on Windows platforms}
   \item{x}{S3 object returned by gmeta6}
   \item{...}{arguments passed through print method}
+  \item{value}{logical value for setting options on \code{ignore.stderr} set by default on package load to FALSE, \code{stop_on_no_flags_paras} set by default on package load to TRUE, \code{useGDAL} set by default on package load to TRUE}
 }
 %- maybe also 'usage' for other objects documented here.
 

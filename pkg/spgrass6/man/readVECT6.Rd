@@ -72,9 +72,9 @@ Please also note that, on Windows and Cygwin systems, the temporary shapefiles a
 \examples{
 if (nchar(Sys.getenv("GISRC")) > 0) {
   if (execGRASS("g.version", intern=TRUE) > "GRASS 7") {
-    execGRASS("v.info", parameters=list(map="bugsites", layer="1"))
+    execGRASS("v.info", map="bugsites", layer="1")
   } else {
-    execGRASS("v.info", parameters=list(map="bugsites", layer=1L))
+    execGRASS("v.info", map="bugsites", layer=1L)
   }
   print(vInfo("bugsites", ignore.stderr=TRUE))
   bugs <- readVECT6("bugsites", ignore.stderr=TRUE, plugin=NULL)
@@ -84,9 +84,9 @@ if (nchar(Sys.getenv("GISRC")) > 0) {
   writeVECT6(bugs, "newbugs", v.in.ogr_flags=c("o", "overwrite"),
     ignore.stderr=TRUE)
   if (execGRASS("g.version", intern=TRUE) > "GRASS 7") {
-    execGRASS("v.info", parameters=list(map="newbugs", layer="1"))
+    execGRASS("v.info", map="newbugs", layer="1")
   } else {
-    execGRASS("v.info", parameters=list(map="newbugs", layer=1L))
+    execGRASS("v.info", map="newbugs", layer=1L)
   }
   nbugs <- readVECT6("newbugs", ignore.stderr=TRUE)
   print(summary(nbugs))

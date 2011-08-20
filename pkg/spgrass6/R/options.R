@@ -13,6 +13,17 @@ get.ignore.stderrOption <- function() {
 	get("ignore.stderr", env = .GRASS_CACHE)
 }
 
+set.stop_on_no_flags_parasOption <- function(value) {
+	if (!is.logical(value)) stop ("logical argument required")
+	res <- get("stop_on_no_flags_paras", env = .GRASS_CACHE)
+	assign("stop_on_no_flags_paras", value, env = .GRASS_CACHE)
+	res
+}
+
+get.stop_on_no_flags_parasOption <- function() {
+	get("stop_on_no_flags_paras", env = .GRASS_CACHE)
+}
+
 set.useGDALOption <- function(value) {
 	if (!is.logical(value)) stop ("logical argument required")
 	res <- get("useGDAL", env = .GRASS_CACHE)

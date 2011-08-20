@@ -69,8 +69,7 @@ if (nchar(Sys.getenv("GISRC")) > 0) {
   spear <- readRAST6(c("geology", "elevation.dem"), cat=c(TRUE, FALSE),
     useGDAL=TRUE, plugin=FALSE)
   print(table(spear$geology))
-  execGRASS("r.stats", flags=c("c", "l", "quiet"), 
-    parameters=list(input="geology"))
+  execGRASS("r.stats", flags=c("c", "l", "quiet"), input="geology")
   boxplot(spear$elevation.dem ~ spear$geology)
   spear$sqdem <- sqrt(spear$elevation.dem)
   if ("GRASS" \%in\% gdalDrivers()$name) {
@@ -78,23 +77,23 @@ if (nchar(Sys.getenv("GISRC")) > 0) {
     print(summary(dem1))
   }
   writeRAST6(spear, "sqdemSP", zcol="sqdem")
-  execGRASS("r.info", parameters=list(map="sqdemSP"))
-  execGRASS("g.remove", parameters=list(rast="sqdemSP"))
+  execGRASS("r.info", map="sqdemSP")
+  execGRASS("g.remove", rast="sqdemSP")
   writeRAST6(spear, "sqdemSP", zcol="sqdem", useGDAL=TRUE)
-  execGRASS("r.info", parameters=list(map="sqdemSP"))
-  execGRASS("g.remove", parameters=list(rast="sqdemSP"))
+  execGRASS("r.info", map="sqdemSP")
+  execGRASS("g.remove", rast="sqdemSP")
   if (execGRASS("g.version", intern=TRUE) > "GRASS 7") {
-    execGRASS("r.mapcalc", parameters=list(expression="quads0 = quads - 1"))
+    execGRASS("r.mapcalc", expression="quads0 = quads - 1")
   } else {
-    execGRASS("r.mapcalculator", parameters=list(outfile="quads0",
-      amap="quads", formula='A - 1'))
+    execGRASS("r.mapcalculator", outfile="quads0",
+      amap="quads", formula='A - 1')
   }
-  execGRASS("r.stats", flags="c", parameters=list(input="quads0"))
+  execGRASS("r.stats", flags="c", input="quads0")
   quads0 <- readRAST6("quads0")
   print(table(quads0$quads0))
   quads0 <- readRAST6("quads0", plugin=FALSE)
   print(table(quads0$quads0))
-  execGRASS("g.remove", parameters=list(rast="quads0"))
+  execGRASS("g.remove", rast="quads0")
   set.ignore.stderrOption(ois)
 }
 }

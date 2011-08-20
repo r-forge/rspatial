@@ -41,7 +41,7 @@ gmeta6 <- function(ignore.stderr = FALSE) {
 		lres$depths <- abs(as.integer((lres$t-lres$b)/lres$tbres))
 	else lres$depths <- as.integer(lres$depths)
 	lres$proj4 <- getLocationProj()
-        gisenv <- execGRASS("g.gisenv", intern=TRUE,
+        gisenv <- execGRASS("g.gisenv", flags="n", intern=TRUE,
             ignore.stderr=ignore.stderr)
 #	tull <- ifelse(.Platform$OS.type == "windows", 
 #		gisenv <- system(paste("g.gisenv", .addexe(), sep=""),
@@ -118,7 +118,7 @@ getLocationProj <- function(ignore.stderr = FALSE) {
 #    cmd <- paste("g.findfile", .addexe(), " element=", type, " file=", 
 #        vname[1], sep="")
 #    ms <- system(cmd, intern=TRUE)
-    ms <- execGRASS("g.findfile", parameters=list(element=type, file=vname[1]),
+    ms <- execGRASS("g.findfile", element=type, file=vname[1],
         intern=TRUE)
     tx <- gsub("=", ":", ms)
     con <- textConnection(tx)
