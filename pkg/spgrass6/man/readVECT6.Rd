@@ -19,14 +19,14 @@
 }
 \usage{
 readVECT6(vname, layer, type=NULL, plugin=NULL, remove.duplicates = TRUE,
- ignore.stderr = FALSE, with_prj=TRUE, with_c=FALSE, mapset=NULL,
+ ignore.stderr = NULL, with_prj=TRUE, with_c=FALSE, mapset=NULL,
  pointDropZ=FALSE, driver="ESRI Shapefile")
-writeVECT6(SDF, vname,  v.in.ogr_flags=NULL, ignore.stderr = FALSE,
+writeVECT6(SDF, vname,  v.in.ogr_flags=NULL, ignore.stderr = NULL,
  driver="ESRI Shapefile")
-vInfo(vname, layer, ignore.stderr = FALSE)
-vColumns(vname, layer, ignore.stderr = TRUE)
-vDataCount(vname, layer, ignore.stderr = TRUE)
-vect2neigh(vname, ID=NULL, ignore.stderr = FALSE, remove=TRUE, vname2=NULL,
+vInfo(vname, layer, ignore.stderr = NULL)
+vColumns(vname, layer, ignore.stderr = NULL)
+vDataCount(vname, layer, ignore.stderr = NULL)
+vect2neigh(vname, ID=NULL, ignore.stderr = NULL, remove=TRUE, vname2=NULL,
  units="k")
 %putSites6sp(SPDF, vname,  ignore.stderr = FALSE) 
 %putSites6(df, vname, ignore.stderr = FALSE)
@@ -41,7 +41,7 @@ vect2neigh(vname, ID=NULL, ignore.stderr = FALSE, remove=TRUE, vname2=NULL,
   \item{type}{override type detection when multiple types are non-zero, passed to v.out.ogr}
   \item{plugin}{default NULL for auto-detection, may be set to FALSE to avoid or TRUE if the plugin is known to be available; if the plugin is used, no further arguments other than mapset are respected}
   \item{remove.duplicates}{In line and area vector objects, multiple geometrical features may be associated with a single cat number, leading to duplication of data rows; this argument attempts to combine the geometrical features so that they match a single data row}
-  \item{ignore.stderr}{default FALSE, can be set to TRUE to silence \code{system} output to standard error; does not apply on Windows platforms}
+  \item{ignore.stderr}{default NULL, taking the value set by \code{set.ignore.stderrOption}, can be set to TRUE to silence \code{system()} output to standard error; does not apply on Windows platforms}
   \item{with_prj}{default TRUE, write ESRI-style PRJ file for transfered data}
   \item{with_c}{if TRUE, export features with category (labeled) only; by default all features are exported}
   \item{mapset}{if plugin is TRUE, the mapset of the file to be imported may be changed from the current mapset by passing a character string}
@@ -71,28 +71,30 @@ Please also note that, on Windows and Cygwin systems, the temporary shapefiles a
 
 \examples{
 if (nchar(Sys.getenv("GISRC")) > 0) {
+  ois <- get.ignore.stderrOption()
+  set.ignore.stderrOption(TRUE)
   if (execGRASS("g.version", intern=TRUE) > "GRASS 7") {
     execGRASS("v.info", map="bugsites", layer="1")
   } else {
     execGRASS("v.info", map="bugsites", layer=1L)
   }
-  print(vInfo("bugsites", ignore.stderr=TRUE))
-  bugs <- readVECT6("bugsites", ignore.stderr=TRUE, plugin=NULL)
+  print(vInfo("bugsites"))
+  bugs <- readVECT6("bugsites", plugin=NULL)
   print(summary(bugs))
-  bugs1 <- readVECT6("bugsites", ignore.stderr=TRUE, plugin=FALSE)
+  bugs1 <- readVECT6("bugsites", plugin=FALSE)
   print(summary(bugs1))
-  writeVECT6(bugs, "newbugs", v.in.ogr_flags=c("o", "overwrite"),
-    ignore.stderr=TRUE)
+  writeVECT6(bugs, "newbugs", v.in.ogr_flags=c("o", "overwrite"))
   if (execGRASS("g.version", intern=TRUE) > "GRASS 7") {
     execGRASS("v.info", map="newbugs", layer="1")
   } else {
     execGRASS("v.info", map="newbugs", layer=1L)
   }
-  nbugs <- readVECT6("newbugs", ignore.stderr=TRUE)
+  nbugs <- readVECT6("newbugs")
   print(summary(nbugs))
-  print(vInfo("roads", ignore.stderr=TRUE))
-  roads <- readVECT6("roads", ignore.stderr=TRUE)
+  print(vInfo("roads"))
+  roads <- readVECT6("roads")
   print(summary(roads))
+  set.ignore.stderrOption(ois)
 }
 }
 \keyword{spatial}

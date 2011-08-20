@@ -117,7 +117,7 @@ readRAST6 <- function(vname, cat=NULL, ignore.stderr = NULL,
 		}
 		if (useGDAL && G63) {
                     gdalDGRASS <- execGRASS("r.out.gdal", flags="l",
-                        intern=TRUE, ignore.stderr=TRUE)
+                        intern=TRUE, ignore.stderr=ignore.stderr)
 	            if (!(drivername %in% gdalD))
                         stop(paste("Requested driver", drivername,
                             "not available in rgdal"))
@@ -303,7 +303,7 @@ writeRAST6 <- function(x, vname, zcol = 1, NODATA=NULL,
 	if (useGDAL && G63) {
             gdalD <- gdalDrivers()$name
             gdalDGRASS <- execGRASS("r.out.gdal", flags="l",
-                intern=TRUE, ignore.stderr=TRUE)
+                intern=TRUE, ignore.stderr=ignore.stderr)
 	    if (!(drivername %in% gdalD))
                 stop(paste("Requested driver", drivername,
                     "not available in rgdal"))

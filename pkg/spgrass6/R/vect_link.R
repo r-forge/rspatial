@@ -3,9 +3,12 @@
 #
 readVECT6 <- function(vname, layer, type=NULL, plugin=NULL,
         remove.duplicates=TRUE, 
-	ignore.stderr = FALSE, with_prj=TRUE, with_c=FALSE, mapset=NULL, 
+	ignore.stderr = NULL, with_prj=TRUE, with_c=FALSE, mapset=NULL, 
 	pointDropZ=FALSE, driver="ESRI Shapefile") {
 
+    if (is.null(ignore.stderr))
+        ignore.stderr <- get("ignore.stderr", env = .GRASS_CACHE)
+    stopifnot(is.logical(ignore.stderr))
     G7 <- execGRASS("g.version", intern=TRUE) > "GRASS 7"
     if (missing(layer)) layer <- 1L
     if (G7) layer <- as.character(layer)
@@ -43,7 +46,7 @@ readVECT6 <- function(vname, layer, type=NULL, plugin=NULL,
 	if (!(driver %in% ogrD))
             stop(paste("Requested driver", driver, "not available in rgdal"))
         ogrDGRASS <- execGRASS("v.in.ogr", flags="f", intern=TRUE,
-            ignore.stderr=TRUE)
+            ignore.stderr=ignore.stderr)
         ogrDGRASSs <- strsplit(ogrDGRASS, ": ")
         if (!(driver %in% sapply(ogrDGRASSs, "[", 2)))
             stop(paste("Requested driver", driver, "not available in GRASS"))
@@ -214,8 +217,11 @@ readVECT6 <- function(vname, layer, type=NULL, plugin=NULL,
 }
 
 writeVECT6 <- function(SDF, vname, #factor2char = TRUE, 
-	v.in.ogr_flags=NULL, ignore.stderr = FALSE, driver="ESRI Shapefile") {
+	v.in.ogr_flags=NULL, ignore.stderr = NULL, driver="ESRI Shapefile") {
 
+        if (is.null(ignore.stderr))
+            ignore.stderr <- get("ignore.stderr", env = .GRASS_CACHE)
+        stopifnot(is.logical(ignore.stderr))
         ogrD <- ogrDrivers()$name
 	if (!(driver %in% ogrD))
             stop(paste("Requested driver", driver, "not available in rgdal"))
@@ -273,7 +279,11 @@ writeVECT6 <- function(SDF, vname, #factor2char = TRUE,
 
 }
 
-vInfo <- function(vname, layer, ignore.stderr = FALSE) {
+vInfo <- function(vname, layer, ignore.stderr = NULL) {
+        if (is.null(ignore.stderr))
+            ignore.stderr <- get("ignore.stderr", env = .GRASS_CACHE)
+        stopifnot(is.logical(ignore.stderr))
+
         G7 <- execGRASS("g.version", intern=TRUE) > "GRASS 7"
         if (missing(layer)) layer <- 1L
         if (G7) layer <- as.character(layer)
@@ -290,7 +300,10 @@ vInfo <- function(vname, layer, ignore.stderr = FALSE) {
 	res
 }
 
-vColumns <- function(vname, layer, ignore.stderr = TRUE) {
+vColumns <- function(vname, layer, ignore.stderr = NULL) {
+        if (is.null(ignore.stderr))
+            ignore.stderr <- get("ignore.stderr", env = .GRASS_CACHE)
+        stopifnot(is.logical(ignore.stderr))
         G7 <- execGRASS("g.version", intern=TRUE) > "GRASS 7"
         if (missing(layer)) layer <- 1L
         if (G7) layer <- as.character(layer)
@@ -303,7 +316,10 @@ vColumns <- function(vname, layer, ignore.stderr = TRUE) {
 	res
 }
 
-vDataCount <- function(vname, layer, ignore.stderr = TRUE) {
+vDataCount <- function(vname, layer, ignore.stderr = NULL) {
+        if (is.null(ignore.stderr))
+            ignore.stderr <- get("ignore.stderr", env = .GRASS_CACHE)
+        stopifnot(is.logical(ignore.stderr))
         column <- "column" %in% parseGRASS("v.db.select")$pnames
         G7 <- execGRASS("g.version", intern=TRUE) > "GRASS 7"
         if (missing(layer)) layer <- 1L
@@ -413,9 +429,12 @@ putSites6sp <- function(SPDF, vname, #factor2char = TRUE,
 ##isn't always that precise ...
 #
 
-vect2neigh <- function(vname, ID=NULL, ignore.stderr = FALSE, remove=TRUE,
+vect2neigh <- function(vname, ID=NULL, ignore.stderr = NULL, remove=TRUE,
     vname2=NULL, units="k") {
 
+    if (is.null(ignore.stderr))
+        ignore.stderr <- get("ignore.stderr", env = .GRASS_CACHE)
+    stopifnot(is.logical(ignore.stderr))
 
     vinfo <- vInfo(vname)
     types <- names(vinfo)[which(vinfo > 0)]
