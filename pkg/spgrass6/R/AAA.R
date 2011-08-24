@@ -40,6 +40,11 @@ if(!exists("Sys.setenv", envir = baseenv())) Sys.setenv <- Sys.putenv
   assign("ignore.stderr", FALSE, envir=.GRASS_CACHE)
   assign("useGDAL", TRUE, envir=.GRASS_CACHE)
   assign("stop_on_no_flags_paras", TRUE, envir=.GRASS_CACHE)
+  assign("plugin", NULL, envir=.GRASS_CACHE)
+  assign("echoCmd", FALSE, envir=.GRASS_CACHE)
+  GV <- system(paste("g.version", get("addEXE", envir=.GRASS_CACHE), sep=""),
+        intern=TRUE)
+  assign("GV", GV, envir=.GRASS_CACHE)
 
 
   if (nchar(gisrc) == 0) gv <- "(GRASS not running)"

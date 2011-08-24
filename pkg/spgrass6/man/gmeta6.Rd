@@ -8,9 +8,13 @@
 \alias{get.ignore.stderrOption}
 \alias{get.stop_on_no_flags_parasOption}
 \alias{get.useGDALOption}
+\alias{get.pluginOption}
+\alias{get.echoCmdOption}
 \alias{set.ignore.stderrOption}
 \alias{set.stop_on_no_flags_parasOption}
 \alias{set.useGDALOption}
+\alias{set.pluginOption}
+\alias{set.echoCmdOption}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{Reads GRASS metadata from the current LOCATION}
 \description{
@@ -24,15 +28,19 @@ gmeta2grd(ignore.stderr = FALSE)
 get.ignore.stderrOption()
 get.stop_on_no_flags_parasOption()
 get.useGDALOption()
+get.pluginOption()
+get.echoCmdOption()
 set.ignore.stderrOption(value)
 set.stop_on_no_flags_parasOption(value)
 set.useGDALOption(value)
+set.pluginOption(value)
+set.echoCmdOption(value)
 }
 \arguments{
   \item{ignore.stderr}{default FALSE, can be set to TRUE to silence \code{system()} output to standard error; does not apply on Windows platforms}
   \item{x}{S3 object returned by gmeta6}
   \item{...}{arguments passed through print method}
-  \item{value}{logical value for setting options on \code{ignore.stderr} set by default on package load to FALSE, \code{stop_on_no_flags_paras} set by default on package load to TRUE, \code{useGDAL} set by default on package load to TRUE}
+  \item{value}{logical value for setting options on \code{ignore.stderr} set by default on package load to FALSE, \code{stop_on_no_flags_paras} set by default on package load to TRUE, \code{useGDAL} set by default on package load to TRUE, \code{plugin} set by default on package load to NULL, \code{echoCmd} set by default on package load to FALSE}
 }
 %- maybe also 'usage' for other objects documented here.
 

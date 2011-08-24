@@ -1,11 +1,14 @@
 # Interpreted GRASS 6+ interface functions
-# Copyright (c) 2005-2010 Roger S. Bivand
+# Copyright (c) 2005-2011 Roger S. Bivand
 #
 readVECT6 <- function(vname, layer, type=NULL, plugin=NULL,
         remove.duplicates=TRUE, 
 	ignore.stderr = NULL, with_prj=TRUE, with_c=FALSE, mapset=NULL, 
 	pointDropZ=FALSE, driver="ESRI Shapefile") {
 
+    if (is.null(plugin))
+        plugin <- get("plugin", env = .GRASS_CACHE)
+    stopifnot(is.logical(plugin)|| is.null(plugin))
     if (is.null(ignore.stderr))
         ignore.stderr <- get("ignore.stderr", env = .GRASS_CACHE)
     stopifnot(is.logical(ignore.stderr))

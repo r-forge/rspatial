@@ -1,7 +1,7 @@
 parseGRASS <- function(cmd) {
     bin_out_win <- c("d.colors.exe", "d.save.exe", "d.what.rast.exe",
       "d.what.vect.exe", "d.zoom.exe", "g.parser.exe", "gis.m.bat",
-      "i.spectral.bat", "mkftcap.bat", "r.mapcalc.exe", "r.tileset.bat",
+      "i.spectral.bat", "mkftcap.bat", "r.tileset.bat",
       "r3.mapcalc.exe", "v.in.gpsbabel.bat", "v.proj.exe")
     if ((get("SYS", envir=.GRASS_CACHE) == "WinNat") && cmd %in% bin_out_win)
             stop(paste("No interface description:", cmd))
@@ -155,9 +155,22 @@ print.GRASS_interface_desc <- function(x, ...) {
     invisible(x)
 }
 
-doGRASS <- function(cmd, flags=NULL, ..., parameters=NULL) {
+doGRASS <- function(cmd, ..., flags=NULL, parameters=NULL, echoCmd=NULL) {
     if (!is.null(flags)) stopifnot(is.character(flags))
     if (!is.null(parameters)) stopifnot(is.list(parameters))
+    if (is.null(echoCmd))
+        echoCmd <- get("echoCmd", env = .GRASS_CACHE)
+    stopifnot(is.logical(echoCmd))
+
+    G6 <- get("GV", envir=.GRASS_CACHE) < "GRASS 7"
+
+    if (G6 && cmd == "r.mapcalc") {
+        res <- paste(cmd, get("addEXE", envir=.GRASS_CACHE), sep="")
+        res <- paste(res, " ", " \"", ..., "\" ", sep="" )
+        if (echoCmd) cat("GRASS command:", res, "\n")
+        return(res)
+    }
+
     dlist <- list(...)
     if (!is.null(parameters) && (length(dlist) > 0))
         stop(paste("Use either GRASS parameters as R arguments,",
@@ -254,6 +267,7 @@ doGRASS <- function(cmd, flags=NULL, ..., parameters=NULL) {
         if (get.stop_on_no_flags_parasOption())
             stop("No flags or parameters provided")
         else warning("No flags or parameters provided")
+    if (echoCmd) cat("GRASS command:", res, "\n")
     res
 }
 
@@ -286,14 +300,15 @@ insert_required <- function(pcmd, parameters, pt, req, suppress_required) {
     parameters
 }
 
-execGRASS <- function(cmd, flags=NULL, ..., parameters=NULL, intern=FALSE,
+execGRASS <- function(cmd, ..., flags=NULL, parameters=NULL, intern=FALSE,
     ignore.stderr=NULL, Sys_ignore.stdout=FALSE, Sys_wait=TRUE,
     Sys_input=NULL, Sys_show.output.on.console=TRUE, Sys_minimized=FALSE,
-    Sys_invisible=TRUE) {
+    Sys_invisible=TRUE, echoCmd=NULL) {
     if (is.null(ignore.stderr))
         ignore.stderr <- get("ignore.stderr", env = .GRASS_CACHE)
     stopifnot(is.logical(ignore.stderr))
-    syscmd <- doGRASS(cmd, flags=flags, ..., parameters=parameters)
+    syscmd <- doGRASS(cmd, flags=flags, ..., parameters=parameters,
+        echoCmd=echoCmd)
     if (get("SYS", envir=.GRASS_CACHE) == "unix") {
         res <- system(syscmd, intern=intern, ignore.stderr=ignore.stderr,
             ignore.stdout=Sys_ignore.stdout, wait=Sys_wait, input=Sys_input)

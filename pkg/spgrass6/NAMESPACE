@@ -9,7 +9,8 @@ export(readRAST6, writeRAST6)
 export(readVECT6, writeVECT6, vInfo, vColumns, vDataCount, vect2neigh)
 export(set.ignore.stderrOption, get.ignore.stderrOption, set.useGDALOption,
  get.useGDALOption, set.stop_on_no_flags_parasOption,
- get.stop_on_no_flags_parasOption)
+ get.stop_on_no_flags_parasOption, set.pluginOption, get.pluginOption,
+ set.echoCmdOption, get.echoCmdOption)
 
 S3method(print, gmeta6)
 S3method(print, GRASS_interface_desc)

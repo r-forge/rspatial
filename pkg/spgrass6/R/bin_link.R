@@ -1,5 +1,5 @@
 # Interpreted GRASS 6+ interface functions
-# Copyright (c) 2005-2010 Roger S. Bivand
+# Copyright (c) 2005-2011 Roger S. Bivand
 #
 
 readRAST6 <- function(vname, cat=NULL, ignore.stderr = NULL, 
@@ -9,6 +9,9 @@ readRAST6 <- function(vname, cat=NULL, ignore.stderr = NULL,
 		if(length(vname) != length(cat)) 
 			stop("vname and cat not same length")
     
+    if (is.null(plugin))
+        plugin <- get("plugin", env = .GRASS_CACHE)
+    stopifnot(is.logical(plugin)|| is.null(plugin))
     if (!is.null(plugin) && plugin && length(vname) > 1) plugin <- FALSE
     if (is.null(ignore.stderr))
         ignore.stderr <- get("ignore.stderr", env = .GRASS_CACHE)

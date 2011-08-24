@@ -35,4 +35,27 @@ get.useGDALOption <- function() {
 	get("useGDAL", env = .GRASS_CACHE)
 }
 
+set.pluginOption <- function(value) {
+	if (!is.logical(value) || !is.null(value))
+            stop ("logical argument required")
+	res <- get("plugin", env = .GRASS_CACHE)
+	assign("plugin", value, env = .GRASS_CACHE)
+	res
+}
+
+get.pluginOption <- function() {
+	get("plugin", env = .GRASS_CACHE)
+}
+
+set.echoCmdOption <- function(value) {
+	if (!is.logical(value)) stop ("logical argument required")
+	res <- get("echoCmd", env = .GRASS_CACHE)
+	assign("echoCmd", value, env = .GRASS_CACHE)
+	res
+}
+
+get.echoCmdOption <- function() {
+	get("echoCmd", env = .GRASS_CACHE)
+}
+
 
