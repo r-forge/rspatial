@@ -26,8 +26,7 @@ the return object inherits the projection information of \code{x}; \code{gridat}
   of Roger Bivand.
 }
 
-\seealso{ \link[rgdal]{spTransform}; \link[rgdal]{llgridlines} for
-plotting long-lat grid over projected data }
+\seealso{ \link[rgdal]{spTransform}; llgridlines in \code{rgdal} (recent versions) for plotting long-lat grid over projected data }
 \examples{
 data(meuse)
 coordinates(meuse) = ~x+y
