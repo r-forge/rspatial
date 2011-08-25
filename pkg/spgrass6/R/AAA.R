@@ -42,19 +42,14 @@ if(!exists("Sys.setenv", envir = baseenv())) Sys.setenv <- Sys.putenv
   assign("stop_on_no_flags_paras", TRUE, envir=.GRASS_CACHE)
   assign("plugin", NULL, envir=.GRASS_CACHE)
   assign("echoCmd", FALSE, envir=.GRASS_CACHE)
-  GV <- system(paste("g.version", get("addEXE", envir=.GRASS_CACHE), sep=""),
-        intern=TRUE)
-  assign("GV", GV, envir=.GRASS_CACHE)
+  assign("GV", "", envir=.GRASS_CACHE)
 
 
   if (nchar(gisrc) == 0) gv <- "(GRASS not running)"
   else {
-    gv <- Sys.getenv("GRASS_VERSION")
-    if (nchar(gv) == 0) {
-      tull <- ifelse(.Platform$OS.type == "windows",
-        gv <- system(paste("g.version", .addexe(), sep=""), intern=TRUE), 
-        gv <- system("g.version", intern=TRUE, ignore.stderr=FALSE))
-    }
+      gv <- system(paste("g.version", get("addEXE", envir=.GRASS_CACHE),
+        sep=""),  intern=TRUE)
+    assign("GV", gv, envir=.GRASS_CACHE)
     if(nchar(loc) == 0) {
       gisrc <- ifelse(.Platform$OS.type == "windows" &&
                 (Sys.getenv("OSTYPE") == "cygwin"), 

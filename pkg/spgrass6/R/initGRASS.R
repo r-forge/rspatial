@@ -144,6 +144,10 @@ initGRASS <- function(gisBase, home, SG, gisDbase, location, mapset,
     Sys.setenv(GISDBASE=gisDbase)
     Sys.setenv(LOCATION_NAME=location)
     Sys.setenv(MAPSET=mapset)
+    gv <- system(paste("g.version", get("addEXE", envir=.GRASS_CACHE),
+        sep=""),  intern=TRUE)
+    assign("GV", gv, envir=.GRASS_CACHE)
+
     pfile <- paste(loc_path, "PERMANENT", "DEFAULT_WIND", sep="/")
     if (!file.exists(pfile)) {
         mSG <- !missing(SG)
