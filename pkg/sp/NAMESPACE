@@ -212,6 +212,8 @@ S3method(stack, SpatialPointsDataFrame)
 S3method(stack, SpatialPixelsDataFrame)
 S3method(stack, SpatialGridDataFrame)
 
+S3method(subset, SpatialPixels)
+S3method(subset, SpatialPixelsDataFrame)
 S3method(subset, SpatialPoints)
 S3method(subset, SpatialPointsDataFrame)
 
