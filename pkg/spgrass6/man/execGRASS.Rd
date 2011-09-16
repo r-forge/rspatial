@@ -11,11 +11,11 @@
   The functions provide an interface to GRASS commands run through \code{system}, based on the values returned by the \code{--interface description} flag using XML parsing. If required parameters are omitted, and have declared defaults, the defaults will be used.
 }
 \usage{
-execGRASS(cmd, ..., flags = NULL, parameters = NULL, intern = FALSE,
+execGRASS(cmd, flags = NULL, ..., parameters = NULL, intern = FALSE,
  ignore.stderr = NULL, Sys_ignore.stdout=FALSE, Sys_wait=TRUE,
  Sys_input=NULL, Sys_show.output.on.console=TRUE, Sys_minimized=FALSE,
  Sys_invisible=TRUE, echoCmd=NULL)
-doGRASS(cmd, ..., flags = NULL, parameters = NULL, echoCmd=NULL)
+doGRASS(cmd, flags = NULL, ..., parameters = NULL, echoCmd=NULL)
 parseGRASS(cmd)
 \method{print}{GRASS_interface_desc}(x, ...)
 getXMLencoding()
@@ -24,9 +24,9 @@ setXMLencoding(enc)
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{cmd}{GRASS command name}
-  \item{flags}{character vector of GRASS command flags; must be a named argument}
+  \item{flags}{character vector of GRASS command flags}
   \item{...}{for \code{execGRASS} and \code{doGRASS}, GRASS module parameters given as R named arguments directly. For the \code{print} method, other arguments to print method}
-  \item{parameters}{list of GRASS command parameters, used if GRASS parameters are not given as R arguments directly; must be a named argument; the two methods for passing GRASS parameters may not be mixed}
+  \item{parameters}{list of GRASS command parameters, used if GRASS parameters are not given as R arguments directly; the two methods for passing GRASS parameters may not be mixed}
   \item{intern}{a logical (not 'NA') which indicates whether to make the output of the command an R object. Not available unless 'popen' is supported on the platform}
   \item{ignore.stderr}{default NULL, taking the value set by \code{set.ignore.stderrOption}, a logical indicating whether error messages written to 'stderr' should be ignored}
   \item{Sys_ignore.stdout, Sys_wait, Sys_input}{pass extra arguments to \code{system}}

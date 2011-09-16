@@ -1,7 +1,7 @@
 parseGRASS <- function(cmd) {
     bin_out_win <- c("d.colors.exe", "d.save.exe", "d.what.rast.exe",
       "d.what.vect.exe", "d.zoom.exe", "g.parser.exe", "gis.m.bat",
-      "i.spectral.bat", "mkftcap.bat", "r.tileset.bat",
+      "i.spectral.bat", "mkftcap.bat", "r.mapcalc.exe", "r.tileset.bat",
       "r3.mapcalc.exe", "v.in.gpsbabel.bat", "v.proj.exe")
     if ((get("SYS", envir=.GRASS_CACHE) == "WinNat") && cmd %in% bin_out_win)
             stop(paste("No interface description:", cmd))
@@ -155,21 +155,14 @@ print.GRASS_interface_desc <- function(x, ...) {
     invisible(x)
 }
 
-doGRASS <- function(cmd, ..., flags=NULL, parameters=NULL, echoCmd=NULL) {
+doGRASS <- function(cmd, flags=NULL, ..., parameters=NULL, echoCmd=NULL) {
     if (!is.null(flags)) stopifnot(is.character(flags))
     if (!is.null(parameters)) stopifnot(is.list(parameters))
     if (is.null(echoCmd))
         echoCmd <- get("echoCmd", env = .GRASS_CACHE)
     stopifnot(is.logical(echoCmd))
 
-    G6 <- get("GV", envir=.GRASS_CACHE) < "GRASS 7"
-
-    if (G6 && cmd == "r.mapcalc") {
-        res <- paste(cmd, get("addEXE", envir=.GRASS_CACHE), sep="")
-        res <- paste(res, " ", " \"", ..., "\" ", sep="" )
-        if (echoCmd) cat("GRASS command:", res, "\n")
-        return(res)
-    }
+#    G6 <- get("GV", envir=.GRASS_CACHE) < "GRASS 7"
 
     dlist <- list(...)
     if (!is.null(parameters) && (length(dlist) > 0))
@@ -300,7 +293,7 @@ insert_required <- function(pcmd, parameters, pt, req, suppress_required) {
     parameters
 }
 
-execGRASS <- function(cmd, ..., flags=NULL, parameters=NULL, intern=FALSE,
+execGRASS <- function(cmd, flags=NULL, ..., parameters=NULL, intern=FALSE,
     ignore.stderr=NULL, Sys_ignore.stdout=FALSE, Sys_wait=TRUE,
     Sys_input=NULL, Sys_show.output.on.console=TRUE, Sys_minimized=FALSE,
     Sys_invisible=TRUE, echoCmd=NULL) {
