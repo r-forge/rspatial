@@ -1,3 +1,18 @@
+2011-09-16 07:08  rsbivand
+
+	* DESCRIPTION, R/xml1.R, man/execGRASS.Rd: reverting r.mapcalc
+	  until later
+
+2011-08-25 17:41  rsbivand
+
+	* R/AAA.R, R/initGRASS.R: fix g.version call only for GRASS running
+
+2011-08-24 13:43  rsbivand
+
+	* ChangeLog, inst/ChangeLog: adding plugin and echoCmd options,
+	  adding r.mapcalc in execGRASS() and doGRASS() for GRASS 6*, moved
+	  flags= beyond ...
+
 2011-08-24 13:42  rsbivand
 
 	* ChangeLog, DESCRIPTION, NAMESPACE, R/AAA.R, R/bin_link.R,
