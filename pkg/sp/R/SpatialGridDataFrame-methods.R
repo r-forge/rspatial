@@ -74,17 +74,11 @@ setMethod("coordinates", "SpatialGridDataFrame",
 	function(obj) coordinates(as(obj, "SpatialGrid")))
 
 row.names.SpatialGridDataFrame <- function(x) {
-	warning("row.names order might be wrong!")
-	1:prod(x@grid@cells.dim)
+	#warning("row.names order might be wrong!")
+	#1:prod(x@grid@cells.dim)
+	row.names(x@data)
 }
 
-#setIs("SpatialPixelsDataFrame", "SpatialPointsDataFrame",
-#	coerce = function(from) {
-#		# fullgrid(from) = FALSE ## not needed anymore
-#		new("SpatialPointsDataFrame",
-#			as(from, "SpatialPoints"), data = from@data, coords.nrs = from@coords.nrs)
-#	}, replace = function(obj, value) stop("no replace function for this coercion")
-#)
 as.SpPixDF.SpPoiDF = function(from)
 	new("SpatialPointsDataFrame", as(from, "SpatialPoints"), 
 		data = from@data, coords.nrs = from@coords.nrs)
