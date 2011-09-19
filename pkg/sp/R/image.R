@@ -2,6 +2,12 @@
 image.SpatialPixelsDataFrame = function(x, ...)
 	image(as(x, "SpatialGridDataFrame"), ...)
 
+image.SpatialPixels = function(x, ...) {
+        x <- SpatialPixelsDataFrame(x, data=data.frame(rep(1,
+            dim(coordinates(meuse.grid))[1])))
+        image(x, ...)
+}
+
 image.SpatialGridDataFrame = function(x, attr = 1, xcol = 1, ycol = 2,
                 col = heat.colors(12), 
 		red=NULL, green=NULL, blue=NULL, axes = FALSE, xlim = NULL, 

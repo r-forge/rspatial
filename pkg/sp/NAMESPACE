@@ -140,6 +140,7 @@ S3method(dim, SpatialPixelsDataFrame)
 S3method(dim, SpatialGridDataFrame)
 
 S3method(image, SpatialPixelsDataFrame)
+S3method(image, SpatialPixels)
 S3method(image, SpatialGridDataFrame)
 
 S3method(length, SpatialGrid)
