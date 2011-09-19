@@ -1,3 +1,41 @@
+2011-09-19 08:47  rsbivand
+
+	* NAMESPACE, R/image.R, man/image.Rd: adding image.SpatialPixels
+
+2011-09-19 08:27  rsbivand
+
+	* R/image.R: change to suppressWarnings() in image()
+
+2011-09-18 18:02  edzer
+
+	* NAMESPACE, R/projected.R: cosmetic / cleaned up files.
+
+2011-09-18 17:48  edzer
+
+	* DESCRIPTION, R/AAA.R, R/Class-SpatialGrid.R, R/Spatial-methods.R,
+	  R/SpatialGrid-methods.R, R/SpatialGridDataFrame-methods.R,
+	  R/gridded.R, R/projected.R, man/gridded-methods.Rd,
+	  tests/fail1.R, tests/fail1.Rout.save, tests/grid.R,
+	  tests/grid.Rout.save: version update;
+	  proj4string, proj4string<-, gridded, gridded<-, is.projected<-
+	  are now all S4 methods;
+	  SpatialGrid no longer inherits SpatialPixels directly but
+	  Spatial; it is made SpatialPixels
+	  by a call to setIs(), which sets the right coercion function (the
+	  previous setAs() failed to do
+	  this, see
+	  https://stat.ethz.ch/pipermail/r-devel/2011-September/062037.html
+	  .onLoad outcommented (warnings on CRAN); updated and checked test
+	  results; updated manuals.
+
+2011-09-17 19:24  rsbivand
+
+	* R/image.R: supress warning when plotting window in image
+
+2011-09-14 10:22  rsbivand
+
+	* ChangeLog, inst/ChangeLog: Changelog update
+
 2011-09-14 10:20  edzer
 
 	* src/pip.c: replaced Calloc/Free with call to R_alloc.
