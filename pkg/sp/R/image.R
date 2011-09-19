@@ -9,15 +9,11 @@ image.SpatialGridDataFrame = function(x, attr = 1, xcol = 1, ycol = 2,
 		setParUsrBB=FALSE, interpolate = FALSE, angle = 0,
                 useRasterImage=!.isSDI()) {
 
-	if (!add) {
-                owarn <- NULL
-                dots <- list(...)
-                if ("breaks" %in% names(dots)) owarn <- options("warn"=-1)
-		plot(as(x, "Spatial"),
+	if (!add) 
+		suppressWarnings(plot(as(x, "Spatial"),
 			xlim = xlim, ylim = ylim, axes = axes, asp = asp, ..., 
-			setParUsrBB=setParUsrBB)
-                if (!is.null(owarn)) options("warn"=owarn)
-        }
+			setParUsrBB=setParUsrBB))
+
         if (exists("rasterImage") && useRasterImage) {
             if (.isSDI()) warning("Bug in SDI raster handling - your R graphics window may stop displaying output")
             bb <- bbox(x)
