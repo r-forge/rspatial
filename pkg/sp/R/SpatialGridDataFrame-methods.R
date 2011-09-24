@@ -19,12 +19,12 @@ SpatialGridDataFrame = function(grid, data,
 
 setMethod("addAttrToGeom", signature(x = "SpatialPixels", y = "data.frame"),
 	function(x, y, match.ID, ...)
-		SpatialPixelsDataFrame(x, y, ...)
+		SpatialPixelsDataFrame(geometry(x), y, ...)
 )
 
 setMethod("addAttrToGeom", signature(x = "SpatialGrid", y = "data.frame"),
 	function(x, y, match.ID, ...)
-		SpatialGridDataFrame(x, y, ...)
+		SpatialGridDataFrame(geometry(x), y, ...)
 )
 
 as.SPixDF.SGDF = function(from) {
