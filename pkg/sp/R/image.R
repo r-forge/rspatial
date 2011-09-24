@@ -4,7 +4,7 @@ image.SpatialPixelsDataFrame = function(x, ...)
 
 image.SpatialPixels = function(x, ...) {
         x <- SpatialPixelsDataFrame(x, data=data.frame(rep(1,
-            dim(coordinates(meuse.grid))[1])))
+            dim(coordinates(x))[1])))
         image(x, ...)
 }
 
