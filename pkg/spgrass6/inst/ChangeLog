@@ -1,3 +1,12 @@
+2011-10-06 15:50  rsbivand
+
+	* DESCRIPTION, R/AAA.R: bypass non-null OSTYPE if not msys or
+	  cygwin
+
+2011-09-16 07:09  rsbivand
+
+	* ChangeLog, inst/ChangeLog: reverting r.mapcalc until later
+
 2011-09-16 07:08  rsbivand
 
 	* DESCRIPTION, R/xml1.R, man/execGRASS.Rd: reverting r.mapcalc
