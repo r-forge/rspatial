@@ -1,6 +1,6 @@
 Package: sp
-Version: 0.9-89
-Date: 2011-10-16
+Version: 0.9-91
+Date: 2011-10-18
 Title: classes and methods for spatial data
 Author: Edzer Pebesma <edzer.pebesma@uni-muenster.de>, Roger Bivand <Roger.Bivand@nhh.no> and others
 Authors@R: c(person("Edzer", "Pebesma", role = c("aut", "cre"),
@@ -18,7 +18,6 @@ Description: A package that provides classes and methods for spatial
   retrieving coordinates, for subsetting, print, summary, etc.
 License: GPL (>= 2)
 URL: http://rspatial.r-forge.r-project.org/
-LazyLoad: yes
 Collate: AAA.R Class-CRS.R CRS-methods.R Class-Spatial.R Spatial-methods.R
 	projected.R Class-SpatialPoints.R SpatialPoints-methods.R
 	Class-SpatialPointsDataFrame.R SpatialPointsDataFrame-methods.R
