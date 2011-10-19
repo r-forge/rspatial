@@ -545,14 +545,17 @@ SEXP SP_PREFIX(comment2comm)(SEXP obj) {
 
 void SP_PREFIX(comm2comment)(char *buf, int bufsiz, int *comm, int nps) {
     char cbuf[15];
-    int i, nc;
+    int i, nc, nc1;
 
-    nc = ceil(log10(nps)+1);
-    if (bufsiz < (nc*nps)+1) error("comm2comment: buffer overflow");
+    nc = ceil(log10(nps)+1)+1;
+    nc1 = (nc*nps)+1;
+    if (bufsiz < nc1) error("comm2comment: buffer overflow");
 
     sprintf(buf, "%d", comm[0]);
     for (i=1; i<nps; i++) {
         sprintf(cbuf, " %d", comm[i]);
+        if (strlen(buf) + strlen(cbuf) >= bufsiz)
+            error("comm2comment: buffer overflow");
         strcat(buf, cbuf);
     }
     strcat(buf, "\0");
