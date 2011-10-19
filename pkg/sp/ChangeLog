@@ -1,3 +1,12 @@
+2011-10-19 18:46  rsbivand
+
+	* inst/include/sp_xports.c, src/sp_xports.c: fix comment string
+	  length
+
+2011-10-19 18:01  rsbivand
+
+	* ChangeLog, inst/ChangeLog: tidy
+
 2011-10-19 18:00  rsbivand
 
 	* inst/include/sp_xports.c, src/sp_xports.c: add \0 to comment
