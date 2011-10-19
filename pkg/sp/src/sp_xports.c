@@ -547,13 +547,14 @@ void SP_PREFIX(comm2comment)(char *buf, int bufsiz, int *comm, int nps) {
     char cbuf[15];
     int i;
 
-    if (bufsiz < 2*nps) error("comm2comment: buffer overflow");
+    if (bufsiz < (2*nps)+1) error("comm2comment: buffer overflow");
 
     sprintf(buf, "%d", comm[0]);
     for (i=1; i<nps; i++) {
         sprintf(cbuf, " %d", comm[i]);
         strcat(buf, cbuf);
     }
+    strcat(buf, "\0");
     return;
 }
 
