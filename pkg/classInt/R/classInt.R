@@ -72,13 +72,14 @@ classIntervals <- function(var, n, style="quantile", rtimes=3, ..., intervalClos
   if (is.factor(var)) stop("var is categorical")
   if (!is.numeric(var)) stop("var is not numeric")
   ovar <- var
-  if (any(is.na(var))) 
+  if (any(is.na(var))) {
     warning("var has missing values, omitted in finding classes")
+    var <- c(na.omit(var))
+  }
   if (any(!is.finite(var))) {
     warning("var has infinite values, omitted in finding classes")
     is.na(var) <- !is.finite(var)
   }
-  var <- c(na.omit(var))
   nobs <- length(unique(var))
   if (nobs == 1) stop("single unique value")
   if (missing(n)) n <- nclass.Sturges(var)
