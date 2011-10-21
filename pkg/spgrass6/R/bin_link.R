@@ -19,6 +19,7 @@ readRAST6 <- function(vname, cat=NULL, ignore.stderr = NULL,
     if (is.null(useGDAL))
         useGDAL <- get("useGDAL", env = .GRASS_CACHE)
     stopifnot(is.logical(useGDAL))
+    if (useGDAL) require(rgdal)
     gdalD <- gdalDrivers()$name
     if (is.null(plugin)) {
 	plugin <- "GRASS" %in% gdalD
@@ -284,6 +285,7 @@ writeRAST6 <- function(x, vname, zcol = 1, NODATA=NULL,
         if (is.null(useGDAL))
             useGDAL <- get("useGDAL", env = .GRASS_CACHE)
         stopifnot(is.logical(useGDAL))
+        if (useGDAL) require(rgdal)
 	pid <- as.integer(round(runif(1, 1, 1000)))
 	gtmpfl1 <- dirname(execGRASS("g.tempfile", pid=pid,
 	    intern=TRUE, ignore.stderr=ignore.stderr))

@@ -17,6 +17,7 @@ readVECT6 <- function(vname, layer, type=NULL, plugin=NULL,
     if (G7) layer <- as.character(layer)
     if (driver == "GRASS") plugin <- TRUE
 
+    require(rgdal)
     if (is.null(plugin)) {
         ogrD <- ogrDrivers()$name
 	plugin <- "GRASS" %in% ogrD
@@ -225,6 +226,7 @@ writeVECT6 <- function(SDF, vname, #factor2char = TRUE,
         if (is.null(ignore.stderr))
             ignore.stderr <- get("ignore.stderr", env = .GRASS_CACHE)
         stopifnot(is.logical(ignore.stderr))
+        require(rgdal)
         ogrD <- ogrDrivers()$name
 	if (!(driver %in% ogrD))
             stop(paste("Requested driver", driver, "not available in rgdal"))

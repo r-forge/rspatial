@@ -59,6 +59,7 @@ writeRAST6(x, vname, zcol = 1, NODATA=NULL, ignore.stderr = NULL, useGDAL=NULL, 
 
 \examples{
 if (nchar(Sys.getenv("GISRC")) > 0) {
+  require(rgdal)
   ois <- get.ignore.stderrOption()
   set.ignore.stderrOption(TRUE)
   get.useGDALOption()

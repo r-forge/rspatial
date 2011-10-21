@@ -71,6 +71,7 @@ Please also note that, on Windows and Cygwin systems, the temporary shapefiles a
 
 \examples{
 if (nchar(Sys.getenv("GISRC")) > 0) {
+  require(rgdal)
   ois <- get.ignore.stderrOption()
   set.ignore.stderrOption(TRUE)
   if (execGRASS("g.version", intern=TRUE) > "GRASS 7") {

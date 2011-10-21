@@ -1,6 +1,6 @@
 import(sp)
 import(XML)
-import(rgdal)
+#import(rgdal)
 
 export(gmeta6, getLocationProj, gmeta2grd)
 export(execGRASS, doGRASS, parseGRASS, getXMLencoding, setXMLencoding)

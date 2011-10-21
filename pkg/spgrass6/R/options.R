@@ -28,6 +28,7 @@ set.useGDALOption <- function(value) {
 	if (!is.logical(value)) stop ("logical argument required")
 	res <- get("useGDAL", env = .GRASS_CACHE)
 	assign("useGDAL", value, env = .GRASS_CACHE)
+        if (value) require(rgdal)
 	res
 }
 

@@ -42,6 +42,7 @@ Maintainer: Roger Bivand <Roger.Bivand@nhh.no>
 
 \examples{
 if (nchar(Sys.getenv("GISRC")) > 0) {
+  require(rgdal)
   soilsph <- readRAST6("soils.ph", ignore.stderr=TRUE, plugin=FALSE)
   summary(soilsph)
   grd <- gmeta2grd(ignore.stderr=TRUE)
