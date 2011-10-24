@@ -19,8 +19,10 @@ readRAST6 <- function(vname, cat=NULL, ignore.stderr = NULL,
     if (is.null(useGDAL))
         useGDAL <- get("useGDAL", env = .GRASS_CACHE)
     stopifnot(is.logical(useGDAL))
-    if (useGDAL) require(rgdal)
-    else gdalD <- gdalDrivers()$name
+    if (useGDAL) {
+        require(rgdal)
+        gdalD <- gdalDrivers()$name
+    }
     if (!useGDAL && is.null(plugin)) plugin <- FALSE
     if (is.null(plugin)) {
 	plugin <- "GRASS" %in% gdalD
