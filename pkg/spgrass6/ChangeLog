@@ -1,3 +1,25 @@
+2011-10-24 09:52  rsbivand
+
+	* DESCRIPTION, R/bin_link.R: fix gdalDrivers() call
+
+2011-10-21 20:02  rsbivand
+
+	* R/bin_link.R: avoid gdalDrivers call
+
+2011-10-21 15:00  rsbivand
+
+	* DESCRIPTION, NAMESPACE, R/bin_link.R, R/options.R, R/vect_link.R,
+	  man/readRAST6.Rd, man/readVECT6.Rd, man/spgrass6.Rd: make rgdal
+	  suggested
+
+2011-10-06 15:58  rsbivand
+
+	* DESCRIPTION: tidy
+
+2011-10-06 15:52  rsbivand
+
+	* ChangeLog, inst/ChangeLog: tidy
+
 2011-10-06 15:50  rsbivand
 
 	* DESCRIPTION, R/AAA.R: bypass non-null OSTYPE if not msys or
