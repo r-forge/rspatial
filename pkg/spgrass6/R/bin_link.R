@@ -168,8 +168,14 @@ readRAST6 <- function(vname, cat=NULL, ignore.stderr = NULL,
 		        NODATA <- floor(lres$min) - 1
 		      }
                     }
-		    execGRASS("r.out.bin", flags="b", 
-			input=vname[i], output=gtmpfl11, 
+# 111024 Rainer Krug
+                    rOutBinFlags <- "b"
+                    if (to_int) rOutBinFlags <- c(rOutBinFlags, "i")
+                    else rOutBinFlags <- c(rOutBinFlags, "f")
+                    rOutBinBytes <- 4L
+                    if (Dcell) rOutBinBytes <- 8L
+		    execGRASS("r.out.bin", flags=rOutBinFlags, 
+			input=vname[i], output=gtmpfl11, bytes=rOutBinBytes,
 			null=as.integer(NODATA), ignore.stderr=ignore.stderr)
 
 		    res <- readBinGrid(rtmpfl11, colname=vname[i], 
@@ -382,13 +388,12 @@ writeBinGrid <- function(x, fname, attr = 1, na.value = NULL) {
 	}
 	res <- list()
 	res$anull <- formatC(na.value, format="d")
-	z[is.na(z)] = na.value
+	z[is.na(z)] = as.integer(na.value)
 	if (storage.mode(z) == "integer") {
 		sz <- 4
-		res$flag <- NULL
 	} else if (storage.mode(z) == "double") {
-		sz <- 4
-		res$flag <- "f"
+		sz <- 8
+		res$flag <- "d"
 	} else stop("unknown storage mode")
 	res$bytes <- formatC(sz, format="d")
 	f = file(fname, open = "wb")
