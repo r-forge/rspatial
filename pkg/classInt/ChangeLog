@@ -1,3 +1,20 @@
+2011-11-10 07:29  rsbivand
+
+	* DESCRIPTION, R/classInt.R: dots in fixed style
+
+2011-10-21 15:56  rsbivand
+
+	* DESCRIPTION, R/classInt.R: classInt NA handling
+
+2011-05-26 21:22  rsbivand
+
+	* DESCRIPTION, R/classInt.R, man/classIntervals.Rd: block Inf
+	  warning in print.classIntervals
+
+2011-02-22 16:37  rsbivand
+
+	* ChangeLog: tidy
+
 2011-02-22 16:24  rsbivand
 
 	* oChangeLog, svn2cl.xsl: tidy
