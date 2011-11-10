@@ -101,8 +101,11 @@ classIntervals <- function(var, n, style="quantile", rtimes=3, ..., intervalClos
     style="unique"
   } else {
     if (style =="fixed") {
-      mc <- match.call(expand.dots=FALSE)
-      fixedBreaks <- sort(eval(mc$...$fixedBreaks))
+#      mc <- match.call(expand.dots=FALSE)
+#      fixedBreaks <- sort(eval(mc$...$fixedBreaks))
+# Matthieu Stigler 111110
+      dots <- list(...)
+      fixedBreaks <- sort(dots$fixedBreaks)
       if (is.null(fixedBreaks)) 
         stop("fixed method requires fixedBreaks argument")
 #      if (length(fixedBreaks) != (n+1))
