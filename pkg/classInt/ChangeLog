@@ -1,3 +1,7 @@
+2011-11-10 07:30  rsbivand
+
+	* ChangeLog, inst/ChangeLog: dots in fixed style
+
 2011-11-10 07:29  rsbivand
 
 	* DESCRIPTION, R/classInt.R: dots in fixed style
