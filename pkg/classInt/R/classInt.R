@@ -186,6 +186,7 @@ classIntervals <- function(var, n, style="quantile", rtimes=3, ..., intervalClos
 # This version of the Jenks code assumes intervals are closed on
 # the right -- force it.
     	   intervalClosure = "right"
+           if (storage.mode(var) != "double") storage.mode(var) <- "double"
            d <- sort(var)
            k <- n
            #work<-matrix(0,k,length(d))
