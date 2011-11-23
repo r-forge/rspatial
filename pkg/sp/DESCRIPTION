@@ -1,6 +1,6 @@
 Package: sp
-Version: 0.9-91
-Date: 2011-10-18
+Version: 0.9-92
+Date: 2011-11-14
 Title: classes and methods for spatial data
 Author: Edzer Pebesma <edzer.pebesma@uni-muenster.de>, Roger Bivand <Roger.Bivand@nhh.no> and others
 Authors@R: c(person("Edzer", "Pebesma", role = c("aut", "cre"),
@@ -10,7 +10,7 @@ Authors@R: c(person("Edzer", "Pebesma", role = c("aut", "cre"),
 Maintainer: Edzer Pebesma <edzer.pebesma@uni-muenster.de>
 Depends: R (>= 2.10.0), methods
 Suggests: lattice, RColorBrewer, rgdal, rgeos (>= 0.1-8)
-Imports: utils, lattice, grid
+Imports: utils, graphics, lattice, grid
 Description: A package that provides classes and methods for spatial
   data. The classes document where the spatial location information
   resides, for 2D or 3D data. Utility functions are provided, e.g. for
