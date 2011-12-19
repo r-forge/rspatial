@@ -13,7 +13,7 @@ image.SpatialGridDataFrame = function(x, attr = 1, xcol = 1, ycol = 2,
 		red=NULL, green=NULL, blue=NULL, axes = FALSE, xlim = NULL, 
 		ylim = NULL, add = FALSE, ..., asp = NA, 
 		setParUsrBB=FALSE, interpolate = FALSE, angle = 0,
-                useRasterImage=!.isSDI(), 
+                useRasterImage=(!.isSDI() && missing(breaks)), breaks, 
 		zlim = range(x[[attr]][is.finite(x[[attr]])])) {
 
 	if (!add) 
@@ -37,6 +37,8 @@ image.SpatialGridDataFrame = function(x, attr = 1, xcol = 1, ycol = 2,
         }
 	if (is.null(red)) {
             if (exists("rasterImage") && useRasterImage) {
+	    	if (!missing(breaks))
+			warning("set useRasterImage to FALSE when using breaks")
                 x <- x[attr]
 #                NAs <- is.na(x[[1]])
                 m <-  scl(t(matrix(x[[1]], x@grid@cells.dim[1],
@@ -49,7 +51,7 @@ image.SpatialGridDataFrame = function(x, attr = 1, xcol = 1, ycol = 2,
                     interpolate = interpolate, angle = angle)
             } else {
 		image(as.image.SpatialGridDataFrame(x[attr], xcol, ycol), 
-                  add = TRUE, col = col, zlim = zlim, ...)
+                  add = TRUE, col = col, zlim = zlim, breaks = breaks, ...)
             }
 	} else {
 	    if (is.null(green) || is.null(blue)) 
@@ -57,6 +59,8 @@ image.SpatialGridDataFrame = function(x, attr = 1, xcol = 1, ycol = 2,
 # modified to handle NAs in input (typical for coercion of Spatial Pixels
 # to Spatial Grid)
             if (exists("rasterImage") && useRasterImage) {
+	    	if (!missing(breaks))
+			warning("set useRasterImage to FALSE when using breaks")
                 xd <- x@data[, c(red, green, blue)]
                 NAs <- is.na(xd[, 1]) | is.na(xd[, 2]) | is.na(xd[, 3])
                 if (any(NAs))
@@ -89,7 +93,7 @@ image.SpatialGridDataFrame = function(x, attr = 1, xcol = 1, ycol = 2,
 			x@grid@cells.dim[2], byrow=FALSE)
 		res <- list(x=cv[[xcol]], y=sort(cv[[ycol]]), 
 			z=m[,ncol(m):1,drop=FALSE])
-		image(res, col=levels(fcols), add = TRUE, ...)
+		image(res, col=levels(fcols), add = TRUE, breaks = breaks, ...)
             }
 	}
 }
