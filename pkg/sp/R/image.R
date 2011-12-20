@@ -24,14 +24,14 @@ image.SpatialGridDataFrame = function(x, attr = 1, xcol = 1, ycol = 2,
         if (exists("rasterImage") && useRasterImage) {
             if (.isSDI()) warning("Bug in SDI raster handling - your R graphics window may stop displaying output")
             bb <- bbox(x)
-            scl <- function(x, zlim) {
+            scl <- function(xx, zlim) {
                 #dr <- diff(range(x, na.rm = TRUE))
 		dr = diff(zlim)
                 #mx <- min(x, na.rm  = TRUE)
 		mx = zlim[1]
                 if (abs(dr) < .Machine$double.eps)
-                    res <- ifelse(is.na(x), x, 0.5)
-                else res <- (x - mx) / dr
+                    res <- ifelse(is.na(xx), xx, 0.5)
+                else res <- (xx - mx) / dr
                 res
             }
         }
@@ -39,9 +39,9 @@ image.SpatialGridDataFrame = function(x, attr = 1, xcol = 1, ycol = 2,
             if (exists("rasterImage") && useRasterImage) {
 	    	if (!missing(breaks))
 			warning("set useRasterImage to FALSE when using breaks")
-                x <- x[attr]
+                #x <- x[attr]
 #                NAs <- is.na(x[[1]])
-                m <-  scl(t(matrix(x[[1]], x@grid@cells.dim[1],
+                m <-  scl(t(matrix(x[attr][[1]], x@grid@cells.dim[1],
                     x@grid@cells.dim[2])), zlim)
                 m <- matrix(col[as.vector(m) * (length(col)-1) + 1], 
                     nrow(m), ncol(m))
