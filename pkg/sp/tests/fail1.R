@@ -99,6 +99,12 @@ coordinates(meuse.grid) <- c("x", "y")
 gridded(meuse.grid) <- TRUE
 gridparameters(meuse.grid)
 
+image(meuse.grid)
+image(meuse.grid[2])
+image(meuse.grid, 2)
+try(image(meuse.grid, 0))
+image(meuse.grid[3], breaks=c(0,.2,.5,.8,1), col = bpy.colors(4))
+
 data(meuse.grid)
 set.seed(1)
 meuse.grid$x <- meuse.grid$x + rnorm(length(meuse.grid$x), 0, 0.0002)
