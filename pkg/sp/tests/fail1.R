@@ -104,6 +104,11 @@ image(meuse.grid[2])
 image(meuse.grid, 2)
 try(image(meuse.grid, 0))
 image(meuse.grid[3], breaks=c(0,.2,.5,.8,1), col = bpy.colors(4))
+image(meuse.grid, 3, zlim = c(0,.3))
+image(meuse.grid, 3, zlim = c(.3,.1))
+image(meuse.grid, 3, zlim = c(.2,.8))
+image(meuse.grid, 3, zlim = c(.2,.8), breaks = c(.2,.4,.6,.8), 
+	col = bpy.colors(3))
 
 data(meuse.grid)
 set.seed(1)
