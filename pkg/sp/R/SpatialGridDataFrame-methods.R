@@ -231,9 +231,13 @@ subs.SpatialGridDataFrame <- function(x, i, j, ... , drop = FALSE) {
 	idx = as.vector(m) # t(m)?
 	if (any(is.na(idx)))
 		stop("NAs not permitted in index")
-	pts = SpatialPoints(coordinates(x)[idx,], CRS(proj4string(x)))
-	res = SpatialPixelsDataFrame(SpatialPixels(pts), x@data[idx, k, drop = FALSE])
-	as(res, "SpatialGridDataFrame")
+	pts = SpatialPoints(coordinates(x)[idx,,drop=FALSE], CRS(proj4string(x)))
+	if (length(idx) == 1)
+		SpatialPointsDataFrame(pts, x@data[idx, k, drop = FALSE])
+	else {
+		res = SpatialPixelsDataFrame(SpatialPixels(pts), x@data[idx, k, drop = FALSE])
+		as(res, "SpatialGridDataFrame")
+	}
 }
 setMethod("[", "SpatialGridDataFrame", subs.SpatialGridDataFrame)
 
