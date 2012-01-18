@@ -7,10 +7,10 @@ readVECT6 <- function(vname, layer, type=NULL, plugin=NULL,
 	pointDropZ=FALSE, driver="ESRI Shapefile") {
 
     if (is.null(plugin))
-        plugin <- get("plugin", env = .GRASS_CACHE)
+        plugin <- get("plugin", envir = .GRASS_CACHE)
     stopifnot(is.logical(plugin)|| is.null(plugin))
     if (is.null(ignore.stderr))
-        ignore.stderr <- get("ignore.stderr", env = .GRASS_CACHE)
+        ignore.stderr <- get("ignore.stderr", envir = .GRASS_CACHE)
     stopifnot(is.logical(ignore.stderr))
     G7 <- execGRASS("g.version", intern=TRUE) > "GRASS 7"
     if (missing(layer)) layer <- 1L
@@ -224,7 +224,7 @@ writeVECT6 <- function(SDF, vname, #factor2char = TRUE,
 	v.in.ogr_flags=NULL, ignore.stderr = NULL, driver="ESRI Shapefile") {
 
         if (is.null(ignore.stderr))
-            ignore.stderr <- get("ignore.stderr", env = .GRASS_CACHE)
+            ignore.stderr <- get("ignore.stderr", envir = .GRASS_CACHE)
         stopifnot(is.logical(ignore.stderr))
         require(rgdal)
         ogrD <- ogrDrivers()$name
@@ -286,7 +286,7 @@ writeVECT6 <- function(SDF, vname, #factor2char = TRUE,
 
 vInfo <- function(vname, layer, ignore.stderr = NULL) {
         if (is.null(ignore.stderr))
-            ignore.stderr <- get("ignore.stderr", env = .GRASS_CACHE)
+            ignore.stderr <- get("ignore.stderr", envir = .GRASS_CACHE)
         stopifnot(is.logical(ignore.stderr))
 
         G7 <- execGRASS("g.version", intern=TRUE) > "GRASS 7"
@@ -307,7 +307,7 @@ vInfo <- function(vname, layer, ignore.stderr = NULL) {
 
 vColumns <- function(vname, layer, ignore.stderr = NULL) {
         if (is.null(ignore.stderr))
-            ignore.stderr <- get("ignore.stderr", env = .GRASS_CACHE)
+            ignore.stderr <- get("ignore.stderr", envir = .GRASS_CACHE)
         stopifnot(is.logical(ignore.stderr))
         G7 <- execGRASS("g.version", intern=TRUE) > "GRASS 7"
         if (missing(layer)) layer <- 1L
@@ -323,7 +323,7 @@ vColumns <- function(vname, layer, ignore.stderr = NULL) {
 
 vDataCount <- function(vname, layer, ignore.stderr = NULL) {
         if (is.null(ignore.stderr))
-            ignore.stderr <- get("ignore.stderr", env = .GRASS_CACHE)
+            ignore.stderr <- get("ignore.stderr", envir = .GRASS_CACHE)
         stopifnot(is.logical(ignore.stderr))
         column <- "column" %in% parseGRASS("v.db.select")$pnames
         G7 <- execGRASS("g.version", intern=TRUE) > "GRASS 7"
@@ -438,7 +438,7 @@ vect2neigh <- function(vname, ID=NULL, ignore.stderr = NULL, remove=TRUE,
     vname2=NULL, units="k") {
 
     if (is.null(ignore.stderr))
-        ignore.stderr <- get("ignore.stderr", env = .GRASS_CACHE)
+        ignore.stderr <- get("ignore.stderr", envir = .GRASS_CACHE)
     stopifnot(is.logical(ignore.stderr))
 
     vinfo <- vInfo(vname)

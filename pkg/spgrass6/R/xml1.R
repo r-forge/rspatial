@@ -159,7 +159,7 @@ doGRASS <- function(cmd, flags=NULL, ..., parameters=NULL, echoCmd=NULL) {
     if (!is.null(flags)) stopifnot(is.character(flags))
     if (!is.null(parameters)) stopifnot(is.list(parameters))
     if (is.null(echoCmd))
-        echoCmd <- get("echoCmd", env = .GRASS_CACHE)
+        echoCmd <- get("echoCmd", envir = .GRASS_CACHE)
     stopifnot(is.logical(echoCmd))
 
 #    G6 <- get("GV", envir=.GRASS_CACHE) < "GRASS 7"
@@ -298,7 +298,7 @@ execGRASS <- function(cmd, flags=NULL, ..., parameters=NULL, intern=FALSE,
     Sys_input=NULL, Sys_show.output.on.console=TRUE, Sys_minimized=FALSE,
     Sys_invisible=TRUE, echoCmd=NULL) {
     if (is.null(ignore.stderr))
-        ignore.stderr <- get("ignore.stderr", env = .GRASS_CACHE)
+        ignore.stderr <- get("ignore.stderr", envir = .GRASS_CACHE)
     stopifnot(is.logical(ignore.stderr))
     syscmd <- doGRASS(cmd, flags=flags, ..., parameters=parameters,
         echoCmd=echoCmd)

@@ -10,14 +10,14 @@ readRAST6 <- function(vname, cat=NULL, ignore.stderr = NULL,
 			stop("vname and cat not same length")
     
     if (is.null(plugin))
-        plugin <- get("plugin", env = .GRASS_CACHE)
+        plugin <- get("plugin", envir = .GRASS_CACHE)
     stopifnot(is.logical(plugin)|| is.null(plugin))
     if (!is.null(plugin) && plugin && length(vname) > 1) plugin <- FALSE
     if (is.null(ignore.stderr))
-        ignore.stderr <- get("ignore.stderr", env = .GRASS_CACHE)
+        ignore.stderr <- get("ignore.stderr", envir = .GRASS_CACHE)
     stopifnot(is.logical(ignore.stderr))
     if (is.null(useGDAL))
-        useGDAL <- get("useGDAL", env = .GRASS_CACHE)
+        useGDAL <- get("useGDAL", envir = .GRASS_CACHE)
     stopifnot(is.logical(useGDAL))
     if (useGDAL) {
         require(rgdal)
@@ -168,15 +168,23 @@ readRAST6 <- function(vname, cat=NULL, ignore.stderr = NULL,
 		        NODATA <- floor(lres$min) - 1
 		      }
                     }
-# 111024 Rainer Krug
                     rOutBinFlags <- "b"
                     if (to_int) rOutBinFlags <- c(rOutBinFlags, "i")
                     else rOutBinFlags <- c(rOutBinFlags, "f")
-                    rOutBinBytes <- 4L
-                    if (Dcell) rOutBinBytes <- 8L
-		    execGRASS("r.out.bin", flags=rOutBinFlags, 
-			input=vname[i], output=gtmpfl11, bytes=rOutBinBytes,
-			null=as.integer(NODATA), ignore.stderr=ignore.stderr)
+# 120118 Rainer Krug
+                    if (Gver < "GRASS 6.4.2") {
+		        execGRASS("r.out.bin", flags=rOutBinFlags, 
+			    input=vname[i], output=gtmpfl11,
+			    null=as.integer(NODATA),
+                            ignore.stderr=ignore.stderr)
+                    } else {
+                        rOutBinBytes <- 4L
+                        if (Dcell) rOutBinBytes <- 8L
+		        execGRASS("r.out.bin", flags=rOutBinFlags, 
+			    input=vname[i], output=gtmpfl11, bytes=rOutBinBytes,
+			    null=as.integer(NODATA),
+                            ignore.stderr=ignore.stderr)
+                    }
 
 		    res <- readBinGrid(rtmpfl11, colname=vname[i], 
 			proj4string=p4,	integer=to_int)
@@ -289,10 +297,10 @@ writeRAST6 <- function(x, vname, zcol = 1, NODATA=NULL,
 
 
         if (is.null(ignore.stderr))
-            ignore.stderr <- get("ignore.stderr", env = .GRASS_CACHE)
+            ignore.stderr <- get("ignore.stderr", envir = .GRASS_CACHE)
         stopifnot(is.logical(ignore.stderr))
         if (is.null(useGDAL))
-            useGDAL <- get("useGDAL", env = .GRASS_CACHE)
+            useGDAL <- get("useGDAL", envir = .GRASS_CACHE)
         stopifnot(is.logical(useGDAL))
         if (useGDAL) require(rgdal)
 	pid <- as.integer(round(runif(1, 1, 1000)))
