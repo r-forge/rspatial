@@ -169,15 +169,16 @@ readRAST6 <- function(vname, cat=NULL, ignore.stderr = NULL,
 		      }
                     }
                     rOutBinFlags <- "b"
-                    if (to_int) rOutBinFlags <- c(rOutBinFlags, "i")
-                    else rOutBinFlags <- c(rOutBinFlags, "f")
 # 120118 Rainer Krug
                     if (Gver < "GRASS 6.4.2") {
+                        if (to_int) rOutBinFlags <- c(rOutBinFlags, "i")
 		        execGRASS("r.out.bin", flags=rOutBinFlags, 
 			    input=vname[i], output=gtmpfl11,
 			    null=as.integer(NODATA),
                             ignore.stderr=ignore.stderr)
                     } else {
+                        if (to_int) rOutBinFlags <- c(rOutBinFlags, "i")
+                        else rOutBinFlags <- c(rOutBinFlags, "f")
                         rOutBinBytes <- 4L
                         if (Dcell) rOutBinBytes <- 8L
 		        execGRASS("r.out.bin", flags=rOutBinFlags, 
