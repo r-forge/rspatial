@@ -1,87 +1,34 @@
 # Interpreted GRASS 6+ interface functions
-# Copyright (c) 2005-2011 Roger S. Bivand
+# Copyright (c) 2005-2012 Roger S. Bivand
 #
 
 readRAST6 <- function(vname, cat=NULL, ignore.stderr = NULL, 
 	NODATA=NULL, plugin=NULL, mapset=NULL, useGDAL=NULL, close_OK=TRUE,
-        drivername="GTiff") {
+        drivername="GTiff", return_SGDF=TRUE) {
 	if (!is.null(cat))
 		if(length(vname) != length(cat)) 
 			stop("vname and cat not same length")
     
     if (is.null(plugin))
-        plugin <- get("plugin", envir = .GRASS_CACHE)
+        plugin <- get.pluginOption()
     stopifnot(is.logical(plugin)|| is.null(plugin))
     if (!is.null(plugin) && plugin && length(vname) > 1) plugin <- FALSE
     if (is.null(ignore.stderr))
-        ignore.stderr <- get("ignore.stderr", envir = .GRASS_CACHE)
+        ignore.stderr <- get.ignore.stderrOption()
     stopifnot(is.logical(ignore.stderr))
     if (is.null(useGDAL))
-        useGDAL <- get("useGDAL", envir = .GRASS_CACHE)
+        useGDAL <- get.useGDALOption()
     stopifnot(is.logical(useGDAL))
     if (useGDAL) {
         require(rgdal)
         gdalD <- gdalDrivers()$name
     }
     if (!useGDAL && is.null(plugin)) plugin <- FALSE
-    if (is.null(plugin)) {
-	plugin <- "GRASS" %in% gdalD
-        if (length(vname) > 1) plugin <- FALSE
-        if (plugin) {
-            gg <- gmeta6()
-            if (is.null(mapset)) {
-                c_at <- strsplit(vname[1], "@")[[1]]
-                if (length(c_at) == 1) {
-                    mapset <- .g_findfile(vname[1], type="cell")
-                } else if (length(c_at) == 2) {
-                    mapset <- c_at[2]
-                    vname[1] <- c_at[1]
-                } else stop("malformed raster name")
-            }
-            fname <- paste(gg$GISDBASE, gg$LOCATION_NAME, mapset,
-                "cellhd", vname[1], sep="/")
-            fninfo <- GDALinfo(fname)
-            chks <- logical(4)
-            names(chks) <- c("cols", "rows", "origin.northing",
-                "origin.easting")
-            chks[1] <- isTRUE(all.equal(abs((gg$w-gg$e)/gg$ewres), fninfo[2],
-                tol=2e-7, check.attributes=FALSE))
-            chks[2] <- isTRUE(all.equal(abs((gg$n-gg$s)/gg$nsres), fninfo[1],
-                tol=2e-7, check.attributes=FALSE))
-# changed from gg$n 100129, thanks to Rainer Krug
-            chks[3] <- isTRUE(all.equal(gg$s, fninfo[5],
-                check.attributes=FALSE))
-            chks[4] <- isTRUE(all.equal(gg$w, fninfo[4],
-                check.attributes=FALSE))
-            if (any(!chks)) {
-              plugin <- FALSE
-              if (!ignore.stderr) {
-                cat("raster map/current region mismatch detected in components:\n")
-                print(chks)
-		cat("set plugin=TRUE to override; continuing with plugin=FALSE\n") 
-              }
-            }
-        }
-    }
+
+    if (is.null(plugin)) plugin <- "GRASS" %in% gdalD
+    if (length(vname) > 1) plugin <- FALSE
     if (plugin) {
-	if (!("GRASS" %in% gdalD)) stop("no GRASS plugin driver")
-        if (length(vname) > 1) stop("single raster required for plugin")
-        if (!is.null(cat) && cat[1]) warning("cat not used for plugin")
-        gg <- gmeta6()
-        if (is.null(mapset)) {
-            c_at <- strsplit(vname[1], "@")[[1]]
-            if (length(c_at) == 1) {
-                mapset <- .g_findfile(vname[1], type="cell")
-            } else if (length(c_at) == 2) {
-                mapset <- c_at[2]
-                vname[1] <- c_at[1]
-            } else stop("malformed raster name")
-        }
-        fname <- paste(gg$GISDBASE, gg$LOCATION_NAME, mapset,
-            "cellhd", vname[1], sep="/")
-        resa <- readGDAL(fname, silent=ignore.stderr)
-	names(resa) <- make.names(vname)
-	
+        resa <- read_plugin(vname, mapset=NULL, ignore.stderr=ignore.stderr)
     } else {
 	pid <- as.integer(round(runif(1, 1, 1000)))
 	p4 <- CRS(getLocationProj())
@@ -91,6 +38,10 @@ readRAST6 <- function(vname, cat=NULL, ignore.stderr = NULL,
 
 # 090311 fix for -c flag
         Cflag <- "c" %in% parseGRASS("r.out.gdal")$fnames
+
+        reslist <- vector(mode="list", length=length(vname))
+        names(reslist) <- vname
+
 	for (i in seq(along=vname)) {
 
 
@@ -111,8 +62,6 @@ readRAST6 <- function(vname, cat=NULL, ignore.stderr = NULL,
 			system(paste("cygpath -w", gtmpfl1, sep=" "), 
 			intern=TRUE), gtmpfl1)
 		gtmpfl11 <- paste(gtmpfl1, vname[i], sep=.Platform$file.sep)
-#                if (length(grep(" ", gtmpfl11)) > 0) 
-#                    gtmpfl11 <- paste("\"", gtmpfl11, "\"", sep="")
 		rtmpfl11 <- paste(rtmpfl1, vname[i], sep=.Platform$file.sep)
 
                 if (!is.null(NODATA)) {
@@ -141,11 +90,18 @@ readRAST6 <- function(vname, cat=NULL, ignore.stderr = NULL,
                     execGRASS("r.out.gdal", flags=flags,
 			parameters=paras, ignore.stderr=ignore.stderr)
 
-		    res <- readGDAL(rtmpfl11, p4s=getLocationProj(), 
-			silent=ignore.stderr)
-		    names(res) <- vname[i]
+#		    res <- readGDAL(rtmpfl11, p4s=getLocationProj(), 
+#			silent=ignore.stderr)
+#		    names(res) <- vname[i]
+
+                    if (i == 1) gdal_info <- GDALinfo(rtmpfl11,
+                        silent=ignore.stderr)
+
                     DS <- GDAL.open(rtmpfl11, read.only=FALSE)
+                    reslist[[i]] <- as.vector(getRasterData(DS, band=1))
+
                     deleteDataset(DS)
+                    GDAL.close(DS)
 		} else {
 # 061107 Dylan Beaudette NODATA
 # 071009 Markus Neteler's idea to use range
@@ -187,32 +143,55 @@ readRAST6 <- function(vname, cat=NULL, ignore.stderr = NULL,
                             ignore.stderr=ignore.stderr)
                     }
 
-		    res <- readBinGrid(rtmpfl11, colname=vname[i], 
-			proj4string=p4,	integer=to_int)
+                    if (i == 1) gdal_info <- bin_gdal_info(rtmpfl11, to_int)
+
+  	            what <- ifelse(to_int, "integer", "double")
+	            n <- gdal_info[1] * gdal_info[2]
+	            size <- gdal_info[10]/8
+
+		    reslist[[i]] <- readBinGridData(rtmpfl11, what=what,
+                        n=n, size=size, endian=attr(gdal_info, "endian"),
+                        nodata=attr(gdal_info, "nodata"))
+
 		    unlink(paste(rtmpfl1, list.files(rtmpfl1,
                         pattern=vname[i]), sep=.Platform$file.sep))
 		}
 
 
-		if (i == 1) resa <- res
-		else {
-			grida <- getGridTopology(resa)
-			grid <- getGridTopology(res)
-			if (!isTRUE(all.equal(grida, grid)))
-				stop("topology is not equal")
-			onames <- c(names(resa@data), names(res@data))
-			ncols <- dim(resa@data)[2]
-			lst <- vector(mode="list", length=ncols+1)
-			names(lst) <- onames
-			for (i in 1:ncols) lst[[i]] <- resa@data[[i]]
-			lst[[ncols+1]] <- res@data[[1]]
-			df <- data.frame(lst)
-			resa <- SpatialGridDataFrame(grid=grida, 
-				data=df, proj4string=p4)
-		}
+#		if (i == 1) resa <- res
+#		else {
+#			grida <- getGridTopology(resa)
+#			grid <- getGridTopology(res)
+#			if (!isTRUE(all.equal(grida, grid)))
+#				stop("topology is not equal")
+#			onames <- c(names(resa@data), names(res@data))
+#			ncols <- dim(resa@data)[2]
+#			lst <- vector(mode="list", length=ncols+1)
+#			names(lst) <- onames
+#			for (i in 1:ncols) lst[[i]] <- resa@data[[i]]
+#			lst[[ncols+1]] <- res@data[[1]]
+#			df <- data.frame(lst)
+#			resa <- SpatialGridDataFrame(grid=grida, 
+#				data=df, proj4string=p4)
+#		}
 	}
 
+
+        co <- unname(c((gdal_info[4] + (gdal_info[6]/2)),
+            (gdal_info[5] + (gdal_info[7]/2))))
+	grid <- GridTopology(co, unname(c(gdal_info[6], gdal_info[7])),
+            unname(c(gdal_info[1], gdal_info[2])))
+
 	if (close_OK) closeAllConnections()
+
+        if (!return_SGDF) return(list(reslist=reslist, grid=grid))
+
+        if (length(unique(sapply(reslist, length))) != 1)
+            stop ("bands differ in length")
+
+        df <- as.data.frame(reslist)
+
+	resa <- SpatialGridDataFrame(grid=grid, data=df, proj4string=p4)
 
 	if (!is.null(cat)) {
 		for (i in seq(along=cat)) {
@@ -241,9 +220,7 @@ readRAST6 <- function(vname, cat=NULL, ignore.stderr = NULL,
     resa
 }
 
-readBinGrid <- function(fname, colname=basename(fname), 
-	proj4string=CRS(as.character(NA)), integer) {
-	if (missing(integer)) stop("integer TRUE/FALSE required")
+bin_gdal_info <- function(fname, to_int) {
 	if (!file.exists(fname)) stop(paste("no such file:", fname))
 	if (!file.exists(paste(fname, "hdr", sep="."))) 
 		stop(paste("no such file:", paste(fname, "hdr", sep=".")))
@@ -261,7 +238,7 @@ readBinGrid <- function(fname, colname=basename(fname),
 	lres$nbands <- as.integer(lres$nbands)
 	lres$nbits <- as.integer(lres$nbits)
 	lres$skipbytes <- as.integer(lres$skipbytes)
-	lres$nodata <- ifelse(integer, as.integer(lres$nodata), 
+	lres$nodata <- ifelse(to_int, as.integer(lres$nodata), 
 		as.numeric(lres$nodata))
 	lres$byteorder <- as.character(lres$byteorder)
 	endian <- .Platform$endian
@@ -276,21 +253,124 @@ readBinGrid <- function(fname, colname=basename(fname),
 	lres$w_cc <- as.numeric(l6[5])
 	lres$s_cc <- lres$n_cc - lres$nsres * (lres$nrows-1)
 
-	what <- ifelse(integer, "integer", "double")
-	n <- lres$nrows * lres$ncols
-	size <- lres$nbits/8
+    outres <- numeric(10)
+    outres[1] <- lres$nrows
+    outres[2] <- lres$ncols
+    outres[3] <- lres$nbands
+    outres[4] <- lres$w_cc - (lres$ewres/2)
+    outres[5] <- lres$s_cc - (lres$nsres/2)
+    outres[6] <- lres$ewres
+    outres[7] <- lres$nsres
+    outres[10] <- lres$nbits
+    attr(outres, "endian") <- endian
+    attr(outres, "nodata") <- lres$nodata
+#	grid = GridTopology(c(lres$w_cc, lres$s_cc), 
+#		c(lres$ewres, lres$nsres), c(lres$ncols,lres$nrows))
+    outres
+}
+
+readBinGridData <- function(fname, what, n, size, endian, nodata) {
 	map <- readBin(fname, what=what, n=n, size=size, signed=TRUE,
 		endian=endian)
-	is.na(map) <- map == lres$nodata
-	grid = GridTopology(c(lres$w_cc, lres$s_cc), 
-		c(lres$ewres, lres$nsres), c(lres$ncols,lres$nrows))
-	df <- list(var1=map)
-	names(df) <- colname
-	df1 <- data.frame(df)
-
-	res <- SpatialGridDataFrame(grid, data = df1, proj4string=proj4string)
-	res
+	is.na(map) <- map == nodata
+	map
 }
+
+#readBinGrid <- function(fname, colname=basename(fname), 
+#	proj4string=CRS(as.character(NA)), integer) {
+#	if (missing(integer)) stop("integer TRUE/FALSE required")
+#	if (!file.exists(fname)) stop(paste("no such file:", fname))
+#	if (!file.exists(paste(fname, "hdr", sep="."))) 
+#		stop(paste("no such file:", paste(fname, "hdr", sep=".")))
+#	if (!file.exists(paste(fname, "wld", sep="."))) 
+#		stop(paste("no such file:", paste(fname, "wld", sep=".")))
+#	con <- file(paste(fname, "hdr", sep="."), "r")
+#	l8 <- readLines(con, n=8)
+#	close(con)
+#	l8 <- read.dcf(con <- textConnection(gsub(" ", ":", l8)))
+#	close(con)
+#	lres <- as.list(l8)
+#	names(lres) <- colnames(l8)
+#	lres$nrows <- as.integer(lres$nrows)
+#	lres$ncols <- as.integer(lres$ncols)
+#	lres$nbands <- as.integer(lres$nbands)
+#	lres$nbits <- as.integer(lres$nbits)
+#	lres$skipbytes <- as.integer(lres$skipbytes)
+#	lres$nodata <- ifelse(integer, as.integer(lres$nodata), 
+#		as.numeric(lres$nodata))
+#	lres$byteorder <- as.character(lres$byteorder)
+#	endian <- .Platform$endian
+#	if ((endian == "little" && lres$byteorder == "M") ||
+#		(endian == "big" && lres$byteorder == "I")) endian <- "swap"
+#	con <- file(paste(fname, "wld", sep="."), "r")
+#	l6 <- readLines(con, n=6)
+#	close(con)
+#	lres$ewres <- abs(as.numeric(l6[1]))
+#	lres$nsres <- abs(as.numeric(l6[4]))
+#	lres$n_cc <- as.numeric(l6[6])
+#	lres$w_cc <- as.numeric(l6[5])
+#	lres$s_cc <- lres$n_cc - lres$nsres * (lres$nrows-1)
+#
+#	what <- ifelse(integer, "integer", "double")
+#	n <- lres$nrows * lres$ncols
+#	size <- lres$nbits/8
+#	map <- readBin(fname, what=what, n=n, size=size, signed=TRUE,
+#		endian=endian)
+#	is.na(map) <- map == lres$nodata
+#	grid = GridTopology(c(lres$w_cc, lres$s_cc), 
+#		c(lres$ewres, lres$nsres), c(lres$ncols,lres$nrows))
+#	df <- list(var1=map)
+#	names(df) <- colname
+#	df1 <- data.frame(df)
+#
+#	res <- SpatialGridDataFrame(grid, data = df1, proj4string=proj4string)
+#	res
+#}
+
+read_plugin <- function(vname, mapset=NULL, ignore.stderr=NULL) {
+
+        if (is.null(ignore.stderr))
+            ignore.stderr <- get.ignore.stderrOption()
+        stopifnot(is.logical(ignore.stderr))
+        if (length(vname) > 1) stop("single raster required for plugin")
+
+        gg <- gmeta6()
+        if (is.null(mapset)) {
+            c_at <- strsplit(vname[1], "@")[[1]]
+            if (length(c_at) == 1) {
+                mapset <- .g_findfile(vname[1], type="cell")
+            } else if (length(c_at) == 2) {
+                mapset <- c_at[2]
+                vname[1] <- c_at[1]
+            } else stop("malformed raster name")
+        }
+
+        fname <- paste(gg$GISDBASE, gg$LOCATION_NAME, mapset,
+            "cellhd", vname[1], sep="/")
+        fninfo <- GDALinfo(fname, silent=ignore.stderr)
+        chks <- logical(4)
+        names(chks) <- c("cols", "rows", "origin.northing",
+            "origin.easting")
+        chks[1] <- isTRUE(all.equal(abs((gg$w-gg$e)/gg$ewres), fninfo[2],
+            tol=2e-7, check.attributes=FALSE))
+        chks[2] <- isTRUE(all.equal(abs((gg$n-gg$s)/gg$nsres), fninfo[1],
+            tol=2e-7, check.attributes=FALSE))
+# changed from gg$n 100129, thanks to Rainer Krug
+        chks[3] <- isTRUE(all.equal(gg$s, fninfo[5],
+            check.attributes=FALSE))
+        chks[4] <- isTRUE(all.equal(gg$w, fninfo[4],
+            check.attributes=FALSE))
+        if (any(!chks)) {
+            cat("raster map/current region mismatch detected in components:\n")
+            print(chks)
+	    stop("rerun with plugin=FALSE\n") 
+        }
+
+        resa <- readGDAL(fname, silent=ignore.stderr)
+	names(resa) <- make.names(vname)
+        resa
+}
+    
 
 writeRAST6 <- function(x, vname, zcol = 1, NODATA=NULL, 
 	ignore.stderr = NULL, useGDAL=NULL, overwrite=FALSE, flags=NULL,
@@ -298,10 +378,10 @@ writeRAST6 <- function(x, vname, zcol = 1, NODATA=NULL,
 
 
         if (is.null(ignore.stderr))
-            ignore.stderr <- get("ignore.stderr", envir = .GRASS_CACHE)
+            ignore.stderr <- get.ignore.stderrOption()
         stopifnot(is.logical(ignore.stderr))
         if (is.null(useGDAL))
-            useGDAL <- get("useGDAL", envir = .GRASS_CACHE)
+            useGDAL <- get.useGDALOption()
         stopifnot(is.logical(useGDAL))
         if (useGDAL) require(rgdal)
 	pid <- as.integer(round(runif(1, 1, 1000)))
