@@ -13,8 +13,17 @@ SpatialPixelsDataFrame = function(points, data,
 SpatialGridDataFrame = function(grid, data, 
 		proj4string = CRS(as.character(NA))) {
 	if (!is(grid, "SpatialGrid"))
-		grid = SpatialGrid(grid, proj4string)
-	new("SpatialGridDataFrame", grid, data = data)
+		SG = SpatialGrid(grid, proj4string)
+#	new("SpatialGridDataFrame", grid, data = data)
+# RSB 120122
+        res <- new("SpatialGridDataFrame")
+        slot(res, "bbox") <- SG@bbox
+        slot(res, "grid") <- SG@grid
+        slot(res, "coords") <- SG@coords
+        slot(res, "grid.index") <- SG@grid.index
+        slot(res, "proj4string") <- SG@proj4string
+        slot(res, "data") <- data
+        res
 }
 
 setMethod("addAttrToGeom", signature(x = "SpatialPixels", y = "data.frame"),

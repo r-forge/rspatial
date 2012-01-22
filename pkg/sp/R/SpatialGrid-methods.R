@@ -34,8 +34,16 @@ SpatialGrid = function(grid, proj4string = CRS(as.character(NA))) {
 	pts = boguspoints(grid)
 	pts@bbox[,1] = pts@bbox[,1] - 0.5 * grid@cellsize
 	pts@bbox[,2] = pts@bbox[,2] + 0.5 * grid@cellsize
-	new("SpatialGrid", grid = grid, coords = pts@coords, bbox = pts@bbox, grid.index = integer(0),
-		proj4string = proj4string)
+#	new("SpatialGrid", grid = grid, coords = pts@coords, bbox = pts@bbox, grid.index = integer(0),
+#		proj4string = proj4string)
+# RSB 120122
+        res <- new("SpatialGrid")
+        slot(res, "grid") <- grid
+        slot(res, "coords") <- pts@coords
+        slot(res, "bbox") <- pts@bbox
+        slot(res, "grid.index") <- integer(0)
+        slot(res, "proj4string") <- proj4string
+        res
 }
 
 setMethod("coordinates", "SpatialGrid", function(obj) coordinates(obj@grid))
