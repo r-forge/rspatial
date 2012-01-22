@@ -4,7 +4,7 @@
 
 readRAST6 <- function(vname, cat=NULL, ignore.stderr = NULL, 
 	NODATA=NULL, plugin=NULL, mapset=NULL, useGDAL=NULL, close_OK=TRUE,
-        drivername="GTiff", return_SGDF=TRUE) {
+        drivername="GTiff", driverFileExt=NULL, return_SGDF=TRUE) {
 	if (!is.null(cat))
 		if(length(vname) != length(cat)) 
 			stop("vname and cat not same length")
@@ -63,6 +63,10 @@ readRAST6 <- function(vname, cat=NULL, ignore.stderr = NULL,
 			intern=TRUE), gtmpfl1)
 		gtmpfl11 <- paste(gtmpfl1, vname[i], sep=.Platform$file.sep)
 		rtmpfl11 <- paste(rtmpfl1, vname[i], sep=.Platform$file.sep)
+                if (!is.null(driverFileExt)) {
+                    gtmpfl11 <- paste(gtmpfl1, driverFileExt, sep=".")
+                    rtmpfl11 <- paste(rtmpfl1, driverFileExt, sep=".")
+                }
 
                 if (!is.null(NODATA)) {
 		    if (!is.finite(NODATA) || !is.numeric(NODATA))

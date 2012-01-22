@@ -10,7 +10,7 @@ Read GRASS 6+ raster files from GRASS 6+ into R SpatialGridDataFrame objects, an
 
 
 \usage{
-readRAST6(vname, cat=NULL, ignore.stderr = NULL, NODATA=NULL, plugin=NULL, mapset=NULL, useGDAL=NULL, close_OK=TRUE, drivername="GTiff", return_SGDF=TRUE)
+readRAST6(vname, cat=NULL, ignore.stderr = NULL, NODATA=NULL, plugin=NULL, mapset=NULL, useGDAL=NULL, close_OK=TRUE, drivername="GTiff", driverFileExt=NULL, return_SGDF=TRUE)
 writeRAST6(x, vname, zcol = 1, NODATA=NULL, ignore.stderr = NULL, useGDAL=NULL, overwrite=FALSE, flags=NULL, drivername="GTiff")
 }
 %- maybe also 'usage' for other objects documented here.
@@ -23,6 +23,7 @@ writeRAST6(x, vname, zcol = 1, NODATA=NULL, ignore.stderr = NULL, useGDAL=NULL, 
   \item{useGDAL}{default NULL, taking the value set by \code{set.useGDALOption}; use r.out.gdal or plugin and \code{readGDAL} if autodetected or plugin=TRUE; or for writing \code{writeGDAL}, GTiff, and r.in.gdal, if FALSE using r.out.bin or r.in.bin}
   \item{close_OK}{default TRUE - clean up possible open connections used for reading metadata; may be set to FALSE to avoid the side-effect of other user-opened connections being broken}
   \item{drivername}{default \code{"GTiff"}; a valid GDAL writable driver name to define the file format for intermediate files}
+  \item{driverFileExt}{default NULL; otherwise string value of required driver file name extension}
   \item{return_SGDF}{default TRUE returning a \code{SpatialGridDataFrame} object, if FALSE, return a list with a \code{GridTopology} object and a list of bands}
   \item{x}{A SpatialGridDataFrame object for export to GRASS as a raster layer}
   \item{zcol}{Attribute column number or name}
