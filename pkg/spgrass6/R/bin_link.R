@@ -180,7 +180,7 @@ readRAST6 <- function(vname, cat=NULL, ignore.stderr = NULL,
         co <- unname(c((gdal_info[4] + (gdal_info[6]/2)),
             (gdal_info[5] + (gdal_info[7]/2))))
 	grid <- GridTopology(co, unname(c(gdal_info[6], gdal_info[7])),
-            unname(c(gdal_info[1], gdal_info[2])))
+            unname(c(gdal_info[2], gdal_info[1])))
 
 	if (close_OK) closeAllConnections()
 
