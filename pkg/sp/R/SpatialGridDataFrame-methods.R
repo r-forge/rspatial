@@ -10,20 +10,10 @@ SpatialPixelsDataFrame = function(points, data,
 	new("SpatialPixelsDataFrame", points, data = data)
 }
 
-SpatialGridDataFrame = function(grid, data, 
-		proj4string = CRS(as.character(NA))) {
+SpatialGridDataFrame = function(grid, data, proj4string = CRS(as.character(NA))) {
 	if (!is(grid, "SpatialGrid"))
-		SG = SpatialGrid(grid, proj4string)
-#	new("SpatialGridDataFrame", grid, data = data)
-# RSB 120122
-        res <- new("SpatialGridDataFrame")
-        slot(res, "bbox") <- SG@bbox
-        slot(res, "grid") <- SG@grid
-        slot(res, "coords") <- SG@coords
-        slot(res, "grid.index") <- SG@grid.index
-        slot(res, "proj4string") <- SG@proj4string
-        slot(res, "data") <- data
-        res
+		grid = SpatialGrid(grid, proj4string)
+	new("SpatialGridDataFrame", grid, data = data)
 }
 
 setMethod("addAttrToGeom", signature(x = "SpatialPixels", y = "data.frame"),
@@ -67,8 +57,8 @@ as.SGDF.SPixDF = function(from) {
 	new("SpatialPixelsDataFrame", 
 		new("SpatialPixels", 
 			new("SpatialPoints", coords = coordinates(from)[sel,], 
-				bbox = from@bbox, proj4string = CRS(proj4string(from))),
-			grid = from@grid, 
+				bbox = from@bbox, proj4string = from@proj4string),
+			grid = from@grid,
 			grid.index = which(sel)),
 		data = from@data[sel,,drop=FALSE])
 }

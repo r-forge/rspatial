@@ -16,6 +16,14 @@ SpatialPixels = function(points, tolerance = sqrt(.Machine$double.eps),
 		grid.index = getGridIndex(coordinates(points), grid))
 }
 
+SpatialGrid = function(grid, proj4string = CRS(as.character(NA))) {
+	stopifnot(is(grid, "GridTopology"))
+	pts = boguspoints(grid)
+	pts@bbox[,1] = pts@bbox[,1] - 0.5 * grid@cellsize
+	pts@bbox[,2] = pts@bbox[,2] + 0.5 * grid@cellsize
+	new("SpatialGrid", grid = grid, bbox = pts@bbox, proj4string = proj4string)
+}
+
 setMethod("coordinates", "SpatialPixels", function(obj) obj@coords)
 
 row.names.SpatialPixels <- function(x) {
@@ -30,27 +38,25 @@ row.names.SpatialGrid <- function(x) {
 	1:prod(x@grid@cells.dim)
 }
 
-SpatialGrid = function(grid, proj4string = CRS(as.character(NA))) {
-	pts = boguspoints(grid)
-	pts@bbox[,1] = pts@bbox[,1] - 0.5 * grid@cellsize
-	pts@bbox[,2] = pts@bbox[,2] + 0.5 * grid@cellsize
-#	new("SpatialGrid", grid = grid, coords = pts@coords, bbox = pts@bbox, grid.index = integer(0),
-#		proj4string = proj4string)
-# RSB 120122
-        res <- new("SpatialGrid")
-        slot(res, "grid") <- grid
-        slot(res, "coords") <- pts@coords
-        slot(res, "bbox") <- pts@bbox
-        slot(res, "grid.index") <- integer(0)
-        slot(res, "proj4string") <- proj4string
-        res
-}
+setAs("SpatialGrid", "SpatialPoints", 
+	function(from) SpatialPoints(coordinates(from), from@proj4string))
+
+setAs("SpatialGrid", "SpatialPixels", 
+	function(from) { 
+		pts = as(from, "SpatialPoints")
+		new("SpatialPixels", pts, grid = from@grid, grid.index = 1:length(pts))
+	}
+)
 
 setMethod("coordinates", "SpatialGrid", function(obj) coordinates(obj@grid))
 
+setMethod("plot", signature(x = "SpatialGrid", y = "missing"),
+    function(x,y,...) plot(as(x, "SpatialPoints"),...))
+
 coordnamesSG = function(x, value) {
 	dimnames(x@bbox)[[1]] = value
-	dimnames(x@coords)[[2]] = value
+	if (is(x, "SpatialPixels"))
+		dimnames(x@coords)[[2]] = value
 	coordnames(x@grid) = value
 	x
 }
@@ -61,8 +67,8 @@ setReplaceMethod("coordnames",
 	signature(x = "SpatialPixels", value = "character"), coordnamesSG)
 
 getGridTopology = function(obj) {
-	if (!is(obj, "SpatialPixels"))
-		stop("object is not or does not extend class SpatialPixels")
+	if (!(is(obj, "SpatialPixels") || is(obj, "SpatialGrid")))
+		stop("object is not or does not extend class SpatialPixels or SpatialGrid")
 	obj@grid
 }
 
@@ -75,7 +81,7 @@ areaSpatialGrid = function(obj) {
 }
 
 gridparameters = function(obj) { 
-	if (is(obj, "SpatialPixels"))
+	if (is(obj, "SpatialPixels") || is(obj, "SpatialGrid"))
 		obj = obj@grid
 	if (is(obj, "GridTopology"))
 		return(data.frame(
