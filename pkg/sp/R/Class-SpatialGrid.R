@@ -3,6 +3,10 @@ setClass("SpatialPixels",
 	validity = function(object) {
 		if (nrow(object@coords) != length(object@grid.index))
 			stop("grid.index should have length equal to nrow(coords)")
+		if (max(object@grid.index) > .NumberOfCells(object@grid))
+			stop("grid.index max value too large")
+		if (min(object@grid.index) < 1)
+			stop("grid.index min value too small")
 		return(TRUE)
 	}
 )
