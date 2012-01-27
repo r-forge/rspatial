@@ -18,11 +18,21 @@ SpatialPixels = function(points, tolerance = sqrt(.Machine$double.eps),
 
 SpatialGrid = function(grid, proj4string = CRS(as.character(NA))) {
 	stopifnot(is(grid, "GridTopology"))
-	pts = boguspoints(grid)
-	pts@bbox[,1] = pts@bbox[,1] - 0.5 * grid@cellsize
-	pts@bbox[,2] = pts@bbox[,2] + 0.5 * grid@cellsize
-	new("SpatialGrid", grid = grid, bbox = pts@bbox, proj4string = proj4string)
+	cc = rbind(grid@cellcentre.offset - 0.5 * grid@cellsize,
+			grid@cellcentre.offset + (grid@cells.dim - 0.5) * grid@cellsize)
+	bb = .bboxCoords(cc)
+	new("SpatialGrid", grid = grid, bbox = bb, proj4string = proj4string)
 }
+
+setAs("SpatialGrid", "SpatialPixels", 
+	function(from) { 
+		pts = as(from, "SpatialPoints")
+		new("SpatialPixels", pts, grid = from@grid, grid.index = 1:length(pts))
+	}
+)
+
+setAs("SpatialGrid", "SpatialPoints", 
+	function(from) SpatialPoints(coordinates(from), from@proj4string))
 
 setMethod("coordinates", "SpatialPixels", function(obj) obj@coords)
 
@@ -37,16 +47,6 @@ row.names.SpatialGrid <- function(x) {
 	#warning("row.names order might not reflect grid sequence!")
 	1:prod(x@grid@cells.dim)
 }
-
-setAs("SpatialGrid", "SpatialPoints", 
-	function(from) SpatialPoints(coordinates(from), from@proj4string))
-
-setAs("SpatialGrid", "SpatialPixels", 
-	function(from) { 
-		pts = as(from, "SpatialPoints")
-		new("SpatialPixels", pts, grid = from@grid, grid.index = 1:length(pts))
-	}
-)
 
 setMethod("coordinates", "SpatialGrid", function(obj) coordinates(obj@grid))
 
@@ -89,12 +89,6 @@ gridparameters = function(obj) {
 			cellsize = obj@cellsize,
 			cells.dim = obj@cells.dim))
 	return(numeric(0))
-}
-
-boguspoints = function(grid) {
-	x = rbind(grid@cellcentre.offset, 
-			grid@cellcentre.offset + (grid@cells.dim - 1) * grid@cellsize)
-	SpatialPoints(x)
 }
 
 getGridIndex = function(cc, grid, all.inside = TRUE) {
