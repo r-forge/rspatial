@@ -188,7 +188,11 @@ readRAST6 <- function(vname, cat=NULL, ignore.stderr = NULL,
 
 	if (close_OK) closeAllConnections()
 
-        if (!return_SGDF) return(list(reslist=reslist, grid=grid))
+        if (!return_SGDF) {
+           res <- list(grid=grid, dataList=reslist, proj4string=p4)
+           class(res) <- "gridList"
+           return(res)
+        }
 
         if (length(unique(sapply(reslist, length))) != 1)
             stop ("bands differ in length")

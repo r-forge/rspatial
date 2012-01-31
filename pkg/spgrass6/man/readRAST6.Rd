@@ -24,7 +24,7 @@ writeRAST6(x, vname, zcol = 1, NODATA=NULL, ignore.stderr = NULL, useGDAL=NULL, 
   \item{close_OK}{default TRUE - clean up possible open connections used for reading metadata; may be set to FALSE to avoid the side-effect of other user-opened connections being broken}
   \item{drivername}{default \code{"GTiff"}; a valid GDAL writable driver name to define the file format for intermediate files}
   \item{driverFileExt}{default NULL; otherwise string value of required driver file name extension}
-  \item{return_SGDF}{default TRUE returning a \code{SpatialGridDataFrame} object, if FALSE, return a list with a \code{GridTopology} object and a list of bands}
+  \item{return_SGDF}{default TRUE returning a \code{SpatialGridDataFrame} object, if FALSE, return a list with a \code{GridTopology} object, a list of bands, and a proj4string; see example below}
   \item{x}{A SpatialGridDataFrame object for export to GRASS as a raster layer}
   \item{zcol}{Attribute column number or name}
   \item{NODATA}{by default NULL, in which case it is set to one less than \code{floor()}of the data values, otherwise an integer NODATA value (required to be integer by GRASS r.out.bin)}
@@ -35,7 +35,7 @@ writeRAST6(x, vname, zcol = 1, NODATA=NULL, ignore.stderr = NULL, useGDAL=NULL, 
 }
 
 \value{
-\code{readRAST6} returns a SpatialGridDataFrame objects with an data.frame in the data slots, and with the projection argument set. Note that the projection argument set is the the GRASS rendering of proj4, and will differ from the WKT/ESRI rendering returned by readVECT6 in form but not meaning. They are exchangeable but not textually identical, usually with the +ellps= term replaced by ellipsoid parameters verbatim.
+\code{readRAST6} returns a SpatialGridDataFrame objects with an data.frame in the data slots, and with the projection argument set. Note that the projection argument set is the the GRASS rendering of proj4, and will differ from the WKT/ESRI rendering returned by readVECT6 in form but not meaning. They are exchangeable but not textually identical, usually with the +ellps= term replaced by ellipsoid parameters verbatim. If return_SGDF is FALSE, a list with a \code{GridTopology} object, a list of bands, and a proj4string is returned, with an S3 class attribute of \dQuote{gridList}.
 }
 
 
@@ -66,6 +66,20 @@ if (nchar(Sys.getenv("GISRC")) > 0) {
   execGRASS("g.remove", rast="sqdemSP")
   writeRAST6(spear, "sqdemSP", zcol="sqdem", useGDAL=TRUE)
   execGRASS("r.info", map="sqdemSP")
+  print(system.time(sqdemSP <- readRAST6(c("sqdemSP", "elevation.dem"),
+    useGDAL=TRUE, return_SGDF=FALSE)))
+  print(system.time(sqdemSP <- readRAST6(c("sqdemSP", "elevation.dem"),
+    useGDAL=TRUE, return_SGDF=TRUE)))
+  print(system.time(sqdemSP <- readRAST6(c("sqdemSP", "elevation.dem"),
+    useGDAL=FALSE, return_SGDF=TRUE)))
+  print(system.time(sqdemSP <- readRAST6(c("sqdemSP", "elevation.dem"),
+    useGDAL=FALSE, return_SGDF=FALSE)))
+  str(sqdemSP)
+  mat <- do.call("cbind", sqdemSP$dataList)
+  str(mat)
+  print(system.time(SGDF <- SpatialGridDataFrame(grid=sqdemSP$grid,
+    proj4string=sqdemSP$proj4string, data=as.data.frame(sqdemSP$dataList))))
+  summary(SGDF)
   execGRASS("g.remove", rast="sqdemSP")
   if (execGRASS("g.version", intern=TRUE) > "GRASS 7") {
     execGRASS("r.mapcalc", expression="quads0 = quads - 1")
