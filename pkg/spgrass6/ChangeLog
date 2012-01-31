@@ -1,106 +1,60 @@
 2012-01-31 21:39  rsbivand
 
 	* DESCRIPTION,
-	  R/bin_link.R,
-	  man/readRAST6.Rd:
-	  return_SGDF
+	  R/bin_link.R, man/readRAST6.Rd: return_SGDF
 
 2012-01-22 12:29  rsbivand
 
 	* R/bin_link.R,
-	  man/readRAST6.Rd:
-	  add
-	  extension
-	  string
-	  argument
-	  to
-	  readRAST6
+	  man/readRAST6.Rd: add extension string argument to readRAST6
 
 2012-01-22 11:55  rsbivand
 
 	* R/bin_link.R:
-	  revers
-	  rows/cols
-	  in
-	  readRAST6
+	  revers rows/cols in readRAST6
 
 2012-01-21 19:35  rsbivand
 
 	* DESCRIPTION,
-	  R/bin_link.R,
-	  man/readRAST6.Rd:
-	  refactoring
-	  readRAST6
+	  R/bin_link.R, man/readRAST6.Rd: refactoring readRAST6
 
 2012-01-18 13:10  rsbivand
 
 	* R/bin_link.R:
-	  fork
-	  r.out.bin
-	  on
-	  6.4.1/2
-	  to
-	  avoid
-	  f
-	  flag
+	  fork r.out.bin on 6.4.1/2 to avoid f flag
 
 2012-01-18 12:02  rsbivand
 
 	* DESCRIPTION,
-	  R/bin_link.R,
-	  R/options.R,
-	  R/vect_link.R,
-	  R/xml1.R:
-	  fork
-	  r.out.bin
-	  on
-	  6.4.1/2
-	  to
-	  avoid
-	  bytes
-	  parameter
+	  R/bin_link.R, R/options.R, R/vect_link.R, R/xml1.R: fork
+	  r.out.bin on 6.4.1/2 to avoid bytes parameter
 
 2011-10-24 14:34  rsbivand
 
 	* R/bin_link.R:
-	  r.out.bin
-	  flags
-	  fix
+	  r.out.bin flags fix
 
 2011-10-24 09:53  rsbivand
 
 	* ChangeLog,
-	  inst/ChangeLog:
-	  tidy
+	  inst/ChangeLog: tidy
 
 2011-10-24 09:52  rsbivand
 
 	* DESCRIPTION,
-	  R/bin_link.R:
-	  fix
-	  gdalDrivers()
-	  call
+	  R/bin_link.R: fix gdalDrivers() call
 
 2011-10-21 20:02  rsbivand
 
 	* R/bin_link.R:
-	  avoid
-	  gdalDrivers
-	  call
+	  avoid gdalDrivers call
 
 2011-10-21 15:00  rsbivand
 
 	* DESCRIPTION,
-	  NAMESPACE,
-	  R/bin_link.R,
-	  R/options.R,
-	  R/vect_link.R,
-	  man/readRAST6.Rd,
-	  man/readVECT6.Rd,
-	  man/spgrass6.Rd:
-	  make
-	  rgdal
-	  suggested
+	  NAMESPACE, R/bin_link.R, R/options.R, R/vect_link.R,
+	  man/readRAST6.Rd, man/readVECT6.Rd, man/spgrass6.Rd: make
+	  rgdal suggested
 
 2011-10-06 15:58  rsbivand
 
@@ -110,333 +64,171 @@
 2011-10-06 15:52  rsbivand
 
 	* ChangeLog,
-	  inst/ChangeLog:
-	  tidy
+	  inst/ChangeLog: tidy
 
 2011-10-06 15:50  rsbivand
 
 	* DESCRIPTION,
-	  R/AAA.R:
-	  bypass
-	  non-null
-	  OSTYPE
-	  if
-	  not
-	  msys
-	  or
-	  cygwin
+	  R/AAA.R: bypass non-null OSTYPE if not msys or cygwin
 
 2011-09-16 07:09  rsbivand
 
 	* ChangeLog,
-	  inst/ChangeLog:
-	  reverting
-	  r.mapcalc
-	  until
-	  later
+	  inst/ChangeLog: reverting r.mapcalc until later
 
 2011-09-16 07:08  rsbivand
 
 	* DESCRIPTION,
-	  R/xml1.R,
-	  man/execGRASS.Rd:
-	  reverting
-	  r.mapcalc
-	  until
-	  later
+	  R/xml1.R, man/execGRASS.Rd: reverting r.mapcalc until later
 
 2011-08-25 17:41  rsbivand
 
 	* R/AAA.R,
-	  R/initGRASS.R:
-	  fix
-	  g.version
-	  call
-	  only
-	  for
-	  GRASS
-	  running
+	  R/initGRASS.R: fix g.version call only for GRASS running
 
 2011-08-24 13:43  rsbivand
 
 	* ChangeLog,
-	  inst/ChangeLog:
-	  adding
-	  plugin
-	  and
-	  echoCmd
-	  options,
-	  adding
-	  r.mapcalc
-	  in
-	  execGRASS()
-	  and
-	  doGRASS()
-	  for
-	  GRASS
-	  6*,
-	  moved
-	  flags=
-	  beyond
-	  ...
+	  inst/ChangeLog: adding plugin and echoCmd options, adding
+	  r.mapcalc in execGRASS() and doGRASS() for GRASS 6*, moved
+	  flags= beyond ...
 
 2011-08-24 13:42  rsbivand
 
 	* ChangeLog,
-	  DESCRIPTION,
-	  NAMESPACE,
-	  R/AAA.R,
-	  R/bin_link.R,
-	  R/options.R,
-	  R/vect_link.R,
-	  R/xml1.R,
-	  man/execGRASS.Rd,
-	  man/gmeta6.Rd:
-	  adding
-	  plugin
-	  and
-	  echoCmd
-	  options,
-	  adding
-	  r.mapcalc
-	  in
-	  execGRASS()
-	  and
-	  doGRASS()
-	  for
-	  GRASS
-	  6*,
-	  moved
-	  flags=
-	  beyond
-	  ...
+	  DESCRIPTION, NAMESPACE, R/AAA.R, R/bin_link.R, R/options.R,
+	  R/vect_link.R, R/xml1.R, man/execGRASS.Rd, man/gmeta6.Rd: adding
+	  plugin and echoCmd options, adding r.mapcalc in execGRASS()
+	  and doGRASS() for GRASS 6*, moved flags= beyond ...
 
 2011-08-22 08:33  rsbivand
 
 	* inst/doc/OSGeo_vol1_GRASS-R.pdf:
-	  PDF
-	  correction
+	  PDF correction
 
 2011-08-22 08:32  rsbivand
 
 	* inst/doc/spgrass6_0.3.pdf:
-	  PDF
-	  correction
+	  PDF correction
 
 2011-08-22 08:30  rsbivand
 
 	* inst/doc/OSGeo_vol1_GRASS-R.pdf,
-	  inst/doc/spgrass6_0.3.pdf:
-	  PDF
-	  correction
+	  inst/doc/spgrass6_0.3.pdf: PDF correction
 
 2011-08-20 16:57  rsbivand
 
 	* ChangeLog,
-	  inst/ChangeLog:
-	  adding
-	  ...
-	  as
-	  parameters=
-	  replacement
-	  in
+	  inst/ChangeLog: adding ...  as parameters= replacement in
 	  execGRASS
 
 2011-08-20 16:56  rsbivand
 
 	* R/bin_link.R,
-	  R/vect_link.R,
-	  man/readVECT6.Rd:
-	  adding
-	  ...
-	  as
-	  parameters=
-	  replacement
-	  in
-	  execGRASS
+	  R/vect_link.R, man/readVECT6.Rd: adding ...  as parameters=
+	  replacement in execGRASS
 
 2011-08-20 16:38  rsbivand
 
 	* NAMESPACE,
-	  R/AAA.R,
-	  R/bin_link.R,
-	  R/options.R,
-	  R/spgrass6.R,
-	  R/vect_link.R,
-	  R/xml1.R,
-	  man/execGRASS.Rd,
-	  man/gmeta6.Rd,
-	  man/readRAST6.Rd,
-	  man/readVECT6.Rd:
-	  adding
-	  ...
-	  as
-	  parameters=
-	  replacement
-	  in
-	  execGRASS
+	  R/AAA.R, R/bin_link.R, R/options.R, R/spgrass6.R, R/vect_link.R,
+	  R/xml1.R, man/execGRASS.Rd, man/gmeta6.Rd, man/readRAST6.Rd,
+	  man/readVECT6.Rd: adding ...	as parameters= replacement
+	  in execGRASS
 
 2011-08-19 18:14  rsbivand
 
 	* DESCRIPTION,
-	  NAMESPACE,
-	  R/AAA.R,
-	  R/bin_link.R,
-	  R/options.R,
-	  R/xml1.R,
-	  man/execGRASS.Rd,
-	  man/readRAST6.Rd:
-	  starting
-	  adding
-	  options
-	  and
-	  defaults
+	  NAMESPACE, R/AAA.R, R/bin_link.R, R/options.R, R/xml1.R,
+	  man/execGRASS.Rd, man/readRAST6.Rd: starting adding options
+	  and defaults
 
 2011-08-17 09:34  rsbivand
 
 	* DESCRIPTION,
-	  NAMESPACE,
-	  R/AAA.R,
-	  man/initGRASS.Rd:
-	  adding
-	  NAMESPACE,
-	  onLoad()
+	  NAMESPACE, R/AAA.R, man/initGRASS.Rd: adding NAMESPACE, onLoad()
 
 2011-08-14 22:41  rsbivand
 
 	* ChangeLog,
-	  inst/ChangeLog:
-	  GIS_LOCK
-	  manipulation
+	  inst/ChangeLog: GIS_LOCK manipulation
 
 2011-08-14 22:40  rsbivand
 
 	* R/AAA.R,
-	  R/initGRASS.R:
-	  GIS_LOCK
-	  manipulation
+	  R/initGRASS.R: GIS_LOCK manipulation
 
 2011-08-14 22:02  rsbivand
 
 	* ChangeLog,
-	  inst/ChangeLog:
-	  add
-	  NAMESPACE
+	  inst/ChangeLog: add NAMESPACE
 
 2011-08-14 22:01  rsbivand
 
 	* NAMESPACE:
-	  add
-	  NAMESPACE
+	  add NAMESPACE
 
 2011-08-14 22:01  rsbivand
 
 	* DESCRIPTION,
-	  R/AAA.R,
-	  R/initGRASS.R,
-	  R/zzz.R,
-	  man/readRAST6.Rd,
-	  man/readVECT6.Rd:
-	  GIS_LOCK
-	  manipulation
+	  R/AAA.R, R/initGRASS.R, R/zzz.R, man/readRAST6.Rd,
+	  man/readVECT6.Rd: GIS_LOCK manipulation
 
 2011-08-14 18:24  rsbivand
 
 	* DESCRIPTION,
-	  R/initGRASS.R,
-	  man/initGRASS.Rd:
-	  GIS_LOCK
-	  manipulation
+	  R/initGRASS.R, man/initGRASS.Rd: GIS_LOCK manipulation
 
 2011-08-05 12:24  rsbivand
 
 	* R/bin_link.R:
-	  flags
-	  in
-	  writeGRASS6
+	  flags in writeGRASS6
 
 2011-06-22 08:39  rsbivand
 
 	* R/vect_link.R:
-	  tidying
-	  vect.link
-	  in
-	  spgrass6
+	  tidying vect.link in spgrass6
 
 2011-06-10 22:03  rsbivand
 
 	* DESCRIPTION,
-	  R/vect_link.R,
-	  man/readVECT6.Rd:
-	  sp
-	  comment
-	  buffer
-	  overflow
-	  fix
+	  R/vect_link.R, man/readVECT6.Rd: sp comment buffer overflow fix
 
 2011-03-30 18:03  rsbivand
 
 	* ChangeLog,
-	  inst/ChangeLog:
-	  fix
-	  vect2neigh
+	  inst/ChangeLog: fix vect2neigh
 
 2011-03-30 18:01  rsbivand
 
 	* DESCRIPTION,
-	  R/vect_link.R:
-	  fix
-	  vect2neigh
+	  R/vect_link.R: fix vect2neigh
 
 2011-03-13 15:34  rsbivand
 
 	* inst/ChangeLog:
-	  row
-	  numbers
-	  not
-	  names
-	  for
-	  bb
-	  in
-	  initGRASS
+	  row numbers not names for bb in initGRASS
 
 2011-03-13 15:33  rsbivand
 
 	* ChangeLog:
-	  row
-	  numbers
-	  not
-	  names
-	  for
-	  bb
-	  in
-	  initGRASS
+	  row numbers not names for bb in initGRASS
 
 2011-03-13 15:32  rsbivand
 
 	* ChangeLog,
-	  DESCRIPTION,
-	  R/initGRASS.R:
-	  row
-	  numbers
-	  not
-	  names
-	  for
-	  bb
-	  in
-	  initGRASS
+	  DESCRIPTION, R/initGRASS.R: row numbers not names for bb
+	  in initGRASS
 
 2011-02-22 16:37  rsbivand
 
 	* ChangeLog,
-	  inst/ChangeLog:
-	  tidy
+	  inst/ChangeLog: tidy
 
 2011-02-22 16:24  rsbivand
 
 	* oChangeLog,
-	  svn2cl.xsl:
-	  tidy
+	  svn2cl.xsl: tidy
 
 2011-02-22 16:18  rsbivand
 
@@ -446,71 +238,43 @@
 2011-02-12 11:33  rsbivand
 
 	* clearup
-	  after
-	  sourceforge
-	  outage
+	  after sourceforge outage
 
 2010-12-16 09:53  rsbivand
 
 	* adding
-	  only
-	  ESRI
-	  Shapefile,
-	  MapInfo
-	  File,
-	  GML,
-	  SQLite
-	  as
-	  valid
-	  intermediate
-	  vector
-	  drivers
+	  only ESRI Shapefile, MapInfo File, GML, SQLite as valid
+	  intermediate vector drivers
 
 2010-12-14 11:09  rsbivand
 
 	* adding
-	  driver
-	  choice
-	  for
-	  intermediate
-	  files
+	  driver choice for intermediate files
 
 2010-12-07 09:35  rsbivand
 
 	* adaptation
-	  for
-	  GRASS
-	  7
+	  for GRASS 7
 
 2010-12-06 15:25  rsbivand
 
 	* adaptation
-	  for
-	  GRASS
-	  7
+	  for GRASS 7
 
 2010-12-06 12:54  rsbivand
 
 	* adaptation
-	  for
-	  GRASS
-	  7
+	  for GRASS 7
 
 2010-11-18 08:13  rsbivand
 
 	* adding
-	  ...
-	  to
-	  execGRASS
+	  ...  to execGRASS
 
 2010-08-29 17:52  rsbivand
 
 	* add
-	  GRASS
-	  LD/PATH
-	  first
-	  not
-	  last
+	  GRASS LD/PATH first not last
 
 2010-07-10 17:31  rsbivand
 
@@ -519,54 +283,37 @@
 2010-06-12 04:45  rsbivand
 
 	* NODATA
-	  problem
-	  in
-	  readRAST6
+	  problem in readRAST6
 
 2010-04-29 07:07  rsbivand
 
 	* integer
-	  overflow
-	  in
-	  vect2neigh
+	  overflow in vect2neigh
 
 2010-04-23 03:57  rsbivand
 
 	* extra
-	  quote
-	  protection
-	  in
-	  doGRASS
+	  quote protection in doGRASS
 
 2010-03-28 15:38  rsbivand
 
 	* detect
-	  DCELL
-	  in
-	  readRAST6
+	  DCELL in readRAST6
 
 2010-03-28 13:44  rsbivand
 
 	* argument
-	  to
-	  control
-	  connection
-	  closing
-	  in
-	  readRAST6
+	  to control connection closing in readRAST6
 
 2010-01-29 12:58  rsbivand
 
 	* plugin
-	  n/s
-	  bug
-	  fix
+	  n/s bug fix
 
 2010-01-15 15:52  rsbivand
 
 	* rgdal
-	  version
-	  checking
+	  version checking
 
 2009-12-07 17:15  rsbivand
 
@@ -580,34 +327,22 @@
 2009-11-08 07:04  rsbivand
 
 	* protecting
-	  spaces
-	  in
-	  parameter
-	  values
+	  spaces in parameter values
 
 2009-10-22 18:55  rsbivand
 
 	* fixing
-	  locale
-	  problem
+	  locale problem
 
 2009-09-23 09:29  rsbivand
 
 	* no
-	  paramters
-	  in
-	  interface
-	  description
-	  warning
+	  paramters in interface description warning
 
 2009-09-23 09:29  rsbivand
 
 	* no
-	  paramters
-	  in
-	  interface
-	  description
-	  warning
+	  paramters in interface description warning
 
 2009-09-09 06:42  rsbivand
 
@@ -626,64 +361,38 @@
 2009-09-02 13:42  rsbivand
 
 	* fix
-	  to
-	  get
-	  round
-	  parameters
-	  needing
-	  multiple
-	  values
-	  having
-	  multiple=no
-	  in
-	  description
+	  to get round parameters needing multiple values having
+	  multiple=no in description
 
 2009-08-14 16:21  rsbivand
 
 	* adding
-	  @
-	  detection
-	  for
-	  plugin
+	  @ detection for plugin
 
 2009-08-14 16:09  rsbivand
 
 	* adding
-	  @
-	  detection
-	  for
-	  plugin
+	  @ detection for plugin
 
 2009-05-24 09:29  rsbivand
 
 	* added
-	  multiple
-	  parameter
-	  support
+	  multiple parameter support
 
 2009-04-21 19:11  rsbivand
 
 	* NODATA
-	  999
-	  test
-	  bug
-	  fixed
+	  999 test bug fixed
 
 2009-04-21 19:11  rsbivand
 
 	* NODATA
-	  999
-	  test
-	  bug
-	  fixed
+	  999 test bug fixed
 
 2009-04-21 06:36  rsbivand
 
 	* guard
-	  against
-	  rgdal
-	  <
-	  0.6-8
+	  against rgdal < 0.6-8
 
 2009-04-16 16:04  rsbivand
 
@@ -702,22 +411,17 @@
 2009-04-15 19:03  rsbivand
 
 	* fixing
-	  rough
-	  edges
-	  in
-	  input/output
+	  rough edges in input/output
 
 2009-04-15 14:44  rsbivand
 
 	* v.in.ogr
-	  flags
-	  NULL
+	  flags NULL
 
 2009-04-06 20:30  rsbivand
 
 	* bat
-	  check
-	  fix
+	  check fix
 
 2009-04-06 20:27  rsbivand
 
@@ -727,83 +431,67 @@
 2009-04-06 18:21  rsbivand
 
 	* bat
-	  check
-	  fix
+	  check fix
 
 2009-04-06 17:45  rsbivand
 
 	* bat
-	  check
-	  fix
+	  check fix
 
 2009-04-06 17:41  rsbivand
 
 	* bat
-	  check
-	  fix
+	  check fix
 
 2009-04-06 17:40  rsbivand
 
 	* Windows
-	  Native
-	  cleanup
+	  Native cleanup
 
 2009-04-06 17:12  rsbivand
 
 	* bat
-	  check
-	  fix
+	  check fix
 
 2009-04-06 17:10  rsbivand
 
 	* bat
-	  check
-	  fix
+	  check fix
 
 2009-04-06 17:03  rsbivand
 
 	* bat
-	  check
-	  fix
+	  check fix
 
 2009-04-06 16:37  rsbivand
 
 	* bat
-	  check
-	  fix
+	  check fix
 
 2009-04-06 09:17  rsbivand
 
 	* bat
-	  check
-	  fix
+	  check fix
 
 2009-04-05 19:41  rsbivand
 
 	* Windows
-	  Native
-	  cleanup
+	  Native cleanup
 
 2009-04-03 19:30  rsbivand
 
 	* Windows
-	  Native
-	  cleanup
+	  Native cleanup
 
 2009-04-03 11:35  rsbivand
 
 	* implementing
-	  via
-	  execGRASS
-	  phase
-	  2
+	  via execGRASS phase 2
 
 2009-04-02 20:27  rsbivand
 
 	* execGRASS
-	  conversion
-	  phase
-	  1
+	  conversion phase 1
 
 2009-04-02 09:09  rsbivand
 
@@ -812,23 +500,17 @@
 2009-04-02 09:05  rsbivand
 
 	* checking
-	  Windows
-	  initGRASS
+	  Windows initGRASS
 
 2009-04-01 19:47  rsbivand
 
 	* adding
-	  initGRASS
-	  and
-	  execGRASS
-	  functionality
+	  initGRASS and execGRASS functionality
 
 2009-03-13 14:42  rsbivand
 
 	* readVECT6
-	  NA
-	  cat
-	  values
+	  NA cat values
 
 2009-03-13 07:55  rsbivand
 
@@ -846,42 +528,32 @@
 2009-01-11 20:47  rsbivand
 
 	* tidying
-	  readRAST6
-	  messages
+	  readRAST6 messages
 
 2009-01-11 20:47  rsbivand
 
 	* tidying
-	  readRAST6
-	  messages
+	  readRAST6 messages
 
 2009-01-11 19:41  rsbivand
 
 	* tidying
-	  readRAST6
-	  messages
+	  readRAST6 messages
 
 2009-01-11 15:40  rsbivand
 
 	* tidying
-	  readRAST6
-	  messages
+	  readRAST6 messages
 
 2009-01-10 19:44  rsbivand
 
 	* use
-	  g.findfile
-	  to
-	  autodetect
-	  mapset
+	  g.findfile to autodetect mapset
 
 2009-01-10 19:43  rsbivand
 
 	* use
-	  g.findfile
-	  to
-	  autodetect
-	  mapset
+	  g.findfile to autodetect mapset
 
 2008-11-13 12:35  rsbivand
 
@@ -890,27 +562,17 @@
 2008-11-13 11:34  rsbivand
 
 	* cygwin
-	  needs
-	  .exe
-	  from
-	  GRASS
-	  6.3
+	  needs .exe from GRASS 6.3
 
 2008-11-13 11:08  rsbivand
 
 	* cygwin
-	  refresh
-	  -
-	  no
-	  temp
-	  flush
+	  refresh - no temp flush
 
 2008-11-13 10:29  rsbivand
 
 	* banner
-	  version
-	  and
-	  location
+	  version and location
 
 2008-10-17 07:01  rsbivand
 
@@ -939,48 +601,37 @@
 2008-09-18 20:54  rsbivand
 
 	* gdal
-	  in
-	  readRAST6
+	  in readRAST6
 
 2008-08-07 17:22  rsbivand
 
 	* NULL
-	  raster
-	  handling
+	  raster handling
 
 2008-08-07 17:02  rsbivand
 
 	* NULL
-	  raster
-	  handling
+	  raster handling
 
 2008-08-01 16:49  rsbivand
 
 	* all
-	  NULL
-	  readRAST6
+	  NULL readRAST6
 
 2008-06-27 06:20  rsbivand
 
 	* preparing
-	  for
-	  plugin=NULL
-	  default
+	  for plugin=NULL default
 
 2008-06-26 19:51  rsbivand
 
 	* shifting
-	  plugin
-	  to
-	  autodetect
+	  plugin to autodetect
 
 2008-06-26 18:44  rsbivand
 
 	* shifting
-	  plugin
-	  use
-	  to
-	  autodetect
+	  plugin use to autodetect
 
 2008-06-01 18:26  rsbivand
 
@@ -989,13 +640,7 @@
 2008-06-01 18:24  rsbivand
 
 	* added
-	  plugin
-	  facility
-	  for
-	  reading
-	  vectors
-	  and
-	  rasters
+	  plugin facility for reading vectors and rasters
 
 2008-04-17 21:46  rsbivand
 
@@ -1008,8 +653,7 @@
 2008-04-15 23:03  rsbivand
 
 	* native
-	  Win
-	  release
+	  Win release
 
 2008-04-08 09:42  rsbivand
 
@@ -1038,8 +682,7 @@
 2008-03-10 20:46  rsbivand
 
 	* duplicate
-	  check
-	  lines
+	  check lines
 
 2008-02-03 11:26  rsbivand
 
@@ -1067,17 +710,12 @@
 2007-10-08 18:26  rsbivand
 
 	* added
-	  -c
-	  option
-	  to
-	  readVECT6
+	  -c option to readVECT6
 
 2007-10-06 21:31  rsbivand
 
 	* new()
-	  mess
-	  in
-	  readRAST6
+	  mess in readRAST6
 
 2007-09-29 16:36  rsbivand
 
@@ -1091,17 +729,12 @@
 2007-09-03 19:03  rsbivand
 
 	* drop
-	  bug
-	  in
-	  readVECT6
+	  bug in readVECT6
 
 2007-08-26 17:45  rsbivand
 
 	* msys
-	  support
-	  for
-	  QGIS
-	  0.8.1
+	  support for QGIS 0.8.1
 
 2007-08-16 07:37  rsbivand
 
@@ -1124,9 +757,7 @@
 2007-01-31 10:12  rsbivand
 
 	* --q
-	  in
-	  6.3.cvs
-	  trap
+	  in 6.3.cvs trap
 
 2007-01-09 07:49  rsbivand
 
@@ -1164,9 +795,7 @@
 2006-08-22 19:31  rsbivand
 
 	* added
-	  binary
-	  raster
-	  transfer
+	  binary raster transfer
 
 2006-05-14 19:36  rsbivand
 
@@ -1181,20 +810,17 @@
 2005-09-29 18:02  rsbivand
 
 	* fix
-	  for
-	  cygwin
+	  for cygwin
 
 2005-06-21 08:32  rsbivand
 
 	* up
-	  to
-	  AttributeList
+	  to AttributeList
 
 2005-05-27 07:25  rsbivand
 
 	* removing
-	  GDAL
-	  dependency
+	  GDAL dependency
 
 2005-05-17 17:36  rsbivand
 
@@ -1207,8 +833,7 @@
 2005-04-27 14:05  rsbivand
 
 	* introduce
-	  sp
-	  dependency
+	  sp dependency
 
 2005-04-25 09:19  rsbivand
 
@@ -1229,11 +854,8 @@
 	* Initial
 	  revision
 
-1999-12-15 10:41  
+1999-12-15 10:41
 
 	* New
-	  repository
-	  initialized
-	  by
-	  cvs2svn.
+	  repository initialized by cvs2svn.
 
