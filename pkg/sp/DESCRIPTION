@@ -1,6 +1,6 @@
 Package: sp
-Version: 0.9-94
-Date: 2011-12-21
+Version: 0.9-95
+Date: 2012-02-02
 Title: classes and methods for spatial data
 Author: Edzer Pebesma <edzer.pebesma@uni-muenster.de>, Roger Bivand <Roger.Bivand@nhh.no> and others
 Authors@R: c(person("Edzer", "Pebesma", role = c("aut", "cre"),
