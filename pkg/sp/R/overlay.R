@@ -17,7 +17,7 @@ setMethod("overlay",
 
 setMethod("overlay",  # added
 	signature(x = "SpatialGridDataFrame", y = "SpatialPolygons"), 
-		 function(x, y, ...) overlayPointsWithPolygons(as(x, "SpatialPointsDataFrame"), y, ...))
+		 function(x, y, ...) overlayPointsWithPolygons(as(x, "SpatialPoints"), y, ...))
 
 setMethod("overlay", 
 	signature(x = "SpatialPoints", y = "SpatialPolygons"), 
