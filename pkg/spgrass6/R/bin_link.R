@@ -147,7 +147,7 @@ readRAST6 <- function(vname, cat=NULL, ignore.stderr = NULL,
                             ignore.stderr=ignore.stderr)
                     }
 
-                    if (i == 1) gdal_info <- bin_gdal_info(rtmpfl11, to_int)
+                    gdal_info <- bin_gdal_info(rtmpfl11, to_int)
 
   	            what <- ifelse(to_int, "integer", "double")
 	            n <- gdal_info[1] * gdal_info[2]
