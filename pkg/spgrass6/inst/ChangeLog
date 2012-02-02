@@ -1,3 +1,18 @@
+2012-02-02 14:19  rsbivand
+
+	* DESCRIPTION,
+	  R/bin_link.R: size bug in readRAST6
+
+2012-01-31 21:48  rsbivand
+
+	* ChangeLog,
+	  inst/ChangeLog: tidy
+
+2012-01-31 21:44  rsbivand
+
+	* ChangeLog,
+	  inst/ChangeLog: return_SGDF
+
 2012-01-31 21:39  rsbivand
 
 	* DESCRIPTION,
