@@ -321,3 +321,14 @@ setAs("SpatialGrid", "SpatialPolygons", function(from) {
 		ret
 	}
 )
+setMethod("coordnames", signature(x = "SpatialGrid"),
+	function(x) dimnames(bbox(x))[[1]])
+
+setReplaceMethod("coordnames", signature(x = "SpatialGrid", 
+	value =  "character"),
+    function(x, value) {
+		dimnames(x@bbox)[[1]] = value
+		coordnames(x@grid) = value
+		x
+	}
+)
