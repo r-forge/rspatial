@@ -270,7 +270,8 @@ writeVECT6 <- function(SDF, vname, #factor2char = TRUE,
             LAYER <- shname
         }
 
-	writeOGR(SDF, dsn=RDSN, layer=LAYER, driver=driver)
+	writeOGR(SDF, dsn=RDSN, layer=LAYER, driver=driver,
+            overwrite_layer=TRUE)
 
 
 	execGRASS("v.in.ogr", flags=v.in.ogr_flags,
