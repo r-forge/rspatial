@@ -38,6 +38,7 @@ readRAST6 <- function(vname, cat=NULL, ignore.stderr = NULL,
 
 # 090311 fix for -c flag
         Cflag <- "c" %in% parseGRASS("r.out.gdal")$fnames
+        g7 <- Gver >= "GRASS 7"
 
         reslist <- vector(mode="list", length=length(vname))
         names(reslist) <- vname
@@ -45,10 +46,15 @@ readRAST6 <- function(vname, cat=NULL, ignore.stderr = NULL,
 	for (i in seq(along=vname)) {
 
 
-		whCELL <- execGRASS("r.info", flags="t",
+		if (g7) {
+                    glist <- execGRASS("r.info", flags="g", map=vname[i],
+                    intern=TRUE, ignore.stderr=ignore.stderr)
+                    whCELL <- glist[grep("datatype", glist)]
+                } else {
+                    whCELL <- execGRASS("r.info", flags="t",
 		    map=vname[i], intern=TRUE, 
 		    ignore.stderr=ignore.stderr)
-
+                }
 		to_int <- length(which(unlist(strsplit(
 			whCELL, "=")) == "CELL")) > 0
                 Dcell <- length(which(unlist(strsplit(
