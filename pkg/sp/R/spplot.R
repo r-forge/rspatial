@@ -674,14 +674,14 @@ addNAemptyRowsCols = function(obj) {
 Fill.call.groups <-
 function (lst, z, ..., cuts, col.regions = trellis.par.get("regions")$col, 
     legendEntries = "", pch, cex = 1, fill = TRUE, do.log = FALSE, 
-    key.space = "bottom") 
+    key.space = "bottom", cex.key) 
 {
     dots = list(...)
     if (missing(pch)) 
         lst$pch = ifelse(fill, 16, 1)
     else lst$pch = pch
-    if (!missing(cex)) 
-        lst$cex = cex
+	if (!missing(cex.key))
+		cex = cex.key
     if (is.numeric(z)) {
         if (missing(cuts)) 
             cuts = 5
