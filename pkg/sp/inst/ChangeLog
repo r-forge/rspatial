@@ -1,3 +1,61 @@
+2012-03-28 10:26  rsbivand
+
+	* NAMESPACE, R/AAA.R, R/projected.R, R/spOptions.R,
+	  man/is.projected.Rd: option warn replace CRS
+
+2012-03-27 12:13  edzer
+
+	* DESCRIPTION, demo/depend.R: version increase; --as-cran added to
+	  dependency script
+
+2012-03-27 11:16  edzer
+
+	* demo/depend.R: parallel package checking.
+
+2012-03-26 20:54  edzer
+
+	* R/spplot.R: resolved cex issue.
+
+2012-03-26 11:55  edzer
+
+	* DESCRIPTION, R/spplot.R, inst/ChangeLog, inst/doc/intro_sp.Rnw,
+	  inst/doc/sp.Rnw: renamed sp vignette (for right order on CRAN
+	  page);
+	  version increase;
+	  added cex.key argument for spplot.points method.
+
+2012-03-22 21:53  edzer
+
+	* inst/doc/over.Rnw: improvements, sent by John Baumgartner.
+
+2012-03-16 14:01  edzer
+
+	* R/SpatialGrid-methods.R: allow character proj4string in
+	  SpatialGrid()
+
+2012-03-09 22:55  edzer
+
+	* DESCRIPTION, NAMESPACE, R/SpatialGrid-methods.R,
+	  R/SpatialGridDataFrame-methods.R, R/SpatialPoints-methods.R,
+	  R/SpatialPointsDataFrame-methods.R, R/subset.R,
+	  man/Spatial-class.Rd, tests/zerodist.Rout.save: removed existing
+	  subset method, and replaced them with a single S3 subset that
+	  works for all Spatial objects that have a [ method (using the
+	  syntax, and the
+	  example of subset.data.frame).
+
+2012-03-05 13:39  edzer
+
+	* DESCRIPTION: version / date update
+
+2012-03-05 08:36  edzer
+
+	* DESCRIPTION, R/spplot.R: spplot for SpatialPointsDataFrames used
+	  data value order, rather than
+	  data record order, as noted in:
+	  https://stat.ethz.ch/pipermail/r-sig-geo/2012-March/014399.html
+	  this has now been changed.
+
 2012-03-01 18:56  edzer
 
 	* man/SpatialPolygons-class.Rd,
