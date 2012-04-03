@@ -1,13 +1,11 @@
 Package: sp
 Version: 0.9-99
-Date: 2012-03-27
+Date: 2012-04-03
 Title: classes and methods for spatial data
-Author: Edzer Pebesma <edzer.pebesma@uni-muenster.de>, Roger Bivand <Roger.Bivand@nhh.no> and others
 Authors@R: c(person("Edzer", "Pebesma", role = c("aut", "cre"),
                     email = "edzer.pebesma@uni-muenster.de"),
-             person("Roger", "Bivand", role = c("aut", "cre"),
+             person("Roger", "Bivand", role = c("aut"),
                     email = "Roger.Bivand@nhh.no"))
-Maintainer: Edzer Pebesma <edzer.pebesma@uni-muenster.de>
 Depends: R (>= 2.10.0), methods, graphics
 Suggests: lattice, RColorBrewer, rgdal, rgeos (>= 0.1-8)
 Imports: utils, lattice, grid
