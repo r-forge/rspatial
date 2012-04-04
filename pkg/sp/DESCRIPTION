@@ -6,7 +6,7 @@ Authors@R: c(person("Edzer", "Pebesma", role = c("aut", "cre"),
                     email = "edzer.pebesma@uni-muenster.de"),
              person("Roger", "Bivand", role = c("aut"),
                     email = "Roger.Bivand@nhh.no"))
-Depends: R (>= 2.10.0), methods, graphics
+Depends: R (>= 2.14.0), methods, graphics
 Suggests: lattice, RColorBrewer, rgdal, rgeos (>= 0.1-8)
 Imports: utils, lattice, grid
 Description: A package that provides classes and methods for spatial
