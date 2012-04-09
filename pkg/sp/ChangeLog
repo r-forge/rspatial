@@ -1,3 +1,31 @@
+2012-04-09 18:15  rsbivand
+
+	* man/Polygons-class.Rd: update hole in Polygons documentation
+
+2012-04-04 18:03  edzer
+
+	* DESCRIPTION: DESCRIPTION depends on R >= 2.14.0
+
+2012-04-03 20:11  edzer
+
+	* DESCRIPTION, R/spplot.R: updated DESCRIPTION (removed
+	  author/maintainer fields); addressed spplot issue today on
+	  r-sig-geo
+
+2012-04-03 13:29  edzer
+
+	* R/gridlines.R, tests/grid.Rout.save, tests/pass1.Rout.save,
+	  tests/sp1.Rout.save, tests/zerodist.Rout.save: aligned test
+	  output with R 2.15.0
+
+2012-03-30 07:39  rsbivand
+
+	* R/projected.R: fix condition in replace CRS method
+
+2012-03-28 10:28  rsbivand
+
+	* ChangeLog, inst/ChangeLog: tidy
+
 2012-03-28 10:26  rsbivand
 
 	* NAMESPACE, R/AAA.R, R/projected.R, R/spOptions.R,
