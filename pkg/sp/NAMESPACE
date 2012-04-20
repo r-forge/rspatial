@@ -34,7 +34,7 @@ export(Line, Lines, SpatialLines, SpatialLinesDataFrame, as.SpatialLines.SLDF,
 export(layout.scale.bar, layout.north.arrow, sp.theme,
 	mapLegendGrob, spplot.key, panel.gridplot, panel.polygonsplot,
 	panel.pointsplot, sp.polygons, sp.text, sp.points, sp.lines,
-	sp.grid, SpatialPolygonsRescale, spplot.locator)
+	sp.grid, SpatialPolygonsRescale, spplot.locator, sp.panel.layout)
 # export(sp.pagefn)
 
 export(as.image.SpatialGridDataFrame, image2Grid)
