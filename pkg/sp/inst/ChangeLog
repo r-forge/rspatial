@@ -1,3 +1,36 @@
+2012-04-27 13:25  rsbivand
+
+	* man/SpatialPolygons-class.Rd: polypath default TRUE
+
+2012-04-27 12:59  rsbivand
+
+	* R/SpatialPolygons-displayMethods.R: polypath default TRUE
+
+2012-04-20 18:03  edzer
+
+	* NAMESPACE, man/panel.Rd: export, and document sp.panel.layout(),
+	  as might be required by ade4
+
+2012-04-16 13:12  rsbivand
+
+	* DESCRIPTION: adding top-level comment to SpatialPolygons for all
+	  member Polygons commented with OGC SFS kludge
+
+2012-04-16 13:09  rsbivand
+
+	* R/SpatialPolygons-methods.R,
+	  R/SpatialPolygonsDataFrame-methods.R: adding top-level comment to
+	  SpatialPolygons for all member Polygons commented with OGC SFS
+	  kludge
+
+2012-04-16 08:48  edzer
+
+	* man/over.Rd: added comment about left outer join.
+
+2012-04-09 18:16  rsbivand
+
+	* ChangeLog, inst/ChangeLog: update hole in Polygons documentation
+
 2012-04-09 18:15  rsbivand
 
 	* man/Polygons-class.Rd: update hole in Polygons documentation
