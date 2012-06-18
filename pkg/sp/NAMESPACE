@@ -112,7 +112,7 @@ exportMethods(show, bbox, coordinates, "coordinates<-",
 	coordnames, "coordnames<-", geometry, polygons, "polygons<-",
 	dimensions, coerce, "[", "[[", "$", "$<-", over, overlay, 
 	plot, recenter, spplot, spsample, summary, surfaceArea, split,
-	spChFIDs, "gridded<-", gridded, fullgrid, "fullgrid<-",
+	spChFIDs, "spChFIDs<-", "gridded<-", gridded, fullgrid, "fullgrid<-",
 	proj4string, "proj4string<-", is.projected,
 	addAttrToGeom)
 
