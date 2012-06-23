@@ -8,5 +8,7 @@ loadMeuse = function(gridded = TRUE) {
      gridded(meuse.grid) <<- ~x+y
   } else 
 	 coordinates(meuse.grid) <<- ~x+y
+  proj4string(meuse) <<- CRS("+init=epsg:28992")
+  proj4string(meuse.grid) <<- CRS("+init=epsg:28992")
   invisible(NULL)
 }
