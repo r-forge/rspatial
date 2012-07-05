@@ -68,9 +68,11 @@ classIntervals2shingle <- function(x) {
 # to the precision -- the argument equals the number of
 # decimal places in the data.  Negative numbers retain the usual
 # convention for rounding.
-classIntervals <- function(var, n, style="quantile", rtimes=3, ..., intervalClosure="left", dataPrecision=NULL) {
+classIntervals <- function(var, n, style="quantile", rtimes=3, ..., intervalClosure=c("left", "right"), dataPrecision=NULL) {
   if (is.factor(var)) stop("var is categorical")
   if (!is.numeric(var)) stop("var is not numeric")
+# Matthieu Stigler 120705
+  intervalClosure <- match.arg(intervalClosure)
   ovar <- var
   if (any(is.na(var))) {
     warning("var has missing values, omitted in finding classes")
@@ -305,7 +307,10 @@ findCols <- function(clI)  {
 # partition intervals are closed on the left or the right
 # Added dataPrecision for rounding of the interval endpoints
 tableClassIntervals <- function(cols, brks, under="under", over="over",
-   between="-", digits = getOption("digits"), cutlabels=TRUE, intervalClosure="left", dataPrecision=NULL) {
+   between="-", digits = getOption("digits"), cutlabels=TRUE, intervalClosure=c("left", "right"), dataPrecision=NULL, unique=FALSE, var) {
+# Matthieu Stigler 120705 unique
+# Matthieu Stigler 120705
+   intervalClosure <- match.arg(intervalClosure)
    lx <- length(brks)
    nres <- character(lx - 1)
    sep <- " "
@@ -337,12 +342,29 @@ tableClassIntervals <- function(cols, brks, under="under", over="over",
    else nres[lx - 1] <- paste(over, roundEndpoint(brks[lx - 1], intervalClosure, dataPrecision), sep=sep)
    tab <- table(factor(cols, levels=1:(lx - 1)))
    names(tab) <- nres
+
+# Matthieu Stigler 120705 unique
+   ## Assign unique label for intervals containing same left-right points
+  if(unique&!missing(var)){
+  
+    tab_unique<-tapply(var, cols, function(x) length(unique(x)))
+    tab_unique_vals<-tapply(var, cols, function(x) length(unique(x)))
+    if(any(tab_unique==1)){
+      w.unique <-which(tab_unique==1)
+      cat("Class found with one single (possibly repeated) value: changed label\n")
+      cols.unique <-cols%in%names(w.unique)
+      names(tab)[w.unique] <- tapply(var[cols.unique ], cols[cols.unique ], function(x) if(is.null(dataPrecision)) unique(x) else round(unique(x), dataPrecision))
+    }
+  }
+  
    tab
 }
 
 # change contributed by Richard Dunlap 090512
 # New helper method for tableClassIntervals
-roundEndpoint <- function(x, intervalClosure, dataPrecision) {
+roundEndpoint <- function(x, intervalClosure=c("left", "right"), dataPrecision) {
+# Matthieu Stigler 120705
+  intervalClosure <- match.arg(intervalClosure)
    if (is.null(dataPrecision)) {
       retval <- x
    }
@@ -357,7 +379,7 @@ roundEndpoint <- function(x, intervalClosure, dataPrecision) {
    format(retval, digits=digits, trim=TRUE)   
 }
 
-print.classIntervals <- function(x, digits = getOption("digits"), ..., under="under", over="over", between="-", cutlabels=TRUE) {
+print.classIntervals <- function(x, digits = getOption("digits"), ..., under="under", over="over", between="-", cutlabels=TRUE, unique=FALSE) {
    if (class(x) != "classIntervals") stop("Class interval object required")
    cat("style: ", attr(x, "style"), "\n", sep="")
    nP <- nPartitions(x)
@@ -368,7 +390,7 @@ print.classIntervals <- function(x, digits = getOption("digits"), ..., under="un
 # change contributed by Richard Dunlap 090512
 # passes the intervalClosure argument to tableClassIntervals
    tab <- tableClassIntervals(cols=cols, brks=x$brks, under=under, over=over,
-    between=between, digits=digits, cutlabels=cutlabels, intervalClosure=attr(x, "intervalClosure"), dataPrecision=attr(x, "dataPrecision"))
+    between=between, digits=digits, cutlabels=cutlabels, intervalClosure=attr(x, "intervalClosure"), dataPrecision=attr(x, "dataPrecision"), unique=unique, x$var)
    print(tab, digits=digits, ...)
    invisible(tab)
 }
