@@ -1,3 +1,27 @@
+2012-07-16 13:49  rsbivand
+
+	* DESCRIPTION, R/classInt.R, man/classIntervals.Rd, tests,
+	  tests/test_Unique.R, tests/test_Unique.Rout.save: adding unique
+	  revisions, documentation and tests
+
+2012-07-05 17:42  rsbivand
+
+	* DESCRIPTION: add unique label option, check intervalClusure
+
+2012-07-05 17:41  rsbivand
+
+	* R/classInt.R, man/classIntervals.Rd: add unique label option,
+	  check intervalClusure
+
+2011-11-21 10:34  rsbivand
+
+	* R/classInt.R, man/classIntervals.Rd: change jenks storage mode to
+	  double
+
+2011-11-14 10:58  rsbivand
+
+	* ChangeLog, inst/ChangeLog: tidy
+
 2011-11-10 07:30  rsbivand
 
 	* ChangeLog, inst/ChangeLog: dots in fixed style
