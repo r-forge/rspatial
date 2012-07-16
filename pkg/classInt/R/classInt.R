@@ -348,11 +348,13 @@ tableClassIntervals <- function(cols, brks, under="under", over="over",
   if(unique&!missing(var)){
   
     tab_unique<-tapply(var, cols, function(x) length(unique(x)))
-    tab_unique_vals<-tapply(var, cols, function(x) length(unique(x)))
+#    tab_unique_vals<-tapply(var, cols, function(x) length(unique(x)))
     if(any(tab_unique==1)){
-      w.unique <-which(tab_unique==1)
+#      w.unique <-which(tab_unique==1)
+      w.unique <-as.numeric(names(which(tab_unique==1)))
       cat("Class found with one single (possibly repeated) value: changed label\n")
-      cols.unique <-cols%in%names(w.unique)
+#      cols.unique <-cols%in%names(w.unique)
+      cols.unique <-cols%in%w.unique
       names(tab)[w.unique] <- tapply(var[cols.unique ], cols[cols.unique ], function(x) if(is.null(dataPrecision)) unique(x) else round(unique(x), dataPrecision))
     }
   }
