@@ -1,5 +1,5 @@
 # Interpreted GRASS 6+ interface functions
-# Copyright (c) 2005-2011 Roger S. Bivand
+# Copyright (c) 2005-2012 Roger S. Bivand
 #
 readVECT6 <- function(vname, layer, type=NULL, plugin=NULL,
         remove.duplicates=TRUE, 
@@ -15,6 +15,13 @@ readVECT6 <- function(vname, layer, type=NULL, plugin=NULL,
     G7 <- execGRASS("g.version", intern=TRUE) > "GRASS 7"
     if (missing(layer)) layer <- 1L
     if (G7) layer <- as.character(layer)
+# 120908 emails Markus Neteler, Markus Metz, default TRUE before G7
+    stopifnot(is.logical(with_c))
+    if (!G7) {
+      with_c <- !with_c
+      if (!ignore.stderr) 
+        message("with_c: argument reversed from version 0.7-11 and in GRASS 6")
+    }
     if (driver == "GRASS") plugin <- TRUE
 
     require(rgdal)
