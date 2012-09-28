@@ -1,0 +1,9 @@
+In package root do:
+svn up
+sh svn2cl.sh
+  If wrongly formatted (I see this on F17):
+  fmt < ChangeLog > tmp
+  mv tmp ChangeLog
+cp ChangeLog inst
+svn commit -m tidy
+svn up
