@@ -157,7 +157,7 @@ setReplaceMethod("coordnames",
 setMethod("coordinates", "SpatialPolygons", 
 	function(obj) {
 		ret = t(sapply(slot(obj, "polygons"), function(i) slot(i, "labpt")))
-		dimnames(ret)[[1]] = sapply(slot(obj, "polygons"), function(i) slot(i, "ID"))
+		dimnames(ret) = list(sapply(slot(obj, "polygons"), function(i) slot(i, "ID")), NULL)
 		ret
 	}
 )
