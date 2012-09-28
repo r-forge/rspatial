@@ -58,8 +58,18 @@ sp.grid = function(obj, col = 1, alpha = 1, ...) {
 	if (is.character(obj))
 		obj = get(obj)
 	xy = coordinates(obj)
-	if (length(col) != 1 && length(col) != nrow(xy)) {
-		# do something with col
+	if (length(col) != 1 && length(col) != nrow(xy) 
+			&& ("data" %in% slotNames(obj))) {
+		z = obj[[1]]
+		if (is.factor(z))
+			col = col[z]
+		else if (diff(range(z)) == length(col))
+			col = col[round(z - min(z))]
+		else { # cut:
+			bnds = seq(min(z), max(z), length.out = length(col))
+			z = cut(z, bnds, include.lowest=TRUE)
+			col = col[z]
+		}
 	}
 	gt = as(getGridTopology(obj), "data.frame")
 	grid.rect(x = xy[,1], y = xy[,2], width = gt$cellsize[1],
@@ -364,24 +374,35 @@ function (x, y, z, subscripts, at = pretty(z), shrink, labels = NULL,
 			pls = slot(grid.polygons, "polygons")
    			pO = slot(grid.polygons, "plotOrder")
    			for (i in pO) {
-       			Srs <- slot(pls[[i]], "Polygons")
-       			pOi <- slot(pls[[i]], "plotOrder")
-       			for (j in pOi) {
-					coords = slot(Srs[[j]], "coords")
-					if (slot(Srs[[j]], "hole")) {
-						bg = trellis.par.get()$background
-						if (bg$col == "transparent")
-							fill = "white"
-						else
-							fill = bg$col
-						alpha = bg$alpha
-					} else {
-						fill = col.regions[zcol[i]]
-						alpha = alpha.regions
+				if (get_Polypath()) {
+					obj = as(as(grid.polygons[i,], "SpatialLines"),
+							"SpatialPointsDataFrame")
+					cc = coordinates(obj)
+					id = as.numeric(obj$Line.NR)
+					fill = col.regions[zcol[i]]
+					alpha = alpha.regions
+					grid.path(cc[,1], cc[,2], id, default.units = "native",
+						gp = gpar(col = col, fill = fill, alpha = alpha, ...))
+				} else {
+       				Srs <- slot(pls[[i]], "Polygons")
+       				pOi <- slot(pls[[i]], "plotOrder")
+       				for (j in pOi) {
+						coords = slot(Srs[[j]], "coords")
+						if (slot(Srs[[j]], "hole")) {
+							bg = trellis.par.get()$background
+							if (bg$col == "transparent")
+								fill = "white"
+							else
+								fill = bg$col
+							alpha = bg$alpha
+						} else {
+							fill = col.regions[zcol[i]]
+							alpha = alpha.regions
+						}
+						gp = gpar(fill = fill, alpha = alpha, col = col, lwd = lwd, lty = lty)
+						grid.polygon(coords[,1], coords[,2], default.units = "native", 
+							gp = gp)
 					}
-					gp = gpar(fill = fill, alpha = alpha, col = col, lwd = lwd, lty = lty)
-					grid.polygon(coords[,1], coords[,2], default.units = "native", 
-						gp = gp)
 				}
    			}
 		}
