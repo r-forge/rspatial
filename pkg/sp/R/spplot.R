@@ -54,22 +54,17 @@ sp.points = function(obj, pch = 3, ...) {
 	panel.points(xy[,1], xy[,2], pch = pch, ...)
 }
 
-sp.grid = function(obj, col = 1, alpha = 1, ...) {
+sp.grid = function(obj, col = 1, alpha = 1, ..., at = pretty(obj[[1]]),
+		col.regions = col) {
 	if (is.character(obj))
 		obj = get(obj)
 	xy = coordinates(obj)
-	if (length(col) != 1 && length(col) != nrow(xy) 
-			&& ("data" %in% slotNames(obj))) {
+	if (length(col) > 1 && ("data" %in% slotNames(obj))) {
 		z = obj[[1]]
 		if (is.factor(z))
 			col = col[z]
-		else if (diff(range(z)) == length(col))
-			col = col[round(z - min(z))]
-		else { # cut:
-			bnds = seq(min(z), max(z), length.out = length(col))
-			z = cut(z, bnds, include.lowest=TRUE)
-			col = col[z]
-		}
+		else  # cut:
+    		col = level.colors(z, at, col.regions, colors = TRUE)
 	}
 	gt = as(getGridTopology(obj), "data.frame")
 	grid.rect(x = xy[,1], y = xy[,2], width = gt$cellsize[1],

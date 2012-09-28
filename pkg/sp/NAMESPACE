@@ -5,8 +5,9 @@ importFrom(graphics, plot, hist)
 importFrom(stats, aggregate)
 import(utils) # stack, to be changed later (2.5.0?) into
 import(lattice)
-importFrom(grid, grid.polygon, grid.rect, polygonGrob, gpar,
-	grid.layout, unit, frameGrob, placeGrob, rectGrob, grid.locator)
+importFrom(grid, grid.polygon, grid.path, grid.rect, polygonGrob, gpar,
+	grid.layout, unit, frameGrob, placeGrob, rectGrob, grid.locator,
+	grid.raster)
 
 export(CRS, print.CRS)
 
