@@ -30,8 +30,11 @@ if (!is.R()) {
 # sessionInfo()/read.dcf() problem in loop 080307
      if ("rgdal" %in% .packages()) {
 	if (!is.na(uprojargs)) {
-		res <- .Call("checkCRSArgs", uprojargs, 
-				PACKAGE="rgdal")
+	    si = sessionInfo()
+	    if (si$otherPkgs$rgdal$Version > "0.7-19")
+		res <- checkCRSArgs(uprojargs)
+	    else
+	    	res <- .Call("checkCRSArgs", uprojargs, PACKAGE="rgdal")
 	} else res <- list(TRUE, as.character(NA))
 	if (!res[[1]]) stop(res[[2]])
 	else uprojargs <- res[[2]]
