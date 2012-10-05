@@ -144,10 +144,10 @@ setMethod("[", "SpatialPixelsDataFrame", function(x, i, j, ... , drop = FALSE) {
 		i = TRUE
 	if (is.matrix(i))
 		stop("matrix argument not supported in SpatialPointsDataFrame selection")
-	if (any(is.na(i))) 
-		stop("NAs not permitted in row index")
 	if (is(i, "Spatial"))
 		i = !is.na(over(x, geometry(i)))
+	if (any(is.na(i))) 
+		stop("NAs not permitted in row index")
 	x@coords = x@coords[i, , drop = FALSE]
 	x@bbox = .bboxCoords(x@coords)
 	x@data = x@data[i, j, ..., drop = FALSE]
