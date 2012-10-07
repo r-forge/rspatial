@@ -38,7 +38,7 @@ as.SPixDF.SGDF = function(from) {
 		v[from@grid.index] = from@data[[i]]
 		data[[i]] = v
    	}
-   	data = data.frame(data)
+   	data = data.frame(data, stringsAsFactors = FALSE)
    	names(data) = names(from@data)
 	SpatialGridDataFrame(from@grid, data, CRS(proj4string(from)))
 }
