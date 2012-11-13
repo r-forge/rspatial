@@ -4,7 +4,7 @@ import(methods)
 importFrom(graphics, plot, hist)
 importFrom(stats, aggregate)
 import(utils) # stack, to be changed later (2.5.0?) into
-import(lattice)
+importFrom(lattice, levelplot, xyplot, trellis.par.get)
 importFrom(grid, grid.polygon, grid.path, grid.rect, polygonGrob, gpar,
 	grid.layout, unit, frameGrob, placeGrob, rectGrob, grid.locator,
 	grid.raster)
@@ -20,10 +20,6 @@ export(get_ll_warn, set_ll_warn, get_ll_TOL, set_ll_TOL, get_ReplCRS_warn,
 	set_PolypathRule)
 
 export(coordinatevalues)
-
-export(aggregate.Spatial)
-
-export(subset.Spatial)
 
 export(dimensions)
 

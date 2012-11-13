@@ -6,9 +6,9 @@ Authors@R: c(person("Edzer", "Pebesma", role = c("aut", "cre"),
                     email = "edzer.pebesma@uni-muenster.de"),
              person("Roger", "Bivand", role = c("aut"),
                     email = "Roger.Bivand@nhh.no"))
-Depends: R (>= 2.14.0), methods, graphics
+Depends: R (>= 2.14.0)
 Suggests: lattice, RColorBrewer, rgdal (>= 0.7-21), rgeos (>= 0.1-8)
-Imports: utils, lattice, grid
+Imports: methods, graphics, utils, lattice, grid
 Description: A package that provides classes and methods for spatial
   data. The classes document where the spatial location information
   resides, for 2D or 3D data. Utility functions are provided, e.g. for

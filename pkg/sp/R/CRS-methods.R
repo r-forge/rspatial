@@ -31,7 +31,7 @@ if (!is.R()) {
     if ("rgdal" %in% .packages()) {
 	if (!is.na(uprojargs)) {
 	    #res <- .Call("checkCRSArgs", uprojargs, PACKAGE="rgdal")
-	    res <- RGDAL_checkCRSArgs(uprojargs)
+	    res <- checkCRSArgs(uprojargs)
 	    if (!res[[1]]) 
 	    	stop(res[[2]])
             uprojargs <- res[[2]]
