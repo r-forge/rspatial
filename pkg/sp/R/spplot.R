@@ -8,12 +8,23 @@ sp.polygons = function(obj, col = 1, fill="transparent", ...) {
 	else
 		obj = as(obj, "SpatialPolygons")
 	if (get_Polypath()) {
+		lo = length(obj)
 		obj = as(as(obj, "SpatialLines"), "SpatialPointsDataFrame")
 		cc = coordinates(obj)
 		#id = as.numeric(obj$Line.NR)
 		id = as.numeric(obj$Lines.NR * max(obj$Line.NR) + (obj$Line.NR - 1))
-		grid.path(cc[,1], cc[,2], id, default.units = "native",
-			gp = gpar(col = col, fill = fill, ...))
+		if (length(fill) > 1 || length(col) > 1) {
+			fill = rep(fill, length.out = lo)
+			col = rep(col, length.out = lo)
+			for (i in 1:lo) {
+				sel = obj$Lines.NR == i
+				grid.path(cc[sel,1], cc[sel,2], id[sel], 
+					default.units = "native", 
+					gp = gpar(col = col[i], fill = fill[i], ...))
+			}
+		} else 
+			grid.path(cc[,1], cc[,2], id, default.units = "native",
+				gp = gpar(col = col, fill = fill, ...))
 	} else {
 		sp.polygon3 = function(x, col, fill, ...) { 
 			cc = slot(x, "coords")
