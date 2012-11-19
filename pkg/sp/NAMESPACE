@@ -4,7 +4,7 @@ import(methods)
 importFrom(graphics, plot, hist)
 importFrom(stats, aggregate)
 import(utils) # stack, to be changed later (2.5.0?) into
-importFrom(lattice, levelplot, xyplot, trellis.par.get)
+import(lattice)
 importFrom(grid, grid.polygon, grid.path, grid.rect, polygonGrob, gpar,
 	grid.layout, unit, frameGrob, placeGrob, rectGrob, grid.locator,
 	grid.raster)
@@ -129,7 +129,7 @@ export(
 	# is coerce, but needed to add proj4string:
 	as.SpatialPolygons.GridTopology, 
 
-	# as.SpatialPolygons.SpatialPixels,  -> is a coerce()
+	# as.SpatialPolygons.SpatialPixels, -> is a coerce(), but plotKML uses it
 	IDvaluesGridTopology, 
 	IDvaluesSpatialPixels, 
 	HexPoints2SpatialPolygons,
