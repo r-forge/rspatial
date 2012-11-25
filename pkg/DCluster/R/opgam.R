@@ -39,9 +39,6 @@ opgam.iscluster.negbin<-function(data, idx, idxorder, alpha, mle, R=999, ...)
 opgam<-function(data, thegrid=NULL, radius=Inf, step=NULL, alpha, iscluster=opgam.iscluster.default, set.idxorder=TRUE, ...)
 {
 	#If the Grid is null, then create a new grid
-# 110728 RSB/TNT
-        if (storage.mode(data$Observed) != "double")
-                data$Observed <- as.double(data$Observed)
 	if(is.null(thegrid))
 	{
 		if(is.null(step))
