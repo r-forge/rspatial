@@ -639,13 +639,13 @@ Data attributes:
  Mean   :179985   Mean   :331348   Mean   :0.3986   Mean   :0.6014  
  3rd Qu.:180580   3rd Qu.:332140   3rd Qu.:1.0000   3rd Qu.:1.0000  
  Max.   :181540   Max.   :333740   Max.   :1.0000   Max.   :1.0000  
-      dist             soil       ffreq   
- Min.   :0.0000   Min.   :1.000   1: 779  
- 1st Qu.:0.1193   1st Qu.:1.000   2:1335  
- Median :0.2715   Median :1.000   3: 989  
- Mean   :0.2971   Mean   :1.578           
- 3rd Qu.:0.4402   3rd Qu.:2.000           
- Max.   :0.9926   Max.   :3.000           
+      dist        soil     ffreq   
+ Min.   :0.0000   1:1665   1: 779  
+ 1st Qu.:0.1193   2:1084   2:1335  
+ Median :0.2715   3: 354   3: 989  
+ Mean   :0.2971                    
+ 3rd Qu.:0.4402                    
+ Max.   :0.9926                    
 > 
 > 
 > 
@@ -4506,13 +4506,13 @@ Grid attributes:
 x            178460       40        78
 y            329620       40       104
 Data attributes:
-     part.a           part.b            dist             soil       ffreq   
- Min.   :0.0000   Min.   :0.0000   Min.   :0.0000   Min.   :1.000   1: 779  
- 1st Qu.:0.0000   1st Qu.:0.0000   1st Qu.:0.1193   1st Qu.:1.000   2:1335  
- Median :0.0000   Median :1.0000   Median :0.2715   Median :1.000   3: 989  
- Mean   :0.3986   Mean   :0.6014   Mean   :0.2971   Mean   :1.578           
- 3rd Qu.:1.0000   3rd Qu.:1.0000   3rd Qu.:0.4402   3rd Qu.:2.000           
- Max.   :1.0000   Max.   :1.0000   Max.   :0.9926   Max.   :3.000           
+     part.a           part.b            dist        soil     ffreq   
+ Min.   :0.0000   Min.   :0.0000   Min.   :0.0000   1:1665   1: 779  
+ 1st Qu.:0.0000   1st Qu.:0.0000   1st Qu.:0.1193   2:1084   2:1335  
+ Median :0.0000   Median :1.0000   Median :0.2715   3: 354   3: 989  
+ Mean   :0.3986   Mean   :0.6014   Mean   :0.2971                    
+ 3rd Qu.:1.0000   3rd Qu.:1.0000   3rd Qu.:0.4402                    
+ Max.   :1.0000   Max.   :1.0000   Max.   :0.9926                    
 > 
 > 
 > 
@@ -4694,13 +4694,13 @@ Grid attributes:
 x            178460       40        78
 y            329620       40       104
 Data attributes:
-     part.a           part.b            dist             soil       ffreq   
- Min.   :0.0000   Min.   :0.0000   Min.   :0.0000   Min.   :1.000   1: 779  
- 1st Qu.:0.0000   1st Qu.:0.0000   1st Qu.:0.1193   1st Qu.:1.000   2:1335  
- Median :0.0000   Median :1.0000   Median :0.2715   Median :1.000   3: 989  
- Mean   :0.3986   Mean   :0.6014   Mean   :0.2971   Mean   :1.578           
- 3rd Qu.:1.0000   3rd Qu.:1.0000   3rd Qu.:0.4402   3rd Qu.:2.000           
- Max.   :1.0000   Max.   :1.0000   Max.   :0.9926   Max.   :3.000           
+     part.a           part.b            dist        soil     ffreq   
+ Min.   :0.0000   Min.   :0.0000   Min.   :0.0000   1:1665   1: 779  
+ 1st Qu.:0.0000   1st Qu.:0.0000   1st Qu.:0.1193   2:1084   2:1335  
+ Median :0.0000   Median :1.0000   Median :0.2715   3: 354   3: 989  
+ Mean   :0.3986   Mean   :0.6014   Mean   :0.2971                    
+ 3rd Qu.:1.0000   3rd Qu.:1.0000   3rd Qu.:0.4402                    
+ Max.   :1.0000   Max.   :1.0000   Max.   :0.9926                    
 > summary(meuse.riv)
 Object of class SpatialPolygons
 Coordinates:
@@ -5470,21 +5470,29 @@ integer(0)
 r1      1      0 0.00135803    1     1
 r2      1      0 0.00000000    1     1
 r3      0      1 0.00241427    1     1
-r4     NA     NA         NA   NA  <NA>
+r4     NA     NA         NA <NA>  <NA>
 > over(sr, meuse.grid, fn = mean)
-Warning in mean.default(X[[5L]], ...) :
+Warning in mean.default(X[[4L]], ...) :
   argument is not numeric or logical: returning NA
 Warning in mean.default(X[[5L]], ...) :
   argument is not numeric or logical: returning NA
-Warning in mean.default(X[[5L]], ...) :
+Warning in mean.default(X[[4L]], ...) :
   argument is not numeric or logical: returning NA
 Warning in mean.default(X[[5L]], ...) :
   argument is not numeric or logical: returning NA
-      part.a    part.b      dist     soil ffreq
-r1 1.0000000 0.0000000 0.2233190 1.593301    NA
-r2 0.3853306 0.6146694 0.3881792 1.902893    NA
-r3 0.0000000 1.0000000 0.2224238 1.116856    NA
-r4        NA        NA        NA       NA    NA
+Warning in mean.default(X[[4L]], ...) :
+  argument is not numeric or logical: returning NA
+Warning in mean.default(X[[5L]], ...) :
+  argument is not numeric or logical: returning NA
+Warning in mean.default(X[[4L]], ...) :
+  argument is not numeric or logical: returning NA
+Warning in mean.default(X[[5L]], ...) :
+  argument is not numeric or logical: returning NA
+      part.a    part.b      dist soil ffreq
+r1 1.0000000 0.0000000 0.2233190   NA    NA
+r2 0.3853306 0.6146694 0.3881792   NA    NA
+r3 0.0000000 1.0000000 0.2224238   NA    NA
+r4        NA        NA        NA   NA    NA
 > over(sr, meuse.grid, returnList = TRUE)
 [[1]]
     part.a part.b       dist soil ffreq
@@ -18033,16 +18041,22 @@ Warning in mean.default(X[[11L]], ...) :
 [3097] NA NA NA NA NA NA NA
 > 
 > overlay(meuse.grid, srdf, fn = mean)
-Warning in mean.default(X[[5L]], ...) :
+Warning in mean.default(X[[4L]], ...) :
   argument is not numeric or logical: returning NA
 Warning in mean.default(X[[5L]], ...) :
   argument is not numeric or logical: returning NA
+Warning in mean.default(X[[4L]], ...) :
+  argument is not numeric or logical: returning NA
 Warning in mean.default(X[[5L]], ...) :
   argument is not numeric or logical: returning NA
-     part.a    part.b      dist     soil ffreq
-1 1.0000000 0.0000000 0.2233190 1.593301    NA
-2 0.3853306 0.6146694 0.3881792 1.902893    NA
-3 0.0000000 1.0000000 0.2224238 1.116856    NA
+Warning in mean.default(X[[4L]], ...) :
+  argument is not numeric or logical: returning NA
+Warning in mean.default(X[[5L]], ...) :
+  argument is not numeric or logical: returning NA
+     part.a    part.b      dist soil ffreq
+1 1.0000000 0.0000000 0.2233190   NA    NA
+2 0.3853306 0.6146694 0.3881792   NA    NA
+3 0.0000000 1.0000000 0.2224238   NA    NA
 > overlay(meuse.grid, srdf)
    [1] NA NA NA NA NA NA NA NA  1  1  1 NA NA NA  1  1  1  1  1  1 NA NA  1  1
   [25]  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1 NA  1  1  1  1  1  1
@@ -18989,7 +19003,7 @@ Data attributes:
 > ### * <FOOTER>
 > ###
 > cat("Time elapsed: ", proc.time() - get("ptime", pos = 'CheckExEnv'),"\n")
-Time elapsed:  9.208 1.908 11.204 0 0 
+Time elapsed:  11.748 3.056 14.998 0 0 
 > grDevices::dev.off()
 null device 
           1 
