@@ -1,3 +1,123 @@
+2012-12-18 08:47  rsbivand
+
+	* DESCRIPTION, inst/include/sp_xports.c, src/sp_xports.c: catch
+	  empty comment string
+
+2012-12-10 17:49  edzer
+
+	* data/meuse.grid.rda, data/meuse.grid_ll.rda,
+	  tests/Examples/sp-Ex.Rout.save, tests/grid.Rout.save: changed
+	  meuse.grid$soil and meuse.grid_ll$soil into a factor; updated
+	  test
+	  outputs.
+
+2012-12-05 08:08  rsbivand
+
+	* src/gcdist.c: update link to Javascript GC distance code
+
+2012-11-24 18:46  edzer
+
+	* R/spplot.R: tidy
+
+2012-11-24 15:45  edzer
+
+	* man/char2dms.Rd: typo
+
+2012-11-19 15:49  edzer
+
+	* DESCRIPTION, NAMESPACE: added Barry and Virgilio as ctb
+
+2012-11-15 16:59  edzer
+
+	* NAMESPACE, R/SpatialPointsDataFrame-methods.R, R/spplot.R,
+	  man/SpatialPolygons-class.Rd,
+	  man/SpatialPolygonsDataFrame-class.Rd,
+	  tests/Examples/sp-Ex.Rout.save: removed some sample.Polygon(s)
+	  from examples; tidied NAMESPACE
+
+2012-11-13 15:59  edzer
+
+	* DESCRIPTION, NAMESPACE, R/CRS-methods.R, man/image.Rd,
+	  tests/Examples, tests/Examples/sp-Ex.Rout.save: moved Depends: to
+	  Imports: ; updated to new rgdal CRS interface;
+	  added examples output, and changed some (removed system.time(),
+	  to
+	  get consistent outputs)
+
+2012-10-31 17:58  edzer
+
+	* DESCRIPTION, R/CRS-methods.R, inst/ChangeLog: version increase;
+	  rgdal dependency on 0.7-21 (svn); now calls R wrapper
+	  for checkCRSArgs in rgdal.
+
+2012-10-31 15:13  edzer
+
+	* NAMESPACE, inst/ChangeLog, tests/fail1.Rout.save: NAMESPACE:
+	  tidy; ChangeLog: update; fail1 test: sync with R 2.15.2
+
+2012-10-28 13:25  rsbivand
+
+	* R/SpatialPolygons-methods.R: tess/Polygons crash prevention
+
+2012-10-21 20:25  edzer
+
+	* inst/doc/over.Rnw: added reference to spatio-temporal
+	  overlay/aggregation vignette.
+
+2012-10-19 19:41  rsbivand
+
+	* inst/include/sp_xports.c, src/sp_xports.c: adding comment about
+	  ringDir
+
+2012-10-12 21:05  edzer
+
+	* man/bpy.colors.Rd: removed dead link
+
+2012-10-10 16:27  edzer
+
+	* ChangeLog, DESCRIPTION: version update
+
+2012-10-09 21:00  edzer
+
+	* R/spsample.R: forgot ,,drop=FALSE in sample.Spatial, which broke
+	  surveillance.
+
+2012-10-07 15:30  edzer
+
+	* R/SpatialGridDataFrame-methods.R, R/SpatialLines-methods.R:
+	  SpatialLines: cosmetics;
+	  SpatialGridDataFrame: data.frame() no longer converts character
+	  into factor.
+
+2012-10-06 16:05  edzer
+
+	* R/spplot.R: repaired sp.polygons, after report on r-sig-geo
+
+2012-10-05 15:00  edzer
+
+	* R/SpatialGridDataFrame-methods.R,
+	  R/SpatialLinesDataFrame-methods.R,
+	  R/SpatialPolygonsDataFrame-methods.R: buglet in
+	  [.SpatialPixelsDataFrame, is.na(i) was called before over()
+
+2012-10-03 14:31  edzer
+
+	* DESCRIPTION, R/CRS-methods.R, R/over.R, man/over.Rd: reverted
+	  back rgdal calling issue;
+	  DESCRIPTION: took out rgdal version requirement
+	  over: no changes, but (hopefully) more clear documentation.
+
+2012-09-30 18:59  edzer
+
+	* DESCRIPTION, R/CRS-methods.R: version update; use R function call
+	  to rgdal instead of .Call'ing a rgdal routine,
+	  for checking CRS (depends on rgdal >= 0.7-20).
+
+2012-09-29 12:11  edzer
+
+	* R/image.R: image for constant valued SpatialPixelsDataFrame would
+	  plot full bbox
+
 2012-09-28 22:09  rsbivand
 
 	* ChangeLog, inst/ChangeLog: tidy
