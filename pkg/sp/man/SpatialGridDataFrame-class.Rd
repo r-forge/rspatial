@@ -86,5 +86,12 @@ fullgrid(meuse.grid) = TRUE
 image(meuse.grid)
 image(meuse.grid[20:70, 10:70, "dist"], add = TRUE, col = bpy.colors())
 
+# as.matrix, as.array
+sgdim = c(3,4)
+SG = SpatialGrid(GridTopology(rep(0,2), rep(10,2), sgdim))
+SGDF = SpatialGridDataFrame(SG, data.frame(val = 1:12))
+as.array(SGDF)
+as.matrix(SGDF)
+as(SGDF, "array")
 }
 \keyword{classes}

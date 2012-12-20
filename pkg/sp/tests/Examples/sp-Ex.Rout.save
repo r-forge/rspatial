@@ -599,6 +599,25 @@ cells.dim             78    104
 > image(meuse.grid)
 > image(meuse.grid[20:70, 10:70, "dist"], add = TRUE, col = bpy.colors())
 > 
+> # as.matrix, as.array
+> sgdim = c(3,4)
+> SG = SpatialGrid(GridTopology(rep(0,2), rep(10,2), sgdim))
+> SGDF = SpatialGridDataFrame(SG, data.frame(val = 1:12))
+> as.array(SGDF)
+     [,1] [,2] [,3] [,4]
+[1,]    1    4    7   10
+[2,]    2    5    8   11
+[3,]    3    6    9   12
+> as.matrix(SGDF)
+     [,1] [,2] [,3] [,4]
+[1,]    1    4    7   10
+[2,]    2    5    8   11
+[3,]    3    6    9   12
+> as(SGDF, "array")
+     [,1] [,2] [,3] [,4]
+[1,]    1    4    7   10
+[2,]    2    5    8   11
+[3,]    3    6    9   12
 > 
 > 
 > 
@@ -19006,7 +19025,7 @@ Data attributes:
 > ### * <FOOTER>
 > ###
 > cat("Time elapsed: ", proc.time() - get("ptime", pos = 'CheckExEnv'),"\n")
-Time elapsed:  9.096 1.848 10.981 0 0 
+Time elapsed:  9.152 1.832 11.006 0 0 
 > grDevices::dev.off()
 null device 
           1 
