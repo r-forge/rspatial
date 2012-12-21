@@ -14,7 +14,7 @@ image.SpatialGridDataFrame = function(x, attr = 1, xcol = 1, ycol = 2,
 		ylim = NULL, add = FALSE, ..., asp = NA, 
 		setParUsrBB=FALSE, interpolate = FALSE, angle = 0,
                 useRasterImage=(!.isSDI() && missing(breaks)), breaks, 
-		zlim = range(as.numeric(x[[attr]])[is.finite(x[[attr]])])) {
+		zlim = range(as.numeric(x[[attr]])[is.finite(as.numeric(x[[attr]]))])) {
 
 	if (!add) 
 		suppressWarnings(plot(as(x, "Spatial"),
