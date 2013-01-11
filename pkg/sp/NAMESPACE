@@ -24,6 +24,7 @@ importFrom(grid, grid.polygon, grid.path, grid.rect, polygonGrob, gpar,
 
 export(
 	CRS,
+	identicalCRS,
 	# print.CRS, -> S3Method()
 
 	# bbox,
