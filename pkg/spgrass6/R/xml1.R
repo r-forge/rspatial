@@ -44,6 +44,15 @@ parseGRASS <- function(cmd) {
                 prep <- paste("sh.exe ", Sys.getenv("GISBASE"),
                     "/scripts/", sep="")
         }
+        if ((get("SYS", envir=.GRASS_CACHE) == "WinNat") &&
+            grep("7", get("GV", envir=.GRASS_CACHE)) == 1) {
+            pyScripts <- get("pyScripts", envir=.GRASS_CACHE)
+            if (cmd %in% names(pyScripts)) {
+                ext <- ".py"
+                prep <- paste("\"", Sys.getenv("GRASS_PYTHON"), "\" ",
+                    "\"", Sys.getenv("GISBASE"), "/scripts/\"", sep="")
+            }            
+        }
         cmd0 <- paste(paste(prep, cmd, ext, sep=""), "--interface-description")
         tr <- try(system(cmd0, intern=TRUE))
 	if (class(tr) == "try-error") stop(paste(cmd, "not found"))
@@ -135,7 +144,7 @@ getXMLencoding <- function() {
 print.GRASS_interface_desc <- function(x, ...) {
     cat("Command:", x$cmd, "\n")
     if (nchar(x$ext) > 0) cat("Extension:", x$ext, "\n")
-    if (nchar(x$prep) > 0) cat("Shell prefix:", x$ext, "\n")
+    if (nchar(x$prep) > 0) cat("Shell prefix:", x$prep, "\n")
     cat("Description:", x$description, "\n")
     cat("Keywords:", x$keywords, "\n")
     cat("Parameters:\n")
