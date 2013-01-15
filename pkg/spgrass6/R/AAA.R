@@ -50,7 +50,11 @@ if(!exists("Sys.setenv", envir = baseenv())) Sys.setenv <- Sys.putenv
   assign("echoCmd", FALSE, envir=.GRASS_CACHE)
   assign("GV", "", envir=.GRASS_CACHE)
 
+}
 
+.onAttach <- function(lib, pkg) {
+  gisrc <- Sys.getenv("GISRC")
+  loc <- Sys.getenv("LOCATION_NAME")
   if (nchar(gisrc) == 0) gv <- "(GRASS not running)"
   else {
       gv <- system(paste("g.version", get("addEXE", envir=.GRASS_CACHE),
