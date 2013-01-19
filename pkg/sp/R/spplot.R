@@ -282,13 +282,13 @@ spplot.points = function(obj, zcol = names(obj), ..., names.attr,
 			formula = as.formula(paste(ccn[2], "~", ccn[1]))
 		}
 	}
+	scales = longlat.scales(obj, scales, xlim, ylim)
 	args.xyplot = append(list(formula, data = as(sdf, "data.frame"), 
 		panel = panel, aspect = aspect, scales = scales, 
 		xlab = xlab, ylab = ylab, sp.layout = sp.layout,
 		xlim = xlim, ylim = ylim), dots)
 	z = create.z(as(obj, "data.frame"), zcol)
 	args.xyplot = Fill.call.groups(args.xyplot, z = z, ...)
-	scales = longlat.scales(obj, scales, xlim, ylim)
 	plt = do.call("xyplot", args.xyplot)
 	if (!(is.logical(identify) && identify==FALSE) && interactive()) {
 		print(plt)
