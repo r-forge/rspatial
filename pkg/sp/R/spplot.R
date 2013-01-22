@@ -261,7 +261,8 @@ spplot.points = function(obj, zcol = names(obj), ..., names.attr,
 		aspect = mapasp(obj,xlim,ylim), panel = panel.pointsplot,
 		sp.layout = NULL, identify = FALSE, formula,
 		xlim = bbexpand(bbox(obj)[1,], 0.04), 
-		ylim = bbexpand(bbox(obj)[2,], 0.04)) 
+		ylim = bbexpand(bbox(obj)[2,], 0.04),
+		edge.col = "transparent", colorkey = FALSE) 
 {
 
 	if (is.null(zcol)) stop("no names method for object")
@@ -286,9 +287,11 @@ spplot.points = function(obj, zcol = names(obj), ..., names.attr,
 	args.xyplot = append(list(formula, data = as(sdf, "data.frame"), 
 		panel = panel, aspect = aspect, scales = scales, 
 		xlab = xlab, ylab = ylab, sp.layout = sp.layout,
-		xlim = xlim, ylim = ylim), dots)
+		xlim = xlim, ylim = ylim, edge.col = edge.col), dots)
 	z = create.z(as(obj, "data.frame"), zcol)
-	args.xyplot = Fill.call.groups(args.xyplot, z = z, ...)
+	args.xyplot = Fill.call.groups(args.xyplot, z = z, edge.col = edge.col, 
+		colorkey = colorkey, ...)
+	#print(args.xyplot)
 	plt = do.call("xyplot", args.xyplot)
 	if (!(is.logical(identify) && identify==FALSE) && interactive()) {
 		print(plt)
@@ -420,11 +423,12 @@ function (x, y, z, subscripts, at = pretty(z), shrink, labels = NULL,
 	sp.panel.layout(sp.layout, panel.number())
 }
 
-panel.pointsplot = function(sp.layout, x, y, subscripts, col, cex, pch, ...) {
+panel.pointsplot = function(sp.layout, x, y, subscripts, groups, col, cex, pch, ...) {
 	sp.panel.layout(sp.layout, panel.number())
 	#panel.superpose(x, y, subscripts, col = col, ...)
-	lpoints(x, y, col = col[subscripts], cex = cex[subscripts], 
+	lpoints(x, y, fill = groups[subscripts], col = col[subscripts], cex = cex[subscripts], 
 		pch = pch[subscripts], ...)
+	#panel.xyplot(x, y, pch = 21, fill = fill, ...)
 }
 
 SpatialPolygons2Grob = function(obj, fill) {
@@ -633,9 +637,11 @@ addNAemptyRowsCols = function(obj) {
 }
 
 Fill.call.groups <-
-function (lst, z, ..., cuts = 5, col.regions = trellis.par.get("regions")$col, 
-    legendEntries = "", pch, cex = 1, fill = TRUE, do.log = FALSE, 
-    key.space = "bottom", cex.key) 
+function (lst, z, ..., cuts = ifelse(colorkey, 100, 5), 
+	col.regions = trellis.par.get("regions")$col, 
+    legendEntries = "", pch, cex = 1, do.fill = TRUE, do.log = FALSE, 
+    key.space = ifelse(colorkey, "right", "bottom"), 
+	cex.key, edge.col, colorkey) 
 {
     dots = list(...)
     if (is.numeric(z)) {
@@ -645,9 +651,9 @@ function (lst, z, ..., cuts = 5, col.regions = trellis.par.get("regions")$col,
         if (ncuts != length(col.regions)) {
             cols = round(1 + (length(col.regions) - 1) * (0:(ncuts - 
                 1))/(ncuts - 1))
-            col = col.regions[cols]
+            fill = col.regions[cols]
         } else 
-			col = col.regions
+			fill = col.regions
         valid = !is.na(z)
         if (length(cuts) == 1) {
             if (do.log) {
@@ -674,18 +680,20 @@ function (lst, z, ..., cuts = 5, col.regions = trellis.par.get("regions")$col,
         if (!missing(cuts)) 
             stop("ncuts cannot be set for factor variable")
         groups = z
-		col = col.regions
+		fill = col.regions
     } else stop("dependent of not-supported class")
     n = nlevels(groups)
 
 	# deal with col:
-	lst$col = col[groups]
+	lst$groups = fill[groups]
 	#print(lst$col)
 
 	# deal with pch:
     if (missing(pch)) 
-        pch = rep(ifelse(fill, 16, 1), n)
+        pch = rep(ifelse(do.fill, 21, 1), n)
 	lst$pch = pch[groups]
+
+	lst$col = rep(edge.col, length(lst$pch))
 
 	# deal with cex:
 	if (missing(cex))
@@ -699,21 +707,29 @@ function (lst, z, ..., cuts = 5, col.regions = trellis.par.get("regions")$col,
 		cex.key = mean(cex, na.rm = TRUE)
 
 	# do key:
-    if (is.null(dots$auto.key) || (!is.null(dots$auto.key) && identical(dots$auto.key, TRUE))) {
-    	if (missing(legendEntries)) 
-			legendEntries = levels(groups)
-        if (!is.null(dots$key)) 
-            lst$key = dots$key
-        else lst$key = list(points = list(pch = rep(lst$pch, 
-            length = n), col = rep(col, length = n), cex = 
-			rep(cex.key, length = n)), text = list(legendEntries))
-        if (is.character(key.space)) 
-            lst$key$space = key.space
-        else if (is.list(key.space)) 
-            lst$key = append(lst$key, key.space)
-        else warning("key.space argument ignored (not list or character)")
-    }
-    if (!is.null(dots$auto.key)) 
-        lst$auto.key <- dots$auto.key
+	if (colorkey) {
+		lst$legend = list(right = list(fun = draw.colorkey,
+                 args = list(key = list(col = col.regions, at = cuts), 
+                             draw = FALSE)))
+       	if (is.character(key.space)) 
+			names(lst$legend) = key.space
+	} else {
+    	if (is.null(dots$auto.key) || (!is.null(dots$auto.key) && identical(dots$auto.key, TRUE))) {
+    		if (missing(legendEntries)) 
+				legendEntries = levels(groups)
+        	if (!is.null(dots$key)) 
+            	lst$key = dots$key
+        	else lst$key = list(points = list(pch = rep(lst$pch, 
+            	length = n), col = rep(edge.col, length = n), fill = fill, cex = 
+				rep(cex.key, length = n)), text = list(legendEntries))
+        	if (is.character(key.space)) 
+            	lst$key$space = key.space
+        	else if (is.list(key.space)) 
+            	lst$key = append(lst$key, key.space)
+        	else warning("key.space argument ignored (not list or character)")
+    	}
+    	if (!is.null(dots$auto.key)) 
+        	lst$auto.key <- dots$auto.key
+	}
     return(lst)
 }
