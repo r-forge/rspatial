@@ -87,6 +87,8 @@ export(
 	SpatialPolygonsRescale,
 	spplot.locator,
 	sp.panel.layout,
+	degreeLabelsEW,
+	degreeLabelsNS,
 
 	as.image.SpatialGridDataFrame,
 	image2Grid,

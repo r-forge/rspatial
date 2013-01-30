@@ -12,11 +12,6 @@
 \alias{spsample,SpatialPolygons-method}
 \alias{spsample}
 \alias{makegrid}
-\alias{sample.Spatial}
-\alias{sample.Line}
-\alias{sample.Polygon}
-\alias{sample.Polygons}
-\alias{sample.Sgrid}
 
 \title{ sample point locations in (or on) a spatial object }
 
@@ -26,11 +21,6 @@ methods; the methods used assume that the geometry used is not spherical,
 so objects should be in planar coordinates }
 \usage{
 spsample(x, n, type, ...)
-sample.Spatial(x, n, type, bb = bbox(x), offset = runif(nrow(bb)), cellsize, ..., nclusters = 1)
-sample.Line(x, n, type, offset = runif(1), proj4string=CRS(as.character(NA)), ...)
-sample.Polygon(x, n, type = "random", bb = bbox(x), offset = runif(2), proj4string=CRS(as.character(NA)), iter = 4, ...)
-sample.Polygons(x, n, type = "random", bb = bbox(x), offset = runif(2), proj4string=CRS(as.character(NA)), iter = 4, ...)
-sample.Sgrid(x, n, type = "random", bb = bbox(x), offset = runif(nrow(bb)), ...)
 makegrid(x, n = 10000, nsig = 2, cellsize, offset = rep(0.5, nrow(bb)))
 }
 \arguments{
@@ -60,8 +50,6 @@ its end }
 \code{n}; otherwise, this cell size is used for all sampling methods
 except \code{"random"} }
 \item{nclusters}{Number of clusters (strata) to sample from}
-\item{proj4string}{Object of class \code{"CRS"};
-  holding a valid proj4 string}
 \item{nsig}{ for "pretty" coordinates; \code{spsample} does not result in
   pretty grids }
 \item{iter}{default = 4: number of times to try to place sample points
