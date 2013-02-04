@@ -27,7 +27,7 @@ makegrid(x, n = 10000, nsig = 2, cellsize, offset = rep(0.5, nrow(bb)))
 \item{x}{Spatial object; \code{spsample(x,...)} is a generic method for the
 existing \code{sample.Xxx} fumctions}
 \item{...}{ optional arguments, passed to the appropriate \code{sample.Xxx}
-functions}
+functions; see NOTES for \code{nclusters} and \code{iter}}
 \item{n}{ (approximate) sample size }
 \item{type}{ character; \code{"random"} for completely spatial random;
 \code{"regular"} for regular (systematically aligned) sampling;
@@ -49,13 +49,8 @@ its end }
 \item{cellsize}{ if missing, a cell size is derived from the sample size
 \code{n}; otherwise, this cell size is used for all sampling methods
 except \code{"random"} }
-\item{nclusters}{Number of clusters (strata) to sample from}
 \item{nsig}{ for "pretty" coordinates; \code{spsample} does not result in
   pretty grids }
-\item{iter}{default = 4: number of times to try to place sample points
-  in a polygon before giving up and returning NULL - this may occur when
-  trying to hit a small and awkwardly shaped polygon in a large bounding
-  box with a small number of points}
 }
 
 \value{ an object of class \link{SpatialPoints-class}. The number of
@@ -92,8 +87,22 @@ sampling intensity (density); holes must be correctly defined, use \code{checkPo
 
 \note{If an \link{Polygon-class} object has zero area (i.e. is a line),
 samples on this line element are returned. If the area is very close
-to zero, the algorithm taken here (generating points in a square area,
-selecting those inside the polygon) may be very resource intensive. When numbers of points per polygon are small and type="random", the number searched for is inflated to ensure hits, and the points returned sampled among these. }
+to zero, the algorithm taken here (generating points in a square
+area, selecting those inside the polygon) may be very resource
+intensive. When numbers of points per polygon are small and
+type="random", the number searched for is inflated to ensure hits,
+and the points returned sampled among these.
+
+The following two arguments can be further specified:
+
+\code{nclusters} Number of clusters (strata) to sample from.
+
+\code{iter}(default = 4) number of times to try to place sample points
+  in a polygon before giving up and returning NULL - this may occur when
+  trying to hit a small and awkwardly shaped polygon in a large bounding
+  box with a small number of points
+
+}
 
 \references{Chapter 3 in B.D. Ripley, 1981. Spatial Statistics, Wiley
 
