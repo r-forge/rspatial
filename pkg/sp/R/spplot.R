@@ -291,6 +291,7 @@ spplot.points = function(obj, zcol = names(obj), ..., names.attr,
 	z = create.z(as(obj, "data.frame"), zcol)
 	args.xyplot = Fill.call.groups(args.xyplot, z = z, edge.col = edge.col, 
 		colorkey = colorkey, ...)
+	# debug:
 	#print(args.xyplot)
 	plt = do.call("xyplot", args.xyplot)
 	if (!(is.logical(identify) && identify==FALSE) && interactive()) {
@@ -689,11 +690,19 @@ function (lst, z, ..., cuts = ifelse(colorkey, 100, 5),
 	#print(lst$col)
 
 	# deal with pch:
-    if (missing(pch)) 
-        pch = rep(ifelse(do.fill, 21, 1), n)
-	lst$pch = pch[groups]
+	if (edge.col != "transparent") { # WITH border: use fill
+    	if (missing(pch)) 
+        	pch = rep(ifelse(do.fill, 21, 1), n)
+		lst$col = rep(edge.col, length.out = length(groups))
+	} else { # no border: use col instead of fill
+    	if (missing(pch)) 
+        	pch = rep(ifelse(do.fill, 16, 1), n)
+		lst$col = lst$groups
+	}
 
-	lst$col = rep(edge.col, length(lst$pch))
+	if (length(pch) == 1)
+		pch = rep(pch, n)
+	lst$pch = pch[groups]
 
 	# deal with cex:
 	if (missing(cex))
@@ -708,9 +717,18 @@ function (lst, z, ..., cuts = ifelse(colorkey, 100, 5),
 
 	# do key:
 	if (colorkey) {
-		lst$legend = list(right = list(fun = draw.colorkey,
-                 args = list(key = list(col = col.regions, at = cuts), 
-                             draw = FALSE)))
+		lst$legend = list(
+			right = list(
+				fun = draw.colorkey,
+                args = list(
+					key = list(
+						col = col.regions, 
+						at = cuts
+					), 
+                    draw = FALSE
+				)
+			)
+		)
        	if (is.character(key.space)) 
 			names(lst$legend) = key.space
 	} else {
@@ -719,9 +737,28 @@ function (lst, z, ..., cuts = ifelse(colorkey, 100, 5),
 				legendEntries = levels(groups)
         	if (!is.null(dots$key)) 
             	lst$key = dots$key
-        	else lst$key = list(points = list(pch = rep(lst$pch, 
-            	length = n), col = rep(edge.col, length = n), fill = fill, cex = 
-				rep(cex.key, length = n)), text = list(legendEntries))
+        	else { 
+				if (edge.col != "transparent") {
+					lst$key = list(
+						points = list(
+							pch = rep(lst$pch, length.out = n), 
+							col = rep(edge.col, length.out = n), 
+							fill = fill, 
+							cex = rep(cex.key, length.out = n)
+						), 
+						text = list(legendEntries)
+					)
+				} else {
+					lst$key = list(
+						points = list(
+							pch = rep(lst$pch, length.out = n), 
+							col = rep(fill, length.out = n), 
+							cex = rep(cex.key, length.out = n)
+						), 
+						text = list(legendEntries)
+					)
+				}
+			}
         	if (is.character(key.space)) 
             	lst$key$space = key.space
         	else if (is.list(key.space)) 
