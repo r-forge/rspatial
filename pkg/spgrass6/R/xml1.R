@@ -237,6 +237,9 @@ doGRASS <- function(cmd, flags=NULL, ..., parameters=NULL, echoCmd=NULL) {
                 if (!is.character(parameters[[i]]))
                     stop(paste("Parameter <", names(parameters)[i],
                     "> does not have string value", sep=""))
+                if (is.na(parameters[[i]]))
+                    stop(paste("Parameter <", names(parameters)[i],
+                    "> is NA", sep=""))
 # string space protection 091108 Martin Mainzer
                 Space <- length(grep(" ", parameters[[i]])) > 0
 # Rainer Krug 110128
@@ -252,11 +255,26 @@ doGRASS <- function(cmd, flags=NULL, ..., parameters=NULL, echoCmd=NULL) {
             } else if (pmv[i] == "float") {
                 if (!is.numeric(parameters[[i]]))
                     stop(paste("Parameter <", names(parameters)[i],
-                    "> does not have float value", sep=""))
-            } else if (pmv[i] == "integer") {
-                if (!is.integer(parameters[[i]]))
+                    "> does not have numeric value", sep=""))
+                if (any(!is.finite(parameters[[i]])))
                     stop(paste("Parameter <", names(parameters)[i],
-                    "> does not have integer value", sep=""))
+                    "> is not finite", sep=""))
+            } else if (pmv[i] == "integer") {
+                if (!is.numeric(parameters[[i]]))
+                    stop(paste("Parameter <", names(parameters)[i],
+                    "> does not have numeric value", sep=""))
+                if (any(!is.finite(parameters[[i]])))
+                    stop(paste("Parameter <", names(parameters)[i],
+                    "> is not finite", sep=""))
+                if (!is.integer(parameters[[i]])) {
+                    opi <- parameters[[i]]
+                    if (as.integer(opi) == opi) {
+                        parameters[[i]] <- as.integer(opi)
+                    } else {
+                        stop(paste("Parameter <", names(parameters)[i],
+                        "> is not integer", sep=""))
+                    }
+                }
             } else warning("unknown parameter type")
 # patch for multiple values Patrick Caldon 090524
             param <- paste(parameters[[i]], collapse=",")

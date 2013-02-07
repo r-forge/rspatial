@@ -25,8 +25,8 @@ setXMLencoding(enc)
 \arguments{
   \item{cmd}{GRASS command name}
   \item{flags}{character vector of GRASS command flags}
-  \item{...}{for \code{execGRASS} and \code{doGRASS}, GRASS module parameters given as R named arguments directly. For the \code{print} method, other arguments to print method}
-  \item{parameters}{list of GRASS command parameters, used if GRASS parameters are not given as R arguments directly; the two methods for passing GRASS parameters may not be mixed}
+  \item{...}{for \code{execGRASS} and \code{doGRASS}, GRASS module parameters given as R named arguments directly. For the \code{print} method, other arguments to print method. The storage modes of values passed must match thos required in GRASS, so a single GRASS string must be a character vector of length 1, a single GRASS integer must be an integer vector of length 1 (may be an integer constant such as 10L), and a single GRASS float must be a numeric vector of length 1. For multiple values, use vectors of suitable length}
+  \item{parameters}{list of GRASS command parameters, used if GRASS parameters are not given as R arguments directly; the two methods for passing GRASS parameters may not be mixed. The storage modes of values passed must match thos required in GRASS, so a single GRASS string must be a character vector of length 1, a single GRASS integer must be an integer vector of length 1 (may be an integer constant such as 10L), and a single GRASS float must be a numeric vector of length 1. For multiple values, use vectors of suitable length}
   \item{intern}{a logical (not 'NA') which indicates whether to make the output of the command an R object. Not available unless 'popen' is supported on the platform}
   \item{ignore.stderr}{default NULL, taking the value set by \code{set.ignore.stderrOption}, a logical indicating whether error messages written to 'stderr' should be ignored}
   \item{Sys_ignore.stdout, Sys_wait, Sys_input}{pass extra arguments to \code{system}}
