@@ -424,11 +424,12 @@ function (x, y, z, subscripts, at = pretty(z), shrink, labels = NULL,
 	sp.panel.layout(sp.layout, panel.number())
 }
 
-panel.pointsplot = function(sp.layout, x, y, subscripts, groups, col, cex, pch, ...) {
+panel.pointsplot = function(sp.layout, x, y, subscripts, groups, col, cex,
+		pch, ...) {
 	sp.panel.layout(sp.layout, panel.number())
 	#panel.superpose(x, y, subscripts, col = col, ...)
-	lpoints(x, y, fill = groups[subscripts], col = col[subscripts], cex = cex[subscripts], 
-		pch = pch[subscripts], ...)
+	lpoints(x, y, fill = groups[subscripts], col = col[subscripts], 
+		cex = cex[subscripts], pch = pch[subscripts], ...)
 	#panel.xyplot(x, y, pch = 21, fill = fill, ...)
 }
 
@@ -741,11 +742,11 @@ function (lst, z, ..., cuts = ifelse(colorkey, 100, 5),
 				if(is.list(dots$auto.key))
 					lst$key = dots$auto.key
 				else
-					list$key = list()
+					lst$key = list()
 				if (edge.col != "transparent") {
 					lst$key = append(lst$key,
 						list(points = list(
-							pch = rep(lst$pch, length.out = n), 
+							pch = rep(pch, length.out = n), 
 							col = rep(edge.col, length.out = n), 
 							fill = fill, 
 							cex = rep(cex.key, length.out = n)
@@ -755,7 +756,7 @@ function (lst, z, ..., cuts = ifelse(colorkey, 100, 5),
 				} else {
 					lst$key = append(lst$key,
 						list(points = list(
-							pch = rep(lst$pch, length.out = n), 
+							pch = rep(pch, length.out = n), 
 							col = rep(fill, length.out = n), 
 							cex = rep(cex.key, length.out = n)
 						), 
@@ -768,7 +769,7 @@ function (lst, z, ..., cuts = ifelse(colorkey, 100, 5),
         	else if (is.list(key.space)) 
             	lst$key = append(lst$key, key.space)
         	else warning("key.space argument ignored (not list or character)")
-			print(lst$key)
+			# print(lst$key)
     	}
     	if (!is.null(dots$auto.key)) 
         	lst$auto.key <- dots$auto.key
