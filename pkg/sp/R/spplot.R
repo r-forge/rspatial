@@ -732,31 +732,35 @@ function (lst, z, ..., cuts = ifelse(colorkey, 100, 5),
        	if (is.character(key.space)) 
 			names(lst$legend) = key.space
 	} else {
-    	if (is.null(dots$auto.key) || (!is.null(dots$auto.key) && identical(dots$auto.key, TRUE))) {
+    	if (!identical(dots$auto.key, FALSE)) { # xxx
     		if (missing(legendEntries)) 
 				legendEntries = levels(groups)
         	if (!is.null(dots$key)) 
             	lst$key = dots$key
-        	else { 
+			else { 
+				if(is.list(dots$auto.key))
+					lst$key = dots$auto.key
+				else
+					list$key = list()
 				if (edge.col != "transparent") {
-					lst$key = list(
-						points = list(
+					lst$key = append(lst$key,
+						list(points = list(
 							pch = rep(lst$pch, length.out = n), 
 							col = rep(edge.col, length.out = n), 
 							fill = fill, 
 							cex = rep(cex.key, length.out = n)
 						), 
 						text = list(legendEntries)
-					)
+					))
 				} else {
-					lst$key = list(
-						points = list(
+					lst$key = append(lst$key,
+						list(points = list(
 							pch = rep(lst$pch, length.out = n), 
 							col = rep(fill, length.out = n), 
 							cex = rep(cex.key, length.out = n)
 						), 
 						text = list(legendEntries)
-					)
+					))
 				}
 			}
         	if (is.character(key.space)) 
@@ -764,6 +768,7 @@ function (lst, z, ..., cuts = ifelse(colorkey, 100, 5),
         	else if (is.list(key.space)) 
             	lst$key = append(lst$key, key.space)
         	else warning("key.space argument ignored (not list or character)")
+			print(lst$key)
     	}
     	if (!is.null(dots$auto.key)) 
         	lst$auto.key <- dots$auto.key
