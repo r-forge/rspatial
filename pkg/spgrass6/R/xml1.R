@@ -45,7 +45,8 @@ parseGRASS <- function(cmd) {
                     "/scripts/", sep="")
         }
         if ((get("SYS", envir=.GRASS_CACHE) == "WinNat") &&
-            grep("7", get("GV", envir=.GRASS_CACHE)) == 1) {
+            length(grep("7", get("GV", envir=.GRASS_CACHE)) > 0)) {
+# Luke Winslow 130209
             pyScripts <- get("pyScripts", envir=.GRASS_CACHE)
             if (cmd %in% names(pyScripts)) {
                 ext <- ".py"

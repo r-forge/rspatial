@@ -1,6 +1,6 @@
 Package: spgrass6
 Version: 0.7-15
-Date: 2013-02-07
+Date: 2013-02-09
 Title: Interface between GRASS 6+ geographical information system and R
 Authors@R: c(
 	person("Roger", "Bivand", role = c("cre", "aut"), email = "Roger.Bivand@nhh.no"),
