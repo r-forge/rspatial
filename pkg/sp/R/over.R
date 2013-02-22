@@ -2,10 +2,18 @@
 	if (returnList == FALSE && is.null(fn))
 		ret = data[sapply(r, function(x) x[1]), , drop=FALSE]
 	else {
-		ret = lapply(1:n, function(x) data[r[[x]],,drop=FALSE]) # splits ret
-		if (returnList == FALSE) { # implies: is.null(fn) is FALSE too
-			ret = do.call(rbind, lapply(ret, 
-				function(x) data.frame(lapply(x, fn, ...))))
+		ret = lapply(1:n, function(x) data[r[[x]],,drop=FALSE]) # list of data.frames
+		if (returnList == FALSE) { # apply fn:
+			ret = do.call(rbind, # rbind each aggregated record
+				lapply(ret, # apply to each data.frame in ret:
+					function(x) {
+						if (nrow(x) == 0)
+							data.frame(lapply(x, function(xx) c(xx, NA)))
+						else
+							data.frame(lapply(x, fn, ...))
+					}
+				)
+			)
 			ret[is.na(ret)] = NA # removes NaN's
 			ret = as.data.frame(ret)
 		} 
