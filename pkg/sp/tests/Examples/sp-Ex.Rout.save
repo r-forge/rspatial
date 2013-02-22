@@ -54,7 +54,7 @@ CRS arguments: +proj=longlat +datum=WGS84
 +   print(CRSargs(CRS("+init=epsg:28992")))
 + }
 Loading required package: rgdal
-rgdal: version: 0.8-4, (SVN revision 431:432)
+rgdal: version: 0.8-5, (SVN revision 449)
 Geospatial Data Abstraction Library extensions to R successfully loaded
 Loaded GDAL runtime: GDAL 1.9.2, released 2012/10/08
 Path to GDAL shared files: /usr/share/gdal/1.9
@@ -4582,7 +4582,7 @@ Data attributes:
 +   pos=grdat_x$pos, offset=grdat_x$offset)
 + }
 Loading required package: rgdal
-rgdal: version: 0.8-4, (SVN revision 431:432)
+rgdal: version: 0.8-5, (SVN revision 449)
 Geospatial Data Abstraction Library extensions to R successfully loaded
 Loaded GDAL runtime: GDAL 1.9.2, released 2012/10/08
 Path to GDAL shared files: /usr/share/gdal/1.9
@@ -14948,8 +14948,7 @@ detaching ‘package:RColorBrewer’, ‘package:lattice’
 > ###   spsample,Lines-method spsample,SpatialLines-method
 > ###   spsample,Polygon-method spsample,Polygons-method
 > ###   spsample,SpatialGrid-method spsample,SpatialPixels-method
-> ###   spsample,SpatialPolygons-method spsample makegrid sample.Spatial
-> ###   sample.Line sample.Polygon sample.Polygons sample.Sgrid
+> ###   spsample,SpatialPolygons-method spsample makegrid
 > ### Keywords: manip methods
 > 
 > ### ** Examples
@@ -15205,7 +15204,7 @@ Data attributes:
 > ### * <FOOTER>
 > ###
 > cat("Time elapsed: ", proc.time() - get("ptime", pos = 'CheckExEnv'),"\n")
-Time elapsed:  13.192 1.484 14.714 0 0 
+Time elapsed:  12.188 1.424 13.768 0 0 
 > grDevices::dev.off()
 null device 
           1 

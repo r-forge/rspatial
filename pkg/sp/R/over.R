@@ -90,7 +90,22 @@ setMethod("over",
 		}
 )
 setMethod("over",
+	signature(x = "SpatialGrid", y = "SpatialPoints"), 
+		function(x, y, returnList = FALSE, fn = NULL, ...)
+			over(as(x, "SpatialPoints"), y = y, returnList = returnList, fn = fn, ...)
+)
+setMethod("over",
 	signature(x = "SpatialGrid", y = "SpatialPolygons"), 
+		function(x, y, returnList = FALSE, fn = NULL, ...)
+			over(as(x, "SpatialPoints"), y = y, returnList = returnList, fn = fn, ...)
+)
+setMethod("over",
+	signature(x = "SpatialGrid", y = "SpatialPixels"), 
+		function(x, y, returnList = FALSE, fn = NULL, ...)
+			over(as(x, "SpatialPoints"), y = y, returnList = returnList, fn = fn, ...)
+)
+setMethod("over",
+	signature(x = "SpatialGrid", y = "SpatialGrid"), 
 		function(x, y, returnList = FALSE, fn = NULL, ...)
 			over(as(x, "SpatialPoints"), y = y, returnList = returnList, fn = fn, ...)
 )
@@ -121,7 +136,22 @@ setMethod("over",
 	signature(x = "SpatialPoints", y = "SpatialPolygonsDataFrame"), 
 		overDFGeneric)
 setMethod("over",
+	signature(x = "SpatialGrid", y = "SpatialPointsDataFrame"), 
+		function(x, y, returnList = FALSE, fn = NULL, ...)
+			over(as(x, "SpatialPoints"), y = y, returnList = returnList, fn = fn, ...)
+)
+setMethod("over",
 	signature(x = "SpatialGrid", y = "SpatialPolygonsDataFrame"), 
+		function(x, y, returnList = FALSE, fn = NULL, ...)
+			over(as(x, "SpatialPoints"), y = y, returnList = returnList, fn = fn, ...)
+)
+setMethod("over",
+	signature(x = "SpatialGrid", y = "SpatialPixelsDataFrame"), 
+		function(x, y, returnList = FALSE, fn = NULL, ...)
+			over(as(x, "SpatialPoints"), y = y, returnList = returnList, fn = fn, ...)
+)
+setMethod("over",
+	signature(x = "SpatialGrid", y = "SpatialGridDataFrame"), 
 		function(x, y, returnList = FALSE, fn = NULL, ...)
 			over(as(x, "SpatialPoints"), y = y, returnList = returnList, fn = fn, ...)
 )
