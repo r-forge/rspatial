@@ -4938,7 +4938,12 @@ proj4string : [+proj=longlat]
 > ###   over,SpatialPolygons,SpatialGridDataFrame-method
 > ###   over,SpatialGrid,SpatialPolygons-method
 > ###   over,SpatialGrid,SpatialPolygonsDataFrame-method
-> ###   over,SpatialPolygons,SpatialGrid-method aggregate.Spatial
+> ###   over,SpatialPolygons,SpatialGrid-method
+> ###   over,SpatialGrid,SpatialGrid-method
+> ###   over,SpatialGrid,SpatialGridDataFrame-method
+> ###   over,SpatialGrid,SpatialPixels-method
+> ###   over,SpatialGrid,SpatialPixelsDataFrame-method
+> ###   over,SpatialGrid,SpatialPointsDataFrame-method aggregate.Spatial
 > ### Keywords: methods
 > 
 > ### ** Examples
@@ -5520,10 +5525,6 @@ r2      1      0 0.00000000    1     1
 r3      0      1 0.00241427    1     1
 r4     NA     NA         NA <NA>  <NA>
 > over(sr, meuse.grid, fn = mean)
-Warning in mean.default(X[[4L]], ...) :
-  argument is not numeric or logical: returning NA
-Warning in mean.default(X[[5L]], ...) :
-  argument is not numeric or logical: returning NA
 Warning in mean.default(X[[4L]], ...) :
   argument is not numeric or logical: returning NA
 Warning in mean.default(X[[5L]], ...) :
@@ -15204,7 +15205,7 @@ Data attributes:
 > ### * <FOOTER>
 > ###
 > cat("Time elapsed: ", proc.time() - get("ptime", pos = 'CheckExEnv'),"\n")
-Time elapsed:  12.188 1.424 13.768 0 0 
+Time elapsed:  13.164 1.468 14.725 0 0 
 > grDevices::dev.off()
 null device 
           1 
