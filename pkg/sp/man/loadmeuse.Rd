@@ -11,7 +11,7 @@ SpatialPointsDataFrame, if TRUE as SpatialPixelsDataFrame }
 \item{river}{ logical; load polygon for \link{meuse.riv}}
 }
 
-\value{ none; it has a side effect that \link{meuse},
+\value{ none; it has the intended side effect that \link{meuse},
 \link{meuse.grid} and potentially \link{meuse.riv} will be saved to
 (and possibly overwritten in) the global environment }
 
