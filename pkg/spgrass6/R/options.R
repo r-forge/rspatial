@@ -37,10 +37,12 @@ get.useGDALOption <- function() {
 }
 
 set.pluginOption <- function(value) {
-	if (!is.logical(value) || is.null(value))
-            stop ("logical argument required")
 	res <- get("plugin", envir = .GRASS_CACHE)
-	assign("plugin", value, envir = .GRASS_CACHE)
+        if (is.null(value)) {
+	    assign("plugin", value, envir = .GRASS_CACHE)
+        } else if (is.logical(value)) {
+	    assign("plugin", value, envir = .GRASS_CACHE)
+        } else stop ("logical or NULL argument required")
 	res
 }
 
