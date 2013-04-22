@@ -11,8 +11,6 @@ download.file("http://cran.R-project.org/web/packages/packages.rds", "packages.r
     paste(apply(x[x[,1] %in% rdeps[[1]], 1:2], 1, paste, collapse="_"), ".tar.gz", sep="")
 }
 
-result <-  packages_to_check("sp")
-
 #RCheck = function(x, URL = "http://ftp5.gwdg.de/pub/misc/cran/src/contrib/") {
 RCheck = function(x, URL = "http://cran.r-project.org/src/contrib/") {
 	if (!file.exists(x))
@@ -24,11 +22,13 @@ RCheck = function(x, URL = "http://cran.r-project.org/src/contrib/") {
 	ret
 }
 
+result <-  packages_to_check("sp")
 result = result[-grep("surveill", result)]
 result
 sel = TRUE
 library(parallel)
-cl <- makeCluster(getOption("cl.cores", 2))
+ncores_to_use = 2
+cl <- makeCluster(getOption("cl.cores", ncores_to_use))
 clusterExport(cl, c("RCheck", "sel", "result"))
 out = parLapply(cl, result[sel], function(x) RCheck(x))
 succ = unlist(out)
