@@ -10,11 +10,13 @@
 \alias{get.useGDALOption}
 \alias{get.pluginOption}
 \alias{get.echoCmdOption}
+\alias{get.useInternOption}
 \alias{set.ignore.stderrOption}
 \alias{set.stop_on_no_flags_parasOption}
 \alias{set.useGDALOption}
 \alias{set.pluginOption}
 \alias{set.echoCmdOption}
+\alias{set.useInternOption}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{Reads GRASS metadata from the current LOCATION}
 \description{
@@ -30,11 +32,13 @@ get.stop_on_no_flags_parasOption()
 get.useGDALOption()
 get.pluginOption()
 get.echoCmdOption()
+get.useInternOption()
 set.ignore.stderrOption(value)
 set.stop_on_no_flags_parasOption(value)
 set.useGDALOption(value)
 set.pluginOption(value)
 set.echoCmdOption(value)
+set.useInternOption(value)
 }
 \arguments{
   \item{ignore.stderr}{default FALSE, can be set to TRUE to silence \code{system()} output to standard error; does not apply on Windows platforms}

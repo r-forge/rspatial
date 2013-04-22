@@ -1,5 +1,5 @@
 # Interpreted GRASS 6+ interface functions
-# Copyright (c) 2005-2012 Roger S. Bivand
+# Copyright (c) 2005-2013 Roger S. Bivand
 #
 
 readRAST6 <- function(vname, cat=NULL, ignore.stderr = NULL, 
@@ -111,7 +111,7 @@ readRAST6 <- function(vname, cat=NULL, ignore.stderr = NULL,
                     reslist[[i]] <- as.vector(getRasterData(DS, band=1))
 
                     deleteDataset(DS)
-                    GDAL.close(DS)
+# 130422 at rgdal 0.8-8 GDAL.close(DS)
 		} else {
 # 061107 Dylan Beaudette NODATA
 # 071009 Markus Neteler's idea to use range

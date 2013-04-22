@@ -43,7 +43,7 @@ unlink_.gislock()
 \seealso{\code{\link{gmeta6}}}
 \examples{
 \dontrun{
-initGRASS("/usr/local/grass-6.4.0", home=tempdir())
+initGRASS("/usr/bin/grass-6.4.0", home=tempdir())
 initGRASS("C:/GRASS", home=tempdir())
 }
 }

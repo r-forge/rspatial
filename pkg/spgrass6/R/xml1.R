@@ -321,15 +321,23 @@ insert_required <- function(pcmd, parameters, pt, req, suppress_required) {
     parameters
 }
 
-execGRASS <- function(cmd, flags=NULL, ..., parameters=NULL, intern=FALSE,
+execGRASS <- function(cmd, flags=NULL, ..., parameters=NULL, intern=NULL,
     ignore.stderr=NULL, Sys_ignore.stdout=FALSE, Sys_wait=TRUE,
     Sys_input=NULL, Sys_show.output.on.console=TRUE, Sys_minimized=FALSE,
-    Sys_invisible=TRUE, echoCmd=NULL) {
+    Sys_invisible=TRUE, echoCmd=NULL, redirect=FALSE) {
     if (is.null(ignore.stderr))
-        ignore.stderr <- get("ignore.stderr", envir = .GRASS_CACHE)
+        ignore.stderr <- get.ignore.stderrOption()
     stopifnot(is.logical(ignore.stderr))
+    if (is.null(intern))
+        intern <- get.useInternOption()
+    stopifnot(is.logical(intern))
+
     syscmd <- doGRASS(cmd, flags=flags, ..., parameters=parameters,
         echoCmd=echoCmd)
+    if (redirect) {
+        syscmd <- paste(syscmd, "2>&1")
+        intern=TRUE
+    }
     if (get("SYS", envir=.GRASS_CACHE) == "unix") {
         res <- system(syscmd, intern=intern, ignore.stderr=ignore.stderr,
             ignore.stdout=Sys_ignore.stdout, wait=Sys_wait, input=Sys_input)

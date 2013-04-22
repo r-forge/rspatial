@@ -61,4 +61,15 @@ get.echoCmdOption <- function() {
 	get("echoCmd", envir = .GRASS_CACHE)
 }
 
+set.useInternOption <- function(value) {
+	if (!is.logical(value)) stop ("logical argument required")
+	res <- get("useIntern", envir = .GRASS_CACHE)
+	assign("useIntern", value, envir = .GRASS_CACHE)
+	res
+}
+
+get.useInternOption <- function() {
+	get("useIntern", envir = .GRASS_CACHE)
+}
+
 
