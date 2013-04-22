@@ -1,3 +1,34 @@
+2013-04-22 11:32  rsbivand
+
+	* DESCRIPTION: rgdal regression; add error trapping
+
+2013-04-22 11:31  rsbivand
+
+	* DESCRIPTION, NAMESPACE, R/AAA.R, R/bin_link.R, R/options.R,
+	  R/xml1.R, man/execGRASS.Rd, man/gmeta6.Rd, man/initGRASS.Rd:
+	  rgdal regression; add error trapping
+
+2013-04-02 11:57  rsbivand
+
+	* R/options.R: reverted NULL plugin option
+
+2013-03-30 13:38  rsbivand
+
+	* DESCRIPTION, R/options.R: correct plugin option
+
+2013-02-10 14:39  rsbivand
+
+	* DESCRIPTION, R/xml1.R: GRASS version check for Windows fix
+
+2013-02-07 10:43  rsbivand
+
+	* DESCRIPTION, R/xml1.R, man/execGRASS.Rd: handle non-integer GRASS
+	  parameters more forgivingly
+
+2013-01-15 07:38  rsbivand
+
+	* ChangeLog, inst/ChangeLog: tidy
+
 2013-01-15 07:37  rsbivand
 
 	* R/AAA.R: messages to .onAttach
