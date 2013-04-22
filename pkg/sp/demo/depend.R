@@ -27,7 +27,7 @@ result = result[-grep("surveill", result)]
 result
 sel = TRUE
 library(parallel)
-cl <- makeCluster(getOption("cl.cores", 4))
+cl <- makeCluster(getOption("cl.cores", 2))
 clusterExport(cl, c("RCheck", "sel", "result"))
 out = parLapply(cl, result[sel], function(x) RCheck(x))
 succ = unlist(out)
