@@ -65,11 +65,11 @@ if (nchar(Sys.getenv("GISRC")) > 0) {
   doGRASS("r.buffer", flags=c("overwrite"), parameters=pars)
   set.echoCmdOption(oechoCmd)
   res <- execGRASS("r.stats", input = "fire_blocksgg", flags = c("C", "n"))
-  res
+  print(res)
   if (res != 0) {
     resERR <- execGRASS("r.stats", input = "fire_blocksgg", # no such file
       flags = c("C", "n"), redirect=TRUE)
-    resERR
+    print(resERR)
   }
 }
 }
