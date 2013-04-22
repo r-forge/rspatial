@@ -12,7 +12,7 @@ Description: Interpreted interface between GRASS 6+ geographical
     the package provides facilities for using all GRASS commands from the 
     R command line.
 Depends: R (>= 2.12), sp (>= 0.9), XML
-Suggests: rgdal (>= 0.6-7)
+Suggests: rgdal (>= 0.8-8)
 SystemRequirements: GRASS (>= 6.3)
 License: GPL (>= 2)
 URL: http://grass.osgeo.org/
