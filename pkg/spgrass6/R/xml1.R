@@ -1,4 +1,4 @@
-parseGRASS <- function(cmd) {
+parseGRASS <- function(cmd, legacyExec=NULL) {
     bin_out_win <- c("d.colors.exe", "d.save.exe", "d.what.rast.exe",
       "d.what.vect.exe", "d.zoom.exe", "g.parser.exe", "gis.m.bat",
       "i.spectral.bat", "mkftcap.bat", "r.mapcalc.exe", "r.tileset.bat",
@@ -7,6 +7,9 @@ parseGRASS <- function(cmd) {
             stop(paste("No interface description:", cmd))
     cmdCACHE <- get("cmdCACHE", envir=.GRASS_CACHE)
     res <- cmdCACHE[[cmd]]
+    if (is.null(legacyExec))
+        legacyExec <- get.legacyExecOption()
+    stopifnot(is.logical(legacyExec))
     if (is.null(res)) {
         ext <- get("addEXE", envir=.GRASS_CACHE)
         if (get("SYS", envir=.GRASS_CACHE) == "WinNat") {
@@ -55,8 +58,28 @@ parseGRASS <- function(cmd) {
             }            
         }
         cmd0 <- paste(paste(prep, cmd, ext, sep=""), "--interface-description")
-        tr <- try(system(cmd0, intern=TRUE))
-	if (class(tr) == "try-error") stop(paste(cmd, "not found"))
+        if (legacyExec) {
+            tr <- try(system(cmd0, intern=TRUE))
+	    if (class(tr) == "try-error") stop(paste(cmd, "not found"))
+        } else {
+            errFile <- tempfile()
+            outFile <- tempfile()
+            command <- paste(prep, cmd, ext, sep="")
+            arguments <- "--interface-description"
+            res <- system2(command=command, args=arguments, stdout=outFile,
+                stderr=errFile)
+            resErr <- readLines(errFile)
+            if (res == 127L) {
+               stop("The command\n", "   ", command, " ", arguments,
+                   "\ncould not be run (", res,
+                   "), and produced the error message:\n", "   ", resErr)
+            } else if (res == 1L) {
+                stop("The command\n", "   ", command, " ", arguments,
+                    "\nproduced an error (", res,
+                    ") during execution:\n", "   ", resErr)
+            }
+            tr <- readLines(outFile)
+        }
         enc <- get("override_encoding", envir=.GRASS_CACHE)
         if (nchar(enc) > 0) {
           if (length(grep("UTF-8", tr[1])) > 0) {
@@ -165,12 +188,15 @@ print.GRASS_interface_desc <- function(x, ...) {
     invisible(x)
 }
 
-doGRASS <- function(cmd, flags=NULL, ..., parameters=NULL, echoCmd=NULL) {
+doGRASS <- function(cmd, flags=NULL, ..., parameters=NULL, echoCmd=NULL, legacyExec=NULL) {
     if (!is.null(flags)) stopifnot(is.character(flags))
     if (!is.null(parameters)) stopifnot(is.list(parameters))
     if (is.null(echoCmd))
         echoCmd <- get("echoCmd", envir = .GRASS_CACHE)
     stopifnot(is.logical(echoCmd))
+    if (is.null(legacyExec))
+        legacyExec <- get.legacyExecOption()
+    stopifnot(is.logical(legacyExec))
 
 #    G6 <- get("GV", envir=.GRASS_CACHE) < "GRASS 7"
 
@@ -179,7 +205,7 @@ doGRASS <- function(cmd, flags=NULL, ..., parameters=NULL, echoCmd=NULL) {
         stop(paste("Use either GRASS parameters as R arguments,",
         "or as a parameter argument list object, but not both", sep="\n"))
     if (is.null(parameters) && (length(dlist) > 0)) parameters <- dlist
-    pcmd <- parseGRASS(cmd)
+    pcmd <- parseGRASS(cmd, legacyExec=legacyExec)
     cmd <- paste(pcmd$prep, cmd, pcmd$ext, sep="")
     res <- cmd
     suppress_required <- FALSE
@@ -289,6 +315,7 @@ doGRASS <- function(cmd, flags=NULL, ..., parameters=NULL, echoCmd=NULL) {
             stop("No flags or parameters provided")
         else warning("No flags or parameters provided")
     if (echoCmd) cat("GRASS command:", res, "\n")
+    attr(res, "cmd") <- cmd
     res
 }
 
@@ -324,30 +351,68 @@ insert_required <- function(pcmd, parameters, pt, req, suppress_required) {
 execGRASS <- function(cmd, flags=NULL, ..., parameters=NULL, intern=NULL,
     ignore.stderr=NULL, Sys_ignore.stdout=FALSE, Sys_wait=TRUE,
     Sys_input=NULL, Sys_show.output.on.console=TRUE, Sys_minimized=FALSE,
-    Sys_invisible=TRUE, echoCmd=NULL, redirect=FALSE) {
+    Sys_invisible=TRUE, echoCmd=NULL, redirect=FALSE, legacyExec=NULL) {
     if (is.null(ignore.stderr))
         ignore.stderr <- get.ignore.stderrOption()
     stopifnot(is.logical(ignore.stderr))
     if (is.null(intern))
         intern <- get.useInternOption()
     stopifnot(is.logical(intern))
+    if (is.null(legacyExec))
+        legacyExec <- get.legacyExecOption()
+    stopifnot(is.logical(legacyExec))
 
     syscmd <- doGRASS(cmd, flags=flags, ..., parameters=parameters,
-        echoCmd=echoCmd)
-    if (redirect) {
-        syscmd <- paste(syscmd, "2>&1")
-        intern=TRUE
-    }
-    if (get("SYS", envir=.GRASS_CACHE) == "unix") {
-        res <- system(syscmd, intern=intern, ignore.stderr=ignore.stderr,
-            ignore.stdout=Sys_ignore.stdout, wait=Sys_wait, input=Sys_input)
+        echoCmd=echoCmd, legacyExec=legacyExec)
+    if (legacyExec) {
+        if (redirect) {
+            syscmd <- paste(syscmd, "2>&1")
+            intern=TRUE
+        }
+        if (get("SYS", envir=.GRASS_CACHE) == "unix") {
+            res <- system(syscmd, intern=intern, ignore.stderr=ignore.stderr,
+                ignore.stdout=Sys_ignore.stdout, wait=Sys_wait, input=Sys_input)
+        } else {
+            res <- system(syscmd, intern=intern, ignore.stderr=ignore.stderr,
+                ignore.stdout=Sys_ignore.stdout, wait=Sys_wait, input=Sys_input,
+                show.output.on.console=Sys_show.output.on.console, 
+                minimized=Sys_minimized, invisible=Sys_invisible)
+        }
+        if (intern) return(res)
     } else {
-        res <- system(syscmd, intern=intern, ignore.stderr=ignore.stderr,
-            ignore.stdout=Sys_ignore.stdout, wait=Sys_wait, input=Sys_input,
-            show.output.on.console=Sys_show.output.on.console, 
-            minimized=Sys_minimized, invisible=Sys_invisible)
+        command <- attr(syscmd, "cmd")
+        arguments <- substring(syscmd, (nchar(command)+2), nchar(syscmd))
+
+        errFile <- tempfile()
+        outFile <- tempfile()
+
+        res <- system2(command, arguments, stderr = errFile,
+            stdout = outFile, wait=Sys_wait, input=Sys_input)
+
+        resErr <- readLines(errFile)
+        if (res == 127L) {
+             stop("The command\n", "   ", command, " ", arguments,
+                 "\ncould not be run (", res,
+                 "), and produced the error message:\n", "   ", resErr)
+        } else if (res == 1L) {
+            stop("The command\n", "   ", command, " ", arguments,
+                "\nproduced an error (", res,
+                ") during execution:\n", "   ", resErr)
+        } else if (res == 0L & !ignore.stderr) {
+            if (length(grep("ERROR:", resErr)) > 0) {
+                stop("The command\n", "   ", command, " ", arguments,
+                    "\nproduced an error (", res,
+                    ") during execution:\n", "   ", resErr)
+            } else if (length(grep("WARNING:", resErr)) > 0) {
+                warning("\n The command\n", "   ", command, " ", arguments,
+                    "\nproduced a warning during execution:\n", "   ", resErr)
+            }
+        }
+
+        resOut <- readLines(outFile)
+        if (intern) return(resOut)
+        else if (length(resOut) > 0) cat(resOut, sep="\n")
     }
-    if (intern) return(res)
     invisible(res)
 }
 

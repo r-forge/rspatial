@@ -72,4 +72,15 @@ get.useInternOption <- function() {
 	get("useIntern", envir = .GRASS_CACHE)
 }
 
+set.legacyExecOption <- function(value) {
+	if (!is.logical(value)) stop ("logical argument required")
+	res <- get("legacyExec", envir = .GRASS_CACHE)
+	assign("legacyExec", value, envir = .GRASS_CACHE)
+	res
+}
+
+get.legacyExecOption <- function() {
+	get("legacyExec", envir = .GRASS_CACHE)
+}
+
 
