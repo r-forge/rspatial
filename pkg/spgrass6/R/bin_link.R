@@ -24,6 +24,9 @@ readRAST6 <- function(vname, cat=NULL, ignore.stderr = NULL,
         gdalD <- gdalDrivers()$name
     }
     if (!useGDAL && is.null(plugin)) plugin <- FALSE
+    if (close_OK) {
+         openedConns <- as.integer(row.names(showConnections()))
+    }
 
     if (is.null(plugin)) plugin <- "GRASS" %in% gdalD
     if (length(vname) > 1) plugin <- FALSE
@@ -192,7 +195,11 @@ readRAST6 <- function(vname, cat=NULL, ignore.stderr = NULL,
 	grid <- GridTopology(co, unname(c(gdal_info[6], gdal_info[7])),
             unname(c(gdal_info[2], gdal_info[1])))
 
-	if (close_OK) closeAllConnections()
+	if (close_OK) { #closeAllConnections()
+            openConns_now <- as.integer(row.names(showConnections()))
+            toBeClosed <- openConns_now[!(openConns_now %in% openedConns)]
+            for (bye in toBeClosed) close(bye)
+        }
 
         if (!return_SGDF) {
            res <- list(grid=grid, dataList=reslist, proj4string=p4)
