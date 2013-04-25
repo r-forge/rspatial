@@ -3,6 +3,10 @@
 #
 
 gmeta6 <- function(ignore.stderr = FALSE) {
+        if (get.suppressEchoCmdInFuncOption()) {
+            inEchoCmd <- get.echoCmdOption()
+             tull <- set.echoCmdOption(FALSE)
+        }
         tx <- execGRASS("g.region", flags=c("g", "3"), intern=TRUE,
             ignore.stderr=ignore.stderr)
 #	tull <- ifelse(.Platform$OS.type == "windows",
@@ -54,6 +58,9 @@ gmeta6 <- function(ignore.stderr = FALSE) {
 	names(glist) <- sapply(gisenv, function(x) x[1])
 	lres <- c(glist, lres)
 	class(lres) <- "gmeta6"
+        if (get.suppressEchoCmdInFuncOption()) {
+            tull <- set.echoCmdOption(inEchoCmd)
+        }
 	lres
 }
 
@@ -92,6 +99,10 @@ getLocationProj <- function(ignore.stderr = FALSE) {
 #                               "-j -f"), intern=TRUE), 
 #		projstr <- system("g.proj -j -f", intern=TRUE, 
 #		               ignore.stderr=ignore.stderr))
+        if (get.suppressEchoCmdInFuncOption()) {
+            inEchoCmd <- get.echoCmdOption()
+             tull <- set.echoCmdOption(FALSE)
+        }
         projstr <- execGRASS("g.proj", flags=c("j", "f"), intern=TRUE, 
             ignore.stderr=ignore.stderr)
 	if (length(grep("XY location", projstr)) > 0)
@@ -111,6 +122,9 @@ getLocationProj <- function(ignore.stderr = FALSE) {
 			"must begin with +:", uprojargs))
 		uprojargs <- as.character(NA)
 	}
+        if (get.suppressEchoCmdInFuncOption()) {
+            tull <- set.echoCmdOption(inEchoCmd)
+        }
 	uprojargs
 }
 

@@ -10,6 +10,10 @@ parseGRASS <- function(cmd, legacyExec=NULL) {
     if (is.null(legacyExec))
         legacyExec <- get.legacyExecOption()
     stopifnot(is.logical(legacyExec))
+    if (get("SYS", envir=.GRASS_CACHE) != "unix" && !legacyExec) {
+        warning("legacyExec set TRUE on non-unix platform")
+        legacyExec <- TRUE
+    }
     if (is.null(res)) {
         ext <- get("addEXE", envir=.GRASS_CACHE)
         if (get("SYS", envir=.GRASS_CACHE) == "WinNat") {
@@ -189,6 +193,11 @@ print.GRASS_interface_desc <- function(x, ...) {
 }
 
 doGRASS <- function(cmd, flags=NULL, ..., parameters=NULL, echoCmd=NULL, legacyExec=NULL) {
+    defFlags <- get.defaultFlagsOption()
+    if (!is.null(defFlags)) flags <- unique(c(flags, defFlags))
+    if (all(c("quiet", "verbose") %in% flags)) {
+        flags <- flags[flags != "quiet"]
+    }
     if (!is.null(flags)) stopifnot(is.character(flags))
     if (!is.null(parameters)) stopifnot(is.list(parameters))
     if (is.null(echoCmd))
@@ -197,6 +206,10 @@ doGRASS <- function(cmd, flags=NULL, ..., parameters=NULL, echoCmd=NULL, legacyE
     if (is.null(legacyExec))
         legacyExec <- get.legacyExecOption()
     stopifnot(is.logical(legacyExec))
+    if (get("SYS", envir=.GRASS_CACHE) != "unix" && !legacyExec) {
+        warning("legacyExec set TRUE on non-unix platform")
+        legacyExec <- TRUE
+    }
 
 #    G6 <- get("GV", envir=.GRASS_CACHE) < "GRASS 7"
 
@@ -361,6 +374,10 @@ execGRASS <- function(cmd, flags=NULL, ..., parameters=NULL, intern=NULL,
     if (is.null(legacyExec))
         legacyExec <- get.legacyExecOption()
     stopifnot(is.logical(legacyExec))
+    if (get("SYS", envir=.GRASS_CACHE) != "unix" && !legacyExec) {
+        warning("legacyExec set TRUE on non-unix platform")
+       legacyExec <- TRUE
+    }
 
     syscmd <- doGRASS(cmd, flags=flags, ..., parameters=parameters,
         echoCmd=echoCmd, legacyExec=legacyExec)

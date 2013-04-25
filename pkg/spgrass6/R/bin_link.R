@@ -8,7 +8,10 @@ readRAST6 <- function(vname, cat=NULL, ignore.stderr = NULL,
 	if (!is.null(cat))
 		if(length(vname) != length(cat)) 
 			stop("vname and cat not same length")
-    
+    if (get.suppressEchoCmdInFuncOption()) {
+        inEchoCmd <- get.echoCmdOption()
+        tull <- set.echoCmdOption(FALSE)
+    }
     if (is.null(plugin))
         plugin <- get.pluginOption()
     stopifnot(is.logical(plugin)|| is.null(plugin))
@@ -204,6 +207,9 @@ readRAST6 <- function(vname, cat=NULL, ignore.stderr = NULL,
         if (!return_SGDF) {
            res <- list(grid=grid, dataList=reslist, proj4string=p4)
            class(res) <- "gridList"
+           if (get.suppressEchoCmdInFuncOption()) {
+              tull <- set.echoCmdOption(inEchoCmd)
+           }
            return(res)
         }
 
@@ -238,6 +244,10 @@ readRAST6 <- function(vname, cat=NULL, ignore.stderr = NULL,
 		}
 	} 
     }
+    if (get.suppressEchoCmdInFuncOption()) {
+        tull <- set.echoCmdOption(inEchoCmd)
+    }
+
     resa
 }
 
@@ -397,6 +407,10 @@ writeRAST6 <- function(x, vname, zcol = 1, NODATA=NULL,
 	ignore.stderr = NULL, useGDAL=NULL, overwrite=FALSE, flags=NULL,
         drivername="GTiff") {
 
+        if (get.suppressEchoCmdInFuncOption()) {
+            inEchoCmd <- get.echoCmdOption()
+            tull <- set.echoCmdOption(FALSE)
+        }
 
         if (is.null(ignore.stderr))
             ignore.stderr <- get.ignore.stderrOption()
@@ -473,6 +487,9 @@ writeRAST6 <- function(x, vname, zcol = 1, NODATA=NULL,
 	    unlink(paste(rtmpfl1, list.files(rtmpfl1, pattern=fid), 
 		sep=.Platform$file.sep))
 	}
+        if (get.suppressEchoCmdInFuncOption()) {
+            tull <- set.echoCmdOption(inEchoCmd)
+        }
 
 	invisible(res)
 }

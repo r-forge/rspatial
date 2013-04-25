@@ -12,6 +12,8 @@
 \alias{get.echoCmdOption}
 \alias{get.useInternOption}
 \alias{get.legacyExecOption}
+\alias{get.defaultFlagsOption}
+\alias{get.suppressEchoCmdInFuncOption}
 \alias{set.ignore.stderrOption}
 \alias{set.stop_on_no_flags_parasOption}
 \alias{set.useGDALOption}
@@ -19,6 +21,8 @@
 \alias{set.echoCmdOption}
 \alias{set.useInternOption}
 \alias{set.legacyExecOption}
+\alias{set.defaultFlagsOption}
+\alias{set.suppressEchoCmdInFuncOption}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{Reads GRASS metadata from the current LOCATION}
 \description{
@@ -36,6 +40,8 @@ get.pluginOption()
 get.echoCmdOption()
 get.useInternOption()
 get.legacyExecOption()
+get.defaultFlagsOption()
+get.suppressEchoCmdInFuncOption()
 set.ignore.stderrOption(value)
 set.stop_on_no_flags_parasOption(value)
 set.useGDALOption(value)
@@ -43,12 +49,14 @@ set.pluginOption(value)
 set.echoCmdOption(value)
 set.useInternOption(value)
 set.legacyExecOption(value)
+set.defaultFlagsOption(value)
+set.suppressEchoCmdInFuncOption(value)
 }
 \arguments{
   \item{ignore.stderr}{default FALSE, can be set to TRUE to silence \code{system()} output to standard error; does not apply on Windows platforms}
   \item{x}{S3 object returned by gmeta6}
   \item{...}{arguments passed through print method}
-  \item{value}{logical value for setting options on \code{ignore.stderr} set by default on package load to FALSE, \code{stop_on_no_flags_paras} set by default on package load to TRUE, \code{useGDAL} set by default on package load to TRUE, \code{plugin} set by default on package load to NULL, \code{echoCmd} set by default on package load to FALSE}
+  \item{value}{logical value for setting options on \code{ignore.stderr} set by default on package load to FALSE, \code{stop_on_no_flags_paras} set by default on package load to TRUE, \code{useGDAL} set by default on package load to TRUE, \code{plugin} set by default on package load to NULL, \code{echoCmd} set by default on package load to FALSE. \code{useIntern} sets the \code{intern} argument globally; \code{legacyExec} sets the \code{legacyExec} option globally, but is initialized to FALSE on unix systems (all but Windows) and TRUE on Windows; \code{defaultFlags} is initialized to NULL, but may be a character vector with values from \code{c("quiet", "verbose")} \code{suppressEchoCmdInFunc} default TRUE suppresses the effect of \code{echoCmd} within package functions, may be set FALSE for debugging.}
 }
 %- maybe also 'usage' for other objects documented here.
 

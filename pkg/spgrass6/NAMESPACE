@@ -11,7 +11,9 @@ export(set.ignore.stderrOption, get.ignore.stderrOption, set.useGDALOption,
  get.useGDALOption, set.stop_on_no_flags_parasOption,
  get.stop_on_no_flags_parasOption, set.pluginOption, get.pluginOption,
  set.echoCmdOption, get.echoCmdOption, get.useInternOption, 
- set.useInternOption, get.legacyExecOption, set.legacyExecOption)
+ set.useInternOption, get.legacyExecOption, set.legacyExecOption,
+ get.defaultFlagsOption, set.defaultFlagsOption,
+ get.suppressEchoCmdInFuncOption, set.suppressEchoCmdInFuncOption)
 
 S3method(print, gmeta6)
 S3method(print, GRASS_interface_desc)

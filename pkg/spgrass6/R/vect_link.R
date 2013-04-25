@@ -6,6 +6,10 @@ readVECT6 <- function(vname, layer, type=NULL, plugin=NULL,
 	ignore.stderr = NULL, with_prj=TRUE, with_c=FALSE, mapset=NULL, 
 	pointDropZ=FALSE, driver="ESRI Shapefile") {
 
+    if (get.suppressEchoCmdInFuncOption()) {
+        inEchoCmd <- get.echoCmdOption()
+        tull <- set.echoCmdOption(FALSE)
+    }
     if (is.null(plugin))
         plugin <- get("plugin", envir = .GRASS_CACHE)
     stopifnot(is.logical(plugin)|| is.null(plugin))
@@ -172,6 +176,9 @@ readVECT6 <- function(vname, layer, type=NULL, plugin=NULL,
 
 	}
     }
+    if (get.suppressEchoCmdInFuncOption()) {
+        tull <- set.echoCmdOption(inEchoCmd)
+    }
     res
 }
 
@@ -230,6 +237,10 @@ readVECT6 <- function(vname, layer, type=NULL, plugin=NULL,
 writeVECT6 <- function(SDF, vname, #factor2char = TRUE, 
 	v.in.ogr_flags=NULL, ignore.stderr = NULL, driver="ESRI Shapefile") {
 
+        if (get.suppressEchoCmdInFuncOption()) {
+            inEchoCmd <- get.echoCmdOption()
+             tull <- set.echoCmdOption(FALSE)
+        }
         if (is.null(ignore.stderr))
             ignore.stderr <- get("ignore.stderr", envir = .GRASS_CACHE)
         stopifnot(is.logical(ignore.stderr))
@@ -289,10 +300,17 @@ writeVECT6 <- function(SDF, vname, #factor2char = TRUE,
             unlink(paste(rtmpfl1, list.files(rtmpfl1, pattern=shname), 
 	        sep=.Platform$file.sep))
         }
+        if (get.suppressEchoCmdInFuncOption()) {
+            tull <- set.echoCmdOption(inEchoCmd)
+        }
 
 }
 
 vInfo <- function(vname, layer, ignore.stderr = NULL) {
+        if (get.suppressEchoCmdInFuncOption()) {
+            inEchoCmd <- get.echoCmdOption()
+             tull <- set.echoCmdOption(FALSE)
+        }
         if (is.null(ignore.stderr))
             ignore.stderr <- get("ignore.stderr", envir = .GRASS_CACHE)
         stopifnot(is.logical(ignore.stderr))
@@ -309,11 +327,18 @@ vInfo <- function(vname, layer, ignore.stderr = NULL) {
 	con <- textConnection(vinfo1)
 	res <- drop(read.dcf(con))
 	close(con)
+        if (get.suppressEchoCmdInFuncOption()) {
+            tull <- set.echoCmdOption(inEchoCmd)
+        }
 	storage.mode(res) <- "integer"
 	res
 }
 
 vColumns <- function(vname, layer, ignore.stderr = NULL) {
+        if (get.suppressEchoCmdInFuncOption()) {
+            inEchoCmd <- get.echoCmdOption()
+             tull <- set.echoCmdOption(FALSE)
+        }
         if (is.null(ignore.stderr))
             ignore.stderr <- get("ignore.stderr", envir = .GRASS_CACHE)
         stopifnot(is.logical(ignore.stderr))
@@ -326,10 +351,17 @@ vColumns <- function(vname, layer, ignore.stderr = NULL) {
         res <- read.table(con, header=FALSE, sep="|")
 	close(con)
 	names(res) <- c("storageType", "name")
+        if (get.suppressEchoCmdInFuncOption()) {
+            tull <- set.echoCmdOption(inEchoCmd)
+        }
 	res
 }
 
 vDataCount <- function(vname, layer, ignore.stderr = NULL) {
+        if (get.suppressEchoCmdInFuncOption()) {
+            inEchoCmd <- get.echoCmdOption()
+             tull <- set.echoCmdOption(FALSE)
+        }
         if (is.null(ignore.stderr))
             ignore.stderr <- get("ignore.stderr", envir = .GRASS_CACHE)
         stopifnot(is.logical(ignore.stderr))
@@ -343,6 +375,9 @@ vDataCount <- function(vname, layer, ignore.stderr = NULL) {
         else tull <- execGRASS("v.db.select", flags="c",
             parameters=parms, intern=TRUE, ignore.stderr=ignore.stderr)
 	n <- length(tull)
+        if (get.suppressEchoCmdInFuncOption()) {
+            tull <- set.echoCmdOption(inEchoCmd)
+        }
 	n
 }
 
@@ -445,6 +480,10 @@ putSites6sp <- function(SPDF, vname, #factor2char = TRUE,
 vect2neigh <- function(vname, ID=NULL, ignore.stderr = NULL, remove=TRUE,
     vname2=NULL, units="k") {
 
+    if (get.suppressEchoCmdInFuncOption()) {
+        inEchoCmd <- get.echoCmdOption()
+        tull <- set.echoCmdOption(FALSE)
+    }
     if (is.null(ignore.stderr))
         ignore.stderr <- get("ignore.stderr", envir = .GRASS_CACHE)
     stopifnot(is.logical(ignore.stderr))
@@ -608,6 +647,9 @@ vect2neigh <- function(vname, ID=NULL, ignore.stderr = NULL, remove=TRUE,
     attr(reso, "region.id") <- ID
     attr(reso, "n") <- n
     class(reso) <- c(class(reso), "GRASSneigh", "spatial.neighbour")
+    if (get.suppressEchoCmdInFuncOption()) {
+        tull <- set.echoCmdOption(inEchoCmd)
+    }
 
     reso
 }

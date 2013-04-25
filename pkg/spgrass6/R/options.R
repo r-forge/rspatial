@@ -83,4 +83,31 @@ get.legacyExecOption <- function() {
 	get("legacyExec", envir = .GRASS_CACHE)
 }
 
+set.defaultFlagsOption <- function(value) {
+	res <- get("defaultFlags", envir = .GRASS_CACHE)
+        if (is.null(value)) {
+	    assign("defaultFlags", value, envir = .GRASS_CACHE)
+        } else {
+	    if (!is.character(value)) stop ("character argument required")
+            stopifnot(length(value) > 0)
+            stopifnot(all(value %in% c("quiet", "verbose")))
+	    assign("defaultFlags", value, envir = .GRASS_CACHE)
+        }
+	res
+}
+
+get.defaultFlagsOption <- function() {
+	get("defaultFlags", envir = .GRASS_CACHE)
+}
+
+set.suppressEchoCmdInFuncOption <- function(value) {
+	if (!is.logical(value)) stop ("logical argument required")
+	res <- get("suppressEchoCmdInFunc", envir = .GRASS_CACHE)
+	assign("suppressEchoCmdInFunc", value, envir = .GRASS_CACHE)
+	res
+}
+
+get.suppressEchoCmdInFuncOption <- function() {
+	get("suppressEchoCmdInFunc", envir = .GRASS_CACHE)
+}
 
