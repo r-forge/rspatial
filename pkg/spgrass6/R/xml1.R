@@ -428,7 +428,12 @@ execGRASS <- function(cmd, flags=NULL, ..., parameters=NULL, intern=NULL,
 
         resOut <- readLines(outFile)
         if (intern) return(resOut)
-        else if (length(resOut) > 0) cat(resOut, sep="\n")
+
+        if (length(resOut) > 0) cat(resOut, sep="\n")
+        if (length(resErr) > 0) cat(resErr, sep="\n")
+       
+        attr(res, "resOut") <- resOut
+        attr(res, "resErr") <- resErr
     }
     invisible(res)
 }
