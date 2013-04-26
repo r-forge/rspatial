@@ -400,29 +400,32 @@ execGRASS <- function(cmd, flags=NULL, ..., parameters=NULL, intern=NULL,
         command <- attr(syscmd, "cmd")
         arguments <- substring(syscmd, (nchar(command)+2), nchar(syscmd))
 
-        errFile <- tempfile()
-        outFile <- tempfile()
+        errFile <- tempfile(fileext=".err")
+        outFile <- tempfile(fileext=".out")
 
         res <- system2(command, arguments, stderr = errFile,
             stdout = outFile, wait=Sys_wait, input=Sys_input)
 
         resErr <- readLines(errFile)
         if (res == 127L) {
-             stop("The command\n", "   ", command, " ", arguments,
+             stop("The command:\n", command, " ", arguments,
                  "\ncould not be run (", res,
-                 "), and produced the error message:\n", "   ", resErr)
+                 "), and produced the error message:\n",
+                 paste(resErr, collapse="\n"))
         } else if (res == 1L) {
-            stop("The command\n", "   ", command, " ", arguments,
+            stop("The command:\n", command, " ", arguments,
                 "\nproduced an error (", res,
-                ") during execution:\n", "   ", resErr)
+                ") during execution:\n", paste(resErr, collapse="\n"))
         } else if (res == 0L & !ignore.stderr) {
             if (length(grep("ERROR:", resErr)) > 0) {
-                stop("The command\n", "   ", command, " ", arguments,
+                stop("The command:\n", command, " ", arguments,
                     "\nproduced an error (", res,
-                    ") during execution:\n", "   ", resErr)
+                    ") during execution:\n",
+                    paste(resErr, collapse="\n"))
             } else if (length(grep("WARNING:", resErr)) > 0) {
-                warning("\n The command\n", "   ", command, " ", arguments,
-                    "\nproduced a warning during execution:\n", "   ", resErr)
+                warning("The command:\n", command, " ", arguments,
+                    "\nproduced at least one warning during execution:\n",
+                    paste(resErr, collapse="\n"))
             }
         }
 
