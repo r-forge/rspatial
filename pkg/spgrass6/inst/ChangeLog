@@ -1,3 +1,36 @@
+2013-04-26 14:34  rsbivand
+
+	* R/xml1.R: tidying and adding file extensions
+
+2013-04-26 10:23  rsbivand
+
+	* R/xml1.R, man/execGRASS.Rd: folding resErr into console output
+
+2013-04-25 08:47  rsbivand
+
+	* NAMESPACE, R/AAA.R, R/bin_link.R, R/options.R, R/spgrass6.R,
+	  R/vect_link.R, R/xml1.R, man/gmeta6.Rd: further spgrass6 options,
+	  force legacyExec for Windows
+
+2013-04-24 10:44  rsbivand
+
+	* DESCRIPTION, NAMESPACE, R/AAA.R, R/options.R, R/xml1.R,
+	  man/execGRASS.Rd, man/gmeta6.Rd: transition to system2,
+	  legacyExec option
+
+2013-04-24 07:05  rsbivand
+
+	* R/bin_link.R: closeAllConnections in readRAST6 replaced by
+	  counted closure
+
+2013-04-22 11:49  rsbivand
+
+	* man/execGRASS.Rd: tidy
+
+2013-04-22 11:33  rsbivand
+
+	* ChangeLog, inst/ChangeLog: tidy
+
 2013-04-22 11:32  rsbivand
 
 	* DESCRIPTION: rgdal regression; add error trapping
