@@ -7,7 +7,7 @@
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{Choose univariate class intervals}
 \description{
-  The function provides a uniform interface to finding class intervals for continuous numerical variables, for example for choosing colours or symbols for plotting. Class intervals are non-overlapping, and the classes are left-closed --- see \code{findInterval}. Argument values to the style chosen are passed through the dot arguments. \code{classIntervals2shingle} converts a \code{classIntervals} object into a shingle.
+  The function provides a uniform interface to finding class intervals for continuous numerical variables, for example for choosing colours or symbols for plotting. Class intervals are non-overlapping, and the classes are left-closed --- see \code{findInterval}. Argument values to the style chosen are passed through the dot arguments. \code{classIntervals2shingle} converts a \code{classIntervals} object into a shingle. Labels generated in methods are like those found in \code{\link{cut}} unless cutlabels=FALSE.
 }
 \usage{
 classIntervals(var, n, style = "quantile", rtimes = 3, ...,
@@ -27,9 +27,9 @@ classIntervals2shingle(x)
   \item{dataPrecision}{default NULL, permits rounding of the interval endpoints (added by Richard Dunlap)}
   \item{\dots}{arguments to be passed to the functions called in each style}
   \item{x}{"classIntervals" object for printing, conversion to shingle, or plotting}
-  \item{under}{character string value for "under" in printed table labels}
-  \item{over}{character string value for "over" in printed table labels}
-  \item{between}{character string value for "between" in printed table labels}
+  \item{under}{character string value for "under" in printed table labels if cutlabels=FALSE}
+  \item{over}{character string value for "over" in printed table labels if cutlabels=FALSE}
+  \item{between}{character string value for "between" in printed table labels if cutlabels=FALSE}
   \item{digits}{minimal number of significant digits in printed table labels}
   \item{cutlabels}{default TRUE, use cut-style labels in printed table labels}
   \item{unique}{default FALSE; if TRUE, collapse labels of single-value classes}

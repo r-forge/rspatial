@@ -12,9 +12,9 @@ findColours(clI, pal, under="under", over="over", between="-", digits = getOptio
 \arguments{
   \item{clI}{a "classIntervals" object}
   \item{pal}{a character vector of at least two colour names; \code{colorRampPalette} is used internally to create the required number of colours}
-  \item{under}{character string value for "under" in legend}
-  \item{over}{character string value for "over" in legend}
-  \item{between}{character string value for "between" in legend}
+  \item{under}{character string value for "under" in legend if cutlabels=FALSE}
+  \item{over}{character string value for "over" in legend if cutlabels=FALSE}
+  \item{between}{character string value for "between" in legend if cutlabels=FALSE}
   \item{digits}{minimal number of significant digits in legend}
   \item{cutlabels}{use cut-style labels in legend}
 }
