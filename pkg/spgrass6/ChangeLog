@@ -1,3 +1,12 @@
+2013-06-22 16:40  rsbivand
+
+	* DESCRIPTION, man/initGRASS.Rd, man/readRAST6.Rd, man/spgrass6.Rd:
+	  line length issues
+
+2013-05-02 19:04  rsbivand
+
+	* ChangeLog, inst/ChangeLog: tidy
+
 2013-04-26 14:34  rsbivand
 
 	* R/xml1.R: tidying and adding file extensions
