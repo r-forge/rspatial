@@ -6,7 +6,8 @@
   This helper function is a wrapper for \code{findCols} to extract classes from a "classInterval" object and assign colours from a palette created by \code{colorRampPalette} from the two or more colours given in the \code{pal} argument. It also returns two attributes for use in constructing a legend.
 }
 \usage{
-findColours(clI, pal, under="under", over="over", between="-", digits = getOption("digits"), cutlabels=TRUE)
+findColours(clI, pal, under="under", over="over", between="-", 
+ digits = getOption("digits"), cutlabels=TRUE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -33,11 +34,13 @@ findColours(h5, mypal)
 findColours(getHclustClassIntervals(h5, k=7), mypal)
 h5Colours <- findColours(h5, mypal)
 plot(h5, mypal, main="Complete hierarchical clustering")
-legend(c(95, 155), c(0.12, 0.4), fill=attr(h5Colours, "palette"), legend=names(attr(h5Colours, "table")), bg="white")
+legend(c(95, 155), c(0.12, 0.4), fill=attr(h5Colours, "palette"),
+ legend=names(attr(h5Colours, "table")), bg="white")
 h5tab <- attr(h5Colours, "table")
 legtext <- paste(names(h5tab), " (", h5tab, ")", sep="")
 plot(h5, mypal, main="Complete hierarchical clustering (with counts)")
-legend(c(95, 165), c(0.12, 0.4), fill=attr(h5Colours, "palette"), legend=legtext, bg="white")
+legend(c(95, 165), c(0.12, 0.4), fill=attr(h5Colours, "palette"),
+ legend=legtext, bg="white")
 }
 \keyword{spatial}
 

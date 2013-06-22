@@ -11,9 +11,10 @@
 }
 \usage{
 classIntervals(var, n, style = "quantile", rtimes = 3, ...,
-                 intervalClosure = c("left", "right"), dataPrecision = NULL)
+ intervalClosure = c("left", "right"), dataPrecision = NULL)
 \method{plot}{classIntervals}(x, pal, ...) 
-\method{print}{classIntervals}(x, digits = getOption("digits"), ..., under="under", over="over", between="-", cutlabels=TRUE, unique=FALSE) 
+\method{print}{classIntervals}(x, digits = getOption("digits"), ..., 
+ under="under", over="over", between="-", cutlabels=TRUE, unique=FALSE) 
 nPartitions(x) 
 classIntervals2shingle(x)
 }
@@ -86,16 +87,20 @@ Fisher, W. D. 1958 "On grouping for maximum homogeneity", Journal of the America
 data(jenks71)
 pal1 <- c("wheat1", "red3")
 opar <- par(mfrow=c(2,3))
-plot(classIntervals(jenks71$jenks71, n=5, style="fixed", fixedBreaks=c(15.57, 25, 50, 75, 100, 155.30)), pal=pal1, main="Fixed")
+plot(classIntervals(jenks71$jenks71, n=5, style="fixed",
+ fixedBreaks=c(15.57, 25, 50, 75, 100, 155.30)), pal=pal1, main="Fixed")
 plot(classIntervals(jenks71$jenks71, n=5, style="sd"), pal=pal1, main="Pretty standard deviations")
 plot(classIntervals(jenks71$jenks71, n=5, style="equal"), pal=pal1, main="Equal intervals")
 plot(classIntervals(jenks71$jenks71, n=5, style="quantile"), pal=pal1, main="Quantile")
 set.seed(1)
 plot(classIntervals(jenks71$jenks71, n=5, style="kmeans"), pal=pal1, main="K-means")
-plot(classIntervals(jenks71$jenks71, n=5, style="hclust", method="complete"), pal=pal1, main="Complete cluster")
-plot(classIntervals(jenks71$jenks71, n=5, style="hclust", method="single"), pal=pal1, main="Single cluster")
+plot(classIntervals(jenks71$jenks71, n=5, style="hclust", method="complete"),
+ pal=pal1, main="Complete cluster")
+plot(classIntervals(jenks71$jenks71, n=5, style="hclust", method="single"),
+ pal=pal1, main="Single cluster")
 set.seed(1)
-plot(classIntervals(jenks71$jenks71, n=5, style="bclust", verbose=FALSE), pal=pal1, main="Bagged cluster")
+plot(classIntervals(jenks71$jenks71, n=5, style="bclust", verbose=FALSE),
+ pal=pal1, main="Bagged cluster")
 plot(classIntervals(jenks71$jenks71, n=5, style="fisher"), pal=pal1, main="Fisher's method")
 plot(classIntervals(jenks71$jenks71, n=5, style="jenks"), pal=pal1, main="Jenks' method")
 par(opar)
