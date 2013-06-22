@@ -56,7 +56,8 @@ if (nchar(Sys.getenv("GISRC")) > 0) {
   vInfo("streams", ignore.stderr=TRUE)
   vColumns("streams", ignore.stderr=TRUE)
   vDataCount("streams", ignore.stderr=TRUE)
-  streams <- readVECT6("streams", type="line,boundary", remove.duplicates=FALSE, ignore.stderr=TRUE, plugin=FALSE)
+  streams <- readVECT6("streams", type="line,boundary",
+    remove.duplicates=FALSE, ignore.stderr=TRUE, plugin=FALSE)
   summary(streams)
 }
 }

@@ -12,7 +12,8 @@
 The locking functions are used internally, but are exposed for experienced R/GRASS scripters needing to use the GRASS module \dQuote{g.mapset} through \code{initGRASS} in an existing GRASS location. In particular, \dQuote{g.mapset} may leave a \code{.gislock} file in the current MAPSET, so it may be important to call \code{unlink_.gislock} to clean up before quitting the R session.
 }
 \usage{
-initGRASS(gisBase, home, SG, gisDbase, location, mapset, override = FALSE, use_g.dirseps.exe = TRUE, pid)
+initGRASS(gisBase, home, SG, gisDbase, location, mapset, override = FALSE,
+ use_g.dirseps.exe = TRUE, pid)
 get.GIS_LOCK()
 set.GIS_LOCK(pid)
 unset.GIS_LOCK()

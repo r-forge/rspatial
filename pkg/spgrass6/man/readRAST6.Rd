@@ -10,8 +10,11 @@ Read GRASS 6+ raster files from GRASS 6+ into R SpatialGridDataFrame objects, an
 
 
 \usage{
-readRAST6(vname, cat=NULL, ignore.stderr = NULL, NODATA=NULL, plugin=NULL, mapset=NULL, useGDAL=NULL, close_OK=TRUE, drivername="GTiff", driverFileExt=NULL, return_SGDF=TRUE)
-writeRAST6(x, vname, zcol = 1, NODATA=NULL, ignore.stderr = NULL, useGDAL=NULL, overwrite=FALSE, flags=NULL, drivername="GTiff")
+readRAST6(vname, cat=NULL, ignore.stderr = NULL, NODATA=NULL, plugin=NULL,
+ mapset=NULL, useGDAL=NULL, close_OK=TRUE, drivername="GTiff",
+ driverFileExt=NULL, return_SGDF=TRUE)
+writeRAST6(x, vname, zcol = 1, NODATA=NULL, ignore.stderr = NULL,
+ useGDAL=NULL, overwrite=FALSE, flags=NULL, drivername="GTiff")
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
