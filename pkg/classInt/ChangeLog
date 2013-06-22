@@ -1,3 +1,12 @@
+2013-06-22 14:39  rsbivand
+
+	* man/classIntervals.Rd, man/findColours.Rd, man/findCols.Rd,
+	  man/jenks.tests.Rd: help line lengths
+
+2013-06-22 14:33  rsbivand
+
+	* ChangeLog, inst/ChangeLog: tidy
+
 2013-06-22 14:33  rsbivand
 
 	* DESCRIPTION: tidy
