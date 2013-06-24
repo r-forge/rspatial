@@ -134,3 +134,13 @@ setReplaceMethod("coordnames", signature(x = "SpatialPoints", value = "character
 )
 
 length.SpatialPoints = function(x) { nrow(x@coords) }
+
+setMethod("$", "SpatialPoints", 
+	function(x, name) {
+		if (name %in% coordnames(x))
+			return(x@coords[,name])
+		if (!("data" %in% slotNames(x)))
+			stop("no $ method for object without attributes")
+		x@data[[name]]
+	}
+)
