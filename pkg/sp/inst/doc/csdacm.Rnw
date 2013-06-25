@@ -34,7 +34,11 @@
 \def\SIII{\texttt{S3}\xspace}
 \def\SIV{\texttt{S4}\xspace}
 
-\title{ Customising spatial data classes and methods }
+\title{ Customising spatial data classes and methods\footnote{This vignette formed pp. 127--148 of the first edition of Bivand, R. S.,
+Pebesma, E. and G\'{o}mez-Rubio V. (2008) Applied Spatial Data Analysis with R,
+Springer-Verlag, New York. It was retired from the second edition (2013) to
+accommodate material on other topics, and is made available in this form
+with the understanding of the publishers.} }
 \author{Edzer Pebesma\footnote{Institute for Geoinformatics,
 University of Muenster, Weseler Strasse 253, 48151 M\"{u}nster, Germany.
 {\tt edzer.pebesma@uni-muenster.de}}}
