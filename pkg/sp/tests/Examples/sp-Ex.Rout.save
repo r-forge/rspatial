@@ -1,5 +1,5 @@
 
-R version 3.0.0 (2013-04-03) -- "Masked Marvel"
+R Under development (unstable) (2013-06-21 r63004) -- "Unsuffered Consequences"
 Copyright (C) 2013 The R Foundation for Statistical Computing
 Platform: x86_64-unknown-linux-gnu (64-bit)
 
@@ -48,15 +48,16 @@ CRS arguments: +proj=longlat +datum=WGS84
 +   print(CRSargs(CRS("+proj=longlat +datum=NAD27")))
 +   print(CRSargs(CRS("+init=epsg:4267")))
 +   print(CRSargs(CRS("+init=epsg:26978")))
-+   print(CRSargs(CRS("+proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.999908 +x_0=155000 +y_0=463000 +ellps=bessel +towgs84=565.237,50.0087,465.658,-0.406857,0.350733,-1.87035,4.0812 +units=m")))
-+ # see http://trac.osgeo.org/gdal/ticket/1987
++   print(CRSargs(CRS(paste("+proj=sterea +lat_0=52.15616055555555",
++  "+lon_0=5.38763888888889 +k=0.999908 +x_0=155000 +y_0=463000 +ellps=bessel",
++  " +towgs84=565.237,50.0087,465.658,-0.406857,0.350733,-1.87035,4.0812 +units=m"))))
 +   print(CRSargs(CRS("+init=epsg:28992")))
 + }
 Loading required package: rgdal
-rgdal: version: 0.8-7, (SVN revision 459M)
+rgdal: version: 0.8-9, (SVN revision 470)
 Geospatial Data Abstraction Library extensions to R successfully loaded
-Loaded GDAL runtime: GDAL 1.9.2, released 2012/10/08
-Path to GDAL shared files: /usr/share/gdal/1.9
+Loaded GDAL runtime: GDAL 1.10.0, released 2013/04/13
+Path to GDAL shared files: /usr/local/share/gdal
 Loaded PROJ.4 runtime: Rel. 4.8.0, 6 March 2012, [PJ_VERSION: 480]
 Path to PROJ.4 shared files: (autodetected)
 [1] "+proj=longlat +datum=NAD27 +ellps=clrk66 +nadgrids=@conus,@alaska,@ntv2_0.gsb,@ntv1_can.dat"
@@ -64,6 +65,7 @@ Path to PROJ.4 shared files: (autodetected)
 [1] "+init=epsg:26978 +proj=lcc +lat_1=38.56666666666667 +lat_2=37.26666666666667 +lat_0=36.66666666666666 +lon_0=-98.5 +x_0=400000 +y_0=400000 +datum=NAD83 +units=m +no_defs +ellps=GRS80 +towgs84=0,0,0"
 [1] "+proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.999908 +x_0=155000 +y_0=463000 +ellps=bessel +towgs84=565.237,50.0087,465.658,-0.406857,0.350733,-1.87035,4.0812 +units=m"
 [1] "+init=epsg:28992 +proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.9999079 +x_0=155000 +y_0=463000 +ellps=bessel +towgs84=565.417,50.3319,465.552,-0.398957,0.343988,-1.8774,4.0725 +units=m +no_defs"
+> # see http://trac.osgeo.org/gdal/ticket/1987
 > 
 > 
 > 
@@ -4043,7 +4045,6 @@ attr(,"package")
 > grd <- GridTopology(c(1,1), c(1,1), c(10,10))
 > polys <- as(grd, "SpatialPolygons")
 > plot(polys)
-> #text(coordinates(polys), labels=sapply(slot(polys, "polygons"), function(i) slot(i, "ID")), cex=0.6)
 > text(coordinates(polys), labels=row.names(polys))
 > 
 > 
@@ -4085,8 +4086,8 @@ attr(,"package")
 > x <- centroids[,1]
 > y <- centroids[,2]
 > z <- 1.4 + 0.1*x + 0.2*y + 0.002*x*x
-> #ex_1.7 <- SpatialPolygonsDataFrame(polys, data=data.frame(x=x, y=y, z=z, row.names=sapply(slot(polys, "polygons"), function(i) slot(i, "ID"))))
-> ex_1.7 <- SpatialPolygonsDataFrame(polys, data=data.frame(x=x, y=y, z=z, row.names=row.names(polys)))
+> ex_1.7 <- SpatialPolygonsDataFrame(polys,
++  data=data.frame(x=x, y=y, z=z, row.names=row.names(polys)))
 > brks <- quantile(z, seq(0,1,1/7))
 > cols <- grey((length(brks):2)/length(brks))
 > dens <- (2:length(brks))*3
@@ -4116,7 +4117,8 @@ attr(,"package")
 > SpP_grd <- as.SpatialPolygons.GridTopology(grd)
 > plot(SpP_grd)
 > text(coordinates(SpP_grd), sapply(slot(SpP_grd, "polygons"), function(i) slot(i, "ID")), cex=0.5)
-> trdata <- data.frame(A=rep(c(1,2,3,4), 4), B=rep(c(1,2,3,4), each=4), row.names=sapply(slot(SpP_grd, "polygons"), function(i) slot(i, "ID")))
+> trdata <- data.frame(A=rep(c(1,2,3,4), 4), B=rep(c(1,2,3,4), each=4),
++  row.names=sapply(slot(SpP_grd, "polygons"), function(i) slot(i, "ID")))
 > SpPDF <- SpatialPolygonsDataFrame(SpP_grd, trdata)
 > spplot(SpPDF)
 > 
@@ -4576,10 +4578,10 @@ Data attributes:
 +   pos=grdat_x$pos, offset=grdat_x$offset)
 + }
 Loading required package: rgdal
-rgdal: version: 0.8-7, (SVN revision 459M)
+rgdal: version: 0.8-9, (SVN revision 470)
 Geospatial Data Abstraction Library extensions to R successfully loaded
-Loaded GDAL runtime: GDAL 1.9.2, released 2012/10/08
-Path to GDAL shared files: /usr/share/gdal/1.9
+Loaded GDAL runtime: GDAL 1.10.0, released 2013/04/13
+Path to GDAL shared files: /usr/local/share/gdal
 Loaded PROJ.4 runtime: Rel. 4.8.0, 6 March 2012, [PJ_VERSION: 480]
 Path to PROJ.4 shared files: (autodetected)
 > 
@@ -4833,7 +4835,8 @@ Data attributes:
 > 
 > ### ** Examples
 > 
-> Sl <- SpatialLines(list(Lines(list(Line(cbind(sin(seq(-4,4,0.4)), seq(1,21,1)))), "1")), proj4string=CRS("+proj=longlat"))
+> Sl <- SpatialLines(list(Lines(list(Line(cbind(sin(seq(-4,4,0.4)),
++  seq(1,21,1)))), "1")), proj4string=CRS("+proj=longlat"))
 > summary(Sl)
 Object of class SpatialLines
 Coordinates:
@@ -14579,7 +14582,7 @@ r4        NA        NA        NA   NA    NA
 > x <- centroids[,1]
 > y <- centroids[,2]
 > z <- 1.4 + 0.1*x + 0.2*y + 0.002*x*x
-> df <- data.frame(x=x, y=y, z=z, row.names=sapply(slot(polys, "polygons"), function(i) slot(i, "ID")))
+> df <- data.frame(x=x, y=y, z=z, row.names=row.names(polys))
 > polygons(df) <- polys
 > class(df)
 [1] "SpatialPolygonsDataFrame"
@@ -14632,7 +14635,8 @@ y   50  52
 x 179 181
 y  50  52
 > rcrds <- rbind(crds, crds[1,])
-> SpP <- SpatialPolygons(list(Polygons(list(Polygon(rcrds)), ID="r1")), proj4string=CRS("+proj=longlat"))
+> SpP <- SpatialPolygons(list(Polygons(list(Polygon(rcrds)), ID="r1")),
++  proj4string=CRS("+proj=longlat"))
 > bbox(SpP)
    min max
 x -179 179
@@ -14658,7 +14662,8 @@ y  50  52
 x   1 359
 y  50  52
 > rcrds <- rbind(crds, crds[1,])
-> SpP <- SpatialPolygons(list(Polygons(list(Polygon(rcrds)), ID="r1")), proj4string=CRS("+proj=longlat"))
+> SpP <- SpatialPolygons(list(Polygons(list(Polygon(rcrds)), ID="r1")),
++  proj4string=CRS("+proj=longlat"))
 > bbox(SpP)
   min max
 x  -1   1
@@ -15085,8 +15090,9 @@ Data attributes:
 > 
 > ### * <FOOTER>
 > ###
+> options(digits = 7L)
 > base::cat("Time elapsed: ", proc.time() - base::get("ptime", pos = 'CheckExEnv'),"\n")
-Time elapsed:  12.208 1.372 13.619 0 0 
+Time elapsed:  14.792 0.218 15.337 0 0 
 > grDevices::dev.off()
 null device 
           1 
