@@ -1,7 +1,7 @@
 
-R Under development (unstable) (2013-06-21 r63004) -- "Unsuffered Consequences"
+R version 3.0.1 (2013-05-16) -- "Good Sport"
 Copyright (C) 2013 The R Foundation for Statistical Computing
-Platform: x86_64-unknown-linux-gnu (64-bit)
+Platform: x86_64-pc-linux-gnu (64-bit)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
 You are welcome to redistribute it under certain conditions.
@@ -54,10 +54,10 @@ CRS arguments: +proj=longlat +datum=WGS84
 +   print(CRSargs(CRS("+init=epsg:28992")))
 + }
 Loading required package: rgdal
-rgdal: version: 0.8-9, (SVN revision 470)
+rgdal: version: 0.8-10, (SVN revision 475)
 Geospatial Data Abstraction Library extensions to R successfully loaded
-Loaded GDAL runtime: GDAL 1.10.0, released 2013/04/13
-Path to GDAL shared files: /usr/local/share/gdal
+Loaded GDAL runtime: GDAL 1.9.2, released 2012/10/08
+Path to GDAL shared files: /usr/share/gdal/1.9
 Loaded PROJ.4 runtime: Rel. 4.8.0, 6 March 2012, [PJ_VERSION: 480]
 Path to PROJ.4 shared files: (autodetected)
 [1] "+proj=longlat +datum=NAD27 +ellps=clrk66 +nadgrids=@conus,@alaska,@ntv2_0.gsb,@ntv1_can.dat"
@@ -569,6 +569,8 @@ cells.dim             78    104
 > ###   coerce,SpatialGridDataFrame,matrix-method
 > ###   coerce,SpatialGridDataFrame,array-method
 > ###   as.data.frame.SpatialGridDataFrame dim.SpatialGridDataFrame
+> ###   coerce,im,SpatialGridDataFrame-method
+> ###   coerce,ppp,SpatialGridDataFrame-method
 > ### Keywords: classes
 > 
 > ### ** Examples
@@ -3925,7 +3927,8 @@ y            329620       40       104
 > ###   show,SpatialPoints-method as.data.frame.SpatialPoints
 > ###   plot,SpatialPoints,missing-method summary,SpatialPoints-method
 > ###   print.SpatialPoints summary.SpatialPoints rbind.SpatialPoints
-> ###   $<-,SpatialPoints,character-method row.names.SpatialPoints
+> ###   $,SpatialPoints-method $<-,SpatialPoints,character-method
+> ###   row.names.SpatialPoints coerce,ppp,SpatialPoints-method
 > ### Keywords: classes
 > 
 > ### ** Examples
@@ -3966,6 +3969,7 @@ Coordinate Reference System (CRS) arguments: NA
 > ###   print.SpatialPointsDataFrame ShowSpatialPointsDataFrame
 > ###   as.SpatialPoints.SpatialPointsDataFrame rbind.SpatialPointsDataFrame
 > ###   row.names.SpatialPointsDataFrame
+> ###   coerce,ppp,SpatialPointsDataFrame-method
 > ### Keywords: classes
 > 
 > ### ** Examples
@@ -4578,10 +4582,10 @@ Data attributes:
 +   pos=grdat_x$pos, offset=grdat_x$offset)
 + }
 Loading required package: rgdal
-rgdal: version: 0.8-9, (SVN revision 470)
+rgdal: version: 0.8-10, (SVN revision 475)
 Geospatial Data Abstraction Library extensions to R successfully loaded
-Loaded GDAL runtime: GDAL 1.10.0, released 2013/04/13
-Path to GDAL shared files: /usr/local/share/gdal
+Loaded GDAL runtime: GDAL 1.9.2, released 2012/10/08
+Path to GDAL shared files: /usr/share/gdal/1.9
 Loaded PROJ.4 runtime: Rel. 4.8.0, 6 March 2012, [PJ_VERSION: 480]
 Path to PROJ.4 shared files: (autodetected)
 > 
@@ -15092,7 +15096,7 @@ Data attributes:
 > ###
 > options(digits = 7L)
 > base::cat("Time elapsed: ", proc.time() - base::get("ptime", pos = 'CheckExEnv'),"\n")
-Time elapsed:  14.792 0.218 15.337 0 0 
+Time elapsed:  11.808 1.4 13.378 0 0 
 > grDevices::dev.off()
 null device 
           1 
