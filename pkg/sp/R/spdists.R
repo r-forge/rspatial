@@ -29,33 +29,6 @@ spDistsN1 <- function(pts, pt, longlat=FALSE) {
 	res
 }
 
-spDistsSeq <- function(pts) {
-	stopifnot(is(pts, "Spatial"))
-	longlat = !is.na(is.projected(pts)) && !is.projected(pts)
-	pts <- coordinates(pts)
-	if (!is.matrix(pts)) stop("pts must be a matrix")
-	if (ncol(pts) != 2) stop("pts must have two columns")
-	if (!is.numeric(pts)) stop("pts must be numeric")
-    storage.mode(pts) <- "double"
-	x <- pts[,1]
-	y <- pts[,2]
-	n  <- as.integer(length(x))
-	dists <- vector(mode="double", length=n-1)
-	lonlat <- as.integer(longlat)
-	res <- .C("sp_dists_seq", x, y, n, dists, lonlat, 
-		PACKAGE = "sp")[[4]]
-	if (any(!is.finite(res))) {
-		nAn <- which(!is.finite(res))
-		dx <- abs(x[nAn] - x[nAn+1])
-		dy <- abs(y[nAn] - y[nAn+1])
-		if (all((c(dx, dy) < .Machine$double.eps ^ 0.5)))
-			res[nAn] <- 0
-		else
-			stop(paste("non-finite distances in spDistsSeq"))
-	}
-	res
-}
-
 spDists <- function(x, y = x, longlat = FALSE) {
 	if (is(x, "Spatial")) {
 		stopifnot(identical(proj4string(x), proj4string(y)))
