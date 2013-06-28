@@ -221,6 +221,7 @@ exportMethods(
 	coordnames, 
 	"coordnames<-", 
 	dimensions, 
+	disaggregate,
 	fullgrid,
 	"fullgrid<-",
 	geometry, 
