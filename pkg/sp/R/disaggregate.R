@@ -5,7 +5,7 @@ if (!isGeneric("disaggregate")) {
 }
 
 # Robert Hijmans:
-.explodePolygons <- function(x) {
+explodePolygons <- function(x) {
 	npols <- length(x@polygons)
 	crs <- x@proj4string
 	count <- 0
@@ -14,23 +14,28 @@ if (!isGeneric("disaggregate")) {
 	for (i in 1:npols) {
 		parts <- x@polygons[[i]]@Polygons
 		np[i] <- length(parts)
-		p <- c(p, sapply(1:np[i], function(x) Polygons(parts[x], x+count)))
+		p <- c(p, sapply(1:np[i], function(x) Polygons(parts[x], count + x)))
+		count = count + np[i]
 	}
 	p <- SpatialPolygons(p)
 	proj4string(p) <- crs
 	if (.hasSlot(x, 'data')) {
 		np <- rep(1:npols, np)
-		x <- x@data[np,]
-		rownames(x) <- 1:nrow(x)
-		p <- SpatialPolygonsDataFrame(p, data=x)
-	}
-	p
+		x <- x@data[np, , drop = FALSE]
+		#rownames(x) <- 1:nrow(x)
+		rownames(x) <- NULL
+		SpatialPolygonsDataFrame(p, x, FALSE)
+	} else
+		p
 }
 
 setMethod("disaggregate", "SpatialPolygons", 
-	function(x,...) .explodePolygons(x))
+	function(x,...) explodePolygons(x))
 
-.explodeLines <- function(x) {
+setMethod("disaggregate", "SpatialPolygonsDataFrame", 
+	function(x,...) explodePolygons(x))
+
+explodeLines <- function(x) {
 	nlins <- length(x@lines)
 	crs <- x@proj4string
 	count <- 0
@@ -39,20 +44,25 @@ setMethod("disaggregate", "SpatialPolygons",
 	for (i in 1:nlins) {
 		parts <- x@lines[[i]]@Lines
 		nl[i] <- length(parts)
-		p <- c(p, sapply(1:nl[i], function(x) Lines(parts[x], x+count)))
+		p <- c(p, sapply(1:nl[i], function(x) Lines(parts[x], count + x)))
+		count = count + nl[i]
 	}
 	p <- SpatialLines(p)
 	proj4string(p) <- crs
 	if (.hasSlot(x, 'data')) {
 		nl <- rep(1:nlins, nl)
-		x <- x@data[nl,]
+		x <- x@data[nl, , drop = FALSE]
 		rownames(x) <- 1:nrow(x)
-		p <- SpatialLinesDataFrame(p, data=x)
-	}
-	p
+		SpatialLinesDataFrame(p, x, FALSE)
+	} else
+		p
 }
 
-setMethod("disaggregate", "SpatialLines", function(x,...) .explodeLines(x))
+setMethod("disaggregate", "SpatialLines", 
+	function(x,...) explodeLines(x))
+
+setMethod("disaggregate", "SpatialLinesDataFrame", 
+	function(x,...) explodeLines(x))
 
 # Roger, claims Barry wrote it first:
 unfoldLines = function(x) {

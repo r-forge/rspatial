@@ -54,7 +54,7 @@ CRS arguments: +proj=longlat +datum=WGS84
 +   print(CRSargs(CRS("+init=epsg:28992")))
 + }
 Loading required package: rgdal
-rgdal: version: 0.8-10, (SVN revision 475)
+rgdal: version: 0.8-10, (SVN revision 478)
 Geospatial Data Abstraction Library extensions to R successfully loaded
 Loaded GDAL runtime: GDAL 1.9.2, released 2012/10/08
 Path to GDAL shared files: /usr/share/gdal/1.9
@@ -4421,6 +4421,53 @@ attr(,"package")
 > 
 > 
 > cleanEx()
+> nameEx("disaggregate")
+> ### * disaggregate
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: disaggregate-methods
+> ### Title: disaggregate SpatialLines or SpatialPolygons
+> ### Aliases: disaggregate disaggregate-methods
+> ###   disaggregate,SpatialPolygons-method
+> ###   disaggregate,SpatialPolygonsDataFrame-method
+> ###   disaggregate,SpatialLines-method
+> ###   disaggregate,SpatialLinesDataFrame-method
+> ### Keywords: methods
+> 
+> ### ** Examples
+> 
+> Sr1 = Polygon(cbind(c(2,4,4,1,2),c(2,3,5,4,2)))
+> Sr2 = Polygon(cbind(c(5,4,2,5),c(2,3,2,2)))
+> Sr3 = Polygon(cbind(c(4,4,5,10,4),c(5,3,2,5,5)))
+> Sr4 = Polygon(cbind(c(5,6,6,5,5),c(4,4,3,3,4)), hole = TRUE)
+> 
+> Srs1 = Polygons(list(Sr1), "s1")
+> Srs2 = Polygons(list(Sr2), "s2")
+> Srs3 = Polygons(list(Sr3, Sr4), "s3/4")
+> sp = SpatialPolygons(list(Srs1,Srs2,Srs3), 1:3)
+> length(sp)
+[1] 3
+> length(disaggregate(sp))
+[1] 4
+> 
+> l1 = cbind(c(1,2,3),c(3,2,2))
+> l1a = cbind(l1[,1]+.05,l1[,2]+.05)
+> l2 = cbind(c(1,2,3),c(1,1.5,1))
+> Sl1 = Line(l1)
+> Sl1a = Line(l1a)
+> Sl2 = Line(l2)
+> S1 = Lines(list(Sl1, Sl1a), ID="a")
+> S2 = Lines(list(Sl2), ID="b")
+> sl = SpatialLines(list(S1,S2))
+> length(sl)
+[1] 2
+> length(disaggregate(sl))
+[1] 3
+> 
+> 
+> 
+> cleanEx()
 > nameEx("flip")
 > ### * flip
 > 
@@ -4582,7 +4629,7 @@ Data attributes:
 +   pos=grdat_x$pos, offset=grdat_x$offset)
 + }
 Loading required package: rgdal
-rgdal: version: 0.8-10, (SVN revision 475)
+rgdal: version: 0.8-10, (SVN revision 478)
 Geospatial Data Abstraction Library extensions to R successfully loaded
 Loaded GDAL runtime: GDAL 1.9.2, released 2012/10/08
 Path to GDAL shared files: /usr/share/gdal/1.9
@@ -15096,7 +15143,7 @@ Data attributes:
 > ###
 > options(digits = 7L)
 > base::cat("Time elapsed: ", proc.time() - base::get("ptime", pos = 'CheckExEnv'),"\n")
-Time elapsed:  11.808 1.4 13.378 0 0 
+Time elapsed:  12.556 1.412 14.008 0 0 
 > grDevices::dev.off()
 null device 
           1 

@@ -34,7 +34,7 @@
 \def\SIII{\texttt{S3}\xspace}
 \def\SIV{\texttt{S4}\xspace}
 
-\title{ Customising spatial data classes and methods\footnote{This vignette formed pp. 127--148 of the first edition of Bivand, R. S.,
+\title{{\bf Customising spatial data classes and methods}\footnote{This vignette formed pp. 127--148 of the first edition of Bivand, R. S.,
 Pebesma, E. and G\'{o}mez-Rubio V. (2008) Applied Spatial Data Analysis with R,
 Springer-Verlag, New York. It was retired from the second edition (2013) to
 accommodate material on other topics, and is made available in this form
@@ -92,8 +92,8 @@ to prototype classes extending \pkg{sp} classes for specific purposes.
 This section will explain the elementary basics of programming with
 classes and methods in \RR. The \SS language (implemented in \RR and
 \SP) contains two mechanisms for creating classes and methods: the
-traditional \SIII system and the more recent \SIV system (see Section
-\ref{classes:here}, in which classes were described for the use{\RR} ---
+traditional \SIII system and the more recent \SIV system (see Section 2.2 in
+\cite{bivand}, in which classes were described for the use{\RR} ---
 here they are described for the develope{\RR}).  This chapter is not a
 full introduction to \RR programming \citep[see][for more details]{braun+murdoch:07}, but it will try to give some
 feel of how the \code{Spatial} classes in package \pkg{sp} can be
@@ -565,7 +565,7 @@ list by Tim Keitt, used with permission.
 The spatial sampling method \code{spsample} has a method for sampling points
 on a hexagonal grid:
 \begin{footnotesize}
-<< >>= 
+<<>>= 
 data(meuse.grid)
 gridded(meuse.grid)=~x+y
 xx <- spsample(meuse.grid,  type="hexagonal", cellsize=200)
@@ -585,7 +585,7 @@ spplot(meuse.grid["dist"], sp.layout = list("sp.points", HexPts, col = 1))
 @
 <<fig=FALSE>>= 
 HexPols <- HexPoints2SpatialPolygons(HexPts)
-df <- as.data.frame(meuse.grid)[overlay(meuse.grid, HexPts),]
+df <- over(HexPols, meuse.grid)
 HexPolsDf <- SpatialPolygonsDataFrame(HexPols, df, match.ID = FALSE)
 @
 <<eval=FALSE>>= 
@@ -654,7 +654,7 @@ correct and so on.
 
 It might make sense to adapt the generic \code{spsample} method in
 package \pkg{sp} to return \code{SpatialHexGrid} objects; we can also
-add \code{plot} and \code{spsample} methods for them. Method \code{overlay}
+add \code{plot} and \code{spsample} methods for them. Method \code{over}
 should work with a \code{SpatialHexGrid} as its first argument, 
 by inheriting from \code{SpatialPoints}.  Let us first see
 how to create the new classes. Without a constructor function we can use
@@ -663,7 +663,7 @@ how to create the new classes. Without a constructor function we can use
 << >>=
 HexPts <- spsample(meuse.grid,  type="hexagonal", cellsize=200)
 Hex <- new("SpatialHexGrid", HexPts, dx = 200)
-df <- as.data.frame(meuse.grid)[overlay(meuse.grid, Hex),]
+df <- over(Hex, meuse.grid)
 spdf <- SpatialPointsDataFrame(HexPts, df)
 HexDf <- new("SpatialHexGridDataFrame", spdf, dx = 200)
 @
@@ -705,7 +705,7 @@ options("width"=70)
 \end{footnotesize}
 
 We can now add \code{plot}, \code{spplot}, \code{spsample} and
-\code{overlay} methods for these classes:
+\code{over} methods for these classes:
 \begin{footnotesize}
 << >>= 
 setMethod("plot", signature(x = "SpatialHexGrid", y = "missing"),
@@ -718,8 +718,8 @@ setMethod("spplot", signature(obj = "SpatialHexGridDataFrame"),
 setMethod("spsample", "SpatialHexGrid", function(x, n, type, ...) 
 	spsample(as(x, "SpatialPolygons"), n = n, type = type, ...)
 )
-setMethod("overlay", c("SpatialHexGrid", "SpatialPoints"), function(x, y, ...) 
-	overlay(as(x, "SpatialPolygons"), y)
+setMethod("over", c("SpatialHexGrid", "SpatialPoints"), function(x, y, ...) 
+	over(as(x, "SpatialPolygons"), y)
 )
 @
 \end{footnotesize}
@@ -1003,7 +1003,7 @@ hist(medians)
 It should be noted that in these particular cases, the quantities computed
 by simulations could have been obtained faster and exact by working
 analytically with ordinary (block) kriging and the normal distribution
-(Section \ref{geos:sa}).
+(Section 8.7.2 in \cite{bivand}).
 
 A statistic that cannot be obtained analytically is the sample distribution
 of the area fraction that exceeds a threshold. Suppose that 500 is a
@@ -1169,30 +1169,35 @@ options("width"=owidth)
 
 \begin{thebibliography}{}
 
+\bibitem[Bivand et al., 2008]{bivand}
+Roger S. Bivand, Edzer J. Pebesma and Virgilio Gomez-Rubio (2008).
+\newblock {\em Applied spatial data analysis with {\RR}}
+\newblock Springer, NY
+
 \bibitem[Braun and Murdoch, 2007]{braun+murdoch:07}
 Braun, W.~J. and Murdoch, D.~J. (2007).
 \newblock {\em A first course in statistical programming with {\RR}}.
 \newblock Cambridge University Press, Cambridge.
 
 \bibitem[Chambers, 1998]{R:Chambers:1998}
-Chambers, J.~M. (1998).
+Chambers, J.M. (1998).
 \newblock {\em Programming with Data}.
 \newblock Springer, New York.
 
-\bibitem[Kirkwood et~al., 2006]{kirkwood06}
+\bibitem[Kirkwood et al., 2006]{kirkwood06}
 Kirkwood, R., Lynch, M., Gales, N., Dann, P., and Sumner, M. (2006).
 \newblock At-sea movements and habitat use of adult male {A}ustralian fur seals
   ({A}rctocephalus pusillus doriferus).
 \newblock {\em Canadian Journal of Zoology}, 84:1781--1788.
 
-\bibitem[Page et~al., 2006]{page06}
+\bibitem[Page et al., 2006]{page06}
 Page, B., McKenzie, J., Sumner, M., Coyne, M., and Goldsworthy, S. (2006).
 \newblock Spatial separation of foraging habitats among {N}ew {Z}ealand fur
   seals.
 \newblock {\em Marine Ecology Progress Series}, 323:263--279.
 
 \bibitem[Venables and Ripley, 2000]{R:Venables+Ripley:2000}
-Venables, W.~N. and Ripley, B.~D. (2000).
+Venables, W. N. and Ripley, B. D. (2000).
 \newblock {\em {\SS} Programming}.
 \newblock Springer, New York.
 
