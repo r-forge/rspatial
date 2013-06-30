@@ -1,3 +1,112 @@
+2013-06-28 09:04  edzer
+
+	* man/Spatial-class.Rd, man/disaggregate.Rd: added documentation
+	  for disaggregate and aliases for spatstat S4 classes
+
+2013-06-28 05:46  edzer
+
+	* NAMESPACE: export method disaggregate
+
+2013-06-27 20:51  edzer
+
+	* NAMESPACE: exporting spatstat Classes ppp, im, psp, owin
+
+2013-06-27 20:45  edzer
+
+	* R/sp_spat1.R: removed class tess (which is used, nor exported)
+
+2013-06-27 06:54  edzer
+
+	* R/spdists.R, R/zerodist.R, man/zerodist.Rd, src/init.c, src/sp.h,
+	  src/zerodist.c: zerodist and zerodist2 now handle longlat data,
+	  using sp_gcdist
+	  tidied spdists.R
+
+2013-06-25 19:08  edzer
+
+	* R/SpatialLines-methods.R, R/spdists.R,
+	  man/SpatialGridDataFrame-class.Rd, man/SpatialPoints-class.Rd,
+	  man/SpatialPointsDataFrame-class.Rd, man/spDistsN1.Rd,
+	  src/gcdist.c, src/sp.h, tests/Examples/sp-Ex.Rout.save: tidy;
+	  added $ method for SpatialPoints, such that meuse$x is found even
+	  if x is a coordinate.
+	  added methods to convert from spatstat (im, ppp) to Spatial
+	  objects
+
+2013-06-25 17:13  rsbivand
+
+	* inst/doc/csdacm.Rnw, inst/doc/csdacm.pdf: adding footnote
+
+2013-06-25 14:09  rsbivand
+
+	* DESCRIPTION: add vignette; fix line length issues
+
+2013-06-25 14:03  rsbivand
+
+	* DESCRIPTION, inst/doc/csdacm.Rnw, inst/doc/csdacm.pdf,
+	  inst/doc/intro_sp.pdf, inst/doc/over.pdf,
+	  inst/external/seamap105_mod.csv, man/CRS-class.Rd,
+	  man/SpatialPolygons-class.Rd,
+	  man/SpatialPolygonsDataFrame-class.Rd,
+	  man/as.SpatialPolygons.GridTopology.Rd, man/gridlines.Rd,
+	  man/nowrapSpatialLines.Rd, man/polygons.Rd,
+	  man/recenter-methods.Rd, man/spplot.Rd,
+	  tests/Examples/sp-Ex.Rout.save: add vignette; fix line length
+	  issues
+
+2013-06-24 21:09  edzer
+
+	* R/SpatialPoints-methods.R, R/disaggregate.R, R/sp_spat1.R,
+	  R/unfold.R: added disaggregate functions (not yet exported);
+	  added $ method for SpatialPoints that also catches coordinates,
+	  as meuse$x
+	  sp_spat1 has the conversion from spatstat classes ppp and im to
+	  Spatial objects
+
+2013-06-21 14:11  rsbivand
+
+	* R/CRS-methods.R, man/CRS-class.Rd, man/is.projected.Rd,
+	  tests/fail1.R, tests/fail1.Rout.save: checks on latlon and lonlat
+
+2013-05-23 19:29  edzer
+
+	* R/Spatial-methods.R, man/spTransform.Rd: added spTransform(ANY)
+	  methods that will stop and point to rgdal.
+
+2013-05-07 09:12  rsbivand
+
+	* R/SpatialPoints-methods.R: guard against non-finite coordinates
+
+2013-05-07 07:54  rsbivand
+
+	* inst/include/sp_xports.c, src/sp_xports.c: guard against
+	  non-finite polygon coordinates
+
+2013-04-26 08:54  edzer
+
+	* DESCRIPTION, R/SpatialGridDataFrame-methods.R, R/unfold.R:
+	  scaffold for unfold - nothing exported; improved coercion
+	  function
+	  for SpatialPixelsDataFrame to SpatialGridDataFrame, thanks to Jon
+	  Skoien.
+
+2013-04-24 07:05  rsbivand
+
+	* ChangeLog, inst/ChangeLog: closeAllConnections in readRAST6
+	  replaced by counted closure
+
+2013-04-22 19:48  edzer
+
+	* DESCRIPTION: version update
+
+2013-04-22 14:49  edzer
+
+	* demo/depend.R: tidy
+
+2013-04-22 14:24  edzer
+
+	* demo/depend.R: better depend script
+
 2013-04-22 09:34  edzer
 
 	* demo/depend.R, man/spTransform.Rd,
