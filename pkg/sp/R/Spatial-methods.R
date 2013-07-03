@@ -275,6 +275,9 @@ setReplaceMethod("$", "Spatial",
 	function(x, name, value) { 
 		if (!("data" %in% slotNames(x)))
 			stop("no $<- method for object without attributes")
+		if (name %in% coordnames(x))
+			stop(paste(name, 
+				"is a coordinate name, please choose another name"))
 		x@data[[name]] = value 
 		x 
 	}
