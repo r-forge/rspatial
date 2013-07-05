@@ -228,7 +228,7 @@ exportMethods(
 	gridded,
 	"gridded<-",
 	is.projected,
-	# merge,
+	merge,
 	over,
 	overlay, 
 	plot,
