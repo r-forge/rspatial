@@ -4427,7 +4427,8 @@ attr(,"package")
 > flush(stderr()); flush(stdout())
 > 
 > ### Name: disaggregate-methods
-> ### Title: disaggregate SpatialLines or SpatialPolygons
+> ### Title: disaggregate SpatialLines, SpatialLinesDataFrame,
+> ###   SpatialPolygons, or SpatialPolygonsDataFrame objects
 > ### Aliases: disaggregate disaggregate-methods
 > ###   disaggregate,SpatialPolygons-method
 > ###   disaggregate,SpatialPolygonsDataFrame-method
@@ -15143,7 +15144,7 @@ Data attributes:
 > ###
 > options(digits = 7L)
 > base::cat("Time elapsed: ", proc.time() - base::get("ptime", pos = 'CheckExEnv'),"\n")
-Time elapsed:  12.556 1.412 14.008 0 0 
+Time elapsed:  12.552 1.444 14.048 0 0 
 > grDevices::dev.off()
 null device 
           1 
