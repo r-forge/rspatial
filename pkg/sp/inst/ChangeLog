@@ -1,3 +1,62 @@
+2013-07-09 15:28  edzer
+
+	* R/sp_spat1.R: changed setClass to setOldClass, for registring S3
+	  classes.
+
+2013-07-09 15:00  edzer
+
+	* R/Class-CRS.R, R/Class-GridTopology.R, R/Class-Spatial.R,
+	  R/Class-SpatialGrid.R, R/Class-SpatialGridDataFrame.R,
+	  R/Class-SpatialLines.R, R/Class-SpatialLinesDataFrame.R,
+	  R/Class-SpatialPoints.R, R/Class-SpatialPointsDataFrame.R,
+	  R/Class-SpatialPolygons.R, R/Class-SpatialPolygonsDataFrame.R,
+	  R/dms.R, tests/Examples/sp-Ex.Rout.save: replaced
+	  "representation" by "slots" and "contains", as the documention of
+	  setClass suggests is needed by R 3.0.0
+
+2013-07-09 08:52  edzer
+
+	* man/disaggregate.Rd, man/merge.Rd: tidy docs
+
+2013-07-05 10:23  edzer
+
+	* vignettes/csdacm.Rnw: mention that csdacm was updated after
+	  retirement from asdar.
+
+2013-07-05 10:21  edzer
+
+	* NAMESPACE: exportMethods(merge); this needs raster > 2.1-41 for
+	  raster to pass check.
+
+2013-07-03 17:36  edzer
+
+	* DESCRIPTION, NAMESPACE, R/Spatial-methods.R, R/merge.R,
+	  man/merge.Rd: added merge method for Spatial objects
+	  added an error when an attribute is added or replaced with the
+	  same name as one of the coordinates.
+
+2013-07-01 07:27  edzer
+
+	* inst/CITATION: name fix
+
+2013-07-01 07:18  edzer
+
+	* inst/CITATION: mention second edition of ASDAR
+
+2013-06-30 13:30  edzer
+
+	* inst/ChangeLog, inst/doc, vignettes, vignettes/csdacm.Rnw,
+	  vignettes/intro_sp.Rnw, vignettes/over.Rnw: moved vignettes to
+	  vignette directory
+
+2013-06-30 12:43  edzer
+
+	* R/disaggregate.R, inst/doc/csdacm.Rnw, man/disaggregate.Rd,
+	  tests/Examples/sp-Ex.Rout.save: corrected disaggregate; added
+	  disaggregate examples
+	  updated csdacm vignette to use over() instead of deprecated
+	  overlay()
+
 2013-06-28 09:04  edzer
 
 	* man/Spatial-class.Rd, man/disaggregate.Rd: added documentation
