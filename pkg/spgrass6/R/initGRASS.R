@@ -122,7 +122,9 @@ initGRASS <- function(gisBase, home, SG, gisDbase, location, mapset,
             Sys.setenv(LD_LIBRARY_PATH=paste(Sys.getenv("GISBASE"), "/lib:",
             ifelse(nchar(eLDPATH) == 0, "", ":"), eLDPATH, sep=""))
         }
+#FIXME Sys.info()["sysname"] == "Darwin"
         Sys.setenv(GISRC=paste(home, "/.grassrc6", sep=""))
+#FIXME
         if (file.exists(Sys.getenv("GISRC")) && !override)
             stop("A GISRC file already exists; to override, set override=TRUE")
         ePyPATH <- Sys.getenv("PYTHONPATH")
