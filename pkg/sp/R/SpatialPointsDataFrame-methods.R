@@ -26,6 +26,9 @@
 	if (!is(coords, "SpatialPoints"))
 		coords = SpatialPoints(coords, proj4string = proj4string, 
 			bbox=bbox)
+	# EJP, Tue Aug 13 19:54:04 CEST 2013
+	if (is.character(attr(data, "row.names")))
+		dimnames(coords@coords)[[1]] = row.names(data)
 	new("SpatialPointsDataFrame", coords, data = data, coords.nrs = coords.nrs)
 }
 
@@ -176,6 +179,8 @@ setMethod("[", "SpatialPointsDataFrame", function(x, i, j, ..., drop = TRUE) {
 		stop("matrix argument not supported in SpatialPointsDataFrame selection")
 	if (is(i, "Spatial"))
 		i = !is.na(over(x, geometry(i)))
+	if (is.character(i)) 
+		i <- match(i, row.names(x))
 	if (any(is.na(i))) 
 		stop("NAs not permitted in row index")
 	#coords.nrs = x@coords.nrs

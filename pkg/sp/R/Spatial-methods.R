@@ -290,3 +290,14 @@ setMethod("geometry", "Spatial",
 		obj 
 	}
 )
+
+setReplaceMethod("[", c("Spatial", "ANY", "ANY", "ANY"),
+	function(x, i, j, value) {
+		if (!("data" %in% slotNames(x)))
+			stop("no [[ method for object without attributes")
+		if (is.character(i) && any(!is.na(match(i, dimnames(coordinates(x))[[2]]))))
+			stop(paste(i, "is already present as a coordinate name!"))
+		x@data[i,j] <- value
+		x
+	}
+)
