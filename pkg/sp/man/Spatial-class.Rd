@@ -10,7 +10,7 @@
 \alias{setParUsrBB}
 \alias{coordinates<-,Spatial-method}
 \alias{[[<-,Spatial,ANY,missing-method}
-\alias{[<-,Spatial,ANY,ANY,ANY-method}
+\alias{[<-,Spatial-method}
 \alias{[[,Spatial,ANY,missing-method}
 \alias{$<-,Spatial-method}
 \alias{$,Spatial-method}
