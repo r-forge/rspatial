@@ -9,8 +9,8 @@ Authors@R: c(person("Edzer", "Pebesma", role = c("aut", "cre"),
 			person("Barry", "Rowlingson", role = "ctb"),
 			person("Virgilio", "Gomez-Rubio", role = "ctb"))
 Depends: R (>= 2.14.0)
-Suggests: lattice, RColorBrewer, rgdal (>= 0.8-7), rgeos (>= 0.1-8), gstat
 Imports: methods, graphics, utils, lattice, grid
+Suggests: RColorBrewer, rgdal (>= 0.8-7), rgeos (>= 0.1-8), gstat
 Description: A package that provides classes and methods for spatial
   data. The classes document where the spatial location information
   resides, for 2D or 3D data. Utility functions are provided, e.g. for
