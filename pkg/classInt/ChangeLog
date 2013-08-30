@@ -1,3 +1,7 @@
+2013-08-30 11:54  rsbivand
+
+	* .Rbuildignore, ChangeLog, inst/ChangeLog: tidy
+
 2013-08-29 14:26  rsbivand
 
 	* DESCRIPTION, NAMESPACE: tidy
