@@ -1,3 +1,19 @@
+2013-08-30 13:02  rsbivand
+
+	* DESCRIPTION: tidy
+
+2013-08-29 14:26  rsbivand
+
+	* .Rbuildignore: tidy
+
+2013-07-28 19:37  rsbivand
+
+	* R/initGRASS.R: thinning load depends
+
+2013-06-22 16:41  rsbivand
+
+	* ChangeLog, inst/ChangeLog: tidy
+
 2013-06-22 16:40  rsbivand
 
 	* DESCRIPTION, man/initGRASS.Rd, man/readRAST6.Rd, man/spgrass6.Rd:
