@@ -1,6 +1,6 @@
 Package: sp
 Version: 1.0-12
-Date: 2013-07-03
+Date: 2013-08-30
 Title: classes and methods for spatial data
 Authors@R: c(person("Edzer", "Pebesma", role = c("aut", "cre"),
                     email = "edzer.pebesma@uni-muenster.de"),

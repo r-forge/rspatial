@@ -157,6 +157,8 @@ export(
 
 	makegrid,
 
+	overDF_for_rgeos, # for rgeos only!
+
 	read.asciigrid, 
 
 	Polygon,
