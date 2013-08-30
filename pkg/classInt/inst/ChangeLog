@@ -1,3 +1,15 @@
+2013-08-29 14:26  rsbivand
+
+	* DESCRIPTION, NAMESPACE: tidy
+
+2013-07-28 19:37  rsbivand
+
+	* DESCRIPTION, NAMESPACE: thinning load depends
+
+2013-06-22 14:40  rsbivand
+
+	* ChangeLog, inst/ChangeLog: tidy
+
 2013-06-22 14:39  rsbivand
 
 	* man/classIntervals.Rd, man/findColours.Rd, man/findCols.Rd,
