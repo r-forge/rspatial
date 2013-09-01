@@ -7,7 +7,7 @@
     }
 	if (!is(coords, "SpatialPoints"))
 		coords = coordinates(coords)
-	if (match.ID && is.matrix(coords)) {
+	if (match.ID && is.matrix(coords) && is.character(attr(data, "row.names"))) {
 		cc.ID = dimnames(coords)[[1]]
 		if (!is.null(cc.ID) && is(data, "data.frame")) { # match ID:
 			n = nrow(data)
@@ -27,7 +27,7 @@
 		coords = SpatialPoints(coords, proj4string = proj4string, 
 			bbox=bbox)
 	# EJP, Tue Aug 13 19:54:04 CEST 2013
-	if (is.character(attr(data, "row.names")))
+	if (is.character(attr(data, "row.names"))) # i.e., data has "real" row names
 		dimnames(coords@coords)[[1]] = row.names(data)
 	new("SpatialPointsDataFrame", coords, data = data, coords.nrs = coords.nrs)
 }
