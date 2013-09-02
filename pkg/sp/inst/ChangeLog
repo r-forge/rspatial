@@ -1,3 +1,68 @@
+2013-09-02 09:47  rsbivand
+
+	* tests/fail1.Rout.save: test output fail
+
+2013-09-02 09:13  rsbivand
+
+	* .Rbuildignore, man/merge.Rd: .Rbuildignore, merge line length
+
+2013-09-02 08:27  edzer
+
+	* demo/depend.R: tidy
+
+2013-09-01 14:06  edzer
+
+	* R/SpatialPointsDataFrame-methods.R: added one more check before
+	  ID's are matched (row.names need be character)
+
+2013-09-01 10:12  rsbivand
+
+	* DESCRIPTION: revert to Author/Maintainer in DESC; change rgeos
+	  suggested version
+
+2013-08-30 16:54  edzer
+
+	* DESCRIPTION, NAMESPACE, R/over.R, man/over.Rd,
+	  tests/Examples/sp-Ex.Rout.save: export overDF_for_rgeos, for
+	  rgeos; define this function in over.R
+
+2013-08-29 21:33  edzer
+
+	* DESCRIPTION: removed lattice from Suggests: field, to address
+	  CRAN note.
+
+2013-08-13 19:04  edzer
+
+	* man/Spatial-class.Rd: tidy \alias in doc
+
+2013-08-13 18:50  edzer
+
+	* R/Spatial-methods.R, R/SpatialPointsDataFrame-methods.R,
+	  man/Spatial-class.Rd, tests/sp1.Rout.save: [<- method for
+	  Spatial*DataFrame objects
+	  suggestions from Sebastian Meyer:
+	  - SpatialPoints inherit row.names from SpatialPointsDataFrame
+	  - selection using [ of SpatialPointsDataFrame using row names
+	  (character)
+
+2013-07-22 08:13  edzer
+
+	* src/zerodist.c: zerodist() for longlat data was computed falsely;
+	  see
+	  https://stat.ethz.ch/pipermail/r-sig-geo/2013-July/018930.html
+
+2013-07-18 15:00  edzer
+
+	* R/GridTopology-methods.R, R/SpatialGridDataFrame-methods.R,
+	  R/SpatialLines-methods.R, R/SpatialPoints-methods.R,
+	  R/SpatialPolygons-displayMethods.R, R/rbind.R, R/spplot.R,
+	  inst/ChangeLog: tidy (un-quote first argument of do.call)
+
+2013-07-18 10:29  rsbivand
+
+	* man/SpatialPolygons-class.Rd, man/SpatialPolygons.Rd: comment
+	  documentation for SpatialPolygons
+
 2013-07-09 15:28  edzer
 
 	* R/sp_spat1.R: changed setClass to setOldClass, for registring S3
