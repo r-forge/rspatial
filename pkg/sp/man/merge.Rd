@@ -14,7 +14,9 @@ Merge a Spatial object having a data.frame (i.e. merging of non-spatial attribut
 }
 
 \usage{
-\S4method{merge}{Spatial,data.frame}(x, y, by=intersect(names(x), names(y)), by.x=by, by.y=by, all.x=TRUE, suffixes = c(".x",".y"), incomparables=NULL, ...)
+\S4method{merge}{Spatial,data.frame}(x, y, by=intersect(names(x), names(y)),
+ by.x=by, by.y=by, all.x=TRUE, suffixes = c(".x",".y"),
+ incomparables=NULL, ...)
 }
 
 \arguments{
