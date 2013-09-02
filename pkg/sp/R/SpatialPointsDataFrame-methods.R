@@ -7,18 +7,18 @@
     }
 	if (!is(coords, "SpatialPoints"))
 		coords = coordinates(coords)
-	if (match.ID && is.matrix(coords) && is.character(attr(data, "row.names"))) {
-		cc.ID = dimnames(coords)[[1]]
+	cc.ID = dimnames(coords)[[1]]
+	if (is.null(cc.ID))
+		match.ID = FALSE # nothing to match to!
+	else if (match.ID && length(unique(cc.ID)) != nrow(data))
+		stop("nr of unique coords ID's (rownames) not equal to nr of data records")
+	if (match.ID && is.character(attr(data, "row.names"))) {
 		if (!is.null(cc.ID) && is(data, "data.frame")) { # match ID:
-			n = nrow(data)
-			if (length(unique(cc.ID)) != n)
-				stop(
-				"nr of unique coords ID's (rownames) not equal to nr of data records")
 			data.ID = row.names(data)
 			mtch = match(cc.ID, data.ID)
 			if (any(is.na(mtch)))
 				stop("row.names of data and coords do not match")
-			if (length(unique(mtch)) != n)
+			if (length(unique(mtch)) != nrow(data))
 				stop("row.names of data and dimnames of coords do not match")
 			data = data[mtch, , drop = FALSE]
 		}

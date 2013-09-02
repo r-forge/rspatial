@@ -1,7 +1,7 @@
 
-R version 3.0.0 (2013-04-03) -- "Masked Marvel"
+R version 3.0.1 (2013-05-16) -- "Good Sport"
 Copyright (C) 2013 The R Foundation for Statistical Computing
-Platform: x86_64-unknown-linux-gnu (64-bit)
+Platform: x86_64-pc-linux-gnu (64-bit)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
 You are welcome to redistribute it under certain conditions.
@@ -79,12 +79,8 @@ Error in x[c(1:3, NA), ] : NAs not permitted in row index
 > dimnames(x) = list(c(1,1:4), NULL)
 > y = data.frame(a = 1:5, b = 5:1)
 > try(SpatialPointsDataFrame(x, y)) # will complain:
-  coordinates a b
-1      (3, 3) 1 5
-2      (3, 3) 2 4
-3      (3, 3) 3 3
-4      (3, 3) 4 2
-5      (3, 3) 5 1
+Error in SpatialPointsDataFrame(x, y) : 
+  nr of unique coords ID's (rownames) not equal to nr of data records
 > SpatialPointsDataFrame(x, y, match.ID = FALSE) # won't complain
   coordinates a b
 1      (3, 3) 1 5
@@ -214,4 +210,4 @@ In CRS("+proj=lonlat") : 'lonlat' changed to 'longlat': +proj=longlat
 > 
 > proc.time()
    user  system elapsed 
-  1.088   0.032   1.111 
+  0.876   0.036   0.906 
