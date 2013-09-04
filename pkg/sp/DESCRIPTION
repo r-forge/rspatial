@@ -10,7 +10,7 @@ Authors@R: c(person("Edzer", "Pebesma", role = c("aut", "cre"),
 	    person("Virgilio", "Gomez-Rubio", role = "ctb"))
 Author: Edzer Pebesma and Roger Bivand
 Maintainer: Edzer Pebesma <edzer.pebesma@uni-muenster.de>
-Depends: R (>= 3.0.0)
+Depends: R (>= 2.14.0)
 Imports: methods, graphics, utils, lattice, grid
 Suggests: RColorBrewer, rgdal (>= 0.8-7), rgeos (>= 0.2-20), gstat
 Description: A package that provides classes and methods for spatial
