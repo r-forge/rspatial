@@ -14,7 +14,6 @@ Lines <- function(slinelist, ID) {
 	if (length(ID) != 1) stop("Single ID required")
         ID <- as.character(ID)
         stopifnot(nchar(ID) > 0)
-
 	new("Lines", Lines = slinelist, ID=ID)
 }
 
@@ -267,6 +266,18 @@ SpatialLines2SpatialPointsDataFrame = function(from) {
 }
 setAs("SpatialLines", "SpatialPointsDataFrame", function(from)
 	SpatialLines2SpatialPointsDataFrame(from)
+)
+
+setAs("SpatialPoints", "Line", function(from)
+	Line(coordinates(from))
+)
+
+setAs("SpatialPoints", "Lines", function(from)
+	Lines(as(from, "Line"), "ID")
+)
+
+setAs("SpatialPoints", "SpatialLines", function(from)
+	SpatialLines(list(as(from, "Lines")), from@proj4string)
 )
 
 asWKTSpatialLines = function(x, digits = 6) {
