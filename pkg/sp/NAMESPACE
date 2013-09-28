@@ -89,6 +89,7 @@ export(
 	sp.panel.layout,
 	degreeLabelsEW,
 	degreeLabelsNS,
+	longlat.scales,
 
 	as.image.SpatialGridDataFrame,
 	image2Grid,

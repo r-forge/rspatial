@@ -11,6 +11,7 @@
 \alias{sp.text}
 \alias{sp.grid}
 \alias{sp.panel.layout}
+\alias{longlat.scales}
 
 \title{panel and panel utility functions for spplot}
 \description{panel functions for spplot functions, and functions that can be
