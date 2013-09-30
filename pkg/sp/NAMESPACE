@@ -90,6 +90,7 @@ export(
 	degreeLabelsEW,
 	degreeLabelsNS,
 	longlat.scales,
+	bbexpand,
 
 	as.image.SpatialGridDataFrame,
 	image2Grid,
