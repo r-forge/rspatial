@@ -86,7 +86,8 @@ setReplaceMethod("coordinates", signature(object = "data.frame", value = "ANY"),
 )
 
 .asWKT = FALSE
-print.SpatialPointsDataFrame = function(x, ..., digits = 6, asWKT = .asWKT) {
+print.SpatialPointsDataFrame = function(x, ..., digits = getOption("digits"), 
+		asWKT = .asWKT) {
 	#EJP, Fri May 21 12:40:59 CEST 2010
 	if (asWKT)
 		df = data.frame(asWKTSpatialPoints(x, digits), x@data)
