@@ -326,3 +326,6 @@ setReplaceMethod("coordnames", signature(x = "SpatialGrid",
 		x
 	}
 )
+
+setAs("SpatialGrid", "GridTopology", function(from) getGridTopology(from))
+setAs("SpatialPixels", "GridTopology", function(from) getGridTopology(from))
