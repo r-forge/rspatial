@@ -83,27 +83,30 @@ SEXP sp_duplicates(SEXP pp, SEXP pncol, SEXP zero, SEXP lonlat) {
 		x[i] = &(NUMERIC_POINTER(pp)[i*ncol]);
 
 	PROTECT(ret = NEW_INTEGER(nrow));
-	for (i = 0; i < nrow; i++) {
+	if (nrow > 0)
+		INTEGER_POINTER(ret)[0] = 0;
+	for (i = 1; i < nrow; i++) {
 		xi = x[i];
+		INTEGER_POINTER(ret)[i] = i;
 		next = 0;
-		for (j = 0; next == 0 && j < i; j++) {
-			xj = x[j];
-			if (ll) {
-				sp_gcdist(xi, xj, xi+1, xj+1, &d);
-				dist = d * d;
-			} else {
-				for (k = 0, dist = 0.0; k < ncol; k++) {
-					d = (xi[k] - xj[k]);
-					dist += d * d;
+		for (j = 0; next == 0 && j < i; j++) { /* find match */
+			if (INTEGER_POINTER(ret)[j] == j) { /* this is a new point */
+				xj = x[j];
+				if (ll) {
+					sp_gcdist(xi, xj, xi+1, xj+1, &d);
+					dist = d * d;
+				} else {
+					for (k = 0, dist = 0.0; k < ncol; k++) {
+						d = (xi[k] - xj[k]);
+						dist += d * d;
+					}
+				}
+				if (dist <= zerodist2) { /* match! */
+					INTEGER_POINTER(ret)[i] = j;
+					next = 1; /* break for loop */
 				}
 			}
-			if (dist <= zerodist2) {
-				INTEGER_POINTER(ret)[i] = j;
-				next = 1;
-			}
-		}
-		if (next == 0)
-			INTEGER_POINTER(ret)[i] = i;
+		} /* for j */
 		R_CheckUserInterrupt();
 	}
 	free(x);

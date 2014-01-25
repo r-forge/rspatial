@@ -31,9 +31,9 @@ remove.duplicates <- function(obj, zero = 0.0, remove.second = TRUE) {
 	if (! remove.second) 
 		obj = obj[length(obj):1,]
 	zd = zerodist(obj, zero, unique.ID = TRUE)
-	if (nrow(zd) > 0) {
-		uq = zd == (1:length(obj))
-		obj = obj[uq,]
+	uq = zd == (1:length(obj))
+	if (any(!uq)) { # if any non-unique points
+		obj = obj[uq,] # select the unique ones
 		if (! remove.second)
 			obj = obj[length(obj):1,]
 	} 

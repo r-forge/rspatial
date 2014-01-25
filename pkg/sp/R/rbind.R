@@ -55,9 +55,9 @@ rbind.SpatialPolygons = function(..., makeUniqueIDs = FALSE) {
 rbind.SpatialPolygonsDataFrame <- function(..., makeUniqueIDs = FALSE) {
 	dots = list(...)
         names(dots) <- NULL # bugfix Clement Calenge 100417
-	pl = do.call(rbind.SpatialPolygons, 
-		lapply(dots, function(x) as(x, "SpatialPolygons")),
-		makeUniqueIDs = makeUniqueIDs)
+	lst = lapply(dots, function(x) as(x, "SpatialPolygons"))
+	lst$makeUniqueIDs = makeUniqueIDs
+	pl = do.call(rbind.SpatialPolygons, lst)
 	df = do.call(rbind, lapply(dots, function(x) x@data))
 	SpatialPolygonsDataFrame(pl, df)
 }
