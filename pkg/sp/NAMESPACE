@@ -95,6 +95,7 @@ export(
 
 	as.image.SpatialGridDataFrame,
 	image2Grid,
+	imageScale,
 	
 	gridparameters,
 	SpatialPixels,
