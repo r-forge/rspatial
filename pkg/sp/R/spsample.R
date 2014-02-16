@@ -15,7 +15,7 @@ makegrid = function(x, n = 10000, nsig = 2, cellsize,
 	min.coords = signif(bb[,1] + offset * cellsize, nsig)
 	sel = min.coords - offset * cellsize > bb[,1]
 	if (any(sel))
-		min.coords[sel] = min.coords[sel] - cellsize
+		min.coords[sel] = min.coords[sel] - cellsize[sel]
 	expand.grid.arglist = list()
 	for (i in 1:nrow(bb)) {
 		name = paste("x", i, sep = "")
