@@ -41,6 +41,7 @@ makegrid0 = function(x, n = 10000, nsig = 2, cellsize,
 	if (missing(cellsize)) {
 		pw = 1.0/nrow(bb)
 		cellsize = signif((prod(apply(bb, 1, diff))/n) ^ pw, nsig)
+		cellsize = min(cellsize, min(apply(bb, 1, diff)))
 	}
 	if (length(cellsize) == 1)
 		cellsize = rep(cellsize, nrow(bb))
