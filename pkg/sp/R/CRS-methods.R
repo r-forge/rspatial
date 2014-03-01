@@ -11,6 +11,8 @@ if (!is.R()) {
 "CRS" <- function(projargs) {
     if (missing(projargs)) projargs <- as.character(NA)
     if (nchar(projargs) == 0) projargs <- as.character(NA)
+# condition added 140301
+    stopifnot(is.character(projargs))
     if (!is.na(projargs)) {
         if (length(grep("^[ ]*\\+", projargs)) == 0)
             stop(paste("PROJ4 argument-value pairs must begin with +:", 
@@ -25,7 +27,7 @@ if (!is.R()) {
         }
     }    
     if (is.na(projargs))
-        uprojargs <- as.character(NA)
+        uprojargs <- projargs
     else uprojargs <- paste(unique(unlist(strsplit(projargs, " "))), 
 	collapse=" ")
     if (length(grep("= ", uprojargs)) != 0)
