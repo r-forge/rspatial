@@ -90,7 +90,7 @@ print.SpatialPointsDataFrame = function(x, ..., digits = getOption("digits"),
 		df = data.frame("coordinates" = cc, x@data)
 	}
 	row.names(df) = row.names(x@data)
-	print(df, ...)
+	print(df, ..., digits = digits)
 }
 setMethod("show", "SpatialPointsDataFrame", function(object) print(object))
 
