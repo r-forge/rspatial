@@ -626,7 +626,7 @@ addNAemptyRowsCols = function(obj) {
 	missing.x = which(apply(missingpatt, 1, all))
 	missing.y = which(apply(missingpatt, 2, all))
 
-	xy = coordinates(obj)[,1:2]
+	xy = coordinates(obj)[,1:2,drop=FALSE]
 	coordvals = coordinatevalues(obj@grid)
 	missing.x = coordvals[[1]][missing.x]
 	missing.y = coordvals[[2]][missing.y]

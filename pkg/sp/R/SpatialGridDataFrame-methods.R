@@ -79,7 +79,7 @@ as.SGDF.SPixDF = function(from) {
 	#	data = from@data[sel,,drop=FALSE], proj4string = CRS(proj4string(from)))
 	new("SpatialPixelsDataFrame", 
 		new("SpatialPixels", 
-			new("SpatialPoints", coords = coordinates(from)[sel,], 
+			new("SpatialPoints", coords = coordinates(from)[sel,,drop=FALSE], 
 				bbox = from@bbox, proj4string = from@proj4string),
 			grid = from@grid,
 			grid.index = which(sel)),
