@@ -277,7 +277,8 @@ doGRASS <- function(cmd, flags=NULL, ..., parameters=NULL, echoCmd=NULL, legacyE
                 if (!is.character(parameters[[i]]))
                     stop(paste("Parameter <", names(parameters)[i],
                     "> does not have string value", sep=""))
-                if (is.na(parameters[[i]]))
+# added any() 140516
+                if (any(is.na(parameters[[i]])))
                     stop(paste("Parameter <", names(parameters)[i],
                     "> is NA", sep=""))
 # string space protection 091108 Martin Mainzer
