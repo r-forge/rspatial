@@ -34,4 +34,4 @@ Collate: AAA.R Class-CRS.R CRS-methods.R Class-Spatial.R Spatial-methods.R
 	asciigrid.R spplot.R over.R overlay.R spsample.R recenter.R dms.R
 	gridlines.R spdists.R rbind.R flipSGDF.R chfids.R loadmeuse.R
 	compassRose.R surfaceArea.R spOptions.R subset.R disaggregate.R
-        sp_spat1.R merge.R
+	sp_spat1.R merge.R aggregate.R

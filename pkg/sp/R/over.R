@@ -203,11 +203,3 @@ setMethod("over", signature("SpatialPoints", "SpatialPixelsDataFrame"),
 	} else
 		x
 }
-
-aggregate.Spatial = function(x, by, FUN = mean, ...) {
-	by0 = by
-	if (gridded(by))
-		by = as(by, "SpatialPolygons")
-	df = over(by, x, fn = FUN, ...)
-	addAttrToGeom(by0, df, match.ID = FALSE)
-}
