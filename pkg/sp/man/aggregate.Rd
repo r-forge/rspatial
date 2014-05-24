@@ -42,11 +42,13 @@ if (require(rgeos)) {
 }
 
 # aggregation by attribute:
-i = findInterval(meuse.grid$dist, c(0,.25,.5,.75,1))
+i = cut(meuse.grid$dist, c(0,.25,.5,.75,1), include.lowest = TRUE)
 x = aggregate(meuse.grid["dist"], list(i=i))
-spplot(x)
+spplot(x["i"])
 j = sample(1:2, 3103,replace=TRUE)
 x = aggregate(meuse.grid["dist"], list(i=i,j=j))
-spplot(x, col.regions=bpy.colors())
+spplot(x["dist"], col.regions=bpy.colors())
+spplot(x["i"], col.regions=bpy.colors(4))
+spplot(x["j"], col.regions=bpy.colors())
 }
 \keyword{methods}

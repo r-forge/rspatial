@@ -71,7 +71,7 @@ aggregate.data.frame.SP <- function (x, by, FUN, ..., simplify = TRUE) {
     row.names(y) <- NULL
 
 	# original would return y, here; I added:
-	if (is(geom, "SpatialPoints")) # can't dissolve:
+	if (is(geom, "SpatialPoints") && !gridded(geom)) # can't dissolve:
 		return(addAttrToGeom(geom, y[grp,], match.ID = FALSE))
 
 	if (length(unique(grp)) < nrow(x)) { # dissolve/merge:
