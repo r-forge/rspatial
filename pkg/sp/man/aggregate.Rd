@@ -6,7 +6,7 @@
 \title{ aggregation of spatial objects }
 \description{ spatial aggregation of thematic information in spatial objects}
 \usage{
-\method{aggregate}{Spatial}(x, by, FUN = mean, \dots)
+\method{aggregate}{Spatial}(x, by, FUN = mean, \dots, dissolve = TRUE)
 }
 \arguments{
 \item{x}{object deriving from \link{Spatial}, with attributes }
@@ -15,6 +15,9 @@ the geometry over which attributes in \code{x} are aggregated; if \code{by}
 is a list, aggregation by attribute(s), see \link{aggregate.data.frame}}
 \item{FUN}{aggregation function }
 \item{...}{arguments passed on to function \code{FUN}}
+\item{dissolve}{logical; should, when aggregating based on attributes, the
+resulting geometries be dissolved? Note that if \code{x} has class
+\code{SpatialPointsDataFrame}, this is not possible}
 }
 \value{ 
 Function aggregate.Spatial aggregates the attribute values of
@@ -49,6 +52,8 @@ j = sample(1:2, 3103,replace=TRUE)
 x = aggregate(meuse.grid["dist"], list(i=i,j=j))
 spplot(x["dist"], col.regions=bpy.colors())
 spplot(x["i"], col.regions=bpy.colors(4))
+spplot(x["j"], col.regions=bpy.colors())
+x = aggregate(meuse.grid["dist"], list(i=i,j=j),dissolve=FALSE)
 spplot(x["j"], col.regions=bpy.colors())
 }
 \keyword{methods}

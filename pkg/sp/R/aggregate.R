@@ -1,6 +1,7 @@
-aggregate.data.frame.SP <- function (x, by, FUN, ..., simplify = TRUE) {
+aggregate.data.frame.SP <- function (x, by, FUN, ..., dissolve = TRUE) {
 	# taken from stats::aggregate.data.frame, in
 	# R 3.1.0, Fri May 23 23:31:15 CEST 2014 svn rev 65387 
+	# took out option simplify, as it doesn't make sense to not do that
 
 	# EP added:
 	stopifnot(is(x, "Spatial"))
@@ -45,8 +46,7 @@ aggregate.data.frame.SP <- function (x, by, FUN, ..., simplify = TRUE) {
     nry <- NROW(y)
     z <- lapply(x, function(e) {
         ans <- lapply(X = split(e, grp), FUN = FUN, ...)
-        if (simplify && length(len <- unique(sapply(ans, length))) == 
-            1L) {
+        if (length(len <- unique(sapply(ans, length))) == 1L) {
             if (len == 1L) {
                 cl <- lapply(ans, oldClass)
                 cl1 <- cl[[1L]]
@@ -70,26 +70,24 @@ aggregate.data.frame.SP <- function (x, by, FUN, ..., simplify = TRUE) {
     names(y) <- c(names(by), names(x))
     row.names(y) <- NULL
 
-	# original would return y, here; I added:
-	if (is(geom, "SpatialPoints") && !gridded(geom)) # can't dissolve:
-		return(addAttrToGeom(geom, y[grp,], match.ID = FALSE))
-
-	if (length(unique(grp)) < nrow(x)) { # dissolve/merge:
+	# original would now return y; I added:
+	if (dissolve && class(geom) != "SpatialPointsDataFrame") { # dissolve/merge:
 		stopifnot(require(rgeos))
 		if (gridded(geom))
 			geom = as(geom, "SpatialPolygons")
 		geom = gUnaryUnion(geom, grp)
-	}
+	} else
+		y = y[as.integer(factor(grp)),]
 	addAttrToGeom(geom, y, match.ID = FALSE)
 }
 
-aggregate.Spatial = function(x, by, FUN = mean, ...) {
-	if (is(by, "Spatial")) {
+aggregate.Spatial = function(x, by, FUN = mean, ..., dissolve = TRUE) {
+	if (is(by, "Spatial")) { # maybe better do S4 method dispatch?
 		by0 = by
 		if (gridded(by))
 			by = as(by, "SpatialPolygons")
 		df = over(by, x, fn = FUN, ...)
 		addAttrToGeom(by0, df, match.ID = FALSE)
 	} else
-		aggregate.data.frame.SP(x, by, FUN, ...)
+		aggregate.data.frame.SP(x, by, FUN, ..., dissolve = dissolve)
 }
