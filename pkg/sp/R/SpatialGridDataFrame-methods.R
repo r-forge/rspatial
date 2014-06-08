@@ -3,6 +3,8 @@ SpatialPixelsDataFrame = function(points, data,
 		proj4string = CRS(as.character(NA)), round = NULL, grid = NULL) {
 	if (is.null(points))
 		stop("points argument is NULL")
+	if (is(points, "SpatialPixels") && is.null(grid))
+		grid = points@grid
 	if (!is(points, "SpatialPoints"))
 		points = SpatialPoints(points, proj4string = proj4string)
 	points = SpatialPixels(points, tolerance = tolerance, round = round,	
