@@ -248,7 +248,8 @@ setAs("Lines", "SpatialPoints", function(from) {
 setAs("SpatialLines", "SpatialPoints", function(from) {
 		SpatialPoints(
 			do.call(rbind,
-				lapply(from@lines, function(x) as(x, "SpatialPoints"))),
+				lapply(from@lines, function(x) coordinates(
+						as(x, "SpatialPoints")))),
 			CRS(proj4string(from))
 		)
 	}
