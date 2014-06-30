@@ -3,10 +3,10 @@ zerodist <- function(obj, zero = 0.0, unique.ID = FALSE) {
 		stop("obj should be of, or extend, class SpatialPoints")
 	lonlat = as.integer(!is.na(is.projected(obj)) && !is.projected(obj))
 	cc = coordinates(obj)
-	if (unique.ID)
+	if (unique.ID) # return unique IDs only, not all zero dists
 		.Call(sp_duplicates, as.vector(t(cc)), ncol(cc), zero, lonlat) + 1
 	else
-		matrix(.Call(sp_zerodist, as.vector(t(cc)), ncol(cc), zero, lonlat), 
+		matrix(.Call(sp_zerodist, as.vector(t(cc)), ncol(cc), zero, lonlat),
 			ncol = 2, byrow = TRUE) + 1
 }
 
@@ -20,7 +20,7 @@ zerodist2 <- function (obj1, obj2, zero = 0) {
     cc2 = coordinates(obj2)
 	n = nrow(cc1)
 	cc = rbind(cc1, cc2)
-	ret = matrix(.Call(sp_zerodist, as.vector(t(cc)), ncol(cc), zero, lonlat), 
+	ret = matrix(.Call(sp_zerodist, as.vector(t(cc)), ncol(cc), zero, lonlat),
 		ncol = 2, byrow = TRUE) + 1
 	ret = ret[ret[,1] <= n & ret[,2] > n, , drop=FALSE]
 	ret[,2] = ret[,2] - n

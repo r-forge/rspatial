@@ -37,23 +37,34 @@ coordinates(meuse) <- ~x+y
 data("meuse.grid")
 coordinates(meuse.grid) <- ~x+y
 gridded(meuse.grid) <- TRUE
-# aggregation by spatial object:
+i = cut(meuse.grid$dist, c(0,.25,.5,.75,1), include.lowest = TRUE)
+j = sample(1:2, 3103,replace=TRUE)
+\dontrun{
 if (require(rgeos)) {
+	# aggregation by spatial object:
 	ab = gUnaryUnion(as(meuse.grid, "SpatialPolygons"), meuse.grid$part.a)
 	x = aggregate(meuse["zinc"], ab, mean)
 	spplot(x)
+	# aggregation by attribute, then dissolve to polygon:
+	x = aggregate(meuse.grid["dist"], list(i=i))
+	spplot(x["i"])
+	x = aggregate(meuse.grid["dist"], list(i=i,j=j))
+	spplot(x["dist"], col.regions=bpy.colors())
+	spplot(x["i"], col.regions=bpy.colors(4))
+	spplot(x["j"], col.regions=bpy.colors())
+}
 }
 
-# aggregation by attribute:
-i = cut(meuse.grid$dist, c(0,.25,.5,.75,1), include.lowest = TRUE)
-x = aggregate(meuse.grid["dist"], list(i=i))
-spplot(x["i"])
-j = sample(1:2, 3103,replace=TRUE)
-x = aggregate(meuse.grid["dist"], list(i=i,j=j))
-spplot(x["dist"], col.regions=bpy.colors())
-spplot(x["i"], col.regions=bpy.colors(4))
+x = aggregate(meuse.grid["dist"], list(i=i,j=j), dissolve = FALSE)
 spplot(x["j"], col.regions=bpy.colors())
-x = aggregate(meuse.grid["dist"], list(i=i,j=j),dissolve=FALSE)
-spplot(x["j"], col.regions=bpy.colors())
+
+if (require(gstat) && require(rgeos)) {
+	x = idw(log(zinc)~1, meuse, meuse.grid, debug.level=0)[1]
+	spplot(x[1],col.regions=bpy.colors())
+	i = cut(x$var1.pred, seq(4, 7.5, by=.5), 
+		include.lowest = TRUE)
+	xa = aggregate(x["var1.pred"], list(i=i))
+	spplot(xa[1],col.regions=bpy.colors(8))
+}
 }
 \keyword{methods}
