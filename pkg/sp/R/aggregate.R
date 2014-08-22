@@ -72,13 +72,14 @@ aggregate.data.frame.SP <- function (x, by, FUN, ..., dissolve = TRUE) {
 
 	# original would now return y; I added:
 	if (dissolve && class(geom) != "SpatialPointsDataFrame") { # dissolve/merge:
-		stopifnot(require(rgeos))
+		if (!requireNamespace("rgeos", quietly = TRUE))
+			stop("rgeos required")
 		if (is(geom, "SpatialLines"))
-			geom = gLineMerge(geom, grp)
+			geom = rgeos::gLineMerge(geom, grp)
 		else {
 			if (gridded(geom))
 				geom = as(geom, "SpatialPolygons")
-			geom = gUnaryUnion(geom, grp)
+			geom = rgeos::gUnaryUnion(geom, grp)
 		}
 	} else
 		y = y[as.integer(factor(grp)),]
