@@ -78,6 +78,7 @@ Pace, R. Kelley, and O.W. Gilley, Using the Spatial Configuration of
 
 
 \examples{
+library(spdep)
 data(boston)
 hr0 <- lm(log(MEDV) ~ CRIM + ZN + INDUS + CHAS + I(NOX^2) + I(RM^2) +
  AGE + log(DIS) + log(RAD) + TAX + PTRATIO + B + log(LSTAT), data=boston.c)

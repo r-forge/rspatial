@@ -60,6 +60,7 @@ Luc Anselin, Spatial Analysis Laboratory, Department of Agricultural and Consume
 require(maptools)
 columbus <- readShapePoly(system.file("etc/shapes/columbus.shp",
  package="spdep")[1])
+require(spdep)
 col.gal.nb <- read.gal(system.file("etc/weights/columbus.gal",
  package="spdep")[1])
 }

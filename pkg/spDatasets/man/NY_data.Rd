@@ -38,12 +38,14 @@
 ## NY leukemia
 library(foreign)
 nydata <- read.dbf(system.file("etc/misc/nydata.dbf", package="spdep")[1])
+library(sp)
 coordinates(nydata) <- c("X", "Y")
 nyadjmat <- as.matrix(read.dbf(system.file("etc/misc/nyadjwts.dbf",
  package="spdep")[1])[-1])
 ID <- as.character(names(read.dbf(system.file("etc/misc/nyadjwts.dbf",
  package="spdep")[1]))[-1])
 identical(substring(ID, 2, 10), substring(as.character(nydata$AREAKEY), 2, 10))
+library(spdep)
 nyadjlw <- mat2listw(nyadjmat, as.character(nydata$AREAKEY))
 listw_NY <- nb2listw(nyadjlw$neighbours, style="B")
 }

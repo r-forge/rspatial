@@ -32,6 +32,7 @@ Formal class 'SpatialPointsDataFrame' [package "sp"] with 5 slots
 \references{\url{http://www.fs.fed.us/pnw/lwm/aem/docs/burnett/miller_rebecca_r2010rev.pdf}}
 \examples{
 data(SplashDams)
+library(sp)
 plot(SplashDams, axes=TRUE)
 }
 \keyword{datasets}

@@ -31,6 +31,7 @@ The object is in geographical coordinates using the WGS84 datum.
 }
 
 \examples{
+library(sp)
 data(wrld_simpl)
 plot(wrld_simpl)
 }

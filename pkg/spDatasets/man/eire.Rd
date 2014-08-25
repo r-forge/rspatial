@@ -41,6 +41,7 @@ Tiefelsdorf's SPSS Saddlepoint bundle, originally hosted at:
 }
 \examples{
 require(maptools)
+require(spdep)
 eire <- readShapePoly(system.file("etc/shapes/eire.shp", package="spdep")[1],
   ID="names", proj4string=CRS("+proj=utm +zone=30 +units=km"))
 eire.nb <- poly2nb(eire)

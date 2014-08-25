@@ -29,6 +29,7 @@ The \code{auckland} data frame has 167 rows (census area units --- CAU) and 4 co
 require(maptools)
 auckland <- readShapePoly(system.file("etc/shapes/auckland.shp",
  package="spdep")[1])
+library(spdep)
 auckland.nb <- poly2nb(auckland)
 }
 \keyword{datasets}

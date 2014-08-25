@@ -22,6 +22,7 @@ Hanna, F. A. 1966 Effects of regional differences in taxes and transport charges
 Hepple, L. W. 1976 A maximum likelihood model for econometric estimation with spatial series, in Masser, I (ed) Theory and practice in regional science, London: Pion, pp. 90-104.
 }
 \examples{
+library(spdep)
 data(used.cars)
 moran.test(used.cars$price.1960, nb2listw(usa48.nb))
 moran.plot(used.cars$price.1960, nb2listw(usa48.nb),
