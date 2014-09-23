@@ -2,6 +2,7 @@ aggregate.data.frame.SP <- function (x, by, FUN, ..., dissolve = TRUE) {
 	# taken from stats::aggregate.data.frame, in
 	# R 3.1.0, Fri May 23 23:31:15 CEST 2014 svn rev 65387 
 	# took out option simplify, as it doesn't make sense to not do that
+    # moved "FUN <- match.fun(FUN)" to top caller
 
 	# EP added:
 	stopifnot(is(x, "Spatial"))
@@ -9,7 +10,6 @@ aggregate.data.frame.SP <- function (x, by, FUN, ..., dissolve = TRUE) {
 	geom = geometry(x)
 	x = x@data
 
-    FUN <- match.fun(FUN)
     if (NROW(x) == 0L) 
         stop("no rows to aggregate")
     if (NCOL(x) == 0L) {
@@ -87,6 +87,7 @@ aggregate.data.frame.SP <- function (x, by, FUN, ..., dissolve = TRUE) {
 }
 
 aggregate.Spatial = function(x, by, FUN = mean, ..., dissolve = TRUE) {
+    FUN <- match.fun(FUN)
 	if (is(by, "Spatial")) { # maybe better do S4 method dispatch?
 		by0 = by
 		if (gridded(by))
