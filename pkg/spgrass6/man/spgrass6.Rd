@@ -48,7 +48,8 @@ if (nchar(Sys.getenv("GISRC")) > 0) {
   grd <- gmeta2grd(ignore.stderr=TRUE)
   grd
   set.seed(1)
-  smple <- overlay(soilsph, spsample(soilsph, 200, "random"))
+  pts <- spsample(soilsph, 200, "random")
+  smple <- SpatialPointsDataFrame(pts, data=over(pts, soilsph))
   summary(smple)
   writeVECT6(smple, "sp_dem", v.in.ogr_flags="overwrite", ignore.stderr=TRUE)
   bugsDF <- readVECT6("bugsites", ignore.stderr=TRUE, mapset="PERMANENT")

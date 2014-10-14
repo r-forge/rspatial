@@ -28,14 +28,14 @@ readVECT6 <- function(vname, layer, type=NULL, plugin=NULL,
     }
     if (driver == "GRASS") plugin <- TRUE
 
-    require(rgdal)
+    if (requireNamespace("rgdal", quietly = TRUE)) {
     if (is.null(plugin)) {
-        ogrD <- ogrDrivers()$name
+        ogrD <- rgdal::ogrDrivers()$name
 	plugin <- "GRASS" %in% ogrD
     }
     sss <- strsplit(packageDescription("rgdal")$Version, "-")[[1]]
     if (plugin) {
-        ogrD <- ogrDrivers()$name
+        ogrD <- rgdal::ogrDrivers()$name
 	if (!("GRASS" %in% ogrD)) stop("no GRASS plugin driver")
         gg <- gmeta6()
         if (is.null(mapset)) {
@@ -50,14 +50,14 @@ readVECT6 <- function(vname, layer, type=NULL, plugin=NULL,
         dsn <- paste(gg$GISDBASE, gg$LOCATION_NAME, mapset,
             "vector", vname[1], "head", sep="/")
         if (sss[1] >= "0.6" && as.integer(sss[2]) > 7) {
-	    res <- readOGR(dsn, layer=as.character(layer),
+	    res <- rgdal::readOGR(dsn, layer=as.character(layer),
                 verbose=!ignore.stderr, pointDropZ=pointDropZ)
         } else {
-	    res <- readOGR(dsn, layer=as.character(layer),
+	    res <- rgdal::readOGR(dsn, layer=as.character(layer),
                 verbose=!ignore.stderr)
         }
     } else {
-        ogrD <- ogrDrivers()$name
+        ogrD <- rgdal::ogrDrivers()$name
 	if (!(driver %in% ogrD))
             stop(paste("Requested driver", driver, "not available in rgdal"))
         ogrDGRASS <- execGRASS("v.in.ogr", flags="f", intern=TRUE,
@@ -110,10 +110,10 @@ readVECT6 <- function(vname, layer, type=NULL, plugin=NULL,
             format=gsub(" ", "_", driver), ignore.stderr=ignore.stderr)
 
         if (sss[1] >= "0.6" && as.integer(sss[2]) > 7) {
-	    res <- readOGR(dsn=RDSN, layer=LAYER, verbose=!ignore.stderr, 
+	    res <- rgdal::readOGR(dsn=RDSN, layer=LAYER, verbose=!ignore.stderr, 
 	        pointDropZ=pointDropZ)
         } else {
-	    res <- readOGR(dsn=rtmpfl1, layer=shname, verbose=!ignore.stderr)           }
+	    res <- rgdal::readOGR(dsn=rtmpfl1, layer=shname, verbose=!ignore.stderr)           }
 
 	if (.Platform$OS.type != "windows") {
             unlink(paste(rtmpfl1, list.files(rtmpfl1, pattern=shname), 
@@ -179,6 +179,10 @@ readVECT6 <- function(vname, layer, type=NULL, plugin=NULL,
     if (get.suppressEchoCmdInFuncOption()) {
         tull <- set.echoCmdOption(inEchoCmd)
     }
+    } else {
+      stop("rgdal not available")
+    }
+
     res
 }
 
@@ -244,8 +248,8 @@ writeVECT6 <- function(SDF, vname, #factor2char = TRUE,
         if (is.null(ignore.stderr))
             ignore.stderr <- get("ignore.stderr", envir = .GRASS_CACHE)
         stopifnot(is.logical(ignore.stderr))
-        require(rgdal)
-        ogrD <- ogrDrivers()$name
+    if (requireNamespace("rgdal", quietly = TRUE)) {
+        ogrD <- rgdal::ogrDrivers()$name
 	if (!(driver %in% ogrD))
             stop(paste("Requested driver", driver, "not available in rgdal"))
         ogrDGRASS <- execGRASS("v.in.ogr", flags="f", intern=TRUE,
@@ -288,7 +292,7 @@ writeVECT6 <- function(SDF, vname, #factor2char = TRUE,
             LAYER <- shname
         }
 
-	writeOGR(SDF, dsn=RDSN, layer=LAYER, driver=driver,
+	rgdal::writeOGR(SDF, dsn=RDSN, layer=LAYER, driver=driver,
             overwrite_layer=TRUE)
 
 
@@ -303,6 +307,9 @@ writeVECT6 <- function(SDF, vname, #factor2char = TRUE,
         if (get.suppressEchoCmdInFuncOption()) {
             tull <- set.echoCmdOption(inEchoCmd)
         }
+    } else {
+      stop("rgdal not available")
+    }
 
 }
 
@@ -381,38 +388,6 @@ vDataCount <- function(vname, layer, ignore.stderr = NULL) {
 	n
 }
 
-getSites6 <- function(vname, ignore.stderr = FALSE, with_prj=TRUE) {
-        .Deprecated("readVECT6", package="spgrass6")
-# based on suggestions by Miha Staut using v.out.ascii and v.db.select,
-# modified to avoid cygwin problems
-	SPDF <- getSites6sp(vname, ignore.stderr=ignore.stderr, 
-		with_prj=with_prj)
-	res <- as(SPDF, "data.frame")
-	res
-}
-
-getSites6sp <- function(vname, ignore.stderr = FALSE, with_prj=TRUE) {
-        .Deprecated("readVECT6", package="spgrass6")
-	res <- readVECT6(vname=vname, ignore.stderr=ignore.stderr, 
-		with_prj=with_prj)
-	res
-}
-
-
-putSites6 <- function(df, vname, ignore.stderr = FALSE) {
-# based on suggestions by Miha Staut using v.out.ascii and v.db.select,
-# modified to avoid cygwin problems
-        .Deprecated("writeVECT6", package="spgrass6")
-	coordinates(df) <- c("x", "y")
-	putSites6sp(df, vname, ignore.stderr=ignore.stderr)
-}
-
-putSites6sp <- function(SPDF, vname, #factor2char = TRUE, 
-	ignore.stderr = FALSE) {
-        .Deprecated("writeVECT6", package="spgrass6")
-	writeVECT6(SPDF, vname, #factor2char=factor2char, 
-		ignore.stderr=ignore.stderr)
-}
 
 #Date: Thu, 13 Oct 2005 17:34:06 +0200
 #From: Markus Neteler <neteler@itc.it>

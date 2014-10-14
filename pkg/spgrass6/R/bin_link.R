@@ -23,8 +23,11 @@ readRAST6 <- function(vname, cat=NULL, ignore.stderr = NULL,
         useGDAL <- get.useGDALOption()
     stopifnot(is.logical(useGDAL))
     if (useGDAL) {
-        require(rgdal)
-        gdalD <- gdalDrivers()$name
+      if (requireNamespace("rgdal", quietly = TRUE)) {
+        gdalD <- rgdal::gdalDrivers()$name
+      } else {
+        stop("rgdal not available")
+      }
     }
     if (!useGDAL && is.null(plugin)) plugin <- FALSE
     if (close_OK) {
@@ -88,6 +91,8 @@ readRAST6 <- function(vname, cat=NULL, ignore.stderr = NULL,
 		    NODATA <- round(NODATA)
 		}
 		if (useGDAL && G63) {
+                  if (requireNamespace("rgdal", quietly = TRUE)) {
+
                     gdalDGRASS <- execGRASS("r.out.gdal", flags="l",
                         intern=TRUE, ignore.stderr=ignore.stderr)
 	            if (!(drivername %in% gdalD))
@@ -110,13 +115,17 @@ readRAST6 <- function(vname, cat=NULL, ignore.stderr = NULL,
 #			silent=ignore.stderr)
 #		    names(res) <- vname[i]
 
-                    if (i == 1) gdal_info <- GDALinfo(rtmpfl11,
+                    if (i == 1) gdal_info <- rgdal::GDALinfo(rtmpfl11,
                         silent=ignore.stderr)
 
-                    DS <- GDAL.open(rtmpfl11, read.only=FALSE)
-                    reslist[[i]] <- as.vector(getRasterData(DS, band=1))
+                    DS <- rgdal::GDAL.open(rtmpfl11, read.only=FALSE)
+                    reslist[[i]] <- as.vector(rgdal::getRasterData(DS, band=1))
 
-                    deleteDataset(DS)
+                    rgdal::deleteDataset(DS)
+                  } else {
+                    stop("rgdal not available")
+                  }
+
 # 130422 at rgdal 0.8-8 GDAL.close(DS)
 		} else {
 # 061107 Dylan Beaudette NODATA
@@ -191,6 +200,7 @@ readRAST6 <- function(vname, cat=NULL, ignore.stderr = NULL,
 #			resa <- SpatialGridDataFrame(grid=grida, 
 #				data=df, proj4string=p4)
 #		}
+
 	}
 
 
@@ -379,7 +389,8 @@ read_plugin <- function(vname, mapset=NULL, ignore.stderr=NULL) {
 
         fname <- paste(gg$GISDBASE, gg$LOCATION_NAME, mapset,
             "cellhd", vname[1], sep="/")
-        fninfo <- GDALinfo(fname, silent=ignore.stderr)
+      if (requireNamespace("rgdal", quietly = TRUE)) {
+        fninfo <- rgdal::GDALinfo(fname, silent=ignore.stderr)
         chks <- logical(4)
         names(chks) <- c("cols", "rows", "origin.northing",
             "origin.easting")
@@ -398,9 +409,12 @@ read_plugin <- function(vname, mapset=NULL, ignore.stderr=NULL) {
 	    stop("rerun with plugin=FALSE\n") 
         }
 
-        resa <- readGDAL(fname, silent=ignore.stderr)
+        resa <- rgdal::readGDAL(fname, silent=ignore.stderr)
 	names(resa) <- make.names(vname)
         resa
+      } else {
+        stop("rgdal not available")
+      }
 }
     
 
@@ -419,7 +433,6 @@ writeRAST6 <- function(x, vname, zcol = 1, NODATA=NULL,
         if (is.null(useGDAL))
             useGDAL <- get.useGDALOption()
         stopifnot(is.logical(useGDAL))
-        if (useGDAL) require(rgdal)
 	pid <- as.integer(round(runif(1, 1, 1000)))
 	gtmpfl1 <- dirname(execGRASS("g.tempfile", pid=pid,
 	    intern=TRUE, ignore.stderr=ignore.stderr))
@@ -440,7 +453,8 @@ writeRAST6 <- function(x, vname, zcol = 1, NODATA=NULL,
 		ignore.stderr=ignore.stderr)
 	G63 <- !(Gver < "GRASS 6.3") #Gver > "GRASS 6.2"
 	if (useGDAL && G63) {
-            gdalD <- gdalDrivers()$name
+          if (requireNamespace("rgdal", quietly = TRUE)) {
+            gdalD <- rgdal::gdalDrivers()$name
             gdalDGRASS <- execGRASS("r.out.gdal", flags="l",
                 intern=TRUE, ignore.stderr=ignore.stderr)
 	    if (!(drivername %in% gdalD))
@@ -464,14 +478,17 @@ writeRAST6 <- function(x, vname, zcol = 1, NODATA=NULL,
 	    }
 	    sm <- storage.mode(x[[zcol]])
 	    type <- ifelse(sm == "integer", "Int32", "Float32")
-	    res <- writeGDAL(x[zcol], fname=rtmpfl11, type=type, 
+	    res <- rgdal::writeGDAL(x[zcol], fname=rtmpfl11, type=type, 
 		drivername=drivername, mvFlag = NODATA)
 
 	    execGRASS("r.in.gdal", flags=flags, input=gtmpfl11,
 		output=vname, ignore.stderr=ignore.stderr)
 
-            DS <- GDAL.open(rtmpfl11, read.only=FALSE)
-            deleteDataset(DS)
+            DS <- rgdal::GDAL.open(rtmpfl11, read.only=FALSE)
+            rgdal::deleteDataset(DS)
+          } else {
+            stop("rgdal not available")
+          }
 	} else {
 	    res <- writeBinGrid(x, rtmpfl11, attr = zcol, na.value = NODATA)
 
