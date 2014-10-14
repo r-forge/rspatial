@@ -1,3 +1,24 @@
+2014-10-14 19:07  rsbivand
+
+	* R/bin_link.R,
+	  R/spgrass6.R, R/vect_link.R, man/initGRASS.Rd, man/spgrass6.Rd:
+	  requireNamespace spgrass6
+
+2014-10-14 13:37  rsbivand
+
+	* DESCRIPTION:
+	  requireNamespace spgwr
+
+2014-05-16 07:58  rsbivand
+
+	* DESCRIPTION,
+	  R/xml1.R: add any() in doGRASS
+
+2014-03-25 14:49  rsbivand
+
+	* ChangeLog,
+	  DESCRIPTION, inst/ChangeLog: tidy
+
 2013-09-20 10:03  rsbivand
 
 	* DESCRIPTION,
