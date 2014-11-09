@@ -26,7 +26,7 @@ explodePolygons <- function(x, ignoreholes=FALSE, ...) {
 					pp <- x@polygons[[i]]
 					pp@ID <- as.character(count + 1)
 				} else {
-					if (!requireNamespace("geos", quietly = TRUE))
+					if (!requireNamespace("rgeos", quietly = TRUE))
 						stop('package rgeos is needed to relate holes to their corresponding polygons')
 					cmt <- as.integer(unlist(strsplit(rgeos::createPolygonsComment(x@polygons[[i]]), ' ')))
 					cmt <- cbind(id=1:length(cmt), holeOf=cmt)

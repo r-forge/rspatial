@@ -1,3 +1,7 @@
+2014-11-09 10:45  edzer
+
+	* inst/ChangeLog: ready for release
+
 2014-09-23 19:59  edzer
 
 	* R/aggregate.R: add call to match.fun()
