@@ -1,3 +1,90 @@
+2014-09-23 19:59  edzer
+
+	* R/aggregate.R: add call to match.fun()
+
+2014-09-20 14:11  edzer
+
+	* tests/sel.Rout.save: named results: make test align with change
+	  in over
+
+2014-09-19 20:28  edzer
+
+	* R/over.R, vignettes/over.Rnw: the output list or vector of over()
+	  is now named
+
+2014-08-31 11:16  edzer
+
+	* R/Spatial-methods.R, R/SpatialLines-methods.R,
+	  R/SpatialPoints-methods.R, R/image.R: plot now accepts more of
+	  plot.default's behaviour
+
+2014-08-22 22:07  edzer
+
+	* R/aggregate.R, R/disaggregate.R, R/sp_spat1.R: moved require(xx);
+	  foo() into requireNamespace(xx) xx:foo() calls,
+	  see
+	  http://cran.r-project.org/doc/manuals/r-patched/R-exts.html#Suggested-packages
+
+2014-08-10 19:07  edzer
+
+	* R/zerodist.R, inst/ChangeLog, man/zerodist.Rd, src/init.c,
+	  src/sp.h, src/zerodist.c: add memcmp option to zerodist() family,
+	  to allow for double arithmetic fall back
+
+2014-06-30 09:15  edzer
+
+	* DESCRIPTION, NAMESPACE, R/AAA.R, R/bubble.R, R/spOptions.R,
+	  R/spplot.R, R/zerodist.R, man/aggregate.Rd, man/bubble.Rd,
+	  man/spplot.Rd, src/zerodist.c, tests/Examples: zerodist now uses
+	  memcmp if comparison against 0.0
+	  spplot now used bpy.colors() as default; set_col_regions()
+	  can override this default. bubble() now uses more sane red/green
+	  values (from colorbrewer) when neg and pos residuals are shown.
+
+2014-06-13 16:14  edzer
+
+	* R/SpatialLines-methods.R: suggestion by Stephane Dray, by email
+
+2014-06-08 19:12  edzer
+
+	* R/SpatialGridDataFrame-methods.R, tests/spplot.Rout.save: remove
+	  needles recomputation of grid layout, and subsequenc warning in
+	  spplot test
+
+2014-06-05 13:05  edzer
+
+	* R/rbind.R: tidy
+
+2014-05-25 21:33  edzer
+
+	* R/aggregate.R: added aggregate-on-attribute case for SpatialLines
+
+2014-05-25 16:49  edzer
+
+	* R/aggregate.R, man/aggregate.Rd: remove argument simplify,
+	  correct dissolve=FALSE
+
+2014-05-24 07:22  edzer
+
+	* R/aggregate.R, man/aggregate.Rd: add factor criteria for
+	  aggregate() with attributes as aggregation predicate
+
+2014-05-23 23:01  edzer
+
+	* DESCRIPTION, R/aggregate.R, R/over.R, man/aggregate.Rd,
+	  man/over.Rd: split aggregate from over; add aggregation based on
+	  attribute values
+
+2014-04-18 17:24  edzer
+
+	* man/disaggregate.Rd: improve example code
+
+2014-04-16 14:18  edzer
+
+	* R/SpatialGrid-methods.R, R/SpatialGridDataFrame-methods.R,
+	  R/spplot.R: bug report on r-sig-geo, when spplot'ing a grid with
+	  a single non-NA cell
+
 2014-04-06 17:05  rsbivand
 
 	* DESCRIPTION, inst/include/sp_xports.c, src/sp_xports.c: close
