@@ -44,7 +44,7 @@ setMethod('merge', signature(x='Spatial', y='data.frame'),
 			if (isTRUE(any(table(y[, by.y]) > 1))) {
 				stop("'y' has multiple records for one or more 'by.y' key(s)")
 			} else {
-				warning(paste(y - nrow(y), 'duplicate records in y were removed'))
+				warning(paste(dy - nrow(y), 'duplicate records in y were removed'))
 			}
 		}
 	}
