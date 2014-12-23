@@ -48,8 +48,10 @@ spplot(meuse, "zinc", col.regions=bpy.colors(),  main = "zinc, ppm",
 )
 
 # creating meuse.area from meuse.grid:
-if (require(rgeos))
+if (require(rgeos)) {
     meuse.area = gUnaryUnion(as(meuse.grid, "SpatialPolygons"))
+	plot(meuse.area)
+}
 
 }
 \keyword{datasets}
