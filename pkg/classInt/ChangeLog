@@ -1,38 +1,68 @@
+2015-01-05 20:00  rsbivand
+
+	* DESCRIPTION,
+	  man/classIntervals.Rd:
+	  improvements
+	  to
+	  jenks
+	  documentation
+
+2014-04-06 17:05  rsbivand
+
+	* ChangeLog:
+	  close
+	  ring
+	  in
+	  Polygon
+
 2013-08-30 11:55  rsbivand
 
 	* ChangeLog,
-	  inst/ChangeLog: tidy
+	  inst/ChangeLog:
+	  tidy
 
 2013-08-30 11:54  rsbivand
 
 	* .Rbuildignore,
-	  ChangeLog, inst/ChangeLog: tidy
+	  ChangeLog,
+	  inst/ChangeLog:
+	  tidy
 
 2013-08-29 14:26  rsbivand
 
 	* DESCRIPTION,
-	  NAMESPACE: tidy
+	  NAMESPACE:
+	  tidy
 
 2013-07-28 19:37  rsbivand
 
 	* DESCRIPTION,
-	  NAMESPACE: thinning load depends
+	  NAMESPACE:
+	  thinning
+	  load
+	  depends
 
 2013-06-22 14:40  rsbivand
 
 	* ChangeLog,
-	  inst/ChangeLog: tidy
+	  inst/ChangeLog:
+	  tidy
 
 2013-06-22 14:39  rsbivand
 
 	* man/classIntervals.Rd,
-	  man/findColours.Rd, man/findCols.Rd, man/jenks.tests.Rd:
-	  help line lengths
+	  man/findColours.Rd,
+	  man/findCols.Rd,
+	  man/jenks.tests.Rd:
+	  help
+	  line
+	  lengths
 
 2013-06-22 14:33  rsbivand
 
 	* ChangeLog,
-	  inst/ChangeLog: tidy
+	  inst/ChangeLog:
+	  tidy
 
 2013-06-22 14:33  rsbivand
 
@@ -42,23 +72,35 @@
 2013-06-22 14:31  rsbivand
 
 	* ChangeLog,
-	  inst/ChangeLog: tidy
+	  inst/ChangeLog:
+	  tidy
 
 2013-06-12 10:46  rsbivand
 
 	* man/classIntervals.Rd,
-	  man/findColours.Rd: add more documentation on cutlabels=
+	  man/findColours.Rd:
+	  add
+	  more
+	  documentation
+	  on
+	  cutlabels=
 	  argument
 
 2013-02-07 10:43  rsbivand
 
 	* R/classInt.R:
-	  handle non-integer GRASS parameters more forgivingly
+	  handle
+	  non-integer
+	  GRASS
+	  parameters
+	  more
+	  forgivingly
 
 2012-11-05 17:05  rsbivand
 
 	* ChangeLog,
-	  inst/ChangeLog: tidy
+	  inst/ChangeLog:
+	  tidy
 
 2012-11-05 17:04  rsbivand
 
@@ -68,60 +110,103 @@
 2012-07-22 13:30  rsbivand
 
 	* DESCRIPTION:
-	  Authors@R classInt
+	  Authors@R
+	  classInt
 
 2012-07-16 13:50  rsbivand
 
 	* ChangeLog,
-	  inst/ChangeLog: tidy
+	  inst/ChangeLog:
+	  tidy
 
 2012-07-16 13:49  rsbivand
 
 	* DESCRIPTION,
-	  R/classInt.R, man/classIntervals.Rd, tests, tests/test_Unique.R,
-	  tests/test_Unique.Rout.save: adding unique revisions,
-	  documentation and tests
+	  R/classInt.R,
+	  man/classIntervals.Rd,
+	  tests,
+	  tests/test_Unique.R,
+	  tests/test_Unique.Rout.save:
+	  adding
+	  unique
+	  revisions,
+	  documentation
+	  and
+	  tests
 
 2012-07-05 17:42  rsbivand
 
 	* DESCRIPTION:
-	  add unique label option, check intervalClusure
+	  add
+	  unique
+	  label
+	  option,
+	  check
+	  intervalClusure
 
 2012-07-05 17:41  rsbivand
 
 	* R/classInt.R,
-	  man/classIntervals.Rd: add unique label option, check
+	  man/classIntervals.Rd:
+	  add
+	  unique
+	  label
+	  option,
+	  check
 	  intervalClusure
 
 2011-11-21 10:34  rsbivand
 
 	* R/classInt.R,
-	  man/classIntervals.Rd: change jenks storage mode to double
+	  man/classIntervals.Rd:
+	  change
+	  jenks
+	  storage
+	  mode
+	  to
+	  double
 
 2011-11-14 10:58  rsbivand
 
 	* ChangeLog,
-	  inst/ChangeLog: tidy
+	  inst/ChangeLog:
+	  tidy
 
 2011-11-10 07:30  rsbivand
 
 	* ChangeLog,
-	  inst/ChangeLog: dots in fixed style
+	  inst/ChangeLog:
+	  dots
+	  in
+	  fixed
+	  style
 
 2011-11-10 07:29  rsbivand
 
 	* DESCRIPTION,
-	  R/classInt.R: dots in fixed style
+	  R/classInt.R:
+	  dots
+	  in
+	  fixed
+	  style
 
 2011-10-21 15:56  rsbivand
 
 	* DESCRIPTION,
-	  R/classInt.R: classInt NA handling
+	  R/classInt.R:
+	  classInt
+	  NA
+	  handling
 
 2011-05-26 21:22  rsbivand
 
 	* DESCRIPTION,
-	  R/classInt.R, man/classIntervals.Rd: block Inf warning in
+	  R/classInt.R,
+	  man/classIntervals.Rd:
+	  block
+	  Inf
+	  warning
+	  in
 	  print.classIntervals
 
 2011-02-22 16:37  rsbivand
@@ -132,7 +217,8 @@
 2011-02-22 16:24  rsbivand
 
 	* oChangeLog,
-	  svn2cl.xsl: tidy
+	  svn2cl.xsl:
+	  tidy
 
 2011-02-22 16:18  rsbivand
 
@@ -142,7 +228,8 @@
 2009-12-21 09:10  rsbivand
 
 	* classInterval
-	  to shingle
+	  to
+	  shingle
 
 2009-10-20 08:22  rsbivand
 
@@ -152,17 +239,20 @@
 2009-09-17 08:20  rsbivand
 
 	* fix
-	  documentation links
+	  documentation
+	  links
 
 2009-05-25 10:20  rsbivand
 
 	* representation
-	  update 2
+	  update
+	  2
 
 2009-05-25 06:17  rsbivand
 
 	* representation
-	  overhaul 1
+	  overhaul
+	  1
 
 2009-05-12 08:33  rsbivand
 
@@ -171,7 +261,10 @@
 2009-05-12 08:33  rsbivand
 
 	* correction
-	  to jenks style intervals
+	  to
+	  jenks
+	  style
+	  intervals
 
 2008-01-18 21:40  rsbivand
 
@@ -203,8 +296,11 @@
 	* Initial
 	  revision
 
-1999-12-15 10:41
+1999-12-15 10:41  
 
 	* New
-	  repository initialized by cvs2svn.
+	  repository
+	  initialized
+	  by
+	  cvs2svn.
 
