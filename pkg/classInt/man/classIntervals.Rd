@@ -24,7 +24,7 @@ classIntervals2shingle(x)
   \item{n}{number of classes required, if missing, \code{nclass.Sturges} is used}
   \item{style}{chosen style: one of "fixed", "sd", "equal", "pretty", "quantile", "kmeans", "hclust", "bclust", "fisher", or "jenks"}
   \item{rtimes}{number of replications of var to catenate and jitter; may be used with styles "kmeans" or "bclust" in case they have difficulties reaching a classification}
-  \item{intervalClosure}{default "left",  allows specification of whether partition intervals are closed on the left or the right (added by Richard Dunlap)}
+  \item{intervalClosure}{default \dQuote{left},  allows specification of whether partition intervals are closed on the left or the right (added by Richard Dunlap). Note that the sense of interval closure is hard-coded as \dQuote{right}-closed in this implementation - use cutlabels=TRUE in \code{findColours} on the object returned to show the closure clearly.}
   \item{dataPrecision}{default NULL, permits rounding of the interval endpoints (added by Richard Dunlap)}
   \item{\dots}{arguments to be passed to the functions called in each style}
   \item{x}{"classIntervals" object for printing, conversion to shingle, or plotting}
@@ -55,7 +55,7 @@ classIntervals2shingle(x)
 
   The "fisher" style uses the algorithm proposed by W. D. Fisher (1958) and discussed by Slocum et al. (2005) as the Fisher-Jenks algorithm; added here thanks to Hisaji Ono.
  
-  The "jenks" style has been ported from Jenks' Basic code, and has been checked for consistency with ArcView, ArcGIS, and MapInfo (with some remaining differences); added here thanks to Hisaji Ono; note that the sense of interval closure is reversed from the other styles, and in this implementation has to be right-closed - use cutlabels=TRUE downstream for clarity.
+  The "jenks" style has been ported from Jenks' Basic code, and has been checked for consistency with ArcView, ArcGIS, and MapInfo (with some remaining differences); added here thanks to Hisaji Ono. Note that the sense of interval closure is reversed from the other styles, and in this implementation has to be right-closed - use cutlabels=TRUE in \code{findColours} on the object returned to show the closure clearly.
 }
 
 \value{
@@ -67,6 +67,8 @@ classIntervals2shingle(x)
   \item{parameters}{parameter values used in finding breaks}
   \item{nobs}{number of different finite values in the input variable}
   \item{call}{this function's call}
+  \item{intervalClosure}{string, whether closure is \dQuote{left} or \dQuote{right}}
+  \item{dataPrecision}{the data precision used for printing interval values in the legend returned by \code{findColours}, and in the \code{print} method for classIntervals objects. If intervalClosure is \dQuote{left}, the value returned is \code{ceiling} of the data value multiplied by 10 to the dataPrecision power, divided by 10 to the dataPrecision power.}
 }
 \references{Armstrong, M. P., Xiao, N., Bennett, D. A., 2003. "Using genetic algorithms to create multicriteria class intervals for choropleth maps". Annals, Association of American Geographers, 93 (3), 595--623; 
 
