@@ -651,10 +651,10 @@ addNAemptyRowsCols = function(obj) {
 }
 
 fill.call.groups <-
-function (lst, z, ..., cuts = ifelse(colorkey, 100, 5), 
+function (lst, z, ..., cuts = ifelse(identical(FALSE, colorkey), 5, 100), 
 	#col.regions = trellis.par.get("regions")$col, 
     legendEntries = "", pch, cex = 1, do.fill = TRUE, do.log = FALSE, 
-    key.space = ifelse(colorkey, "right", "bottom"), 
+    key.space = ifelse(identical(FALSE, colorkey), "bottom", "right"), 
 	cex.key, edge.col, colorkey) 
 {
     dots = list(...)
@@ -730,7 +730,9 @@ function (lst, z, ..., cuts = ifelse(colorkey, 100, 5),
 		cex.key = mean(cex, na.rm = TRUE)
 
 	# do key:
-	if (colorkey) {
+	if (is.list(colorkey))
+		lst$legend = colorkey
+	else if (isTRUE(colorkey)) {
 		lst$legend = list(
 			right = list(
 				fun = draw.colorkey,

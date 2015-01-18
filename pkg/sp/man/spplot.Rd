@@ -74,7 +74,7 @@ e.g. \code{exp(x)~x+y|name} to plot the exponent of the z-variable}
 \item{xlim}{ numeric; x-axis limits }
 \item{ylim}{ numeric; y-axis limits }
 \item{edge.col}{ color of symbol edge }
-\item{colorkey}{ logical; if TRUE, use continuous, levelplot-like colorkey instead of symbol key}
+\item{colorkey}{ if FALSE, use symbol key; if TRUE, use continuous, levelplot-like colorkey; if list, follow syntax of argument \code{colorkey} in \link[lattice]{levelplot} (see below for an example) }
 \item{widths}{width of grob}
 \item{heights}{heights of grob}
 \item{fill}{fill color of grob}
@@ -233,6 +233,23 @@ meuse.grid$g = factor(sample(letters[1:5], 3103, replace=TRUE),levels=letters[1:
 meuse.grid$f = factor(sample(letters[6:10], 3103, replace=TRUE),levels=letters[1:10])
 spplot(meuse.grid, c("f","g"))
 spplot(meuse.grid, c("f","g"), col.regions=bpy.colors(10))
+
+# example modifying colorkey for points:
+spplot(meuse["dist"], colorkey = list(
+	right = list( # see ?levelplot in package trellis, argument colorkey:
+		fun = draw.colorkey, 
+		args = list(
+			key = list(
+				at = seq(0, 1, .1), # colour breaks
+				col = bpy.colors(11), # colours
+				labels = list(
+					at = c(0, .2, .4, .6, .8, 1), 
+					labels = c("0x", "20x", "40x", "60x", "80x", "100x")
+				)
+			)
+		)
+	)
+))
 
 }
 \keyword{dplot}
