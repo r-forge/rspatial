@@ -438,10 +438,11 @@ function (x, y, z, subscripts, at = pretty(z), shrink, labels = NULL,
 
 panel.pointsplot = function(sp.layout, x, y, subscripts, groups, col, cex,
 		pch, ...) {
-	sp.panel.layout(sp.layout, panel.number())
+	sp.panel.layout(sp.layout, panel.number(), first = TRUE)
 	#panel.superpose(x, y, subscripts, col = col, ...)
 	lpoints(x, y, fill = groups[subscripts], col = col[subscripts], 
 		cex = cex[subscripts], pch = pch[subscripts], ...)
+	sp.panel.layout(sp.layout, panel.number())
 	#panel.xyplot(x, y, pch = 21, fill = fill, ...)
 }
 
