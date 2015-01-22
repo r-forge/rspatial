@@ -18,22 +18,6 @@
 	as.matrix(bbox)
 }
 
-.checkNumericCoerce2double = function(obj) {
-	if (any(!unlist(lapply(obj, is.numeric))))
-		stop("cannot retrieve coordinates from non-numeric elements")
-	fin_check <- sapply(obj, function(x) all(is.finite(x)))
-	if (!all(fin_check))
-		stop("non-finite coordinates")
-	na_check <- sapply(obj, function(x) all(!is.na(x)))
-	if (!all(na_check))
-		stop("NA in coordinates")
-	lapply(obj, as.double)
-}
-
-setMethod("coordinates", "list", function(obj)
-		do.call(cbind, .checkNumericCoerce2double(as.data.frame(obj))))
-setMethod("coordinates", "data.frame", function(obj)
-		do.call(cbind, .checkNumericCoerce2double(obj)))
 setMethod("coordinates", "matrix", 
 	function(obj) {
 		if (!is.numeric(obj))
@@ -42,14 +26,13 @@ setMethod("coordinates", "matrix",
 			stop("NA values in coordinates")
 		if (any(!is.finite(obj)))
 			stop("non-finite coordinates")
-		dn = dimnames(obj)
-		dd = dim(obj)
 		storage.mode(obj) <- "double"
-		dim(obj) = dd
-		dimnames(obj) = dn
 		obj
 	}
 )
+setMethod("coordinates", "data.frame", function(obj)coordinates(as.matrix(obj)))
+
+setMethod("coordinates", "list", function(obj) coordinates(as.data.frame(obj)))
 
 asWKTSpatialPoints = function(x, digits = getOption("digits")) {
 	data.frame(geometry = paste("POINT(",unlist(lapply(data.frame(

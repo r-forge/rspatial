@@ -1,5 +1,5 @@
 makegrid = function(x, n = 10000, nsig = 2, cellsize, 
-		offset = rep(0.5, nrow(bb))) {
+		offset = rep(0.5, nrow(bb)), pretty = TRUE) {
 	if (is(x, "Spatial"))
 		bb = bbox(x)
 	else
@@ -11,8 +11,9 @@ makegrid = function(x, n = 10000, nsig = 2, cellsize,
 	if (length(cellsize) == 1)
 		cellsize = rep(cellsize, nrow(bb))
 	# find pretty grid coordinates:
-	nsig = max(ceiling(log10(bb[1,] / cellsize)))
-	min.coords = signif(bb[,1] + offset * cellsize, nsig)
+	min.coords = bb[,1] + offset * cellsize
+	if (pretty)
+		min.coords = signif(min.coords, max(ceiling(log10(abs(bb[1,]) / cellsize))))
 	sel = min.coords - offset * cellsize > bb[,1]
 	if (any(sel))
 		min.coords[sel] = min.coords[sel] - cellsize[sel]
