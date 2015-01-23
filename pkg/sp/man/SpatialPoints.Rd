@@ -21,8 +21,9 @@ of class \link{SpatialPoints-class} is also allowed}
 should equal the number of points in the \code{coords} object}
 \item{coords.nrs}{numeric; if present, records the column positions where
 in \code{data} the coordinates were taken from (used by \link{coordinates<-})}
-\item{match.ID}{logical; if TRUE AND coords has rownames (i.e., coerced
-to a matrix, \code{dimnames(coords)[[2]]} is not NULL), AND data has
+\item{match.ID}{logical; if TRUE AND coords has non-automatic 
+rownames (i.e., coerced to a matrix by \code{as.matrix},
+\code{dimnames(coords)[[1]]} is not \code{NULL}), AND \code{data} has
 row.names (i.e. is a data.frame), then the \code{SpatialPointsDataFrame}
 object is formed by matching the row names of both components, leaving
 the order of the coordinates in tact. Checks are done to see whether
