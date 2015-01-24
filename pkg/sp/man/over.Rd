@@ -115,7 +115,7 @@ not guaranteed.
 over methods that involve \code{SpatialLines} objects, or pairs of
 \code{SpatialPolygons} are implemented in, package rgeos.}
 
-\seealso{\link{overlay}, \link{point.in.polygon}}
+\seealso{\link{point.in.polygon}, \link[rgeos]{over}}
 \examples{
 r1 = cbind(c(180114, 180553, 181127, 181477, 181294, 181007, 180409, 
 180162, 180114), c(332349, 332057, 332342, 333250, 333558, 333676, 

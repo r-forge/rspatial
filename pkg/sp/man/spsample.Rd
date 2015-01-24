@@ -62,8 +62,9 @@ of points will have expected value \code{n}.
 
 When \code{x} is of a class deriving from \link{Spatial-class} for which
 no \link{spsample-methods} exists, sampling is done in the bounding box
-of the object, using \code{spsample.Spatial}. An \link{overlay} may be
-necessary to select afterwards. 
+of the object, using \code{spsample.Spatial}. An overlay using
+\link{over} may be necessary to select the features inside the geometry
+afterwards. 
 
 Sampling type \code{"nonaligned"} is not implemented for line objects. 
 
@@ -117,7 +118,7 @@ Geosciences 42(1), p. 49-64 }
 
 \author{Edzer Pebesma, \email{edzer.pebesma@uni-muenster.de}}
 
-\seealso{\link{overlay-methods}, \link{point.in.polygon}, \link{sample}}
+\seealso{\link{over}, \link{point.in.polygon}, \link{sample}}
 \examples{
 
 data(meuse.riv)
