@@ -49,9 +49,18 @@ row.names.SpatialGrid <- function(x) 1:prod(x@grid@cells.dim)
 setMethod("coordinates", "SpatialGrid", function(obj) coordinates(obj@grid))
 
 setMethod("plot", signature(x = "SpatialGrid", y = "missing"),
-    function(x, y, ..., grid = FALSE) {
+    function(x, y, ..., grid = TRUE) {
 		if (grid)
 			plot.SpatialGrid(x, ...)
+		else
+			plot(as(x, "SpatialPoints"), ...)
+	}
+)
+
+setMethod("plot", signature(x = "SpatialPixels", y = "missing"),
+    function(x, y, ..., grid = TRUE) {
+		if (grid)
+			plot.SpatialPixels(x, ...)
 		else
 			plot(as(x, "SpatialPoints"), ...)
 	}
@@ -122,12 +131,12 @@ getGridIndex = function(cc, grid, all.inside = TRUE) {
 	as.integer(round(idx))
 }
 
-rcFromGridIndex = function(obj) {
+rcFromGridIndex = function(obj) { # returns <x,y> entries: col,row rather than row,col
 	obj = as(obj, "SpatialPixels")
 	gi = obj@grid.index
 	grid = obj@grid
 	stopifnot(ncol(coordinates(obj)) == 2)
-	xi = (gi %% grid@cells.dim[1]) + 1
+	xi = ((gi - 1) %% grid@cells.dim[1]) + 1
 	yi = grid@cells.dim[2] - ((gi - 1) %/% grid@cells.dim[1])
 	cbind(xi,yi)
 }
@@ -302,8 +311,10 @@ setAs("SpatialGrid", "GridTopology", function(from) getGridTopology(from))
 setAs("SpatialPixels", "GridTopology", function(from) getGridTopology(from))
 
 plot.SpatialGrid = function(obj, ..., col = par("fg"), 
-		lty = par("lty"), lwd = par("lwd")) {
-  plot(as(obj, "Spatial"), ...)
+		lty = par("lty"), lwd = par("lwd"), add = FALSE) {
+
+  if (! add)
+  	plot(as(obj, "Spatial"), ...)
   gr = obj@grid
   # Don MacQueen, Feb 12 2015
   csiz <- gr@cellsize
@@ -333,4 +344,68 @@ plot.SpatialGrid = function(obj, ..., col = par("fg"),
   	col = col, lty = lty, lwd = lwd)
   segments(hfrom[,1], hfrom[,2] , hto[,1], hto[,2],
   	col = col, lty = lty, lwd = lwd)
+}
+
+plot.SpatialPixels = function(obj, ..., col = par("fg"), 
+		lty = par("lty"), lwd = par("lwd"), add = FALSE) {
+
+	# based on plot.SpatialGrid:
+	if (! add)
+		plot(as(obj, "Spatial"), ...)
+
+	gr = obj@grid
+	csiz <- gr@cellsize
+	ncells <- gr@cells.dim
+	nbounds <- ncells + 1
+
+	m = matrix(FALSE, ncells[2], ncells[1])
+	rc = rcFromGridIndex(obj)[,c(2,1)]
+	m[rc] = TRUE # the pattern
+  
+	## first get and sort the cell centers
+	cv <- coordinatevalues(gr)
+	cv[[1]] <- sort(cv[[1]])
+	cv[[2]] <- sort(cv[[2]])
+
+	## calculate cell boundaries
+	x <- c(cv[[1]][1] - csiz[1]/2,  cv[[1]] + csiz[1]/2 )
+	y <- c(cv[[2]][1] - csiz[2]/2,  cv[[2]] + csiz[2]/2 )
+  
+	# horizontal lines:
+  	lapply(1:nbounds[2], function(i) {
+			if (i == 1)
+				cells = m[1,]
+			else if (i == nbounds[2])
+				cells = m[nbounds[2]-1,]
+			else
+				cells = m[i-1,] | m[i,]
+			r = rle(cells)
+			if (any(r$values)) {
+				wr = which(r$values)
+				from = x[c(0, cumsum(r$lengths))[wr] + 1]
+				to = x[c(0, cumsum(r$lengths))[wr+1] + 1]
+				segments(from, y[i], to, y[i],
+					col = col, lty = lty, lwd = lwd)
+			}
+		}
+	)
+	# vertical lines:
+  	lapply(1:nbounds[1], function(i) {
+			if (i == 1)
+				cells = m[,1]
+			else if (i == nbounds[1])
+				cells = m[,nbounds[1]-1]
+			else
+				cells = m[,i-1] | m[,i]
+			r = rle(cells)
+			if (any(r$values)) {
+				wr = which(r$values)
+				from = y[c(0, cumsum(r$lengths))[wr]+1]
+				to = y[c(0, cumsum(r$lengths))[wr+1]+1]
+				segments(x[i], from, x[i], to,
+					col = col, lty = lty, lwd = lwd)
+			}
+		}
+	)
+	invisible(NULL)
 }

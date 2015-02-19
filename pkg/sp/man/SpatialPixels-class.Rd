@@ -8,6 +8,7 @@
 \alias{summary,SpatialPixels-method}
 \alias{coerce,SpatialPixels,data.frame-method}
 \alias{show,SpatialPixels-method}
+\alias{plot,SpatialPixels,missing-method}
 \alias{rbind.SpatialPixels}
 
 \title{Class "SpatialPixels" }
