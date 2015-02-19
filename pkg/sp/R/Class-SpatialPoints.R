@@ -1,10 +1,6 @@
 setClass("SpatialPoints",
 	contains = "Spatial", 
-	#slots = c(coords = "matrix"),
-	representation(coords = "matrix"),
-	prototype = list(bbox=matrix(NA), 
-		proj4string = CRS(as.character(NA)),
-		coords = matrix(0)),
+	slots = c(coords = "matrix"),
 	validity = function(object) {
 		if (!is.matrix(object@coords))
 			stop("coords slot is not a matrix")

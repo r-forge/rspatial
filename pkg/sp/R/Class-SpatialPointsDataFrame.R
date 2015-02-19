@@ -1,10 +1,6 @@
 setClass("SpatialPointsDataFrame",
 	contains = "SpatialPoints", 
-	#slots = c(data = "data.frame", coords.nrs = "numeric"),
-	representation(data = "data.frame", coords.nrs = "numeric"),
-	prototype = list(bbox = matrix(NA), proj4string = CRS(as.character(NA)),
-		coords = matrix(NA), data = data.frame(), 
-		coords.nrs = numeric(0)),
+	slots = c(data = "data.frame", coords.nrs = "numeric"),
 	validity = function(object) {
 		if (nrow(object@coords) < 1)
 			stop("no points set: too few rows")

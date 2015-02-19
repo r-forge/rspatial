@@ -49,7 +49,13 @@ row.names.SpatialGrid <- function(x) 1:prod(x@grid@cells.dim)
 setMethod("coordinates", "SpatialGrid", function(obj) coordinates(obj@grid))
 
 setMethod("plot", signature(x = "SpatialGrid", y = "missing"),
-    function(x,y,...) plot(as(x, "SpatialPoints"),...))
+    function(x, y, ..., grid = FALSE) {
+		if (grid)
+			plot.SpatialGrid(x, ...)
+		else
+			plot(as(x, "SpatialPoints"), ...)
+	}
+)
 
 coordnamesSG = function(x, value) {
 	dimnames(x@bbox)[[1]] = value
@@ -294,3 +300,37 @@ setReplaceMethod("coordnames", signature(x = "SpatialGrid",
 
 setAs("SpatialGrid", "GridTopology", function(from) getGridTopology(from))
 setAs("SpatialPixels", "GridTopology", function(from) getGridTopology(from))
+
+plot.SpatialGrid = function(obj, ..., col = par("fg"), 
+		lty = par("lty"), lwd = par("lwd")) {
+  plot(as(obj, "Spatial"), ...)
+  gr = obj@grid
+  # Don MacQueen, Feb 12 2015
+  csiz <- gr@cellsize
+  ncells <- gr@cells.dim
+  nbounds <- ncells+1
+  
+  ## first get and sort the cell centers
+  cv <- coordinatevalues(gr)
+  cv[[1]] <- sort(cv[[1]])
+  cv[[2]] <- sort(cv[[2]])
+
+  ## calculate cell boundaries
+  cv[[1]] <- c(cv[[1]][1] - csiz[1]/2,  cv[[1]] + csiz[1]/2 )
+  cv[[2]] <- c(cv[[2]][1] - csiz[2]/2,  cv[[2]] + csiz[2]/2 )
+  
+  ## construct endpoints of cell boundary lines
+  ## vertical lines
+  vfrom <- cbind(cv[[1]], cv[[2]][1])
+  vto   <- cbind(cv[[1]], cv[[2]][nbounds[2]])
+
+  ## horizontal lines
+  hfrom <- cbind(cv[[1]][1], cv[[2]])
+  hto   <- cbind(cv[[1]][nbounds[1]], cv[[2]])
+    
+  ## add to plot
+  segments(vfrom[,1], vfrom[,2] , vto[,1], vto[,2], 
+  	col = col, lty = lty, lwd = lwd)
+  segments(hfrom[,1], hfrom[,2] , hto[,1], hto[,2],
+  	col = col, lty = lty, lwd = lwd)
+}

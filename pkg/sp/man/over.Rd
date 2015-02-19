@@ -112,10 +112,11 @@ These methods assume that pixels and grid cells are never
 overlapping; for objects of class \code{SpatialPixels} this is
 not guaranteed.
 
-over methods that involve \code{SpatialLines} objects, or pairs of
-\code{SpatialPolygons} are implemented in, package rgeos.}
+\code{over} methods that involve \code{SpatialLines} objects, or
+pairs of \code{SpatialPolygons} are provided by package \code{rgeos},
+and use \link[rgeos]{gIntersects}.}
 
-\seealso{\link{point.in.polygon}, \link[rgeos]{over}}
+\seealso{\link{point.in.polygon}, package \link[rgeos]{gIntersects}}
 \examples{
 r1 = cbind(c(180114, 180553, 181127, 181477, 181294, 181007, 180409, 
 180162, 180114), c(332349, 332057, 332342, 333250, 333558, 333676, 
