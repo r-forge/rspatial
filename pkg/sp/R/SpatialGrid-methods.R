@@ -372,7 +372,7 @@ plot.SpatialPixels = function(obj, ..., col = par("fg"),
 	y <- c(cv[[2]][1] - csiz[2]/2,  cv[[2]] + csiz[2]/2 )
   
 	# horizontal lines:
-  	lapply(1:nbounds[2], function(i) {
+  	h = do.call(rbind, lapply(1:nbounds[2], function(i) {
 			if (i == 1)
 				cells = m[1,]
 			else if (i == nbounds[2])
@@ -382,15 +382,14 @@ plot.SpatialPixels = function(obj, ..., col = par("fg"),
 			r = rle(cells)
 			if (any(r$values)) {
 				wr = which(r$values)
-				from = x[c(0, cumsum(r$lengths))[wr] + 1]
-				to = x[c(0, cumsum(r$lengths))[wr+1] + 1]
-				segments(from, y[i], to, y[i],
-					col = col, lty = lty, lwd = lwd)
+				cbind(x[c(0, cumsum(r$lengths))[wr] + 1], y[i], 
+					x[c(0, cumsum(r$lengths))[wr+1] + 1], y[i])
 			}
 		}
-	)
+	))
+	segments(h[,1], h[,2], h[,3], h[,4], col = col, lty = lty, lwd = lwd)
 	# vertical lines:
-  	lapply(1:nbounds[1], function(i) {
+  	v = do.call(rbind, lapply(1:nbounds[1], function(i) {
 			if (i == 1)
 				cells = m[,1]
 			else if (i == nbounds[1])
@@ -400,12 +399,10 @@ plot.SpatialPixels = function(obj, ..., col = par("fg"),
 			r = rle(cells)
 			if (any(r$values)) {
 				wr = which(r$values)
-				from = y[c(0, cumsum(r$lengths))[wr]+1]
-				to = y[c(0, cumsum(r$lengths))[wr+1]+1]
-				segments(x[i], from, x[i], to,
-					col = col, lty = lty, lwd = lwd)
+				cbind(x[i], y[c(0, cumsum(r$lengths))[wr]+1], 
+					x[i], y[c(0, cumsum(r$lengths))[wr+1]+1])
 			}
 		}
-	)
-	invisible(NULL)
+	))
+	segments(v[,1], v[,2], v[,3], v[,4], col = col, lty = lty, lwd = lwd)
 }

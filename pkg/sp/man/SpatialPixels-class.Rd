@@ -59,6 +59,7 @@ y = SpatialPixels(SpatialPoints(pts))
 class(y)
 y
 summary(y)
-plot(y)
+plot(y) # plots grid
+plot(y, grid = FALSE) # plots points
 }
 \keyword{classes}
