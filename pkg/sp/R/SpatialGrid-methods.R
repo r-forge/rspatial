@@ -372,37 +372,37 @@ plot.SpatialPixels = function(obj, ..., col = par("fg"),
 	y <- c(cv[[2]][1] - csiz[2]/2,  cv[[2]] + csiz[2]/2 )
   
 	# horizontal lines:
-  	h = do.call(rbind, lapply(1:nbounds[2], function(i) {
-			if (i == 1)
+  	p = do.call(rbind, lapply(1:nbounds[2], function(i) {
+			if (i == 1) # bottom line
 				cells = m[1,]
-			else if (i == nbounds[2])
+			else if (i == nbounds[2]) # top line
 				cells = m[nbounds[2]-1,]
-			else
+			else # in-between, draw for:
 				cells = m[i-1,] | m[i,]
-			r = rle(cells)
+			r = rle(cells) # figure out line pieces
 			if (any(r$values)) {
-				wr = which(r$values)
-				cbind(x[c(0, cumsum(r$lengths))[wr] + 1], y[i], 
-					x[c(0, cumsum(r$lengths))[wr+1] + 1], y[i])
+				wr = which(r$values) # where to draw/end
+				cs0 = c(0, cumsum(r$lengths)) # all start/end indices
+				cbind(x[cs0[wr] + 1], y[i], x[cs0[wr+1] + 1], y[i])
 			}
 		}
 	))
-	segments(h[,1], h[,2], h[,3], h[,4], col = col, lty = lty, lwd = lwd)
+	segments(p[,1], p[,2], p[,3], p[,4], col = col, lty = lty, lwd = lwd)
 	# vertical lines:
-  	v = do.call(rbind, lapply(1:nbounds[1], function(i) {
-			if (i == 1)
+  	p = do.call(rbind, lapply(1:nbounds[1], function(i) {
+			if (i == 1) # left boundary
 				cells = m[,1]
-			else if (i == nbounds[1])
+			else if (i == nbounds[1]) # right boundary
 				cells = m[,nbounds[1]-1]
-			else
+			else # non-boundary lines, draw for:
 				cells = m[,i-1] | m[,i]
 			r = rle(cells)
 			if (any(r$values)) {
 				wr = which(r$values)
-				cbind(x[i], y[c(0, cumsum(r$lengths))[wr]+1], 
-					x[i], y[c(0, cumsum(r$lengths))[wr+1]+1])
+				cs0 = c(0, cumsum(r$lengths))
+				cbind(x[i], y[cs0[wr]+1], x[i], y[cs0[wr+1]+1])
 			}
 		}
 	))
-	segments(v[,1], v[,2], v[,3], v[,4], col = col, lty = lty, lwd = lwd)
+	segments(p[,1], p[,2], p[,3], p[,4], col = col, lty = lty, lwd = lwd)
 }
