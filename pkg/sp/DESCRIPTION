@@ -1,16 +1,16 @@
 Package: sp
 Version: 1.0-18
-Date: 2015-02-16
+Date: 2015-02-26
 Title: Classes and Methods for Spatial Data
 Authors@R: c(person("Edzer", "Pebesma", role = c("aut", "cre"),
-                    email = "edzer.pebesma@uni-muenster.de"),
-            person("Roger", "Bivand", role = "aut",
-                    email = "Roger.Bivand@nhh.no"),
-	    person("Barry", "Rowlingson", role = "ctb"),
-	    person("Virgilio", "Gomez-Rubio", role = "ctb"),
-	    person("Robert", "Hijmans", role = "ctb"),
-            person("Michael", "Sumner", role = "ctb"),
-            person("Don", "MacQueen", role = "ctb"))
+				email = "edzer.pebesma@uni-muenster.de"),
+			person("Roger", "Bivand", role = "aut",
+            	email = "Roger.Bivand@nhh.no"),
+			person("Barry", "Rowlingson", role = "ctb"),
+			person("Virgilio", "Gomez-Rubio", role = "ctb"),
+			person("Robert", "Hijmans", role = "ctb"),
+			person("Michael", "Sumner", role = "ctb"),
+			person("Don", "MacQueen", role = "ctb"))
 Depends: R (>= 3.0.0)
 Imports: methods, graphics, utils, lattice, grid
 Suggests: RColorBrewer, rgdal (>= 0.8-7), rgeos (>= 0.2-20), gstat
@@ -34,7 +34,7 @@ Collate: bpy.colors.R AAA.R Class-CRS.R CRS-methods.R
 	SpatialGridDataFrame-methods.R SpatialPolygons-internals.R
 	point.in.polygon.R SpatialPolygons-displayMethods.R
 	zerodist.R image.R stack.R bubble.R mapasp.R select.spatial.R
-	gridded.R asciigrid.R spplot.R over.R overlay.R spsample.R
+	gridded.R asciigrid.R spplot.R over.R spsample.R
 	recenter.R dms.R gridlines.R spdists.R rbind.R flipSGDF.R
 	chfids.R loadmeuse.R compassRose.R surfaceArea.R spOptions.R
 	subset.R disaggregate.R sp_spat1.R merge.R aggregate.R
