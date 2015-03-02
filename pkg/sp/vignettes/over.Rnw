@@ -222,7 +222,7 @@ over(pol, ptsdf)
 over(pol, ptsdf[1:2], fn = mean)
 @
 
-\section{Lines, and Polygon-Polygon overlays with {\tt rgeos}}
+\section{Lines, and Polygon-Polygon overlays require {\tt rgeos}}
 
 Package \code{sp} provides many of the \code{over} methods, but
 not all.  Package \code{rgeos} provides functions to compute
