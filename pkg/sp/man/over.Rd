@@ -27,6 +27,7 @@
 \alias{over,SpatialGrid,SpatialPixels-method}
 \alias{over,SpatialGrid,SpatialPixelsDataFrame-method}
 \alias{over,SpatialGrid,SpatialPointsDataFrame-method}
+\alias{over,Spatial,Spatial-method}
 \alias{overDF_for_rgeos}
 
 \title{ consistent spatial overlay for points, grids and polygons }
@@ -113,7 +114,7 @@ overlapping; for objects of class \code{SpatialPixels} this is
 not guaranteed.
 
 \code{over} methods that involve \code{SpatialLines} objects, or
-pairs of \code{SpatialPolygons} are provided by package \code{rgeos},
+pairs of \code{SpatialPolygons} require package \code{rgeos},
 and use \link[rgeos]{gIntersects}.}
 
 \seealso{\link{point.in.polygon}, package \link[rgeos]{gIntersects}}
