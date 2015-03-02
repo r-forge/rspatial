@@ -1,6 +1,6 @@
 
-R version 3.0.1 (2013-05-16) -- "Good Sport"
-Copyright (C) 2013 The R Foundation for Statistical Computing
+R version 3.1.2 (2014-10-31) -- "Pumpkin Helmet"
+Copyright (C) 2014 The R Foundation for Statistical Computing
 Platform: x86_64-pc-linux-gnu (64-bit)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
@@ -204,10 +204,10 @@ y         50.955770 0.0003318105       112
 Error in CRS("+proj=latlon") : 
   northings must follow eastings: +proj=latlon
 > try(CRS("+proj=lonlat"))
-CRS arguments: +proj=longlat 
+CRS arguments: +proj=longlat +ellps=WGS84 
 Warning message:
 In CRS("+proj=lonlat") : 'lonlat' changed to 'longlat': +proj=longlat
 > 
 > proc.time()
    user  system elapsed 
-  0.876   0.036   0.906 
+  0.755   0.042   0.783 

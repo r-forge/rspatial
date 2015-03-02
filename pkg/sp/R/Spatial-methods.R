@@ -86,10 +86,17 @@ if (!isGeneric("split"))
 if (!isGeneric("spTransform"))
 	setGeneric("spTransform", function(x, CRSobj, ...)
 		standardGeneric("spTransform"))
-setMethod("spTransform", signature("ANY", "CRS"), 
-	function(x, CRSobj, ...) stop("load package rgdal for spTransform methods")
+setMethod("spTransform", signature("Spatial", "CRS"), 
+	function(x, CRSobj, ...) {
+    	if (!requireNamespace("rgdal", quietly = TRUE))
+			stop("package rgdal is required for spTransform methods")
+		spTransform(x, CRSobj, ...) # calls the rgdal methods
+	}
 )
-setMethod("spTransform", signature("ANY", "ANY"), 
+setMethod("spTransform", signature("Spatial", "character"), 
+	function(x, CRSobj, ...) spTransform(x, CRS(CRSobj), ...)
+)
+setMethod("spTransform", signature("Spatial", "ANY"), 
 	function(x, CRSobj, ...) stop("second argument needs to be of class CRS")
 )
 
