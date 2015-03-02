@@ -48,6 +48,9 @@ are never to be generated; only derived classes can be meaningful }
 	for spatial objects; does nothing but setting up a plotting region choosing
 	a suitable aspect if not given(see below), colouring the plot background using either a bg= argument or par("bg"), and possibly drawing axes.  }
 	\item{summary}{\code{signature(object = "Spatial")}: summarize object}
+	\item{\code{$}}{ retrieves attribute column }
+	\item{\code{$<-}}{ sets or replaces attribute column, or promote a
+	geometry-only object to an object having an attribute }
   }
 }
 
