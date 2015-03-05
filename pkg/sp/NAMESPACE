@@ -69,7 +69,6 @@ export(
 	SpatialLines,
 	SpatialLinesDataFrame,
 	as.SpatialLines.SLDF,
-	gridat,
 	LineLength,
 	LinesLength,
 	SpatialLinesLengths,
