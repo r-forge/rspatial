@@ -2,25 +2,23 @@
 		proj4string = CRS(as.character(NA)), match.ID, bbox = NULL) {
 
 	if (!is(coords, "SpatialPoints"))
-		coords = coordinates(coords) # make sure data.frame becomes double matrix; NA checks
+		coords = coordinates(coords) 
+		# make sure data.frame becomes double matrix; NA checks
 	mtch = NULL
 	cc.ID = dimnames(coords)[[1]]
-	if (missing(match.ID)) { # sort it out!
+	if (missing(match.ID)) { # sort it out:
 		if (is.null(cc.ID))
 			match.ID = FALSE # nothing to match to!
 		else {
 			mtch = match(cc.ID, row.names(data))
-			match.ID = !any(is.na(mtch))
-			if (match.ID && mtch != 1:nrow(data))
+			match.ID = !any(is.na(mtch)) # && length(unique(mtch)) == nrow(data)
+			if (match.ID && any(mtch != 1:nrow(data)))
 				warning("forming a SpatialPointsDataFrame based on maching IDs, not on record order. Use match.ID = FALSE to match on record order")
 		}
 	} else if (is.character(match.ID)) {
         row.names(data) = data[, match.ID[1]]
         match.ID = TRUE
-    }
-
-	else if (match.ID && length(unique(cc.ID)) != nrow(data))
-		stop("nr of unique coords ID's (rownames) not equal to nr of data records")
+    } 
 
 	if (match.ID) {
 		if (!is.null(cc.ID) && is(data, "data.frame")) { # match ID:

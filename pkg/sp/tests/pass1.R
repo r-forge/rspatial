@@ -135,4 +135,20 @@ df$m = letters[5:1]
 SpatialPointsDataFrame(pts, df, match.ID = "m") # don't warn
 
 dimnames(pts)[[1]] = letters[5:1]
+pts
 SpatialPointsDataFrame(pts, df) # don't warn: match doesn't reorder
+
+# duplicated row name:
+dimnames(pts)[[1]] = letters[c(1:4,1)]
+pts
+xx = try(x <- SpatialPointsDataFrame(pts, df))
+class(xx)
+xx
+SpatialPointsDataFrame(pts, df, match.ID = FALSE)
+try(x <- SpatialPointsDataFrame(pts, df, match.ID = TRUE)) # fail
+
+dimnames(pts)[[1]] = letters[5:1]
+row.names(df) = letters[6:2] # non-matching row.names
+SpatialPointsDataFrame(pts, df) # do not match.ID
+SpatialPointsDataFrame(pts, df, match.ID = FALSE)
+try(x <- SpatialPointsDataFrame(pts, df, match.ID = TRUE)) # fail
