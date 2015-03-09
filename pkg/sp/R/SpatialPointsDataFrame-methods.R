@@ -1,22 +1,31 @@
 "SpatialPointsDataFrame" = function(coords, data, coords.nrs = numeric(0), 
-		proj4string = CRS(as.character(NA)), # match.ID = FALSE,
-		match.ID = !(is(coords, "data.frame")), 
-		bbox = NULL) {
-    if (is.character(match.ID)) {
+		proj4string = CRS(as.character(NA)), match.ID, bbox = NULL) {
+
+	if (!is(coords, "SpatialPoints"))
+		coords = coordinates(coords) # make sure data.frame becomes double matrix; NA checks
+	mtch = NULL
+	cc.ID = dimnames(coords)[[1]]
+	if (missing(match.ID)) { # sort it out!
+		if (is.null(cc.ID))
+			match.ID = FALSE # nothing to match to!
+		else {
+			mtch = match(cc.ID, row.names(data))
+			match.ID = !any(is.na(mtch))
+			if (match.ID && mtch != 1:nrow(data))
+				warning("forming a SpatialPointsDataFrame based on maching IDs, not on record order. Use match.ID = FALSE to match on record order")
+		}
+	} else if (is.character(match.ID)) {
         row.names(data) = data[, match.ID[1]]
         match.ID = TRUE
     }
-	if (!is(coords, "SpatialPoints"))
-		coords = coordinates(coords)
-	cc.ID = dimnames(coords)[[1]]
-	if (is.null(cc.ID))
-		match.ID = FALSE # nothing to match to!
+
 	else if (match.ID && length(unique(cc.ID)) != nrow(data))
 		stop("nr of unique coords ID's (rownames) not equal to nr of data records")
+
 	if (match.ID) {
 		if (!is.null(cc.ID) && is(data, "data.frame")) { # match ID:
-			data.ID = row.names(data)
-			mtch = match(cc.ID, data.ID)
+			if (is.null(mtch))
+				mtch = match(cc.ID, row.names(data))
 			if (any(is.na(mtch)))
 				stop("row.names of data and coords do not match")
 			if (length(unique(mtch)) != nrow(data))
