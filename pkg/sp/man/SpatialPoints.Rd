@@ -8,8 +8,8 @@ coordinates, and from coordinates and \code{data.frame}s}
 \usage{ 
 SpatialPoints(coords, proj4string=CRS(as.character(NA)), bbox = NULL)
 SpatialPointsDataFrame(coords, data, coords.nrs = numeric(0), 
-      proj4string = CRS(as.character(NA)), match.ID = TRUE, bbox = NULL)
-
+      proj4string = CRS(as.character(NA)), 
+	  match.ID = !(is(coords, "data.frame")), bbox = NULL)
 }
 \arguments{
 \item{coords}{numeric matrix or data.frame with coordinates 

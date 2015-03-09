@@ -1,6 +1,6 @@
 "SpatialPointsDataFrame" = function(coords, data, coords.nrs = numeric(0), 
-		proj4string = CRS(as.character(NA)), match.ID = FALSE,
-		# match.ID = !(is(coords, "data.frame")), 
+		proj4string = CRS(as.character(NA)), # match.ID = FALSE,
+		match.ID = !(is(coords, "data.frame")), 
 		bbox = NULL) {
     if (is.character(match.ID)) {
         row.names(data) = data[, match.ID[1]]
