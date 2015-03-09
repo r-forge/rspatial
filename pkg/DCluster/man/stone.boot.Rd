@@ -56,15 +56,18 @@ st.perboot<-boot(sids, statistic=stone.boot, R=niter, region=78)
 plot(st.perboot)#Display results
 
 #Multinomial model
-st.mboot<-boot(sids, statistic=stone.pboot, sim="parametric", ran.gen=multinom.sim,  R=niter, region=78)
+st.mboot<-boot(sids, statistic=stone.pboot, sim="parametric",
+  ran.gen=multinom.sim,  R=niter, region=78)
 plot(st.mboot)#Display results
 
 #Poisson model
-st.pboot<-boot(sids, statistic=stone.pboot, sim="parametric", ran.gen=poisson.sim,  R=niter, region=78)
+st.pboot<-boot(sids, statistic=stone.pboot, sim="parametric",
+  ran.gen=poisson.sim,  R=niter, region=78)
 plot(st.pboot)#Display results
 
 #Poisson-Gamma model
-st.pgboot<-boot(sids, statistic=stone.pboot, sim="parametric", ran.gen=negbin.sim, R=niter, region=78)
+st.pgboot<-boot(sids, statistic=stone.pboot, sim="parametric",
+  ran.gen=negbin.sim, R=niter, region=78)
 plot(st.pgboot)#Display results
 
 
