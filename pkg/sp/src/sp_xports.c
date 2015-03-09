@@ -389,7 +389,10 @@ SEXP SP_PREFIX(bboxCalcR_c)(SEXP pls) {
     double x, y;
 
     npls = length(pls);
-    for (i=0; i<npls; i++) {
+	if (npls == 0) { /* EJP: this makes a zero-length object at least pass further sanity checks */
+		UX = UY = DBL_MAX;
+		LX = LY = -DBL_MAX;
+	} else for (i=0; i<npls; i++) {
         Pl = GET_SLOT(VECTOR_ELT(pls, i), install("Polygons"));
         npl = length(Pl);
         for (j=0; j<npl; j++) {

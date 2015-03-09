@@ -1,5 +1,5 @@
 "SpatialPoints" = function(coords, proj4string = CRS(as.character(NA)),
-        bbox=NULL) {
+        bbox = NULL) {
 	coords = coordinates(coords) # checks numeric mode
 	colNames = dimnames(coords)[[2]]
 	if (is.null(colNames))
@@ -13,6 +13,7 @@
 }
 
 .bboxCoords = function(coords) {
+	stopifnot(nrow(coords) > 0)
 	bbox = t(apply(coords, 2, range))
 	dimnames(bbox)[[2]] = c("min", "max")
 	as.matrix(bbox)
@@ -22,11 +23,11 @@ setMethod("coordinates", "matrix",
 	function(obj) {
 		if (!is.numeric(obj))
 			stop("cannot derive coordinates from non-numeric matrix")
+		storage.mode(obj) <- "double"
 		if (any(is.na(obj)))
 			stop("NA values in coordinates")
 		if (any(!is.finite(obj)))
 			stop("non-finite coordinates")
-		storage.mode(obj) <- "double"
 		obj
 	}
 )
@@ -98,7 +99,7 @@ setMethod("[", "SpatialPoints", function(x, i, j, ..., drop = TRUE) {
 	if (any(is.na(i)))
 		stop("NAs not permitted in row index")
 	x@coords = x@coords[i, , drop = FALSE]
-	if (drop)
+	if (drop && nrow(x@coords))
 		x@bbox = .bboxCoords(x@coords)
 	x
 })

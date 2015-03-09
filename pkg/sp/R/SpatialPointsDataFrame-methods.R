@@ -1,6 +1,7 @@
 "SpatialPointsDataFrame" = function(coords, data, coords.nrs = numeric(0), 
-		proj4string = CRS(as.character(NA)), match.ID = TRUE,
-                bbox=NULL) {
+		proj4string = CRS(as.character(NA)), match.ID = FALSE,
+		# match.ID = !(is(coords, "data.frame")), 
+		bbox = NULL) {
     if (is.character(match.ID)) {
         row.names(data) = data[, match.ID[1]]
         match.ID = TRUE
@@ -24,8 +25,7 @@
 		}
 	}
 	if (!is(coords, "SpatialPoints"))
-		coords = SpatialPoints(coords, proj4string = proj4string, 
-			bbox=bbox)
+		coords = SpatialPoints(coords, proj4string = proj4string, bbox = bbox)
 	# EJP, Tue Aug 13 19:54:04 CEST 2013
 	if (is.character(attr(data, "row.names"))) # i.e., data has "real" row names
 		dimnames(coords@coords)[[1]] = row.names(data)
@@ -177,7 +177,8 @@ setMethod("[", "SpatialPointsDataFrame", function(x, i, j, ..., drop = TRUE) {
 	if (!isTRUE(j)) # i.e., we do some sort of column selection
 		x@coords.nrs = numeric(0) # will move coordinate colums last
 	x@coords = x@coords[i, , drop = FALSE]
-	x@bbox = .bboxCoords(x@coords)
+	if (nrow(x@coords))
+		x@bbox = .bboxCoords(x@coords)
 	x@data = x@data[i, j, ..., drop = FALSE]
 	x
 })
