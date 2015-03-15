@@ -45,18 +45,26 @@ sp.polygons = function(obj, col = 1, fill="transparent", ...) {
 	}
 }
 
-sp.lines = function(obj, col = 1, ...) {
+sp.lines <- function (obj, col = 1, ...) {
 	if (is.character(obj))
 		obj = get(obj)
 	sp.lines3 = function(x, col, ...) panel.lines(coordinates(x), col = col, ...)
 	sp.lines2 = function(x, col, ...) lapply(x@Lines, sp.lines3, col = col, ...)
-	if (is(obj, "SpatialLines"))
-		lapply(obj@lines, sp.lines2, col = col, ...)
-	else if (is(obj, "Lines"))
+    ## START modified code, contributed by Josh O'Brien, Mar 15, 2015
+	if (is(obj, "SpatialLines")) {
+		if (length(col) > 1) {
+			lo <- length(obj@lines)
+			col <- rep(col, length.out = lo)
+			lapply(seq_len(lo), function(ii) 
+				sp.lines2(obj@lines[[ii]], col = col[ii], ...))
+		} else
+			lapply(obj@lines, sp.lines2, col = col, ...)
+	} else if (is(obj, "Lines"))
 		lapply(obj@Lines, sp.lines3, col = col, ...)
 	else if (is(obj, "Line"))
 		panel.lines(coordinates(obj), col = col, ...)
-	else stop(paste("obj of class Line, Lines or SpatialLines expected, got", class(obj)))
+	else stop(paste("obj of class Line, Lines or SpatialLines expected, got",
+		class(obj)))
 }
 
 sp.points = function(obj, pch = 3, ...) {
@@ -93,17 +101,13 @@ sp.text = function(loc, txt, ...) {
 		panel.text(loc[,1], loc[,2], txt, ...)
 	else
 		stop("loc and txt have non-matching dimensions")
-	#panel.text(loc[[1]], loc[[2]], txt, ...)
 }
 
 sp.panel.layout = function(lst, p.number, ...) {
 	sp.panel0 = function(x, first = FALSE, ...) {
-		if (is.character(x))
-#			obj = get(x)
-			x = get(x)
-		if (!is.null(x$which) && is.na(match(p.number, x$which)))
-			return()
 		if (inherits(x, "list")) {
+			if (!is.null(x$which) && is.na(match(p.number, x$which)))
+				return()
 			# print(paste(class(x), "first val", first, "first obj", x$first))
 			if (!is.null(x$first)) {
 				if (x$first == first)
