@@ -15,6 +15,18 @@
 \alias{spplot,SpatialPolygonsDataFrame-method}
 \alias{spplot,SpatialLinesDataFrame-method}
 \alias{spplot,SpatialPointsDataFrame-method}
+\alias{sppanel}
+\alias{sppanel,Line-method}
+\alias{sppanel,Lines-method}
+\alias{sppanel,NULL-method}
+\alias{sppanel,SpatialGrid-method}
+\alias{sppanel,SpatialLines-method}
+\alias{sppanel,SpatialPixels-method}
+\alias{sppanel,SpatialPoints-method}
+\alias{sppanel,SpatialPolygons-method}
+\alias{sppanel,character-method}
+\alias{sppanel,list-method}
+\alias{sppanel-methods}
 \alias{set_col_regions}
 \alias{get_col_regions}
 
@@ -153,31 +165,35 @@ else use a linear scale if \code{cuts} is only number of cuts }
 to set a north arrow or scale bar.
 
 The \code{sp.layout} argument is either a single layout item, or a list
-with one or more layout items. A layout item is a list with its first argument
+with one or more layout items. A layout item is one of
+\itemize{
+\item{a list with one or more \code{Spatial*} objects, along with
+style arguments like \code{col}, \code{lty}, \code{pch}, \code{fill} etc.}
+\item{a list with its first argument
 the name of the layout function to be called: \code{sp.points} for
 SpatialPoints, \code{sp.polygons} for SpatialPolygons object, \code{sp.lines}
 for a SpatialLines object, and \code{sp.text} for text to place. The
 second argument contains the object (or text) to be plotted; remaining
-arguments are passed to the corresponding \code{panel.*} functions.
+arguments are passed to the corresponding \code{panel.*} functions.}}
 
 The order of items in \code{sp.layout} matters; objects are drawn in
-the order they appear. Plot order and prevalence of sp.layout items:
-for points and lines, sp.layout items are drawn before the points
-(to allow for grids and polygons); for grids and polygons sp.layout
-is drawn afterwards (so the item will not be overdrawn by the grid
-and/or polygon). Transparency may further help when combining things.
+the order they appear. Plot order and prevalence of \code{sp.layout} items:
+for points and lines, \code{sp.layout} items are drawn before the points
+(to allow for grids and polygons); for grids and polygons \code{sp.layout}
+is drawn afterwards (so that \code{obj} will not be overdrawn by the grid
+and/or polygon). Transparency may further help making multiple things visible.
 
 Items of the \code{sp.layout} list, or its elements, can be:
 \describe{
 \item{\code{which}}{integer; controls to which panel a layout
 item should be added. If \code{which} is present in the main,
 top-level list it applies to all layout items; in sub-lists with
-layout items it denotes the (set of) panels in which the layout
+layout items it denotes the (set of) panel(s) in which the layout
 item should be drawn.  Without a \code{which} item, layout items
 are drawn in each panel.}
 \item{\code{first}}{logical; should the layout item be drawn before
-the main spplot object (TRUE), or after (FALSE)? This overrides
-the default order.}
+the \code{obj} (TRUE), or after (FALSE)? This overrides
+the default order described above.}
 }
 
 \code{sp.theme} returns a lattice theme; use, after loading package

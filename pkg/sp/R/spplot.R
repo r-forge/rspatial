@@ -1,4 +1,5 @@
-sp.polygons = function(obj, col = 1, fill="transparent", ...) {
+setMethod("sppanel", "SpatialPolygons",
+  function(obj, col = 1, fill = "transparent", ...) {
 	if (is.character(obj))
 		obj = get(obj)
 	if (!is(obj, "SpatialPolygons"))
@@ -43,41 +44,36 @@ sp.polygons = function(obj, col = 1, fill="transparent", ...) {
 				sp.polygon3(Srs[[j]], col = col, fill = fill[i], ...)
 		}
 	}
-}
+})
 
-sp.lines <- function (obj, col = 1, ...) {
-	if (is.character(obj))
-		obj = get(obj)
-	sp.lines3 = function(x, col, ...) panel.lines(coordinates(x), col = col, ...)
-	sp.lines2 = function(x, col, ...) lapply(x@Lines, sp.lines3, col = col, ...)
-    ## START modified code, contributed by Josh O'Brien, Mar 15, 2015
-	if (is(obj, "SpatialLines")) {
-		if (length(col) > 1) {
-			lo <- length(obj@lines)
-			col <- rep(col, length.out = lo)
-			lapply(seq_len(lo), function(ii) 
-				sp.lines2(obj@lines[[ii]], col = col[ii], ...))
-		} else
-			lapply(obj@lines, sp.lines2, col = col, ...)
-	} else if (is(obj, "Lines"))
-		lapply(obj@Lines, sp.lines3, col = col, ...)
-	else if (is(obj, "Line"))
-		panel.lines(coordinates(obj), col = col, ...)
-	else stop(paste("obj of class Line, Lines or SpatialLines expected, got",
-		class(obj)))
-}
+# backward compatibility:
+sp.polygons = function(obj,col=1,fill="transparent",...) sppanel(obj,col=col,fill=fill,...)
 
-sp.points = function(obj, pch = 3, ...) {
-	if (is.character(obj))
-		obj = get(obj)
-	xy = coordinates(obj)
-	panel.points(xy[,1], xy[,2], pch = pch, ...)
-}
+setMethod("sppanel", "SpatialLines", 
+  function (obj, col = 1, ...) {
+    ## contributed by Josh O'Brien, Mar 15, 2015
+	lo <- length(obj@lines)
+	col <- rep(col, length.out = lo)
+	lapply(seq_len(lo), function(ii) sppanel(obj@lines[[ii]], col = col[ii], ...))
+})
+
+setMethod("sppanel", "Lines",
+  function (obj, col = 1, ...) lapply(obj@Lines, sppanel, col = col, ...))
+
+setMethod("sppanel", "Line",
+  function (obj, col = 1, ...) panel.lines(coordinates(obj), col = col, ...))
+
+# backward compatibility:
+sp.lines = function(obj, col = 1,...) sppanel(obj,col=col,...)
+
+setMethod("sppanel", "SpatialPoints",
+	function(obj, pch = 3, ...)
+		panel.points(coordinates(obj)[,1], coordinates(obj)[,2], pch = pch, ...))
+# backward compatibility:
+sp.points = function(obj,pch=3,...) sppanel(obj,pch=pch,...)
 
 sp.grid = function(obj, col = 1, alpha = 1, ..., at = pretty(obj[[1]]),
 		col.regions = col) {
-	if (is.character(obj))
-		obj = get(obj)
 	xy = coordinates(obj)
 	if (length(col) > 1 && ("data" %in% slotNames(obj))) {
 		z = obj[[1]]
@@ -91,10 +87,12 @@ sp.grid = function(obj, col = 1, alpha = 1, ..., at = pretty(obj[[1]]),
 		height = gt$cellsize[2], default.units = "native",
 		gp = gpar(fill = col, col = NA, alpha = alpha))
 }
+setMethod("sppanel", "SpatialPixels", sp.grid)
+setMethod("sppanel", "SpatialGrid", sp.grid)
 
 sp.text = function(loc, txt, ...) {
 	if (!is.numeric(loc))
-		stop("loc should be numeric")
+		stop("loc (first argument) should be numeric, indicating text locations")
 	if (length(loc) == 2)
 		panel.text(loc[1], loc[2], txt, ...)
 	else if (is.matrix(loc) && ncol(loc) == 2 && nrow(loc) == length(txt))
@@ -102,8 +100,9 @@ sp.text = function(loc, txt, ...) {
 	else
 		stop("loc and txt have non-matching dimensions")
 }
+setMethod("sppanel", "character", function(obj,txt, ...) sp.text(obj, txt, ...))
 
-sp.panel.layout = function(lst, p.number, ...) {
+sp.panel.layout = function(lst, p.number, ...) { # now obsolete...
 	sp.panel0 = function(x, first = FALSE, ...) {
 		if (inherits(x, "list")) {
 			if (!is.null(x$which) && is.na(match(p.number, x$which)))
@@ -114,15 +113,7 @@ sp.panel.layout = function(lst, p.number, ...) {
 					do.call(x[[1]], x[2:length(x)])
 			} else if (!first)
 				do.call(x[[1]], x[2:length(x)])
-		} else if (is(x, "SpatialLines") || is(x, "Lines") || is(x, "Line"))
-			sp.lines(x, ...)
-		else if (is(x, "SpatialPoints"))
-			sp.points(as(x, "SpatialPoints"), ...)
-		else if (is(x, "SpatialPolygons"))
-			sp.polygons(x, ...)
-		else if (is(x, "SpatialPixels") || is(x, "SpatialGrid"))
-			sp.grid(x, ...)
-		else stop(paste("cannot plot object of class", class(x)))
+		} 
 	}
 	if (!is.null(lst$which) && is.na(match(p.number, lst$which)))
 		return()
@@ -138,6 +129,26 @@ sp.panel.layout = function(lst, p.number, ...) {
 	} else
 		stop(paste("expected object of class list; got object of class", class(lst)))
 }
+
+setMethod("sppanel", "NULL", function(obj,...) { })
+
+setMethod("sppanel", "list", 
+	function(obj, p.number, first = FALSE, ...) {
+		if (is.list(obj[[1]]) && (is.null(obj$which) || !is.na(match(p.number, obj$which)))) 
+			# list-of-lists, recurse:
+			return(lapply(obj, sppanel, p.number = p.number, ...))
+		# condition 1: `which' was set, and corresponds to panel number:
+		if ((is.null(obj$which) || !is.na(match(p.number, obj$which))) &&
+			# condition 2: `first' was set and corresponds to argument, or !first
+				((!is.null(obj$first) && obj$first == first) || !first)) {
+			if (is.character(obj[[1]]) || is.function(obj[[1]]))
+				return(do.call(obj[[1]], obj[-1]))
+			sp = sapply(obj, function(x) is(x, "Spatial"))
+			stopifnot(any(sp))
+			lapply(obj[sp], function(x) do.call(sppanel, append(x, obj[!sp])))
+		}
+	}
+)
 
 getFormulaLevelplot = function(sdf, zcol) {
 	if (length(zcol) > 1)
@@ -353,9 +364,9 @@ panel.gridplot = function(x, y, z, subscripts, ..., sp.layout) {
 	}
 	# print(sp.layout)
 
-	sp.panel.layout(sp.layout, panel.number(), first = TRUE)
+	sppanel(sp.layout, panel.number(), first = TRUE)
 	panel.levelplot(x, y, z, subscripts, ...)
-	sp.panel.layout(sp.layout, panel.number())
+	sppanel(sp.layout, panel.number())
 }
 
 panel.polygonsplot =
@@ -386,10 +397,7 @@ function (x, y, z, subscripts, at = pretty(z), shrink, labels = NULL,
 	z <- as.numeric(z[subscripts])
 	zcol <- as.numeric(zcol[subscripts])
 
-	#EJP,2010-10-8: 
-	#if (is(grid.polygons, "SpatialLines"))
-	#	sp.panel.layout(sp.layout, panel.number())
-	sp.panel.layout(sp.layout, panel.number(), first = TRUE)
+	sppanel(sp.layout, panel.number(), first = TRUE)
 	if (any(subscripts)) {
 		if (is(grid.polygons, "SpatialLines")) {
 			sp.lines3 = function(x, col, ...) panel.lines(coordinates(x), col = col, ...)
@@ -434,20 +442,15 @@ function (x, y, z, subscripts, at = pretty(z), shrink, labels = NULL,
    			}
 		}
 	}
-	# EJP, 2010-10-8
-	#if (!is(grid.polygons, "SpatialLines"))
-	#	sp.panel.layout(sp.layout, panel.number())
-	sp.panel.layout(sp.layout, panel.number())
+	sppanel(sp.layout, panel.number())
 }
 
 panel.pointsplot = function(sp.layout, x, y, subscripts, groups, col, cex,
 		pch, ...) {
-	sp.panel.layout(sp.layout, panel.number(), first = TRUE)
-	#panel.superpose(x, y, subscripts, col = col, ...)
+	sppanel(sp.layout, panel.number(), first = TRUE)
 	lpoints(x, y, fill = groups[subscripts], col = col[subscripts], 
 		cex = cex[subscripts], pch = pch[subscripts], ...)
-	sp.panel.layout(sp.layout, panel.number())
-	#panel.xyplot(x, y, pch = 21, fill = fill, ...)
+	sppanel(sp.layout, panel.number())
 }
 
 SpatialPolygons2Grob = function(obj, fill) {
@@ -554,7 +557,7 @@ spplot.key = function(sp.layout, rows = 1, cols = 1) {
 	for (i in seq(along=rows)) {
 		for (j in seq(along=cols)) {
 			trellis.focus("panel", cols[j], rows[i], highlight = FALSE)
-			sp.panel.layout(sp.layout)
+			sppanel(sp.layout)
 			trellis.unfocus()
 		}
 	}
