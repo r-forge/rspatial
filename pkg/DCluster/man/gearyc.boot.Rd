@@ -3,7 +3,7 @@
 \alias{gearyc.boot}
 \alias{gearyc.pboot}
 
-\title{Generate bootstrap replicates of Geary's C autocorrelation statistic}
+\title{Generate Bootstrap Replicates of Geary's C Autocorrelation Statistic}
 
 
 \description{

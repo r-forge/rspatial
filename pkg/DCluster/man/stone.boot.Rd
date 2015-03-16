@@ -3,7 +3,7 @@
 \alias{stone.boot}
 \alias{stone.pboot}
 
-\title{Generate boostrap replicates of Stone's statistic}
+\title{Generate Boostrap Replicates of Stone's Statistic}
 
 \description{
 Generate bootstrap replicates of Stone's statictic, by means of function

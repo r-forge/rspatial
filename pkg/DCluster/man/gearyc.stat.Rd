@@ -3,7 +3,7 @@
 \alias{gearyc.stat}
 \alias{gearyc.test}
 
-\title{Compute Geary's C autocorrelation statistic}
+\title{Compute Geary's C Autocorrelation Statistic}
 
 
 \description{

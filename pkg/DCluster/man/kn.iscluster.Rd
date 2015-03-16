@@ -3,7 +3,7 @@
 \alias{kn.iscluster}
 \alias{kn.gumbel.iscluster}
 
-\title{Clustering function for Kulldorff and Nagarwalla's statistic}
+\title{Clustering Function for Kulldorff and Nagarwalla's Statistic}
 
 \description{
 \emph{kn.iscluster} is called from \emph{opgam} when studying the whole

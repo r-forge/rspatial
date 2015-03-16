@@ -12,6 +12,10 @@ import(
   MASS
 )
 
+#S3methods
+S3method(print, dcluster)
+S3method(summary, dcluster)
+S3method(plos, dcluster)
 
 #Sampling data & ML
 export(multinom.sim)
