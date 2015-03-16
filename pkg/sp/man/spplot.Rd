@@ -177,7 +177,7 @@ second argument contains the object (or text) to be plotted; remaining
 arguments are passed to the corresponding \code{panel.*} functions.}}
 
 The order of items in \code{sp.layout} matters; objects are drawn in
-the order they appear. Plot order and prevalence of \code{sp.layout} items:
+the order they appear. Plot order and precedence of \code{sp.layout} items:
 for points and lines, \code{sp.layout} items are drawn before the points
 (to allow for grids and polygons); for grids and polygons \code{sp.layout}
 is drawn afterwards (so that \code{obj} will not be overdrawn by the grid
