@@ -15,7 +15,7 @@ import(
 #S3methods
 S3method(print, dcluster)
 S3method(summary, dcluster)
-S3method(plos, dcluster)
+S3method(plot, dcluster)
 
 #Sampling data & ML
 export(multinom.sim)
