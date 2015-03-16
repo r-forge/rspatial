@@ -1,7 +1,7 @@
 Package: DCluster
 Version: 0.2-7
 Date: 2015-02-24
-Title: Functions for the detection of spatial clusters of diseases
+Title: Functions for the Detection of Spatial Clusters of Diseases
 Encoding: latin1
 Author: Virgilio Gómez-Rubio, Juan Ferrándiz-Ferragud and Antonio
         López-Quílez, with contributions by Roger Bivand.
