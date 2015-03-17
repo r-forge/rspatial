@@ -103,6 +103,7 @@ sp.text = function(loc, txt, ...) {
 setMethod("sppanel", "character", function(obj,txt, ...) sp.text(obj, txt, ...))
 
 sp.panel.layout = function(lst, p.number, ...) { # now obsolete...
+	.Deprecated("sppanel")
 	sp.panel0 = function(x, first = FALSE, ...) {
 		if (inherits(x, "list")) {
 			if (!is.null(x$which) && is.na(match(p.number, x$which)))
@@ -407,6 +408,7 @@ function (x, y, z, subscripts, at = pretty(z), shrink, labels = NULL,
 		} else {
 			pls = slot(grid.polygons, "polygons")
    			pO = slot(grid.polygons, "plotOrder")
+			col = rep(col, length.out = length(grid.polygons))
    			for (i in pO) {
 				if (get_Polypath()) {
 					obj = as(as(grid.polygons[i,], "SpatialLines"),
@@ -416,7 +418,7 @@ function (x, y, z, subscripts, at = pretty(z), shrink, labels = NULL,
 					fill = col.regions[zcol[i]]
 					alpha = alpha.regions
 					grid.path(cc[,1], cc[,2], id, default.units = "native",
-						gp = gpar(col = col, fill = fill, alpha = alpha, 
+						gp = gpar(col = col[i], fill = fill, alpha = alpha, 
 							lwd = lwd, lty = lty, ...))
 				} else {
        				Srs <- slot(pls[[i]], "Polygons")
