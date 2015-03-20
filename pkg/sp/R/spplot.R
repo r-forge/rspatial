@@ -141,7 +141,7 @@ setMethod("sppanel", "list",
 		# condition 1: `which' was set, and corresponds to panel number:
 		if ((is.null(obj$which) || !is.na(match(p.number, obj$which))) &&
 			# condition 2: `first' was set and corresponds to argument, or !first
-				((!is.null(obj$first) && obj$first == first) || !first)) {
+				((!is.null(obj$first) && obj$first == first) || first)) {
 			if (is.character(obj[[1]]) || is.function(obj[[1]]))
 				return(do.call(obj[[1]], obj[-1]))
 			sp = sapply(obj, function(x) is(x, "Spatial"))
