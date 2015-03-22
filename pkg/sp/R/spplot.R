@@ -137,7 +137,7 @@ setMethod("sppanel", "list",
 	function(obj, p.number, first = FALSE, ...) {
 		if (is.list(obj[[1]]) && (is.null(obj$which) || !is.na(match(p.number, obj$which)))) 
 			# list-of-lists, recurse:
-			return(lapply(obj, sppanel, p.number = p.number, ...))
+			return(lapply(obj, sppanel, p.number = p.number, first = first, ...))
 		# condition 1: `which' was set, and corresponds to panel number:
 		if ((is.null(obj$which) || !is.na(match(p.number, obj$which))) &&
 			# condition 2: `first' was set and corresponds to argument, or !first
