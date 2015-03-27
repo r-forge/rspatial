@@ -135,18 +135,23 @@ setMethod("sppanel", "NULL", function(obj,...) { })
 
 setMethod("sppanel", "list", 
 	function(obj, p.number, first = FALSE, ...) {
-		if (is.list(obj[[1]]) && (is.null(obj$which) || !is.na(match(p.number, obj$which)))) 
-			# list-of-lists, recurse:
-			return(lapply(obj, sppanel, p.number = p.number, first = first, ...))
+		if (!is.null(obj$which) && is.na(match(p.number, obj$which)))
+			return()
+		else 
+			obj$which = NULL
+		if (is.list(obj[[1]])) # list-of-lists, recurse:
+			lapply(obj, sppanel, p.number = p.number, first = first, ...)
 		# condition 1: `which' was set, and corresponds to panel number:
-		if ((is.null(obj$which) || !is.na(match(p.number, obj$which))) &&
-			# condition 2: `first' was set and corresponds to argument, or !first
+		else if ((is.null(obj$which) || !is.na(match(p.number, obj$which))) &&
+			# condition 2: `first' was set and corresponds to argument, or first
 				((!is.null(obj$first) && obj$first == first) || first)) {
 			if (is.character(obj[[1]]) || is.function(obj[[1]]))
-				return(do.call(obj[[1]], obj[-1]))
-			sp = sapply(obj, function(x) is(x, "Spatial"))
-			stopifnot(any(sp))
-			lapply(obj[sp], function(x) do.call(sppanel, append(x, obj[!sp])))
+				do.call(obj[[1]], obj[-1], ...)
+			else {
+				sp = sapply(obj, is, "Spatial")
+				stopifnot(any(sp))
+				lapply(obj[sp], function(x) do.call(sppanel, append(x, obj[!sp]), ...))
+			}
 		}
 	}
 )
