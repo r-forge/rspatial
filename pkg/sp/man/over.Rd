@@ -137,12 +137,13 @@ sr2=Polygons(list(Polygon(r2)),"r2")
 sr3=Polygons(list(Polygon(r3)),"r3")
 sr4=Polygons(list(Polygon(r4)),"r4")
 sr=SpatialPolygons(list(sr1,sr2,sr3,sr4))
-srdf=SpatialPolygonsDataFrame(sr, data.frame(cbind(1:4,5:2), row.names=c("r1","r2","r3","r4")))
+srdf=SpatialPolygonsDataFrame(sr, data.frame(cbind(1:4,5:2), 
+	row.names=c("r1","r2","r3","r4")))
 
 data(meuse)
 coordinates(meuse) = ~x+y
 
-plot(meuse)
+# plot(meuse)
 polygon(r1)
 polygon(r2)
 polygon(r3)

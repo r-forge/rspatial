@@ -242,9 +242,10 @@ if (require(RColorBrewer)) {
 		col.regions=brewer.pal(3, "Set1"))
 }
 
-meuse.grid$g = factor(sample(letters[1:5], 3103, replace=TRUE),levels=letters[1:10])
-meuse.grid$f = factor(sample(letters[6:10], 3103, replace=TRUE),levels=letters[1:10])
-spplot(meuse.grid, c("f","g"))
+meuse.grid$g = factor(sample(letters[1:5], 3103, replace=TRUE),
+	levels=letters[1:10])
+meuse.grid$f = factor(sample(letters[6:10], 3103, replace=TRUE),
+	levels=letters[1:10])
 spplot(meuse.grid, c("f","g"), col.regions=bpy.colors(10))
 
 # example modifying colorkey for points:
