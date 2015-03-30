@@ -268,5 +268,21 @@ l6 = list(meuse.grid["dist"], col = grey(seq(.5,.9,length.out=10)))
 spplot(meuse, c("zinc", "lead"), sp.layout = l6)
 spplot(meuse, c("zinc", "lead"), 
 	sp.layout = list(meuse.grid, meuse.riv, col = 'grey'))
+
+#  Separate plot and key, taken from http://stackoverflow.com/questions/29344692/custom-placement-of-spplot-legend-in-the-map
+s <- spplot(meuse.grid[,'dist'],
+    colorkey = list(space = "left", height = 0.5)
+)
+key <- draw.colorkey(s$legend[[1]]$args$key)
+s$legend <- NULL # Otherwise we'd get two keys
+
+library(grid) # for unit(), grid.draw():
+# Modify key
+key$framevp$x <- unit(0.2, "npc")
+key$framevp$y <- unit(0.68, "npc")
+# Plot
+s
+grid.draw(key)
+
 }
 \keyword{dplot}
