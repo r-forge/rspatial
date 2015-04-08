@@ -16,7 +16,7 @@
 \title{ Sets or retrieves projection attributes on classes extending
 SpatialData }
 \description{ Sets or retrieves projection attributes on classes extending
-SpatialData; set or retrieve option value for error or warning on exceedance of geographical coordinate range, set or retrieve option value for exceedance tolerance of geographical coordinate range. Note that only \dQuote{+proj=longlat} is accepted for geographical coordinates, which must be ordered (eastings, northings).}
+SpatialData; set or retrieve option value for error or warning on exceedance of geographical coordinate range, set or retrieve option value for exceedance tolerance of geographical coordinate range. Note that only \dQuote{+proj=longlat +ellps=WGS84} is accepted for geographical coordinates, which must be ordered (eastings, northings); the \dQuote{+ellps=} definition must be given (or expanded internally from a given \dQuote{+datum=} value) for recent versions of the PROJ.4 library, and should be set to an appropriate value.}
 \usage{
 is.projected(obj)
 proj4string(obj)
