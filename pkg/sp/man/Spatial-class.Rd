@@ -66,7 +66,24 @@ Spatial(bbox, proj4string = CRS(as.character(NA)))
 \item{subset}{see \link{subset.data.frame}}
 \item{select}{see \link{subset.data.frame}}
 \item{drop}{see \link{subset.data.frame}}
-\item{...}{ignored}
+\item{...}{passed through}
+}
+
+\section{plot method arguments}{
+The plot method for \dQuote{Spatial} objects takes the following arguments:
+\describe{
+\item{x}{object of class Spatial}
+\item{xlim}{default NULL; the x limits (x1, x2) of the plot}
+\item{ylim}{default NULL; the y limits of the plot}
+\item{asp}{default NA; the y/x aspect ratio}
+\item{axes}{default FALSE; a logical value indicating whether both axes should be drawn }
+\item{bg}{default \code{par("bg")}; colour to be used for the background of the device region}
+\item{xaxs}{ The style of axis interval calculation to be used for the x-axis}
+\item{yaxs}{ The style of axis interval calculation to be used for the y-axis}
+\item{lab}{A numerical vector of the form \code{c(x, y, len)} which modifies the default way that axes are annotated}
+\item{setParUsrBB}{default FALSE; set the \code{par} \dQuote{usr} bounding box; see below}
+\item{...}{passed through}
+}
 }
 
 \author{ r-spatial team; Edzer Pebesma, \email{edzer.pebesma@uni-muenster.de}
