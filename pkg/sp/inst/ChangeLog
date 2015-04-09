@@ -1,3 +1,14 @@
+2015-04-09 13:16  rsbivand
+
+	* man/Spatial-class.Rd,
+	  man/SpatialLines-class.Rd, man/SpatialPoints-class.Rd,
+	  man/SpatialPolygons-class.Rd: document plot methods
+
+2015-04-09 11:14  rsbivand
+
+	* ChangeLog,
+	  inst/ChangeLog: tidy
+
 2015-04-09 11:11  rsbivand
 
 	* DESCRIPTION,
