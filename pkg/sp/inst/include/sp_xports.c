@@ -3,6 +3,15 @@
 #include "sp.h"
 /* remember to touch local_stubs.c */
 
+SEXP SP_PREFIX(sp_linkingTo_version)() {
+    SEXP ans;
+    PROTECT(ans = NEW_CHARACTER(1));
+    SET_STRING_ELT(ans, 0,
+           COPY_TO_USER_STRING(SP_VERSION));
+    UNPROTECT(1);
+    return(ans);
+}
+
 SEXP SP_PREFIX(Polygon_c)(SEXP coords, SEXP n, SEXP ihole) {
 
     SEXP SPans, labpt, Area, ringDir, hole;
@@ -197,8 +206,8 @@ SEXP SP_PREFIX(Polygons_c)(SEXP pls, SEXP ID) {
     }
 
     if (sumholes == nps) {
-        crds = duplicate(GET_SLOT(VECTOR_ELT(pls1, (po[0] - R_OFFSET)),
-            install("coords")));
+        crds = GET_SLOT(VECTOR_ELT(pls1, (po[0] - R_OFFSET)),
+            install("coords"));
         PROTECT(n = NEW_INTEGER(1)); pc++;
         INTEGER_POINTER(n)[0] = INTEGER_POINTER(getAttrib(crds,
             R_DimSymbol))[0];
