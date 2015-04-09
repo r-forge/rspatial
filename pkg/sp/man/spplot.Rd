@@ -269,7 +269,8 @@ spplot(meuse, c("zinc", "lead"), sp.layout = l6)
 spplot(meuse, c("zinc", "lead"), 
 	sp.layout = list(meuse.grid, meuse.riv, col = 'grey'))
 
-#  Separate plot and key, taken from http://stackoverflow.com/questions/29344692/custom-placement-of-spplot-legend-in-the-map
+#  Separate plot and key, taken from 
+# http://stackoverflow.com/questions/29344692/custom-placement-of-spplot-legend-in-the-map
 s <- spplot(meuse.grid[,'dist'],
     colorkey = list(space = "left", height = 0.5)
 )

@@ -3,6 +3,15 @@
 #include "sp.h"
 /* remember to touch local_stubs.c */
 
+SEXP SP_PREFIX(sp_linkingTo_version)() {
+    SEXP ans;
+    PROTECT(ans = NEW_CHARACTER(1));
+    SET_STRING_ELT(ans, 0,
+           COPY_TO_USER_STRING(SP_VERSION));
+    UNPROTECT(1);
+    return(ans);
+}
+
 SEXP SP_PREFIX(Polygon_c)(SEXP coords, SEXP n, SEXP ihole) {
 
     SEXP SPans, labpt, Area, ringDir, hole;
@@ -197,8 +206,8 @@ SEXP SP_PREFIX(Polygons_c)(SEXP pls, SEXP ID) {
     }
 
     if (sumholes == nps) {
-        crds = duplicate(GET_SLOT(VECTOR_ELT(pls1, (po[0] - R_OFFSET)),
-            install("coords")));
+        crds = GET_SLOT(VECTOR_ELT(pls1, (po[0] - R_OFFSET)),
+            install("coords"));
         PROTECT(n = NEW_INTEGER(1)); pc++;
         INTEGER_POINTER(n)[0] = INTEGER_POINTER(getAttrib(crds,
             R_DimSymbol))[0];
@@ -293,13 +302,13 @@ SEXP SP_PREFIX(SpatialPolygons_c)(SEXP pls, SEXP pO, SEXP p4s) {
     int pc=0;
 
     PROTECT(ans = NEW_OBJECT(MAKE_CLASS("SpatialPolygons"))); pc++;
-    SET_SLOT(ans, install("polygons"), pls);
-    SET_SLOT(ans, install("proj4string"), p4s);
+    SET_SLOT(ans, install("polygons"), duplicate(pls));
+    SET_SLOT(ans, install("proj4string"), duplicate(p4s));
 
     if (pO == R_NilValue) {
         SET_SLOT(ans, install("plotOrder"), SP_PREFIX(SpatialPolygons_plotOrder_c)(pls));
     } else {
-        SET_SLOT(ans, install("plotOrder"), pO);
+        SET_SLOT(ans, install("plotOrder"), duplicate(pO));
     }
 
     PROTECT(bbox = SP_PREFIX(bboxCalcR_c(pls))); pc++;
@@ -312,16 +321,18 @@ SEXP SP_PREFIX(SpatialPolygons_c)(SEXP pls, SEXP pO, SEXP p4s) {
 
 SEXP SP_PREFIX(SpatialPolygons_plotOrder_c)(SEXP pls) {
 
-    SEXP plotOrder;
+    SEXP plotOrder, pls1;
     int pc=0, ng, i;
     int *po;
     double *areas;
 
-    ng = length(pls);
+    PROTECT(pls1 = duplicate(pls)); pc++;
+
+    ng = length(pls1);
     areas = (double *) R_alloc((size_t) ng, sizeof(double));
     po = (int *) R_alloc((size_t) ng, sizeof(int));
     for (i=0; i<ng; i++) {
-        areas[i] = NUMERIC_POINTER(GET_SLOT(VECTOR_ELT(pls, i),
+        areas[i] = NUMERIC_POINTER(GET_SLOT(VECTOR_ELT(pls1, i),
             install("area")))[0]; 
         po[i] = i + R_OFFSET;
     }
@@ -373,7 +384,9 @@ SEXP SP_PREFIX(SpatialPolygons_getIDs_c)(SEXP obj) {
 
     int pc=0;
     int i, n;
-    SEXP pls, IDs;
+    SEXP pls, IDs, obj1;
+
+    PROTECT(obj1 = duplicate(obj)); pc++;
 
     PROTECT(pls = GET_SLOT(obj, install("polygons"))); pc++;
     n = length(pls);
@@ -389,17 +402,19 @@ SEXP SP_PREFIX(SpatialPolygons_getIDs_c)(SEXP obj) {
 
 SEXP SP_PREFIX(bboxCalcR_c)(SEXP pls) {
 
-    SEXP ans, dim, dimnames, Pl, crds;
+    SEXP ans, dim, dimnames, Pl, crds, pls1;
     double UX=-DBL_MAX, LX=DBL_MAX, UY=-DBL_MAX, LY=DBL_MAX;
     int i, j, k, n, npls, npl, pc=0;
     double x, y;
 
-    npls = length(pls);
+    PROTECT(pls1 = duplicate(pls)); pc++;
+
+    npls = length(pls1);
 	if (npls == 0) { /* EJP: this makes a zero-length object at least pass further sanity checks */
 		UX = UY = DBL_MAX;
 		LX = LY = -DBL_MAX;
 	} else for (i=0; i<npls; i++) {
-        Pl = GET_SLOT(VECTOR_ELT(pls, i), install("Polygons"));
+        Pl = GET_SLOT(VECTOR_ELT(pls1, i), install("Polygons"));
         npl = length(Pl);
         for (j=0; j<npl; j++) {
             crds = GET_SLOT(VECTOR_ELT(Pl, j), install("coords"));
@@ -500,12 +515,14 @@ double     SP_PREFIX(Area2)( tPointd a, tPointd b, tPointd c )
 
 
 SEXP SP_PREFIX(comment2comm)(SEXP obj) {
-    SEXP ans, comment;
+    SEXP ans, comment, obj1;
     int pc=0, ns, i, j, jj, k, nc;
     char s[15], *buf;
     int *c, *nss, *co, *coo;
 
-    PROTECT(comment = getAttrib(obj, install("comment"))); pc++;
+    PROTECT(obj1 = duplicate(obj)); pc++;
+
+    PROTECT(comment = getAttrib(obj1, install("comment"))); pc++;
     if (comment == R_NilValue) {
         UNPROTECT(pc);
         return(R_NilValue);
