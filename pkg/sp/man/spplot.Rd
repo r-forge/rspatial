@@ -210,7 +210,7 @@ with different factor levels result in an error.
 }
 
 \references{
-\url{http://r-spatial.sourceforge.net/}
+\url{http://rspatial.r-forge.r-project.org/gallery/}
 }
 \seealso{\link[lattice]{xyplot}, \link[lattice]{levelplot},
 \link[lattice]{panel.identify} to identify objects }
