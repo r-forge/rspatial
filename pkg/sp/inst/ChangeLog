@@ -1,3 +1,25 @@
+2015-04-09 19:10  rsbivand
+
+	* .Rbuildignore:
+	  devel check issues (urls)
+
+2015-04-09 19:07  rsbivand
+
+	* build-prep.sh,
+	  inst/include/sp.h, inst/include/sp_xports.c: adding
+	  build-prep.sh
+
+2015-04-09 17:09  rsbivand
+
+	* DESCRIPTION,
+	  man/meuse.Rd, man/panel.Rd, man/spDistsN1.Rd, man/spplot.Rd:
+	  devel check issues (urls)
+
+2015-04-09 13:17  rsbivand
+
+	* ChangeLog,
+	  inst/ChangeLog: tidy
+
 2015-04-09 13:16  rsbivand
 
 	* man/Spatial-class.Rd,

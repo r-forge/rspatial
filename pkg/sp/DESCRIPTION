@@ -1,7 +1,6 @@
 Package: sp
 Version: 1.1-0
-Comment: Copy changed version number to src/sp.h and inst/include/sp.h
-Date: 2015-03-03
+Date: 2015-04-09
 Title: Classes and Methods for Spatial Data
 Authors@R: c(person("Edzer", "Pebesma", role = c("aut", "cre"),
 				email = "edzer.pebesma@uni-muenster.de"),
