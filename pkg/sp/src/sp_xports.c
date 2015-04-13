@@ -485,16 +485,16 @@ void SP_PREFIX(FindCG)( int n, tPointd *P, tPointd CG, double *Areasum2) {
 
 	CG[0] = 0;
 	CG[1] = 0;
-        Areasum2[0] = 0;
+	Areasum2[0] = 0;
 	for (i = 1; i < n-1; i++) {
-	        SP_PREFIX(Centroid3)( P[0], P[i], P[i+1], Cent3 );
-	        A2 =  SP_PREFIX(Area2)( P[0], P[i], P[i+1]);
+		SP_PREFIX(Centroid3)( P[0], P[i], P[i+1], Cent3 );
+		A2 =  SP_PREFIX(Area2)( P[0], P[i], P[i+1]);
 		CG[0] += A2 * Cent3[0];
 		CG[1] += A2 * Cent3[1];
 		Areasum2[0] += A2;
-	      }
-        CG[0] /= 3 * Areasum2[0];
-        CG[1] /= 3 * Areasum2[0];
+	}
+	CG[0] /= 3 * Areasum2[0];
+	CG[1] /= 3 * Areasum2[0];
 	return;
 }
 /*
