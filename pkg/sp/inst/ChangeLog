@@ -1,3 +1,8 @@
+2015-04-13 17:35  edzer
+
+	* ChangeLog, inst/ChangeLog, inst/include/sp.h, src/sp.h,
+	  src/sp.h.in: tidy
+
 2015-04-13 17:34  edzer
 
 	* ChangeLog, inst/ChangeLog, inst/include/sp_xports.c,
