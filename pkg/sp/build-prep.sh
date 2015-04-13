@@ -5,9 +5,7 @@ cp src/sp.h inst/include
 cp src/sp_xports.c inst/include
 grep SP_VERSION inst/include/sp.h
 svn up
-sh svn2cl.sh
-fmt < ChangeLog > tmp
-mv tmp ChangeLog
+svn2cl
 cp ChangeLog inst
 svn commit -m tidy
 svn up
