@@ -141,7 +141,7 @@ SEXP SP_PREFIX(Polygon_c)(const SEXP coords, const SEXP n, const SEXP ihole) {
     return(SPans);
 }
 
-SEXP SP_PREFIX(Polygon_validate_c)(const SEXP const obj) {
+SEXP SP_PREFIX(Polygon_validate_c)(const SEXP obj) {
 
     int pc=0;
     int n;
@@ -465,6 +465,7 @@ void SP_PREFIX(spRFindCG_c)(const SEXP n, const SEXP coords,
 	tPointd *P;
 	tPointd CG;
 	double Areasum2;
+
 	nn = INTEGER_POINTER(n)[0];
 	P = (tPointd *) R_alloc((size_t) nn, sizeof(tPointd));
 	for (i=0; i<nn; i++) {
@@ -501,7 +502,8 @@ void SP_PREFIX(FindCG)( int n, tPointd *P, tPointd CG, double *Areasum2) {
 	Returns three times the centroid.  The factor of 3 is
 	left in to permit division to be avoided until later.
 */
-void    SP_PREFIX(Centroid3)(tPointd p1, tPointd p2, tPointd p3, tPointd c) {
+void SP_PREFIX(Centroid3)(const tPointd p1, const tPointd p2, const tPointd p3, 
+	tPointd c) {
         c[0] = p1[0] + p2[0] + p3[0];
         c[1] = p1[1] + p2[1] + p3[1];
 	return;
@@ -510,7 +512,7 @@ void    SP_PREFIX(Centroid3)(tPointd p1, tPointd p2, tPointd p3, tPointd c) {
         Returns twice the signed area of the triangle determined by a,b,c,
         positive if a,b,c are oriented ccw, and negative if cw.
 */
-double     SP_PREFIX(Area2)(tPointd a, tPointd b, tPointd c) {
+double SP_PREFIX(Area2)(const tPointd a, const tPointd b, const tPointd c) {
 	double area;
 	area = (b[0] - a[0]) * (c[1] - a[1]) - (c[0] - a[0]) * (b[1] - a[1]);
 	return(area);
