@@ -14,7 +14,8 @@
 
 #include "sp.h"
 
-SEXP R_point_in_polygon_sp(SEXP px, SEXP py, SEXP polx, SEXP poly) {
+SEXP R_point_in_polygon_sp(const SEXP px, const SEXP py, const SEXP polx, 
+		const SEXP poly) {
 	int i, pc=0;
 	PLOT_POINT p;
 	POLYGON pol;

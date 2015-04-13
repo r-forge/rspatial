@@ -8,12 +8,12 @@ int pipbb(double pt1, double pt2, double *bbs);
 
 int between(double x, double low, double up); 
 
-SEXP pointsInBox(SEXP lb, SEXP px, SEXP py);
+SEXP pointsInBox(const SEXP lb, const SEXP px, const SEXP py);
 
-SEXP tList(SEXP nl, SEXP m);
+SEXP tList(const SEXP nl, const SEXP m);
 
 
-SEXP tList(SEXP nl, SEXP m0) {
+SEXP tList(const SEXP nl, const SEXP m0) {
     int n=length(nl), m=INTEGER_POINTER(m0)[0], i, ii, j, jj, *k, pc=0;
     SEXP res;
     PROTECT(res = NEW_LIST(m)); pc++;
@@ -45,7 +45,7 @@ SEXP tList(SEXP nl, SEXP m0) {
     return(res);
 }
 
-SEXP pointsInBox(SEXP lb, SEXP px, SEXP py) {
+SEXP pointsInBox(const SEXP lb, const SEXP px, const SEXP py) {
     int n=length(px), m=length(lb), i, j, jj, *k, sk, pc=0;
     double *x, ppx, ppy;
     SEXP res, px1, py1, lb1;
