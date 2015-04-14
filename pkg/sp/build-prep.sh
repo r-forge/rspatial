@@ -7,5 +7,5 @@ grep SP_VERSION inst/include/sp.h
 svn up
 svn2cl
 cp ChangeLog inst
-svn commit -m tidy
+svn commit -m tidy inst/ChangeLog
 svn up

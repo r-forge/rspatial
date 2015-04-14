@@ -299,6 +299,8 @@ setReplaceMethod("$", "Spatial",
 			return(addAttrToGeom(x, data.frame(df), match.ID = FALSE))
 			# stop("no $<- method for object without attributes")
 		}
+		if (is.list(value))
+			warning("assigning list or data.frame to attribute vector")
 		x@data[[name]] = value 
 		x 
 	}
@@ -307,7 +309,7 @@ setReplaceMethod("$", "Spatial",
 setMethod("geometry", "Spatial",
 	function(obj) { 
 		if ("data" %in% slotNames(obj))
-			stop(paste("geometry method missing for class",class(obj)))
+			stop(paste("geometry method missing for class", class(obj)))
 		obj 
 	}
 )
@@ -315,7 +317,7 @@ setMethod("geometry", "Spatial",
 setReplaceMethod("[", c("Spatial", "ANY", "ANY", "ANY"),
 	function(x, i, j, value) {
 		if (!("data" %in% slotNames(x)))
-			stop("no [[ method for object without attributes")
+			stop("no [ method for object without attributes")
 		if (is.character(i) && any(!is.na(match(i, dimnames(coordinates(x))[[2]]))))
 			stop(paste(i, "is already present as a coordinate name!"))
 		x@data[i,j] <- value
