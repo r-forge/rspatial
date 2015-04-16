@@ -106,19 +106,19 @@ aggregatePolyWeighted = function(x, by) {
 	if (!requireNamespace("rgeos", quietly = TRUE))
 		stop("rgeos required")
 	i = rgeos::gIntersection(x, by, byid = TRUE)
+	area =  sapply(i@polygons, function(x) slot(x, name = "area"))
 	ids.i = sapply(i@polygons, function(x) slot(x, name = "ID"))
 	IDs = strsplit(ids.i, " ") # IDs, as list
-	if (any(sapply(IDs, length) != 2))
-		stop("IDs containing spaces: this breaks identification after gIntersection()")
-	grp = do.call(rbind, IDs) # IDs, col 1: x, col 2: by
-	area = sapply(i@polygons, function(x) slot(x, name = "area"))
-	obs = x[grp[, 1], ]@data # match by ID of x
-	if (all(sapply(obs, is.factor))) {
+	if (any(sapply(IDs, length) != 2)) # sanity check:
+		stop("IDs contain spaces: this breaks identification after gIntersection()")
+	grp = do.call(rbind, IDs) # IDs matrix; col 1 = x, col 2 = by
+	obs = x[grp[, 1], ]@data # match by IDs of x: get the attributes to aggregate
+	if (all(sapply(obs, is.factor))) { # find level with largest area ...
 		obs$aReA = area
-		spl = split(obs, grp[,2])
+		spl = split(obs, grp[,2]) # grouped by `by'
 		ret = do.call(rbind, lapply(spl, function(x) x[which.max(x$aReA),])) # take mode
-		ret$aReA = NULL
-		ret[match(row.names(by), row.names(ret)), , drop=FALSE]
+		ret$aReA = NULL # clean up
+		ret[match(row.names(by), row.names(ret)), , drop=FALSE] # match to by's order
 	} else {
 		if(any(sapply(obs, is.factor)))
 			warning("for factor aggregation, provide factor only data")
