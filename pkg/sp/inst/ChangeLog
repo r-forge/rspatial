@@ -1,3 +1,7 @@
+2015-04-16 17:08  rsbivand
+
+	* inst/ChangeLog: tidy
+
 2015-04-16 16:39  edzer
 
 	* R/aggregate.R: add comments to somewhat dense code
