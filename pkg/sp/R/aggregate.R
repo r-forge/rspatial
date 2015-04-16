@@ -107,10 +107,12 @@ aggregatePolyWeighted = function(x, by) {
 		stop("rgeos required")
 	i = rgeos::gIntersection(x, by, byid = TRUE)
 	ids.i = sapply(i@polygons, function(x) slot(x, name = "ID"))
-	grp = do.call(rbind, strsplit(ids.i, " ")) # IDs, col 1: x, col 2: by
-	# this may break if there are spaces in the original IDs
+	IDs = strsplit(ids.i, " ") # IDs, as list
+	if (any(sapply(IDs, length) != 2))
+		stop("IDs containing spaces: this breaks identification after gIntersection()")
+	grp = do.call(rbind, IDs) # IDs, col 1: x, col 2: by
 	area = sapply(i@polygons, function(x) slot(x, name = "area"))
-	obs = x[grp[,1],]@data # match by ID of x
+	obs = x[grp[, 1], ]@data # match by ID of x
 	if (all(sapply(obs, is.factor))) {
 		obs$aReA = area
 		spl = split(obs, grp[,2])
