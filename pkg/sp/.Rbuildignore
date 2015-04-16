@@ -2,6 +2,6 @@ makefile
 CHANGES
 TODO
 oChangeLog
-svn2cl.*
 build-prep.sh
+build-release.sh
 src/sp.h.in
