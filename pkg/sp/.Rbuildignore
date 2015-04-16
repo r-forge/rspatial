@@ -4,3 +4,4 @@ TODO
 oChangeLog
 svn2cl.*
 build-prep.sh
+src/sp.h.in

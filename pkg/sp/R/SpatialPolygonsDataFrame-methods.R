@@ -88,19 +88,19 @@ setMethod("[", "SpatialPolygonsDataFrame", function(x, i, j, ... , drop = TRUE) 
 		i = !is.na(over(x, geometry(i)))
     if (any(is.na(i)))
 		stop("NAs not permitted in row index")
-    #SpatialPolygonsDataFrame(as(x, "SpatialPolygons")[i, , drop = FALSE],
-    #    data = x@data[i, j, drop = FALSE], match.ID = FALSE)
-        y <- new("SpatialPolygonsDataFrame")
-	y@proj4string <- x@proj4string
-	y@data = x@data[i, j, ..., drop = FALSE]
 	if (is.logical(i)) {
 		if (length(i) == 1 && i)
 			i = 1:length(x@polygons)
 		else
 			i <- which(i)
-	} else if (is.character(i)) {
-                i <- match(i, row.names(x))
-        }
+	} 
+	if (is.character(i))
+		i <- match(i, row.names(x))
+    #SpatialPolygonsDataFrame(as(x, "SpatialPolygons")[i, , drop = FALSE],
+    #    data = x@data[i, j, drop = FALSE], match.ID = FALSE)
+	y <- new("SpatialPolygonsDataFrame")
+	y@proj4string <- x@proj4string
+	y@data = x@data[i, j, ..., drop = FALSE]
 
 	y@polygons = x@polygons[i]
 #	x@bbox <- .bboxCalcR(x@polygons)
