@@ -1,3 +1,15 @@
+2015-04-16 16:39  edzer
+
+	* R/aggregate.R: add comments to somewhat dense code
+
+2015-04-16 14:38  edzer
+
+	* R/aggregate.R: break when IDs contain space characters
+
+2015-04-16 12:44  rsbivand
+
+	* inst/ChangeLog: tidy
+
 2015-04-16 12:44  rsbivand
 
 	* inst/ChangeLog: tidy
