@@ -145,7 +145,8 @@ setMethod("sppanel", "list",
 			lapply(obj, sppanel, p.number = p.number, first = first, ...)
 		# condition 1: `which' was set, and corresponds to panel number:
 		else if (is.null(obj$which) || !is.na(match(p.number, obj$which))) {
-			opaque = function(x) (is(x, "SpatialPolygons") || gridded(x))
+			opaque = function(x) (is(x, "SpatialPolygons") 
+				|| is(x, "SpatialGrid") || is(x, "SpatialPixels"))
 			if (is.character(obj[[1]]) || is.function(obj[[1]])) {
 				if (is.null(obj$first))
 					obj$first = opaque(obj[[2]]) # default: grids/polygons behind, rest front
