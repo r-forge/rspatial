@@ -176,13 +176,14 @@ for a SpatialLines object, and \code{sp.text} for text to place. The
 second argument contains the object (or text) to be plotted; remaining
 arguments are passed to the corresponding \code{panel.*} functions.}}
 
-The order of items in \code{sp.layout} matters; objects are drawn in
-the order they appear. Plot order and precedence of \code{sp.layout}
-items: for points and lines, \code{sp.layout} items are drawn over
-(after) \code{obj}, grids and polygons \code{sp.layout} items are
-drawn behindi (before) \code{obj}.  Transparency may further help
-making multiple things visible. Adding a \code{first} element
-overrides this:
+The order of items in \code{sp.layout} matters; objects are drawn in the
+order they appear. With respect to \code{obj}, default plot order and
+precedence of \code{sp.layout} items is as follows: for points and
+lines, \code{sp.layout} items are drawn over (after) \code{obj}; for
+grids and polygons, \code{sp.layout} items are drawn behind (before)
+\code{obj}.  Transparency may further help making multiple things
+visible. Adding a \code{first} argument to a layout item overrides its
+default plotting order with respect to \code{obj}:
 
 Special control elements of \code{sp.layout} items:
 \describe{

@@ -135,6 +135,8 @@ setMethod("sppanel", "NULL", function(obj,...) { })
 
 setMethod("sppanel", "list", 
 	function(obj, p.number, first = FALSE, ...) {
+		if (length(obj) == 1 & is.null(obj[[1]]))
+			return()
 		if (!is.null(obj$which) && is.na(match(p.number, obj$which)))
 			return()
 		else 
