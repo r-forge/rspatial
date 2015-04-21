@@ -271,21 +271,21 @@ spplot(meuse, c("zinc", "lead"), sp.layout = l6)
 spplot(meuse, c("zinc", "lead"), 
 	sp.layout = list(meuse.grid, meuse.riv, col = 'grey'))
 
-#  Separate plot and key, taken from 
+#  Custom legend placement, taken from 
 # http://stackoverflow.com/questions/29344692/custom-placement-of-spplot-legend-in-the-map
-s <- spplot(meuse.grid[,'dist'],
-    colorkey = list(space = "left", height = 0.5)
-)
-key <- draw.colorkey(s$legend[[1]]$args$key)
-s$legend <- NULL # Otherwise we'd get two keys
+s <- spplot(meuse.grid[,'dist'], colorkey = list(space = "left", height = 0.4))
 
-library(grid) # for unit(), grid.draw():
-# Modify key
-key$framevp$x <- unit(0.2, "npc")
-key$framevp$y <- unit(0.68, "npc")
-# Plot
-s
-grid.draw(key)
+args <- s$legend$left$args$key
 
+## Prepare list of arguments needed by `legend=` argument (as described in ?xyplot)
+library(lattice) # draw.colorkey
+legendArgs <- list(fun = draw.colorkey,
+                   args = list(key = args),
+                   corner = c(0.05,.75))
+
+## Call spplot() again, this time passing in to legend the arguments
+## needed to print a color key
+spplot(meuse.grid[,'dist'], colorkey = FALSE,
+       legend = list(inside = legendArgs))
 }
 \keyword{dplot}
