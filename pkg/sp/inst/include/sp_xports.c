@@ -3,7 +3,7 @@
 #include "sp.h"
 /* remember to touch local_stubs.c */
 
-SEXP SP_PREFIX(sp_linkingTo_version)() {
+SEXP SP_PREFIX(sp_linkingTo_version)(void) {
     SEXP ans;
     PROTECT(ans = NEW_CHARACTER(1));
     SET_STRING_ELT(ans, 0,

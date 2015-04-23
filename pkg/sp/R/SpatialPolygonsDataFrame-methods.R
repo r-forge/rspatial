@@ -1,6 +1,9 @@
 SpatialPolygonsDataFrame <- function(Sr, data, match.ID = TRUE) {
 # Barry comment 110610
-        stopifnot(length(Sr@polygons) == nrow(data))
+        if (length(Sr@polygons) != nrow(data))
+          stop(paste("Object length mismatch:\n    ", deparse(substitute(Sr)),
+            "has", length(Sr@polygons), "Polygons objects, but",
+            deparse(substitute(data)), "has", nrow(data), "rows", sep=" "))
 	if (is.character(match.ID)) {
 		row.names(data) = data[, match.ID[1]]
 		match.ID = TRUE
