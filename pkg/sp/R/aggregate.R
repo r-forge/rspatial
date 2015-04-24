@@ -105,7 +105,7 @@ aggregate.Spatial = function(x, by, FUN = mean, ..., dissolve = TRUE,
 aggregatePolyWeighted = function(x, by) {
 	if (!requireNamespace("rgeos", quietly = TRUE))
 		stop("rgeos required")
-	i = rgeos::gIntersection(x, by, byid = TRUE)
+	i = rgeos::gIntersection(x, by, byid = TRUE, drop_lower_td = TRUE)
 	area =  sapply(i@polygons, function(x) slot(x, name = "area"))
 	ids.i = sapply(i@polygons, function(x) slot(x, name = "ID"))
 	IDs = strsplit(ids.i, " ") # IDs, as list
