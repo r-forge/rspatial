@@ -1,3 +1,58 @@
+2015-04-24 07:42  rsbivand
+
+	* R/CRS-methods.R: change to nzchar
+
+2015-04-24 07:33  rsbivand
+
+	* R/CRS-methods.R, R/Class-Spatial.R, R/SpatialLines-methods.R,
+	  R/SpatialPolygons-methods.R, R/projected.R: change to nzchar
+
+2015-04-23 17:56  rsbivand
+
+	* R/CRS-methods.R: R-devel needs !is.na(projargs) in CRS for lazy
+	  loading
+
+2015-04-23 14:36  edzer
+
+	* man/as.SpatialPolygons.GridTopology.Rd: removed non-working
+	  example lines
+
+2015-04-23 10:47  rsbivand
+
+	* R/SpatialPolygonsDataFrame-methods.R, inst/include/sp_xports.c,
+	  src/sp_xports.c: SpatialPolygonsDataFrame error message
+
+2015-04-21 06:29  edzer
+
+	* man/spplot.Rd: modified example
+
+2015-04-20 19:16  edzer
+
+	* R/spplot.R: more spplot fixes
+
+2015-04-20 18:58  edzer
+
+	* R/spplot.R, man/spplot.Rd: more patches from Josh O'Brien
+
+2015-04-19 17:10  edzer
+
+	* DESCRIPTION: add Josh O'Brien to the ctb list
+
+2015-04-19 17:04  edzer
+
+	* R/spplot.R, man/spplot.Rd: corrections to sp.layout processing,
+	  with help from Josh O'Brien
+
+2015-04-16 19:16  edzer
+
+	* .Rbuildignore, ChangeLog, build-prep.sh, build-release.sh: add
+	  build-release script, so that not every build triggers an svn
+	  `tidy' commit
+
+2015-04-16 19:15  edzer
+
+	* inst/ChangeLog: tidy
+
 2015-04-16 19:14  edzer
 
 	* inst/ChangeLog: tidy
