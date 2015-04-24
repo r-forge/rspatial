@@ -1,3 +1,12 @@
+2015-04-24 08:59  edzer
+
+	* ChangeLog, R/aggregate.R: aggregate: add drop_lower_td = TRUE to
+	  gIntersection call
+
+2015-04-24 08:57  edzer
+
+	* inst/ChangeLog: tidy
+
 2015-04-24 07:42  rsbivand
 
 	* R/CRS-methods.R: change to nzchar
