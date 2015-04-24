@@ -8,8 +8,8 @@ if (!is.R()) {
   }
 }
 
-"CRS" <- function(projargs) {
-    if (missing(projargs)) projargs <- NA_character_
+"CRS" <- function(projargs=NA_character_) {
+# cautious change BDR 150424
     if (!is.na(projargs) && !nzchar(projargs)) projargs <- NA_character_
 # condition added 140301
     stopifnot(is.character(projargs))
