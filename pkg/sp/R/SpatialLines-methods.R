@@ -13,7 +13,7 @@ Lines <- function(slinelist, ID) {
 	if (missing(ID)) stop("Single ID required")
 	if (length(ID) != 1) stop("Single ID required")
         ID <- as.character(ID)
-        stopifnot(nchar(ID) > 0)
+        stopifnot(nzchar(ID))
 	new("Lines", Lines = slinelist, ID=ID)
 }
 

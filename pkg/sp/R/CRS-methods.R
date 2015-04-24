@@ -9,8 +9,8 @@ if (!is.R()) {
 }
 
 "CRS" <- function(projargs) {
-    if (missing(projargs)) projargs <- as.character(NA)
-    if (!is.na(projargs) && nchar(projargs) == 0) projargs <- as.character(NA)
+    if (missing(projargs)) projargs <- NA_character_
+    if (!is.na(projargs) && !nzchar(projargs)) projargs <- NA_character_
 # condition added 140301
     stopifnot(is.character(projargs))
     if (!is.na(projargs)) {
