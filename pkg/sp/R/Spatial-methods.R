@@ -299,8 +299,8 @@ setReplaceMethod("$", "Spatial",
 			return(addAttrToGeom(x, data.frame(df), match.ID = FALSE))
 			# stop("no $<- method for object without attributes")
 		}
-		if (is.list(value))
-			warning("assigning list or data.frame to attribute vector")
+		#if (is.list(value))
+		#	warning("assigning list or data.frame to attribute vector")
 		x@data[[name]] = value 
 		x 
 	}
