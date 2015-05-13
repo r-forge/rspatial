@@ -16,7 +16,11 @@ spDists(x, y = x, longlat = FALSE)
   \item{pt}{A single 2D point, first value x/longitude, second value y/latitude, or a SpatialPoints or SpatialPointsDataFrame object with one point only}
   \item{x}{A matrix of n-D points with row denoting points, first column x/longitude, second column y/latitude, or a Spatial object that has a coordinates method}
   \item{y}{A matrix of n-D points with row denoting points, first column x/longitude, second column y/latitude, or a Spatial object that has a coordinates method}
-  \item{longlat}{if FALSE, Euclidean distance, if TRUE Great Circle distance}
+  \item{longlat}{logical;
+  if FALSE, Euclidean distance, 
+  if TRUE Great Circle (WGS84 ellipsoid) distance; 
+  if missing and \code{x} is a Spatial object, derived 
+  from \code{proj4string(x)} }
 }
 
 \value{

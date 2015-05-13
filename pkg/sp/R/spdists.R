@@ -31,7 +31,7 @@ spDistsN1 <- function(pts, pt, longlat=FALSE) {
 
 spDists <- function(x, y = x, longlat = FALSE) {
 	if (is(x, "Spatial")) {
-		stopifnot(identical(proj4string(x), proj4string(y)))
+		stopifnot(identicalCRS(x, y))
 		if (missing(longlat))
 			longlat = !is.na(is.projected(x)) && !is.projected(x)
 		x = coordinates(x)
