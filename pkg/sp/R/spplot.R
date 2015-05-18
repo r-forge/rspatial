@@ -150,8 +150,10 @@ setMethod("sppanel", "list",
 			if (is.character(obj[[1]]) || is.function(obj[[1]])) {
 				if (is.null(obj$first))
 					obj$first = opaque(obj[[2]]) # default: grids/polygons behind, rest front
-				if (obj$first == first)
+				if (obj$first == first) {
+					obj$first = NULL
 					do.call(obj[[1]], obj[-1], ...)
+				}
 			} else {
 				sp = sapply(obj, is, "Spatial")
 				stopifnot(any(sp))
