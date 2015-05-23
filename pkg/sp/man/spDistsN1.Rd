@@ -80,5 +80,16 @@ spDists(p1, segments = TRUE)
 spDists(p1[0],p2[0],diagonal=TRUE)
 spDists(p1[0])
 
+p1 = SpatialPoints(cbind(1:3, 1:3, 1:3))
+spDists(p1)
+spDists(p1, p1)
+try(spDists(p1, p1, diagonal = TRUE))
+try(spDists(p1, p1, segments = TRUE))
+try(spDists(p1, segments = TRUE))
+p2 = SpatialPoints(cbind(5:2, 2:5, 3:6))
+spDists(p1, p2)
+try(spDists(p1, p2, diagonal = TRUE)) # fails
+try(spDists(p1, p2, segments = TRUE)) # fails
+
 }
 \keyword{spatial}

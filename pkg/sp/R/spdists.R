@@ -36,6 +36,7 @@ spDists <- function(x, y = x, longlat = FALSE, segments = FALSE, diagonal = FALS
 		stopifnot(missing(y))
 	if (diagonal)
 		stopifnot(! missing(y))
+	missing.y = missing(y) # assigning y later on changes missing(y)
 	if (is(x, "Spatial")) {
 		if (! missing(y))
 			stopifnot(identicalCRS(x, y))
@@ -69,15 +70,10 @@ spDists <- function(x, y = x, longlat = FALSE, segments = FALSE, diagonal = FALS
 	} else if (ncol(x) != 2) {
 		if (longlat)
 			stop("cannot compute spherical distances for longlat data in more than 2 dimensions")
-		if (missing(y))
+		if (missing.y)
 			as.matrix(dist(x))
-    	else { 
-			d = outer(x[,1], y[,1], "-") ^ 2
-        	if (ncol(x) > 2)
-				for (i in 2:ncol(x))
-           			d = d + outer(x[,i], y[,i], "-") ^ 2
-    		matrix(sqrt(d), nrow(x), nrow(y))
-		}
+    	else
+			sqrt(Reduce("+", Map(function(i) outer(x[,i], y[,i], "-") ^ 2, 1:ncol(x))))
 	} else {
 		spDiN1 = function(x, y, ll) spDistsN1(y, x, ll)
 		if (nrow(x) < nrow(y))
