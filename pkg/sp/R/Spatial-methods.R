@@ -324,3 +324,14 @@ setReplaceMethod("[", c("Spatial", "ANY", "ANY", "ANY"),
 		x
 	}
 )
+
+# Don MacQueen provided head & tail:
+head.Spatial <- function(x, n=6L, ...) {
+    ix <- sign(n)*seq(abs(n))
+    x[ ix , , drop=FALSE]
+}
+
+tail.Spatial <- function(x, n=6L, ...) {
+    ix <- sign(n)*rev(seq(nrow(x), by=-1L, len=abs(n)))
+    x[ ix , , drop=FALSE]
+}
