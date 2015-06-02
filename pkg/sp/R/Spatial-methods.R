@@ -145,11 +145,8 @@ summary.Spatial = function(object, ...) {
         obj[["npoints"]] = nrow(object@coords)
 	if (is(object, "SpatialGrid") || is(object, "SpatialPixels"))
 		obj[["grid"]] = gridparameters(object)
-	if ("data" %in% slotNames(object))
-		if (ncol(object@data) > 1)
-			obj[["data"]] = summary(object@data)
-		else if (ncol(object@data) == 1)
-			obj[["data"]] = summary(object@data[[1]])
+	if ("data" %in% slotNames(object) && ncol(object@data) > 0)
+		obj[["data"]] = summary(object@data)
     class(obj) = "summary.Spatial"
     obj
 }

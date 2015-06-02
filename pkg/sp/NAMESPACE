@@ -238,7 +238,6 @@ exportMethods(
 	is.projected,
 	merge,
 	over,
-	overlay, 
 	plot,
 	polygons, 
 	"polygons<-",
