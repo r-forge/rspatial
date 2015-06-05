@@ -1,5 +1,9 @@
 2015-06-05 09:55  edzer
 
+	* inst/ChangeLog: tidy
+
+2015-06-05 09:55  edzer
+
 	* DESCRIPTION, NAMESPACE, R/spdists.R, inst/include/sp.h, src/sp.h,
 	  src/sp.h.in: add some options to spDists.
 
