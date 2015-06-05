@@ -40,9 +40,11 @@ spDists <- function(x, y = x, longlat = FALSE, segments = FALSE, diagonal = FALS
 	if (is(x, "Spatial")) {
 		if (! missing(y))
 			stopifnot(identicalCRS(x, y))
-		if (! missing(longlat))
-			stop("longlat will be derived from CRS(x)")
-		longlat = !is.na(is.projected(x)) && !is.projected(x)
+		ll = !is.na(is.projected(x)) && !is.projected(x)
+		if (!missing(longlat) && longlat != ll)
+			warning(paste("spDists: argument longlat conflicts with CRS(x); using the value", longlat))
+		else
+			longlat = ll
 		x = coordinates(x)
 		y = coordinates(y)
 	}
