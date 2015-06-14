@@ -83,11 +83,13 @@ aggregate.data.frame.SP <- function (x, by, FUN, ..., dissolve = TRUE) {
 		}
 	} else
 		y = y[as.integer(factor(grp)),]
+	if (identical(y$ID, rep(1, nrow(y))))
+		y$ID = NULL # remove ID field
 	addAttrToGeom(geom, y, match.ID = FALSE)
 }
 
-aggregate.Spatial = function(x, by, FUN = mean, ..., dissolve = TRUE, 
-		areaWeighted = FALSE) {
+aggregate.Spatial = function(x, by = list(ID = rep(1, length(x))), FUN = mean, ..., 
+		dissolve = TRUE, areaWeighted = FALSE) {
     FUN <- match.fun(FUN)
 	if (is(by, "Spatial")) { # maybe better do S4 method dispatch?
 		by0 = by
