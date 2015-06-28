@@ -15,8 +15,9 @@ useDynLib(sp,
 )
 
 import(methods)
-importFrom(graphics, plot, hist)
-importFrom(stats, aggregate)
+importFrom(graphics, plot, hist, polygon, polypath, lines, par, text, strheight, contour, axTicks, axis, rasterImage, image, box, plot.new, plot.window, rect, title, segments, points, locator, identify)
+importFrom(grDevices, heat.colors, rgb)
+importFrom(stats, aggregate, na.omit, aggregate.data.frame, complete.cases, quantile, as.formula, dist, runif, model.frame, na.fail)
 import(utils) # stack, to be changed later (2.5.0?) into
 import(lattice)
 importFrom(grid, grid.polygon, grid.path, grid.rect, polygonGrob, gpar,
