@@ -14,7 +14,7 @@ Authors@R: c(person("Edzer", "Pebesma", role = c("aut", "cre"),
 			person("Jim", "Lemon", role = "ctb"),
 			person("Josh", "O'Brien", role = "ctb"))
 Depends: R (>= 3.0.0)
-Imports: methods, graphics, utils, lattice, grid
+Imports: utils, stats, graphics, grDevices, methods, lattice, grid
 Suggests: RColorBrewer, rgdal (>= 0.8-7), rgeos (>= 0.2-20), gstat
 Description: Classes and methods for spatial
   data; the classes document where the spatial location information
