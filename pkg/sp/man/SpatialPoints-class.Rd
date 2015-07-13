@@ -46,7 +46,7 @@ Class \code{"Spatial"}, directly.
 \section{Methods}{
   \describe{
     \item{[}{\code{signature(x = "SpatialPoints")}: subsets the points; only
-	rows can be subsetted }
+	rows (points) can be subsetted }
     \item{coerce}{\code{signature(from = "SpatialPoints", to = "data.frame")}: 
 	retrieves the data part}
     \item{coerce}{\code{signature(from = "SpatialPoints", to = "SpatialPixels")}: equivalent to assigning gridded TRUE for a copy of the object}
