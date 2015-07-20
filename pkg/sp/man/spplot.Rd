@@ -26,6 +26,8 @@
 \alias{sppanel,SpatialPolygons-method}
 \alias{sppanel,character-method}
 \alias{sppanel,list-method}
+\alias{panel.RgoogleMaps}
+\alias{panel.ggmap}
 \alias{sppanel-methods}
 \alias{set_col_regions}
 \alias{get_col_regions}

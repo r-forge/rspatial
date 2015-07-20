@@ -28,7 +28,8 @@ par(mar = rep(0,4)) # fill full device
 plot(spTransform(meuse, merc), bgMap = g, pch = 16, cex = .5)
 
 spplot(spTransform(meuse, merc), c("zinc",  "lead"), colorkey = TRUE,
-	sp.layout = list(panel.RgoogleMaps, g, first = TRUE))
+	sp.layout = list(panel.RgoogleMaps, g, first = TRUE),
+	scales = list(draw = TRUE))
 
 # Norway boundary example:
 library(cshapes)
