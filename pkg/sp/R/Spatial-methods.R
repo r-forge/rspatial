@@ -191,11 +191,23 @@ print.summary.Spatial = function(x, ...) {
 #		return(1/cos((mean(ylim) * pi)/180))
 #}
 
+bb2merc = function(x, cls = "ggmap") { # return bbox in the appropriate "web mercator" CRS
+	WGS84 = CRS("+init=epsg:4326")
+	# merc = CRS("+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs")
+	merc = CRS("+init=epsg:3857") # http://wiki.openstreetmap.org/wiki/EPSG:3857
+	if (cls == "ggmap") {
+		b = sapply(attr(x, "bb"), c)
+		pts = cbind(c(b[2],b[4]),c(b[1],b[3]))
+	} else if (cls == "RgoogleMaps")
+		pts = rbind(x$BBOX$ll, x$BBOX$ur)[,2:1]
+	else
+		stop("unknown cls")
+	bbox(spTransform(SpatialPoints(pts, WGS84), merc))
+}
 
-
-plot.Spatial <- function(x, xlim=NULL, ylim=NULL, 
+plot.Spatial <- function(x, xlim = NULL, ylim = NULL, 
 	asp = NA, axes = FALSE, bg = par("bg"), ..., 
-	xaxs, yaxs, lab, setParUsrBB=FALSE) {
+	xaxs, yaxs, lab, setParUsrBB = FALSE, bgMap = NULL) {
 
 	bbox <- bbox(x)
 	if (is.null(xlim)) 
@@ -233,6 +245,17 @@ plot.Spatial <- function(x, xlim=NULL, ylim=NULL,
 	}
 	localTitle <- function(..., col, bg, pch, cex, lty, lwd) title(...)
 	localTitle(...)
+	if (!is.null(bgMap)) {
+		if (is(bgMap, "ggmap"))
+			bb = bb2merc(bgMap, "ggmap")
+		else if (all(c("lat.center","lon.center","zoom","myTile","BBOX") %in% names(bgMap))) {
+			# an object returned by RgoogleMaps::GetMap
+			bb = bb2merc(bgMap, "RgoogleMaps")
+			bgMap = bgMap$myTile
+		} else
+			bb = rbind(xlim, ylim)
+		rasterImage(bgMap, bb[1,1], bb[2,1], bb[1,2], bb[2,2], interpolate = FALSE)
+	}
 }
 setMethod("plot", signature(x = "Spatial", y = "missing"), 
 	function(x,y,...) plot.Spatial(x,...))
