@@ -18,7 +18,8 @@ panel.ggmap <- function(map) {
 spplot(spTransform(meuse, merc), c("zinc",  "lead"), colorkey = TRUE,
 	sp.layout = list(panel.ggmap, bgMap, first = TRUE))
 
-bgMap = get_map(as.vector(bbexpand(bbox(meuse), .04)), source = "osm") # WGS84 for background map
+bb = t(apply(bbox(meuse), 1, bbexpand, .04))
+bgMap = get_map(as.vector(bb), source = "osm") # WGS84 for background map
 plot(spTransform(meuse, merc), bgMap = bgMap, pch = 16, cex = .5) # needs mercator for plotting
 
 
