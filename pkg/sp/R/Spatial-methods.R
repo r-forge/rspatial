@@ -246,14 +246,19 @@ plot.Spatial <- function(x, xlim = NULL, ylim = NULL,
 	localTitle <- function(..., col, bg, pch, cex, lty, lwd) title(...)
 	localTitle(...)
 	if (!is.null(bgMap)) {
-		if (is(bgMap, "ggmap"))
+		mercator = FALSE
+		if (is(bgMap, "ggmap")) {
 			bb = bb2merc(bgMap, "ggmap")
-		else if (all(c("lat.center","lon.center","zoom","myTile","BBOX") %in% names(bgMap))) {
+			mercator = TRUE
+		} else if (all(c("lat.center","lon.center","zoom","myTile","BBOX") %in% names(bgMap))) {
 			# an object returned by RgoogleMaps::GetMap
 			bb = bb2merc(bgMap, "RgoogleMaps")
 			bgMap = bgMap$myTile
+			mercator = TRUE
 		} else
-			bb = rbind(xlim, ylim)
+			bb = rbind(xlim, ylim) # can be any CRS!
+		if (mercator && !identical(x@proj4string, CRS("+init=epsg:3857")))
+			warning(paste('CRS of plotting object differs from that of bgMap, which is assumed to be CRS("+init=epsg:3857")'))
 		rasterImage(bgMap, bb[1,1], bb[2,1], bb[1,2], bb[2,2], interpolate = FALSE)
 	}
 }
