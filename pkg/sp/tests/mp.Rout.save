@@ -1,0 +1,128 @@
+
+R version 3.2.1 (2015-06-18) -- "World-Famous Astronaut"
+Copyright (C) 2015 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> cl1 = cbind(rnorm(3, 10), rnorm(3, 10))
+> cl2 = cbind(rnorm(5, 10), rnorm(5,  0))
+> cl3 = cbind(rnorm(7,  0), rnorm(7, 10))
+> 
+> library(sp)
+> mp = SpatialMultiPoints(list(cl1, cl2, cl3))
+> plot(mp, col = 2, cex = 1, pch = 1:3)
+> mp
+SpatialMultiPoints:
+[[1]]
+         [,1]      [,2]
+[1,] 9.957676  9.601667
+[2,] 8.224597  9.326887
+[3,] 9.736728 10.002254
+
+[[2]]
+          [,1]        [,2]
+[1,]  9.117313 -2.47354594
+[2,] 10.468834  0.52829299
+[3,] 10.327311  0.05678886
+[4,] 10.033190  1.08238505
+[5,]  9.533829  1.20199932
+
+[[3]]
+            [,1]      [,2]
+[1,]  0.97485393 10.379975
+[2,] -0.01338201  8.670247
+[3,]  0.97975270  7.428666
+[4,] -1.26891911 10.421410
+[5,] -0.52344682  8.940034
+[6,] -0.13378721  9.784580
+[7,]  0.07187965 10.869133
+
+Coordinate Reference System (CRS) arguments: NA 
+> mp[1:2]
+SpatialMultiPoints:
+[[1]]
+         [,1]      [,2]
+[1,] 9.957676  9.601667
+[2,] 8.224597  9.326887
+[3,] 9.736728 10.002254
+
+[[2]]
+          [,1]        [,2]
+[1,]  9.117313 -2.47354594
+[2,] 10.468834  0.52829299
+[3,] 10.327311  0.05678886
+[4,] 10.033190  1.08238505
+[5,]  9.533829  1.20199932
+
+Coordinate Reference System (CRS) arguments: NA 
+> 
+> print(mp, asWKT=TRUE, digits=3)
+SpatialMultiPoints:
+                                                                                       geometry
+1                                                       MULTIPOINT (9.96 9.6,8.22 9.33,9.74 10)
+2                               MULTIPOINT (9.12 -2.47,10.5 0.528,10.3 0.0568,10 1.08,9.53 1.2)
+3 MULTIPOINT (0.975 10.4,-0.0134 8.67,0.98 7.43,-1.27 10.4,-0.523 8.94,-0.134 9.78,0.0719 10.9)
+Coordinate Reference System (CRS) arguments: NA 
+> 
+> mpdf = SpatialMultiPointsDataFrame(list(cl1, cl2, cl3), data.frame(a = 1:3))
+> mpdf
+                coordinates a
+1      (9.957676, 9.601667) 1
+1.1    (8.224597, 9.326887) 1
+1.2    (9.736728, 10.00225) 1
+2     (9.117313, -2.473546) 2
+2.1    (10.46883, 0.528293) 2
+2.2  (10.32731, 0.05678886) 2
+2.3    (10.03319, 1.082385) 2
+2.4    (9.533829, 1.201999) 2
+3     (0.9748539, 10.37997) 3
+3.1 (-0.01338201, 8.670247) 3
+3.2   (0.9797527, 7.428666) 3
+3.3   (-1.268919, 10.42141) 3
+3.4  (-0.5234468, 8.940034) 3
+3.5   (-0.1337872, 9.78458) 3
+3.6  (0.07187965, 10.86913) 3
+> 
+> plot(mpdf, col = mpdf$a, cex = 1:3)
+> as(mpdf, "data.frame")
+             X1          X2 index a
+1    9.95767571  9.60166706     1 1
+1.1  8.22459746  9.32688684     1 1
+1.2  9.73672805 10.00225380     1 1
+2    9.11731319 -2.47354594     2 2
+2.1 10.46883400  0.52829299     2 2
+2.2 10.32731137  0.05678886     2 2
+2.3 10.03318982  1.08238505     2 2
+2.4  9.53382949  1.20199932     2 2
+3    0.97485393 10.37997468     3 3
+3.1 -0.01338201  8.67024744     3 3
+3.2  0.97975270  7.42866560     3 3
+3.3 -1.26891911 10.42141046     3 3
+3.4 -0.52344682  8.94003377     3 3
+3.5 -0.13378721  9.78457990     3 3
+3.6  0.07187965 10.86913314     3 3
+> mpdf[1:2,]
+               coordinates a
+1     (9.957676, 9.601667) 1
+1.1   (8.224597, 9.326887) 1
+1.2   (9.736728, 10.00225) 1
+2    (9.117313, -2.473546) 2
+2.1   (10.46883, 0.528293) 2
+2.2 (10.32731, 0.05678886) 2
+2.3   (10.03319, 1.082385) 2
+2.4   (9.533829, 1.201999) 2
+> 
+> proc.time()
+   user  system elapsed 
+  0.442   0.300   0.431 

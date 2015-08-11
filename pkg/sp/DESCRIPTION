@@ -24,10 +24,12 @@ Description: Classes and methods for spatial
 License: GPL (>= 2)
 URL: https://r-forge.r-project.org/projects/rspatial/ http://rspatial.r-forge.r-project.org/
 Collate: bpy.colors.R AAA.R Class-CRS.R CRS-methods.R 
-	Class-Spatial.R Spatial-methods.R projected.R Class-SpatialPoints.R
-	SpatialPoints-methods.R Class-SpatialPointsDataFrame.R
-	SpatialPointsDataFrame-methods.R Class-GridTopology.R
-	Class-SpatialGrid.R Class-SpatialGridDataFrame.R
+	Class-Spatial.R Spatial-methods.R projected.R 
+	Class-SpatialPoints.R SpatialPoints-methods.R 
+	Class-SpatialPointsDataFrame.R SpatialPointsDataFrame-methods.R 
+	Class-SpatialMultiPoints.R SpatialMultiPoints-methods.R 
+	Class-SpatialMultiPointsDataFrame.R SpatialMultiPointsDataFrame-methods.R 
+	Class-GridTopology.R Class-SpatialGrid.R Class-SpatialGridDataFrame.R
 	Class-SpatialLines.R SpatialLines-methods.R
 	Class-SpatialLinesDataFrame.R SpatialLinesDataFrame-methods.R
 	Class-SpatialPolygons.R Class-SpatialPolygonsDataFrame.R
