@@ -141,3 +141,12 @@ setMethod("geometry", "SpatialMultiPointsDataFrame",
 	function(obj) as(obj, "SpatialMultiPoints"))
 
 length.SpatialMultiPointsDataFrame = function(x) { length(x@coords) }
+
+setAs("SpatialMultiPointsDataFrame", "SpatialPointsDataFrame",
+	function(from) {
+		l = sapply(from@coords, nrow)
+		ix = rep(1:length(l), l)
+		new("SpatialPointsDataFrame", as(geometry(from), "SpatialPoints"),
+			data = from@data[ix,,drop=FALSE], coords.nrs = numeric(0))
+	}
+)

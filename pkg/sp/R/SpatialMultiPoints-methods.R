@@ -119,3 +119,6 @@ setMethod("$", "SpatialMultiPoints",
 		x@data[[name]]
 	}
 )
+
+setAs("SpatialMultiPoints", "SpatialPoints", function(from) 
+	SpatialPoints(coordinates(from), from@proj4string, from@bbox))
