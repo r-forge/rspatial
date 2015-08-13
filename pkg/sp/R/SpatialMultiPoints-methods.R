@@ -122,3 +122,8 @@ setMethod("$", "SpatialMultiPoints",
 
 setAs("SpatialMultiPoints", "SpatialPoints", function(from) 
 	SpatialPoints(coordinates(from), from@proj4string, from@bbox))
+
+split.SpatialPoints = function(x, f, drop = FALSE, ...) {
+	lst = lapply(split(as.data.frame(coordinates(x)), f), as.matrix)
+	SpatialMultiPoints(lst, x@proj4string, x@bbox)
+}

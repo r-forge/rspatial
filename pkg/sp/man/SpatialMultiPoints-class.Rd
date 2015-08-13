@@ -3,8 +3,8 @@
 \alias{SpatialMultiPoints-class}
 \alias{[,SpatialMultiPoints-method}
 \alias{coerce,SpatialMultiPoints,matrix-method}
-\alias{coerce,SpatialMultiPoints,data.frame-method} % here???
-\alias{coerce,SpatialMultiPoints,SpatialPoints-method} % here???
+\alias{coerce,SpatialMultiPoints,data.frame-method}
+\alias{coerce,SpatialMultiPoints,SpatialPoints-method}
 %\alias{coerce,SpatialPoints,data.frame-method}
 %\alias{coerce,data.frame,SpatialPoints-method}
 %\alias{coerce,matrix,SpatialPoints-method}

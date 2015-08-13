@@ -381,6 +381,8 @@ S3method(print, SpatialLinesDataFrame)
 S3method(print, summary.Spatial)
 S3method(print, summary.GridTopology)
 
+S3method(split, SpatialPoints)
+
 S3method(stack, SpatialPointsDataFrame)
 S3method(stack, SpatialPixelsDataFrame)
 S3method(stack, SpatialGridDataFrame)

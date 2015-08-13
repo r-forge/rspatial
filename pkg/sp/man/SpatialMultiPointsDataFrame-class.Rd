@@ -4,6 +4,7 @@
 \alias{[,SpatialMultiPointsDataFrame-method}
 \alias{coerce,SpatialMultiPointsDataFrame,data.frame-method}
 %\alias{coerce,SpatialMultiPointsDataFrame,SpatialMultiPoints-method}
+\alias{coerce,SpatialMultiPointsDataFrame,SpatialPointsDataFrame-method}
 \alias{show,SpatialMultiPointsDataFrame-method}
 \alias{points,SpatialMultiPointsDataFrame-method}
 \alias{coordinates,SpatialMultiPointsDataFrame-method}

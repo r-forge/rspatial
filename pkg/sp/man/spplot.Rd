@@ -15,6 +15,7 @@
 \alias{spplot,SpatialPolygonsDataFrame-method}
 \alias{spplot,SpatialLinesDataFrame-method}
 \alias{spplot,SpatialPointsDataFrame-method}
+\alias{spplot,SpatialMultiPointsDataFrame-method}
 \alias{sppanel}
 \alias{sppanel,Line-method}
 \alias{sppanel,Lines-method}

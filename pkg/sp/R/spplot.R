@@ -349,6 +349,9 @@ spplot.points = function(obj, zcol = names(obj), ..., names.attr,
 }
 setMethod("spplot", signature("SpatialPointsDataFrame"), spplot.points)
 
+setMethod("spplot", signature("SpatialMultiPointsDataFrame"), 
+	function(obj, ...) spplot.points(as(obj, "SpatialPointsDataFrame"), ...))
+
 create.z = function(df, zcol) {
 	if (is.logical(df[[zcol[1]]])) {
 		z = stack(df[zcol])[[1]]

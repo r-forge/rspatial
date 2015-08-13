@@ -71,18 +71,22 @@ aggregate.data.frame.SP <- function (x, by, FUN, ..., dissolve = TRUE) {
     row.names(y) <- NULL
 
 	# original would now return y; I added:
-	if (dissolve && class(geom) != "SpatialPointsDataFrame") { # dissolve/merge:
-		if (!requireNamespace("rgeos", quietly = TRUE))
-			stop("rgeos required")
-		if (is(geom, "SpatialLines"))
-			geom = rgeos::gLineMerge(geom, grp)
+	if (dissolve) { # dissolve/merge:
+		if (is(geom, "SpatialPoints"))
+			geom = split(geom, factor(grp)) # creates SpatialMultiPoints
 		else {
-			if (gridded(geom))
-				geom = as(geom, "SpatialPolygons")
-			geom = rgeos::gUnaryUnion(geom, grp)
+			if (!requireNamespace("rgeos", quietly = TRUE))
+				stop("rgeos required")
+			if (is(geom, "SpatialLines"))
+				geom = rgeos::gLineMerge(geom, grp)
+			else {
+				if (gridded(geom))
+					geom = as(geom, "SpatialPolygons")
+				geom = rgeos::gUnaryUnion(geom, grp)
+			}
 		}
 	} else
-		y = y[as.integer(factor(grp)),]
+		y = y[as.integer(factor(grp)),,drop=FALSE] # repeat
 	if (identical(y$ID, rep(1, nrow(y))))
 		y$ID = NULL # remove ID field
 	addAttrToGeom(geom, y, match.ID = FALSE)
