@@ -205,11 +205,34 @@ setMethod("over", signature("SpatialPoints", "SpatialPixelsDataFrame"),
 
 setMethod("over", signature("Spatial", "Spatial"),  # catch remaining:
 	function(x, y, returnList = FALSE, fn = NULL, ...) {
+		if (is(x, "SpatialMultiPoints") || is(y, "SpatialMultiPoints"))
+			return(overMultiPoints(x, y, returnList = returnList, fn = fn, ...))
     	if (!requireNamespace("rgeos", quietly = TRUE))
 			stop("package rgeos is required for additional over methods")
 		over(x, y, returnList = returnList, fn = fn, ...) # rgeos methods
 	}
 )
+
+overMultiPoints = function(x, y, returnList, fn, ...) {
+	if (is(x, "SpatialMultiPoints")) {
+		x = as(x, "SpatialPoints")
+		reduce = TRUE
+	}
+	if (is(y, "SpatialMultiPointsDataFrame"))
+		y = as(y, "SpatialPointsDataFrame")
+	else
+		y = as(y, "SpatialPoints")
+   	if (!requireNamespace("rgeos", quietly = TRUE))
+		stop("package rgeos is required for additional over methods")
+	if ("data" %in% slotNames(y))
+		ret = rgeos:::overGeomGeomDF(x, y, returnList = returnList, fn = fn, ...)
+	else
+		ret = rgeos:::overGeomGeom(x, y, returnList = returnList, fn = fn, ...)
+	if (reduce) {
+		# reduce from # points to # of groups
+	}
+	ret
+}
 
 .index2list = function(x, returnList) {
 	if (returnList) {
