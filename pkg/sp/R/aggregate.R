@@ -72,7 +72,7 @@ aggregate.data.frame.SP <- function (x, by, FUN, ..., dissolve = TRUE) {
 
 	# original would now return y; I added:
 	if (dissolve) { # dissolve/merge:
-		if (is(geom, "SpatialPoints"))
+		if (!gridded(geom) && is(geom, "SpatialPoints"))
 			geom = split(geom, factor(grp)) # creates SpatialMultiPoints
 		else {
 			if (!requireNamespace("rgeos", quietly = TRUE))

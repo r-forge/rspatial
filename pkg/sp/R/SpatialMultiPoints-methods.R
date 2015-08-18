@@ -64,11 +64,8 @@ setMethod("plot", signature(x = "SpatialMultiPoints", y = "missing"),
 points.SpatialMultiPoints = function(x, y = NULL, ...) plot(x, add = TRUE, ...)
 
 setMethod("coordinates", "SpatialMultiPoints", 
-	function(obj) {
-		ret = do.call(rbind, obj@coords)
-		dimnames(ret)[[1]] = rep(1:length(obj@coords), sapply(obj@coords, nrow))
-		ret
-	}
+	function(obj) matrix(do.call(rbind, obj@coords), ncol = ncol(obj@coords[[1]]),
+		dimnames = list(rep(1:length(obj@coords), sapply(obj@coords, nrow))))
 )
 
 as.data.frame.SpatialMultiPoints = function(x, row.names, optional, ...) data.frame(coordinates(x@coords))

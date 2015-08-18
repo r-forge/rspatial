@@ -230,6 +230,7 @@ overMultiPoints = function(x, y, returnList, fn, ...) {
 		ret = rgeos:::overGeomGeom(x, y, returnList = returnList, fn = fn, ...)
 	if (reduce) {
 		# reduce from # points to # of groups
+		stop("tbd")
 	}
 	ret
 }

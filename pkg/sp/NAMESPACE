@@ -248,7 +248,7 @@ exportMethods(
 	is.projected,
 	merge,
 	over,
-	overlay,
+	# overlay,
 	plot,
 	polygons, 
 	"polygons<-",
