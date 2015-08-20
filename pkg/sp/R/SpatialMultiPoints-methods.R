@@ -123,8 +123,14 @@ setMethod("$", "SpatialMultiPoints",
 	}
 )
 
-setAs("SpatialMultiPoints", "SpatialPoints", function(from) 
-	SpatialPoints(coordinates(from), from@proj4string, from@bbox))
+setAs("SpatialMultiPoints", "SpatialPoints", 
+	function(from) {
+		cc = coordinates(from)
+		attr(cc, "groupIndex") = dimnames(cc)[[1]]
+		dimnames(cc)[[1]] = NULL # if we'd retain them, rgeos would interpret the SpatialPoints as SpatialMultiPoints
+		SpatialPoints(cc, from@proj4string, from@bbox)
+	}
+)
 
 split.SpatialPoints = function(x, f, drop = FALSE, ...) {
 	lst = lapply(split(as.data.frame(coordinates(x)), f), as.matrix)

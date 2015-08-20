@@ -214,23 +214,29 @@ setMethod("over", signature("Spatial", "Spatial"),  # catch remaining:
 )
 
 overMultiPoints = function(x, y, returnList, fn, ...) {
-	if (is(x, "SpatialMultiPoints")) {
-		x = as(x, "SpatialPoints")
-		reduce = TRUE
-	}
-	if (is(y, "SpatialMultiPointsDataFrame"))
-		y = as(y, "SpatialPointsDataFrame")
-	else
-		y = as(y, "SpatialPoints")
    	if (!requireNamespace("rgeos", quietly = TRUE))
 		stop("package rgeos is required for additional over methods")
+	if (is(x, "SpatialMultiPoints")) {
+		x = as(x, "SpatialPoints")
+		ix = dimnames(x@coords)[[1]] = attr(x@coords, "groupIndex") # rgeos abuse
+		reduce = TRUE
+	} else
+		reduce = FALSE
+	if (is(y, "SpatialMultiPoints")) {
+		if (is(y, "SpatialMultiPointsDataFrame")) {
+			yy = as(y, "SpatialPointsDataFrame")
+			yy@data = y@data 
+			y = yy
+		} else
+			y = as(y, "SpatialPoints")
+		dimnames(y@coords)[[1]] = attr(y@coords, "groupIndex") # rgeos abuse
+	}
 	if ("data" %in% slotNames(y))
-		ret = rgeos:::overGeomGeomDF(x, y, returnList = returnList, fn = fn, ...)
+		ret = rgeos::overGeomGeomDF(x, y, returnList = returnList, fn = fn, ...)
 	else
-		ret = rgeos:::overGeomGeom(x, y, returnList = returnList, fn = fn, ...)
+		ret = rgeos::overGeomGeom(x, y, returnList = returnList, fn = fn, ...)
 	if (reduce) {
-		# reduce from # points to # of groups
-		stop("tbd")
+		# stop("tbd")
 	}
 	ret
 }

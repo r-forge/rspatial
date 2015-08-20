@@ -30,7 +30,6 @@
 			data = data[mtch, , drop = FALSE]
 		}
 	}
-	# EJP, Tue Aug 13 19:54:04 CEST 2013
 	if (is.character(attr(data, "row.names"))) # i.e., data has "real" row names
 		names(coords@coords) = row.names(data)
 	new("SpatialMultiPointsDataFrame", coords, data = data)
@@ -46,7 +45,6 @@ setMethod("addAttrToGeom", signature(x = "SpatialMultiPoints", y = "data.frame")
 .asWKT = FALSE
 print.SpatialMultiPointsDataFrame = function(x, ..., digits = getOption("digits"), 
 		asWKT = .asWKT) {
-	#EJP, Fri May 21 12:40:59 CEST 2010
 	if (asWKT)
 		df = data.frame(asWKTSpatialMultiPoints(x, digits), x@data)
 	else { # old style
