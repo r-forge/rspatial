@@ -221,7 +221,7 @@ overMultiPoints = function(x, y, returnList, fn, ...) {
 	if (is(y, "SpatialMultiPoints")) {
 		if (is(y, "SpatialMultiPointsDataFrame")) {
 			yy = as(y, "SpatialPointsDataFrame")
-			yy@data = y@data 
+			yy@data = y@data  # strong sp abuse - yy no longer validates!
 			y = yy
 		} else
 			y = as(y, "SpatialPoints")

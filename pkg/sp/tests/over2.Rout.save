@@ -136,10 +136,10 @@ $`1`
 
 > 
 > rgeos::overGeomGeom(pt,sp)
-[1] 1
+[1] 2
 > rgeos::overGeomGeom(pt,sp,returnList=TRUE)
 [[1]]
-[1] 1 2
+[1] 2 1
 
 > 
 > plot(sp)
@@ -158,4 +158,4 @@ $`1`
 > 
 > proc.time()
    user  system elapsed 
-  0.556   0.305   0.541 
+  0.547   0.315   0.539 
