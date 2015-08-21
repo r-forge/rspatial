@@ -1,5 +1,5 @@
 
-R version 3.2.1 (2015-06-18) -- "World-Famous Astronaut"
+R version 3.2.2 (2015-08-14) -- "Fire Safety"
 Copyright (C) 2015 The R Foundation for Statistical Computing
 Platform: x86_64-pc-linux-gnu (64-bit)
 
@@ -579,6 +579,8 @@ attr(,"class")
 attr(,"condition")
 <simpleError in SpatialPointsDataFrame(pts, df): row.names of data and dimnames of coords do not match>
 > SpatialPointsDataFrame(pts, df, match.ID = FALSE)
+Warning in validityMethod(object) :
+  duplicate rownames are interpreted by rgeos as MultiPoints; use SpatialMultiPoints to define these
   coordinates a m
 e      (1, 1) 1 e
 d      (2, 2) 2 d
@@ -611,4 +613,4 @@ Error in SpatialPointsDataFrame(pts, df, match.ID = TRUE) :
 > 
 > proc.time()
    user  system elapsed 
-  0.797   0.207   0.842 
+  0.841   0.354   0.871 
