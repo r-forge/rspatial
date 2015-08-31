@@ -4,10 +4,12 @@ g = SpatialGrid(GridTopology(c(0,0), c(1,1), c(3,3)))
 p = as(g, "SpatialPolygons")
 over(g,g)
 over(p,p)
+over(p,p, minDimension = 0) # orders; different names
 over(p,g)
 over(g,p)
 
 over(p,p,returnList=TRUE)
+over(p,p,returnList=TRUE, minDimension=0)
 over(p,p,returnList=TRUE, minDimension=1)
 over(p,p,returnList=TRUE, minDimension=2)
 over(p,p[1:6],minDimension=2)
@@ -24,6 +26,7 @@ over(pt,sp,returnList=TRUE)
 
 rgeos::overGeomGeom(pt,sp)
 rgeos::overGeomGeom(pt,sp,returnList=TRUE)
+rgeos::overGeomGeom(pt,sp,returnList=TRUE, minDimension = 0) # orders:
 
 plot(sp)
 plot(pt,add=TRUE,col='red',pch=16)
