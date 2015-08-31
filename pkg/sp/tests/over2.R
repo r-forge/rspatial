@@ -21,19 +21,19 @@ sp = SpatialPolygons(list(
  Polygons(list(Polygon(x1)), "x1"),
  Polygons(list(Polygon(x2)), "x2")))
 pt = SpatialPoints(cbind(0.5,0.5)) # on border of x1
+row.names(pt) = "pt1"
 over(pt,sp)
 over(pt,sp,returnList=TRUE)
 
 rgeos::overGeomGeom(pt,sp)
 rgeos::overGeomGeom(pt,sp,returnList=TRUE)
-rgeos::overGeomGeom(pt,sp,returnList=TRUE, minDimension = 0) # orders:
 
 plot(sp)
 plot(pt,add=TRUE,col='red',pch=16)
 #    x1     x2 
 #	"F0FF" "0FFF" 
-# it would be nice to have these sorted "2, 1" instead of "1, 2", but
-# that doesn't work now.
+# it would be nice to have these sorted "2, 1" instead of "1, 2" - use
+rgeos::overGeomGeom(pt,sp,returnList=TRUE, minDimension = 0)
 
 rgeos::overGeomGeom(pt,pt,minDimension=2)
 rgeos::overGeomGeom(pt,pt,minDimension=1)
