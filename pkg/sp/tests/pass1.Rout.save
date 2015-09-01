@@ -580,7 +580,7 @@ attr(,"condition")
 <simpleError in SpatialPointsDataFrame(pts, df): row.names of data and dimnames of coords do not match>
 > SpatialPointsDataFrame(pts, df, match.ID = FALSE)
 Warning in validityMethod(object) :
-  duplicate rownames are interpreted by rgeos as MultiPoints; use SpatialMultiPoints to define these
+  duplicate rownames are interpreted by rgeos as MultiPoints; use SpatialMultiPoints to define these; in future sp versions this warning will become an error
   coordinates a m
 e      (1, 1) 1 e
 d      (2, 2) 2 d
@@ -613,4 +613,4 @@ Error in SpatialPointsDataFrame(pts, df, match.ID = TRUE) :
 > 
 > proc.time()
    user  system elapsed 
-  0.841   0.354   0.871 
+  0.983   0.228   1.000 
