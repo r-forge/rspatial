@@ -53,6 +53,7 @@ Class \code{"Spatial"}, by class \code{"SpatialMultiPoints"}.
   \code{\link{coordinates}}, \code{\link{SpatialMultiPoints-class}} 
 }
 \examples{
+# create three sets of points:
 cl1 = cbind(rnorm(3, 10), rnorm(3, 10))
 cl2 = cbind(rnorm(5, 10), rnorm(5,  0))
 cl3 = cbind(rnorm(7,  0), rnorm(7, 10))
@@ -63,5 +64,6 @@ mpdf
 plot(mpdf, col = mpdf$a, cex = 1:3)
 as(mpdf, "data.frame")
 mpdf[1:2,]
+
 }
 \keyword{classes}

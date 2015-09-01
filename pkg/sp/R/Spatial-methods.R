@@ -246,6 +246,7 @@ plot.Spatial <- function(x, xlim = NULL, ylim = NULL,
 	localTitle <- function(..., col, bg, pch, cex, lty, lwd) title(...)
 	localTitle(...)
 	if (!is.null(bgMap)) {
+		is3875 = function(x) length(grep("+init=epsg:3857", x@proj4string@projargs)) > 0
 		mercator = FALSE
 		if (is(bgMap, "ggmap")) {
 			bb = bb2merc(bgMap, "ggmap")
@@ -257,7 +258,7 @@ plot.Spatial <- function(x, xlim = NULL, ylim = NULL,
 			mercator = TRUE
 		} else
 			bb = rbind(xlim, ylim) # can be any CRS!
-		if (mercator && !identical(x@proj4string, CRS("+init=epsg:3857")))
+		if (mercator && !is3875(x))
 			warning(paste('CRS of plotting object differs from that of bgMap, which is assumed to be CRS("+init=epsg:3857")'))
 		rasterImage(bgMap, bb[1,1], bb[2,1], bb[1,2], bb[2,2], interpolate = FALSE)
 	}
