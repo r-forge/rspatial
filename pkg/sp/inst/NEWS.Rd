@@ -13,6 +13,9 @@
 	\code{SpatialPoints} or \code{SpatialPointsDataFrame}. Functions in 
 	\CRANpkg{rgeos} support this feature class. See also \code{demo(mp)}.
 
+	\item creating \code{SpatialPoints} objects with duplicated coordinate
+	rownames now gives a warning, which will become an error in the future.
+
     \item Support for Google Earth or OpenStreetMap background maps in
 	\code{sp::plot} and \code{spplot}. Maps returned by
     \itemize{
@@ -26,5 +29,13 @@
 
 	As these maps assume a web mercator projection, \code{sp::plot} issues a warning 
 	if the object to be plotted does not have a CRS containing \code{"+init=epsg:3857"}
+
+  	\item \code{over} methods that are taken care of by \CRANpkg{rgeos} (anything
+	involving \code{SpatialLines}, or \code{SpatialPolygons}-\code{SpatialPolygons}
+	gained an argument \code{minDimension}, which causes an ordering of returned
+	features by dimension of intersection, and the ability to select a minimun
+	dimension (e.g. only area-overlap); this uses \code{gRelate}, and has a 
+	computational cost. Documentation found in \code{vignette("over")}.
+
   }
 }
