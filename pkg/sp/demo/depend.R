@@ -1,7 +1,7 @@
 require(tools)
 packages_to_check <- function(dep, which = c("Depends", "Imports", "LinkingTo", "Suggests"), recursive = FALSE){
 
-download.file("http://cran.uni-muenster.de/web/packages/packages.rds", "packages.rds", mode="wb")
+download.file("https://cran.uni-muenster.de/web/packages/packages.rds", "packages.rds", mode="wb")
     x <- readRDS("packages.rds")
     x <- x[!duplicated(x[,1]),]
     packages <- x[,1]
@@ -12,7 +12,7 @@ download.file("http://cran.uni-muenster.de/web/packages/packages.rds", "packages
 }
 
 #RCheck = function(x, URL = "http://ftp5.gwdg.de/pub/misc/cran/src/contrib/") {
-RCheck = function(x, URL = "http://cran.uni-muenster.de/src/contrib/") {
+RCheck = function(x, URL = "https://cran.uni-muenster.de/src/contrib/") {
 	if (!file.exists(x))
 		download.file(paste(URL, x, sep=""), x)
 	cmd = paste("R CMD check ", x, " > ", x, ".log", sep = "")
