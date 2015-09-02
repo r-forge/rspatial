@@ -1,3 +1,27 @@
+2015-09-02 08:35  edzer
+
+	* demo/depend.R: update
+
+2015-09-01 13:00  edzer
+
+	* tests/pass1.Rout.save: update test output
+
+2015-09-01 12:53  edzer
+
+	* R/Class-SpatialPoints.R, inst/NEWS.Rd: tidy; extend warning to
+	  indicate deprecation of duplicate rownames in SpatialPoints
+
+2015-09-01 10:53  edzer
+
+	* ChangeLog, R/Spatial-methods.R, demo/00Index, demo/mp.R,
+	  inst/NEWS.Rd, man/SpatialMultiPointsDataFrame-class.Rd: add mp
+	  demo and NEWS.Rd; modify warning for non-mercator data if bgMap
+	  is set
+
+2015-09-01 07:20  edzer
+
+	* inst/ChangeLog: tidy
+
 2015-09-01 06:35  edzer
 
 	* demo/depend.R: tidy
