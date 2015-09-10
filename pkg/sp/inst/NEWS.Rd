@@ -31,7 +31,7 @@
 	if the object to be plotted does not have a CRS containing \code{"+init=epsg:3857"}
 
   	\item \code{over} methods that are taken care of by \CRANpkg{rgeos} (anything
-	involving \code{SpatialLines}, or \code{SpatialPolygons}-\code{SpatialPolygons}
+	involving \code{SpatialLines}, or \code{SpatialPolygons}-\code{SpatialPolygons})
 	gained an argument \code{minDimension}, which causes an ordering of returned
 	features by dimension of intersection, and the ability to select a minimun
 	dimension (e.g. only area-overlap); this uses \code{gRelate}, and has a 
