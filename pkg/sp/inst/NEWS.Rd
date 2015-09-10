@@ -1,6 +1,11 @@
 \name{NEWS} 
 \title{News for Package 'sp'}
 
+\section{Changes in version 1.2-1 (2015-09-01)}{
+  \itemize{
+    \item \code{aggregate} now accepts parameter \code{minDimension}, introduced for \code{over} in 1.2-0, and passes it on properly to \code{over} in order to control when features intersect.
+  }
+}
 \section{Changes in version 1.2-0 (2015-09-01)}{
   \itemize{
     \item Support for \code{SpatialMultiPoints} and
