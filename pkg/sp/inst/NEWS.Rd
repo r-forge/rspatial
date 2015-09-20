@@ -3,7 +3,8 @@
 
 \section{Changes in version 1.2-1 (2015-09-01)}{
   \itemize{
-    \item \code{aggregate} now accepts parameter \code{minDimension}, introduced for \code{over} in 1.2-0, and passes it on properly to \code{over} in order to control when features intersect.
+    \item \code{aggregate} now accepts parameter \code{minDimension}, introduced for \code{over} in 1.2-0, and passes it on to \code{over} to control when features intersect; see the documentation of \code{over} for further details.
+	\item \code{SpatialMultiPoints} objects with zero features can now exist.
   }
 }
 \section{Changes in version 1.2-0 (2015-09-01)}{
