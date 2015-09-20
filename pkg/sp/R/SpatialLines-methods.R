@@ -246,6 +246,16 @@ setAs("SpatialLines", "SpatialPoints", function(from) {
 		)
 	}
 )
+setAs("Lines", "SpatialMultiPoints", function(from) {
+		SpatialMultiPoints(coordinates(from))
+	}
+)
+setAs("SpatialLines", "SpatialMultiPoints", function(from) {
+		l = lapply(from@lines, function(x) do.call(rbind, coordinates(x)))
+		names(l) = sapply(from@lines, function(x) x@ID)
+		SpatialMultiPoints(l, CRS(proj4string(from)))
+	}
+)
 SpatialLines2SpatialPointsDataFrame = function(from) {
 	spp = as(as(from, "SpatialLines"), "SpatialPoints")
 	L = lapply(from@lines, function(x) {rep(1:length(x@Lines),
