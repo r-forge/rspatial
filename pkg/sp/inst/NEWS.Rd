@@ -34,7 +34,7 @@
 	See \code{demo(webmap)} for examples.
 
 	As these maps assume a web mercator projection, \code{sp::plot} issues a warning 
-	if the object to be plotted does not have a CRS containing \code{"+init=epsg:3857"}
+	if the object to be plotted have a CRS that does not contain \code{"+init=epsg:3857"}
 
   	\item \code{over} methods that are taken care of by \CRANpkg{rgeos} (anything
 	involving \code{SpatialLines}, or \code{SpatialPolygons}-\code{SpatialPolygons})
