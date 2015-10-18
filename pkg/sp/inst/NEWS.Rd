@@ -1,9 +1,18 @@
 \name{NEWS} 
 \title{News for Package 'sp'}
 
-\section{Changes in version 1.2-1 (2015-09-01)}{
+\section{Changes in version 1.2-1 (2015-10-17)}{
   \itemize{
-    \item \code{aggregate} now accepts parameter \code{minDimension}, introduced for \code{over} in 1.2-0, and passes it on to \code{over} to control when features intersect; see the documentation of \code{over} for further details.
+	\item \code{spsample.Spatial} does no longer generate objects with rownames.
+	\item \code{CRS} gains argument \code{doCheckCRSArgs}, to allow suppression of the default checking
+    \item coercion from \code{Lines} to \code{SpatialPoints} now drops (duplicate) rownames
+	\item add coercion from \code{SpatialLines*} to \code{SpatialMultiPoints*}
+	\item improve printing of \code{SpatialMultiPoint*} objects
+	\item \code{aggregate} now passes \code{minDimension} to \code{rgeos}; explanation of
+	\code{aggregate} extended in its vignette
+	\item depend on \code{rgeos} version 0.3-13
+    \item \code{merge} now accepts \code{"row.names"} or \code{0} for arguments \code{by.x} or \code{by.y}, for compatibility with \code{base::merge}.
+    \item \code{aggregate} now accepts parameter \code{minDimension}, introduced for \code{over} in 1.2-0, and passes it on to \code{over} to control when features intersect; see the documentation of \code{over} and its vignette for details.
 	\item \code{SpatialMultiPoints} objects with zero features can now exist.
   }
 }
