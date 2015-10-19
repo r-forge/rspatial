@@ -78,8 +78,11 @@ The plot method for \dQuote{SpatialLines} objects takes the following arguments:
 \examples{ 
 # from the sp vignette:
 l1 = cbind(c(1,2,3),c(3,2,2))
+rownames(l1) = letters[1:3]
 l1a = cbind(l1[,1]+.05,l1[,2]+.05)
+rownames(l1a) = letters[1:3]
 l2 = cbind(c(1,2,3),c(1,1.5,1))
+rownames(l2) = letters[1:3]
 Sl1 = Line(l1)
 Sl1a = Line(l1a)
 Sl2 = Line(l2)

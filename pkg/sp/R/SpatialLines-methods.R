@@ -136,7 +136,7 @@ plotSpatialLines <- function(SL, xlim = NULL, ylim = NULL,
 setMethod("plot", signature(x = "SpatialLines", y = "missing"),
 	function(x, y, ...) plotSpatialLines(x, ...))
 
-setMethod("coordinates", "Line", function(obj) { cc = obj@coords; row.names(cc) <- NULL; cc })
+setMethod("coordinates", "Line", function(obj) obj@coords)
 setMethod("coordinates", "Lines", function(obj) lapply(obj@Lines, coordinates))
 setMethod("coordinates", "SpatialLines", function(obj) lapply(obj@lines, coordinates))
 
@@ -234,16 +234,18 @@ SpatialLinesLengths = function(SL, longlat) {
 }
 
 setAs("Lines", "SpatialPoints", function(from) {
-		SpatialPoints(do.call(rbind, coordinates(from)))
+		cc = do.call(rbind, coordinates(from))
+		if (!is.null(rownames(cc)))
+			rownames(cc) = make.unique(rownames(cc))
+		SpatialPoints(cc)
 	}
 )
 setAs("SpatialLines", "SpatialPoints", function(from) {
-		SpatialPoints(
-			do.call(rbind,
-				lapply(from@lines, function(x) coordinates(
-						as(x, "SpatialPoints")))),
-			CRS(proj4string(from))
-		)
+		cc = do.call(rbind,
+				lapply(from@lines, function(x) coordinates(as(x, "SpatialPoints"))))
+		if (!is.null(rownames(cc)))
+			rownames(cc) = make.unique(rownames(cc))
+		SpatialPoints(cc, CRS(proj4string(from)))
 	}
 )
 setAs("Lines", "SpatialMultiPoints", function(from) {
