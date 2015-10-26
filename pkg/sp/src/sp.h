@@ -8,7 +8,7 @@
 #endif
 /* remember to touch local_stubs.c */
 
-#define SP_VERSION "1.2-1"
+#define SP_VERSION "1.2-2"
 
 #include <S.h>
 
