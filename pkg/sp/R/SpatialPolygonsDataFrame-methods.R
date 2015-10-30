@@ -133,3 +133,14 @@ setMethod("geometry", "SpatialPolygonsDataFrame",
 	function(obj) as(obj, "SpatialPolygons"))
 
 length.SpatialPolygonsDataFrame = function(x) { length(x@polygons) }
+
+# RSB 151030 override default coerce to preserve top-level comment
+setAs("SpatialPolygonsDataFrame", "SpatialPolygons",
+    function(from) {
+        value <- new("SpatialPolygons")
+        for (what in c("polygons", "plotOrder", "bbox", "proj4string"
+            )) slot(value, what) <- slot(from, what)
+        if (!is.null(comment(from))) comment(value) <- comment(from)
+        value
+    }
+)
