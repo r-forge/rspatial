@@ -5,7 +5,7 @@
 		coords = coordinates(coords) 
 		# make sure data.frame becomes double matrix; NA checks
 	mtch = NULL
-	cc.ID = dimnames(coords)[[1]]
+	cc.ID = row.names(coords) # row.names works for both matrix AND SpatialPoints
 	if (missing(match.ID)) { # sort it out:
 		if (is.null(cc.ID))
 			match.ID = FALSE # nothing to match to!
