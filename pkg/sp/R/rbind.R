@@ -24,6 +24,25 @@ rbind.SpatialPointsDataFrame <- function(...) {
 	SpatialPointsDataFrame(sp, df, coords.nrs = dots[[1]]@coords.nrs)
 }
 
+
+# contributed by Kent Johnson, r-sig-geo, Dec 5, 2015:
+rbind.SpatialMultiPoints <- function(...) { 
+	dots = list(...)
+	names(dots) <- NULL
+	stopifnot(identicalCRS(dots))
+	SpatialMultiPoints(do.call(c, lapply(dots, slot, name="coords")),
+	CRS(proj4string(dots[[1]])))
+}
+
+rbind.SpatialMultiPointsDataFrame <- function(...) {
+	dots = list(...)
+	names(dots) <- NULL
+	sp = do.call(rbind, lapply(dots, function(x) as(x, "SpatialMultiPoints")))
+	df = do.call(rbind, lapply(dots, function(x) x@data))
+	SpatialMultiPointsDataFrame(sp, df)
+}
+
+
 rbind.SpatialPixels = function(...) {
 	dots = list(...)
 	names(dots) <- NULL

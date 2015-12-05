@@ -180,6 +180,8 @@ export(
 
 	rbind.SpatialPoints,
 	rbind.SpatialPointsDataFrame, 
+	rbind.SpatialMultiPoints,
+	rbind.SpatialMultiPointsDataFrame, 
 	rbind.SpatialPixels,
 	rbind.SpatialPixelsDataFrame,
 	rbind.SpatialPolygons,
