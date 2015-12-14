@@ -32,6 +32,9 @@ if (!isGeneric("fullgrid<-"))
 if (!isGeneric("geometry"))
 	setGeneric("geometry", function(obj)
 		standardGeneric("geometry"))
+if (!isGeneric("geometry<-"))
+	setGeneric("geometry<-", function(obj, value)
+		standardGeneric("geometry<-"))
 if (!isGeneric("gridded"))
 	setGeneric("gridded", function(obj)
 		standardGeneric("gridded"))
@@ -338,6 +341,10 @@ setMethod("geometry", "Spatial",
 			stop(paste("geometry method missing for class", class(obj)))
 		obj 
 	}
+)
+
+setReplaceMethod("geometry", c("data.frame", "Spatial"),
+	function(obj, value) addAttrToGeom(value, obj)
 )
 
 setReplaceMethod("[", c("Spatial", "ANY", "ANY", "ANY"),

@@ -245,6 +245,7 @@ exportMethods(
 	fullgrid,
 	"fullgrid<-",
 	geometry, 
+	"geometry<-", 
 	gridded,
 	"gridded<-",
 	is.projected,
