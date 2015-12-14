@@ -36,6 +36,15 @@ data.frame into a Spatial object.
 \item{obj = "SpatialLinesDataFrame"}{ }
 }
 }
-
 \author{Edzer Pebesma, \email{edzer.pebesma@uni-muenster.de}}
+\examples{
+data(meuse)
+m = meuse
+coordinates(m) = meuse[, c("x", "y")]
+pts = geometry(m)
+class(pts)
+geometry(meuse) = pts
+class(meuse)
+identical(m, meuse) # TRUE
+}
 \keyword{methods}
