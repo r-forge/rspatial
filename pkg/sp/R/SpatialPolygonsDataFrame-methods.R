@@ -107,14 +107,17 @@ setMethod("[", "SpatialPolygonsDataFrame", function(x, i, j, ... , drop = TRUE) 
 
 	y@polygons = x@polygons[i]
 #	x@bbox <- .bboxCalcR(x@polygons)
-        y@bbox <- .Call(bboxCalcR_c, y@polygons)
-        if (is.numeric(i) && i < 0) {
-#             area <- sapply(x@polygons, function(y) y@area)
-#             x@plotOrder <- as.integer(order(area, decreasing=TRUE))
-              y@plotOrder <- .Call(SpatialPolygons_plotOrder_c, y@polygons)
-        } else {
-	    y@plotOrder = order(match(i, x@plotOrder))
-        }
+	if (length(i) > 0) {
+            y@bbox <- .Call(bboxCalcR_c, y@polygons)
+            if (is.numeric(i) && i < 0) {
+#                 area <- sapply(x@polygons, function(y) y@area)
+#                 x@plotOrder <- as.integer(order(area, decreasing=TRUE))
+                  y@plotOrder <- .Call(SpatialPolygons_plotOrder_c, y@polygons)
+            } else {
+	        y@plotOrder = order(match(i, x@plotOrder))
+            }
+	} else
+	    y@bbox = x@bbox
 	y
 ###
 ### RSB: do something with labelpoints here? How can I check they are present?
