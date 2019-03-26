@@ -569,9 +569,9 @@ Planning A 43(12) 2992-3010;
 #&gt; PctFB         4.3101e-01  8.1250e-01  1.2548e+00  1.7992e+00  2.4011
 #&gt; PctPov       -2.0726e-01 -1.7199e-01 -1.3266e-01 -8.4660e-02 -0.0145
 #&gt; PctBlack     -2.3266e-02 -2.4655e-03  1.2753e-02  3.6330e-02  0.0722</div><div class='input'>  <span class='no'>res.bw</span>$<span class='no'>timings</span></div><div class='output co'>#&gt;                   user.self elapsed
-#&gt; set_up                0.002   0.001
-#&gt; run_gwr               0.791   0.802
-#&gt; final_postprocess     0.011   0.010</div><div class='input'>  <span class='fu'>spplot</span>(<span class='no'>res.bw</span>$<span class='no'>SDF</span>, <span class='st'>"PctBlack"</span>)</div><div class='img'><img src='gwr-17.png' alt='' width='700' height='433' /></div><div class='input'>  <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>require</a></span>(<span class='no'>parallel</span>)</div><div class='output co'>#&gt; <span class='message'>Loading required package: parallel</span></div><div class='input'>  <span class='no'>cl</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/parallel/topics/makeCluster'>makeCluster</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/parallel/topics/detectCores'>detectCores</a></span>())
+#&gt; set_up                0.002   0.002
+#&gt; run_gwr               0.763   0.765
+#&gt; final_postprocess     0.010   0.009</div><div class='input'>  <span class='fu'>spplot</span>(<span class='no'>res.bw</span>$<span class='no'>SDF</span>, <span class='st'>"PctBlack"</span>)</div><div class='img'><img src='gwr-17.png' alt='' width='700' height='433' /></div><div class='input'>  <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>require</a></span>(<span class='no'>parallel</span>)</div><div class='output co'>#&gt; <span class='message'>Loading required package: parallel</span></div><div class='input'>  <span class='no'>cl</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/parallel/topics/makeCluster'>makeCluster</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/parallel/topics/detectCores'>detectCores</a></span>())
   <span class='no'>res.bwc</span> <span class='kw'>&lt;-</span> <span class='fu'>gwr</span>(<span class='no'>PctBach</span> ~ <span class='no'>TotPop90</span> + <span class='no'>PctRural</span> + <span class='no'>PctEld</span> + <span class='no'>PctFB</span> + <span class='no'>PctPov</span> +
     <span class='no'>PctBlack</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>gSRDF</span>, <span class='kw'>bandwidth</span><span class='kw'>=</span><span class='no'>g.bw.gauss</span>, <span class='kw'>fit.points</span><span class='kw'>=</span><span class='no'>SPxDF</span>,
     <span class='kw'>longlat</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>cl</span><span class='kw'>=</span><span class='no'>cl</span>)
@@ -592,8 +592,8 @@ Planning A 43(12) 2992-3010;
 #&gt; PctPov       -2.0726e-01 -1.7199e-01 -1.3266e-01 -8.4660e-02 -0.0145
 #&gt; PctBlack     -2.3266e-02 -2.4655e-03  1.2753e-02  3.6330e-02  0.0722</div><div class='input'>  <span class='no'>res.bwc</span>$<span class='no'>timings</span></div><div class='output co'>#&gt;                   user.self elapsed
 #&gt; set_up                0.002   0.003
-#&gt; run_gwr               0.047   0.612
-#&gt; final_postprocess     0.019   0.021</div><div class='input'>  <span class='fu'><a href='https://www.rdocumentation.org/packages/parallel/topics/makeCluster'>stopCluster</a></span>(<span class='no'>cl</span>)</div></pre>
+#&gt; run_gwr               0.045   0.554
+#&gt; final_postprocess     0.010   0.012</div><div class='input'>  <span class='fu'><a href='https://www.rdocumentation.org/packages/parallel/topics/makeCluster'>stopCluster</a></span>(<span class='no'>cl</span>)</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
