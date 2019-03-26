@@ -1,3 +1,11 @@
+2017-04-14 11:32  rsbivand
+
+	* inst/ChangeLog: tidy
+
+2017-04-14 11:31  rsbivand
+
+	* ChangeLog: tidy
+
 2017-04-14 11:31  rsbivand
 
 	* DESCRIPTION, src/init.c: added registration
